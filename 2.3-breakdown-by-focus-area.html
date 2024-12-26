@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>IPPF: 2.3 Breakdown by focus area</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/css/app.min.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="assets/css/select2.min.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+</head>
+
+<body>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="form-inline">
+          <ul class="navbar-nav mr-3">
+            <li>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                <i class="fas"></i>
+                <img src="assets/images/toggle.png">
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i class="fas fa-expand"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <ul class="navbar-nav navbar-right align-items-center ml-auto">
+          <li>
+            <div class="languag-wrap btn mr-1">
+              <span><i class="fa fa-globe" aria-hidden="true"></i></span>
+              <select id="languageSwitcher"></select>
+            </div>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1">
+              <i class="fa fa-building-o" aria-hidden="true"></i>
+              <div>FACILITY</div>
+            </a>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1" href="../../../dhis-web-commons-security/logout.action">
+              <i aria-hidden="true"></i>
+              <div>LOG OUT</div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+              <a href="#">
+                  <img alt="image" src="assets/images/logo.png" class="header-logo" />
+              </a>
+          </div>
+          <ul class="sidebar-menu">
+              <li id="member-association">
+                  <a class="nav-link" href="#" data-target="members-association.html"><span data-i18n="intro.select_ma">Select MA / CP</span></a>
+              </li>
+              <li class="dropdown">
+                  <a href="supplier-audit.html" class="nav-link has-dropdown sidebar-bp"><span data-i18n="intro.business_plan">3 Year Business Plan</span></a>
+
+                  <ul class="dropdown-menu">
+                      <li><a class="nav-link" href="#" data-target="1.1-organization-details.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="1.2-narrative-plan.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.1-project-description.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.2-project-budget.html"><span data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.3-breakdown-by-focus-area.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.4-breakdown-by-expense-category.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.5-commodities-by-funding-source.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.1 RO Review - Evaluation of Quality.html"><span data-i18n="">4.1 RO Review - Evaluation of Quality </span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.2 RO Review - Evaluation of Strategic Alignment.html"><span data-i18n="">4.2 RO Review - Evaluation of Strategic Alignment</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.3 RO Review - Evaluation of Organisational Strength.html"><span data-i18n="">4.3 RO Review - Evaluation of Organisational Strength</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.1 TRT Review - Evaluation of Quality of MA Business Plan.html"><span data-i18n="">5.1 TRT Review - Evaluation of Quality of MA Business Plan</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan.html"><span data-i18n="">5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.3 TRT Review - Evaluation of Organisational Strength of MA.html"><span data-i18n="">5.3 TRT Review - Evaluation of Organisational Strength of MA</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.4 TRT Review - Evaluation Summary of MA Business Plan.html"><span data-i18n="">5.4 TRT Review - Evaluation Summary of MA Business Plan</span></a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                      
+                      <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan Updates </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="1.2-narrative-plan-au.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                      <li><a class="nav-link" data-target="2.1-project-description-au.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                      <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span  data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                      <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                      <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span> </a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                      <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                      <li><a class="nav-link aoc-reporting" data-target="4-review-strategic-alignment-au.html"><span  data-i18n="intro.review_strategic">4. AOC Strategic Alignment</span></a></li>
+                      <li><a class="nav-link aoc-reporting" data-target="5-ro-report-au.html"><span  data-i18n="intro.ro_report">5. AOC Review Form</span></a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                      
+                      <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report Submission & Approval</span>
+                  </a>
+                  
+            <ul class="dropdown-menu">
+              <li><a class="nav-link" data-target="1-ma-info-ar.html"><span data-i18n="intro.organization_report" >1. Organization Details</span></a></li>
+             <li><a class="nav-link" data-target="2-narrative-report-ar.html"><span data-i18n="intro.narrative_report">2. Narrative Report</span></a></li>
+              <li><a class="nav-link" data-target="3-add-new-project.html"><span data-i18n="intro.add_project">3. Add New Project</span></a> </li>
+              <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus Area</span></a></li>
+              <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span></a></li>
+              <li><a class="nav-link" data-target="6-actual-income-ar.html"><span data-i18n="intro.actual_income">6. Actual Income</span></a></li>
+              <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. HYR AOC Review Form</span></a></li>
+          </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                     <span data-i18n="intro.standard_reports">Standard Report Generation from the BP Portal </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      
+                                <li><a class="nav-link" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
+                                <li><a class="nav-link" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
+                                <li><a class="nav-link" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
+                                <li><a class="nav-link" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
+                                <li><a class="nav-link" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
+                                <li><a class="nav-link" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                                <li><a class="nav-link" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                  </ul>
+              </li>
+          </ul>
+      </aside>
+  </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="top-detail-form mt-2">
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                 <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
+                  <select class="form-control" id="headerPeriod">
+                    <option value="2023 - 2025" selected>2023 - 2025</option>
+                    <option value="2026 - 2028">2026 - 2028</option>
+                  </select>
+                  </select>
+                  <div class="invalid-feedback">
+                    Error here
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="" data-i18n="intro.region">Region</label>
+                  <input type="text" class="form-control" id="headerOrgId" disabled>
+                  <div class="invalid-feedback">
+                    Error here
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="">MA </label>
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgName">
+
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="">MA-ID </label>
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
+                  <div class="invalid-feedback">
+                    Error here
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="form-wizard mt-3">
+              <div class="myContainer">
+                <div class="d-flex justify-content-between mb-2">
+                  <h6 class="title-main mb-2"><span data-i18n="intro.breakdown_focus">2.3 Breakdown by focus area </span><i class="fas fa-info-circle ml-1"
+                    data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false"
+                    aria-controls="collapseExample"></i></h6>
+
+                </div>
+                <div class="info-boxwrap collapse mb-2" id="collapseExample1" data-i18n="[html]intro.project_focusarea_info">
+                  <p>
+                    Please fill in data for the upcoming year only (Year 2). Near the end of each year, you will be
+                    asked to provide information for the following year.
+                  </p>
+
+                  <p>
+                    If there are projects you listed that will only be active in Year 3, you can leave the rows for them
+                    blank below.
+                  </p>
+                  <p>For each project, provide a division of the costs by the Project Focus Areas used (selected from
+                    the drop-down menu). </p>
+                  <p><strong>A single project can have multiple Project Focus Areas. Please use a new row for each
+                      Project Focus Area that is directly relevant within a project (e.g., a single project that has
+                      both Mobile Clinic and Static Clinic would get two rows).</strong> Please estimate the cost for
+                    work within each Project Focus Area; given that staff time might be split across multiple Project
+                  </p>
+
+                  <p>
+                    Focus Areas, please use your best estimate of the share of time spent on different Project Focus
+                    Areas to reach the cost breakdown. Kindly ensure that the project focus area assigned to a project
+                    in 2023 is not changed in 2024.
+                  </p>
+
+                  <p class="mb-0">The reference table at the right (column Q, row 17) shows how much of each project's
+                    Year 2 budget you have allocated to Project Focus Areas, so you know if there is more to allocate <i
+                      class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
+                      aria-expanded="true" aria-controls="collapseExample"></i></p>
+
+                </div>
+                <div class="budget-wrap top-budget-wrap table-responsive">
+                  <table class="table table-striped table-md mb-0 " width="100%">
+                    <thead>
+                      <tr>
+                        <th data-i18n="intro.project_year">Year</th>
+                        <th data-i18n="intro.total_budget">Total Budget</th>
+                        <th data-i18n="intro.difference">Difference</th>
+                      </tr>
+                    </thead>
+                    <tbody id="totals">
+
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="cont-wrapper mt-2">
+                  <form>
+                    <div class="cont-wrap-inner">
+                      <!--- row end --->
+                      <div class="form-wizard">
+                        <div class="myContainer">
+                          <h6 class="title-main mb-2"><span data-i18n="intro.project_based_area">Project budget based on focus area</span></h6>
+                              <p data-i18n="intro.project_based_area_info">Please note that the focus areas have been reduced from 22 to 11 in total.</p>
+                          <div class=" stepperform animated accordion-wrap">
+                            <form>
+                              <div id="accordion">
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="assets/js/app.min.js"></script>
+  <!--Constants-->
+  <script src="assets/js/constant.js"></script>
+  <!--Translation-->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+  <script src="assets/js/translation.js"></script>
+  <!-- JS Libraies -->
+  <script src="assets/js/api/events.js"></script>
+  <script src="assets/js/api/eventPush.js"></script>
+  <script src="assets/js/api/func.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="assets/js/forms/businessplan/projectFocusArea-new.js"></script>
+  <!-- Template JS File -->
+  <script src="assets/js/scripts.js"></script>
+  <!-- Custom JS File -->
+  <script src="assets/js/select2.full.min.js"></script>
+  <script src="assets/js/forms-advanced-forms.js"></script>
+  <script src="assets/js/custom.js"></script>
+    
+  <script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = this.getAttribute('data-target');
+            if (target) {
+                window.location.href = target;
+            }
+        });
+    });
+</script>
+  <script>
+    function addPFA(index) {
+
+      const headerPeriod = document.getElementById("headerPeriod").value;
+      const period = {
+        start: headerPeriod.split(" - ")[0],
+        end: headerPeriod.split(" - ")[1],
+      }; 
+      const values = {
+          id: dataElements.projectFocusAreaNew[index].focusAreas[filledProjectFocusArea[index]],
+          area: '',
+          pillar: '',
+          budget: {}
+      }
+      const newProjectRow = displayProjectFocusArea(values, period, index, filledProjectFocusArea[index])
+ 
+      $(newProjectRow).insertBefore(`.btn-index-${index}`);
+      filledProjectFocusArea[index]++;
+      // Localize content
+      $('body').localize();
+    }
+    function removePFA(index) {
+      if (filledProjectFocusArea[index] > 1) {
+        filledProjectFocusArea[index]--;
+        const id = dataElements.projectFocusAreaNew[index].focusAreas[filledProjectFocusArea[index]];
+        $(`.wrap-project-area-${index}`).last().remove();
+        for(let year=tei.year.start; year<=tei.year.end; year++) {
+          calculateTotals(year, 'totalBudget', index);
+        }
+        pushDataElementFA(id);
+      }
+    }
+    
+    </script>
+  <script>
+    //Panel toggle
+    function changePanel(id) {
+      $(`#${id}`).collapse('toggle');
+    }
+
+    //textarea word limit
+    function checkWords(event, count) {
+      const counter = document.getElementById('counter' + (count));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+
+      if (words.length >= maxWords) {
+        event.value = words.slice(0, maxWords).join(' ');
+        return
+      }
+      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+      else counter.textContent = `${maxWords} words remaining`;
+    }
+
+    function calculateTotals(year, id, idx) {
+      const element = document.querySelectorAll(`.input-${id}-${year}`);
+      var value = 0;
+      var variation = 0;
+      var budgetFocusArea = 0;
+      element.forEach((el,index) => {
+        value += Number(el.value);
+      });
+      $(`.${id}-${year}`).val(value.toLocaleString());
+      const difference = tei.yearlyAmount[`amount-${year}`] - value;
+
+      $(`.difference-${year}`).val(difference.toLocaleString()); 
+      if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+      else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+      
+      dataElements.projectFocusAreaNew[idx].focusAreas.forEach(focusArea => {
+        if( $(`#${focusArea}-budget-${year}`).val()) budgetFocusArea+= Number($(`#${focusArea}-budget-${year}`).val());
+      })
+      if(totalProjectBudget[idx][year] || totalProjectBudget[idx][year]===0) {
+        variation = totalProjectBudget[idx][year] - budgetFocusArea;
+      }
+      $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`).val(variation.toLocaleString());
+      if(variation >= 0) $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+      else $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+
+      pushDataElementYear(`${dataElements.projectFocusAreaNew[idx].variation}-${year}`, variation,0);
+      
+      
+      pushDataElementYear($(`.${id}-${year}`)[0].id, value,0);
+      pushDataElementYear($(`.difference-${year}`)[0].id, difference,0);
+    }
+    
+  function submitProjects() {
+      alert("Data Saved Successfully!")
+  }
+  </script>
+
+</body>
+
+</html>

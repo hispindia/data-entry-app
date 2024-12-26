@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>IPPF</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/css/app.min.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="assets/css/select2.min.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+</head>
+
+<body>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="form-inline">
+          <ul class="navbar-nav mr-3">
+            <li>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                <i class="fas"></i>
+                <img src="assets/images/toggle.png">
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i class="fas fa-expand"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <ul class="navbar-nav navbar-right align-items-center ml-auto">
+          <li>
+            <div class="languag-wrap btn mr-1">
+              <span><i class="fa fa-globe" aria-hidden="true"></i></span>
+              <select id="languageSwitcher"></select>
+            </div>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1">
+              <i class="fa fa-building-o" aria-hidden="true"></i>
+              <div>FACILITY</div>
+            </a>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1" href="../../../dhis-web-commons-security/logout.action">
+              <i aria-hidden="true"></i>
+              <div>LOG OUT</div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+              <a href="#">
+                  <img alt="image" src="assets/images/logo.png" class="header-logo" />
+              </a>
+          </div>
+          <ul class="sidebar-menu">
+              <li id="member-association">
+                  <a class="nav-link" href="#" data-target="members-association.html"><span data-i18n="intro.select_ma">Select MA / CP</span></a>
+              </li>
+              <li class="dropdown">
+                  <a href="supplier-audit.html" class="nav-link has-dropdown sidebar-bp"><span data-i18n="intro.business_plan">3 Year Business Plan</span></a>
+
+                  <ul class="dropdown-menu">
+                      <li><a class="nav-link" href="#" data-target="1.1-organization-details.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="1.2-narrative-plan.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.1-project-description.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.2-project-budget.html"><span data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.3-breakdown-by-focus-area.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.4-breakdown-by-expense-category.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.5-commodities-by-funding-source.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.1 RO Review - Evaluation of Quality.html"><span data-i18n="">4.1 RO Review - Evaluation of Quality </span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.2 RO Review - Evaluation of Strategic Alignment.html"><span data-i18n="">4.2 RO Review - Evaluation of Strategic Alignment</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.3 RO Review - Evaluation of Organisational Strength.html"><span data-i18n="">4.3 RO Review - Evaluation of Organisational Strength</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.1 TRT Review - Evaluation of Quality of MA Business Plan.html"><span data-i18n="">5.1 TRT Review - Evaluation of Quality of MA Business Plan</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan.html"><span data-i18n="">5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.3 TRT Review - Evaluation of Organisational Strength of MA.html"><span data-i18n="">5.3 TRT Review - Evaluation of Organisational Strength of MA</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.4 TRT Review - Evaluation Summary of MA Business Plan.html"><span data-i18n="">5.4 TRT Review - Evaluation Summary of MA Business Plan</span></a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                      
+                      <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan Updates </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="1.2-narrative-plan-au.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                      <li><a class="nav-link" data-target="2.1-project-description-au.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                      <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span  data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                      <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                      <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span> </a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                      <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                      <li><a class="nav-link aoc-reporting" data-target="4-review-strategic-alignment-au.html"><span  data-i18n="intro.review_strategic">4. AOC Strategic Alignment</span></a></li>
+                      <li><a class="nav-link aoc-reporting" data-target="5-ro-report-au.html"><span  data-i18n="intro.ro_report">5. AOC Review Form</span></a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                      
+                      <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report Submission & Approval</span>
+                  </a>
+                  
+            <ul class="dropdown-menu">
+              <li><a class="nav-link" data-target="1-ma-info-ar.html"><span data-i18n="intro.organization_report" >1. Organization Details</span></a></li>
+             <li><a class="nav-link" data-target="2-narrative-report-ar.html"><span data-i18n="intro.narrative_report">2. Narrative Report</span></a></li>
+              <li><a class="nav-link" data-target="3-add-new-project.html"><span data-i18n="intro.add_project">3. Add New Project</span></a> </li>
+              <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus Area</span></a></li>
+              <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span></a></li>
+              <li><a class="nav-link" data-target="6-actual-income-ar.html"><span data-i18n="intro.actual_income">6. Actual Income</span></a></li>
+              <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. HYR AOC Review Form</span></a></li>
+          </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                     <span data-i18n="intro.standard_reports">Standard Report Generation from the BP Portal </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      
+                                <li><a class="nav-link" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
+                                <li><a class="nav-link" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
+                                <li><a class="nav-link" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
+                                <li><a class="nav-link" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
+                                <li><a class="nav-link" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
+                                <li><a class="nav-link" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                                <li><a class="nav-link" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                  </ul>
+              </li>
+          </ul>
+      </aside>
+  </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+
+            <div class="top-detail-form mt-2">
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                 <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
+                  <select class="form-control" id="headerPeriod">
+                    <option value="2023 - 2025" selected>2023 - 2025</option>
+                    <option value="2026 - 2028">2026 - 2028</option>
+                  </select>
+                  </select>
+                  <div class="invalid-feedback">
+                    Error here
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" data-i18n="intro.year_business_plan_update" >Year of Business Plan Update</label>
+                    <select  class="form-control mt-1" id="year-update" >
+                    </select>
+                    <div class="invalid-feedback">
+                        Error here
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="" data-i18n="intro.region">Region</label>
+                  <input type="text" class="form-control" id="headerOrgId" disabled>
+                  <div class="invalid-feedback">
+                    Error here
+                  </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="">MA </label>
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgName">
+
+                </div>
+                <div class="form-group col-md-2">
+                  <label for=""> MA-ID</label>
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
+                  <div class="invalid-feedback">
+                    Error here
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-wizard mt-3">
+              <div class="myContainer">
+                <div class="d-flex justify-content-between mb-2">
+                  <h6 class="title-main mb-2"><span data-i18n="intro.project_budget"> 2.2 Project budget </span><i class="fas fa-info-circle" data-toggle="collapse"
+                    data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample"></i></h6>
+
+                </div>
+                <div class="info-boxwrap collapse" id="collapseExample1"  data-i18n="[html]intro.project_budget_info">
+                  <p>
+                    Please complete all of the budget data in USD, using the exchange rate provided by IPPF. Please
+                    break down annual funds based on calendar years (Jan - Dec).
+                  </p>
+
+                  <p>
+                    <strong>Note:</strong> Please update data for year 2 & 3. We request full detail on the upcoming
+                    year's plans (Year 2), and less detail on Year 3, as noted below.
+                  </p>
+                  <p>Near the end of next year, you will be asked to update your budgets and provide additional detail
+                    for the following year.</p>
+                  <p>Please included each project's budget; the total budget of all of your projects should equal your
+                    entire organisational budget (we assume that indirect/support costs and senior management costs are
+                    incorporated within each project; if there are additional indirect/support costs not captured in the
+                    projects, please add a separate project for them called "Indirect/Support").
+                  </p>
+
+                  <p class="mb-0">
+                    Only include projects where funding is either confirmed or has an 80%+ chance of materialising.
+                    For each project please enter the name and brief description including donor/funding source,
+                    regions/provinces where it will be implemented, the target audience/clients and its intended
+                    outcomes/results.
+                  </p>
+                  <p class="mt-2">
+                    <strong>Guidance for estimating budgets:</strong>
+                  </p>
+                  <p>
+                    <strong>For Year 1:</strong> You will not be allowed to make any changes to the budgets.
+                  </p>
+                  <p>
+                    <strong>For Year 2:</strong> Only include projects where funding is either confirmed or has an 80%+
+                    chance of coming through (for example, a donor that has funded you in prior years and you are in
+                    talks for
+                    extending that funding, or a donor where you are far along in the process and have been given
+                    indications funding is likely even though it’s not signed yet).
+                  </p>
+                  <p>
+                    <strong>For Year 3:</strong> Include all projects you realistically plan to carry out, even if you
+                    do not yet know the donor who will fund them. As a result, it is OK if many of the projects in Year
+                    3
+                    are "uncertain." For each project, put your best guess of the likely budget, even if the exact
+                    amount is not confirmed, or if you might need multiple donors to fund it (e.g., if you expect your
+                    project to cost between 40,000 and 80,000, you can list the average, 60,000, as your estimate). You
+                    can then select from three options to indicate the likelihood of funding for that project:
+                  </p>
+                  <p>
+                    <strong>Confirmed:</strong> There is a firm commitment for the funding and project (can include
+                    explicit written or verbal commitments, even if a multi-year contract is not signed).
+                  </p>
+                  <p>
+                    <strong>Likely (over 80%):</strong> You estimate a greater than 80% chance the project will come
+                    through (for example, a donor that has funded you in prior years and you are in talks for extending
+                    that funding, or a donor where you are far along in the process and have been given indications
+                    funding is likely even though it’s not signed yet).
+                  </p>
+                  <p>
+                    <strong>Uncertain:</strong> There is a less than 80% chance of the project and funding coming
+                    through. Please only include projects you think there is a realistic chance you will carry out,
+                    rather than including a full wish-list of unlikely projects (for example, if you organization has
+                    typically carried out 5-6 projects per year with a total budget of $2M, do not list 12 “uncertain”
+                    projects with a total budget of $4M).
+                  </p>
+                  <p>
+                    Projects may end in the middle of the three-year period; if so, put "0" for their budget in the
+                    years they are finished.
+                  </p>
+                  <p>
+                    Note that for the upcoming year (Year 2), we are also requesting a breakdown of how much of the core
+                    unrestricted grant will go to each project. We realize this might change throughout the year as
+                    funding needs change; however, we would like your best estimate as of now. You do not need to
+                    specify exactly how core funding will be spend in Year 3, though it should still count towards your
+                    total amount. Not all rows must be filled.<i class="far fa-arrow-alt-circle-up ml-1"
+                      data-toggle="collapse" data-target="#collapseExample1" aria-expanded="true"
+                      aria-controls="collapseExample1"></i>
+                  </p>
+                </div>
+                <div class="budget-wrap top-budget-wrap table-responsive">
+                  <table class="table table-striped table-md mb-0 calculated-variables" width="100%">
+                    <thead>
+                      <tr>
+                        <th data-i18n="intro.project_year">Year</th>
+                        <th data-i18n="intro.budget">Budget</th>
+                        <th data-i18n="intro.core_funding">Core funding allocated</th>
+                        <th data-i18n="intro.difference">Difference</th>
+                      </tr>
+                    </thead>
+                    <tbody id="totals">
+
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="cont-wrapper mt-2">
+                  <form>
+                    <div class="cont-wrap-inner">
+                      <!--- row end --->
+                      <div class="form-wizard">
+                        <div class="myContainer">
+                          <h6 class="title-main mb-2"><span data-i18n="intro.project_details">Project Details</span></h6>
+                          <div class=" stepperform animated accordion-wrap">
+                            <form>
+                              <div id="accordion">
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              
+              </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="assets/js/app.min.js"></script>
+  <!--Constants-->
+  <script src="assets/js/constant.js"></script>
+  <!--Translation-->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+  <script src="assets/js/translation.js"></script>
+  <!-- JS Libraies -->
+  <script src="assets/js/api/events.js"></script>
+  <script src="assets/js/api/eventPush.js"></script>
+  <script src="assets/js/api/func.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="assets/js/forms/annualupdate/projectBudget-au.js"></script>
+  <!-- <script src="assets/js/saveDraft_projectBudget.js"></script> -->
+  <!-- Template JS File -->
+  <script src="assets/js/scripts.js"></script>
+  <!-- Custom JS File -->
+  <script src="assets/js/select2.full.min.js"></script>
+  <script src="assets/js/forms-advanced-forms.js"></script>
+  <script src="assets/js/custom.js"></script>
+  
+  <script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = this.getAttribute('data-target');
+            if (target) {
+                window.location.href = target;
+            }
+        });
+    });
+</script>
+  <script>
+    //Panel toggle
+    function changePanel(id) {
+      $(`#${id}`).collapse('toggle');
+    }
+
+    //textarea word limit
+    function checkWords(event, count) {
+      const counter = document.getElementById('counter' + (count));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+      
+        if (words.length >= maxWords) {
+          event.value = words.slice(0, maxWords).join(' ');
+          return
+        }
+        if(value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+        else counter.textContent = `${maxWords} words remaining`;
+    }
+    
+    function calculateTotals(year, id) {
+      const element = document.querySelectorAll(`.input-${id}-${year}`);
+      
+      var value = 0;
+      element.forEach(el => value += Number(el.value));
+
+      $(`.${id}-${year}`).val(value.toLocaleString());
+      pushDataElementYear($(`.${id}-${year}`)[0].id, value);
+      
+      if(id=="coreFunding") {
+        const difference = tei.yearlyAmount[`amount-${year}`] - value;
+        
+        $(`.difference-${year}`).val(difference.toLocaleString()); 
+        if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+        else  $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+        
+        pushDataElementYear($(`.difference-${year}`)[0].id, difference.toLocaleString());
+      }
+    }
+  </script>
+  
+<script>
+  function submitProjects() {
+      alert("Data Saved Successfully!")
+  }
+</script>
+</body>
+
+</html>

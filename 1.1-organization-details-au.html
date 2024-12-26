@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>IPPF</title>
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/css/app.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Custom style CSS -->
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+</head>
+
+<body>
+
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+
+
+                <div class="form-inline">
+                    <ul class="navbar-nav mr-3">
+                        <li>
+                            <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                                <i class="fas"></i><img src="assets/images/toggle.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                                <i class="fas fa-expand"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+
+                <ul class="navbar-nav navbar-right align-items-center ml-auto">
+                    <li>
+                        <div class="languag-wrap btn mr-1">
+                            <span><i class="fa fa-globe" aria-hidden="true"></i></span>
+                            <select id="languageSwitcher"></select>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a class="btn btn-secondary d-flex align-items-center ml-1">
+                            <i class="fa fa-building-o" aria-hidden="true"></i>
+                            <div>FACILITY</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-secondary d-flex align-items-center ml-1"
+                            href="../../../dhis-web-commons-security/logout.action">
+                            <i aria-hidden="true"></i>
+                            <div >LOG OUT</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+                        <a href="#">
+                            <img alt="image" src="assets/images/logo.png" class="header-logo" />
+                        </a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li id="member-association">
+                            <a class="nav-link" href="#" data-target="members-association.html"><span data-i18n="intro.select_ma">Select MA / CP</span></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="supplier-audit.html" class="nav-link has-dropdown sidebar-bp"><span data-i18n="intro.business_plan">3 Year Business Plan</span></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="#" data-target="1.1-organization-details.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="1.2-narrative-plan.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="2.1-project-description.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="2.2-project-budget.html"><span data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="2.3-breakdown-by-focus-area.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="2.4-breakdown-by-expense-category.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="3.5-commodities-by-funding-source.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="4.1 RO Review - Evaluation of Quality.html"><span data-i18n="">4.1 RO Review - Evaluation of Quality </span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="4.2 RO Review - Evaluation of Strategic Alignment.html"><span data-i18n="">4.2 RO Review - Evaluation of Strategic Alignment</span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="4.3 RO Review - Evaluation of Organisational Strength.html"><span data-i18n="">4.3 RO Review - Evaluation of Organisational Strength</span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="5.1 TRT Review - Evaluation of Quality of MA Business Plan.html"><span data-i18n="">5.1 TRT Review - Evaluation of Quality of MA Business Plan</span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan.html"><span data-i18n="">5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan</span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="5.3 TRT Review - Evaluation of Organisational Strength of MA.html"><span data-i18n="">5.3 TRT Review - Evaluation of Organisational Strength of MA</span></a></li>
+                                <li><a class="nav-link trt-review" href="#" data-target="5.4 TRT Review - Evaluation Summary of MA Business Plan.html"><span data-i18n="">5.4 TRT Review - Evaluation Summary of MA Business Plan</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link has-dropdown" href="#">
+                                
+                                <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan Updates </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="1.2-narrative-plan-au.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                                <li><a class="nav-link" data-target="2.1-project-description-au.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                                <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span  data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                                <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                                <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span> </a></li>
+                                <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                                <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                                <li><a class="nav-link aoc-reporting" data-target="4-review-strategic-alignment-au.html"><span  data-i18n="intro.review_strategic">4. AOC Strategic Alignment</span></a></li>
+                                <li><a class="nav-link aoc-reporting" data-target="5-ro-report-au.html"><span  data-i18n="intro.ro_report">5. AOC Review Form</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link has-dropdown" href="#">
+                                
+                                <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report Submission & Approval</span>
+                            </a>
+                            
+                      <ul class="dropdown-menu">
+                        <li><a class="nav-link" data-target="1-ma-info-ar.html"><span data-i18n="intro.organization_report" >1. Organization Details</span></a></li>
+                       <li><a class="nav-link" data-target="2-narrative-report-ar.html"><span data-i18n="intro.narrative_report">2. Narrative Report</span></a></li>
+                        <li><a class="nav-link" data-target="3-add-new-project.html"><span data-i18n="intro.add_project">3. Add New Project</span></a> </li>
+                        <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus Area</span></a></li>
+                        <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span></a></li>
+                        <li><a class="nav-link" data-target="6-actual-income-ar.html"><span data-i18n="intro.actual_income">6. Actual Income</span></a></li>
+                        <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. HYR AOC Review Form</span></a></li>
+                    </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link has-dropdown" href="#">
+                               <span data-i18n="intro.standard_reports">Standard Report Generation from the BP Portal </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a class="nav-link" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
+                                <li><a class="nav-link" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
+                                <li><a class="nav-link" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
+                                <li><a class="nav-link" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
+                                <li><a class="nav-link" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
+                                <li><a class="nav-link" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                                <li><a class="nav-link" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-body">
+                        <div class="top-detail-form mt-2">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
+                                    <select class="form-control" id="headerPeriod">
+                                        <option value="2023 - 2025" selected>2023 - 2025</option>
+                                        <option value="2026 - 2028">2026 - 2028</option>
+                                    </select>
+                                    <div class="invalid-feedback">Error here</div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="" data-i18n="intro.year_business_plan_update" >Year of Business Plan Update</label>
+                                    <select class="form-control mt-1" id="year-update">
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Error here
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="" data-i18n="intro.region">Region</label>
+                                    <input type="text" class="form-control" id="headerOrgId" disabled />
+                                    <div class="invalid-feedback">Error here</div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="">MA</label>
+                                    <input type="text" class="form-control mt-1" disabled id="headerOrgName"
+                                        disabled="true" />>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="">MA-ID</label>
+                                    <input type="text" class="form-control mt-1" disabled id="headerOrgCode"
+                                        disabled="true" />>
+                                    <div class="invalid-feedback">Error here</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="steps mt-3">
+                            <!-- <ul>
+                                <li class="active">
+                                    <span>1</span>
+                                </li>
+                                <li class="">
+                                    <span>2</span>
+                                </li>
+
+                                <li class="">
+                                    <span>3</span>
+                                </li>
+
+
+                                <li class="">
+                                    <span>4</span>
+                                </li>
+
+
+                            </ul> -->
+                        </div>
+
+
+                        <div class="form-wizard">
+
+
+                            <div class="myContainer">
+
+                                <h6 class="title-main mb-2" data-i18n="intro.organization_details">1.1 Organization
+                                    Details</h6>
+
+                                <div class=" stepperform animated accordion-wrap">
+                                    <form>
+                                        <div id="accordion">
+
+                                            <div class="accordion">
+                                                <div class="accordion-header" role="button" data-toggle="collapse"
+                                                    data-target="#panel-body-1">
+                                                    <h4> <span class="number">1</span><span
+                                                            data-i18n="intro.membership_details">Membership
+                                                            details</span> </h4>
+                                                </div>
+                                                <div class="accordion-body collapse" id="panel-body-1"
+                                                    data-parent="#accordion">
+
+                                                    <!---- quest start here --->
+                                                    <div class="box-from-inner">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4 textbox-wrap">
+                                                                <label for=""
+                                                                    data-i18n="intro.country_of_operation">Country of
+                                                                    Operation</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    id="OgPuoRimaat" value="" disabled>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4 textbox-wrap">
+                                                                <label for=""
+                                                                    data-i18n="intro.organisation_code">Organisation
+                                                                    Code</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    id="Lv8wUjXV8fl" value="" disabled>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4 textbox-wrap">
+                                                                <label for="" data-i18n="intro.ippf_region">IPPF
+                                                                    Region</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    id="Nu5FHDVne91" value="" disabled>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-6 textbox-wrap">
+                                                                <label for=""
+                                                                    data-i18n="intro.organisation_name">Organisation
+                                                                    Name (english)</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    id="H7u3oJh2ifa" value="" disabled>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6 textbox-wrap">
+                                                                <label for=""
+                                                                    data-i18n="intro.organisation_name_original">Organisation
+                                                                    Name (original lang)</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    id="RUJcqfBvOSh" value="" disabled>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="form-group col-md-4 textbox-wrap">
+                                                                <label for="fkHkH5jcJV0"
+                                                                    data-i18n="intro.grant_amount">Formula-generated
+                                                                    proposed grant amount
+                                                                    (Year 1) (USD)</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text disabled">
+                                                                            $
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="text" value="" id="fkHkH5jcJV0"
+                                                                        class="form-control textValue currency"
+                                                                        oninput="pushDataElement(this.id,this.value)">
+                                                                </div>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-4 textbox-wrap">
+                                                                <label for="dhaMzFTSGrd"
+                                                                    data-i18n="intro.grant_amount_year2">Provisional
+                                                                    formula- generated grant
+                                                                    amount (Year 2) (USD)</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text disabled">
+                                                                            $
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="text" value="" id="dhaMzFTSGrd"
+                                                                        class="form-control textValue currency"
+                                                                        oninput="pushDataElement(this.id,this.value)">
+                                                                </div>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-4 textbox-wrap">
+                                                                <label for="gQQoxkZsZnn"
+                                                                    data-i18n="intro.grant_amount_year3">Provisional
+                                                                    formula- generated grant
+                                                                    amount (Year 3) (USD)</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text disabled">
+                                                                            $
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="text" value="" id="gQQoxkZsZnn"
+                                                                        class="form-control textValue currency"
+                                                                        oninput="pushDataElement(this.id,this.value)">
+                                                                </div>
+
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-4 textbox-wrap">
+                                                            <label for="HrHPzD3Talq"
+                                                                data-i18n="intro.primary_contact_person">Primary contact
+                                                                person</label>
+                                                            <input type="text" id="HrHPzD3Talq"
+                                                                class="form-control textValue currency"
+                                                                oninput="pushDataElement(this.id,this.value)">
+                                                            <div class="invalid-feedback">
+                                                                Error here
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4 textbox-wrap">
+                                                            <label for="LBF4RP0hzNR"
+                                                                data-i18n="intro.business_plan_contact_role">Business
+                                                                plan contact role</label>
+                                                            <input type="text" id="LBF4RP0hzNR"
+                                                                class="form-control textValue currency"
+                                                                oninput="pushDataElement(this.id,this.value)">
+                                                            <div class="invalid-feedback">
+                                                                Error here
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group col-md-4 textbox-wrap">
+                                                            <label for="MgoVYQLP3yT"
+                                                                data-i18n="intro.business_plan_contact_email">Business
+                                                                plan contact email</label>
+                                                            <input type="text" id="MgoVYQLP3yT"
+                                                                class="form-control textValue currency"
+                                                                oninput="pushDataElement(this.id,this.value)">
+                                                            <div class="invalid-feedback">
+                                                                Error here
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="form-row">
+                                                        <div class="col-sm-12 text-right">
+
+
+                                                            <div class="form-group text-end mar-b-0">
+                                                                <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                                                <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                                                                class="btn btn-secondary"
+                                                                id="saveMembershipDetailsBtn">
+                                                            <input type="button" onclick="changePanel('panel-body-2')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                class="btn btn-primary"> </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion">
+                                                <div class="accordion-header" role="button" data-toggle="collapse"
+                                                    data-target="#panel-body-2">
+                                                    <h4><span class="number">2</span> <span
+                                                            data-i18n="intro.institutional_data">Institutional
+                                                            Data</span> </h4>
+                                                </div>
+                                                <div class="accordion-body collapse" id="panel-body-2"
+                                                    data-parent="#accordion">
+                                                    <form>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label for="eS8HHmy5krN"
+                                                                    data-i18n="intro.physical_address">Address</label>
+                                                                <input type="text" value="" id="eS8HHmy5krN"
+                                                                    class="form-control textValue currency"
+                                                                    oninput="pushDataElement(this.id,this.value)">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h3 class="" data-i18n="intro.key_contacts">Key contacts
+                                                                </h3>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.executive_director">Executive
+                                                                    Director / CEO (or equivalent)</h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="Ctp6kmhwq86"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="Ctp6kmhwq86">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="yGutLB1Spaa"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="yGutLB1Spaa">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="woWgpD819lF"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="woWgpD819lF">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.board_chair">Board chair /
+                                                                    President (or equivalent)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="IuyGw22tqYj"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="IuyGw22tqYj">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="YTtJK3jqsnq"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="YTtJK3jqsnq">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="CFF42nxFPgB"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="CFF42nxFPgB">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <hr>
+
+
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.officer_of_the_board1">Officer of
+                                                                    the board #1 (e.g., vice president,
+                                                                    secretary, treasurer)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="BycCbaxB1Pu"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="BycCbaxB1Pu">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="tt9p7BLGhT0"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="tt9p7BLGhT0">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="Mzn08vVVZVt"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="Mzn08vVVZVt">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.officer_of_the_board2">Officer of
+                                                                    the board #2 (e.g., vice president,
+                                                                    secretary, treasurer)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="MeCYmsrREyS"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="MeCYmsrREyS">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="qShxfRboswE"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="qShxfRboswE">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="XmDKyaE5SbW"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="XmDKyaE5SbW">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.officer_of_the_board3">Officer of
+                                                                    the board #3 (e.g., vice president,
+                                                                    secretary, treasurer)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="QgqjdnD1a24"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="QgqjdnD1a24">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="QoFEoEFiPZd"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="QoFEoEFiPZd">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="H2t9gnU6JKb"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="H2t9gnU6JKb">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.youth_board_member">Youth board
+                                                                    member</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="aA5UkYBNvbl"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="aA5UkYBNvbl">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="k86jH9sSXSq"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="k86jH9sSXSq">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="oYpc136YNgW"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="oYpc136YNgW">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.programmatic_lead">Programmatic
+                                                                    lead(s)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="HFyJ2WGQEda"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="HFyJ2WGQEda">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="qColDnIqDjT"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="qColDnIqDjT">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="vFhnYZHTxfr"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="vFhnYZHTxfr">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <hr>
+
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.programmatic_lead">Programmatic
+                                                                    lead(s)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="t9LCankavyt"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="t9LCankavyt">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="sJpc63Pkpip"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="sJpc63Pkpip">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="SDC9mqvdjhQ"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="SDC9mqvdjhQ">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr>
+
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.programmatic_lead">Programmatic
+                                                                    lead(s)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="SmJKIYmyAVC"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="SmJKIYmyAVC">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="GZAulWuoial"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="GZAulWuoial">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="dUnjPtPImoY"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="dUnjPtPImoY">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.programmatic_lead">Programmatic
+                                                                    lead(s)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="uYz5iheRYPO"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="uYz5iheRYPO">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="X82L6C9yiZB"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="X82L6C9yiZB">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="VXCYfrSNS8J"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="VXCYfrSNS8J">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="btn-wrap">
+                                                                    <div class="btn-wrap-inner">
+                                                                        <a href="#">-</a>
+                                                                        <a href="#">+</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+
+
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.finance_lead">Finance lead</h4>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ptHCVnzUXQl"
+                                                                    data-i18n="intro.name">Name</label>
+                                                                <input type="text" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="ptHCVnzUXQl">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="lea8lybuFI9"
+                                                                    data-i18n="intro.contact_email"> Contact
+                                                                    email</label>
+                                                                <input type="email" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="lea8lybuFI9">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="PZswZ4XFTku"
+                                                                    data-i18n="intro.number">Contact phone</label>
+                                                                <input type="mobile" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="PZswZ4XFTku">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.current_board_term">Current board
+                                                                    term</h4>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="nME0H9rEBz4" data-i18n="intro.start_year">
+                                                                    Start year</label>
+                                                                <input type="number" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="nME0H9rEBz4">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-4">
+                                                                <label for="leqtpPX6o97" data-i18n="intro.end_year">End
+                                                                    year</label>
+                                                                <input type="number" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="leqtpPX6o97">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12 text-right">
+                                                                <div class="form-group text-end mar-b-0">
+                                                                    <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                                                                    class="btn btn-secondary">
+                                                                <input type="button" onclick="changePanel('panel-body-3')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                    class="btn btn-primary">
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion">
+                                                <div class="accordion-header" role="button" data-toggle="collapse"
+                                                    data-target="#panel-body-3">
+                                                    <h4><span class="number">3</span><span
+                                                            data-i18n="intro.organisation_data"></span></h4>
+                                                </div>
+                                                <div class="accordion-body collapse" id="panel-body-3"
+                                                    data-parent="#accordion">
+                                                    <form>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 class="mt-2" data-i18n="intro.stragegic_period">
+                                                                    Stragegic period:</h4>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="bcrC5FlhCrh" data-i18n="intro.start_year">
+                                                                    Start year</label>
+                                                                <input type="number" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="bcrC5FlhCrh">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-4">
+                                                                <label for="pJpPTx4wJcL" data-i18n="intro.end_year">End
+                                                                    year</label>
+                                                                <input type="number" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="pJpPTx4wJcL">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.number_fixed_staff">Total
+                                                                    Number of Fixed Staff (paid staff on a
+                                                                    contract)</h4>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="fixedStaff">Staff Size</label>
+                                                            <div class="form-row">
+                                                                <div class="selectgroup selectgroup-pills  mb-3 col-md-12 textValue"
+                                                                    id="kovn3d3f6S3"
+                                                                    onchange="pushRadioValue(this.id, event, 'fixedStaff')">
+                                                                    <label class="selectgroup-item">
+                                                                        <input type="radio" name="fixedStaff"
+                                                                            value="0-10" class="selectgroup-input">
+                                                                        <span
+                                                                            class="selectgroup-button selectgroup-button-icon px-4">0-10</span>
+                                                                    </label>
+                                                                    <label class="selectgroup-item">
+                                                                        <input type="radio" name="fixedStaff"
+                                                                            value="11-25" class="selectgroup-input">
+                                                                        <span
+                                                                            class="selectgroup-button selectgroup-button-icon px-4">11-25</span>
+                                                                    </label>
+                                                                    <label class="selectgroup-item">
+                                                                        <input type="radio" name="fixedStaff"
+                                                                            value="26-50" class="selectgroup-input">
+                                                                        <span
+                                                                            class="selectgroup-button selectgroup-button-icon px-4">26-50</span>
+                                                                    </label>
+                                                                    <label class="selectgroup-item">
+                                                                        <input type="radio" name="fixedStaff"
+                                                                            value="51-100" class="selectgroup-input">
+                                                                        <span
+                                                                            class="selectgroup-button selectgroup-button-icon px-4">51-100</span>
+                                                                    </label>
+
+                                                                    <label class="selectgroup-item">
+                                                                        <input type="radio" name="fixedStaff"
+                                                                            value="101-250" class="selectgroup-input">
+                                                                        <span
+                                                                            class="selectgroup-button selectgroup-button-icon px-4">101-250</span>
+                                                                    </label>
+
+                                                                    <label class="selectgroup-item">
+                                                                        <input type="radio" name="fixedStaff"
+                                                                            value="251 or above"
+                                                                            class="selectgroup-input">
+                                                                        <span
+                                                                            class="selectgroup-button selectgroup-button-icon px-4">251
+                                                                            or above</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.number_volunteers">Total
+                                                                    Number of volunteers (excluding governance)
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <!--#CblclJFFlfV-->
+                                                            <div class="selectgroup selectgroup-pills mb-3 col-md-12 textValue"
+                                                                id="CblclJFFlfV"
+                                                                onchange="pushRadioValue(this.id, event, 'fixedVolunteer')">
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="fixedVolunteer"
+                                                                        value="0-10" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">0-10</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="fixedVolunteer"
+                                                                        value="11-25" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">11-25</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="fixedVolunteer"
+                                                                        value="26-50" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">26-50</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="fixedVolunteer"
+                                                                        value="51-100" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">51-100</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="fixedVolunteer"
+                                                                        value="101-250" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">101-250</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="fixedVolunteer"
+                                                                        value="251 or above" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">251
+                                                                        or above</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.type_of_organisation">Type of
+                                                                    organisation</h4>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-row">
+
+                                                            <div class="selectgroup selectgroup-pills mb-3 col-md-12 textValue"
+                                                                id="KfenFbGtZsj"
+                                                                onchange="pushRadioValue(this.id, event, 'organisation-input')">
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="organisation-input"
+                                                                        value="Not-for-Profit NGO or Chairity"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">
+                                                                        Not-for-Profit NGO or Chairity</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="organisation-input"
+                                                                        value="Not-for-profit Membership organisation or Network"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">
+                                                                        Not-for-profit Membership organisation or
+                                                                        Network
+                                                                    </span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="organisation-input"
+                                                                        value="Parastatal (state joint venture)"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">
+                                                                        Parastatal ( state joint venture)
+                                                                    </span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="organisation-input"
+                                                                        value="For-profit organisation"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">
+                                                                        For-profit organisation
+                                                                    </span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="organisation-input"
+                                                                        value="Community-based organisation"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">
+                                                                        Community Based Organisation
+                                                                    </span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="organisation-input"
+                                                                        value="Other" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4"
+                                                                        data-i18n="intro.Other">
+                                                                        Other
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.primary_focus">What is
+                                                                    your primary focus area (choose most
+                                                                    relevant)</h4>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-row">
+
+                                                            <div class="selectgroup selectgroup-pills mb-3 col-md-12 textValue"
+                                                                id="zdWqftJFqGA"
+                                                                onchange="pushRadioValue(this.id, event, 'primaryFocus')">
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="Abortion Care" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Abortion
+                                                                        Care</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="General SRHR or FP"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">General
+                                                                        SRHR or FP</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="Advocacy & Norms shifting"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Advocacy
+                                                                        & Norms shifting</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="Humanitarian SRHR"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Humanitarian
+                                                                        SRHR</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="Youth Care or CSE"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Youth
+                                                                        Care or CSE</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="HIV Prevention or Care"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">HIV
+                                                                        Prevention or Care</span>
+                                                                </label>
+
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="primaryFocus"
+                                                                        value="LGBTQ+ Care" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">LGBTQ+
+                                                                        Care</span>
+                                                                </label>
+
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.secondary_focus">What
+                                                                    is your secondary focus area (chose most
+                                                                    relevant)</h4>
+                                                            </div>
+                                                        </div>
+                                                        <!--#TKYN8eltlPO-->
+                                                        <div class="form-row">
+                                                            <div class="selectgroup selectgroup-pills mb-3 col-md-12 textValue"
+                                                                id="TKYN8eltlPO"
+                                                                onchange="pushRadioValue(this.id, event, 'secondaryfocus')">
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="Abortion Care" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Abortion
+                                                                        Care</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="General SRHR or FP"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">General
+                                                                        SRHR or FP</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="Advocacy & Norms shifting"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Advocacy
+                                                                        & Norms shifting</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="Humanitarian SRHR"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Humanitarian
+                                                                        SRHR</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="Youth Care or CSE"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">Youth
+                                                                        Care or CSE</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="HIV Prevention or Care"
+                                                                        class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">HIV
+                                                                        Prevention or Care</span>
+                                                                </label>
+                                                                <label class="selectgroup-item">
+                                                                    <input type="radio" name="secondaryfocus"
+                                                                        value="LGBTQ+ Care" class="selectgroup-input">
+                                                                    <span
+                                                                        class="selectgroup-button selectgroup-button-icon px-4">LGBTQ+
+                                                                        Care</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.organisation_networks">Does your
+                                                                    organisation have a youth group or
+                                                                    network?</h4>
+                                                            </div>
+
+                                                            <div class="form-group col-sm-12 mb-0">
+                                                                <label class="custom-switch mt-2 ml-0 switch-wrap">
+                                                                    <input type="checkbox"
+                                                                        name="custom-switch-checkbox-1"
+                                                                        class="custom-switch-input textValue"
+                                                                        id="ttOZ4zaMXji"
+                                                                        onchange="enableRow(this.id,this.checked, 'dQgZIHO74q5', true)">
+                                                                    <span class="custom-switch-indicator"></span>
+                                                                    <span class="custom-switch-description"
+                                                                        data-i18n="intro.YES">Yes</span>
+                                                                </label>
+                                                                <div class="invalid-feedback">Error here</div>
+                                                            </div>
+                                                        </div>
+                                                        <!--- row will be hidden when radio is uncheck --->
+                                                        <div class="form-row">
+                                                            <!--#dQgZIHO74q5  youthVolNum-->
+                                                            <div class="form-group col-md-6">
+                                                                <label for=""
+                                                                    data-i18n="intro.network_size">If yes,
+                                                                    how many youth volunteers do you
+                                                                    have?</label>
+                                                                <input type="number" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="dQgZIHO74q5" disabled>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.ma_branches">Does the MA have
+                                                                    branches?</h4>
+                                                            </div>
+
+                                                            <div class="form-group col-sm-12 mb-0">
+                                                                <label class="custom-switch mt-2 ml-0 switch-wrap">
+                                                                    <input type="checkbox"
+                                                                        name="custom-switch-checkbox-2"
+                                                                        class="custom-switch-input textValue"
+                                                                        id="UaETNe6k15k"
+                                                                        onchange="enableRow(this.id,this.checked, 'OvbPe9nCJOd', true)">
+                                                                    <span class="custom-switch-indicator"></span>
+                                                                    <span class="custom-switch-description"
+                                                                        data-i18n="intro.YES">Yes</span>
+                                                                </label>
+                                                                <div class="invalid-feedback">Error here</div>
+                                                            </div>
+                                                        </div>
+                                                        <!--- row will be hidden when radio is uncheck --->
+                                                        <div class="form-row">
+
+                                                            <div class="form-group col-md-6">
+                                                                <label for="" data-i18n="intro.number_of_branches">If
+                                                                    yes, number of branches</label>
+                                                                <!--#OvbPe9nCJOd numOfBranches-->
+                                                                <input type="number" class="form-control textValue"
+                                                                    oninput="pushDataElement(this.id,this.value)"
+                                                                    id="OvbPe9nCJOd">
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.advocacy_priority1">Advocacy
+                                                                    priority 1 (choose most relevant)</h4>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label data-i18n="intro.Select_Any">Select Any</label>
+                                                                <select class="form-control  textValue" id="ruUgWVq48ke"
+                                                                    onchange="pushDataElement(this.id,this.value)">
+                                                                    <option value="">Choose</option>
+                                                                    <option value="Access to contraception">Access to
+                                                                        contraception</option>
+                                                                    <option value="Access to safe and legal abortion">
+                                                                        Access to safe and legal abortion</option>
+                                                                    <option value="Access to SRH services">Access to SRH
+                                                                        services</option>
+                                                                    <option
+                                                                        value="Budget allocations for SRH, including contraception">
+                                                                        Budget allocations for SRH, including
+                                                                        contraception</option>
+                                                                    <option
+                                                                        value="Sexuality Education for young people">
+                                                                        Sexuality Education for young people
+                                                                    </option>
+                                                                    <option value="Access to services for young people">
+                                                                        Access to services for young people</option>
+                                                                    <option
+                                                                        value="Preventing sexual and gender-based violence">
+                                                                        Preventing sexual and gender-based violence
+                                                                    </option>
+                                                                    <option value="Prioritizing SRH in crisis settings">
+                                                                        Prioritizing SRH in crisis settings</option>
+                                                                    <option value="Promoting gender equality">Promoting
+                                                                        gender equality</option>
+                                                                    <option
+                                                                        value="Promoting sexual and gender diversity">
+                                                                        Promoting sexual and gender diversity
+                                                                    </option>
+                                                                    <option
+                                                                        value="Promoting sexual and reproductive rights">
+                                                                        Promoting sexual and reproductive rights
+                                                                    </option>
+                                                                    <option value="Support for people living with HIV">
+                                                                        Support for people living with HIV</option>
+                                                                    <option
+                                                                        value="Diversifying SRH service delivery models (self care/ telehealth, other person centred model)">
+                                                                        Diversifying SRH service delivery models
+                                                                        (self care/ telehealth, other person centred
+                                                                        model) </option>
+                                                                    <option
+                                                                        value="SRH Interventions included in Essential Health Care Package">
+                                                                        SRH Interventions included in Essential
+                                                                        Health Care Package</option>
+                                                                    <option value="Universal Health Care Coverage">
+                                                                        Universal Health Care Coverage</option>
+
+
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12">
+                                                                <h4 data-i18n="intro.advocacy_priority2">Advocacy
+                                                                    priority 2 (chose most relevant)</h4>
+                                                            </div>
+                                                            <!--#ruUgWVq48ke id=-->
+                                                            <div class="form-group col-md-12">
+                                                                <label data-i18n="intro.Select_Any_One">Select Any
+                                                                    One</label>
+                                                                <select class="form-control  textValue" id="AqNCKTl9iU9"
+                                                                    onchange="pushDataElement(this.id,this.value)">
+                                                                    <option value="">Choose</option>
+                                                                    <option value="Access to contraception">Access to
+                                                                        contraception</option>
+                                                                    <option value="Access to safe and legal abortion">
+                                                                        Access to safe and legal abortion</option>
+                                                                    <option value="Access to SRH services">Access to SRH
+                                                                        services</option>
+                                                                    <option
+                                                                        value="Budget allocations for SRH, including contraception">
+                                                                        Budget allocations for SRH, including
+                                                                        contraception</option>
+                                                                    <option
+                                                                        value="Sexuality Education for young people">
+                                                                        Sexuality Education for young people
+                                                                    </option>
+                                                                    <option value="Access to services for young people">
+                                                                        Access to services for young people</option>
+                                                                    <option
+                                                                        value="Preventing sexual and gender-based violence">
+                                                                        Preventing sexual and gender-based violence
+                                                                    </option>
+                                                                    <option value="Prioritizing SRH in crisis settings">
+                                                                        Prioritizing SRH in crisis settings</option>
+                                                                    <option value="Promoting gender equality">Promoting
+                                                                        gender equality</option>
+                                                                    <option
+                                                                        value="Promoting sexual and gender diversity">
+                                                                        Promoting sexual and gender diversity
+                                                                    </option>
+                                                                    <option
+                                                                        value="Promoting sexual and reproductive rights">
+                                                                        Promoting sexual and reproductive rights
+                                                                    </option>
+                                                                    <option value="Support for people living with HIV">
+                                                                        Support for people living with HIV</option>
+                                                                    <option
+                                                                        value="Diversifying SRH service delivery models (self care/ telehealth, other person centred model)">
+                                                                        Diversifying SRH service delivery models
+                                                                        (self care/ telehealth, other person centred
+                                                                        model) </option>
+                                                                    <option
+                                                                        value="SRH Interventions included in Essential Health Care Package">
+                                                                        SRH Interventions included in Essential
+                                                                        Health Care Package</option>
+                                                                    <option value="Universal Health Care Coverage">
+                                                                        Universal Health Care Coverage</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12 text-right">
+                                                                <div class="form-group text-end mar-b-0">
+                                                                    <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                                                                    class="btn btn-secondary">
+                                                                <input type="button" onclick="changePanel('panel-body-4')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                    class="btn btn-primary">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="accordion">
+                                                <div class="accordion-header" role="button" data-toggle="collapse"
+                                                    data-target="#panel-body-4">
+                                                    <h4><span class="number">4</span><span
+                                                            data-i18n="intro.key_document"></span> </h4>
+                                                </div>
+                                                <div class="accordion-body collapse" id="panel-body-4"
+                                                    data-parent="#accordion">
+                                                    <form>
+                                                        <div class="form-row">
+
+                                                            <div class="form-group col-md-12">
+                                                                <label id="uploadlogo1-label" for=""
+                                                                    data-i18n="intro.key_strategy">Please
+                                                                    upload key strategy documents</label>                                                           
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <input class="form-control show-for-sr" type="file"
+                                                                                id="nZGznE9lZs8"
+                                                                                name="upload_strategy_docs[]" />
+                                                                        </div>
+                                                                        <div class="col">   
+                                                                            <a class="link-success" id="nZGznE9lZs8-download"></a>
+                                                                        </div>
+                                                                    </div>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label id="uploadlogo2-label" for=""
+                                                                    data-i18n="intro.key_annual">Please
+                                                                    upload key annual report documents</label>                                           
+                                                                    <div class="row">
+                                                                        <div class="col-8">
+                                                                            <input class="form-control show-for-sr" type="file"
+                                                                                id="AOAicoujJT4"
+                                                                                name="upload_annual_report_docs[]" />      
+                                                                        </div>
+                                                                        <div class="col">   
+                                                                            <a class="link-success" id="AOAicoujJT4-download"></a>
+                                                                        </div>
+                                                                    </div>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label id="uploadlogo3-label" for=""
+                                                                    data-i18n="intro.key_audits">Please
+                                                                    upload key audits reports documents</label>            
+                                                                    <div class="row">
+                                                                        <div class="col-8">
+                                                                            <input class="form-control show-for-sr" type="file"
+                                                                                id="NxRiTEvtsho" name="upload_audit_docs[]" />
+                                                                        </div>
+                                                                        <div class="col">   
+                                                                            <a class="link-success" id="NxRiTEvtsho-download"></a>
+                                                                        </div>
+                                                                    </div>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label id="uploadlogo4-label" for="" data-i18n="intro.other1">Other 1</label>
+                                                                <div class="row">
+                                                                    <div class="col-8">
+                                                                        <input class="form-control show-for-sr" type="file"
+                                                                            id="FO9fF9eA6pK"
+                                                                            name="upload_other_docs_1[]"  />
+                                                                    </div>
+                                                                    <div class="col">   
+                                                                        <a class="link-success" id="FO9fF9eA6pK-download"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label id="uploadlogo5-label" for="" data-i18n="intro.other2">Other 2</label>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input class="form-control show-for-sr" type="file"
+                                                                            id="yjgEdF3rfeO"
+                                                                            name="upload_other_docs_2[]"  />
+                                                                    </div>
+                                                                    <div class="col">   
+                                                                        <a class="link-success" id="yjgEdF3rfeO-download"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12 text-right">
+                                                                <div class="form-group text-end mar-b-0">
+                                                                    <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                                                                        onclick="submitProjects()" class="btn btn-secondary">
+                                                                    
+                                                                    <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/1.2-narrative-plan-au.html'"> 
+                                                                        <span data-i18n="intro.next" >Next</span>:  
+                                                                        <span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- General JS Scripts -->
+    <script src="assets/js/app.min.js"></script>
+    <!--Constants-->
+    <script src="assets/js/constant.js"></script>
+    <!--Translation-->
+    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="assets/js/translation.js"></script>
+    <!-- JS Libraies -->
+    <script src="assets/js/api/events.js"></script>
+    <script src="assets/js/api/eventPush.js"></script>
+    <script src="assets/js/api/func.js"></script>
+    <!-- Page Specific JS File -->
+    <script src="assets/js/forms/annualupdate/OrganizationalDetails-au.js"></script>
+    <!-- <script src="assets/js/saveDraft_projectFocusArea.js"></script> -->
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <!-- Custom JS File -->
+    <script src="assets/js/select2.full.min.js"></script>
+    <script src="assets/js/forms-advanced-forms.js"></script>
+    <script src="assets/js/custom.js"></script>
+
+    <script>
+        //Panel toggle
+        function changePanel(id) {
+            $(`#${id}`).collapse('toggle');
+        }
+    </script>
+    
+    <script>
+        function submitProjects() {
+            alert("Data Saved Successfully!")
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IPPF Business Portal</title>
+</head>
+
+<body>
+    <!--Constants-->
+    <script src="assets/js/constant.js"></script>
+    <script>
+        async function fetchData() {
+            debugger;
+            try {
+                localStorage.clear();
+                const response = await fetch(
+                    `../../me.json?fields=id,username,organisationUnits,userGroups[id,name]`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                const data = await response.json();
+                
+                const userDisabled = data.userGroups.find(group => disabledUserGroups.includes(group.id));
+                const trtUserDisabled = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
+                if(userDisabled || trtUserDisabled) {
+                    tei.disabled = true;
+                } 
+                let disabledValues = '';
+                if(!userDisabled) {
+                    disabledValues += 'aoc'
+                }
+                if(!trtUserDisabled) {
+                    disabledValues += 'trt'
+                }
+                window.localStorage.setItem('hideReporting', disabledValues);
+
+                if (data.organisationUnits && data.organisationUnits.length > 0) {
+                    const apiOUGroup = await fetch(
+                        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+                    const resOUGroup = await apiOUGroup.json();
+                    const orgUnitList = []
+                    resOUGroup.organisationUnits.forEach(ou => {
+                        if (data.organisationUnits.some(mainOU => ou.path.includes(mainOU.id)))
+                            orgUnitList.push(ou);
+                    })
+                    if (orgUnitList.length > 1) {
+                        window.location.href = '../../apps/IPPF-BPR-App/members-association.html';
+                    }
+                    else window.location.href = '../../apps/IPPF-BPR-App/1.1-organization-details-au.html';
+                }
+            } catch (error) {
+                console.error("OOPS!! Page not found.", error);
+            }
+        }
+        fetchData();
+    </script>
+</body>
+
+</html>

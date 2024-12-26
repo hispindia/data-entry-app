@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>IPPF:AOC Strategic Alignment Review </title>
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/css/app.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Custom style CSS -->
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+</head>
+
+<body>
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <div class="form-inline">
+                    <ul class="navbar-nav mr-3">
+                        <li>
+                            <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                                <i class="fas"></i>
+                                <img src="assets/images/toggle.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                                <i class="fas fa-expand"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav navbar-right align-items-center ml-auto">
+                    <li>
+                        <div class="languag-wrap btn mr-1">
+                            <span>
+                                <i class="fa fa-globe" aria-hidden="true"></i>
+                            </span>
+                            <select id="languageSwitcher"></select>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="btn btn-secondary d-flex align-items-center ml-1">
+                            <i class="fa fa-building-o" aria-hidden="true"></i>
+                            <div>FACILITY</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-secondary d-flex align-items-center ml-1"
+                            href="../../../dhis-web-commons-security/logout.action">
+                            <i aria-hidden="true"></i>
+                            <div>LOG OUT</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+                        <a href="#">
+                            <img alt="image" src="assets/images/logo.png" class="header-logo" />
+                        </a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li id="member-association">
+                            <a class="nav-link" href="#" data-target="members-association.html"><span
+                                    data-i18n="intro.select_ma">Select MA / CP</span></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="supplier-audit.html" class="nav-link has-dropdown sidebar-bp"><span
+                                    data-i18n="intro.business_plan">3 Year Business Plan</span></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="#" data-target="1.1-organization-details.html"><span
+                                            data-i18n="intro.organization_details">1.1 Organization Details</span></a>
+                                </li>
+                                <li><a class="nav-link" href="#" data-target="1.2-narrative-plan.html"><span
+                                            data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="2.1-project-description.html"><span
+                                            data-i18n="intro.project_description">2.1 Project Description</span></a>
+                                </li>
+                                <li><a class="nav-link" href="#" data-target="2.2-project-budget.html"><span
+                                            data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="2.3-breakdown-by-focus-area.html"><span
+                                            data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a>
+                                </li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="2.4-breakdown-by-expense-category.html"><span
+                                            data-i18n="intro.project_expense"> 2.4 Budget by Expense Category</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income.html"><span
+                                            data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="business-plan-3.2-income-by-donor.html"><span
+                                            data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                                <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding.html"><span
+                                            data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a>
+                                </li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="3.4-order-commodities-from-ippf.html"><span
+                                            data-i18n="intro.order_commodities">3.4 Order Commodities from
+                                            IPPF</span></a></li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="3.5-commodities-by-funding-source.html"><span
+                                            data-i18n="intro.commodities_funding">3.5 Commodities by Source of
+                                            Funding</span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="4.1 RO Review - Evaluation of Quality.html"><span data-i18n="">4.1 RO Review - Evaluation of Quality </span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="4.2 RO Review - Evaluation of Strategic Alignment.html"><span data-i18n="">4.2 RO Review - Evaluation of Strategic Alignment</span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="4.3 RO Review - Evaluation of Organisational Strength.html"><span data-i18n="">4.3 RO Review - Evaluation of Organisational Strength</span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="5.1 TRT Review - Evaluation of Quality of MA Business Plan.html"><span data-i18n="">5.1 TRT Review - Evaluation of Quality of MA Business Plan</span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan.html"><span data-i18n="">5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan</span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="5.3 TRT Review - Evaluation of Organisational Strength of MA.html"><span data-i18n="">5.3 TRT Review - Evaluation of Organisational Strength of MA</span></a></li>
+                                            <li><a class="nav-link trt-review" href="#" data-target="5.4 TRT Review - Evaluation Summary of MA Business Plan.html"><span data-i18n="">5.4 TRT Review - Evaluation Summary of MA Business Plan</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link has-dropdown" href="#">
+
+                                <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan Updates </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span
+                                            data-i18n="intro.organization_details">1.1 Organization Details</span></a>
+                                </li>
+                                <li><a class="nav-link" href="#" data-target="1.2-narrative-plan-au.html"><span
+                                            data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                                <li><a class="nav-link" data-target="2.1-project-description-au.html"><span
+                                            data-i18n="intro.project_description">2.1 Project Description</span></a>
+                                </li>
+                                <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span
+                                            data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                                <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span
+                                            data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a>
+                                </li>
+                                <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span
+                                            data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span>
+                                    </a></li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="business-plan-3.1-total-income-au.html"><span
+                                            data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="business-plan-3.2-income-by-donor-au.html"><span
+                                            data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="3.3-value-add-of-core-funding-au.html"><span
+                                            data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a>
+                                </li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="3.4-order-commodities-from-ippf-au.html"><span
+                                            data-i18n="intro.order_commodities">3.4 Order Commodities from
+                                            IPPF</span></a></li>
+                                <li><a class="nav-link" href="#"
+                                        data-target="3.5-commodities-by-funding-source-au.html"><span
+                                            data-i18n="intro.commodities_funding">3.5 Commodities by Source of
+                                            Funding</span></a></li>
+                                <li><a class="nav-link aoc-reporting" data-target="4-review-strategic-alignment-au.html"><span
+                                            data-i18n="intro.review_strategic">4. AOC Strategic Alignment</span></a>
+                                </li>
+                                <li><a class="nav-link aoc-reporting" data-target="5-ro-report-au.html"><span
+                                            data-i18n="intro.ro_report">5. AOC Review Form</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link has-dropdown" href="#">
+
+                                <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report
+                                    Submission & Approval</span>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" data-target="1-ma-info-ar.html"><span
+                                            data-i18n="intro.organization_report">1. Organization Details</span></a>
+                                </li>
+                                <li><a class="nav-link" data-target="2-narrative-report-ar.html"><span
+                                            data-i18n="intro.narrative_report">2. Narrative Report</span></a></li>
+                                <li><a class="nav-link" data-target="3-add-new-project.html"><span
+                                            data-i18n="intro.add_project">3. Add New Project</span></a> </li>
+                                <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span
+                                            data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus
+                                            Area</span></a></li>
+                                <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span
+                                            data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense
+                                            Category</span></a></li>
+                                <li><a class="nav-link" data-target="6-actual-income-ar.html"><span
+                                            data-i18n="intro.actual_income">6. Actual Income</span></a></li>
+                                <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span
+                                            data-i18n="intro.reporting_review">7. HYR AOC Review Form</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link has-dropdown" href="#">
+                               <span data-i18n="intro.standard_reports">Standard Report Generation from the BP Portal </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a class="nav-link" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
+                                <li><a class="nav-link" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
+                                <li><a class="nav-link" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
+                                <li><a class="nav-link" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
+                                <li><a class="nav-link" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
+                                <li><a class="nav-link" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                                <li><a class="nav-link" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-body">
+                        <div class="top-detail-form mt-2">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
+                                    <select class="form-control" id="headerPeriod">
+                                        <option value="2023 - 2025" selected>2023 - 2025</option>
+                                        <option value="2026 - 2028">2026 - 2028</option>
+                                    </select>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Error here
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="" data-i18n="intro.year_business_plan_update">Year of Business Plan
+                                        Update</label>
+                                    <select class="form-control mt-1" id="year-update">
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Error here
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="" data-i18n="intro.region">Region</label>
+                                    <input type="text" class="form-control" id="headerOrgId" disabled>
+                                    <div class="invalid-feedback">
+                                        Error here
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="">MA </label>
+                                    <input type="text" class="form-control mt-1" disabled id="headerOrgName">
+
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="">MA-ID </label>
+                                    <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
+                                    <div class="invalid-feedback">
+                                        Error here
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-wizard mt-3">
+                            <div class="myContainer">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h6 class="title-main mb-2">1- Review of Strategic Alignment of Annual Business Plan
+                                        Update</h6>
+
+                                </div>
+
+                                <div class="budget-wrap top-budget-wrap table-responsive mt-2">
+                                    <h6 class="title-main mb-0 px-3 py-2 font-2">Alignment Summary</h6>
+
+                                    <table class="table table-striped table-md mb-0 " width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th class="color-green text-center">Addressed</th>
+                                                <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                <th class="color-red text-center">Not Addressed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Number of Strategic Proxy Areas</strong></td>
+                                                <td>
+                                                    <input type="text" value="" disabled="disabled" id="addressed"
+                                                        class="form-control input-budget currency color-green text-center"
+                                                        disabled="">
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text" value="" disabled="disabled" id="not-addressed-justified"
+                                                            class="form-control input-budget currency color-pink text-center"
+                                                            disabled="">
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" disabled="disabled" value="" id="not-addressed"
+                                                        class="form-control input-budget currency color-red text-center"
+                                                        disabled="">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+                                <div class="cont-wrapper mt-2">
+                                    <form>
+                                        <div class="cont-wrap-inner">
+                                            <!--- row end --->
+                                            <div class="form-wizard">
+                                                <div class="myContainer">
+                                                    <h6 class="title-main mb-2"> Review Criteria</h6>
+                                                    <div class=" stepperform animated accordion-wrap p-0 shadow-none">
+                                                        <form>
+                                                            <!--- sect 1 --->
+                                                            <div id="accordion">
+
+                                                                <!--- sect 1 --->
+                                                                <div class="accordion">
+                                                                    <div class="accordion-header" role="button"
+                                                                        data-toggle="collapse"
+                                                                        data-target="#panel-body-1">
+                                                                        <h4 class="d-flex align-items-center">
+                                                                            <span class="number">1</span><span
+                                                                                class="input-headings w-100"><input
+                                                                                    class="w-100" type="text"
+                                                                                    readonly
+                                                                                    value="Centre Care on People"
+                                                                                    title="Centre Care on People"></span>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="accordion-body collapse"
+                                                                        id="panel-body-1" data-parent="#accordion">
+
+                                                                        <!--- Project area sec 1 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Abortion
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample1"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample1">
+
+                                                                                        <p class="mb-0">Does the Business Plan (BP) seek to expand access to abortion through its services or its advocacy? If so, does it seek to diversify service delivery models (by providing or facilitating abortions through self-care, telehealth, and other person-centred strategies such as peer provision and home visits)?
+
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample1"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="Je2pKYFrNwO"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="xhBQC2lPO8q"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter1">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="K6edbyuqMw9"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="K6edbyuqMw9"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="K6edbyuqMw9"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 1 ends--->
+                                                                        
+                                                                        <!--- Project area sec 1 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Infertility
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample2"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample2">
+
+                                                                                        <p class="mb-0">Does the BP address issues of infertility through its care model?
+
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample2"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th colspan="2"><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="Ap4A1gbSvrl"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="Q7HjIcDcroW"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter2">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="pyRER6QeMVt"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="pyRER6QeMVt"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="pyRER6QeMVt"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 1 ends--->
+
+                                                                        <!--- Project area sec 1 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: HIV Integration Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample3"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample3">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP look to optimize MA clinics and care platforms for HIV prevention, including the use of new technologies?
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample3"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="G5X7ANof7rn"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="FVtSgQ2Ab3w"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter3">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="FjW3G5cY04O"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="FjW3G5cY04O"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="FjW3G5cY04O"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 1 ends--->
+
+                                                                        <!--- Project area sec 1 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Marginalised Populations Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample4"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample4">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP credibly identify and propose strategies to engage with and reach marginalized people (particularly people excluded due to their sexual orientation or gender identity; people living with HIV, indigenous communities and people with disability)? Does the BP provide care and advocate for safe SRHR of adolescent and young people, including contraception, abortion and HIV/STIs?
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample4"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="TSsjDiiNkhq"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="rUw0EYUXNK4"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter4">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="riXEdIudadq"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="riXEdIudadq"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="riXEdIudadq"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 1 ends--->
+
+
+                                                                        <!--- Project area sec 1 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Humanitarian Crisis Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample5"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample5">
+
+                                                                                        <p class="mb-0">
+                                                                                            If the MA is in a conflict or disaster-prone country, does the BP provide for expanding access to lifesaving SRHR care as well as advocate for the integration of SRHR into disaster management planning and policies?
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample5"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="Awd9boLcbZH"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="qAj5NLwTueQ"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter5">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="doSEzDD0qR3"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="doSEzDD0qR3"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="doSEzDD0qR3"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 1 ends--->
+
+                                                                        <!--- Project area sec 1 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Digital and Self-care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample6"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample6">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP advance and document digital and self-care as part of a package of innovative service delivery models in a way that complements face-to-face delivery?
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample6"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="fPQgvuhASC0"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="sglC2dYHgzw"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter6">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="y1jp4VkL0EZ"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="y1jp4VkL0EZ"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="y1jp4VkL0EZ"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 1 ends--->
+
+
+
+                                                                        <div class="form-row">
+                                                                            <div class="col-sm-12 text-right">
+                                                                                <div class="form-group text-end mar-b-0">
+                                                                                    <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                                                                    <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" 
+                                                                                    class="btn btn-secondary">
+                                                                                    <input type="button" onclick="changePanel('panel-body-2')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                                    class="btn btn-primary">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--- sect 1 --->
+
+
+                                                            <!--- sect 2--->
+                                                            <div class="accordion">
+                                                                <div class="accordion-header" role="button"
+                                                                    data-toggle="collapse" data-target="#panel-body-2">
+                                                                    <h4 class="d-flex align-items-center">
+                                                                        <span class="number">2</span><span
+                                                                            class="input-headings w-100"><input
+                                                                                class="w-100" type="text"
+                                                                                readonly
+                                                                                value="Move the Sexuality Agenda"
+                                                                                title="Move the Sexuality Agenda"></span>
+                                                                    </h4>
+                                                                </div>
+                                                                <div class="accordion-body collapse" id="panel-body-2"
+                                                                    data-parent="#accordion">
+
+                                                                        <!--- Project area sec 2 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Harmful Laws and Norms
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample7"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample7">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP include credible efforts to increase domestic SRHR and gender equality financing , and to get CSE into curricula & education policies? Does it include work to prevent, address, respond to SGBV.
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample7"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="V0siVOBwTSL"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="cNZh56bVgCx"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter7">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="K4Ftg10CPiu"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="K4Ftg10CPiu"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="K4Ftg10CPiu"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 2 ends--->
+
+
+                                                                        <!--- Project area sec 2 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Youth Engagement and CSE Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample8"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample8">
+                                                                                         <p class="mb-0">
+                                                                                            Does the Business Plan engage with youth collectives and networks to expand access to SRHR and CSE? Does the BP budget allocate at least the equivalent of 5% of the core IPF to youth-led initiatives?
+                                                                                       
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample8"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="F5XzT2eYVWM"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="UZqCXsbWtaE"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter8">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="GcChpH7vrQX"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="GcChpH7vrQX"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="GcChpH7vrQX"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 2 ends--->
+
+
+                                                                    <div class="form-row">
+                                                                        <div class="col-sm-12 text-right">
+                                                                            <div class="form-group text-end mar-b-0">
+                                                                                <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                                                                <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" 
+                                                                                class="btn btn-secondary">
+                                                                                <input type="button" onclick="changePanel('panel-body-3')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                                class="btn btn-primary">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--- sect 2 --->
+                                                           
+                                                            <!--- sect 3 -->
+                                                            <div class="accordion">
+                                                                <div class="accordion-header" role="button"
+                                                                    data-toggle="collapse" data-target="#panel-body-3">
+                                                                    <h4 class="d-flex align-items-center">
+                                                                        <span class="number">3</span><span
+                                                                            class="input-headings w-100"><input
+                                                                                class="w-100" type="text"
+                                                                                readonly
+                                                                                value="Solidarity for Change"
+                                                                                title="Solidarity for Change"></span>
+                                                                    </h4>
+                                                                </div>
+                                                                <div class="accordion-body collapse" id="panel-body-3"
+                                                                    data-parent="#accordion">
+
+                                                                        <!--- Project area sec 2 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Partnerships Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample9"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample9">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP identify partners (and/or social movements) with whom to partner in order to advance SRHR?
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample9"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="EzHLtEtlk9t"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="IlEN5bGsbLP"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter9">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="aN3Z1bWBPLo"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="aN3Z1bWBPLo"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="aN3Z1bWBPLo"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 2 ends--->
+
+
+                                                                        <!--- Project area sec 3 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Research Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample10"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample10">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP include any form of operational research and/or knowledge sharing?
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample10"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="FpjRqiIDQKW-value"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="E7AAR2RrOsq"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter10">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="lnJL9RHB6Fh"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="lnJL9RHB6Fh"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="lnJL9RHB6Fh"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 3 ends--->
+
+
+                                                                    <div class="form-row">
+                                                                        <div class="col-sm-12 text-right">
+                                                                            <div class="form-group text-end mar-b-0">
+                                                                                <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                                                                <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" 
+                                                                                class="btn btn-secondary">
+                                                                                <input type="button" onclick="changePanel('panel-body-4')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                                class="btn btn-primary">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--- sect 3 --->
+                                                           
+                                                            <!--- sect 4 -->
+                                                            <div class="accordion">
+                                                                <div class="accordion-header" role="button"
+                                                                    data-toggle="collapse" data-target="#panel-body-4">
+                                                                    <h4 class="d-flex align-items-center">
+                                                                        <span class="number">4</span><span
+                                                                            class="input-headings w-100"><input
+                                                                                class="w-100" type="text"
+                                                                                readonly
+                                                                                value="Nurture our Federation"
+                                                                                title="Nurture our Federation"></span>
+                                                                    </h4>
+                                                                </div>
+                                                                <div class="accordion-body collapse" id="panel-body-4"
+                                                                    data-parent="#accordion">
+
+                                                                        <!--- Project area sec 4 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Sustainability Care
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample11"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample11">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP outline a pathway to increase local revenues beyond aid funding (e.g. social enterprise, insurance systems to sustain service delivery, etc?)
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample11"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="NZKY0AUzJVQ"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="OPUV1Wq3RzK"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter11">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="LHptGGWfKnx"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="LHptGGWfKnx"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="LHptGGWfKnx"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 4 ends--->
+
+
+                                                                        <!--- Project area sec 4 start--->
+
+                                                                        <div class="wrap-project-area">
+                                                                            <div class="form-row">
+                                                                                <div
+                                                                                    class="form-group col-md-12 textbox-wrap mb-0">
+                                                                                    <h4 class="mb-0">Alignment Proxy: Anti-discrimination and Inclusion
+
+                                                                                        <i class="fas fa-info-circle ml-1"
+                                                                                            data-toggle="collapse"
+                                                                                            data-target="#collapseExample12"
+                                                                                            aria-expanded="false"
+                                                                                            aria-controls="collapseExample"></i>
+                                                                                    </h4>
+                                                                                    <div class="info-boxwrap collapse mb-2 show"
+                                                                                        id="collapseExample12">
+
+                                                                                        <p class="mb-0">
+                                                                                            Does the BP include efforts to ensure gender diversity, and anti-racism, anti-discrimination in policy and practise in the MAs workforce? 
+                                                                                            <i class="far fa-arrow-alt-circle-up ml-1"
+                                                                                                data-toggle="collapse"
+                                                                                                data-target="#collapseExample12"
+                                                                                                aria-expanded="true"
+                                                                                                aria-controls="collapseExample"></i>
+                                                                                        </p>
+
+                                                                                    </div>
+                                                                                    <hr class="mt-2">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th><strong>TRT Rating</strong>
+                                                                                            </th>
+                                                                                            <th><strong>Comments</strong>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="2"style="width:20%"
+                                                                                                class="vlgn-top">
+                                                                                                <div
+                                                                                                    class="form-group mb-0">
+                                                                                                    <input type="text"
+                                                                                                    id="QOEkdFRPJ3q"
+                                                                                                        value=""
+                                                                                                        class="form-control input-budget currency font-bolder color-pink textValue"
+                                                                                                        disabled="disabled">
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div
+                                                                                                    class="form-group col-md-12 textbox-wrap mb-0 p-0">
+                                                                                                    <textarea
+                                                                                                        class="form-control textValue textlimit"
+                                                                                                        id="fIA5GeAZLMX"  onchange="pushDataElement(this.id,this.value)" ></textarea>
+                                                                                                    <div class="char-counter form-text text-muted"
+                                                                                                        id="counter12">
+                                                                                                        200 words
+                                                                                                        remaining</div>
+                                                                                                    <div
+                                                                                                        class="invalid-feedback">
+                                                                                                        Error here
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="budget-wrap">
+                                                                                <table
+                                                                                    class="table table-striped table-md mb-0 "
+                                                                                    width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th></th>
+                                                                                            <th class="color-green text-center">Addressed</th>
+                                                                                            <th class="color-pink text-center">Not Addressed But Justified</th>
+                                                                                            <th class="color-red text-center">Not Addressed</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <strong>Your rating</strong>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="hYDnGFx92aU"
+                                                                                                    type="radio"
+                                                                                                    value="Addressed">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="hYDnGFx92aU"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed but Justified">
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <input
+                                                                                                    class="input-text input-wdt1 color-4"
+                                                                                                    name="hYDnGFx92aU"
+                                                                                                    type="radio"
+                                                                                                    value="Not Addressed">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--- Project area sec 4 ends--->
+
+
+                                                                    <div class="form-row">
+                                                                        <div class="col-sm-12 text-right">
+                                                                            <div class="form-group text-end mar-b-0">
+                                                                                <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                                                                <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
+                                                                                <input type="button" value="Submit" onclick="submitProjects()" data-i18n="[value]intro.submit" class="btn btn-primary">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--- sect 4 --->
+                                                           
+                                                            
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="my-3 text-right">
+                                    <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/5-ro-report-au.html'">
+                                    <span data-i18n="intro.next">Next</span>:  
+                                    <span data-i18n="intro.ro_report">5. AOC Review Form</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- General JS Scripts -->
+    <script src="assets/js/app.min.js"></script>
+    <!--Constants-->
+    <script src="assets/js/constant.js"></script>
+    <!--Translation-->
+    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="assets/js/translation.js"></script>
+    <!-- JS Libraies -->
+    <script src="assets/js/api/events.js"></script>
+    <script src="assets/js/api/eventPush.js"></script>
+    <script src="assets/js/api/func.js"></script>
+    <!-- Page Specific JS File -->
+    <script src="assets/js/forms/annualupdate/reviewStrategic-au.js"></script>
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <!-- Custom JS File -->
+    <script src="assets/js/select2.full.min.js"></script>
+    <script src="assets/js/forms-advanced-forms.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+
+        //Panel toggle
+        function changePanel(id) {
+            $(`#${id}`).collapse('toggle');
+        }
+
+        //textarea word limit
+        document.addEventListener('DOMContentLoaded', function () {
+            const textareas = document.querySelectorAll('.textlimit');
+            textareas.forEach((textarea, index) => {
+                const counter = document.getElementById(`counter${index + 1}`);
+                const updateCounter = () => {
+
+                    const words = textarea.value.trim().split(/\s+/)
+
+                    if (words.length >= maxWords) {
+                        textarea.value = words.slice(0, maxWords).join(' ');
+                        return
+                    }
+
+                    if (textarea.value) {
+                        counter.textContent = `${(maxWords - words.length)} words remaining`;
+                    } else counter.textContent = `${maxWords} words remaining`;
+                };
+                textarea.addEventListener('input', updateCounter);
+                updateCounter(); // initialize counter on page load
+            });
+        });    
+    </script>
+    
+<script>
+    function submitProjects() {
+        alert("Data Saved Successfully!")
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>IPPF</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/css/app.min.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="assets/css/select2.min.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+</head>
+
+<body>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="form-inline">
+          <ul class="navbar-nav mr-3">
+            <li>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                <i class="fas"></i>
+                <img src="assets/images/toggle.png">
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i class="fas fa-expand"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <ul class="navbar-nav navbar-right align-items-center ml-auto">
+          <li>
+            <div class="languag-wrap btn mr-1">
+              <span><i class="fa fa-globe" aria-hidden="true"></i></span>
+              <select id="languageSwitcher"></select>
+            </div>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1">
+              <i class="fa fa-building-o" aria-hidden="true"></i>
+              <div>FACILITY</div>
+            </a>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1"
+              href="../../../dhis-web-commons-security/logout.action">
+              <i aria-hidden="true"></i>
+              <div>LOG OUT</div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+              <a href="#">
+                  <img alt="image" src="assets/images/logo.png" class="header-logo" />
+              </a>
+          </div>
+          <ul class="sidebar-menu">
+              <li id="member-association">
+                  <a class="nav-link" href="#" data-target="members-association.html"><span data-i18n="intro.select_ma">Select MA / CP</span></a>
+              </li>
+              <li class="dropdown">
+                  <a href="supplier-audit.html" class="nav-link has-dropdown sidebar-bp"><span data-i18n="intro.business_plan">3 Year Business Plan</span></a>
+
+                  <ul class="dropdown-menu">
+                      <li><a class="nav-link" href="#" data-target="1.1-organization-details.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="1.2-narrative-plan.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.1-project-description.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.2-project-budget.html"><span data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.3-breakdown-by-focus-area.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="2.4-breakdown-by-expense-category.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.5-commodities-by-funding-source.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.1 RO Review - Evaluation of Quality.html"><span data-i18n="">4.1 RO Review - Evaluation of Quality </span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.2 RO Review - Evaluation of Strategic Alignment.html"><span data-i18n="">4.2 RO Review - Evaluation of Strategic Alignment</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="4.3 RO Review - Evaluation of Organisational Strength.html"><span data-i18n="">4.3 RO Review - Evaluation of Organisational Strength</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.1 TRT Review - Evaluation of Quality of MA Business Plan.html"><span data-i18n="">5.1 TRT Review - Evaluation of Quality of MA Business Plan</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan.html"><span data-i18n="">5.2 TRT Review - Evaluation of Strategic Alignment of MA Business Plan</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.3 TRT Review - Evaluation of Organisational Strength of MA.html"><span data-i18n="">5.3 TRT Review - Evaluation of Organisational Strength of MA</span></a></li>
+                      <li><a class="nav-link trt-review" href="#" data-target="5.4 TRT Review - Evaluation Summary of MA Business Plan.html"><span data-i18n="">5.4 TRT Review - Evaluation Summary of MA Business Plan</span></a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                      
+                      <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan Updates </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="1.2-narrative-plan-au.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
+                      <li><a class="nav-link" data-target="2.1-project-description-au.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
+                      <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span  data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
+                      <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
+                      <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span> </a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
+                      <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
+                      <li><a class="nav-link aoc-reporting" data-target="4-review-strategic-alignment-au.html"><span  data-i18n="intro.review_strategic">4. AOC Strategic Alignment</span></a></li>
+                      <li><a class="nav-link aoc-reporting" data-target="5-ro-report-au.html"><span  data-i18n="intro.ro_report">5. AOC Review Form</span></a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                      
+                      <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report Submission & Approval</span>
+                  </a>
+                  
+            <ul class="dropdown-menu">
+              <li><a class="nav-link" data-target="1-ma-info-ar.html"><span data-i18n="intro.organization_report" >1. Organization Details</span></a></li>
+             <li><a class="nav-link" data-target="2-narrative-report-ar.html"><span data-i18n="intro.narrative_report">2. Narrative Report</span></a></li>
+              <li><a class="nav-link" data-target="3-add-new-project.html"><span data-i18n="intro.add_project">3. Add New Project</span></a> </li>
+              <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus Area</span></a></li>
+              <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span></a></li>
+              <li><a class="nav-link" data-target="6-actual-income-ar.html"><span data-i18n="intro.actual_income">6. Actual Income</span></a></li>
+              <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. HYR AOC Review Form</span></a></li>
+          </ul>
+              </li>
+              <li class="dropdown">
+                  <a class="nav-link has-dropdown" href="#">
+                     <span data-i18n="intro.standard_reports">Standard Report Generation from the BP Portal </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      
+                                <li><a class="nav-link" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
+                                <li><a class="nav-link" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
+                                <li><a class="nav-link" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
+                                <li><a class="nav-link" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
+                                <li><a class="nav-link" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
+                                <li><a class="nav-link" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                                <li><a class="nav-link" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                  </ul>
+              </li>
+          </ul>
+      </aside>
+  </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="top-detail-form mt-2">
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
+                  <select class="form-control" id="headerPeriod">
+                    <option value="2023 - 2025" selected>2023 - 2025</option>
+                    <option value="2026 - 2028">2026 - 2028</option>
+                  </select>
+                  <div class="invalid-feedback">Error here</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" data-i18n="intro.year_business_plan_update" >Year of Business Plan Update</label>
+                    <select  class="form-control mt-1" id="year-update">
+                    </select>
+                    <div class="invalid-feedback">
+                        Error here
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="" data-i18n="intro.region">Region</label>
+                  <input type="text" class="form-control" id="headerOrgId" disabled />
+                  <div class="invalid-feedback">Error here</div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="">MA</label>
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgName" disabled="true" />>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="">MA-ID</label>
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgCode" disabled="true" />>
+                  <div class="invalid-feedback">Error here</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="steps mt-3">
+              <!-- <ul>
+                <li class="active">
+                  <span>1</span>
+                </li>
+                <li class="">
+                  <span>2</span>
+                </li>
+                <li class="">
+                  <span>3</span>
+                </li>
+              </ul> -->
+            </div>
+            <div class="form-wizard">
+              <div class="myContainer">
+                <h6 class="title-main mb-2" data-i18n="intro.narrative_plan">1.2 Narrative Plan</h6>
+                <div class=" stepperform animated accordion-wrap">
+                  <form id="contryContext">
+                    <div id="accordion">
+
+                      <!--- sect 1 --->
+                      <div class="accordion">
+                        <div class="accordion-header" role="button" data-toggle="collapse"
+                          data-target="#panel-body-1">
+                          <h4>
+                            <span class="number" >1</span> <span class="mr-1" data-i18n="intro.country_context">Country context and theory of change</span> 
+                          </h4>
+                        </div>
+                        <div class="accordion-body collapse" id="panel-body-1" data-parent="#accordion">
+
+
+                          <!---- quest start here --->
+                          <div class="form-row">
+                            <div class="form-group col-md-12 textbox-wrap">
+                              <label for="" ><span class="mr-1" ><span data-i18n="intro.country_context_ques">Ques 1. Country context </span></span> <i class="fas fa-info-circle" data-toggle="collapse"
+                                  data-target="#collapseExample1" aria-expanded="false"
+                                  aria-controls="collapseExample"></i>
+                              </label>
+                              <div class="collapse show" id="collapseExample1">
+                                <p data-i18n="intro.country_context_ques_description"> Please describe your country context as relevant to SRHR. What are the main SRHR
+                                  gaps and social or political factors that should be addressed in the IPPF strategic
+                                  period (e.g., unmet need, service gaps, political environment, laws, policies, social
+                                  norms, national health/education programmes and innovations, opposition, etc.). Please
+                                  use updated and verified statistics where possible, and mention marginalized groups as
+                                  relevant (500 words max) <i class="far fa-arrow-alt-circle-up ml-1"
+                                    data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false"
+                                    aria-controls="collapseExample"></i>
+                                </p>
+                              </div>
+                              <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="oizxXuGwWLL" rows="5"
+                                cols="100"></textarea>
+                              <div class="char-counter form-text text-muted" id="counter1">
+                                500 Words Remaining
+                              </div>
+
+                              <div class="invalid-feedback"> Error here
+                              </div>
+                            </div>
+                          </div>
+                          <!---- quest ends here --->
+
+
+                          <!---- quest start here --->
+                          <div class="form-row">
+                            <div class="form-group col-md-12 textbox-wrap">
+                              <label for="" ><span class="mr-1" data-i18n="intro.strategy">Ques 2. Strategy </span><i class="fas fa-info-circle" data-toggle="collapse"
+                                  data-target="#collapseExample2" aria-expanded="false"
+                                  aria-controls="collapseExample"></i>
+                              </label>
+                              <div class="collapse show" id="collapseExample2">
+                                <p> Describe your current high-level strategy or theory of change. How does it responds
+                                  to your local needs and context described above? What are its key components and
+                                  activities, and how will you operationalize it?</p>
+
+                                <p data-i18n="intro.outline_how_align_with_IPPF">Please outline how it aligns with IPPF’s strategic framework. If there are specific
+                                  target groups you aim to serve, please mention them here. In particular, please
+                                  highlight any approaches that differ from your past approaches.<i
+                                    class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                                    data-target="#collapseExample2" aria-expanded="false"
+                                    aria-controls="collapseExample"></i>
+                                </p>
+                              </div>
+                              <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="rdPScQ5GgKU"></textarea>
+                              <div class="char-counter form-text text-muted" id="counter2">
+                                800 Words Remaining
+                              </div>
+                              <div class="invalid-feedback"> Error here
+                              </div>
+                            </div>
+                          </div>
+                          <!---- quest ends here --->
+
+
+                          <!---- quest start here --->
+                          <div class="form-row">
+                            <div class="form-group col-md-12 textbox-wrap">
+                              <label for="" ><span class="mr-1" data-i18n="intro.other_actors">Ques 3. Landscape of other actors </span> <i class="fas fa-info-circle"
+                                  data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false"
+                                  aria-controls="collapseExample"></i>
+                              </label>
+                              <div class="collapse show" id="collapseExample3">
+                                <p data-i18n="intro.other_actors_first">Who are the other key actors in your country (and region if applicable) working to
+                                  advance SRHR (e.g. civil society, social movements, government ministries,
+                                  parliamentarians, private sector, etc.)? </p>
+
+                                <p data-i18n="intro.other_actors_second">How does your organization build on those efforts, what partnerships do you have with
+                                  them, and how do you operationalize those partnerships? Do you have partenrships
+                                  outside of the SRHR sector?<i class="far fa-arrow-alt-circle-up ml-1"
+                                    data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false"
+                                    aria-controls="collapseExample"></i>
+                                </p>
+                              </div>
+                              <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="WEEnixroVKY"></textarea>
+                              <div class="char-counter form-text text-muted" id="counter3">
+                                500 Words Remaining
+                              </div>
+
+                              <div class="invalid-feedback"> Error here
+                              </div>
+                            </div>
+                          </div>
+                          <!---- quest ends here --->
+
+                          <!---- quest start here --->
+                          <div class="form-row">
+                            <div class="form-group col-md-12 textbox-wrap">
+                              <label for="" ><span class="mr-1" data-i18n="intro.External_Risk">Ques 4. External risks and risk mitigation </span><i class="fas fa-info-circle"
+                                  data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false"
+                                  aria-controls="collapseExample4"></i>
+                              </label>
+                              <div class="collapse show" id="collapseExample4">
+                                <p data-i18n="intro.external_risks_description">Describe critical external risks and challenges related to the delivery of your
+                                  Business Plan (e.g., political, economic), and your strategy to address/mitigate
+                                  them.<i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                                    data-target="#collapseExample4" aria-expanded="false"
+                                    aria-controls="collapseExample4"></i>
+                                </p>
+                              </div>
+                              <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="ztUH9mj80pm"></textarea>
+                              <div class="char-counter form-text text-muted" id="counter4">
+                                250 Words Remaining
+                              </div>
+
+                              <div class="invalid-feedback"> Error here
+                              </div>
+                            </div>
+                          </div>
+                          <!---- quest ends here --->
+
+                          <!---- quest start here --->
+                          <div class="form-row">
+                            <div class="form-group col-md-12 textbox-wrap">
+                              <label for=""><span  data-i18n="intro.Youth_Leadership">Ques 5. Youth Leadership and Involvement </span> <i class="fas fa-info-circle"
+                                  data-toggle="collapse" data-target="#collapseExample5" aria-expanded="false"
+                                  aria-controls="collapseExample5"></i>
+                              </label>
+                              <div class="collapse show" id="collapseExample5">
+                                <p  data-i18n="intro.describe_youth_Leadership">Describe the process put in place to ensure that 5% of the budget of your Business
+                                  Plan was decided by youth.<i class="far fa-arrow-alt-circle-up ml-1"
+                                    data-toggle="collapse" data-target="#collapseExample5" aria-expanded="false"
+                                    aria-controls="collapseExample"></i>
+                                </p>
+                              </div>
+                              <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="LXfgbwQkr4C"></textarea>
+                              <div class="char-counter form-text text-muted" id="counter5">
+                                250 Words Remaining
+                              </div>
+
+                              <div class="invalid-feedback"> Error here
+                              </div>
+                            </div>
+                          </div>
+                          <!---- quest ends here --->
+
+                          <div class="form-row">
+                            <div class="col-sm-12 text-right">
+                              <div class="form-group text-end mar-b-0">
+                                <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                                class="btn btn-secondary">
+                            <input type="button" onclick="changePanel('panel-body-2')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                class="btn btn-primary">
+                              </div>
+                            </div>
+                </div>
+              </div>
+            </div>
+            <!--- sect 1 --->
+
+            <!--- sect 1 --->
+            <div class="accordion">
+              <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-2">
+                <form id="org_form">
+                  <h4>
+                    <span class="number">2</span><span class="mr-1" data-i18n="intro.organisational_status">Organisational status</span> 
+                  </h4>
+              </div>
+              <div class="accordion-body collapse" id="panel-body-2" data-parent="#accordion">
+
+                <div class="form-row">
+
+                  <div class="col-sm-12">
+                    <h4 data-i18n="intro.challenges_opportunities">Challenges and opportunitties</h4>
+                  </div>
+                </div>
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.institutional_Challenges">Institutional Challenges </span> <i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample11" aria-expanded="false" aria-controls="collapseExample11"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample11">
+                      <p data-i18n="intro.Institutional_example">For example: governance, leadership, staff, systems, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                          data-target="#collapseExample11" aria-expanded="false" aria-controls="collapseExample11"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="oPTJLbFbSrJ"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter6">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for=""><span class="mr-1" data-i18n="intro.institutional_opportunities">Institutional Opportunities </span><i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample7" aria-expanded="false" aria-controls="collapseExample7"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample7">
+                      <p data-i18n="intro.Institutional_example">For example: governance, leadership, staff, systems, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample7"
+                          aria-expanded="false" aria-controls="collapseExample7"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="KmDJkDxCeea"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter7">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.operational_challenges">Operational Challenges </span><i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample8" aria-expanded="false" aria-controls="collapseExample8"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample8">
+                      <p data-i18n="intro.Operational_example">For example: administration, logistics, supply chain, demand, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample8"
+                          aria-expanded="false" aria-controls="collapseExample8"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="tVPMPLrlgq7"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter8">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.operational_opportunities">Operational Opportunities </span><i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample8" aria-expanded="false" aria-controls="collapseExample8"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample8">
+                      <p data-i18n="intro.Operational_example">For example: administration, logistics, supply chain, demand, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample8"
+                          aria-expanded="false" aria-controls="collapseExample8"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="jtXBm7oOiSz"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter9">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for=""><span  data-i18n="intro.programmatic_challenges">Programmatic Challenges </span><i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample9" aria-expanded="false" aria-controls="collapseExample9"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample9">
+                      <p data-i18n="intro.Programmatic_example">For example: delivery capacity, M&E, quality of care, client interest<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample9"
+                          aria-expanded="false" aria-controls="collapseExample8"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="LZF0jI0gnbW"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter10">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.programmatic_opportunities">Programmatic Opportunities </span><i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample10" aria-expanded="false" aria-controls="collapseExample10"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample10">
+                      <p data-i18n="intro.Programmatic_example">For example: delivery capacity, M&E, quality of care, client interest<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                          data-target="#collapseExample10" aria-expanded="false" aria-controls="collapseExample10"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="HY09p2Ew4mW"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter11">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.financial_challenges">Financial challenges </span><i class="fas fa-info-circle" data-toggle="collapse"
+                      data-target="#collapseExample11" aria-expanded="false" aria-controls="collapseExample11"></i>
+                  </label>
+                    <div class="collapse show" id="collapseExample11">
+                      <p data-i18n="intro.Financial_example">For example: audits, management letters, capacity, systems, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                          data-target="#collapseExample11" aria-expanded="false" aria-controls="collapseExample11"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="QPwGbiCY17X"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter12">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span  data-i18n="intro.financial_opportunities">Financial opportunities </span><i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample12" aria-expanded="false" aria-controls="collapseExample12"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample12">
+                      <p data-i18n="intro.Financial_example">For example: audits, management letters, capacity, systems, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                          data-target="#collapseExample12" aria-expanded="false" aria-controls="collapseExample12"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="KfAuY7fykAe"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter13">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.sustainability_challenges">Sustainability challenges </span>  <i class="fas fa-info-circle" data-toggle="collapse"
+                        data-target="#collapseExample13" aria-expanded="false" aria-controls="collapseExample13"></i>
+                    </label>
+                    <div class="collapse show" id="collapseExample13">
+                      <p data-i18n="intro.Sustainability_example">For example: income diversification, social enterprise, domestic financing, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                          data-target="#collapseExample13" aria-expanded="false" aria-controls="collapseExample13"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="Y9qKLtXelUY"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter14">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" ><span class="mr-1" data-i18n="intro.sustainability_opportunities">Sustainability opportunities </span> <i class="fas fa-info-circle" data-toggle="collapse"
+                      data-target="#collapseExample14" aria-expanded="false" aria-controls="collapseExample14"></i>
+                  </label>
+                    <div class="collapse show" id="collapseExample14">
+                      <p data-i18n="intro.Sustainability_example">For example: income diversification, social enterprise, domestic financing, etc.<i
+                          class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
+                          data-target="#collapseExample14" aria-expanded="false" aria-controls="collapseExample14"></i>
+                      </p>
+                    </div>
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="VRKVQaLyuS2"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter15">
+                      200 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+                <div class="form-row">
+                  <div class="col-sm-12 text-right">
+                    <div class="form-group text-end mar-b-0">
+                      <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                      <input type="button" data-i18n="[value]intro.save_as_draft" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                      class="btn btn-secondary">
+                  <input type="button" onclick="changePanel('panel-body-3')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                      class="btn btn-primary">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--- sect 1 --->
+            <!--- sect 1 --->
+            <div class="accordion">
+              <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-3">
+                <form id="technical_form">
+                  <h4>
+                    <span class="number" >3</span><span class="mr-1" data-i18n="intro.technical_Assistance">Technical Assistance</span>
+                  </h4>
+              </div>
+              <div class="accordion-body collapse" id="panel-body-3" data-parent="#accordion">
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" data-i18n="intro.capacity_ma">What capacity does my organisation have than they are able to share with
+                      other MAs?
+                    </label>
+
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="gPcHDHG57PU"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter16">
+                      250 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+                <!---- quest start here --->
+                <div class="form-row">
+                  <div class="form-group col-md-12 textbox-wrap">
+                    <label for="" data-i18n="intro.capacity_federation">What are your main capacity support needs from the federation (please be
+                      specific)
+                    </label>
+
+                    <textarea class="form-control-resize  textlimit textValue" onchange="pushDataElement(this.id,this.value)" id="l43075Zt8rA"></textarea>
+                    <div class="char-counter form-text text-muted" id="counter17">
+                      250 Words Remaining
+                    </div>
+
+                    <div class="invalid-feedback"> Error here
+                    </div>
+                  </div>
+                </div>
+                <!---- quest ends here --->
+                <div class="form-row">
+                  <div class="col-sm-12 text-right">
+                    <div class="form-group text-end mar-b-0">
+                      <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                          onclick="submitProjects()" class="btn btn-secondary">
+
+                      <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.1-project-description-au.html'">
+                      
+                        <span data-i18n="intro.next">Next</span>:  
+                        <span data-i18n="intro.project_description">2.1 Project Description</span></button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!--- sect 1 --->
+
+
+
+          </div>
+          </form>
+      </div>
+    </div>    
+  </div>
+  </div>
+  </div>
+  </section>
+  </div>
+  </div>
+  
+  <!-- General JS Scripts -->
+  <script src="assets/js/app.min.js"></script>
+  <!--Constants-->
+  <script src="assets/js/constant.js"></script>
+  <!--Translation-->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+  <script src="assets/js/translation.js"></script>
+  <!-- JS Libraies -->
+  <script src="assets/js/api/events.js"></script>
+  <script src="assets/js/api/eventPush.js"></script>
+  <script src="assets/js/api/func.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="assets/js/forms/annualupdate/narrativeReport-au.js"></script>
+  <!-- <script src="assets/js/saveDraft_projectFocusArea.js"></script> -->
+  <!-- Template JS File -->
+  <script src="assets/js/scripts.js"></script>
+  <!-- Custom JS File -->
+  <script src="assets/js/select2.full.min.js"></script>
+  <script src="assets/js/forms-advanced-forms.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+  <script>
+
+    //Panel toggle
+    function changePanel(id) {
+      $(`#${id}`).collapse('toggle');
+    }
+
+    //textarea word limit
+    document.addEventListener('DOMContentLoaded', function () {
+      const textareas = document.querySelectorAll('.textlimit');
+      textareas.forEach((textarea, index) => {
+        const counter = document.getElementById(`counter${index+1}`);
+        const updateCounter = () => {
+
+          const words = textarea.value.trim().split(/\s+/)
+
+          if (words.length >= maxWords[`counter${index+1}`]) {
+            textarea.value = words.slice(0, maxWords[`#counter${index+1}`]).join(' ');
+            return
+          }
+
+          if (textarea.value) {
+            counter.textContent = `${(maxWords[`counter${index+1}`] - words.length)}<span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
+          } else counter.textContent = `${maxWords[`counter${index+1}`]} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
+        };
+        textarea.addEventListener('input', updateCounter);
+        updateCounter(); // initialize counter on page load
+      });
+    });
+  </script>
+
+<script>
+  function submitProjects() {
+      alert("Data Saved Successfully!")
+  }
+</script>
+</body>
+
+</html>
