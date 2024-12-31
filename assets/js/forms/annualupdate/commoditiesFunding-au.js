@@ -53,6 +53,8 @@
           
           const userDisabled = data.userGroups.find(group => disabledUserGroups.includes(group.id));
           const trtUserDisabled = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
+          const edUserDisabled = data.userGroups.find(group => disabledEDUserGroups.includes(group.id));
+
           if(userDisabled || trtUserDisabled) {
               tei.disabled = true;
           } 
@@ -62,6 +64,9 @@
           }
           if(!trtUserDisabled) {
               disabledValues += 'trt'
+          }
+          if(edUserDisabled) {
+              disabledValues += 'ed'
           }
           window.localStorage.setItem('hideReporting', disabledValues);
         }
@@ -190,8 +195,13 @@
     const selectedYear = document.getElementById('year-update').value;
     
     $('#push-button').empty();
-    $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Update ${selectedYear}</button>`)
-     
+    if(window.localStorage.getItem("hideReporting").includes('ed')) {
+      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Update ${selectedYear}</button>`)
+    }
+    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Update ${selectedYear}</button>`)
+    }
+
     $("#accordion").empty();
 
     let projectRows = displaySourceCommodities(dataValues, period);
@@ -396,8 +406,13 @@
 
 
 function disableAnnualUpdate() {
-  alert('Annual Update Submitted Successfully!')
+  alert('Annual Update Submitted Successfully!');
   if(eventPD) pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD)
+}
+
+function enableAnnualUpdate() {
+  alert('Annual Update Reopened Successfully!');
+  if(eventPD) pushDataElementOther(dataElements.submitAnnualUpdate,false, program.auProjectDescription, programStage.auProjectDescription, eventPD)
 }
 
 function calculateTotals(year) {

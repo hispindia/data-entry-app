@@ -197,6 +197,8 @@ document.addEventListener("DOMContentLoaded", function () {
           
           const userDisabled = data.userGroups.find(group => disabledUserGroups.includes(group.id));
           const trtUserDisabled = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
+          const edUserDisabled = data.userGroups.find(group => disabledEDUserGroups.includes(group.id));
+
           if(userDisabled || trtUserDisabled) {
               tei.disabled = true;
           } 
@@ -206,6 +208,9 @@ document.addEventListener("DOMContentLoaded", function () {
           }
           if(!trtUserDisabled) {
               disabledValues += 'trt'
+          }
+          if(edUserDisabled) {
+              disabledValues += 'ed'
           }
           window.localStorage.setItem('hideReporting', disabledValues);
         }
@@ -329,6 +334,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
+    $('#push-button').empty();
+    if(window.localStorage.getItem("hideReporting").includes('ed')) {
+      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Report </button>`)
+    }
+    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Report </button>`)
+    }
 
     $("#accordion").empty();
     const projectRows = displayTotalIncome(dataValues);
@@ -694,4 +706,9 @@ function addProjectIncome(income, dataValues, subCategories, name) {
 async function disableAnnualUpdate() {
   await pushDataElement(dataElements.submitAnnualUpdate,true);
   alert ("Report Submitted Successfully!");
+}
+
+async function enableAnnualUpdate() {
+  await pushDataElement(dataElements.submitAnnualUpdate,false);
+  alert ("Report Reopened Successfully!");
 }

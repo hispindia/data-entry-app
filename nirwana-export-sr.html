@@ -17,7 +17,6 @@
 </head>
 
 <body>
-  <div class="loader"></div>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
@@ -153,58 +152,49 @@
       <div class="main-content">
         <section class="section">
           <div class="section-body">
-            
             <div class="top-detail-form mt-2">
               <div class="form-row">
-                <div class="form-group col-md-2">
-                 <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
-                  <select class="form-control" id="headerPeriod">
-                    <option value="2023 - 2025" selected>2023 - 2025</option>
-                    <option value="2026 - 2028">2026 - 2028</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
+                <div class="form-group col-md-3">
+                    <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
+                    <select class="form-control" id="headerPeriod">
+                        <option value="2023 - 2025" selected>2023 - 2025</option>
+                        <option value="2026 - 2028">2026 - 2028</option>
+                    </select>
+                    </select>
+                    <div class="invalid-feedback">
+                        Error here
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" data-i18n="intro.year_business_plan_update">Year of Business Plan
+                        Update</label>
+                    <select class="form-control mt-1" id="year-update">
+                      <option value="2025">2025</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Error here
+                    </div>
                 </div>
                 <div class="form-group col-md-2">
-                  <label for=""  data-i18n="intro.reporting_year" >Reporting Year</label>
-                  <select class="form-control mt-1" id="year-update">
-                    <option value="2024">2024</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
+                    <label for="" data-i18n="intro.region">Region</label>
+                    <input type="text" class="form-control" id="headerOrgId" disabled>
+                    <div class="invalid-feedback">
+                        Error here
+                    </div>
                 </div>
                 <div class="form-group col-md-2">
-                  <label for="" data-i18n="intro.reporting_periodicity">Reporting Periodicity</label>
-                  <select class="form-control mt-1" id="reporting-periodicity">
-                    <!--<option value="Annual Reporting" selected>Annual Reporting</option>-->
-                    <option value="Semi-Annual Reporting" selected>Semi-Annual Reporting</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="" data-i18n="intro.region">Region</label>
-                  <input type="text" class="form-control" id="headerOrgId" disabled>
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="">MA </label>
-                  <input type="text" class="form-control mt-1" disabled id="headerOrgName">
+                    <label for="">MA </label>
+                    <input type="text" class="form-control mt-1" disabled id="headerOrgName">
 
                 </div>
                 <div class="form-group col-md-2">
-                  <label for="">MA-ID </label>
-                  <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
+                    <label for="">MA-ID </label>
+                    <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
+                    <div class="invalid-feedback">
+                        Error here
+                    </div>
                 </div>
-              </div>
+            </div>
             </div>
 
             <div class="form-wizard mt-3">
@@ -220,33 +210,26 @@
                   <p class="mb-1">Shows list of all the projects with the values <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="true" aria-controls="collapseExample"></i></p>
                 </div>
                 <div class="cont-wrapper mt-2">
-                  <a id="dlink" style="display:none;"></a>
-                  <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['1. Ma-Info', '2. Narrative Report', '3. Budget vs Actuals-FA','4. Budget vs Actuals-EC','5. Actual Income'], '2. Annual / Semi-Annual Report Export')">Export as Excel</button>
-                    
+                  <div>
+                    <div id="loader" style="width:80%;float:left;"></div>
+                    <a id="dlink" style="display:none;"></a>
+                    <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['Budget by Focus Area', 'Budget by expense category', 'Income'], '8. Nirwana Export')">Export as Excel</button>
+                  </div>
+                  <div style="clear:both"></div>
                   <form>
-                    <div class="cont-wrap-inner" id="project-export">
+                    <div class="cont-wrap-inner overflow-auto" id="project-export">
 
                       <table class="table table-bordered" id="table-od">
-                        <tbody id="th-project-organisationDetails"></tbody>
-                        <tbody id="tb-project-organisationDetails"></tbody>
+                        <thead id="th-project-focusarea"></thead>
+                        <tbody id="tb-project-focusarea"></tbody>
                       </table>
 
-                      <table class="table table-bordered"  id="table-np">
-                        <tbody id="th-project-narrativePlan"></tbody>
-                        <tbody id="tb-project-narrativePlan"></tbody>
+                      <table class="table table-bordered"  id="table-eb">
+                        <thead id="th-project-expBudget"></thead>
+                        <tbody id="tb-project-expBudget"></tbody>
                       </table>
 
-                      <table class="table table-bordered" id="table-pfa">
-                        <thead id="th-project-focusArea"></thead>
-                        <tbody id="project-focusArea"></tbody>
-                      </table>
-
-                      <table class="table table-bordered" id="table-pec">
-                        <thead id="th-project-expenseCategory"></thead>
-                        <tbody id="project-expenseCategory"></tbody>
-                      </table>
-
-                      <table class="table table-bordered" id="table-ti">
+                      <table class="table table-bordered"  id="table-ti">
                         <thead id="th-project-totalIncome"></thead>
                         <tbody id="tb-project-totalIncome"></tbody>
                       </table>
@@ -276,7 +259,7 @@
     <script src="assets/js/api/events.js"></script>
   <script src="assets/js/api/func.js"></script>
   <!-- Page Specific JS File -->
-  <script src="assets/js/forms/standardreport/annual-semi-annual-sr.js"></script>
+  <script src="assets/js/forms/standardreport/nirwana-export-sr.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->
@@ -285,7 +268,6 @@
   <script src="assets/js/custom.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
   <script src="assets/js/download.js"></script>
-
 
   <script>
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -317,66 +299,6 @@
       if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
       else counter.textContent = `${maxWords} words remaining`;
     }
-  </script>
-  <script>
-    var tableToExcel = (function () {
-      var uri = 'data:application/vnd.ms-excel;base64,'
-          , tmplWorkbookXML = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
-              + '<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><Author>Axel Richter</Author><Created>{created}</Created></DocumentProperties>'
-              + '<Styles>'
-              + '<Style ss:ID="Currency"><NumberFormat ss:Format="Currency"></NumberFormat></Style>'
-              + '<Style ss:ID="Date"><NumberFormat ss:Format="Medium Date"></NumberFormat></Style>'
-              + '</Styles>'
-              + '{worksheets}</Workbook>'
-          , tmplWorksheetXML = '<Worksheet ss:Name="{nameWS}"><Table>{rows}</Table></Worksheet>'
-          , tmplCellXML = '<Cell{attributeStyleID}{attributeFormula}><Data ss:Type="{nameType}">{data}</Data></Cell>'
-          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
-          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
-      return function (tables, wsnames, wbname, appname) {
-          var ctx = "";
-          var workbookXML = "";
-          var worksheetsXML = "";
-          var rowsXML = "";
-    
-          for (var i = 0; i < tables.length; i++) {
-              if (!tables[i].nodeType) tables[i] = document.getElementById(tables[i]);
-              for (var j = 0; j < tables[i].rows.length; j++) {
-                  rowsXML += '<Row>'
-                  for (var k = 0; k < tables[i].rows[j].cells.length; k++) {
-                      var dataType = tables[i].rows[j].cells[k].getAttribute("data-type");
-                      var dataStyle = tables[i].rows[j].cells[k].getAttribute("data-style");
-                      var dataValue = tables[i].rows[j].cells[k].getAttribute("data-value");
-                      dataValue = (dataValue) ? dataValue : tables[i].rows[j].cells[k].innerHTML;
-                      var dataFormula = tables[i].rows[j].cells[k].getAttribute("data-formula");
-                      dataFormula = (dataFormula) ? dataFormula : (appname == 'Calc' && dataType == 'DateTime') ? dataValue : null;
-                      ctx = {
-                          attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
-                          , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
-                          , data: (dataFormula) ? '' : dataValue
-                          , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
-                      };
-                      rowsXML += format(tmplCellXML, ctx);
-                  }
-                  rowsXML += '</Row>'
-              }
-              ctx = { rows: rowsXML, nameWS: wsnames[i] || 'Sheet' + i };
-              worksheetsXML += format(tmplWorksheetXML, ctx);
-              rowsXML = "";
-          }
-    
-          ctx = { created: (new Date()).getTime(), worksheets: worksheetsXML };
-          workbookXML = format(tmplWorkbookXML, ctx);
-          console.log(workbookXML);
-          var link = document.createElement("A");
-          link.href = uri + base64(workbookXML);
-          link.download = wbname || 'Workbook.xls';
-          link.target = '_blank';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-      }
-    })();
-    
   </script>
   
 </body>

@@ -15,6 +15,7 @@ var tei = {
 const disabledUserGroups = "lUOT60N58M8;";
 const disabledTRTUserGroups = "iW2zvv8rc27";
 const disabledMAUserGroups = "c3KCmkPvNrq";
+const disabledEDUserGroups = "dFIS4yYdf6m";
 const dataSetId = "bnq1MlIycGX";
 const program = {
   //business plan
