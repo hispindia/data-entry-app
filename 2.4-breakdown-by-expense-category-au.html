@@ -410,8 +410,14 @@
       }
 
       $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`).val(variation.toLocaleString());
-      if(variation >= 0) $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-      else $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+      if(variation >= 0) {
+        $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
+        $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
+      }
+      else {
+        $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
+        $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
+      } 
 
       pushDataElementYear(`${dataElements.projectExpenseCategory[idx].variation}-${year}`, variation);
       

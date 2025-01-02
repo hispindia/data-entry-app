@@ -528,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             readonly
                             >
                           </div>
-                          <div class="invalid-feedback"> Error here 
+                          <div class="invalid-feedback feedback-${i} ${dataValues[i] && dataValues[i][dataElements.projectFocusAreaNew[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance
                           </div>
                         </td>`;
       projectRows += `</tr>

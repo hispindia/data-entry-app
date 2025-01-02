@@ -459,8 +459,7 @@ const maxWords = 200;
                     readonly
                     >
                   </div>
-                  <div class="invalid-feedback"> Error here 
-                  </div>
+                  <div class="invalid-feedback feedback-${i} ${dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance </div>
                 </td>`;
 projectRows += `</tr>
                   </tbody>
