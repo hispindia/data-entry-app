@@ -1,3 +1,4 @@
+const productList = 38;
 var eventSource = {};
 var rowIndex = 0;
 var combinedCost = 0;
@@ -6,6 +7,10 @@ var totalCost = 0;
 var unrestrictedCost = 0;
 var estimatedCost = 0;
 var estimatedCoreGrant = 0;
+
+var frieghtCostT1 = 1;
+var frieghtCostT2 =  0.4;
+var frieghtCostT3 = 0.25;
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -149,6 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
       yearIndex++
     }
     const dataSet = await fetchDataSet(year);
+    if(dataSet.values[dataElements.frieghtCost1]) frieghtCostT1 = Number(dataSet.values[dataElements.frieghtCost1]);
+    if(dataSet.values[dataElements.frieghtCost2]) frieghtCostT2 = Number(dataSet.values[dataElements.frieghtCost2]);
+    if(dataSet.values[dataElements.frieghtCost3]) frieghtCostT3 = Number(dataSet.values[dataElements.frieghtCost3]);
 
     const LMI =  await (await fetch(`../../organisationUnitGroups/Mh2lrJ4GFnH.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
     const UMI = await (await fetch(`../../organisationUnitGroups/klrSsDD70QO.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
@@ -339,6 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function displayOrderprojectCommodities(dataSet, dataValues,productCodeIds) {
     var projectRows = '';
     dataSet.dataElements.sections.forEach((section,index) => {
+    if(rowIndex<=productList) {
     projectRows += `
     <!--- sect 1 --->
     <div class="accordion">
@@ -380,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     </div>
     <!--- sect 1 --->`
-      
+    }
     })
     return projectRows;
   }
@@ -439,12 +448,12 @@ function calculateFreightCost(cost) {
   var value = 0;
   if(cost) {
     if(cost > 0 && cost <= 1000) {
-      value = cost
+      value = frieghtCostT1 * cost
     }
     else if(cost > 1000 && cost <= 4999) {
-      value = 0.4 * cost;
+      value = frieghtCostT2 * cost;
     } else {
-      value = 0.25 * cost;
+      value = frieghtCostT3 * cost;
     }
   }
   return value;
