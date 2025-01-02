@@ -164,9 +164,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(level2OU, dataValuesOU) {
     // const list = getPillarBudgetFA(dataValuesOU, level2OU);
 
-    const listOD = getFocusArea(dataValuesOU, level2OU);
-    document.getElementById('th-project-focusarea').innerHTML = listOD.tableHead;
-    document.getElementById('tb-project-focusarea').innerHTML = listOD.tableRow;
+    const listFA = getFocusArea(dataValuesOU, level2OU);
+    document.getElementById('th-project-focusarea').innerHTML = listFA.tableHead;
+    document.getElementById('tb-project-focusarea').innerHTML = listFA.tableRow;
 
     const listEB = getExpenseBudget(dataValuesOU, level2OU);
     document.getElementById('th-project-expBudget').innerHTML = listEB.tableHead;
@@ -183,359 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
     $('body').localize();
   }
 
-  function getExpenseBudget(dataValuesOU, level2OU) {
-
-    const year = document.getElementById("year-update").value;
-    const deList = [
-      {
-        id: 'OgPuoRimaat',
-        name: 'Country of Operation',
-        style: ''
-      },
-      {
-        id: 'Lv8wUjXV8fl',
-        name: 'Entity Code',
-        style: ''
-      },
-      {
-        id: 'HrHPzD3Talq',
-        name: 'Primary point of contact for follow-up on business plan'
-      },
-      {
-        id: 'MgoVYQLP3yT',
-        name: 'Contact Email'
-      },
-      {
-        id: '',
-        name: 'Formula-generated proposed grant amount (Year 1) (USD)'
-      },
-      {
-        id: '',
-        name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
-      },
-      {
-        id: '',
-        name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
-      },
-      {
-        id: 'year',
-        name: 'Year'
-      },
-      {
-        id: '',
-        name: 'Project Name'
-      },
-      {
-        id: '',
-        name: 'Expense Category'
-      },
-      {
-        id: '',
-        name: 'Budget by "Expense Category" (Year 1)'
-      },
-      {
-        id: '',
-        name: 'Budget by "Expense Category" (Year 2)'
-      },
-      {
-        id: '',
-        name: 'Budget by "Expense Category" (Year 3)'
-      },
-    ]
-    var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
-    deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
-    tableHead += '</tr>';
-
-    var tableRow = "";
-    dataValuesOU.forEach(item => {
-      level2OU.forEach(parent => parent.children.forEach(ou => {
-        if (ou.name == item.orgUnit) region = parent.name
-      }))
-      tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-
-      var values = {
-        ...item.attributes
-      };
-
-      for(let i = 1; i <=11; i++) {
-        values[`focusArea${i}`] = 0;
-        values[`focusArea${i}Per`] = 0;
-        values[`pillar${i}`] = 0;
-        values[`pillar${i}Per`] = 0;
-      }
-
-      values['totalFocusArea'] = 0;
-      values['totalFocusAreaPer'] = 0;
-      values['totalPillar'] = 0;
-      values['totalPillarPer'] = 0;
-      values['expBudget'] = 0;
-      
-      values['personnel'] = 0;
-      values['personnelPer'] = 0;
-      values['activities'] = 0;
-      values['activitiesPer'] = 0;
-      values['commodities'] = 0;
-      values['commoditiesPer'] = 0;
-      values['cost'] = 0;
-      values['costPer'] = 0;
-      values['expPer'] = 0;
-      values['totalExp'] = 0;
-
-      values['expBudget'] = item.dataValuesPB[year] && item.dataValuesPB[year]['zGn5c7EZLr0']?displayValue(item.dataValuesPB[year]['zGn5c7EZLr0']): '';
-
-      dataElements.projectFocusAreaNew.forEach((pfa, index) => {
-        pfa.focusAreas.forEach(fa => {
-          if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-            const val = JSON.parse(item.dataValuesFA[year][fa]);
-            
-            if (val.area == '1. Care: Static Clinic') values['focusArea1'] += Number(val.budget);
-            if (val.area == '2. Care: Outreach, mobile clinic, Community-based, delivery') values['focusArea2'] += Number(val.budget);
-            if (val.area == '3. Care: Other Services, enabled or referred (associated clinics)') values['focusArea3'] += Number(val.budget);
-            if (val.area == '4. Care: Social Marketing Services') values['focusArea4'] += Number(val.budget);
-            if (val.area == '5. Care: Digital Health Intervention and Selfcare') values['focusArea5'] += Number(val.budget);
-            if (val.area == '6. Advocacy') values['focusArea6'] += Number(val.budget);
-            if (val.area == '7. CSE') values['focusArea7'] += Number(val.budget);
-            if (val.area == '8. CSE Online, including social media') values['focusArea8'] += Number(val.budget);
-            if (val.area == '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting') values['focusArea9'] += Number(val.budget);
-            if (val.area == '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles') values['focusArea10'] += Number(val.budget);
-            if (val.area == '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures') values['focusArea11'] += Number(val.budget);
-
-            if (val.pillar == '1. Center Care on People') values['pillar1'] += Number(val.budget);
-            else if (val.pillar == '2. Move the Sexuality Agenda')values['pillar2'] += Number(val.budget);
-            else if (val.pillar == '3. Solidarity for Change') values['pillar3'] += Number(val.budget);
-            else if (val.pillar == '4. Nurture Our Federation') values['pillar4'] += Number(val.budget);
-
-          }
-        })
-      })
-
-      dataElements.projectExpenseCategory.forEach((pec, index) => {
-        if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) values['personnel'] +=  Number(item.dataValuesEC[year][pec.personnel]);
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) values['activities'] +=  Number(item.dataValuesEC[year][pec.activities]);
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) values['commodities'] +=  Number(item.dataValuesEC[year][pec.commodities]);
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) values['cost'] +=  Number(item.dataValuesEC[year][pec.cost]);
-        }      
-      })
-
-      values['personnelPer'] = (values['expBudget'] && values['personnel'] && values['personnel']/values['expBudget'] != "Infinity") ? (values['personnel']/values['expBudget']*100).toFixed(2): '';
-      values['activitiesPer'] = (values['expBudget'] && values['activities'] && values['activities']/values['expBudget'] != "Infinity") ? (values['activities']/values['expBudget']*100).toFixed(2): '';
-      values['commoditiesPer'] = (values['expBudget'] && values['commodities'] && values['commodities']/values['expBudget'] != "Infinity") ? (values['commodities']/values['expBudget']*100).toFixed(2): '';
-      values['costPer'] = (values['expBudget'] && values['cost'] && values['cost']/values['expBudget'] != "Infinity") ? (values['cost']/values['expBudget']*100).toFixed(2): '';
-      values['expPer'] = Math.round(Number(values['personnelPer']) + Number(values['activitiesPer']) + Number(values['commoditiesPer']) + Number(values['costPer']));
-      values['totalExp'] = Number(values['personnel']) + Number(values['activities']) + Number(values['commodities']) + Number(values['cost']);
-
-      values['focusArea1Per'] = (values['expBudget'] && values['focusArea1'] && values['focusArea1']/values['expBudget'] != "Infinity") ? (values['focusArea1']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea2Per'] = (values['expBudget'] && values['focusArea2'] && values['focusArea2']/values['expBudget'] != "Infinity") ? (values['focusArea2']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea3Per'] = (values['expBudget'] && values['focusArea3'] && values['focusArea3']/values['expBudget'] != "Infinity") ? (values['focusArea3']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea4Per'] = (values['expBudget'] && values['focusArea4'] && values['focusArea4']/values['expBudget'] != "Infinity") ? (values['focusArea4']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea5Per'] = (values['expBudget'] && values['focusArea5'] && values['focusArea5']/values['expBudget'] != "Infinity") ? (values['focusArea5']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea6Per'] = (values['expBudget'] && values['focusArea6'] && values['focusArea6']/values['expBudget'] != "Infinity") ? (values['focusArea6']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea7Per'] = (values['expBudget'] && values['focusArea7'] && values['focusArea7']/values['expBudget'] != "Infinity") ? (values['focusArea7']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea8Per'] = (values['expBudget'] && values['focusArea8'] && values['focusArea8']/values['expBudget'] != "Infinity") ? (values['focusArea8']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea9Per'] = (values['expBudget'] && values['focusArea9'] && values['focusArea9']/values['expBudget'] != "Infinity") ? (values['focusArea9']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea10Per'] = (values['expBudget'] && values['focusArea10'] && values['focusArea10']/values['expBudget'] != "Infinity") ? (values['focusArea10']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea11Per'] = (values['expBudget'] && values['focusArea11'] && values['focusArea11']/values['expBudget'] != "Infinity") ? (values['focusArea11']/values['expBudget']*100).toFixed(2): '';
-      
-
-      values['pillar1Per'] = (values['expBudget'] && values['pillar1'] && values['pillar1']/values['expBudget'] != "Infinity") ? (values['pillar1']/values['expBudget']*100).toFixed(2): '';
-      values['pillar2Per'] = (values['expBudget'] && values['pillar2'] && values['pillar2']/values['expBudget'] != "Infinity") ? (values['pillar2']/values['expBudget']*100).toFixed(2): '';
-      values['pillar3Per'] = (values['expBudget'] && values['pillar3'] && values['pillar3']/values['expBudget'] != "Infinity") ? (values['pillar3']/values['expBudget']*100).toFixed(2): '';
-      values['pillar4Per'] = (values['expBudget'] && values['pillar4'] && values['pillar4']/values['expBudget'] != "Infinity") ? (values['pillar4']/values['expBudget']*100).toFixed(2): '';
-      
-      for(let i=1; i<=11; i++) {
-        values['totalFocusArea'] += Number(values[`focusArea${i}`]);
-        values['totalFocusAreaPer'] += Number(values[`focusArea${i}Per`]);
-        values['totalPillar'] += Number(values[`pillar${i}`]);
-        values['totalPillarPer'] += Number(values[`pillar${i}Per`]);
-      }
-      values['totalFocusAreaPer'] = Math.round(values['totalFocusAreaPer']);
-      values['totalPillarPer'] = Math.round(values['totalPillarPer']);
-      
-      deList.forEach((de,index) => {
-        if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-        else  tableRow += `<td style="${de.style}">${values[de.id] ? displayValue(values[de.id]): ''}</td>`
-      })
-    tableRow += "</tr>";
-    })
-
-    return {
-      tableHead,
-      tableRow
-    }
-  }
-  function getTotalIncome(dataValuesOU, level2OU){
-    const year = document.getElementById("year-update").value;
-    const deList = [
-      {
-        id: 'OgPuoRimaat',
-        name: 'Country of Operation',
-        style: ''
-      },
-      {
-        id: 'Lv8wUjXV8fl',
-        name: 'Entity Code',
-        style: ''
-      },
-      {
-        id: 'HrHPzD3Talq',
-        name: 'Primary point of contact for follow-up on business plan'
-      },
-      {
-        id: 'MgoVYQLP3yT',
-        name: 'Contact Email'
-      },
-      {
-        id: '',
-        name: 'Formula-generated proposed grant amount (Year 1) (USD)'
-      },
-      {
-        id: '',
-        name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
-      },
-      {
-        id: '',
-        name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
-      },
-      {
-        id: 'year',
-        name: 'Year'
-      },
-      {
-        id: '',
-        name: 'Income Category'
-      },
-      {
-        id: '',
-        name: 'Income (Year 1)'
-      },
-      {
-        id: '',
-        name: 'Income (Year 2)'
-      },
-      {
-        id: '',
-        name: 'Income (Year 3)'
-      }
-    ]
-
-  var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
-  deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
-  tableHead += '</tr>';
-
-  
-  var tableRow = ''
-  dataValuesOU.forEach(item => {
-
-    var values = {}
-    deList.forEach(de => {
-      values[de.id] = 0;
-    })
-    values = {
-      ...values,
-      ...item.attributes,
-      totalIncome: 0,
-      expBudget: 0,
-    }
-
-    var region = '';
-    level2OU.forEach(parent => parent.children.forEach(ou => {
-      if (ou.name == item.orgUnit) region = parent.name
-    }))
-
-    tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-
-    dataElements.projectTotalIncome.forEach(pti => {
-      deList.forEach((de) => {
-        if(de.code && item.dataValuesTI[year] && de.code==item.dataValuesTI[year][pti.subCategory]) {
-          if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
-          if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
-          
-        }
-      })
-      if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.category]) {
-        if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.restricted]) {
-          values['totalIncome'] += Number(item.dataValuesTI[year][pti.restricted]);
-        }
-        if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.unrestricted]) {
-          values['totalIncome'] += Number(item.dataValuesTI[year][pti.unrestricted]);
-          values['ippfCore'] += Number(item.dataValuesTI[year][pti.unrestricted]);
-        }
-      }
-    })
-
-    values['ippfCorePer'] = values['ippfCore'] && values['totalIncome'] && (values['ippfCore']/values['totalIncome']) ? ((values['ippfCore']/values['totalIncome'])*100).toFixed(2)  : '';
-    
-    deList.forEach((de,index) => {
-      if(index>=9 && index<=16) {
-        values['totalLocallyGenerated'] += values[de.id];
-      }
-      if(index>=19 && index<=23) {
-        values['totalInternational'] += values[de.id];
-      }
-      if(index==26 || index==27) {
-        values['totalIppf'] += values[de.id];
-      }
-    })
-
-    values['percentLocallyGenerated'] = values['totalLocallyGenerated'] && values['totalIncome'] && (values['totalLocallyGenerated']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2) : '';
-    values['percentInternational'] = values['totalInternational'] && values['totalIncome'] && (values['totalInternational']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2)  : '';
-    values['percentIppf'] = values['totalIppf'] && values['totalIncome'] && (values['totalIppf']/values['totalIncome']) ? ((values['totalIppf']/values['totalIncome'])*100).toFixed(2)  : '';
-  
-    
-  if(item.dataValuesOC[year] && item.dataValuesOC[year][dataElements.orderCommoditiesCV['totalCost']]) {
-    values['EEH1KdXxA68'] = Math.round(item.dataValuesOC[year][dataElements.orderCommoditiesCV['totalCost']]);
-  }
-  if(item.dataValuesCS[year]) {
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['international']]) values['internationalDonors'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['international']]);
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['local']]) values['localIncome'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['local']]);
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['inkind']]) values['inkindDonations'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['inkind']]);
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['other']]) values['otherincome'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['other']]);
-    }
-    values['totalCommodities'] = Number(values['internationalDonors']) + Number(values['localIncome']) + Number(values['inkindDonations']) + Number(values['otherincome']);
-    if(values['totalCommodities'] && values['totalIncome']) values['percentTotalCommodities'] = (values['totalCommodities'] && values['totalIncome'] && values['totalCommodities']/values['totalIncome']) ? (( values['totalCommodities']/values['totalIncome'])*100).toFixed(2): '';
-    var yearIndex = -1;
-    for(let i = tei.year.start; i<=tei.year.end; i++) {
-      yearIndex++;
-      if(year==i) break;
-    }
-    if(item.dataValuesOD[year] && item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]) {
-      values['totalUnrestricted'] = Number(item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]);
-      values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]/values['totalIncome']) ? ((item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]/values['totalIncome'])*100).toFixed(2): ''
-    }
-
-    if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
-    if(values['totalUnrestricted']) values['nonIppfCore'] -= values['totalUnrestricted'];
-        
-    values['expBudget'] = item.dataValuesPB[year] && item.dataValuesPB[year]['zGn5c7EZLr0']?displayValue(item.dataValuesPB[year]['zGn5c7EZLr0']): '';
-
-    if(values['totalIncome']) values['financialPosition'] = values['totalIncome'];
-    if(values['expBudget']) values['financialPosition'] -= values['expBudget'];
-    
-    dataElements.valuesCoreFunding.donors.forEach((donor) => {
-      if(item.dataValuesVC[year] && item.dataValuesVC[year][donor.amountLocked]) {
-        values['amountUnlocked'] += Number(item.dataValuesVC[year][donor.amountLocked]);
-      }
-    })
-    values['amountUnlockedPer'] = values['amountUnlocked'] && values['totalIncome'] && (values['amountUnlocked']/values['totalIncome']) ? ((values['amountUnlocked']/values['totalIncome'])*100).toFixed(2)  : '';
-
-
-    deList.forEach((de,index) => {
-      if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-      else  tableRow += `<td style="${de.style}">${values[de.id] ? displayValue(values[de.id]): ''}</td>`
-    })
-    tableRow += '</tr>'
-    })
-
-
-  return {
-    tableHead,
-    tableRow
-  }
-  }
   function getFocusArea(dataValuesOU, level2OU) {
 
-    var rows = "";
     var tableRow = "";
     const deList = [
       {
@@ -557,15 +206,15 @@ document.addEventListener("DOMContentLoaded", function () {
         name: 'Contact Email'
       },
       {
-        id: '',
+        id: 'fkHkH5jcJV0',
         name: 'Formula-generated proposed grant amount (Year 1) (USD)'
       },
       {
-        id: '',
+        id: 'dhaMzFTSGrd',
         name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
       },
       {
-        id: '',
+        id: 'gQQoxkZsZnn',
         name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
       },
       {
@@ -612,19 +261,35 @@ document.addEventListener("DOMContentLoaded", function () {
       level2OU.forEach(parent => parent.children.forEach(ou => {
         if (ou.name == item.orgUnit) region = parent.name
       }))
-      rows += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
+      var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
       deList.forEach((de, index) => {
-        if (index <= (deList.length - 3)) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+        if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
       })
-
+      rows += `<td>${year}</td>`
+      
         dataElements.projectFocusAreaNew.forEach((pfa, index) => {
+        if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
           pfa.focusAreas.forEach(fa => {
-            if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-              const val = JSON.parse(item.dataValuesFA[year][fa]);
-              tableRow += rows;
-              tableRow += `<td>${val.area}</td><td>${val.pillar}</td></tr>`;
+            var values = {
+              name: item.dataValuesPD[year][dataElements.projectDescription[index]['name']],
+              area: '',
+              pillar: '',
+            };
+              for(let year = tei.year.start; year<=tei.year.end; year++) {
+                if (item.dataValuesFA[year] && item.dataValuesFA[year][fa]) {
+                  const val = JSON.parse(item.dataValuesFA[year][fa]);
+                  if(!values.area) values.area = val.area;
+                  if(!values.pillar) values.pillar = val.pillar;
+                  values[year] = val.budget;
+                } else values[year] = '';
+              }
+            if(values.area) {
+              tableRow += `${rows}<td>${values.name}</td><td>${values.area}</td><td>${values.pillar}</td>`;
+              for(let year = tei.year.start; year<=tei.year.end; year++) tableRow += `<td>${values[year]}</td>`;
+              tableRow += '</tr>';
             }
           })
+        }
         })
       })
     return {
@@ -632,6 +297,198 @@ document.addEventListener("DOMContentLoaded", function () {
       tableRow
     }
 
+  }
+
+  function getExpenseBudget(dataValuesOU, level2OU) {
+
+    const year = document.getElementById("year-update").value;
+    const deList = [
+      {
+        id: 'OgPuoRimaat',
+        name: 'Country of Operation',
+        style: ''
+      },
+      {
+        id: 'Lv8wUjXV8fl',
+        name: 'Entity Code',
+        style: ''
+      },
+      {
+        id: 'HrHPzD3Talq',
+        name: 'Primary point of contact for follow-up on business plan'
+      },
+      {
+        id: 'MgoVYQLP3yT',
+        name: 'Contact Email'
+      },
+      {
+        id: 'fkHkH5jcJV0',
+        name: 'Formula-generated proposed grant amount (Year 1) (USD)'
+      },
+      {
+        id: 'dhaMzFTSGrd',
+        name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
+      },
+      {
+        id: 'gQQoxkZsZnn',
+        name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
+      },
+      {
+        id: 'year',
+        name: 'Year'
+      },
+      {
+        id: '',
+        name: 'Project Name'
+      },
+      {
+        id: '',
+        name: 'Expense Category'
+      },
+      {
+        id: '',
+        name: 'Budget by "Expense Category" (Year 1)'
+      },
+      {
+        id: '',
+        name: 'Budget by "Expense Category" (Year 2)'
+      },
+      {
+        id: '',
+        name: 'Budget by "Expense Category" (Year 3)'
+      },
+    ]
+    var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
+    deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
+    tableHead += '</tr>';
+
+    var tableRow = "";
+    dataValuesOU.forEach(item => {
+      item.dataValuesOD[year] = {
+        ...item.dataValuesOD[year],
+        ...item.attributes
+      }
+      var region = '';
+      level2OU.forEach(parent => parent.children.forEach(ou => {
+        if (ou.name == item.orgUnit) region = parent.name
+      }))
+      var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
+      deList.forEach((de, index) => {
+        if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+      })
+      rows += `<td>${year}</td>`
+      dataElements.projectExpenseCategory.forEach((pec, index) => {
+        if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
+          let personnel = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Personnel</td>`;
+          let activities = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Direct project activities</td>`;
+          let commodities = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Commodities</td>`;
+          let cost = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Indirect/Suppost costs</td>`;
+
+          for(let year = tei.year.start; year <= tei.year.end; year++) {
+            personnel += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) ? item.dataValuesEC[year][pec.personnel]: ''}</td>`;
+            activities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) ? item.dataValuesEC[year][pec.activities]: ''}</td>`;
+            commodities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) ? item.dataValuesEC[year][pec.commodities]: ''}</td>`;
+            cost += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) ? item.dataValuesEC[year][pec.cost]: ''}</td>`
+          }
+          tableRow += `${rows}${personnel}</tr>`
+          tableRow += `${rows}${activities}</tr>`
+          tableRow += `${rows}${commodities}</tr>`
+          tableRow += `${rows}${cost}</tr>`
+        }      
+      })
+    })
+
+    return {
+      tableHead,
+      tableRow
+    }
+  }
+
+  function getTotalIncome(dataValuesOU, level2OU){
+    const year = document.getElementById("year-update").value;
+    const deList = [
+      {
+        id: 'OgPuoRimaat',
+        name: 'Country of Operation',
+        style: ''
+      },
+      {
+        id: 'Lv8wUjXV8fl',
+        name: 'Entity Code',
+        style: ''
+      },
+      {
+        id: 'HrHPzD3Talq',
+        name: 'Primary point of contact for follow-up on business plan'
+      },
+      {
+        id: 'MgoVYQLP3yT',
+        name: 'Contact Email'
+      },
+      {
+        id: 'fkHkH5jcJV0',
+        name: 'Formula-generated proposed grant amount (Year 1) (USD)'
+      },
+      {
+        id: 'dhaMzFTSGrd',
+        name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
+      },
+      {
+        id: 'gQQoxkZsZnn',
+        name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
+      },
+      {
+        id: 'year',
+        name: 'Year'
+      },
+      {
+        id: '',
+        name: 'Income Category'
+      },
+      {
+        id: '',
+        name: 'Income (Year 3)'
+      }
+    ]
+
+  var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
+  deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
+  tableHead += '</tr>';
+
+  
+  var tableRow = ''
+  dataValuesOU.forEach(item => {
+    item.dataValuesOD[year] = {
+      ...item.dataValuesOD[year],
+      ...item.attributes
+    }
+    var region = '';
+    level2OU.forEach(parent => parent.children.forEach(ou => {
+      if (ou.name == item.orgUnit) region = parent.name
+    }))
+    var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
+    deList.forEach((de, index) => {
+      if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+    })
+    rows += `<td>${year}</td>`;
+
+    var values = {};
+    dataElements.projectTotalIncome.forEach(pti => {
+        if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.category]) {
+          if(!values[item.dataValuesTI[year][pti.category]]) values[item.dataValuesTI[year][pti.category]] = 0;
+          if(item.dataValuesTI[year][pti.restricted]) values[item.dataValuesTI[year][pti.category]] += Number(item.dataValuesTI[year][pti.restricted]);
+          if(item.dataValuesTI[year][pti.unrestricted]) values[item.dataValuesTI[year][pti.category]] += Number(item.dataValuesTI[year][pti.unrestricted]);
+        }
+    })
+
+    tableRow += `${rows}<td>IPPF Income</td><td>${values['IPPF income']?values['IPPF income']: ''}</td></tr>`;
+    tableRow += `${rows}<td>International Income (Non-IPPF)</td><td>${values['International income (Non - IPPF)']? values['International income (Non - IPPF)']: ''}</td></tr>`;
+    tableRow += `${rows}<td>Locally generated income</td><td>${values['Locally generated income']?values['Locally generated income']: ''}</td></tr>`;
+    })
+  return {
+    tableHead,
+    tableRow
+  }
   }
   
   fetchOrganizationUnitUid();
