@@ -275,17 +275,19 @@ document.addEventListener("DOMContentLoaded", function () {
               area: '',
               pillar: '',
             };
-              for(let year = tei.year.start; year<=tei.year.end; year++) {
+              // for(let year = tei.year.start; year<=tei.year.end; year++) {
                 if (item.dataValuesFA[year] && item.dataValuesFA[year][fa]) {
                   const val = JSON.parse(item.dataValuesFA[year][fa]);
                   if(!values.area) values.area = val.area;
                   if(!values.pillar) values.pillar = val.pillar;
-                  values[year] = val.budget;
+                  values[year] = displayValue(val.budget);
                 } else values[year] = '';
-              }
+              // }
             if(values.area) {
               tableRow += `${rows}<td>${values.name}</td><td>${values.area}</td><td>${values.pillar}</td>`;
-              for(let year = tei.year.start; year<=tei.year.end; year++) tableRow += `<td>${values[year]}</td>`;
+              // for(let year = tei.year.start; year<=tei.year.end; year++){
+                tableRow += `<td></td><td></td><td>${values[year]}</td>`;
+              // } 
               tableRow += '</tr>';
             }
           })
@@ -379,17 +381,17 @@ document.addEventListener("DOMContentLoaded", function () {
       rows += `<td>${year}</td>`
       dataElements.projectExpenseCategory.forEach((pec, index) => {
         if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-          let personnel = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Personnel</td>`;
-          let activities = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Direct project activities</td>`;
-          let commodities = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Commodities</td>`;
-          let cost = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Indirect/Suppost costs</td>`;
+          let personnel = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Personnel</td><td></td><td></td>`;
+          let activities = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Direct project activities</td><td></td><td></td>`;
+          let commodities = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Commodities</td><td></td><td></td>`;
+          let cost = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Indirect/Suppost costs</td><td></td><td></td>`;
 
-          for(let year = tei.year.start; year <= tei.year.end; year++) {
-            personnel += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) ? item.dataValuesEC[year][pec.personnel]: ''}</td>`;
-            activities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) ? item.dataValuesEC[year][pec.activities]: ''}</td>`;
-            commodities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) ? item.dataValuesEC[year][pec.commodities]: ''}</td>`;
-            cost += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) ? item.dataValuesEC[year][pec.cost]: ''}</td>`
-          }
+          // for(let year = tei.year.start; year <= tei.year.end; year++) {
+            personnel += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) ? displayValue(item.dataValuesEC[year][pec.personnel]): ''}</td>`;
+            activities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) ? displayValue(item.dataValuesEC[year][pec.activities]): ''}</td>`;
+            commodities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) ? displayValue(item.dataValuesEC[year][pec.commodities]): ''}</td>`;
+            cost += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) ? displayValue(item.dataValuesEC[year][pec.cost]): ''}</td>`
+          // }
           tableRow += `${rows}${personnel}</tr>`
           tableRow += `${rows}${activities}</tr>`
           tableRow += `${rows}${commodities}</tr>`
@@ -447,6 +449,14 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       {
         id: '',
+        name: 'Income (Year 1)'
+      },
+      {
+        id: '',
+        name: 'Income (Year 2)'
+      },
+      {
+        id: '',
         name: 'Income (Year 3)'
       }
     ]
@@ -481,9 +491,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
-    tableRow += `${rows}<td>IPPF Income</td><td>${values['IPPF income']?values['IPPF income']: ''}</td></tr>`;
-    tableRow += `${rows}<td>International Income (Non-IPPF)</td><td>${values['International income (Non - IPPF)']? values['International income (Non - IPPF)']: ''}</td></tr>`;
-    tableRow += `${rows}<td>Locally generated income</td><td>${values['Locally generated income']?values['Locally generated income']: ''}</td></tr>`;
+    tableRow += `${rows}<td>IPPF Income</td><td></td><td></td><td>${values['IPPF income']? displayValue(values['IPPF income']): ''}</td></tr>`;
+    tableRow += `${rows}<td>International Income (Non-IPPF)</td><td></td><td></td><td>${values['International income (Non - IPPF)']? displayValue(values['International income (Non - IPPF)']): ''}</td></tr>`;
+    tableRow += `${rows}<td>Locally generated income</td><td></td><td></td><td>${values['Locally generated income']? displayValue(values['Locally generated income']): ''}</td></tr>`;
     })
   return {
     tableHead,
