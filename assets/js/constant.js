@@ -65,6 +65,7 @@ const programStage = {
   valueAddCoreFunding: "Bp1qxeFLXZI",
   roTRTFeedback: 'Vk2bvy4pYcb',
   trtFeedback:'OrGbL7zYBW0',
+  trtSummary:'ajXzMxGX505',
   //annual update
   auOrganisationDetails: "TKVrtesVq4i",
   auMembershipDetails: "jOJ5RcCN3LF",
