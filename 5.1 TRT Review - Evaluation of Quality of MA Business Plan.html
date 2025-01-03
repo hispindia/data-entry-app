@@ -40,21 +40,21 @@
         <ul class="navbar-nav navbar-right align-items-center ml-auto">
           <li>
             <div class="languag-wrap btn mr-1">
-              <span>
-                <i class="fa fa-globe" aria-hidden="true"></i>
-              </span>
-              <select>
-                <option selected>English</option>
-                <option>Spanish</option>
-                <option>Arabic</option>
-                <option>French</option>
-              </select>
+              <span><i class="fa fa-globe" aria-hidden="true"></i> </span>
+              <select id="languageSwitcher"></select>
             </div>
           </li>
           <li>
             <a class="btn btn-secondary d-flex align-items-center ml-1">
               <i class="fa fa-building-o" aria-hidden="true"></i>
-              <div>FPA INDIA</div>
+              <div>FACILITY</div>
+            </a>
+          </li>
+          <li>
+            <a class="btn btn-secondary d-flex align-items-center ml-1"
+              href="../../../dhis-web-commons-security/logout.action">
+              <i aria-hidden="true"></i>
+              <div>LOG OUT</div>
             </a>
           </li>
         </ul>
@@ -192,15 +192,14 @@
           <div class="section-body">
 
 
-
             <div class="top-detail-form mt-2">
               <div class="form-row">
                 <div class="form-group col-md-3">
                   <label for="">Budget Plan Cycle</label>
-                 <select class="form-control mt-1 ">
-                    <option selected>2023-2025</option>
-                    <option>2026-2027</option>
-                  </select>
+                  <select class="form-control" id="headerPeriod">
+                    <option value="2023 - 2025" selected>2023 - 2025</option>
+                    <option value="2026 - 2028">2026 - 2028</option>
+                </select>
                   <div class="invalid-feedback">
                     Error here
                   </div>
@@ -209,25 +208,26 @@
 
                 <div class="form-group col-md-3">
                   <label for="">Region</label>
-                  <input type="text" class="form-control mt-1" disabled id="" value="SAR">
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgId">
 
                 </div>
                 <div class="form-group col-md-3">
                   <label for="">MA</label>
-                  <input type="text" class="form-control mt-1" disabled id="" value="Nepal">
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgName">
                   <div class="invalid-feedback">
                     Error here
                   </div>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="">MA-ID</label>
-                  <input type="text" class="form-control mt-1" disabled id="" value="FPAN (205)">
+                  <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
                   <div class="invalid-feedback">
                     Error here
                   </div>
                 </div>
               </div>
             </div>
+
 
 
 
@@ -532,27 +532,32 @@
                       <tbody>
                           <tr>
                               <td><strong>Number of Criteria</strong></td>
+                              
                               <td>
-                                  <input type="text" value="" disabled="disabled" id="addressed"
-                                      class="form-control input-budget currency color-green text-center"
+                                  <input type="text"   disabled="disabled" 
+                                  id="uRu630qcl3q" 
+                                      class="form-control input-budget currency color-green text-center satisfactory" 
                                       disabled="">
                               </td>
                               <td>
                                   <div class="input-group">
-                                      <input type="text" value="" disabled="disabled" id="not-addressed-justified"
-                                          class="form-control input-budget currency color-pink text-center"
+                                      <input type="text"disabled="disabled" 
+                                      id="SHyd6eUE2Xj"
+                                          class="form-control input-budget currency color-pink text-center some-gaps"
                                           disabled="">
                                   </div>
                               </td>
 
                               <td>
-                                  <input type="text" disabled="disabled" value="" id="not-addressed"
-                                      class="form-control input-budget currency color-red text-center"
+                                  <input type="text" disabled="disabled" 
+                                      class="form-control input-budget currency color-red text-center significant-gaps"
+                                      id="Xco5HDgJyHd"
                                       disabled="">
                               </td>
                               <td>
-                                <input type="text" disabled="disabled" value="" id="not-addressed"
-                                    class="form-control input-budget currency color-red text-center"
+                                <input type="text" disabled="disabled" 
+                                id="PCl4YBczJVW" 
+                                    class="form-control input-budget currency color-red text-center not-applicable"
                                     disabled="">
                             </td>
                           </tr>
@@ -581,7 +586,7 @@
                                     data-target="#panel-body-1">
                                     <h4 class="d-flex align-items-center">
                                       <span class="number">1</span><span class="input-headings w-100"><input
-                                          class="w-100" type="text" value="Relevance" title="Relevance"></span>
+                                          class="w-100" type="text" value="Relevance" title="Relevance" readonly></span>
                                     </h4>
                                   </div>
                                   <div class="accordion-body collapse" id="panel-body-1" data-parent="#accordion">
@@ -606,9 +611,9 @@
                                           </td>
                                           <td style="border-left:none;width:211pt">
                                             <div class="form-group textbox-wrap mb-0">
-                                              <textarea class="form-control textlimit" id="text6"
-                                                maxlength="200"></textarea>
-                                              <div class="char-counter form-text text-muted" id="counter6">200 words
+                                              <textarea class="form-control textValue textlimit"  id="Jd42IU5i9YI" onchange="pushDataElement(this.id,this.value)"
+                                               ></textarea>
+                                              <div class="char-counter form-text text-muted" id="counter1">200 words
                                                 remaining</div>
                                               <div class="invalid-feedback"> Error here </div>
                                             </div>
@@ -616,9 +621,9 @@
 
                                           <td style="border-left:none;width:211pt">
                                             <div class="form-group textbox-wrap mb-0">
-                                              <textarea class="form-control textlimit" id="text6"
-                                                maxlength="200"></textarea>
-                                              <div class="char-counter form-text text-muted" id="counter6">200 words
+                                              <textarea class="form-control textValue textlimit" id="M5y1fKem4SC" onchange="pushDataElement(this.id,this.value)"
+                                                ></textarea>
+                                              <div class="char-counter form-text text-muted" id="counter2">200 words
                                                 remaining</div>
                                               <div class="invalid-feedback"> Error here </div>
                                             </div>
@@ -627,12 +632,12 @@
 
                                           <td style="border-left:none;width:211pt">
                                             <div class="form-group col-md-12">
-                                             <select class="form-control mt-1 selectBox">
+                                             <select class="form-control textOption mt-1 selectBox"  id ="oxL5NjKsg5s" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
                                                 <option value="">Select</option>
-                                                  <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                                  <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                                  <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                                  <option>Not Applicable</option>
+                                                  <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                                  <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                                  <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                                  <option value="Not Applicable">Not Applicable</option>
                                               </select>
                                               <div class="invalid-feedback">Error here </div>
                                             </div>
@@ -648,9 +653,9 @@
                                           </td>
                                           <td>
                                             <div class="form-group textbox-wrap mb-0">
-                                              <textarea class="form-control textlimit" id="text6"
-                                                maxlength="200"></textarea>
-                                              <div class="char-counter form-text text-muted" id="counter6">200 words
+                                              <textarea class="form-control textValue textlimit" id="o1f7QI574P5" onchange="pushDataElement(this.id,this.value)"
+                                              ></textarea>
+                                              <div class="char-counter form-text text-muted" id="counter3">200 words
                                                 remaining</div>
                                               <div class="invalid-feedback"> Error here </div>
                                             </div>
@@ -658,9 +663,9 @@
 
                                           <td>
                                             <div class="form-group textbox-wrap mb-0">
-                                              <textarea class="form-control textlimit" id="text6"
-                                                maxlength="200"></textarea>
-                                              <div class="char-counter form-text text-muted" id="counter6">200 words
+                                              <textarea class="form-control textValue textlimit"id="wrJMaKXcf6d" onchange="pushDataElement(this.id,this.value)"
+                                               ></textarea>
+                                              <div class="char-counter form-text text-muted" id="counter4">200 words
                                                 remaining</div>
                                               <div class="invalid-feedback"> Error here </div>
                                             </div>
@@ -669,12 +674,12 @@
 
                                           <td>
                                             <div class="form-group col-md-12">
-                                             <select class="form-control mt-1 selectBox">
-                                                <option value="">Select</option>
-                                                  <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                                  <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                                  <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                                  <option>Not Applicable</option>
+                                             <select class="form-control textOption mt-1 selectBox" id ="vl55Hml6fyv" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                              <option value="">Select</option>
+                                              <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                              <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                              <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                              <option value="Not Applicable">Not Applicable</option>
                                               </select>
                                               <div class="invalid-feedback">Error here </div>
                                             </div>
@@ -708,7 +713,7 @@
                                   data-target="#panel-body-2">
                                   <h4 class="d-flex align-items-center">
                                     <span class="number">2</span><span class="input-headings w-100"><input class="w-100"
-                                        type="text" value="Coherence" title="Coherence"></span>
+                                        type="text" value="Coherence" title="Coherence" readonly></span>
                                   </h4>
                                 </div>
                                 <div class="accordion-body collapse" id="panel-body-2" data-parent="#accordion">
@@ -734,9 +739,9 @@
                                         </td>
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text66"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter66">200 words
+                                            <textarea class="form-control textValue textlimit" id="lNHPbcSQxgA" onchange="pushDataElement(this.id,this.value)"
+                                              ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter5">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -744,8 +749,8 @@
 
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text6"
-                                              maxlength="200"></textarea>
+                                            <textarea class="form-control textValue textlimit" id="n0Yq1RgQBYX" onchange="pushDataElement(this.id,this.value)"
+                                              ></textarea>
                                             <div class="char-counter form-text text-muted" id="counter6">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
@@ -755,12 +760,12 @@
 
                                         <td>
                                           <div class="form-group col-md-12">
-                                           <select class="form-control mt-1 selectBox">
-                                              <option value="">Select</option>
-                                                <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                                <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                                <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                                <option>Not Applicable</option>
+                                           <select class="form-control textOption mt-1 selectBox" id ="DZiV13ZnM9s" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                            <option value="">Select</option>
+                                            <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                            <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                            <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                            <option value="Not Applicable">Not Applicable</option>
                                             </select>
                                             <div class="invalid-feedback">Error here </div>
                                           </div>
@@ -794,7 +799,7 @@
                                   data-target="#panel-body-3">
                                   <h4 class="d-flex align-items-center">
                                     <span class="number">3</span><span class="input-headings w-100"><input class="w-100"
-                                        type="text" value="Effectiveness" title="Effectiveness"></span>
+                                        type="text" value="Effectiveness" title="Effectiveness" readonly></span>
                                   </h4>
                                 </div>
                                 <div class="accordion-body collapse" id="panel-body-3" data-parent="#accordion">
@@ -820,9 +825,9 @@
                                         </td>
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text66"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter66">200 words
+                                            <textarea class="form-control textValue textlimit" id="Sq19IN4weoA" onchange="pushDataElement(this.id,this.value)"
+                                            ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter7">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -830,9 +835,9 @@
 
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text6"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter6">200 words
+                                            <textarea class="form-control textValue textlimit" id="qWjyvmiiVUI" onchange="pushDataElement(this.id,this.value)"
+                                             ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter8">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -841,12 +846,12 @@
 
                                         <td>
                                           <div class="form-group col-md-12">
-                                           <select class="form-control mt-1 selectBox">
-                                              <option value="">Select</option>
-                                                <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                                <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                                <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                                <option>Not Applicable</option>
+                                           <select class="form-control textOption mt-1 selectBox" id ="WD6eft8CJDN" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                            <option value="">Select</option>
+                                                  <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                                  <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                                  <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                                  <option value="Not Applicable">Not Applicable</option>
                                             </select>
                                             <div class="invalid-feedback">Error here </div>
                                           </div>
@@ -879,7 +884,7 @@
                                   data-target="#panel-body-4">
                                   <h4 class="d-flex align-items-center">
                                     <span class="number">4</span><span class="input-headings w-100"><input class="w-100"
-                                        type="text" value="Efficiency" title="Efficiency"></span>
+                                        type="text" value="Efficiency" title="Efficiency" readonly></span>
                                   </h4>
                                 </div>
                                 <div class="accordion-body collapse" id="panel-body-4" data-parent="#accordion">
@@ -905,9 +910,9 @@
                                         </td>
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text66"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter66">200 words
+                                            <textarea class="form-control textValue textlimit" id="dMcbpikuVth"  onchange="pushDataElement(this.id,this.value)"
+                                            ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter9">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -915,9 +920,9 @@
 
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text6"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter6">200 words
+                                            <textarea class="form-control textValue textlimit" id="qHI23TPezZx"  onchange="pushDataElement(this.id,this.value)"
+                                             ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter10">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -926,12 +931,12 @@
 
                                         <td>
                                           <div class="form-group col-md-12">
-                                           <select class="form-control mt-1 selectBox">
-                                              <option value="">Select</option>
-                                                <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                                <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                                <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                                <option>Not Applicable</option>
+                                           <select class="form-control textOption mt-1 selectBox"  id ="zR2WxSGUJ2E" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                            <option value="">Select</option>
+                                            <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                            <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                            <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                            <option value="Not Applicable">Not Applicable</option>
                                             </select>
                                             <div class="invalid-feedback">Error here </div>
                                           </div>
@@ -947,9 +952,9 @@
                                         </td>
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text66"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter66">200 words
+                                            <textarea class="form-control textValue textlimit" id="raJJyfvRsdw"  onchange="pushDataElement(this.id,this.value)"
+                                             ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter11">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -957,9 +962,9 @@
 
                                         <td>
                                           <div class="form-group textbox-wrap mb-0">
-                                            <textarea class="form-control textlimit" id="text6"
-                                              maxlength="200"></textarea>
-                                            <div class="char-counter form-text text-muted" id="counter6">200 words
+                                            <textarea class="form-control textValue textlimit" id="eHBBpVDCyIO"  onchange="pushDataElement(this.id,this.value)"
+                                             ></textarea>
+                                            <div class="char-counter form-text text-muted" id="counter12">200 words
                                               remaining</div>
                                             <div class="invalid-feedback"> Error here </div>
                                           </div>
@@ -968,12 +973,12 @@
 
                                         <td>
                                           <div class="form-group col-md-12">
-                                           <select class="form-control mt-1 selectBox">
-                                              <option value="">Select</option>
-                                                <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                                <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                                <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                                <option>Not Applicable</option>
+                                           <select class="form-control textOption mt-1 selectBox"  id ="kjpC984CLeq" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                            <option value="">Select</option>
+                                                  <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                                  <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                                  <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                                  <option value="Not Applicable">Not Applicable</option>
                                             </select>
                                             <div class="invalid-feedback">Error here </div>
                                           </div>
@@ -1012,7 +1017,7 @@
                               data-target="#panel-body-5">
                               <h4 class="d-flex align-items-center">
                                 <span class="number">5</span><span class="input-headings w-100"><input class="w-100"
-                                    type="text" value="Impact" title="Impact"></span>
+                                    type="text" value="Impact" title="Impact" readonly></span>
                               </h4>
                             </div>
                             <div class="accordion-body collapse" id="panel-body-5" data-parent="#accordion">
@@ -1040,8 +1045,8 @@
                                     </td>
                                     <td>
                                       <div class="form-group textbox-wrap mb-0">
-                                        <textarea class="form-control textlimit" id="text66" maxlength="200"></textarea>
-                                        <div class="char-counter form-text text-muted" id="counter66">200 words
+                                        <textarea class="form-control textValue textlimit" id="tKixEtodLyO" onchange="pushDataElement(this.id,this.value)"></textarea>
+                                        <div class="char-counter form-text text-muted" id="counter13">200 words
                                           remaining</div>
                                         <div class="invalid-feedback"> Error here </div>
                                       </div>
@@ -1049,9 +1054,9 @@
 
                                     <td>
                                       <div class="form-group textbox-wrap mb-0">
-                                        <textarea class="form-control textlimit" id="text6"
-                                          maxlength="200"></textarea>
-                                        <div class="char-counter form-text text-muted" id="counter6">200 words
+                                        <textarea class="form-control textValue textlimit" id="Tz6HP5PDTw6"
+                                        onchange="pushDataElement(this.id,this.value)"></textarea>
+                                        <div class="char-counter form-text text-muted" id="counter14">200 words
                                           remaining</div>
                                         <div class="invalid-feedback"> Error here </div>
                                       </div>
@@ -1060,12 +1065,12 @@
 
                                     <td>
                                       <div class="form-group col-md-12">
-                                       <select class="form-control mt-1 selectBox">
-                                          <option value="">Select</option>
-                                            <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                            <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                            <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                            <option>Not Applicable</option>
+                                       <select class="form-control textOption mt-1 selectBox"  id ="ErJLSBpqibp" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                        <option value="">Select</option>
+                                        <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                        <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                        <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                        <option value="Not Applicable">Not Applicable</option>
                                         </select>
                                         <div class="invalid-feedback">Error here </div>
                                       </div>
@@ -1081,8 +1086,8 @@
                                     </td>
                                     <td>
                                       <div class="form-group textbox-wrap mb-0">
-                                        <textarea class="form-control textlimit" id="text66" maxlength="200"></textarea>
-                                        <div class="char-counter form-text text-muted" id="counter66">200 words
+                                        <textarea class="form-control textValue textlimit" id="Ffa2YTl2Uxg" onchange="pushDataElement(this.id,this.value)"></textarea>
+                                        <div class="char-counter form-text text-muted" id="counter15">200 words
                                           remaining</div>
                                         <div class="invalid-feedback"> Error here </div>
                                       </div>
@@ -1090,9 +1095,9 @@
 
                                     <td>
                                       <div class="form-group textbox-wrap mb-0">
-                                        <textarea class="form-control textlimit" id="text6"
-                                          maxlength="200"></textarea>
-                                        <div class="char-counter form-text text-muted" id="counter6">200 words
+                                        <textarea class="form-control textValue textlimit" id="e172QKxhz0W"
+                                        onchange="pushDataElement(this.id,this.value)"></textarea>
+                                        <div class="char-counter form-text text-muted" id="counter16">200 words
                                           remaining</div>
                                         <div class="invalid-feedback"> Error here </div>
                                       </div>
@@ -1101,12 +1106,12 @@
 
                                     <td>
                                       <div class="form-group col-md-12">
-                                       <select class="form-control mt-1 selectBox">
-                                          <option value="">Select</option>
-                                            <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                            <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                            <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                            <option>Not Applicable</option>
+                                       <select class="form-control textOption mt-1 selectBox"  id ="FSPkOobr7az" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                        <option value="">Select</option>
+                                        <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                        <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                        <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                        <option value="Not Applicable">Not Applicable</option>
                                         </select>
                                         <div class="invalid-feedback">Error here </div>
                                       </div>
@@ -1155,7 +1160,7 @@
                             data-target="#panel-body-6">
                             <h4 class="d-flex align-items-center">
                               <span class="number">6</span><span class="input-headings w-100"><input class="w-100"
-                                  type="text" value="Sustainability" title="Sustainability"></span>
+                                  type="text" value="Sustainability" title="Sustainability" readonly></span>
                             </h4>
                           </div>
                           <div class="accordion-body collapse" id="panel-body-6" data-parent="#accordion">
@@ -1185,8 +1190,8 @@
                                   </td>
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text66" maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter66">200 words remaining
+                                      <textarea class="form-control textValue textlimit" id="VaUIQ4dhg56"  onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter17">200 words remaining
                                       </div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1194,9 +1199,9 @@
 
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text6"
-                                        maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter6">200 words
+                                      <textarea class="form-control textValue textlimit" id="LT9hkApYOzJ"
+                                      onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter18">200 words
                                         remaining</div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1205,12 +1210,12 @@
 
                                   <td>
                                     <div class="form-group col-md-12">
-                                     <select class="form-control mt-1 selectBox">
-                                        <option value="">Select</option>
-                                          <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                          <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                          <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                          <option>Not Applicable</option>
+                                     <select class="form-control textOption mt-1 selectBox"  id ="bmVTRUZzMLS" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                      <option value="">Select</option>
+                                      <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                      <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                      <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                      <option value="Not Applicable">Not Applicable</option>
                                       </select>
                                       <div class="invalid-feedback">Error here </div>
                                     </div>
@@ -1226,8 +1231,8 @@
                                   </td>
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text66" maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter66">200 words remaining
+                                      <textarea class="form-control textValue textlimit" id="kkhV7rjblyV" onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter19">200 words remaining
                                       </div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1235,9 +1240,9 @@
 
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text6"
-                                        maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter6">200 words
+                                      <textarea class="form-control textValue textlimit" id="t5isnUnovje"
+                                      onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter20">200 words
                                         remaining</div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1246,12 +1251,12 @@
 
                                   <td>
                                     <div class="form-group col-md-12">
-                                     <select class="form-control mt-1 selectBox">
-                                        <option value="">Select</option>
-                                          <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                          <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                          <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                          <option>Not Applicable</option>
+                                     <select class="form-control textOption mt-1 selectBox" id ="fHYf8a7wFWb" onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                      <option value="">Select</option>
+                                      <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                      <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                      <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                      <option value="Not Applicable">Not Applicable</option>
                                       </select>
                                       <div class="invalid-feedback">Error here </div>
                                     </div>
@@ -1268,8 +1273,8 @@
                                   </td>
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text66" maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter66">200 words remaining
+                                      <textarea class="form-control textValue textlimit" id="BNC6DHlVtrR"  onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter21">200 words remaining
                                       </div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1277,9 +1282,9 @@
 
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text6"
-                                        maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter6">200 words
+                                      <textarea class="form-control textValue textlimit" id="dt2xm6BSoRQ"
+                                      onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter22">200 words
                                         remaining</div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1288,12 +1293,12 @@
 
                                   <td>
                                     <div class="form-group col-md-12">
-                                     <select class="form-control mt-1 selectBox">
-                                        <option value="">Select</option>
-                                          <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                          <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                          <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                          <option>Not Applicable</option>
+                                     <select class="form-control textOption mt-1 selectBox"  id="IUopqmlWn4K"  onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                      <option value="">Select</option>
+                                      <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                      <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                      <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                      <option value="Not Applicable">Not Applicable</option>
                                       </select>
                                       <div class="invalid-feedback">Error here </div>
                                     </div>
@@ -1309,8 +1314,8 @@
                                   </td>
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text66" maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter66">200 words remaining
+                                      <textarea class="form-control textValue textlimit" id="sm9IRn1SZbC"  onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter23">200 words remaining
                                       </div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1318,9 +1323,9 @@
 
                                   <td>
                                     <div class="form-group textbox-wrap mb-0">
-                                      <textarea class="form-control textlimit" id="text6"
-                                        maxlength="200"></textarea>
-                                      <div class="char-counter form-text text-muted" id="counter6">200 words
+                                      <textarea class="form-control textValue textlimit" id="ECyF2WSqpUT"
+                                      onchange="pushDataElement(this.id,this.value)"></textarea>
+                                      <div class="char-counter form-text text-muted" id="counter24">200 words
                                         remaining</div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
@@ -1329,12 +1334,12 @@
 
                                   <td>
                                     <div class="form-group col-md-12">
-                                     <select class="form-control mt-1 selectBox">
-                                        <option value="">Select</option>
-                                          <option  style="color: #2dc937;" data-color='2dc937' value="satisfactory">Satisfactory</option>
-                                          <option style="color: #cc3232;" data-color='cc3232' value="some gaps">Some Gaps</option>
-                                          <option style="color: #db7b2b;" data-color='db7b2b'  value="significant gaps">Significant Gaps</option>
-                                          <option>Not Applicable</option>
+                                     <select class="form-control textOption mt-1 selectBox" id="y57oNCRc0F9"  onchange="pushDataElement(this.id,this.value);calculateCriteria();">
+                                      <option value="">Select</option>
+                                      <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
+                                      <option style="color: #cc3232;" data-color='cc3232' value="Some Gaps">Some Gaps</option>
+                                      <option style="color: #db7b2b;" data-color='db7b2b'  value="Significant Gaps">Significant Gaps</option>
+                                      <option value="Not Applicable">Not Applicable</option>
                                       </select>
                                       <div class="invalid-feedback">Error here </div>
                                     </div>
@@ -1426,195 +1431,53 @@
   </div>
   </div>
   </div>
-  <!-- General JS Scripts -->
-  <script src="assets/js/app.min.js"></script>
-  <!-- JS Libraies -->
-  <!-- Page Specific JS File -->
-  <!-- Template JS File -->
-  <script src="assets/js/scripts.js"></script>
-  <!-- Custom JS File -->
-  <script src="assets/js/select2.full.min.js"></script>
-  <script src="assets/js/forms-advanced-forms.js"></script>
-  <script src="assets/js/custom.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      // Add minus icon for collapse element which is open by default
-      $(".collapse.show").each(function () {
-        $(this).prev(".accordion-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-      });
-      // Toggle plus minus icon on show hide of collapse element
-      $(".collapse").on("show.bs.collapse", function () {
-        $(this).prev(".accordion-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-      }).on("hide.bs.collapse", function () {
-        $(this).prev(".accordion-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-      });
-    });
-  </script>
-  <script type="text/javascript">
-    const sliderEl4 = document.querySelector("#range4")
-    const sliderValue4 = document.querySelector(".value4")
-    sliderEl4.addEventListener("input", (event) => {
-      const tempSliderValue = event.target.value;
-      sliderValue4.textContent = tempSliderValue;
-      const progress = (tempSliderValue / sliderEl4.max) * 100;
-      sliderEl4.style.background = `linear-gradient(to right, #3abaf4 ${progress}%, #ccc ${progress}%)`;
-    })
-  </script>
-  <script type="text/javascript">
-    const sliderEl5 = document.querySelector("#range5")
-    const sliderValue5 = document.querySelector(".value5")
-    sliderEl5.addEventListener("input", (event) => {
-      const tempSliderValue = event.target.value;
-      sliderValue5.textContent = tempSliderValue;
-      const progress = (tempSliderValue / sliderEl5.max) * 100;
-      sliderEl5.style.background = `linear-gradient(to right, #3abaf4 ${progress}%, #ccc ${progress}%)`;
-    })
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('input.custom-switch-input[type="checkbox"]').click(function () {
-        $('input.custom-switch-input[type="checkbox"]').not(this).prop("checked", false);
-        var inputValue = $(this).attr("value");
-        $("." + inputValue).toggle().siblings(".box").hide()
-      });
-    });
-  </script>
-  <script>
-    var imgUpload = document.getElementById('upload_imgs'),
-      imgPreview = document.getElementById('img_preview'),
-      imgUploadForm = document.getElementById('img-upload-form'),
-      totalFiles, previewTitle, previewTitleText, img;
-    imgUpload.addEventListener('change', previewImgs, false);
-    imgUploadForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      alert('Images Uploaded! (not really, but it would if this was on your website)');
-    }, false);
-
-    function previewImgs(event) {
-      totalFiles = imgUpload.files.length;
-      if (!!totalFiles) {
-        imgPreview.classList.remove('quote-imgs-thumbs--hidden');
-        previewTitle = document.createElement('p');
-        previewTitle.style.fontWeight = 'bold';
-        previewTitleText = document.createTextNode(totalFiles + ' Total Images Selected');
-        previewTitle.appendChild(previewTitleText);
-        imgPreview.appendChild(previewTitle);
-      }
-      for (var i = 0; i < totalFiles; i++) {
-        img = document.createElement('img');
-        img.src = URL.createObjectURL(event.target.files[i]);
-        img.classList.add('img-preview-thumb');
-        imgPreview.appendChild(img);
-      }
-    }
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const textareas = document.querySelectorAll('.textlimit');
-      textareas.forEach((textarea, index) => {
-        const maxLength = textarea.getAttribute('maxlength');
-        const counter = document.getElementById('counter' + (index + 1));
-        const updateCounter = () => {
-          const remaining = maxLength - textarea.value.length;
-          counter.textContent = `${remaining} characters remaining`;
-        };
-        textarea.addEventListener('input', updateCounter);
-        updateCounter(); // initialize counter on page load
-      });
-    });
-  </script>
-
-
-
-  <script>
-    $(document).ready(function () {
-      $('#select-focus-area').change(function () {
-        // Check if the selected option has class 'center-care'
-        if ($(this).find('option:selected').hasClass('choose')) {
-          // Select the corresponding option in #select-pillar
-          $('#select-pillar').val('0'); // Selecting option with value '1' (pillar1)
-        }
-      });
-    });
-  </script>
-
-  <script>
-    $(document).ready(function () {
-      $('#select-focus-area').change(function () {
-        // Check if the selected option has class 'center-care'
-        if ($(this).find('option:selected').hasClass('center-care')) {
-          // Select the corresponding option in #select-pillar
-          $('#select-pillar').val('1'); // Selecting option with value '1' (pillar1)
-        }
-      });
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      $('#select-focus-area').change(function () {
-        // Check if the selected option has class 'center-care'
-        if ($(this).find('option:selected').hasClass('move-the-sexuality')) {
-          // Select the corresponding option in #select-pillar
-          $('#select-pillar').val('2'); // Selecting option with value '1' (pillar1)
-        }
-      });
-    });
-  </script>
-
-
-  <script>
-    $(document).ready(function () {
-      $('#select-focus-area').change(function () {
-        // Check if the selected option has class 'center-care'
-        if ($(this).find('option:selected').hasClass('solidarity')) {
-          // Select the corresponding option in #select-pillar
-          $('#select-pillar').val('3'); // Selecting option with value '1' (pillar1)
-        }
-      });
-    });
-  </script>
-
-
-  <script>
-    $(document).ready(function () {
-      $('#select-focus-area').change(function () {
-        // Check if the selected option has class 'center-care'
-        if ($(this).find('option:selected').hasClass('nature')) {
-          // Select the corresponding option in #select-pillar
-          $('#select-pillar').val('4'); // Selecting option with value '1' (pillar1)
-        }
-      });
-    });
-  </script>
- <script>
-      function changeColorOnSelect(selectElement) {
-        selectElement.addEventListener('change', function() {
-          const selectedOption = this.options[this.selectedIndex];
-          const selectedColor = selectedOption.getAttribute('data-color');
-          this.style.color = `#${selectedColor}`; 
-        });
-      }
-
-      document.addEventListener("DOMContentLoaded", function() {
-        const selectElements = document.querySelectorAll('.selectBox');
-        selectElements.forEach(select => {
-          changeColorOnSelect(select);
+      <!-- General JS Scripts -->
+      <script src="assets/js/app.min.js"></script>
+      <!--Constants-->
+      <script src="assets/js/constant.js"></script>
+    <!--Translation-->
+    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="assets/js/translation.js"></script>
+      <!-- JS Libraies -->
+      <script src="assets/js/api/events.js"></script>
+      <script src="assets/js/api/eventPush.js"></script>
+      <script src="assets/js/api/func.js"></script>
+      <!-- Page Specific JS File -->
+      <script src="assets/js/forms/businessplan/evalution-ma.js"></script>
+      <!-- Template JS File -->
+      <script src="assets/js/scripts.js"></script>
+      <!-- Custom JS File -->
+      <script src="assets/js/select2.full.min.js"></script>
+      <script src="assets/js/forms-advanced-forms.js"></script>
+      <script src="assets/js/custom.js"></script>
+  
+    <script>
+      //textarea word limit
+      document.addEventListener('DOMContentLoaded', function () {
+        const textareas = document.querySelectorAll('.textlimit');
+        textareas.forEach((textarea, index) => {
+          const counter = document.getElementById(`counter${index + 1}`);
+          const updateCounter = () => {
+  
+            const words = textarea.value.trim().split(/\s+/)
+  
+            if (words.length >= maxWords) {
+              textarea.value = words.slice(0, maxWords[`#counter${index + 1}`]).join(' ');
+              return
+            }
+  
+            if (textarea.value) {
+              counter.textContent = `${(maxWords - words.length)} words remaining `;
+            } else counter.textContent = `${maxWords} words remaining `;
+          };
+          textarea.addEventListener('input', updateCounter);
+          updateCounter(); // initialize counter on page load
         });
       });
-      document.addEventListener("DOMContentLoaded", function () {
-  // Add event listener to each list item
-  document.querySelectorAll(".nav-link").forEach(function (element) {
-    element.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default action
-      var targetPage = event.currentTarget.getAttribute("data-target");
-      if (targetPage) {
-        window.location.href = targetPage;
-      }
-    });
-  });
-})
+    </script>
 
-</script>
 
 </body>
 
