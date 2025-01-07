@@ -1,3 +1,4 @@
+const productList = 38;
 var eventSource = {};
 var rowIndex = 0;
 var combinedCost = 0;
@@ -191,16 +192,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tableBody = '';
     if(dataSet.length) {
-      dataSet[0].dataElements.sections.forEach(section => {
-        var  ouLength = 0;
+      var  ouLength = 0;
         level2OU.forEach(headOU => {
           ouLength += headOU.children.length
         });
-
-
-
-        tableBody += `<tr><td colspan="${(8+(ouLength*2))}" style="background:#50C878;font-weight:bold">${section.name}</td></tr>`
+      dataSet[0].dataElements.sections.forEach(section => {
+        if(rowIndex<=productList) {
+          tableBody += `<tr><td colspan="${(8+(ouLength*2))}" style="background:#50C878;font-weight:bold">${section.name}</td></tr>`
           section.dataElements.forEach((dataElement) => {
+         
           const rate = dataSet[0]['values'][dataElement.id] ? dataSet[0]['values'][dataElement.id]: '';
           const description = dataElement.description.split(';');
           const rowVal = rowValues(level2OU, rowIndex, dataValues);
@@ -221,8 +221,8 @@ document.addEventListener("DOMContentLoaded", function () {
           
           rowIndex++;
           })
-
-        })
+        }
+      })
 
         tableBody +=`<tr>
         <td colspan="8">total Product Request</td>`

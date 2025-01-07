@@ -8,9 +8,9 @@ var unrestrictedCost = 0;
 var estimatedCost = 0;
 var estimatedCoreGrant = 0;
 
-var frieghtCostT1 = 1;
-var frieghtCostT2 =  0.4;
-var frieghtCostT3 = 0.25;
+var freightCostT1 = 1;
+var freightCostT2 =  0.4;
+var freightCostT3 = 0.25;
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -154,9 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
       yearIndex++
     }
     const dataSet = await fetchDataSet(year);
-    if(dataSet.values[dataElements.frieghtCost1]) frieghtCostT1 = Number(dataSet.values[dataElements.frieghtCost1]);
-    if(dataSet.values[dataElements.frieghtCost2]) frieghtCostT2 = Number(dataSet.values[dataElements.frieghtCost2]);
-    if(dataSet.values[dataElements.frieghtCost3]) frieghtCostT3 = Number(dataSet.values[dataElements.frieghtCost3]);
+    if(dataSet.values[dataElements.freightCost1]) freightCostT1 = Number(dataSet.values[dataElements.freightCost1]);
+    if(dataSet.values[dataElements.freightCost2]) freightCostT2 = Number(dataSet.values[dataElements.freightCost2]);
+    if(dataSet.values[dataElements.freightCost3]) freightCostT3 = Number(dataSet.values[dataElements.freightCost3]);
 
     const LMI =  await (await fetch(`../../organisationUnitGroups/Mh2lrJ4GFnH.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
     const UMI = await (await fetch(`../../organisationUnitGroups/klrSsDD70QO.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
@@ -448,12 +448,12 @@ function calculateFreightCost(cost) {
   var value = 0;
   if(cost) {
     if(cost > 0 && cost <= 1000) {
-      value = frieghtCostT1 * cost
+      value = freightCostT1 * cost
     }
     else if(cost > 1000 && cost <= 4999) {
-      value = frieghtCostT2 * cost;
+      value = freightCostT2 * cost;
     } else {
-      value = frieghtCostT3 * cost;
+      value = freightCostT3 * cost;
     }
   }
   return value;

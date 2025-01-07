@@ -122,9 +122,9 @@ const dataElements = {
   organisation: "isOgz4tNDbM",
   incomeProvided: "mXSWPVPMkSt",
   yearlyAmount: ["fkHkH5jcJV0", "dhaMzFTSGrd", "gQQoxkZsZnn"],
-  frieghtCost1: 'hS6nqiqlgCL',
-  frieghtCost2: 'z96KUORotMJ',
-  frieghtCost3: 'sSkWs0vxf6i',
+  freightCost1: 'hS6nqiqlgCL',
+  freightCost2: 'z96KUORotMJ',
+  freightCost3: 'sSkWs0vxf6i',
   orderCommoditiesCV: {
     unrestrictedCost: "IWOY5XRXtuC",
     estimatedCost: "AuBi8BS1QiZ",

@@ -1,3 +1,4 @@
+const productList = 38;
 var rowIndex = 0;
 var combinedCost = 0;
 var totalCost = 0;
@@ -283,6 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function displayOrderprojectCommodities(dataSet, dataValues) {
     var projectRows = '';
     dataSet.dataElements.sections.forEach((section,index) => {
+    if(rowIndex<=productList) {
     projectRows += `
     <!--- sect 1 --->
     <div class="accordion">
@@ -325,6 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
     <!--- sect 1 --->`
       
+    }
     })
     return projectRows;
   }
