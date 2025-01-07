@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchOrganizationUnitUid();
     });
 
-    document
+  document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
       fetchEvents();
@@ -31,26 +31,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    async function fetchOrganizationUnitUid() {
-      try {
-        const response = await fetch(
-          `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const apiOUGroup = await fetch(
-          `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+  async function fetchOrganizationUnitUid() {
+    try {
+      const response = await fetch(
+        `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
-        const data = await response.json();
-        const resOUGroup = await apiOUGroup.json();
+      const apiOUGroup = await fetch(
+        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      const resOUGroup = await apiOUGroup.json();
 
       if (data.organisationUnits && data.organisationUnits.length > 0) {
         document.getElementById("headerOrgName").value =
@@ -65,16 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
             fpaIndiaDiv.textContent = data.organisationUnits[0].name;
           }
         }
-        
+
 
         const orgUnitGroup = resOUGroup.organisationUnits;
 
         data.organisationUnits.forEach(orgUnits => {
-          if(orgUnits.level == 1) { 
+          if (orgUnits.level == 1) {
             level2OU = orgUnits.children;
-          } else if(orgUnits.level == 2) { 
+          } else if (orgUnits.level == 2) {
             level2OU.push(orgUnits);
-          } else if(orgUnits.parent) {
+          } else if (orgUnits.parent) {
             level2OU.push(orgUnits.parent);
           }
         });
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
           })
         })
-    
+
         $('.aoc-reporting').hide();
         $('.trt-review').hide()
 
@@ -118,46 +118,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     var dataElementOUValues = {};
-    for(let headOU of level2OU) {
+    for (let headOU of level2OU) {
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
-      for(let ou of headOU.children) {
-      $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
-       
+      for (let ou of headOU.children) {
+        $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
+
         const event = await events.get(ou.id);
-        if(event.trackedEntityInstances.length) {
-          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program 
-          || enroll.program == program.auOrganisationDetails
-          || enroll.program == program.auProjectBudget
-          || enroll.program == program.auProjectExpenseCategory
-          || enroll.program == program.auProjectFocusArea
+        if (event.trackedEntityInstances.length) {
+          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program
+            || enroll.program == program.auOrganisationDetails
+            || enroll.program == program.auProjectBudget
+            || enroll.program == program.auProjectExpenseCategory
+            || enroll.program == program.auProjectFocusArea
+            || enroll.program == program.auIncomeDetails
           );
           dataElementOUValues[ou.id] = {
             od: {}, //organization details
             pb: {}, //project budget
             ec: {}, //expense category
-            fa: {} //focus area
+            fa: {}, //focus area
+            ti: {} //total income
           }
-          const dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails,dataElements.year.id) //data values year wise
-          if(dataValuesOD && dataValuesOD[year]) dataElementOUValues[ou.id]['od'] = dataValuesOD[year]
+          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data values year wise
+          if (dataValuesOD && dataValuesOD[year]) dataElementOUValues[ou.id]['od'] = dataValuesOD[year]
 
-          const dataValuesPB =  getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,dataElements.year.id) //data values year wise
-          if(dataValuesPB && dataValuesPB[year]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[year]
+          const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, dataElements.year.id) //data values year wise
+          if (dataValuesPB && dataValuesPB[year]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[year]
 
-          const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory,dataElements.year.id) //data values year wise
-          if(dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['ec'] = dataValuesEC[year]
+          const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, dataElements.year.id) //data values year wise
+          if (dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['ec'] = dataValuesEC[year]
 
-          const dataValuesFA =  getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea ,dataElements.year.id) //data values year wise
-          if(dataValuesFA && dataValuesFA[year]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[year]
+          const dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, dataElements.year.id) //data values year wise
+          if (dataValuesFA && dataValuesFA[year]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[year]
+
+          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
+          if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[year]
         }
       }
     }
-    
-    populateProgramEvents(level2OU,dataElementOUValues);
-    
+
+    populateProgramEvents(level2OU, dataElementOUValues);
+
   }
 
   // Function to populate program events data
-  function populateProgramEvents(level2OU,dataValues) {
+  function populateProgramEvents(level2OU, dataValues) {
 
 
     let projectRows = displayBudgetTotals(level2OU, dataValues);
@@ -165,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     $("#loader").empty();
 
-          
+
     // Localize content
     $('body').localize();
   }
@@ -182,24 +187,36 @@ document.addEventListener("DOMContentLoaded", function () {
     <th style="background:#276696;color:white;text-align:center;">Variance Focus Area</th>
     <th style="background:#276696;color:white;text-align:center;">Total Budget by Expense Category</th>
     <th style="background:#276696;color:white;text-align:center;">Variance Expense Category</th>
+    <th style="background:#276696;color:white;text-align:center;">Total Income</th>
+    <th style="background:#276696;color:white;text-align:center;">financial Position</th>
     </tr>`
-    
+
     $('#table-head').html(tableHead);
 
     var tableBody = '';
     level2OU.forEach(headOU => {
-      tableBody += `<tr><td colspan="9" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
+      tableBody += `<tr><td colspan="11" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       headOU.children.forEach(ou => {
-        const totalBudget = dataValues[ou.id] && dataValues[ou.id]['pb']['zGn5c7EZLr0']?displayValue(dataValues[ou.id]['pb']['zGn5c7EZLr0']): '';
-        const fund = dataValues[ou.id] && dataValues[ou.id]['od']['gQQoxkZsZnn']?displayValue(dataValues[ou.id]['od']['gQQoxkZsZnn']): '';
-        const coreFunding = dataValues[ou.id] && dataValues[ou.id]['pb']['x4ER7X2zTOm']?displayValue(dataValues[ou.id]['pb']['x4ER7X2zTOm']): '';
-        const totalBudgetVariance = displayValue(fund-coreFunding);
-        const focusAreaBudget = dataValues[ou.id] && dataValues[ou.id]['fa']['zGn5c7EZLr0']?displayValue(dataValues[ou.id]['fa']['zGn5c7EZLr0']): '';
-        const focusAreaVariance =  displayValue(totalBudget-focusAreaBudget);
-        const expenseCategory = dataValues[ou.id] && dataValues[ou.id]['ec']['zGn5c7EZLr0']?displayValue(dataValues[ou.id]['ec']['zGn5c7EZLr0']): '';
-        const expenseCategoryVariance =  displayValue(totalBudget-expenseCategory);
-        
+        const totalBudget = dataValues[ou.id] && dataValues[ou.id]['pb']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['pb']['zGn5c7EZLr0']) : '';
+        const fund = dataValues[ou.id] && dataValues[ou.id]['od']['gQQoxkZsZnn'] ? displayValue(dataValues[ou.id]['od']['gQQoxkZsZnn']) : '';
+        const coreFunding = dataValues[ou.id] && dataValues[ou.id]['pb']['x4ER7X2zTOm'] ? displayValue(dataValues[ou.id]['pb']['x4ER7X2zTOm']) : '';
+        const totalBudgetVariance = displayValue(fund - coreFunding);
+        const focusAreaBudget = dataValues[ou.id] && dataValues[ou.id]['fa']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['fa']['zGn5c7EZLr0']) : '';
+        const focusAreaVariance = displayValue(totalBudget - focusAreaBudget);
+        const expenseCategory = dataValues[ou.id] && dataValues[ou.id]['ec']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['ec']['zGn5c7EZLr0']) : '';
+        const expenseCategoryVariance = displayValue(totalBudget - expenseCategory);
+        var totalIncome = 0;
+
+        dataElements.projectTotalIncome.forEach(pti => {
+          if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.restricted]) {
+            totalIncome += Number(dataValues[ou.id]['ti'][pti.restricted]);
+          }
+          if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.unrestricted]) {
+            totalIncome += Number(dataValues[ou.id]['ti'][pti.unrestricted]);
+          }
+        })
+
         tableBody += `<tr>
         <td>${ou.name}</td>
         <td style="text-align:center;">${totalBudget}</td>
@@ -210,10 +227,12 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="background:${colorCode(focusAreaVariance)};text-align:center;">${focusAreaVariance} </td>
         <td style="text-align:center;">${expenseCategory} </td>
         <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${expenseCategoryVariance} </td>
+        <td style="text-align:center;">${displayValue(totalIncome)} </td>
+        <td style="text-align:center;">${displayValue(totalIncome - expenseCategory)} </td>
         </tr>`
       })
     })
-    
+
     return tableBody;
   }
 
@@ -222,20 +241,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function displayValue(input) {
- let num = typeof input === "string" ? parseFloat(input) : input;
+  let num = typeof input === "string" ? parseFloat(input) : input;
 
- if (isNaN(num)) {
-     return "";
- }
+  if (isNaN(num)) {
+    return "";
+  }
 
- if (num % 1 === 0) {
+  if (num % 1 === 0) {
     return num.toString();
- } else {
+  } else {
     return num.toFixed(2);
- }
+  }
 }
 
 function colorCode(num) {
-  if(Number(num) == 0) return ''
+  if (Number(num) == 0) return ''
   else return 'red'
 }
