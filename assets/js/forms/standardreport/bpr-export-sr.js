@@ -594,7 +594,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 'financialPosition',
-      name: `Financal position`,
+      name: `Financial position`,
       style: 'background:#e97132;'
     },
     {
@@ -703,6 +703,16 @@ document.addEventListener("DOMContentLoaded", function () {
       name: 'As percentage of total income',
       style: 'background:#c00000;'
     },{
+      id: 'totalIncomeControl',
+      code: '',
+      name: 'Total Income(Control) ',
+      style: 'background:#2596be;'
+    },{
+      id: 'totalIncomePer',
+      code: '',
+      name: 'Total Income as percentage (Control) ',
+      style: 'background:#2596be;'
+    },{
       id: 'amountUnlocked',
       code: '',
       name: 'Total value add of IPPf Unrestricted',
@@ -792,19 +802,22 @@ document.addEventListener("DOMContentLoaded", function () {
     deList.forEach((de,index) => {
       if(index>=9 && index<=16) {
         values['totalLocallyGenerated'] += values[de.id];
+        values['totalIncomeControl'] += values[de.id];
       }
       if(index>=19 && index<=23) {
         values['totalInternational'] += values[de.id];
+        values['totalIncomeControl'] += values[de.id];
       }
       if(index==26 || index==27) {
         values['totalIppf'] += values[de.id];
+        values['totalIncomeControl'] += values[de.id];
       }
     })
 
     values['percentLocallyGenerated'] = values['totalLocallyGenerated'] && values['totalIncome'] && (values['totalLocallyGenerated']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2) : '';
     values['percentInternational'] = values['totalInternational'] && values['totalIncome'] && (values['totalInternational']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2)  : '';
     values['percentIppf'] = values['totalIppf'] && values['totalIncome'] && (values['totalIppf']/values['totalIncome']) ? ((values['totalIppf']/values['totalIncome'])*100).toFixed(2)  : '';
-  
+    values['totalIncomePer'] = values['totalIncome'] && values['totalIncomeControl'] && (values['totalIncomeControl']/values['totalIncome']) ? ((values['totalIncomeControl']/values['totalIncome'])*100).toFixed(2)  : '';
     
   if(item.dataValuesOC[year] && item.dataValuesOC[year][dataElements.orderCommoditiesCV['totalCost']]) {
     values['EEH1KdXxA68'] = Math.round(item.dataValuesOC[year][dataElements.orderCommoditiesCV['totalCost']]);
@@ -830,16 +843,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
     if(values['totalUnrestricted']) values['nonIppfCore'] -= values['totalUnrestricted'];
     
-    // dataElements.projectExpenseCategory.forEach((pec, index) => {
-    //   if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-    //     if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) values['expBudget']  +=  Number(item.dataValuesEC[year][pec.personnel]);
-    //     if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) values['expBudget'] +=  Number(item.dataValuesEC[year][pec.activities]);
-    //     if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) values['expBudget']  +=  Number(item.dataValuesEC[year][pec.commodities]);
-    //     if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) values['expBudget']  +=  Number(item.dataValuesEC[year][pec.cost]);
-    //   }      
-    // })
+    dataElements.projectExpenseCategory.forEach((pec, index) => {
+      if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
+        if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) values['expBudget']  +=  Number(item.dataValuesEC[year][pec.personnel]);
+        if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) values['expBudget'] +=  Number(item.dataValuesEC[year][pec.activities]);
+        if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) values['expBudget']  +=  Number(item.dataValuesEC[year][pec.commodities]);
+        if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) values['expBudget']  +=  Number(item.dataValuesEC[year][pec.cost]);
+      }      
+    })
     
-    values['expBudget'] = item.dataValuesPB[year] && item.dataValuesPB[year]['zGn5c7EZLr0']?displayValue(item.dataValuesPB[year]['zGn5c7EZLr0']): '';
+    // values['expBudget'] = item.dataValuesEC[year] && item.dataValuesEC[year]['zGn5c7EZLr0']?displayValue(item.dataValuesEC[year]['zGn5c7EZLr0']): '';
 
     if(values['totalIncome']) values['financialPosition'] = values['totalIncome'];
     if(values['expBudget']) values['financialPosition'] -= values['expBudget'];
