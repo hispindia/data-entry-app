@@ -551,29 +551,19 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group mb-0">
-
                                                                             <div class="form-check form-check-inline">
-                                                                                <input class="form-check-input"
-                                                                                    type="radio" checked=""
-                                                                                    id="" value="option1"
-                                                                                    name="value1111">
-                                                                                <label
-                                                                                    class="form-check-label text-success text-bold"
-                                                                                    for=""><strong>Approved
-                                                                                        with full
-                                                                                        Allocation</strong></label>
-                                                                            </div>
-
-
-                                                                            <div class="form-check form-check-inline">
-                                                                                <input class="form-check-input"
-                                                                                    type="radio" id=""
-                                                                                    value="option2" name="value1111">
-                                                                                <label
-                                                                                    class="form-check-label text-danger text-bold"
-                                                                                    for="">Send Back to MA
+                                                                                <input class="form-check-input" type="radio" id="inlineradio3"  value="Approved with full allocation" name="RI5UuEEpxun" > 
+                                                                                <label class="form-check-label text-success text-bold" for="inlineradio3"><strong>Approved
+                                                                                    with full
+                                                                                    Allocation</strong></label>
+                                                                              </div>
+                                                                              <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input" type="radio" id="inlineradio4" value="Send Back to MA for Revisions"  name="RI5UuEEpxun" >
+                                                                                <label class="form-check-label text-danger text-bold" for="inlineradio4">Send Back to MA
                                                                                     for Revisions</label>
-                                                                            </div>
+                                                                              </div>
+
+                                                                            
 
                                                                         </div>
 
@@ -592,12 +582,8 @@
                                                                     </td>
                                                                     <td style="width: 80%;">
                                                                         <div class="form-group textbox-wrap mb-0">
-                                                                            <textarea class="form-control textlimit"
-                                                                                id="text66" maxlength="200"></textarea>
-                                                                            <div class="char-counter form-text text-muted"
-                                                                                id="counter66"
-                                                                                style="text-align: left;">200 words
-                                                                                remaining</div>
+                                                                            <textarea class="form-control textValue textlimit" id="KVhKnLlbTXI"   onchange="pushDataElement(this.id,this.value)"></textarea>
+										                                                                <div class="char-counter form-text text-muted" id="counter1">200 words remaining</div>
                                                                             <div class="invalid-feedback"> Error here
                                                                             </div>
                                                                         </div>
@@ -611,12 +597,8 @@
                                                                     </td>
                                                                     <td style="width: 80%;">
                                                                         <div class="form-group textbox-wrap mb-0">
-                                                                            <textarea class="form-control textlimit"
-                                                                                id="text66" maxlength="200"></textarea>
-                                                                            <div class="char-counter form-text text-muted"
-                                                                                id="counter66"
-                                                                                style="text-align: left;">200 words
-                                                                                remaining</div>
+                                                                            <textarea class="form-control textValue textlimit" id="BERmaldxyMY"   onchange="pushDataElement(this.id,this.value)"></textarea>
+                                                                            <div class="char-counter form-text text-muted" id="counter2">200 words remaining</div>
                                                                             <div class="invalid-feedback"> Error here
                                                                             </div>
                                                                         </div>
@@ -1229,6 +1211,30 @@
 
 
     </script>
+     <script>
+        //textarea word limit
+        document.addEventListener('DOMContentLoaded', function () {
+          const textareas = document.querySelectorAll('.textlimit');
+          textareas.forEach((textarea, index) => {
+            const counter = document.getElementById(`counter${index + 1}`);
+            const updateCounter = () => {
+    
+              const words = textarea.value.trim().split(/\s+/)
+    
+              if (words.length >= maxWords) {
+                textarea.value = words.slice(0, maxWords[`#counter${index + 1}`]).join(' ');
+                return
+              }
+    
+              if (textarea.value) {
+                counter.textContent = `${(maxWords - words.length)} words remaining `;
+              } else counter.textContent = `${maxWords} words remaining `;
+            };
+            textarea.addEventListener('input', updateCounter);
+            updateCounter(); // initialize counter on page load
+          });
+        });
+      </script>
 
 </body>
 

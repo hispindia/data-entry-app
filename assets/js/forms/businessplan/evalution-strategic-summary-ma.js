@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ...dataValuesTrt
     }
     //disable feilds
-    if (tei.disabled) {
+    if (dataValues.disabled) {
       $('.textValue').prop('disabled', true);
     }
 
@@ -149,6 +149,11 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#counter${index + 1}`).text(`${maxWords} words remaining`)
       }
     })
+    document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+      if (dataValues[radio.name] && radio.value === dataValues[radio.name]) {
+        radio.checked = true;  // Set it as checked
+      }
+    })
     document.querySelectorAll('.textOption').forEach((textVal, index) => {
       if (dataValues[textVal.id]) {
         textVal.value = dataValues[textVal.id];
@@ -160,7 +165,20 @@ document.addEventListener("DOMContentLoaded", function () {
    
   }
 
+
   fetchOrganizationUnitUid();
+});
+document.addEventListener('DOMContentLoaded', function () {
+  const allRadios = document.querySelectorAll('input[type="radio"]');
+  // Add an onchange event listener to each radio button
+  allRadios.forEach(radio => {
+    radio.addEventListener('change', (event) => {
+        if (event.target.checked) {
+          pushDataElement(event.target.name, event.target.value);
+        }
+    });
+  }); 
+  
 });
 function submitNarrative() {
   alert("Event Saved SuccessFully")
