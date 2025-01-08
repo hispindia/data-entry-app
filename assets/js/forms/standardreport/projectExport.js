@@ -418,7 +418,7 @@ function getProjectFocusAreas(names, dv, deIds) {
       }
     })
     areas.forEach((area, index1) => {
-      if (index1 == 0) tableRows += `<tr><td>${index+1}</td><td rowspan=${areas.length}>${dv[tei.year.start][deIds[index].name] ? dv[tei.year.start][deIds[index].name] : ''}</td>${area}<td rowspan=${areas.length}>${dv[tei.year.start] && dv[tei.year.start][deIds[index].comment] ? dv[tei.year.start][deIds[index].comment] : ''}</td></tr>`;
+      if (index1 == 0) tableRows += `<tr><td rowspan=${areas.length}>${index+1}</td><td rowspan=${areas.length}>${dv[tei.year.start][deIds[index].name] ? dv[tei.year.start][deIds[index].name] : ''}</td>${area}<td rowspan=${areas.length}>${dv[tei.year.start] && dv[tei.year.start][deIds[index].comment] ? dv[tei.year.start][deIds[index].comment] : ''}</td></tr>`;
       else tableRows += `<tr>${area}</tr>`;
     })
   })
