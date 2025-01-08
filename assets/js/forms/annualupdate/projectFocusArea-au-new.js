@@ -210,20 +210,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       if(!data) {
         data = await response.json();
-        
-        const userDisabled = data.userGroups.find(group => disabledUserGroups.includes(group.id));
-        const trtUserDisabled = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
-        if(userDisabled || trtUserDisabled) {
-            tei.disabled = true;
-        } 
-        let disabledValues = '';
-        if(!userDisabled) {
-            disabledValues += 'aoc'
-        }
-        if(!trtUserDisabled) {
-            disabledValues += 'trt'
-        }
-        window.localStorage.setItem('hideReporting', disabledValues);
+
+        const userConfig = userConfig()
+        tei.disabled = userConfig.disabled;
+        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
       }
 
       if(window.localStorage.getItem("hideReporting").includes('aoc')) {
