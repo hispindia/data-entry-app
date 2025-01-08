@@ -38,7 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var yearOptions = '';
     for(let year=tei.year.start; year <=tei.year.end; year++) {
-      yearOptions += `<option value="${year}">${year}</option>`;
+      if(year==tei.year.end)  yearOptions += `<option selected value="${year}">${year}</option>`;
+      else yearOptions += `<option value="${year}">${year}</option>`;
     }
     document.getElementById('year-update').innerHTML = yearOptions;
 
