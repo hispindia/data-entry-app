@@ -24,7 +24,7 @@
                 );
                 const data = await response.json();
                 
-                const userConfig = userConfig()
+                const userConfig = userGroupConfig(data)
                 tei.disabled = userConfig.disabled;
                 window.localStorage.setItem('hideReporting', userConfig.disabledValues);
 

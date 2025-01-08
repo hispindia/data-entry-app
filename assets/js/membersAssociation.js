@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       orgUnitGroup = resOUGroup.organisationUnits;
 
-      const userConfig = userConfig()
+      const userConfig = userGroupConfig(data)
       tei.disabled = userConfig.disabled;
       window.localStorage.setItem('hideReporting', userConfig.disabledValues);
     
@@ -46,6 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if(window.localStorage.getItem("hideReporting").includes('trt')) {
       $('.trt-review').hide();
+    }
+    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+      $('.aoc-reporting').show();
+    }
+    if(window.localStorage.getItem("hideReporting").includes('core')) {
+      $('.core-users').show();
     }
 
       var level2OU = [];

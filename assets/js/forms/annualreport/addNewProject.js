@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if(!data) {
                 data = await response.json();
 
-                const userConfig = userConfig();
+                const userConfig = userGroupConfig(data);
                 tei.disabled = userConfig.disabled;
                 window.localStorage.setItem('hideReporting', userConfig.disabledValues);
               }
@@ -206,8 +206,14 @@ document.addEventListener("DOMContentLoaded", function () {
               if(window.localStorage.getItem("hideReporting").includes('trt')) {
                 $('.trt-review').hide();
               }
+              if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+                $('.aoc-reporting').show();
+              }
+              if(window.localStorage.getItem("hideReporting").includes('core')) {
+                $('.core-users').show();
+              }
 
-        
+
             if (data.organisationUnits && data.organisationUnits.length > 0) {
                 tei.orgUnit = data.organisationUnits[0].id;
 

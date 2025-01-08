@@ -52,6 +52,23 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
       const resOUGroup = await apiOUGroup.json();
 
+      const userConfig = userGroupConfig(data)
+      tei.disabled = userConfig.disabled;
+      window.localStorage.setItem('hideReporting', userConfig.disabledValues);
+
+      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
+        $('.aoc-reporting').hide();
+      }
+      if (window.localStorage.getItem("hideReporting").includes('trt')) {
+        $('.trt-review').hide();
+      }
+      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+        $('.aoc-reporting').show();
+      }
+      if(window.localStorage.getItem("hideReporting").includes('core')) {
+        $('.core-users').show();
+      }
+
       if (data.organisationUnits && data.organisationUnits.length > 0) {
         document.getElementById("headerOrgName").value =
           data.organisationUnits[0].name;

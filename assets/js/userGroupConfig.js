@@ -1,21 +1,24 @@
-const userConfig = () => {
+const userGroupConfig = (data) => {
     var disabled=false, disabledValues = ''
-    const userDisabled = data.userGroups.find(group => disabledUserGroups.includes(group.id));
-    const trtUserDisabled = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
-    const edUserDisabled = data.userGroups.find(group => disabledEDUserGroups.includes(group.id));
+    const aocUsers = data.userGroups.find(group => disabledUserGroups.includes(group.id));
+    const trtUsers = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
+    const edUsers = data.userGroups.find(group => disabledEDUserGroups.includes(group.id));
+    const coreTeam = data.userGroups.find(group => coreTeamGroups.includes(group.id));
 
-    if (userDisabled || trtUserDisabled) {
+    if (aocUsers || trtUsers) {
         disabled = true;
     }
-    let disabledValues = '';
-    if (!userDisabled) {
+    if (!aocUsers) {
         disabledValues += 'aoc'
     }
-    if (!trtUserDisabled) {
+    if (!trtUsers) {
         disabledValues += 'trt'
     }
-    if(edUserDisabled) {
+    if(edUsers) {
         disabledValues += 'ed'
+    }
+    if(coreTeam) {
+        disabledValues += 'core'
     }
     return {disabled, disabledValues}
 }
