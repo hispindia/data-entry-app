@@ -64,7 +64,7 @@ const maxWords = 300;
         $('.trt-review').hide();
       }
       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').show();
+        $('.aoc-users').show();
       }
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
