@@ -489,6 +489,10 @@ function getTotalIncome(dv, deIds) {
       tableBody += `<td>${displayValue(restrictedTotal)}</td><td>${displayValue(unrestrictedTotal)}</td></tr>`
     })
   })
+
+  tableBody += `<tr><td>Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="2">How much income did they provide?</td></tr>`;
+  tableBody += `<tr><td>${ dv[dataElements.organisation] ? dv[dataElements.organisation]: ''}</td><td colspan="2">${ dv[dataElements.incomeProvided] ? dv[dataElements.incomeProvided]: ''}</td></tr>`;
+
   return tableBody;
 
 }

@@ -480,6 +480,9 @@ function getValuesCoreFunding(dv, deIds) {
     } 
   
   })
+
+  tableRows += `<tr><td colspan="2">Briefly describe the value add of the IPPF unrestricted funding towards achieving your strategic priorities for the funding cycle</td><td colspan="3">${dv[tei.year.start] && dv[tei.year.start][deIds.comments] ? displayValue(dv[tei.year.start][deIds.comments]): ''}</td></tr>`
+
   return tableRows;
 
 }
@@ -623,6 +626,11 @@ function getTotalIncome(dv, deIds) {
       tableBody += `</td>`
     })
   })
+
+  tableBody += `<tr><td>Year</td><td colspan="4">Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="3">How much income did they provide?</td></tr>`;
+  for (let year = tei.year.start; year <= tei.year.end; year++) {
+    tableBody += `<tr><td>${year}</td><td colspan="4">${ dv[year] && dv[year][dataElements.organisation] ? dv[year][dataElements.organisation]: ''}</td><td colspan="3">${ dv[year] && dv[year][dataElements.incomeProvided] ? dv[year][dataElements.incomeProvided]: ''}</td></tr>`;
+  }
   return tableBody;
 
 }
