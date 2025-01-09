@@ -92,9 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
           })
         })
-    
-        $('.aoc-reporting').hide();
-        $('.trt-review').hide()
+  
 
         dataElements.period.value = document.getElementById("headerPeriod").value;
         tei.year = {

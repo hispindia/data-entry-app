@@ -104,8 +104,6 @@ document.addEventListener("DOMContentLoaded", function () {
           })
         })
     
-        $('.aoc-reporting').hide();
-        $('.trt-review').hide()
 
         dataElements.period.value = document.getElementById("headerPeriod").value;
         tei.program = program.auCommodities;
