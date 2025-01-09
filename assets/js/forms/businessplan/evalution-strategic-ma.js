@@ -162,21 +162,27 @@ function submitNarrative() {
 
 function calculateCriteria(){
   var countAddressed = 0;
-  var coumtAddressedJustified = 0;
-  var coumtNotAddressed= 0;
+  var countAddressedJustified = 0;
+  var countNotAddressed= 0;
  
-document.querySelectorAll('.textOption').forEach((textVal, index) => {
+  document.querySelectorAll('.textOption').forEach((textVal, index) => {
      if(textVal.value == "Addressed" ) countAddressed++;
-     if(textVal.value == "Not Addressed" ) coumtNotAddressed++;
-     if(textVal.value == "Not Addressed but Justified" ) coumtAddressedJustified++;
-    
-    })
+     if(textVal.value == "Not Addressed" ) countNotAddressed++;
+     if(textVal.value == "Not Addressed but Justified" ) countAddressedJustified++;
+  })
+
+  if($('.addressed').val()!=countAddressed) {
     $('.addressed').val(countAddressed);
-    $('.Not-Addressed-But-Justified').val(coumtAddressedJustified);
-    $('.Not-Addressed').val(coumtNotAddressed);
-  
     pushDataElement($('.addressed').attr('id') , countAddressed)
-    pushDataElement($('.Not-Addressed-But-Justified').attr('id') , coumtAddressedJustified)
-    pushDataElement($('.Not-Addressed').attr('id') , coumtNotAddressed)
+  }
+  if($('.Not-Addressed-But-Justified').val()!=countAddressedJustified) {
+    $('.Not-Addressed-But-Justified').val(countAddressedJustified);
+    pushDataElement($('.Not-Addressed-But-Justified').attr('id') , countAddressedJustified)
+  }
+  if($('.Not-Addressed').val()!=countNotAddressed) {
+    $('.Not-Addressed').val(countNotAddressed);
+    pushDataElement($('.Not-Addressed').attr('id') , countNotAddressed)
+  }
+
    
 }

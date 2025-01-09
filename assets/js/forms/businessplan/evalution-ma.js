@@ -164,22 +164,30 @@ function submitNarrative() {
 
 function calculateCriteria(){
   var countSatisfactory = 0;
-  var coumtSomeGaps = 0;
-  var coumtSignificantGaps= 0;
-  var coumtNotApplicable = 0;
+  var countSomeGaps = 0;
+  var countSignificantGaps= 0;
+  var countNotApplicable = 0;
 
-document.querySelectorAll('.textOption').forEach((textVal, index) => {
-     if(textVal.value == "Satisfactory" ) countSatisfactory++;
-     if(textVal.value == "Some Gaps" ) coumtSomeGaps++;
-     if(textVal.value == "Significant Gaps" ) coumtSignificantGaps++;
-     if(textVal.value == "Not Applicable" ) coumtNotApplicable++;    
-    })
+  document.querySelectorAll('.textOption').forEach((textVal, index) => {
+      if(textVal.value == "Satisfactory" ) countSatisfactory++;
+      if(textVal.value == "Some Gaps" ) countSomeGaps++;
+      if(textVal.value == "Significant Gaps" ) countSignificantGaps++;
+      if(textVal.value == "Not Applicable" ) countNotApplicable++;    
+  })
+  if($('.satisfactory').val()!=countSatisfactory) {
     $('.satisfactory').val(countSatisfactory);
-    $('.some-gaps').val(coumtSomeGaps);
-    $('.significant-gaps').val(coumtSignificantGaps);
-    $('.not-applicable').val(coumtNotApplicable);
     pushDataElement($('.satisfactory').attr('id') , countSatisfactory)
-    pushDataElement($('.some-gaps').attr('id') , coumtSomeGaps)
-    pushDataElement($('.significant-gaps').attr('id') , coumtSignificantGaps)
-    pushDataElement($('.not-applicable').attr('id') , coumtNotApplicable)
+  }
+  if($('.some-gaps').val()!=countSomeGaps) {
+    $('.some-gaps').val(countSomeGaps);
+    pushDataElement($('.some-gaps').attr('id') , countSomeGaps)
+  }
+  if($('.significant-gaps').val()!=countSignificantGaps) {
+    $('.significant-gaps').val(countSignificantGaps);
+    pushDataElement($('.significant-gaps').attr('id') , countSignificantGaps)
+  }
+  if($('.not-applicable').val()!=countNotApplicable) {
+    $('.not-applicable').val(countNotApplicable);
+    pushDataElement($('.not-applicable').attr('id') , countNotApplicable)
+  }
 }

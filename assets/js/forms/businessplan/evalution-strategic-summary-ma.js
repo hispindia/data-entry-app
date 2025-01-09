@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
         data.trackedEntityInstances[0].enrollments.filter(
           (enroll) => enroll.program == tei.program
         );
-     const dataValuesTrt =   getProgramStageEvents(filteredPrograms, programStage.trtFeedback, tei.program, dataElements.period.id)
 
       tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, dataElements.period.id) //data vlaues year wise
       if (!tei.dataValues[dataElements.period.value]) {
@@ -117,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         tei.event = tei.dataValues[dataElements.period.value]['event'];
       }
 
-      populateProgramEvents(tei.dataValues[dataElements.period.value],dataValuesTrt[dataElements.period.value]);
+      populateProgramEvents(tei.dataValues[dataElements.period.value]);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -125,11 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValuesSummary, dataValuesTrt) {
-    const dataValues = {
-      ...dataValuesSummary,
-      ...dataValuesTrt
-    }
+  function populateProgramEvents(dataValues) {
     //disable feilds
     if (dataValues.disabled) {
       $('.textValue').prop('disabled', true);
