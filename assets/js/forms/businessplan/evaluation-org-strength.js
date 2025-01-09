@@ -82,7 +82,7 @@ const maxWords = 200;
   async function fetchEvents() {
 
     tei.program = program.roTRTFeedback;
-    tei.programStage = programStage.roTRTFeedback;
+    tei.programStage = programStage.trtFeedback;
     dataElements.period.value = document.getElementById("headerPeriod").value;
 
     tei.year = {
@@ -100,6 +100,7 @@ const maxWords = 200;
         (enroll) => enroll.program == tei.program 
       );
 
+      dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, dataElements.period.id) //data vlaues year wise
       tei.dataValues  =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.period.id) //data vlaues year wise
         if(!tei.dataValues[dataElements.period.value]) {
           tei.dataValues[dataElements.period.value] = {}
@@ -116,7 +117,7 @@ const maxWords = 200;
         tei.event = tei.dataValues[dataElements.period.value]['event'];
       }
     
-      populateProgramEvents(tei.dataValues[dataElements.period.value]);
+      populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesMA[dataElements.period.value] ? dataValuesMA[dataElements.period.value]: {}));
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -124,10 +125,11 @@ const maxWords = 200;
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues) {
+  function populateProgramEvents(dataValues, dataValuesMA) {
     //disable feilds
     if(tei.disabled) {
       $('.textValue').prop('disabled', true);
+      $('.textValue-prev').prop('disabled', true);
        // Disable all radio button elements
        $('input[type="radio"]').prop('disabled', true);
 
@@ -135,6 +137,19 @@ const maxWords = 200;
        $('button').prop('disabled', true);
     }
    
+    document.querySelectorAll('.textValue-prev').forEach((textVal,index) => {
+      if(dataValuesMA[textVal.id]) {
+        if(textVal.id=="Lltsm7QaRXf" || textVal.id== "EcmhrXnurQb" || textVal.id== "kK927QgR8nD") {
+          $('.row-new').show();
+        }
+        textVal.value = dataValuesMA[textVal.id];
+        $(`#counter${index+1}`).text(`${(maxWords- (textVal.value ? textVal.value.trim().split(/\s+/).length: 0))} words remaining`)
+      }
+      else {
+        textVal.value = '';
+        $(`#counter${index+1}`).text(`${maxWords} words remaining`)
+      }
+    })
     document.querySelectorAll('.textValue').forEach((textVal,index) => {
       if(dataValues[textVal.id]) {
         if(textVal.id=="Lltsm7QaRXf" || textVal.id== "EcmhrXnurQb" || textVal.id== "kK927QgR8nD") {
