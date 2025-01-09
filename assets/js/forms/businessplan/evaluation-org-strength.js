@@ -163,11 +163,7 @@ const maxWords = 200;
         $(`#counter${index+1}`).text(`${maxWords} words remaining`)
       }
     })
-    document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-      if (dataValues[radio.name] && radio.value === dataValues[radio.name]) {
-        radio.checked = true;  // Set it as checked
-      }
-    })
+    getRisk(dataValues);
   }
 
   fetchOrganizationUnitUid();
@@ -180,11 +176,27 @@ document.addEventListener('DOMContentLoaded', function () {
     radio.addEventListener('change', (event) => {
         if (event.target.checked) {
           pushDataElement(event.target.name, event.target.value);
+         getRisk()
         }
     });
   }); 
-  
 });
+
+function getRisk(dataValues) {
+  var riskValues = 0;
+  document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+    if(dataValues) {
+      if (dataValues[radio.name] && radio.value === dataValues[radio.name]) {
+        radio.checked = true;  // Set it as checked
+        if(radio.value == "true")riskValues++;
+      }
+    }
+    else if(radio.checked==true && radio.value=="true") riskValues++;
+    
+  })
+  $('#risk-identified').val(riskValues)
+}
+
 function submitNarrative() {
   alert("Event Saved SuccessFully")
 }
