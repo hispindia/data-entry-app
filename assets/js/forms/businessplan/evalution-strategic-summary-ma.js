@@ -1,4 +1,5 @@
 const maxWords = 200;
+var eventSummaryB = '';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -72,23 +73,43 @@ document.addEventListener("DOMContentLoaded", function () {
             fpaIndiaDiv.textContent = data.organisationUnits[0].name;;
           }
         }
+
         fetchEvents();
       }
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
   }
+  async function fetchDataSet(selectedYear) {
+
+    const values = {};
+    for(let year = selectedYear.start; year<=selectedYear.end; year++) {
+      values[year] = {}
+      const dataValueSet = await dataSet.getValues(dataSetFunds, tei.orgUnit,year);
+      dataValueSet.dataValues.forEach(dv => values[year][dv.dataElement] = dv.value);
+    }
+    return {
+      values
+    }
+  }
 
   async function fetchEvents() {
-
+    
     tei.program = program.roTRTFeedback;
-    tei.programStage = programStage.trtSummary;
+    tei.programStage = programStage.trtSummaryA;
     dataElements.period.value = document.getElementById("headerPeriod").value;
 
     tei.year = {
       ...tei.year,
       start: dataElements.period.value.split(' - ')[0],
       end: dataElements.period.value.split(' - ')[1]
+    }
+
+    const dataSet = await fetchDataSet(tei.year);
+    var yearIndex = 0;
+    for(let year = tei.year.start; year <=tei.year.end;year++) {
+      yearIndex++;
+      if(dataSet.values[year]['QQngZ31YwUi'])$(`#proposed-year${yearIndex}`).val(dataSet.values[year]['QQngZ31YwUi'])
     }
     const data = await events.get(tei.orgUnit);
 
@@ -116,7 +137,23 @@ document.addEventListener("DOMContentLoaded", function () {
         tei.event = tei.dataValues[dataElements.period.value]['event'];
       }
 
-      populateProgramEvents(tei.dataValues[dataElements.period.value]);
+      var dataValuesB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
+      if (!dataValuesB[dataElements.period.value]) {
+        dataValuesB[dataElements.period.value] = {}
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryB = await createEvent(data);
+        data.forEach(element => {
+          dataValuesB[dataElements.period.value][element.dataElement] = element.value;
+        })
+      }
+      else {
+        eventSummaryB = dataValuesB[dataElements.period.value]['event'];
+      }
+
+      populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesB[[dataElements.period.value]]? dataValuesB[dataElements.period.value]: ''));
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -124,15 +161,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues) {
+  function populateProgramEvents(dataValuesA, dataValuesB) {
     //disable feilds
-    if (dataValues.disabled) {
-      $('.textValue').prop('disabled', true);
+    if (dataValuesA.disabled) {
+      $('.textValue-summaryA').prop('disabled', true);
+    }
+    if (dataValuesB.disabled) {
+      $('.textValue-summaryB').prop('disabled', true);
     }
 
-    document.querySelectorAll('.textValue').forEach((textVal, index) => {
-      if (dataValues[textVal.id]) {
-        textVal.value = dataValues[textVal.id];
+    document.querySelectorAll('.textValue-summaryB').forEach((textVal, index) => {
+      if (dataValuesB[textVal.id.split('-')[0]]) {
+        textVal.value = dataValuesB[textVal.id.split('-')[0]];
+        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))} words remaining`)
+      }
+      else {
+        textVal.value = '';
+        $(`#counter${index + 1}`).text(`${maxWords} words remaining`)
+      }
+    })
+
+    document.querySelectorAll('.textValue-summaryA').forEach((textVal, index) => {
+      if (dataValuesA[textVal.id.split('-')[0]]) {
+        textVal.value = dataValuesA[textVal.id.split('-')[0]];
         $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))} words remaining`)
       }
       else {
@@ -141,13 +192,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-      if (dataValues[radio.name] && radio.value === dataValues[radio.name]) {
+      if (dataValuesA[radio.name.split('-')[0]] && radio.value === dataValuesA[radio.name.split('-')[0]]) {
         radio.checked = true;  // Set it as checked
       }
     })
     document.querySelectorAll('.textOption').forEach((textVal, index) => {
-      if (dataValues[textVal.id]) {
-        textVal.value = dataValues[textVal.id];
+      if (dataValuesA[textVal.id.split('-')[0]]) {
+        textVal.value = dataValuesA[textVal.id.split('-')[0]];
       }
       else {
         textVal.value = '';
@@ -173,4 +224,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 function submitNarrative() {
   alert("Event Saved SuccessFully")
+}
+
+function pushDataElementFormB(id, value) {
+ pushDataElementOther(id,value, tei.program, programStage.trtSummaryB, eventSummaryB);
 }

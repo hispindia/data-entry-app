@@ -1,4 +1,7 @@
 const maxWords = 200;
+var sendBackToMA = false;
+var eventSummaryAId = '';
+var eventSummaryBId = '';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -100,6 +103,16 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program
         );
 
+      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryA[dataElements.period.value]) {
+        eventSummaryAId = dataValuesSummaryA[dataElements.period.value]['event'];
+        if(dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun'] && dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
+      } 
+      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryB[dataElements.period.value]) {
+        eventSummaryBId = dataValuesSummaryB[dataElements.period.value]['event'];
+      }
+
       dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, dataElements.period.id) //data vlaues year wise
       tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, dataElements.period.id) //data vlaues year wise
       if (!tei.dataValues[dataElements.period.value]) {
@@ -115,6 +128,34 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       else {
         tei.event = tei.dataValues[dataElements.period.value]['event'];
+      }
+
+      if(!eventSummaryAId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryAId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryA,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+
+      if(!eventSummaryBId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryBId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryB,
+          teiId: tei.id,
+          dataElements: data
+        })
       }
 
       populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesMA[dataElements.period.value] ? dataValuesMA[dataElements.period.value]: {}));
@@ -162,7 +203,7 @@ function submitNarrative() {
   alert("Event Saved SuccessFully")
 }
 
-function calculateCriteria(){
+async function calculateCriteria(){
   var countSatisfactory = 0;
   var countSomeGaps = 0;
   var countSignificantGaps= 0;
@@ -174,20 +215,37 @@ function calculateCriteria(){
       if(textVal.value == "Significant Gaps" ) countSignificantGaps++;
       if(textVal.value == "Not Applicable" ) countNotApplicable++;    
   })
+  totalScore = countSatisfactory + countSomeGaps + countSignificantGaps + countNotApplicable;
+
   if($('.satisfactory').val()!=countSatisfactory) {
     $('.satisfactory').val(countSatisfactory);
-    pushDataElement($('.satisfactory').attr('id') , countSatisfactory)
+    pushDataElement($('.satisfactory').attr('id') , countSatisfactory);
+    if(sendBackToMA) await pushDataElementOther($('.satisfactory').attr('id'),countSatisfactory, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.satisfactory').attr('id'),countSatisfactory, tei.program, programStage.trtSummaryA, eventSummaryAId);
   }
   if($('.some-gaps').val()!=countSomeGaps) {
     $('.some-gaps').val(countSomeGaps);
     pushDataElement($('.some-gaps').attr('id') , countSomeGaps)
+    if(sendBackToMA) await pushDataElementOther($('.some-gaps').attr('id'),countSomeGaps, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.some-gaps').attr('id'),countSomeGaps, tei.program, programStage.trtSummaryA, eventSummaryAId);
   }
   if($('.significant-gaps').val()!=countSignificantGaps) {
     $('.significant-gaps').val(countSignificantGaps);
     pushDataElement($('.significant-gaps').attr('id') , countSignificantGaps)
+    if(sendBackToMA) await pushDataElementOther($('.significant-gaps').attr('id'),countSignificantGaps, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.significant-gaps').attr('id'),countSignificantGaps, tei.program, programStage.trtSummaryA, eventSummaryAId);
   }
   if($('.not-applicable').val()!=countNotApplicable) {
     $('.not-applicable').val(countNotApplicable);
     pushDataElement($('.not-applicable').attr('id') , countNotApplicable)
+    if(sendBackToMA) await pushDataElementOther($('.not-applicable').attr('id'),countNotApplicable, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.not-applicable').attr('id'),countNotApplicable, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  }
+
+  if($('.total-score').val()!=totalScore) {
+    $('.total-score').val(totalScore);
+    pushDataElement($('.total-score').attr('id') , totalScore)
+    if(sendBackToMA) await pushDataElementOther($('.total-score').attr('id'),totalScore, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.total-score').attr('id'),totalScore, tei.program, programStage.trtSummaryA, eventSummaryAId);
   }
 }

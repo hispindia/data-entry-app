@@ -1,4 +1,7 @@
 const maxWords = 200;
+var sendBackToMA = false;
+var eventSummaryAId = '';
+var eventSummaryBId = '';
 
  document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -100,6 +103,17 @@ const maxWords = 200;
         (enroll) => enroll.program == tei.program 
       );
 
+      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryA[dataElements.period.value]) {
+        eventSummaryAId = dataValuesSummaryA[dataElements.period.value]['event'];
+        if(dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun'] && dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
+      } 
+      
+      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryB[dataElements.period.value]) {
+        eventSummaryBId = dataValuesSummaryB[dataElements.period.value]['event'];
+      }
+
       dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, dataElements.period.id) //data vlaues year wise
       tei.dataValues  =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.period.id) //data vlaues year wise
         if(!tei.dataValues[dataElements.period.value]) {
@@ -117,6 +131,34 @@ const maxWords = 200;
         tei.event = tei.dataValues[dataElements.period.value]['event'];
       }
     
+      if(!eventSummaryAId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryAId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryA,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+
+      if(!eventSummaryBId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryBId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryB,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+      
       populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesMA[dataElements.period.value] ? dataValuesMA[dataElements.period.value]: {}));
     } else {
       console.log("No data found for the organisation unit.");
@@ -182,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }); 
 });
 
-function getRisk(dataValues) {
+async function getRisk(dataValues) {
   var riskValues = 0;
   document.querySelectorAll('input[type="radio"]').forEach((radio) => {
     if(dataValues) {
@@ -194,7 +236,11 @@ function getRisk(dataValues) {
     else if(radio.checked==true && radio.value=="true") riskValues++;
     
   })
-  $('#risk-identified').val(riskValues)
+  $('.risk-identified').val(riskValues);
+  pushDataElement($('.risk-identified').attr('id') , riskValues)  
+  if(sendBackToMA) await pushDataElementOther($('.risk-identified').attr('id'),riskValues, tei.program, programStage.trtSummaryB, eventSummaryBId);
+  else await pushDataElementOther($('.risk-identified').attr('id'),riskValues, tei.program, programStage.trtSummaryA, eventSummaryAId);
+
 }
 
 function submitNarrative() {

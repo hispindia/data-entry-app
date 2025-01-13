@@ -18,6 +18,7 @@ const disabledTRTUserGroups = "iW2zvv8rc27";
 const disabledMAUserGroups = "c3KCmkPvNrq";
 const disabledEDUserGroups = "dFIS4yYdf6m";
 const dataSetId = "bnq1MlIycGX";
+const dataSetFunds = "hUtLUU9WrIv"
 const program = {
   //business plan
   organisationDetails: "F9wFxXnlgyk",
@@ -66,7 +67,8 @@ const programStage = {
   valueAddCoreFunding: "Bp1qxeFLXZI",
   roTRTFeedback: 'Vk2bvy4pYcb',
   trtFeedback:'OrGbL7zYBW0',
-  trtSummary:'ajXzMxGX505',
+  trtSummaryA:'ajXzMxGX505',
+  trtSummaryB:'ybmSqcbOgjz',
   //annual update
   auOrganisationDetails: "TKVrtesVq4i",
   auMembershipDetails: "jOJ5RcCN3LF",

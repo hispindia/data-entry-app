@@ -1,4 +1,7 @@
 const maxWords = 200;
+var sendBackToMA = false;
+var eventSummaryAId = '';
+var eventSummaryBId = '';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -99,6 +102,17 @@ document.addEventListener("DOMContentLoaded", function () {
         data.trackedEntityInstances[0].enrollments.filter(
           (enroll) => enroll.program == tei.program
         );
+
+      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryA[dataElements.period.value]) {
+        eventSummaryAId = dataValuesSummaryA[dataElements.period.value]['event'];
+        if(dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun'] && dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
+      } 
+      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryB[dataElements.period.value]) {
+        eventSummaryBId = dataValuesSummaryB[dataElements.period.value]['event'];
+      }
+
       dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, dataElements.period.id) //data vlaues year wise
       tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, dataElements.period.id) //data vlaues year wise
       if (!tei.dataValues[dataElements.period.value]) {
@@ -115,6 +129,35 @@ document.addEventListener("DOMContentLoaded", function () {
       else {
         tei.event = tei.dataValues[dataElements.period.value]['event'];
       }
+
+      if(!eventSummaryAId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryAId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryA,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+
+      if(!eventSummaryBId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryBId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryB,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+      
       populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesMA[dataElements.period.value] ? dataValuesMA[dataElements.period.value]: {}));
     } else {
       console.log("No data found for the organisation unit.");
@@ -160,7 +203,7 @@ function submitNarrative() {
   alert("Event Saved SuccessFully")
 }
 
-function calculateCriteria(){
+async function calculateCriteria(){
   var countAddressed = 0;
   var countAddressedJustified = 0;
   var countNotAddressed= 0;
@@ -174,14 +217,23 @@ function calculateCriteria(){
   if($('.addressed').val()!=countAddressed) {
     $('.addressed').val(countAddressed);
     pushDataElement($('.addressed').attr('id') , countAddressed)
+    if(sendBackToMA) await pushDataElementOther($('.addressed').attr('id'),countAddressed, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.addressed').attr('id'),countAddressed, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  
   }
   if($('.Not-Addressed-But-Justified').val()!=countAddressedJustified) {
     $('.Not-Addressed-But-Justified').val(countAddressedJustified);
     pushDataElement($('.Not-Addressed-But-Justified').attr('id') , countAddressedJustified)
+    if(sendBackToMA) await pushDataElementOther($('.Not-Addressed-But-Justified').attr('id'),countAddressedJustified, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.Not-Addressed-But-Justified').attr('id'),countAddressedJustified, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  
   }
   if($('.Not-Addressed').val()!=countNotAddressed) {
     $('.Not-Addressed').val(countNotAddressed);
-    pushDataElement($('.Not-Addressed').attr('id') , countNotAddressed)
+    pushDataElement($('.Not-Addressed').attr('id') , countNotAddressed)  
+    if(sendBackToMA) await pushDataElementOther($('.Not-Addressed').attr('id'),countNotAddressed, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.Not-Addressed').attr('id'),countNotAddressed, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  
   }
 
    
