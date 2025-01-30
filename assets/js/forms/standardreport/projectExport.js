@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataElements.period.value = document.getElementById("headerPeriod").value;
 
     const data = await events.get(tei.orgUnit);
+    const dataSet = await fetchDataSet(year);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -122,10 +123,12 @@ document.addEventListener("DOMContentLoaded", function () {
           data.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
         }
   
-      var dataValuesPD,dataValuesPB,dataValuesPFA, dataValuesEC, dataValuesID, dataValuesCF, dataValuesTI, dataValuesNP, dataValuesOD = {};
+        var dataValuesPD,dataValuesPB,dataValuesPFA, dataValuesEC, dataValuesID, dataValuesCF, dataValuesTI, dataValuesNP, dataValuesOD, dataValuesOC = {};
         if(year==tei.year.start) {
+
           dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.membershipDetails, program.organisationDetails, dataElements.period.id) //data vlaues year wise
           if(dataValuesOD[`${tei.year.start} - ${tei.year.end}`]) dataValuesOD[tei.year.start] = dataValuesOD[`${tei.year.start} - ${tei.year.end}`];
+          
           dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.narrativePlan, program.organisationDetails, dataElements.period.id) //data vlaues year wise
           if(dataValuesNP[`${tei.year.start} - ${tei.year.end}`]) dataValuesNP[tei.year.start] = dataValuesNP[`${tei.year.start} - ${tei.year.end}`];
            dataValuesPD = getEvents(filteredPrograms, program.projectDescription, dataElements.period.id);
@@ -136,6 +139,8 @@ document.addEventListener("DOMContentLoaded", function () {
            dataValuesID = getProgramStageEvents(filteredPrograms, programStage.incomeByDonor, program.incomeDetails, dataElements.year.id);
            dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.valueAddCoreFunding, program.incomeDetails, dataElements.year.id);
            dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.totalIncome, program.incomeDetails, dataElements.year.id);
+           dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, dataElements.year.id);
+           dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, dataElements.year.id);
         } else {
           dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data vlaues year wise
           dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, dataElements.year.id) //data vlaues year wise
@@ -146,6 +151,8 @@ document.addEventListener("DOMContentLoaded", function () {
           dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, dataElements.year.id);
           dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, dataElements.year.id);
           dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id);
+          dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, dataElements.year.id);
+          dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, dataElements.year.id);
         }
 
       populateProgramEvents({
@@ -159,6 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
         projectIncomeDonor: dataValuesID,
         projectCoreFunding: dataValuesCF,
         projectTotalIncome: dataValuesTI,
+        orderCommodities: dataValuesOC,
+        commoditiesSource: dataValuesCS,
+        dataSet
 
       });
     } else {
@@ -210,6 +220,13 @@ document.addEventListener("DOMContentLoaded", function () {
       tableHead = `<tr><th colspan="8" style="font-weight:bold;text-align:center;background:#eef0ff">3.1 Total Income</th></tr><tr> <th>Income Type</th><th></th>${years}</tr>`
       document.getElementById('th-project-totalIncome').innerHTML = tableHead;
       
+
+      tableHead = `<tr><th style="font-weight:bold;text-align:center;background:#eef0ff" colspan="9">Order Commodities from IPPF</th></tr>`
+      document.getElementById('th-project-orderCommodities').innerHTML = tableHead;
+
+      tableHead = `<tr><th style="font-weight:bold;text-align:center;background:#eef0ff" colspan="2">Commodities by Funding Source</th></tr>`
+      document.getElementById('th-project-commoditiesSource').innerHTML = tableHead;
+
       //Table body
       var tableRows = '';
 
@@ -240,6 +257,12 @@ document.addEventListener("DOMContentLoaded", function () {
       
       tableRows = getTotalIncome(dv.projectTotalIncome, dataElements.projectTotalIncome);
       document.getElementById('tb-project-totalIncome').innerHTML = tableRows;
+
+      tableRows = getOrderCommodities(dv.organisationDetails, dv.orderCommodities, dv.dataSet);
+      document.getElementById('tb-project-orderCommodities').innerHTML = tableRows;
+
+      tableRows = getCommoditiesSource(dv.commoditiesSource);
+      document.getElementById('tb-project-commoditiesSource').innerHTML = tableRows;
       
     }
     
@@ -636,6 +659,88 @@ function getTotalIncome(dv, deIds) {
 
 }
 
+function getCommoditiesSource(dataValues) {
+
+  const year = document.getElementById("year-update").value;
+  const unrestrictedValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['unrestricted']]) ?  Number(dataValues[year][dataElements.sourceCommodities['unrestricted']]) : '';
+  const internationalValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['international']]) ?  Number(dataValues[year][dataElements.sourceCommodities['international']]) : '';
+  const localValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['local']]) ?  Number(dataValues[year][dataElements.sourceCommodities['local']]) : '';
+  const inkindValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['inkind']]) ?  Number(dataValues[year][dataElements.sourceCommodities['inkind']]) : '';
+  const otherValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['other']]) ?  Number(dataValues[year][dataElements.sourceCommodities['other']]) : '';
+  const total = Number(unrestrictedValue) + Number(internationalValue) + Number(localValue) + Number(inkindValue) + Number(otherValue);
+  const comment = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['comment']]) ?  Number(dataValues[year][dataElements.sourceCommodities['comment']]) : '';
+
+  return `<tr><td>IPPF Unrestricted (Either procurred directly from IPPF or purchased locally using the core grant)</td><td>${unrestrictedValue}</td></tr>
+  <tr><td>International donors</td><td>${internationalValue}</td></tr>
+  <tr><td>Local Income</td><td>${localValue}</td></tr>
+  <tr><td>In-kind donations</td><td>${inkindValue}</td></tr>
+  <tr><td>Other</td><td>${otherValue}</td></tr>
+  <tr><td>Total</td><td>${total}</td></tr>
+  <tr><td>Note</td><td>${comment}</td></tr>`
+ 
+}
+function getOrderCommodities(dvOD, dv, dataSet) {
+  var unrestrictedCost = 0;
+  const productList = 38;
+  const year = document.getElementById("year-update").value;
+  const dataValues = dv[year] ? dv[year]: {};
+
+  var yearIndex = 0;
+  for(let i=tei.year.start; i <=tei.year.end; i++) {
+    if(i==year) break;
+    yearIndex++
+  }
+  unrestrictedCost = dvOD[year][dataElements.yearlyAmount[yearIndex]] ? dvOD[year][dataElements.yearlyAmount[yearIndex]] : '';
+
+  let projectRows = displayOrderprojectCommodities(dataSet, dataValues, productList,unrestrictedCost);
+  return projectRows;
+}
+
+function displayOrderprojectCommodities(dataSet, dataValues, productList, unrestrictedCost) {
+  var projectRows = '';
+  var rowIndex = 0;
+
+  dataSet.dataElements.sections.forEach((section) => {
+  if(rowIndex<=productList) {
+  projectRows += `<tr><td style="font-weight:bold;text-align:center;background:#eef0ff" colspan="9">${section.name}</td></tr>
+  <tr>
+   <td data-i18n="intro.product_code">Product Code</td>
+   <td data-i18n="intro.product_name" >Product Name</td>
+   <td data-i18n="intro.manufacturer">Manufacturer</td>
+   <td data-i18n="intro.formulation">Formulation</td>
+   <td data-i18n="intro.unit_measure">Unit of Measure</td>
+   <td data-i18n="intro.rate">Rate</td>
+   <td data-i18n="intro.order_quantity">Order quantity request (per UoM)</td>
+   <td data-i18n="intro.total_price">Total price</td>
+   <td data-i18n="">Notes</td>
+ </tr>`
+    section.dataElements.forEach((dataElement) => {
+      const description = dataElement.description.split(';');
+    projectRows += `<tr>
+    <td><span id="${dataElements.projectCommodities[rowIndex].code}">${dataElement.code}</span></td>
+    <td><span id="${dataElements.projectCommodities[rowIndex].name}">${dataElement.name}</span></td>
+    <td>${(description[0] ? description[0]: '')}</td>
+    <td>${(description[1] ? description[1]: '')}</td>
+    <td>${(description[2] ? description[2]: '')}</td>
+    <td>${dataSet.values[dataElement.id] ? dataSet.values[dataElement.id]: ''}</td>
+    <td>${dataValues[dataElements.projectCommodities[rowIndex].quantity] ? dataValues[dataElements.projectCommodities[rowIndex].quantity]: ''}</td>
+    <td>${dataValues[dataElements.projectCommodities[rowIndex].price] ? dataValues[dataElements.projectCommodities[rowIndex].price]: ''}</td>
+    <td>${(description[3] ? description[3]: '')}</td>
+    </tr>`
+     rowIndex++;
+    })
+  }
+  })
+  projectRows += `
+  <tr><td style="font-weight:bold;text-align:center;background:#eef0ff" colspan="9">Total Price of the Commodities Ordered</td></tr>
+  <tr><td colspan="5">Combined Cost of All Commodities Ordered</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.combinedCost]?dataValues[dataElements.orderCommoditiesCV.combinedCost]: ''}</td></tr>
+  <tr><td colspan="5">Estimated Freight Cost</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.estimatedCost]?dataValues[dataElements.orderCommoditiesCV.estimatedCost]: ''}</td></tr>
+  <tr><td colspan="5">Total Estimated Cost of Commodities (including Freight Cost)</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.totalCost]?dataValues[dataElements.orderCommoditiesCV.totalCost]: ''}</td></tr>
+  <tr><td colspan="5">Total Unrestricted Core Grant Amount</td><td colspan="4">${unrestrictedCost?unrestrictedCost: ''}</td></tr>
+  <tr><td colspan="5">Total Estimated Cost of Commodities</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.totalCost]?dataValues[dataElements.orderCommoditiesCV.totalCost]: ''}</td></tr>
+  <tr><td colspan="5">Estimated Core Grant Amount in cash</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.estimatedCoreGrant]?dataValues[dataElements.orderCommoditiesCV.estimatedCoreGrant]: ''}</td></tr>`;
+  return projectRows;
+}
 
 function displayValue(input) {
   let num = typeof input === "string" ? parseFloat(input) : input;
@@ -650,6 +755,7 @@ function displayValue(input) {
      return num.toFixed(2);
   }
  }
+
 
 function checkProjects(projects, values) {
   var prevEmptyNames = [];
@@ -667,3 +773,13 @@ function checkProjects(projects, values) {
   return names;
 }
 
+async function fetchDataSet(year) {
+  const values = {};
+  const dataSetElements = await dataSet.getElements(dataSetId);
+  const dataValueSet = await dataSet.getValues(dataSetId, tei.orgUnit,year);
+  dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+  return {
+    dataElements: dataSetElements,
+    values
+  }
+}

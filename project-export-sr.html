@@ -210,7 +210,7 @@
                 </div>
                 <div class="cont-wrapper mt-2">
                   <a id="dlink" style="display:none;"></a>
-                  <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['1.1 Organisation Details', '1.2 Narrative Plan', '2.1 Project Description', '2.2 Project Budget','2.3 Budget by Focus Area','2.4 Budget by Expense Category','3.1 Total Income', '3.2 Income by Donor', '3.3 Value Add of Core Funding'], '1. Annual Business Plan Update Export')">Export as Excel</button>
+                  <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['1.1 Organisation Details', '1.2 Narrative Plan', '2.1 Project Description', '2.2 Project Budget','2.3 Budget by Focus Area','2.4 Budget by Expense Category','3.1 Total Income', '3.2 Income by Donor', '3.3 Value Add of Core Funding', '3.4 Order Commodities from IPPF', '3.5 Commodities by Source of Funding'], '1. Annual Business Plan Update Export')">Export as Excel</button>
                     
                   <form>
                     <div class="cont-wrap-inner" id="project-export">
@@ -270,6 +270,16 @@
                         <tbody id="tb-project-valueCoreFunding"></tbody>
                       </table>
 
+                      <table class="table table-bordered"  id="table-oc">
+                        <thead id="th-project-orderCommodities"></thead>
+                        <tbody id="tb-project-orderCommodities"></tbody>
+                      </table>
+
+                      <table class="table table-bordered"  id="table-cs">
+                        <thead id="th-project-commoditiesSource"></thead>
+                        <tbody id="tb-project-commoditiesSource"></tbody>
+                      </table>
+
                     </div>
                   </form>
                 </div>
@@ -292,7 +302,8 @@
   <script src="assets/js/translation.js"></script>
   
   <!-- JS Libraies -->
-    <script src="assets/js/api/events.js"></script>
+  <script src="assets/js/api/events.js"></script>
+  <script src="assets/js/api/dataSet.js"></script>
   <script src="assets/js/api/func.js"></script>
   
   <!-- Page Specific JS File -->
