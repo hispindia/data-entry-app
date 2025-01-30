@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if(window.localStorage.getItem("hideReporting").includes('core')) {
       $('.core-users').show();
+      $('.maintenance').removeClass('d-none').addClass("d-block")
     }
 
       var level2OU = [];

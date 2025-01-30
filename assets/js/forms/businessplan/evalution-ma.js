@@ -215,7 +215,6 @@ async function calculateCriteria(){
       if(textVal.value == "Significant Gaps" ) countSignificantGaps++;
       if(textVal.value == "Not Applicable" ) countNotApplicable++;    
   })
-  totalScore = countSatisfactory + countSomeGaps + countSignificantGaps + countNotApplicable;
 
   if($('.satisfactory').val()!=countSatisfactory) {
     $('.satisfactory').val(countSatisfactory);
@@ -240,12 +239,5 @@ async function calculateCriteria(){
     pushDataElement($('.not-applicable').attr('id') , countNotApplicable)
     if(sendBackToMA) await pushDataElementOther($('.not-applicable').attr('id'),countNotApplicable, tei.program, programStage.trtSummaryB, eventSummaryBId);
     else await pushDataElementOther($('.not-applicable').attr('id'),countNotApplicable, tei.program, programStage.trtSummaryA, eventSummaryAId);
-  }
-
-  if($('.total-score').val()!=totalScore) {
-    $('.total-score').val(totalScore);
-    pushDataElement($('.total-score').attr('id') , totalScore)
-    if(sendBackToMA) await pushDataElementOther($('.total-score').attr('id'),totalScore, tei.program, programStage.trtSummaryB, eventSummaryBId);
-    else await pushDataElementOther($('.total-score').attr('id'),totalScore, tei.program, programStage.trtSummaryA, eventSummaryAId);
   }
 }

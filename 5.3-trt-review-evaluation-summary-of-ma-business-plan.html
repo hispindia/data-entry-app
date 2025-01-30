@@ -312,8 +312,7 @@
                                                             <td class="text-center">
                                                                 First
                                                             </td>
-                                                            <td>
-
+                                                            <td id="review-type-first" class="text-center">
                                                             </td>
 
 
@@ -336,21 +335,16 @@
                                                             <th class="color-red text-center" style="color: #DB7B2B;">
                                                                 Significant Gaps</th>
                                                             <th class="text-center">Not Applicable</th>
-                                                            <th class="color-pink text-center">Total Score</th>
-
-
-
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
                                                             <td><strong>Number of Criteria</strong></td>
-                                                            <td > <input type="text"   disabled
+                                                            <td > <input type="text" disabled
                                                                 id="uRu630qcl3q-summarya"  class="form-control input-budget currency color-green text-center textValue-summaryA" disabled>
                                                             </td>
                                                             <td class="text-center"> <div class="input-group">
-                                                                <input type="text"disabled
+                                                                <input type="text" disabled
                                                                 id="SHyd6eUE2Xj-summarya"
                                                                     class="form-control input-budget currency color-pink text-center textValue-summaryA"
                                                                     disabled>
@@ -367,12 +361,10 @@
                                                                     class="form-control input-budget currency color-red text-center textValue-summaryA"
                                                                     disabled>
                                                             </td>
-                                                            <td>
-                                                                <input type="text" disabled
-                                                                id="ku9OrfjxPeh-summarya" 
-                                                                    class="form-control input-budget currency color-red text-center textValue-summaryA"
-                                                                    disabled>
-                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Flag</strong></td>
+                                                            <td class="text-center" colspan="4" id="quality-color-a" class="bg-red rounded"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -392,9 +384,6 @@
                                                                 Not Addressed But Justified</th>
                                                             <th class="color-red text-center" style="color: #DB7B2B;">
                                                                 Not Addressed</th>
-
-
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -411,15 +400,16 @@
                                                                         class="form-control input-budget currency color-pink text-center textValue-summaryA"
                                                                         disabled>
                                                                 </div>
-                                                            </td>
-                              
+                                                            </td>                              
                                                             <td>
                                                                 <input type="text" disabledvalue="" id="E1MmmTUtrZh-summarya"
                                                                     class="form-control input-budget currency color-red text-center textValue-summaryA"
                                                                     disabled>
                                                             </td>
-
-
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Flag</strong></td>
+                                                            <td class="text-center" colspan="3" id="strategic-color-a" class="bg-red rounded"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -436,7 +426,7 @@
                                                             <td><strong>Number of Potential Issues / Risks identified by
                                                                     RO (for information of TRT)</strong></td>
                                                             <td>
-                                                                <a href="../../apps/IPPF-BPR-App/5.3-trt-review-evaluation-summary-of-ma-business-plan.html"><input type="text" disabled id="bhJH8eShna7-summarya" style="width:2rem"  class="textValue-summaryA" value="0"/> (hyperlink)</a>
+                                                                <a href="../../apps/IPPF-BPR-App/5.0-trt-review-evaluation-of-organisational-strength-of-ma.html">(<span id="bhJH8eShna7-summarya"  class="text-summaryA"></span> issues/risks)</a>
                                                                 
                                                             </td>
 
@@ -459,13 +449,13 @@
                                                                     <td>
                                                                         <div class="form-group mb-0">
                                                                             <div class="form-check form-check-inline">
-                                                                                <input class="form-check-input" type="radio" id="inlineradio3"  value="Approved with full allocation" name="RI5UuEEpxun" > 
+                                                                                <input class="form-check-input" type="radio" disabled id="inlineradio3"  value="Approved with full allocation" name="RI5UuEEpxun" > 
                                                                                 <label class="form-check-label text-success text-bold" for="inlineradio3"><strong>Approved
                                                                                     with full
                                                                                     Allocation</strong></label>
                                                                               </div>
                                                                               <div class="form-check form-check-inline">
-                                                                                <input class="form-check-input" type="radio" id="inlineradio4" value="Send Back to MA for Revisions"  name="RI5UuEEpxun" >
+                                                                                <input class="form-check-input" type="radio" disabled id="inlineradio4" value="Send Back to MA for Revisions"  name="RI5UuEEpxun" >
                                                                                 <label class="form-check-label text-danger text-bold" for="inlineradio4">Send Back to MA
                                                                                     for Revisions</label>
                                                                               </div>
@@ -484,6 +474,18 @@
 
                                                                 <tr>
                                                                     <td class="mx-2" style="text-align: left;">
+                                                                        <strong>Summary
+                                                                            comments from Regional Office (if any)
+                                                                        </strong></td>
+                                                                    <td>
+                                                                        <div class="form-group textbox-wrap mb-0">
+                                                                            <textarea  class="form-control-resize textValue-summaryB textlimit" disabled id="BERmaldxyMY-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
+                                                                            
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="mx-2" style="text-align: left;">
                                                                         <strong>Summary comments from TRT review (if
                                                                             any)</strong>
                                                                     </td>
@@ -491,21 +493,6 @@
                                                                         <div class="form-group textbox-wrap mb-0">
                                                                             <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya"   onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
 										                                                                <div class="char-counter form-text text-muted" id="counter1">200 words remaining</div>
-                                                                            <div class="invalid-feedback"> Error here
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                    <td class="mx-2" style="text-align: left;">
-                                                                        <strong>Summary comments from Regional Office
-                                                                            (if any) </strong>
-                                                                    </td>
-                                                                    <td style="width: 80%;">
-                                                                        <div class="form-group textbox-wrap mb-0">
-                                                                            <textarea  class="form-control-resize textValue-summaryA textlimit" id="BERmaldxyMY-summarya"   onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
-                                                                            <div class="char-counter form-text text-muted" id="counter2">200 words remaining</div>
                                                                             <div class="invalid-feedback"> Error here
                                                                             </div>
                                                                         </div>
@@ -530,7 +517,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="accordion">
+                                    <div class="accordion trt-phase-2">
                                         <div class="accordion-header" role="button" data-toggle="collapse"
                                             data-target="#panel-body-2">
                                             <h4>
@@ -563,7 +550,7 @@
                                                                 Second
                                                             </td>
 
-                                                            <td>
+                                                            <td id="review-type-second" class="text-center">
 
                                                             </td>
                                                         </tr>
@@ -584,11 +571,6 @@
                                                             <th class="color-red text-center" style="color: #DB7B2B;">
                                                                 Significant Gaps</th>
                                                             <th class="text-center">Not Applicable</th>
-                                                            <th class="color-pink text-center">Total Score</th>
-
-
-
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -616,12 +598,10 @@
                                                                     class="form-control input-budget currency color-red text-center textValue-summaryB"
                                                                     disabled>
                                                             </td>
-                                                            <td>
-                                                                <input type="text" disabled
-                                                                id="ku9OrfjxPeh-summaryb" 
-                                                                    class="form-control input-budget currency color-red text-center textValue-summaryB"
-                                                                    disabled>
-                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Flag</strong></td>
+                                                            <td class="text-center" colspan="4" id="quality-color-b" class="bg-red rounded"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -641,9 +621,6 @@
                                                                 Not Addressed But Justified</th>
                                                             <th class="color-red text-center" style="color: #DB7B2B;">
                                                                 Not Addressed</th>
-
-
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -667,8 +644,10 @@
                                                                     class="form-control input-budget currency color-red text-center textValue-summaryB"
                                                                     disabled>
                                                             </td>
-
-
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Flag</strong></td>
+                                                            <td class="text-center" colspan="3" id="strategic-color-b" class="bg-red rounded"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -685,7 +664,7 @@
                                                             <td><strong>Number of Potential Issues / Risks identified by
                                                                     RO (for information of TRT)</strong></td>
                                                             <td>
-                                                                <a href="../../apps/IPPF-BPR-App/5.3-trt-review-evaluation-summary-of-ma-business-plan.html"><input disabled id="bhJH8eShna7-summaryb" style="width:2rem" class="textValue-summaryB" value=""0/>(hyperlink)</a>
+                                                                <a href="../../apps/IPPF-BPR-App/5.0-trt-review-evaluation-of-organisational-strength-of-ma.html">(<span id="bhJH8eShna7-summaryb"  class="text-summaryB"></span> issues/risks)</a>
                                                                 
                                                             </td>
 
@@ -713,7 +692,7 @@
                                                                                     Allocation</strong></label>
                                                                               </div>
                                                                               <div class="form-check form-check-inline">
-                                                                                <input class="form-check-input" type="radio"id="inlineradio2"  value="Send Back to MA for Revisions"  name="bknBZSSErqr" >
+                                                                                <input class="form-check-input" type="radio" id="inlineradio2"  value="Send Back to MA for Revisions"  name="bknBZSSErqr" >
                                                                                 <label class="form-check-label text-danger text-bold" for="">
                                                                                     Approved at Lesser Allocation Amount</label>
                                                                               </div>
@@ -725,89 +704,88 @@
                                                         </table>
 
 
-                                                        <table style="margin: 20px 0; " class="d-none"
+                                                        <table class="w-100 my-5"
                                                             id="formula_table">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td>
                                                                     </td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
+                                                                    <td class="text-center">
                                                                         Year 1</td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
+                                                                    <td class="text-center">
                                                                         Year 2</td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
+                                                                    <td class="text-center">
                                                                         Year 3</td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
+                                                                    <td class="text-center">
                                                                         Total</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td>
                                                                         Formula
                                                                         Generated Proposed Grant Amount(USD)</td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;" id="proposed-year1">
-                                                                        
+                                                                    <td class="text-center">
+                                                                        <strong id="proposed-year-1"></strong>
                                                                     </td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;" id="proposed-year2">
-                                                                        
+                                                                    <td class="text-center">
+                                                                        <strong id="proposed-year-2"></strong>
                                                                     </td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;" id="proposed-year3">
-                                                                    
+                                                                    <td class="text-center">
+                                                                        <strong id="proposed-year-3"></strong>
                                                                     </td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;" id="proposed-total">
-                                                                        
+                                                                    <td class="text-center">
+                                                                        <strong id="proposed-total"></strong>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
-                                                                        Percentage
-                                                                        reduction</td>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td>Percentage reduction</td>
+                                                                    <td>
                                                                         <div class="form-group col-md-12">
-                                                                            <select class="form-control mt-1">
+                                                                            <select class="form-control mt-1 proposed=percent-1 textOption" id="x5QDTZetPOf" onchange="pushDataElementFormB(this.id,this.value);updateValue(this.value,1)">
                                                                                 <option value="">Select</option>
-                                                                                <option value="5%">5%</option>
-                                                                                <option value="10%">10%</option>
-                                                                                <option value="15%">15%</option>
+                                                                                <option value="5">5%</option>
+                                                                                <option value="10">10%</option>
+                                                                                <option value="15">15%</option>
                                                                             </select>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td>
                                                                         <div class="form-group col-md-12">
-                                                                            <select class="form-control mt-1">
+                                                                            <select class="form-control mt-1 proposed=percent-2 textOption" id="uqbgPH4qbN6" onchange="pushDataElementFormB(this.id,this.value);updateValue(this.value,2)">
                                                                                 <option value="">Select</option>
-                                                                                <option value="10%">5%</option>
-                                                                                <option value="10%">10%</option>
-                                                                                <option value="15%">15%</option>
+                                                                                <option value="5">5%</option>
+                                                                                <option value="10">10%</option>
+                                                                                <option value="15">15%</option>
                                                                             </select>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td c id="proposed=percent-1">
                                                                         <div class="form-group col-md-12">
-                                                                            <select class="form-control mt-1">
+                                                                            <select class="form-control mt-1 proposed=percent-3 textOption" id="NTKvlp5N14f" onchange="pushDataElementFormB(this.id,this.value);updateValue(this.value,3)">
                                                                                 <option value="">Select</option>
-                                                                                <option value="10%">5%</option>
-                                                                                <option value="10%">10%</option>
-                                                                                <option value="15%">15%</option>
+                                                                                <option value="5">5%</option>
+                                                                                <option value="10">10%</option>
+                                                                                <option value="15">15%</option>
                                                                             </select>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td>
                                                                     </td>
                                                                 </tr>
 
                                                                 <tr>
-                                                                    <td class="xl91" width="281" style="width:211pt;">
+                                                                    <td>
                                                                         Final Allocated Grant Amount</td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
-                                                                      
+                                                                    <td class="text-center">
+                                                                        <strong id="grant-year-1"></strong>
                                                                     </td>
-                                                                    <td class="xl91" text-center width="281" style="width:211pt;">
-                                                                        
+                                                                    <td class="text-center">
+                                                                        <strong id="grant-year-2"></strong>
                                                                     </td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
-                                                                       
+                                                                    <td class="text-center">
+                                                                        <strong id="grant-year-3"></strong>
                                                                     </td>
-                                                                    <td class="xl91 text-center" width="281" style="width:211pt;">
+                                                                    <td class="text-center">
+                                                                        <strong id="grant-total"></strong>
                                                                     </td>
                                                                 </tr>
 
@@ -815,20 +793,18 @@
                                                             </tbody>
                                                         </table>
 
-                                                        <table id="formula_table2" class="d-none w-100">
+                                                        <table id="formula_table2" class="w-100">
                                                             <tbody>
-
                                                                 <tr>
-                                                                    
                                                                     <td class="mx-2" style="text-align: left;">
-                                                                        <strong>Conditions Precedent for Year 2<i
+                                                                        <strong>Conditions Precedent<i
                                                                                 class="fas fa-info-circle ml-1"
                                                                                 data-toggle="collapse"
                                                                                 data-target="#collapseExample1"
                                                                                 aria-expanded="false"
                                                                                 aria-controls="collapseExample"></i></strong>
                                                                     </td>
-                                                                    <td style="width: 60%;">
+                                                                    <td>
                                                                         
                                                                     <div class="form-group textbox-wrap mb-0">
                                                                         <textarea  class="form-control-resize textValue-summaryB textlimit" id="tDdQk319Wqd-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
@@ -838,58 +814,15 @@
                                                                     </div>
                                                                     </td>
                                                                 </tr>
-
                                                                 <tr>
                                                                     <td class="mx-2" style="text-align: left;">
-                                                                        <strong>Conditions Precedent for Year 3<i
-                                                                                class="fas fa-info-circle ml-1"
-                                                                                data-toggle="collapse"
-                                                                                data-target="#collapseExample1"
-                                                                                aria-expanded="false"
-                                                                                aria-controls="collapseExample"></i></strong>
+                                                                        <strong>Summary comments from TRT review (if
+                                                                            any)</strong>
                                                                     </td>
-                                                                    <td style="width: 60%;">
-                                                                        
-                                                                    <div class="form-group textbox-wrap mb-0">
-                                                                        <textarea  class="form-control-resize textValue-summaryB textlimit" id="GQ9uIFoeN8E-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
-                                                                        <div class="char-counter form-text text-muted" id="counter4">200 words remaining</div>
-                                                                        <div class="invalid-feedback"> Error here
-                                                                        </div>
-                                                                    </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                            </tbody>
-                                                        </table>
-
-                                                        <table id="formula_table3" class="d-none w-100">
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td class="mx-2" style="text-align: left;">
-                                                                        <strong>Summary
-                                                                            comments from TRT review (if any)</strong>
-                                                                    </td>
-                                                                    <td style="width: 60%;">
-                                                                        
-                                                                    <div class="form-group textbox-wrap mb-0">
-                                                                        <textarea  class="form-control-resize textValue-summaryB textlimit" id="KVhKnLlbTXI-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
-                                                                        <div class="char-counter form-text text-muted" id="counter5">200 words remaining</div>
-                                                                        <div class="invalid-feedback"> Error here
-                                                                        </div>
-                                                                    </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                    <td class="mx-2" style="text-align: left;">
-                                                                        <strong>Summary
-                                                                            comments from Regional Office (if any)
-                                                                        </strong></td>
-                                                                    <td style="width: 60%;">
+                                                                    <td style="width: 80%;">
                                                                         <div class="form-group textbox-wrap mb-0">
-                                                                            <textarea  class="form-control-resize textValue-summaryB textlimit" id="BERmaldxyMY-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
-                                                                            <div class="char-counter form-text text-muted" id="counter6">200 words remaining</div>
+                                                                            <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya"   onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
+										                                                                <div class="char-counter form-text text-muted" id="counter1">200 words remaining</div>
                                                                             <div class="invalid-feedback"> Error here
                                                                             </div>
                                                                         </div>
@@ -990,23 +923,7 @@
         function submitProjects() {
             alert("Data Saved Successfully!")
         }
-        
-        document.addEventListener('DOMContentLoaded', function () {
-
-            $('#inlineradio1').click(function () {
-                $('#formula_table').addClass('d-none');
-                $('#formula_table2').addClass('d-none');
-                $('#formula_table3').addClass('d-none');
-            });
-
-            $('#inlineradio2').click(function () {
-                $('#formula_table').removeClass('d-none');
-                $('#formula_table2').removeClass('d-none');
-                $('#formula_table3').removeClass('d-none');
-            });
-        })
-
-
+    
     </script>
      <script>
         //textarea word limit

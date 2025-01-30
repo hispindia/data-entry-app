@@ -1,7 +1,4 @@
 const maxWords = 200;
-var sendBackToMA = false;
-var eventSummaryAId = '';
-var eventSummaryBId = '';
 
  document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -85,7 +82,7 @@ var eventSummaryBId = '';
   async function fetchEvents() {
 
     tei.program = program.roTRTFeedback;
-    tei.programStage = programStage.trtFeedback;
+    tei.programStage = programStage.roTRTFeedback;
     dataElements.period.value = document.getElementById("headerPeriod").value;
 
     tei.year = {
@@ -103,63 +100,9 @@ var eventSummaryBId = '';
         (enroll) => enroll.program == tei.program 
       );
 
-      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, dataElements.period.id) //data vlaues year wise
-      if(dataValuesSummaryA[dataElements.period.value]) {
-        eventSummaryAId = dataValuesSummaryA[dataElements.period.value]['event'];
-        if(dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun'] && dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
-      } 
-      
-      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
-      if(dataValuesSummaryB[dataElements.period.value]) {
-        eventSummaryBId = dataValuesSummaryB[dataElements.period.value]['event'];
-      }
-
-      dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, dataElements.period.id) //data vlaues year wise
       tei.dataValues  =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.period.id) //data vlaues year wise
-        if(!tei.dataValues[dataElements.period.value]) {
-          tei.dataValues[dataElements.period.value] = {}
-          let data = [{
-            dataElement: dataElements.period.id,
-            value: dataElements.period.value
-          }];
-        tei.event = await createEvent(data);
-        data.forEach(element => {
-          tei.dataValues[dataElements.period.value][element.dataElement] = element.value;
-        })
-        }
-       else {
-        tei.event = tei.dataValues[dataElements.period.value]['event'];
-      }
-    
-      if(!eventSummaryAId) {
-        let data = [{
-          dataElement: dataElements.period.id,
-          value: dataElements.period.value
-        }];
-        eventSummaryAId = await createEventOther({
-          orgUnit: tei.orgUnit,
-          program: tei.program,
-          programStage: programStage.trtSummaryA,
-          teiId: tei.id,
-          dataElements: data
-        })
-      }
-
-      if(!eventSummaryBId) {
-        let data = [{
-          dataElement: dataElements.period.id,
-          value: dataElements.period.value
-        }];
-        eventSummaryBId = await createEventOther({
-          orgUnit: tei.orgUnit,
-          program: tei.program,
-          programStage: programStage.trtSummaryB,
-          teiId: tei.id,
-          dataElements: data
-        })
-      }
       
-      populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesMA[dataElements.period.value] ? dataValuesMA[dataElements.period.value]: {}));
+      populateProgramEvents(tei.dataValues[dataElements.period.value]);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -167,7 +110,7 @@ var eventSummaryBId = '';
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues, dataValuesMA) {
+  function populateProgramEvents(dataValues) {
     //disable feilds
     if(tei.disabled) {
       $('.textValue').prop('disabled', true);
@@ -178,20 +121,7 @@ var eventSummaryBId = '';
        //Disable all button
        $('button').prop('disabled', true);
     }
-   
-    document.querySelectorAll('.textValue-prev').forEach((textVal,index) => {
-      if(dataValuesMA[textVal.id]) {
-        if(textVal.id=="Lltsm7QaRXf" || textVal.id== "EcmhrXnurQb" || textVal.id== "kK927QgR8nD") {
-          $('.row-new').show();
-        }
-        textVal.value = dataValuesMA[textVal.id];
-        $(`#counter${index+1}`).text(`${(maxWords- (textVal.value ? textVal.value.trim().split(/\s+/).length: 0))} words remaining`)
-      }
-      else {
-        textVal.value = '';
-        $(`#counter${index+1}`).text(`${maxWords} words remaining`)
-      }
-    })
+
     document.querySelectorAll('.textValue').forEach((textVal,index) => {
       if(dataValues[textVal.id]) {
         if(textVal.id=="Lltsm7QaRXf" || textVal.id== "EcmhrXnurQb" || textVal.id== "kK927QgR8nD") {
@@ -211,19 +141,6 @@ var eventSummaryBId = '';
   fetchOrganizationUnitUid();
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-  const allRadios = document.querySelectorAll('input[type="radio"]');
-  // Add an onchange event listener to each radio button
-  allRadios.forEach(radio => {
-    radio.addEventListener('change', (event) => {
-        if (event.target.checked) {
-          pushDataElement(event.target.name, event.target.value);
-         getRisk()
-        }
-    });
-  }); 
-});
-
 async function getRisk(dataValues) {
   var riskValues = 0;
   document.querySelectorAll('input[type="radio"]').forEach((radio) => {
@@ -237,12 +154,4 @@ async function getRisk(dataValues) {
     
   })
   $('.risk-identified').val(riskValues);
-  pushDataElement($('.risk-identified').attr('id') , riskValues)  
-  if(sendBackToMA) await pushDataElementOther($('.risk-identified').attr('id'),riskValues, tei.program, programStage.trtSummaryB, eventSummaryBId);
-  else await pushDataElementOther($('.risk-identified').attr('id'),riskValues, tei.program, programStage.trtSummaryA, eventSummaryAId);
-
-}
-
-function submitNarrative() {
-  alert("Event Saved SuccessFully")
 }

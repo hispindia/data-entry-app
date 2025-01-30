@@ -1,4 +1,7 @@
 const maxWords = 200;
+var sendBackToMA = false;
+var eventSummaryAId = '';
+var eventSummaryBId = '';
 
  document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -100,6 +103,17 @@ const maxWords = 200;
         (enroll) => enroll.program == tei.program 
       );
 
+      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryA[dataElements.period.value]) {
+        eventSummaryAId = dataValuesSummaryA[dataElements.period.value]['event'];
+        if(dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun'] && dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
+      } 
+      
+      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
+      if(dataValuesSummaryB[dataElements.period.value]) {
+        eventSummaryBId = dataValuesSummaryB[dataElements.period.value]['event'];
+      }
+
       tei.dataValues  =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.period.id) //data vlaues year wise
         if(!tei.dataValues[dataElements.period.value]) {
           tei.dataValues[dataElements.period.value] = {}
@@ -116,6 +130,35 @@ const maxWords = 200;
         tei.event = tei.dataValues[dataElements.period.value]['event'];
       }
     
+
+      if(!eventSummaryAId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryAId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryA,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+
+      if(!eventSummaryBId) {
+        let data = [{
+          dataElement: dataElements.period.id,
+          value: dataElements.period.value
+        }];
+        eventSummaryBId = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: tei.program,
+          programStage: programStage.trtSummaryB,
+          teiId: tei.id,
+          dataElements: data
+        })
+      }
+
       populateProgramEvents(tei.dataValues[dataElements.period.value]);
     } else {
       console.log("No data found for the organisation unit.");
@@ -153,6 +196,7 @@ const maxWords = 200;
         radio.checked = true;  // Set it as checked
       }
     })
+    getRisk(dataValues);
   }
 
   fetchOrganizationUnitUid();
@@ -165,11 +209,24 @@ document.addEventListener('DOMContentLoaded', function () {
     radio.addEventListener('change', (event) => {
         if (event.target.checked) {
           pushDataElement(event.target.name, event.target.value);
+         getRisk();
         }
     });
   }); 
-  
 });
-function submitNarrative() {
-  alert("Event Saved SuccessFully")
+
+async function getRisk(dataValues) {
+  var riskValues = 0;
+  document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+    if(dataValues) {
+      if (dataValues[radio.name] && radio.value === dataValues[radio.name]) {
+        radio.checked = true;  // Set it as checked
+        if(radio.value == "true")riskValues++;
+      }
+    }
+    else if(radio.checked==true && radio.value=="true") riskValues++;
+  })
+  pushDataElement('bhJH8eShna7' , riskValues)  
+  if(sendBackToMA) await pushDataElementOther('bhJH8eShna7',riskValues, tei.program, programStage.trtSummaryB, eventSummaryBId);
+  else await pushDataElementOther('bhJH8eShna7',riskValues, tei.program, programStage.trtSummaryA, eventSummaryAId);
 }
