@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${totalBudget.toLocaleString()}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i} currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${coreFunding.toLocaleString()}" id="${dataElements.coreFunding}-${i}" class="form-control coreFunding-${i} currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(coreFunding)}" id="${dataElements.coreFunding}-${i}" class="form-control coreFunding-${i} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${difference.toLocaleString()}" id="${dataElements.difference}-${i}" class="form-control difference-${i} currency" disabled readonly>
+            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(difference)}" id="${dataElements.difference}-${i}" class="form-control difference-${i} currency" disabled readonly>
           </div>
         </td>
       </tr>
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $
                         </div>
                       </div>
-                      <input type="number" ${tei.disabled ? 'disabled readonly': ''} value="${budget}" id="${dataElements.projectBudget[index].budget}-${i}" oninput="calculateTotals(${i}, 'totalBudget');pushDataElementYear(this.id,this.value)" class="form-control input-totalBudget-${i} currency">
+                      <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${formatNumberInput(budget)}" id="${dataElements.projectBudget[index].budget}-${i}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i}, 'totalBudget')" class="form-control input-totalBudget-${i} currency">
                     </div>
                   </td>
                   <td>
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $
                         </div>
                       </div>
-                      <input type="number" ${tei.disabled ? 'disabled readonly': ''} value="${funding}" id="${dataElements.projectBudget[index].funding}-${i}" oninput="calculateTotals(${i}, 'coreFunding');pushDataElementYear(this.id,this.value)"  class="form-control input-coreFunding-${i} currency">
+                      <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${formatNumberInput(funding)}" id="${dataElements.projectBudget[index].funding}-${i}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i}, 'coreFunding');"  class="form-control input-coreFunding-${i} currency">
                     </div>
                   </td>
                 </tr>`
@@ -404,4 +404,24 @@ function checkProjects(projects, values) {
     })
   }
   return names;
+}
+
+function calculateTotals(year, id) {
+  const element = document.querySelectorAll(`.input-${id}-${year}`);
+  
+  var value = 0;
+  element.forEach(el => value += unformatNumber(el.value));
+
+  $(`.${id}-${year}`).val(formatNumberInput(value));
+  pushDataElementYear($(`.${id}-${year}`)[0].id, value);
+  
+  if(id=="coreFunding") {
+    const difference = tei.yearlyAmount[`amount-${year}`] - value;
+    
+    $(`.difference-${year}`).val(formatNumberInput(difference)); 
+    if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+    else  $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+    
+    pushDataElementYear($(`.difference-${year}`)[0].id, difference);
+  }
 }

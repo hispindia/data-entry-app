@@ -822,8 +822,8 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
     outline:none;
     box-shadow: none
 }
-
+/* 
 .sidebar-bp + .dropdown-menu li:not(:nth-last-child(-n+7))  {
     pointer-events: none; 
     opacity: 0.5; 
-  }
+  } */
