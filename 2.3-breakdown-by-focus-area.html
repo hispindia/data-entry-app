@@ -284,7 +284,7 @@
   
   <!-- Page Specific JS File -->
   <script src="assets/js/config.js"></script>
-  <script src="assets/js/forms/businessplan/projectFocusArea-new.js"></script>
+  <script src="assets/js/forms/businessplan/projectFocusArea.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->
@@ -356,48 +356,6 @@
       if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
       else counter.textContent = `${maxWords} words remaining`;
     }
-
-    function calculateTotals(year, id, idx) {
-      const element = document.querySelectorAll(`.input-${id}-${year}`);
-      var value = 0;
-      var variation = 0;
-      var budgetFocusArea = 0;
-      element.forEach((el,index) => {
-        value += Number(el.value);
-      });
-      $(`.${id}-${year}`).val(value.toLocaleString());
-      const difference = tei.yearlyAmount[`amount-${year}`] - value;
-
-      $(`.difference-${year}`).val(difference.toLocaleString()); 
-      if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-      else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
-      
-      dataElements.projectFocusAreaNew[idx].focusAreas.forEach(focusArea => {
-        if( $(`#${focusArea}-budget-${year}`).val()) budgetFocusArea+= Number($(`#${focusArea}-budget-${year}`).val());
-      })
-      if(totalProjectBudget[idx][year] || totalProjectBudget[idx][year]===0) {
-        variation = totalProjectBudget[idx][year] - budgetFocusArea;
-      }
-      $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`).val(variation.toLocaleString());
-      if(variation >= 0) {
-        $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
-        $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
-      }
-      else {
-        $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
-        $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
-      }
-
-      pushDataElementYear(`${dataElements.projectFocusAreaNew[idx].variation}-${year}`, variation,0);
-      
-      
-      pushDataElementYear($(`.${id}-${year}`)[0].id, value,0);
-      pushDataElementYear($(`.difference-${year}`)[0].id, difference,0);
-    }
-    
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
   </script>
 
 </body>
