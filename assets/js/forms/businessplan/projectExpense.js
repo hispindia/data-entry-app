@@ -444,7 +444,7 @@ projectRows += `</tr>
             <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
               ${(length-1 == index) ? `<button 
               ${tei.disabled ? 'disabled readonly': ''}
-              class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/business-plan-3.1-total-income.html'">
+              class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/3.1-total-income.html'">
               <span data-i18n="intro.next">Next</span>:  
               <span data-i18n="intro.total_income">3.1 Total Income</span>
               </button>`:`<input

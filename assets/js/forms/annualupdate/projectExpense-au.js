@@ -500,7 +500,7 @@ projectRows += `</tr>
                 value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
                 class="btn btn-secondary"
               />
-              ${(length-1 == index) ? `<button class="btn btn-primary" ${tei.disabled ? 'disabled readonly': ''} onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/business-plan-3.1-total-income-au.html'">
+              ${(length-1 == index) ? `<button class="btn btn-primary" ${tei.disabled ? 'disabled readonly': ''} onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/3.1-total-income-au.html'">
               <span data-i18n="intro.next">Next</span>:  
               <span data-i18n="intro.total_income">3.1 Total Income</span>
             </button>`:`<input

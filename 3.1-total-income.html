@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>3.1. Total Income</title>
+  <title>IPPF: Business Plan-3.1. Total Income</title>
   <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/css/app.min.css">
   <!-- Template CSS -->
@@ -101,8 +101,8 @@
                       <li><a class="nav-link" href="#" data-target="2.2-project-budget.html"><span data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
                       <li><a class="nav-link" href="#" data-target="2.3-breakdown-by-focus-area.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
                       <li><a class="nav-link" href="#" data-target="2.4-breakdown-by-expense-category.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category</span></a></li>
-                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
-                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.1-total-income.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.2-income-by-donor.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
                       <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
                       <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
                       <li><a class="nav-link" href="#" data-target="3.5-commodities-by-funding-source.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
@@ -127,8 +127,8 @@
                       <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span  data-i18n="intro.project_budget">2.2 Project Budget</span></a></li>
                       <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span data-i18n="intro.project_focusarea">2.3 Budget by Focus Area</span></a></li>
                       <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span> </a></li>
-                      <li><a class="nav-link" href="#" data-target="business-plan-3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
-                      <li><a class="nav-link" href="#" data-target="business-plan-3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
+                      <li><a class="nav-link" href="#" data-target="3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
                       <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
                       <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
                       <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
@@ -188,27 +188,19 @@
                   </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="" data-i18n="intro.year_business_plan_update" >Year of Business Plan Update</label>
-                    <select  class="form-control mt-1" id="year-update">
-                    </select>
-                    <div class="invalid-feedback">
-                        Error here
-                    </div>
-                </div>
-                <div class="form-group col-md-2">
                   <label for="" data-i18n="intro.region">Region</label>
                   <input type="text" class="form-control" id="headerOrgId" disabled>
                   <div class="invalid-feedback">
                     Error here
                   </div>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                   <label for="">MA </label>
                   <input type="text" class="form-control mt-1" disabled id="headerOrgName">
 
                 </div>
-                <div class="form-group col-md-2">
-                  <label for="">MA-ID </label>
+                <div class="form-group col-md-3">
+                  <label for=""> MA-ID</label>
                   <input type="text" class="form-control mt-1" disabled id="headerOrgCode">
                   <div class="invalid-feedback">
                     Error here
@@ -216,21 +208,20 @@
                 </div>
               </div>
             </div>
-
             <div class="form-wizard mt-3">
               <div class="myContainer">
                 <div class="d-flex justify-content-between mb-2">
-                  <h6 class="title-main mb-2" data-i18n="intro.total_income">3.1.- Total Income </h6>
+                  <h6 class="title-main mb-2"><span data-i18n="intro.total_income">Total Income</span> </h6>
                 </div>
                 <div class="budget-wrap top-budget-wrap table-responsive">
                   <table class="table table-striped table-md mb-0 " width="100%">
                     <thead>
                       <tr>
                         <th data-i18n="intro.year">Year</th>
-                        <th data-i18n="intro.restricted">restricted</th>
+                        <th data-i18n="intro.restricted">Restricted</th>
                         <th data-i18n="intro.unrestricted">Unrestricted</th>
-                        <th data-i18n="intro.Total">Total</th>
-                        <th data-i18n="intro.Deficit">Deficit/Surplus</th>
+                        <th data-i18n="intro.total">Total</th>
+                        <th data-i18n="intro.deficit">Deficit/Surplus</th>
                       </tr>
                     </thead>
                     <tbody id="totals">
@@ -280,12 +271,11 @@
                             <div class="form-group text-end mar-b-0">
                               <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
                               <input type="button" onclick="submitProjects()" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
+                              <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/3.2-income-by-donor.html'">
                               
-                            <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/business-plan-3.2-income-by-donor-au.html'">
-                              
-                              <span data-i18n="intro.next">Next</span>:  
-                              <span data-i18n="intro.income_donor">3.2 Income by Donor</span>
-                            </button>
+                                <span data-i18n="intro.next">Next</span>:  
+                                <span data-i18n="intro.income_donor">3.2 Income by Donor</span>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -294,8 +284,6 @@
                   </form>
                 </div>
                 <!---- Content wrapper start --->
-              
-              </div>
               </div>
             </div>
           </div>
@@ -319,14 +307,14 @@
   
   <!-- Page Specific JS File -->
   <script src="assets/js/config.js"></script>
-  <script src="assets/js/forms/annualupdate/totalIncome-au.js"></script>
+  <script src="assets/js/forms/businessplan/totalIncome.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->
   <script src="assets/js/select2.full.min.js"></script>
   <script src="assets/js/forms-advanced-forms.js"></script>
   <script src="assets/js/custom.js"></script>
-    
+
   <script>
     function addIncome(year) {
 
@@ -394,7 +382,7 @@
       
       $(`#deficit-${year}`).val(globalTotals-totalExpenses[year]);
       if(globalTotals-totalExpenses[year] >= 0) $(`#deficit-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-      else $(`#deficit-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')   
+      else $(`#deficit-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')    
 
       $(`.unrestricted-${year}`).val(unrestrictedTotals.toLocaleString());
       $(`.restricted-${year}`).val(restrictedTotals.toLocaleString());
@@ -404,14 +392,12 @@
       pushDataElementYear($(`.totalIncome-${year}`)[0].id, globalTotals);
     }
 
+    function submitProjects() {
+      alert("Data Saved Successfully!")
+    }
     
   </script>
 
-<script>
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
-</script>
 </body>
 
 </html>
