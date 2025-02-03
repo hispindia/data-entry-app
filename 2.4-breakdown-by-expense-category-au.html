@@ -385,53 +385,6 @@
         if(value) counter.textContent = `${(maxWords - words.length)} words remaining`;
         else counter.textContent = `${maxWords} words remaining`;
     }
-    
-    function calculateTotals(year, id, idx) {
-      const element = document.querySelectorAll(`.input-${id}-${year}`);
-      var value = 0;
-      var variation = 0;
-      var budgetExpense = 0;
-      element.forEach((el,index) => {
-        value += Number(el.value);
-      });
-      $(`.${id}-${year}`).val(value.toLocaleString());
-      const difference = tei.yearlyAmount[`amount-${year}`] - value;
-
-      $(`.difference-${year}`).val(difference.toLocaleString()); 
-      if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-      else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
-      
-      budgetExpense += Number($(`#${dataElements.projectExpenseCategory[idx].personnel}-${year}`).val());
-      budgetExpense += Number($(`#${dataElements.projectExpenseCategory[idx].activities}-${year}`).val());
-      budgetExpense += Number($(`#${dataElements.projectExpenseCategory[idx].commodities}-${year}`).val());
-      budgetExpense += Number($(`#${dataElements.projectExpenseCategory[idx].cost}-${year}`).val());
-  
-      if(totalProjectBudget[idx][year] || totalProjectBudget[idx][year]===0) {
-        variation = totalProjectBudget[idx][year] - budgetExpense;
-      }
-
-      $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`).val(variation.toLocaleString());
-      if(variation >= 0) {
-        $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
-        $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
-      }
-      else {
-        $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
-        $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
-      } 
-
-      pushDataElementYear(`${dataElements.projectExpenseCategory[idx].variation}-${year}`, variation);
-      
-      
-      pushDataElementYear($(`.${id}-${year}`)[0].id, value);
-      pushDataElementYear($(`.difference-${year}`)[0].id, difference);
-    }
-  </script>
-  
-<script>
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
 </script>
   </body>
 </html>

@@ -135,9 +135,7 @@ const maxWords = 200;
       const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget,  dataElements.year.id);
       if(dataValuesPB[year]) {  
         dataElements.projectBudget.forEach((project,index) => {
-          if(dataValuesPB[year][project.name]) {
-            // tei.projects.push(dataValuesPB[year][project.name]);
-            
+          if(dataValuesPB[year][project.name] && tei.projects[index]) {
             for (let year = tei.year.start; year <= tei.year.end; year++) {
               if(!totalProjectBudget[index]) totalProjectBudget[index] = {};
               if(!totalProjectBudget[index][year]) totalProjectBudget[index][year] = 0;
@@ -150,15 +148,6 @@ const maxWords = 200;
       }
 
       tei.dataValues = getEvents(filteredPrograms, tei.program, dataElements.year.id); //data vlaues period wise
-
-      // if(dataValues) {
-      //   let value = ''
-      //   for(let year = tei.year.start; year <= tei.year.end; year++) {
-      //     var difference = (dataValues[year] && dataValues[year][dataElements.difference]) ? dataValues[year][dataElements.difference]: 0;
-      //     if(difference) value = 'The total project budget should be equal to total project budget by expense categories. Please check the data.'  
-      //   }
-      //   if(value ) alert(value);
-      // }
       
       if(tei.projects.length) {
       for (let year = tei.year.start; year <= tei.year.end; year++) {
@@ -246,7 +235,7 @@ const maxWords = 200;
           $
         </div>
       </div>
-      <input type="text" value="${totalBudget.toLocaleString()}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i}  currency" readonly disabled>
+      <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i}  currency" readonly disabled>
     </div>
   </td>
   <td>
@@ -256,7 +245,7 @@ const maxWords = 200;
           $
         </div>
       </div>
-      <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${difference.toLocaleString()}" id="${dataElements.difference}-${i}" class="form-control difference-${i}  currency" readonly disabled>
+      <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}-${i}" class="form-control difference-${i}  currency" readonly disabled>
     </div>
   </td>
 </tr>
@@ -327,11 +316,11 @@ const maxWords = 200;
               </div>
               <input
                 id="${dataElements.projectExpenseCategory[index].personnel}-${i}"
-                type="number"
+                type="text"
                 ${tei.disabled ? 'disabled readonly': ''}
                 ${tei.disabledYear[i] ? 'disabled':''} 
-                value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].personnel]) ? dataValues[i][dataElements.projectExpenseCategory[index].personnel] : ''}"
-                oninput="pushDataElementYear(this.id,this.value);calculateTotals(${i},'totalBudget', ${index})" 
+                value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].personnel]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].personnel]) : ''}"
+                oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
                 class="form-control input-totalBudget-${i}  currency"
               />
             </div>
@@ -354,11 +343,11 @@ const maxWords = 200;
                     </div>
                   </div>
                   <input id="${dataElements.projectExpenseCategory[index].activities}-${i}"
-                    type="number"
+                    type="text"
                     ${tei.disabled ? 'disabled readonly': ''}
                     ${tei.disabledYear[i] ? 'disabled':''} 
-                    value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].activities]) ? dataValues[i][dataElements.projectExpenseCategory[index].activities] : ''}"
-                    oninput="pushDataElementYear(this.id,this.value);calculateTotals(${i},'totalBudget', ${index})" 
+                    value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].activities]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].activities]) : ''}"
+                    oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
                     class="form-control input-totalBudget-${i}  currency"
                   />
                 </div>
@@ -382,11 +371,11 @@ const maxWords = 200;
                   </div>
                   <input
                     id="${dataElements.projectExpenseCategory[index].commodities}-${i}"
-                    type="number"
+                    type="text"
                     ${tei.disabled ? 'disabled readonly': ''}
                     ${tei.disabledYear[i] ? 'disabled':''} 
-                    value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].commodities]) ? dataValues[i][dataElements.projectExpenseCategory[index].commodities] : ''}"
-                    oninput="pushDataElementYear(this.id,this.value);calculateTotals(${i},'totalBudget', ${index})" 
+                    value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].commodities]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].commodities]) : ''}"
+                    oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
                     class="form-control input-totalBudget-${i}  currency"
                   />
                 </div>
@@ -410,11 +399,11 @@ const maxWords = 200;
                 </div>
                 <input
                   id="${dataElements.projectExpenseCategory[index].cost}-${i}"
-                  type="number"
+                  type="text"
                   ${tei.disabled ? 'disabled readonly': ''}
                   ${tei.disabledYear[i] ? 'disabled':''} 
-                  value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].cost]) ? dataValues[i][dataElements.projectExpenseCategory[index].cost] : ''}"
-                  oninput="pushDataElementYear(this.id,this.value);calculateTotals(${i},'totalBudget', ${index})" 
+                  value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].cost]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].cost]) : ''}"
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
                   class="form-control input-totalBudget-${i}  currency"
                 />
               </div>
@@ -448,7 +437,7 @@ const maxWords = 200;
                     type="text" 
                     ${tei.disabled ? 'disabled readonly': ''}
                     id="${dataElements.projectExpenseCategory[index].variation}-${i}" 
-                    value="${dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].variation]? Number(dataValues[i][dataElements.projectExpenseCategory[index].variation]).toLocaleString(): 0}"  
+                    value="${dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].variation]? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].variation]): 0}"  
                     class="form-control currency"
                     style="background:${dataValues[i][dataElements.projectExpenseCategory[index].variation] ? (dataValues[i][dataElements.projectExpenseCategory[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
                     disabled
@@ -583,4 +572,48 @@ function checkProjects(projects, values) {
     })
   }
   return names;
+}
+
+function calculateTotals(year, id, idx) {
+  const element = document.querySelectorAll(`.input-${id}-${year}`);
+  var value = 0;
+  var variation = 0;
+  var budgetExpense = 0;
+  element.forEach((el) => {
+    value += unformatNumber(el.value);
+  });
+  $(`.${id}-${year}`).val(formatNumberInput(value));
+  const difference = tei.yearlyAmount[`amount-${year}`] - value;
+
+  $(`.difference-${year}`).val(formatNumberInput(difference)); 
+  if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+  else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+  
+  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].personnel}-${year}`).val());
+  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].activities}-${year}`).val());
+  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].commodities}-${year}`).val());
+  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].cost}-${year}`).val());
+
+  if(totalProjectBudget[idx] &&  !isNaN(totalProjectBudget[idx][year])) {
+    variation = totalProjectBudget[idx][year] - budgetExpense;
+  } else if(budgetExpense) variation -= budgetExpense;
+
+  $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`).val(formatNumberInput(variation));
+  if(variation >= 0) {
+    $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
+    $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
+  }
+  else {
+    $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
+    $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
+  } 
+
+  pushDataElementYear(`${dataElements.projectExpenseCategory[idx].variation}-${year}`, variation);
+  
+  
+  pushDataElementYear($(`.${id}-${year}`)[0].id, value);
+  pushDataElementYear($(`.difference-${year}`)[0].id, difference);
+}
+function submitProjects() {
+  alert("Data Saved Successfully!")
 }

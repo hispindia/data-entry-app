@@ -295,32 +295,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget,  dataElements.year.id);
       if(dataValuesPB[year]) {
         dataElements.projectBudget.forEach((project,index) => {
-          if(dataValuesPB[year][project.name]) {
-          // tei.projects.push(dataValuesPB[year][project.name]);
-          
+          if(dataValuesPB[year][project.name] && tei.projects[index]) {
           for (let year = tei.year.start; year <= tei.year.end; year++) {
-
             if(!totalProjectBudget[index]) totalProjectBudget[index] = {};
             if(!totalProjectBudget[index][year]) totalProjectBudget[index][year] = 0;
             if(dataValuesPB[year][project.budget]) totalProjectBudget[index][year] += Number(dataValuesPB[year][project.budget]);
             
             tei.yearlyAmount[`amount-${year}`] = dataValuesPB[year][dataElements.totalBudget] ? dataValuesPB[year][dataElements.totalBudget] : ''
-            
           }
         }
       })
     }
 
       tei.dataValues = getEvents(filteredPrograms, tei.program, dataElements.year.id); //data vlaues period wise
-
-      // if(dataValues) {
-      //   let value = ''
-      //   for(let year = tei.year.start; year <= tei.year.end; year++) {
-      //     var difference = (dataValues[year] && dataValues[year][dataElements.difference]) ? dataValues[year][dataElements.difference]: 0;
-      //     if(difference) value = 'The total project budget should be equal to total project budget by focus areas. Please check the data.'  
-      //   }
-      //   if(value ) alert(value);
-      // }
 
       if(tei.projects.length) {
         for (let year = tei.year.start; year <= tei.year.end; year++) {
@@ -415,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${totalBudget.toLocaleString()}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i}  currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i}  currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -425,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" style="FAA0A0; background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${difference.toLocaleString()}" id="${dataElements.difference}-${i}" class="form-control difference-${i}  currency" disabled readonly>
+            <input type="text" style="FAA0A0; background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}-${i}" class="form-control difference-${i}  currency" disabled readonly>
           </div>
         </td>
       </tr>
@@ -517,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             type="text" 
                             ${tei.disabled ? 'disabled readonly': ''}
                             id="${dataElements.projectFocusAreaNew[index].variation}-${i}"  
-                            value="${dataValues[i] && dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? Number(dataValues[i][dataElements.projectFocusAreaNew[index].variation]).toLocaleString(): ''}"  
+                            value="${dataValues[i] && dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? formatNumberInput(dataValues[i][dataElements.projectFocusAreaNew[index].variation]): ''}"  
                             class="form-control currency"
                             style="background:${dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? (dataValues[i][dataElements.projectFocusAreaNew[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
                             disabled
@@ -659,10 +646,10 @@ function displayProjectFocusArea(values, period, index, i) {
                                   $
                                 </div>
                               </div>
-                              <input type="number" 
+                              <input type="text" 
                               ${tei.disabled ? 'disabled readonly': ''}
                               ${tei.disabledYear[year] ? 'disabled':''} 
-                              value="${budget}" id="${values.id}-budget-${year}" oninput="pushDataElementFA(this.id);calculateTotals(${year},'totalBudget', ${index})" class="form-control input-totalBudget-${year} currency">
+                              value="${formatNumberInput(budget)}" id="${values.id}-budget-${year}" oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals(${year},'totalBudget', ${index})" class="form-control input-totalBudget-${year} currency">
                             </div>
                           </td>`;
             }
@@ -718,7 +705,11 @@ function loadCalculatedVariables(dataValues, dataElements, year) {
         if(val.budget) budget += Number(val.budget);
       }
     })
-    if(totalProjectBudget[index] && totalProjectBudget[index][year]) variations.push({dataElement:dataElements.projectFocusAreaNew[index].variation , value: `${totalProjectBudget[index][year]- budget}`})
+    if(totalProjectBudget[index] && !isNaN(totalProjectBudget[index][year])) {
+      let value = ''
+      if(budget || totalProjectBudget[index][year]) value = totalProjectBudget[index][year] - budget;
+      variations.push({dataElement:dataElements.projectFocusAreaNew[index].variation , value})
+    }
     totalBudget.value += budget;
   })
 
@@ -741,7 +732,7 @@ function pushDataElementFA(id) {
     const values= {
       area: document.getElementById(`${ids[0]}-area`).value,
       pillar:document.getElementById(`${ids[0]}-pillar`).value,
-      budget:document.getElementById(`${ids[0]}-budget-${ids[2]}`).value,
+      budget:unformatNumber(document.getElementById(`${ids[0]}-budget-${ids[2]}`).value),
     }
     if(values.area) pushDataElementYear(`${ids[0]}-${ids[2]}`, JSON.stringify(values))
     else pushDataElementYear(`${ids[0]}-${ids[2]}`, '')
@@ -751,7 +742,7 @@ function pushDataElementFA(id) {
       const values= {
         area: document.getElementById(`${ids[0]}-area`) ? document.getElementById(`${ids[0]}-area`).value: '',
         pillar:document.getElementById(`${ids[0]}-pillar`) ? document.getElementById(`${ids[0]}-pillar`).value:'',
-        budget:document.getElementById(`${ids[0]}-budget-${year}`) ? document.getElementById(`${ids[0]}-budget-${year}`).value:''
+        budget:document.getElementById(`${ids[0]}-budget-${year}`) ? unformatNumber(document.getElementById(`${ids[0]}-budget-${year}`).value):''
       }
       if(values.area) pushDataElementYear(`${ids[0]}-${year}`, JSON.stringify(values))
       else  pushDataElementYear(`${ids[0]}-${year}`, '')
@@ -774,4 +765,46 @@ function checkProjects(projects, values) {
     })
   }
   return names;
+}
+
+function calculateTotals(year, id, idx) {
+  const element = document.querySelectorAll(`.input-${id}-${year}`);
+  var value = 0;
+  var variation = 0;
+  var budgetFocusArea = 0;
+  element.forEach((el) => {
+    value += unformatNumber(el.value);
+  });
+  $(`.${id}-${year}`).val(formatNumberInput(value));
+  const difference = tei.yearlyAmount[`amount-${year}`] - value;
+
+  $(`.difference-${year}`).val(formatNumberInput(difference)); 
+  if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+  else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+  
+  dataElements.projectFocusAreaNew[idx].focusAreas.forEach(focusArea => {
+    if( $(`#${focusArea}-budget-${year}`).val()) budgetFocusArea+= unformatNumber($(`#${focusArea}-budget-${year}`).val());
+  })
+
+  if(totalProjectBudget[idx] && !isNaN(totalProjectBudget[idx][year])) {
+    variation = Number(totalProjectBudget[idx][year]) - budgetFocusArea;
+  } else if(budgetFocusArea) variation -= budgetFocusArea;
+
+  $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`).val(formatNumberInput(variation));
+  if(variation >= 0) {
+    $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
+    $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
+  }
+  else {
+    $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
+    $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
+  }
+
+  pushDataElementYear(`${dataElements.projectFocusAreaNew[idx].variation}-${year}`, variation,0);
+  pushDataElementYear($(`.${id}-${year}`)[0].id, value,0);
+  pushDataElementYear($(`.difference-${year}`)[0].id, difference,0);
+}
+
+function submitProjects() {
+    alert("Data Saved Successfully!")
 }
