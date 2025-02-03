@@ -317,7 +317,7 @@
                         $
                     </div>
                   </div>
-                    <input type="number" value="" ${tei.disabledYear[year] ? 'disabled' : ''}  id='${dataElements.incomeByDonor[donorCount].income}-${year}' oninput="pushDataElementYear(this.id, this.value); changeTotals('${year}')"  class="form-control input-${year} currency">
+                    <input type="text" value="" ${tei.disabledYear[year] ? 'disabled' : ''}  id='${dataElements.incomeByDonor[donorCount].income}-${year}' oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value)); changeTotals('${year}')"  class="form-control input-${year} currency">
                 </div>
                 </td>`;
             }
@@ -360,19 +360,6 @@
             else counter.textContent = `${maxWords} words remaining`;
         }
 
-        function changeTotals(year) {
-            var totals = 0;
-            document.querySelectorAll(`.input-${year}`).forEach(ev => {
-                totals += Number(ev.value);
-            })
-            $(`.totalBudget-${year}`).val(totals.toLocaleString());
-            pushDataElementYear($(`.totalBudget-${year}`)[0].id, totals)
-        }
-    </script>
-    <script>
-    function submitProjects() {
-        alert("Data Saved Successfully!")
-    }
   </script>
 </body>
 

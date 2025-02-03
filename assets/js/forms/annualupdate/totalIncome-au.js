@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
       rows += `<tr>
                 <td>${year}</td>
                 <td>
-                <input type="value"  ${tei.disabled ? 'disabled readonly': ''} value="${organisation}" id="${dataElements.organisation}-${year}" onblur="pushDataElementYear(this.id,this.value)" class="form-control currency">     
+                <input type="text"  ${tei.disabled ? 'disabled readonly': ''} value="${organisation}" id="${dataElements.organisation}-${year}" onblur="pushDataElementYear(this.id,this.value)" class="form-control currency">     
                 </td>
                 <td>
                     <div class="input-group">
@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $
                           </div>
                         </div>
-                        <input type="number" ${tei.disabledYear[year] ? 'disabled':''}  value="${incomeProvided}" id="${dataElements.incomeProvided}-${year}" onblur="pushDataElementYear(this.id,this.value)" class="form-control currency">                         
+                        <input type="text" ${tei.disabledYear[year] ? 'disabled':''}  value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}-${year}" onblur="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value))" class="form-control currency">                         
                     </div>
                 </td>
             </tr>`
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${restricted.toLocaleString()}" id="${dataElements.restrictedIncome}-${i}" 
+            <input type="text" value="${formatNumberInput(restricted)}" id="${dataElements.restrictedIncome}-${i}" 
             class="form-control restricted-${i}  currency" disabled readonly>
           </div>
         </td>
@@ -388,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${unrestricted.toLocaleString()}" id="${dataElements.unrestrictedIncome}-${i}" 
+            <input type="text" value="${formatNumberInput(unrestricted)}" id="${dataElements.unrestrictedIncome}-${i}" 
             class="form-control unrestricted-${i}  currency" disabled readonly>
           </div>
         </td>
@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${totalIncome.toLocaleString()}" id="${dataElements.totalIncome}-${i}" 
+            <input type="text" value="${formatNumberInput(totalIncome)}" id="${dataElements.totalIncome}-${i}" 
             class="form-control totalIncome-${i}  currency" disabled readonly>
           </div>
         </td>
@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div> <input type="text" 
             id='deficit-${i}'
             style="background:${deficit >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
-            value="${deficit.toLocaleString()}" class="form-control input-budget currency" disabled>
+            value="${formatNumberInput(deficit)}" class="form-control input-budget currency" disabled>
           </div>
         </td>
       </tr>
@@ -541,12 +541,12 @@ function addProjectIncome(income, dataValues, year, index) {
                    <div class="input-group-text">$ </div>
                 </div>
                 <input 
-                type="number" 
+                type="text" 
                 ${tei.disabled ? 'disabled readonly': ''}
                 id="${income.restricted}-${year}"
-                value="${restricted}" 
+                value="${formatNumberInput(restricted)}" 
                 ${tei.disabledYear[year] ? 'disabled':''} 
-                oninput="pushDataElementYear(this.id,this.value);calculateTotals('${income.restricted}', '${income.unrestricted}','${year}')" 
+                oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('${income.restricted}', '${income.unrestricted}','${year}')" 
              
                 class="form-control input-restricted-${year} currency">
               </div>
@@ -557,12 +557,12 @@ function addProjectIncome(income, dataValues, year, index) {
                   <div class="input-group-text">$</div>
                 </div>
                 <input 
-                type="number" 
+                type="text" 
                 ${tei.disabled ? 'disabled readonly': ''}
                 ${tei.disabledYear[year] ? 'disabled':''} 
                 id="${income.unrestricted}-${year}" 
-                value="${unrestricted}" 
-                oninput="pushDataElementYear(this.id,this.value);calculateTotals('${income.restricted}', '${income.unrestricted}','${year}')" 
+                value="${formatNumberInput(unrestricted)}" 
+                oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('${income.restricted}', '${income.unrestricted}','${year}')" 
             
                 class="form-control input-unrestricted-${year} currency">
               </div>
@@ -573,9 +573,9 @@ function addProjectIncome(income, dataValues, year, index) {
                       <div class="input-group-text">$</div>
                   </div>
                   <input 
-                  type="number"
+                  type="text"
                   id="${income.restricted}-${income.unrestricted}-${year}" 
-                  value="${totalIncome}" 
+                  value="${formatNumberInput(totalIncome)}" 
                   disabled
                   class="form-control  currency">
                 </div>
@@ -598,4 +598,43 @@ function changeSubCategory(code, changeSubCategory) {
 
     document.getElementById(changeSubCategory).innerHTML = options;
   }
+}
+
+
+function calculateTotals(restricted, unrestricted, year) {
+  const restrictedVal = $(`#${restricted}-${year}`)? $(`#${restricted}-${year}`).val(): '';
+  const unrestrictedVal = $(`#${unrestricted}-${year}`)? $(`#${unrestricted}-${year}`).val(): '';
+  const total = Number(restrictedVal) + Number(unrestrictedVal);
+  if($(`#${restricted}-${unrestricted}-${year}`)) {
+    $(`#${restricted}-${unrestricted}-${year}`).val(formatNumberInput(total));
+  }
+
+  var restrictedTotals = 0;
+  document.querySelectorAll(`.input-restricted-${year}`).forEach(ev=> {
+    var {value} = ev;
+    restrictedTotals += unformatNumber(value);
+  })
+ 
+  var unrestrictedTotals = 0;
+  document.querySelectorAll(`.input-unrestricted-${year}`).forEach(ev=> {
+    var {value} = ev;
+    unrestrictedTotals += unformatNumber(value);
+  })
+  var globalTotals = Number(unrestrictedTotals) + Number(restrictedTotals);
+
+  
+  $(`#deficit-${year}`).val(formatNumberInput(globalTotals-totalExpenses[year]));
+  if(globalTotals-totalExpenses[year] >= 0) $(`#deficit-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
+  else $(`#deficit-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')   
+
+  $(`.unrestricted-${year}`).val(formatNumberInput(unrestrictedTotals));
+  $(`.restricted-${year}`).val(formatNumberInput(restrictedTotals));
+  $(`.totalIncome-${year}`).val(formatNumberInput(globalTotals));
+  pushDataElementYear($(`.unrestricted-${year}`)[0].id, unrestrictedTotals);
+  pushDataElementYear($(`.restricted-${year}`)[0].id, restrictedTotals);
+  pushDataElementYear($(`.totalIncome-${year}`)[0].id, globalTotals);
+}
+
+function submitProjects() {
+  alert("Data Saved Successfully!")
 }

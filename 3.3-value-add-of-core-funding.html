@@ -309,7 +309,7 @@
     <script>
         $(".plus").click(function (e) {
             e.preventDefault();
-            var projectRows = `<tr><td><input type="text" value="" id='${dataElements.valuesCoreFunding.donors[donorCount].name}' oninput="formatNumberInput(this);pushDataElementMultipleYears(this.id,unformatNumber(this.value))" class="form-control"></td>`;
+            var projectRows = `<tr><td><input type="text" value="" id='${dataElements.valuesCoreFunding.donors[donorCount].name}' oninput="pushDataElementMultipleYears(this.id,this.value)" class="form-control"></td>`;
             for (let year = tei.year.start; year <= tei.year.end; year++) {
                 projectRows += `<td>
                 <div class="input-group">

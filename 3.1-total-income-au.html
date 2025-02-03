@@ -370,47 +370,6 @@
       else counter.textContent = `${maxWords} words remaining`;
     }
 
-    function calculateTotals(restricted, unrestricted, year) {
-      const restrictedVal = $(`#${restricted}-${year}`)? $(`#${restricted}-${year}`).val(): '';
-      const unrestrictedVal = $(`#${unrestricted}-${year}`)? $(`#${unrestricted}-${year}`).val(): '';
-      const total = Number(restrictedVal) + Number(unrestrictedVal);
-      if($(`#${restricted}-${unrestricted}-${year}`)) {
-        $(`#${restricted}-${unrestricted}-${year}`).val(total);
-      }
-
-      var restrictedTotals = 0;
-      document.querySelectorAll(`.input-restricted-${year}`).forEach(ev=> {
-        var {value} = ev;
-        restrictedTotals += Number(value);
-      })
-     
-      var unrestrictedTotals = 0;
-      document.querySelectorAll(`.input-unrestricted-${year}`).forEach(ev=> {
-        var {value} = ev;
-        unrestrictedTotals += Number(value);
-      })
-      var globalTotals = Number(unrestrictedTotals) + Number(restrictedTotals);
-
-      
-      $(`#deficit-${year}`).val(globalTotals-totalExpenses[year]);
-      if(globalTotals-totalExpenses[year] >= 0) $(`#deficit-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-      else $(`#deficit-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')   
-
-      $(`.unrestricted-${year}`).val(unrestrictedTotals.toLocaleString());
-      $(`.restricted-${year}`).val(restrictedTotals.toLocaleString());
-      $(`.totalIncome-${year}`).val(globalTotals.toLocaleString());
-      pushDataElementYear($(`.unrestricted-${year}`)[0].id, unrestrictedTotals);
-      pushDataElementYear($(`.restricted-${year}`)[0].id, restrictedTotals);
-      pushDataElementYear($(`.totalIncome-${year}`)[0].id, globalTotals);
-    }
-
-    
-  </script>
-
-<script>
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
 </script>
 </body>
 

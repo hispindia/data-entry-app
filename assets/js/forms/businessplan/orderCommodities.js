@@ -429,7 +429,7 @@ async function pushEvent(index, rate, formula, notes) {
   const code = dataElements.projectCommodities[index].code;
   const quantity = dataElements.projectCommodities[index].quantity;
   const price = dataElements.projectCommodities[index].price;
-  var quantityVal = unformatNumber($(`#${quantity}`).val());
+  var quantityVal = $(`#${quantity}`).val();
 
   if(formula) {
     if(formula=='512' || formula == '72') {
@@ -460,8 +460,8 @@ async function pushEvent(index, rate, formula, notes) {
     const priceVal = Number(rate) * Number(quantityVal);
     $(`#${price}`).val(formatNumberInput(Math.round(priceVal)));
     await pushDataElement(price, unformatNumber($(`#${price}`).val()));
-    await pushDataElement(name, unformatNumber($(`#${name}`).val()));
-    await pushDataElement(code, unformatNumber($(`#${code}`).val()));
+    await pushDataElement(name, $(`#${name}`).val());
+    await pushDataElement(code, $(`#${code}`).val());
   }
   addValuesCV(index)
 }

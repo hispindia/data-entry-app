@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['unrestrictedCost']}" value="${Math.round(unrestrictedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['unrestrictedCost']}" value="${formatNumberInput(Math.round(unrestrictedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
     <td>
@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="totalCost"  value="${Math.round(estimatedCost+combinedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="totalCost"  value="${formatNumberInput(Math.round(estimatedCost+combinedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
 
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCoreGrant']}"  value="${Math.round(unrestrictedCost-(estimatedCost+combinedCost)).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCoreGrant']}"  value="${formatNumberInput(Math.round(unrestrictedCost-(estimatedCost+combinedCost)))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
   </tr>`
@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['combinedCost']}" value="${Math.round(combinedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['combinedCost']}" value="${formatNumberInput(Math.round(combinedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
     <td>
@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCost']}"  value="${Math.round(estimatedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCost']}"  value="${formatNumberInput(Math.round(estimatedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
 
@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['totalCost']}" value="${Math.round(combinedCost + estimatedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['totalCost']}" value="${formatNumberInput(Math.round(combinedCost + estimatedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
   </tr>`
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="input-group-prepend">
           <div class="input-group-text"> $ </div>
         </div>
-        <input type="text" id="${dataElements.projectCommodities[index].price}" value="${Math.round(price)}" disabled
+        <input type="text" id="${dataElements.projectCommodities[index].price}" value="${formatNumberInput(Math.round(price))}" disabled
           class="form-control input-budget currency">
       </div>
     </td>
@@ -490,8 +490,8 @@ async function pushEvent(index, rate, formula, notes) {
 
   } else if(rate && quantityVal) {
     const priceVal = Number(rate) * Number(quantityVal);
-    $(`#${price}`).val(Math.round(priceVal));
-    await pushDataElement(price, $(`#${price}`).val());
+    $(`#${price}`).val(formatNumberInput(Math.round(priceVal)));
+    await pushDataElement(price, unformatNumber($(`#${price}`).val()));
     await pushDataElement(name, $(`#${name}`).val());
     await pushDataElement(code, $(`#${code}`).val());
   }
@@ -515,10 +515,10 @@ async function addValuesCV(index) {
   await pushDataElement(dataElements.orderCommoditiesCV['totalCost'], (totalCost+estimatedCost));
   if(eventSource[year]) await pushDataElementOther(dataElements.sourceCommodities['unrestricted'],(Math.round(totalCost+estimatedCost)), program.auCommodities, programStage.auCommoditiesSource, eventSource[year])
 
-  $(`#${dataElements.orderCommoditiesCV['estimatedCost']}`).val(Math.round(estimatedCost).toLocaleString());
-  $(`#${dataElements.orderCommoditiesCV['combinedCost']}`).val(Math.round(totalCost).toLocaleString());
-  $(`#${dataElements.orderCommoditiesCV['totalCost']}`).val(Math.round(totalCost+estimatedCost).toLocaleString());
-  $('#totalCost').val(Math.round(totalCost+estimatedCost).toLocaleString());
-  $(`#${dataElements.orderCommoditiesCV['estimatedCoreGrant']}`).val(Math.round(unrestrictedCost-(totalCost+estimatedCost)).toLocaleString());
+  $(`#${dataElements.orderCommoditiesCV['estimatedCost']}`).val(formatNumberInput(Math.round(estimatedCost)));
+  $(`#${dataElements.orderCommoditiesCV['combinedCost']}`).val(formatNumberInput(Math.round(totalCost)));
+  $(`#${dataElements.orderCommoditiesCV['totalCost']}`).val(formatNumberInput(Math.round(totalCost+estimatedCost)));
+  $('#totalCost').val(formatNumberInput(Math.round(totalCost+estimatedCost)));
+  $(`#${dataElements.orderCommoditiesCV['estimatedCoreGrant']}`).val(formatNumberInput(Math.round(unrestrictedCost-(totalCost+estimatedCost))));
   $(`#status-${index}`).text('Saved.');
 }

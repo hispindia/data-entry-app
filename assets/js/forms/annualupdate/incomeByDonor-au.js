@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
               $
           </div>
         </div>
-          <input type="text" value="${anticipatedIncome.toLocaleString()}" id="${dataElements.anticipatedIncome}-${year}" class="form-control totalBudget-${year} currency" disabled>
+          <input type="text" value="${formatNumberInput(anticipatedIncome)}" id="${dataElements.anticipatedIncome}-${year}" class="form-control totalBudget-${year} currency" disabled>
       </div>
       </td>`;
     }
@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
             </div>
           </div>
-            <input type="number" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled':''} ? 'disabled':''} value="${income}" id="${donor.income}-${year}"  oninput="pushDataElementYear(this.id, this.value); changeTotals('${year}')" class="form-control  input-${year}  currency">
+            <input type="text" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled':''} ? 'disabled':''} value="${formatNumberInput(income)}" id="${donor.income}-${year}"  oninput="formatNumberInput(this);pushDataElementYear(this.id, unformatNumber(this.value)); changeTotals('${year}')" class="form-control  input-${year}  currency">
         </div>
         </td>`;
     }
@@ -293,4 +293,18 @@ function checkDonors(donors, values, period) {
     })
   }
   return names;
+}
+
+
+function changeTotals(year) {
+  var totals = 0;
+  document.querySelectorAll(`.input-${year}`).forEach(ev => {
+      totals += unformatNumber(ev.value);
+  })
+  $(`.totalBudget-${year}`).val(formatNumberInput(totals));
+  pushDataElementYear($(`.totalBudget-${year}`)[0].id, totals)
+}
+
+function submitProjects() {
+alert("Data Saved Successfully!")
 }
