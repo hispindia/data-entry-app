@@ -8,6 +8,10 @@ var estimatedCost = 0;
 var estimatedCoreGrant = 0;
 var eventSource = {};
 
+var freightCostT1 = 1;
+var freightCostT2 =  0.4;
+var freightCostT3 = 0.25;
+
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -94,8 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
           end: dataElements.period.value.split(" - ")[1],
         };
 
-        const dataSet = await fetchDataSet();
-        fetchEvents(dataSet);
+        fetchEvents();
       }
     } catch (error) {
       console.error("Error fetching organization unit:", error);
@@ -104,15 +107,41 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchDataSet() {
     const values = {};
     const dataSetElements = await dataSet.getElements(dataSetId);
-    const dataValueSet = await dataSet.getValues(dataSetId, tei.orgUnit,tei.year.end);
+    const dataValueSet = await dataSet.getValues(dataSetId, tei.orgUnit,tei.year.start);
     dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
     return {
       dataElements: dataSetElements,
       values
     }
   }
-  async function fetchEvents(dataSet) {
+  async function fetchEvents() {
     rowIndex = 0;
+
+    const dataSet = await fetchDataSet();
+    if(dataSet.values[dataElements.freightCost1]) freightCostT1 = Number(dataSet.values[dataElements.freightCost1]);
+    if(dataSet.values[dataElements.freightCost2]) freightCostT2 = Number(dataSet.values[dataElements.freightCost2]);
+    if(dataSet.values[dataElements.freightCost3]) freightCostT3 = Number(dataSet.values[dataElements.freightCost3]);
+
+
+    const LMI =  await (await fetch(`../../organisationUnitGroups/Mh2lrJ4GFnH.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
+    const UMI = await (await fetch(`../../organisationUnitGroups/klrSsDD70QO.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
+    const LI = await (await fetch(`../../organisationUnitGroups/zOKTFwOLhmJ.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
+    const HI = await (await fetch(`../../organisationUnitGroups/r1b22jJ6JaG.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
+
+    var productCodeIds = '';
+    LMI.organisationUnits.forEach(ou => {
+      if(tei.orgUnit==ou.id) productCodeIds += LMI.description
+    });
+    UMI.organisationUnits.forEach(ou =>  {
+      if(tei.orgUnit==ou.id) productCodeIds += UMI.description
+    });
+    LI.organisationUnits.forEach(ou =>  {
+      if(tei.orgUnit==ou.id) productCodeIds += LI.description
+    });
+    HI.organisationUnits.forEach(ou =>  {
+      if(tei.orgUnit==ou.id) productCodeIds += HI.description
+    });
+
     const data = await events.get(tei.orgUnit);
     
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -175,17 +204,17 @@ document.addEventListener("DOMContentLoaded", function () {
           eventSource[tei.year.start] = dataValueSC[tei.year.start]["event"]
         }
       
-      populateProgramEvents(dataSet,dataValues[tei.year.start]);
+      populateProgramEvents(dataSet,dataValues[tei.year.start],productCodeIds);
     } else {
       console.log("No data found for the organisation unit.");
     }
   }
 
   // Function to populate program events data
-  function populateProgramEvents(dataSet,dataValues) {
+  function populateProgramEvents(dataSet,dataValues,productCodeIds) {
     $("#accordion").empty();
 
-    let projectRows = displayOrderprojectCommodities(dataSet, dataValues);
+    let projectRows = displayOrderprojectCommodities(dataSet, dataValues,productCodeIds);
     $("#accordion").append(projectRows);
 
     var totalsRow = displayTotals();
@@ -212,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['unrestrictedCost']}" value="${Math.round(unrestrictedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['unrestrictedCost']}" value="${formatNumberInput(Math.round(unrestrictedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
     <td>
@@ -222,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="totalCost"  value="${Math.round(estimatedCost+combinedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="totalCost"  value="${formatNumberInput(Math.round(estimatedCost+combinedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
 
@@ -233,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCoreGrant']}"  value="${Math.round(unrestrictedCost-(estimatedCost+combinedCost)).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCoreGrant']}"  value="${formatNumberInput(Math.round(unrestrictedCost-(estimatedCost+combinedCost)))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
   </tr>`
@@ -250,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['combinedCost']}" value="${Math.round(combinedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['combinedCost']}" value="${formatNumberInput(Math.round(combinedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
     <td>
@@ -260,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCost']}"  value="${Math.round(estimatedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['estimatedCost']}"  value="${formatNumberInput(Math.round(estimatedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
 
@@ -271,13 +300,13 @@ document.addEventListener("DOMContentLoaded", function () {
             $
           </div>
         </div>
-        <input type="text" id="${dataElements.orderCommoditiesCV['totalCost']}" value="${Math.round(combinedCost + estimatedCost).toLocaleString()}" class="form-control input-budget currency" disabled>
+        <input type="text" id="${dataElements.orderCommoditiesCV['totalCost']}" value="${formatNumberInput(Math.round(combinedCost + estimatedCost))}" class="form-control input-budget currency" disabled>
       </div>
     </td>
   </tr>`
     return totalsRow;
   }
-  function displayOrderprojectCommodities(dataSet, dataValues) {
+  function displayOrderprojectCommodities(dataSet, dataValues,productCodeIds) {
     var projectRows = '';
     dataSet.dataElements.sections.forEach((section,index) => {
     if(rowIndex<=productList) {
@@ -311,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </thead>
             <tbody>`
       section.dataElements.forEach((dataElement) => {
-       projectRows += addRow(dataElement, rowIndex, dataSet.values, dataValues);
+       projectRows += addRow(dataElement, rowIndex, dataSet.values, dataValues,productCodeIds);
        rowIndex++;
       })
     projectRows += `</tbody>
@@ -328,7 +357,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return projectRows;
   }
 
-  function addRow(dataElement,index, dataSetValues, dataValues) {
+  function addRow(dataElement,index, dataSetValues, dataValues, productCodeIds) {
+    const blockField = productCodeIds.includes(dataElement.code);
     const rate = dataSetValues[dataElement.id] ? dataSetValues[dataElement.id]: '';
     const quantityVal = dataValues[dataElements.projectCommodities[index].quantity] ? dataValues[dataElements.projectCommodities[index].quantity]: '';
     const price = dataValues[dataElements.projectCommodities[index].price] ? dataValues[dataElements.projectCommodities[index].price]: '';
@@ -352,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     </td>
     <td>
-      <input type="number" ${tei.disabled ? 'disabled readonly': ''} class="form-control" id="${dataElements.projectCommodities[index].quantity}" onblur="pushEvent('${index}', '${rate}', '${formula}', '${description[3]}')" value="${quantityVal}">
+      <input type="number" ${(tei.disabled || blockField) ? 'disabled readonly': ''} class="form-control" id="${dataElements.projectCommodities[index].quantity}" onblur="pushEvent('${index}', '${rate}', '${formula}', '${description[3]}')" value="${quantityVal}">
       <div id='status-${index}' class='font-italic'></div>
     </td>
     <td>
@@ -360,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="input-group-prepend">
           <div class="input-group-text"> $ </div>
         </div>
-        <input type="text" id="${dataElements.projectCommodities[index].price}" value="${Math.round(price)}" disabled
+        <input type="text" id="${dataElements.projectCommodities[index].price}" value="${formatNumberInput(Math.round(price))}" disabled
           class="form-control input-budget currency">
       </div>
     </td>
@@ -381,16 +411,17 @@ function calculateFreightCost(cost) {
   var value = 0;
   if(cost) {
     if(cost > 0 && cost <= 1000) {
-      value = cost
+      value = freightCostT1 * cost
     }
     else if(cost > 1000 && cost <= 4999) {
-      value = 0.4 * cost;
+      value = freightCostT2 * cost;
     } else {
-      value = 0.25 * cost;
+      value = freightCostT3 * cost;
     }
   }
   return value;
 }
+
 
 async function pushEvent(index, rate, formula, notes) {
   $(`#status-${index}`).text('Saving!');
@@ -398,7 +429,7 @@ async function pushEvent(index, rate, formula, notes) {
   const code = dataElements.projectCommodities[index].code;
   const quantity = dataElements.projectCommodities[index].quantity;
   const price = dataElements.projectCommodities[index].price;
-  var quantityVal = $(`#${quantity}`).val();
+  var quantityVal = unformatNumber($(`#${quantity}`).val());
 
   if(formula) {
     if(formula=='512' || formula == '72') {
@@ -427,10 +458,10 @@ async function pushEvent(index, rate, formula, notes) {
 
   } else if(rate && quantityVal) {
     const priceVal = Number(rate) * Number(quantityVal);
-    $(`#${price}`).val(Math.round(priceVal));
-    await pushDataElement(price, $(`#${price}`).val());
-    await pushDataElement(name, $(`#${name}`).val());
-    await pushDataElement(code, $(`#${code}`).val());
+    $(`#${price}`).val(formatNumberInput(Math.round(priceVal)));
+    await pushDataElement(price, unformatNumber($(`#${price}`).val()));
+    await pushDataElement(name, unformatNumber($(`#${name}`).val()));
+    await pushDataElement(code, unformatNumber($(`#${code}`).val()));
   }
   addValuesCV(index)
 }
@@ -439,8 +470,8 @@ async function addValuesCV(index) {
   const year = tei.year.start;
   var totalCost = 0;
   dataElements.projectCommodities.forEach(de => {
-    const rate = $(`#${de.quantity}-rate`).val();
-    const quantity =  $(`#${de.quantity}`).val();
+    const rate = unformatNumber($(`#${de.quantity}-rate`).val());
+    const quantity =  unformatNumber($(`#${de.quantity}`).val());
     totalCost += rate && quantity ? Math.round(rate * quantity) : 0;
   })
 
@@ -452,10 +483,10 @@ async function addValuesCV(index) {
   await pushDataElement(dataElements.orderCommoditiesCV['totalCost'], (totalCost+estimatedCost));
   if(eventSource[year]) await pushDataElementOther(dataElements.sourceCommodities['unrestricted'],(Math.round(totalCost+estimatedCost)), program.auCommodities, programStage.auCommoditiesSource, eventSource[year])
 
-  $(`#${dataElements.orderCommoditiesCV['estimatedCost']}`).val(Math.round(estimatedCost).toLocaleString());
-  $(`#${dataElements.orderCommoditiesCV['combinedCost']}`).val(Math.round(totalCost).toLocaleString());
-  $(`#${dataElements.orderCommoditiesCV['totalCost']}`).val(Math.round(totalCost+estimatedCost).toLocaleString());
-  $('#totalCost').val(Math.round(totalCost+estimatedCost).toLocaleString());
-  $(`#${dataElements.orderCommoditiesCV['estimatedCoreGrant']}`).val(Math.round(unrestrictedCost-(totalCost+estimatedCost)).toLocaleString());
+  $(`#${dataElements.orderCommoditiesCV['estimatedCost']}`).val(formatNumberInput(Math.round(estimatedCost)));
+  $(`#${dataElements.orderCommoditiesCV['combinedCost']}`).val(formatNumberInput(Math.round(totalCost)));
+  $(`#${dataElements.orderCommoditiesCV['totalCost']}`).val(formatNumberInput(Math.round(totalCost+estimatedCost)));
+  $('#totalCost').val(formatNumberInput(Math.round(totalCost+estimatedCost)));
+  $(`#${dataElements.orderCommoditiesCV['estimatedCoreGrant']}`).val(formatNumberInput(Math.round(unrestrictedCost-(totalCost+estimatedCost))));
   $(`#status-${index}`).text('Saved.');
 }

@@ -185,7 +185,7 @@
             <input type="text" 
             id="${dataElements.sourceCommodities['commodities']}-${year}" 
             class="form-control total-${year} currency" 
-            value="${commodities.toLocaleString()}" 
+            value="${formatNumberInput(commodities)}" 
             disabled readonly>
           </div>
         </td>
@@ -196,7 +196,7 @@
                 $
               </div>
             </div>
-            <input type="text" value="${commoditiesEC[year] ? Math.round(commoditiesEC[year]).toLocaleString() : ''}" class="form-control currency" disabled readonly>
+            <input type="text" value="${commoditiesEC[year] ? formatNumberInput(commoditiesEC[year]) : ''}" class="form-control currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -206,7 +206,7 @@
                 $
               </div>
             </div>
-            <input type="text" style="background:${variation >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${Math.round(variation).toLocaleString()}" id="${dataElements.sourceCommodities['variation']}-${year}" class="form-control difference-${year} currency" disabled readonly>
+            <input type="text" style="background:${variation >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(variation)}" id="${dataElements.sourceCommodities['variation']}-${year}" class="form-control difference-${year} currency" disabled readonly>
           </div>
         </td>
       </tr>
@@ -238,8 +238,8 @@
                   <input type="text" 
                   id="${dataElements.sourceCommodities['unrestricted']}-${year}" 
                   class="input-${year} form-control"
-                  value="${unrestrictedValue}"
-                  oninput="pushDataElementYear(this.id,this.value);calculateTotals(${year})">
+                  value="${formatNumberInput(unrestrictedValue)}"
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})">
                   ${tei.disabled ? 'disabled readonly': ''} 
               </div>
           </td>
@@ -253,8 +253,8 @@
                   <input type="text" 
                   id="${dataElements.sourceCommodities['international']}-${year}" 
                   class="input-${year} form-control"
-                  value="${internationalValue}"
-                  oninput="pushDataElementYear(this.id,this.value);calculateTotals(${year})"
+                  value="${formatNumberInput(internationalValue)}"
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})"
                   ${tei.disabled ? 'disabled readonly': ''} >
               </div>
           </td>
@@ -268,8 +268,8 @@
                   <input type="text" 
                   id="${dataElements.sourceCommodities['local']}-${year}" 
                   class="input-${year} form-control"
-                  value="${localValue}"
-                  oninput="pushDataElementYear(this.id,this.value);calculateTotals(${year})"
+                  value="${formatNumberInput(localValue)}"
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})"
                   ${tei.disabled ? 'disabled readonly': ''} >
               </div>
           </td>
@@ -283,8 +283,8 @@
                   <input type="text" 
                   id="${dataElements.sourceCommodities['inkind']}-${year}" 
                   class="input-${year} form-control"
-                  value="${inkindValue}" 
-                  oninput="pushDataElementYear(this.id,this.value);calculateTotals(${year})"
+                  value="${formatNumberInput(inkindValue)}" 
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})"
                   ${tei.disabled ? 'disabled readonly': ''} >
               </div>
           </td>
@@ -298,8 +298,8 @@
                   <input type="text" 
                   id="${dataElements.sourceCommodities['other']}-${year}" 
                   class="input-${year} form-control"
-                  value="${otherValue}"
-                  oninput="pushDataElementYear(this.id,this.value);calculateTotals(${year})"
+                  value="${formatNumberInput(otherValue)}"
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})"
                   ${tei.disabled ? 'disabled readonly': ''} >
               </div>
           </td>
@@ -313,7 +313,7 @@
                   <input type="text" 
                   id="${dataElements.sourceCommodities['total']}-${year}" 
                   class="total-${year} form-control"
-                  value="${total}"
+                  value="${formatNumberInput(total)}"
                   disabled>
               </div>
           </td>
@@ -348,15 +348,16 @@ function pushToAnnualReport() {
 function calculateTotals(year) {
   var totals = 0;
   $(`.input-${year}`).each(function() {
-    totals += Number($(this).val());
+    totals += unformatNumber($(this).val());
   })
-  $(`.total-${year}`).val(totals.toLocaleString());
+  $(`.total-${year}`).val(formatNumberInput(totals));
 
   $(`.total-${year}`).each(function() {
     pushDataElementYear(this.id, totals);
   })
   pushDataElementYear()
 }
+
 function calculateExpenseCategory(dataValues, year) {
   var value = 0;
   dataElements.projectExpenseCategory.forEach(de => {
