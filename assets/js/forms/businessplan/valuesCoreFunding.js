@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
               $
           </div>
         </div>
-          <input type="text" value="${amountsUnlocked.toLocaleString()}" id="${dataElements.amountsUnlocked}-${year}" class="form-control totalBudget-${year} currency" disabled>
+          <input type="text" value="${formatNumberInput(amountsUnlocked)}" id="${dataElements.amountsUnlocked}-${year}" class="form-control totalBudget-${year} currency" disabled>
       </div>
       </td>`;
     }
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
             </div>
           </div>
-            <input type="number" ${tei.disabled ? 'disabled readonly': ''} value="${amountLocked}" id="${donor.amountLocked}-${year}"  oninput="pushDataElementYear(this.id, this.value); changeTotals('${year}')" class="form-control  input-${year}  currency">
+            <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${formatNumberInput(amountLocked)}" id="${donor.amountLocked}-${year}"  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value)); changeTotals('${year}')" class="form-control  input-${year}  currency">
         </div>
         </td>`;
     }
@@ -269,3 +269,13 @@ function checkDonors(donors, values, period) {
   }
   return names;
 }
+
+function changeTotals(year) {
+    var totals = 0;
+    document.querySelectorAll(`.input-${year}`).forEach(ev => {
+        totals += unformatNumber(ev.value);
+    })
+    $(`.totalBudget-${year}`).val(formatNumberInput(totals));
+    pushDataElementYear($(`.totalBudget-${year}`)[0].id, totals)
+}
+     
