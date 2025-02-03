@@ -746,7 +746,7 @@ function calculateTotals(year, id, idx) {
   var value = 0;
   var variation = '';
   var budgetFocusArea = 0;
-  element.forEach((el,index) => {
+  element.forEach((el) => {
     value += unformatNumber(el.value);
   });
   $(`.${id}-${year}`).val(formatNumberInput(value));
