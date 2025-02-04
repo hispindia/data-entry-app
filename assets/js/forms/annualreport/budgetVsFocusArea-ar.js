@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
           $
         </div>
       </div>
-      <input type="text" value="${totalBudget.toLocaleString()}" id="${
+      <input type="text" value="${formatNumberInput(totalBudget)}" id="${
       dataElements.totalBudget
     }" class="form-control totalBudget  currency" readonly disabled>
     </div>
@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
           $
         </div>
       </div>
-      <input type="text" value="${actualExpense.toLocaleString()}" id="${
+      <input type="text" value="${formatNumberInput(actualExpense)}" id="${
       dataElements.totalExpenses
     }" class="form-control totalExpenses  currency" readonly disabled>
     </div>
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
       <input type="text" style="background:${
         difference >= 0 ? "#C1E1C1 !important" : "#FAA0A0 !important"
-      }"  value="${difference.toLocaleString()}" id="${
+      }"  value="${formatNumberInput(difference)}" id="${
       dataElements.difference
     }" class="form-control totalDifference currency" readonly disabled>
     </div>
@@ -415,12 +415,12 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div>
             <input 
-            type="number" 
+            type="text" 
             id ="${focusAreaId}-assignedBudget"
-            oninput="pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
+            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
             value="${
               focusAreaVal.assignedBudget
-                ? focusAreaVal.assignedBudget
+                ? formatNumberInput(focusAreaVal.assignedBudget)
                 : 0
             }"
             ${(!list.comment) ? 'disabled': ''}
@@ -435,11 +435,11 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div>
             <input 
-            type="number"  
+            type="text"  
             id ="${focusAreaId}-expense"
             ${tei.disabled ? 'disabled readonly': ''} 
-            oninput="pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
-            value="${focusAreaVal.expense ? focusAreaVal.expense : 0}"
+            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
+            value="${focusAreaVal.expense ? formatNumberInput(focusAreaVal.expense) : 0}"
             class="form-control input-budget currency">
           </div>
         </td>
@@ -463,7 +463,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }" 
             value="${
               focusAreaVal.variation
-                ? focusAreaVal.variation.toLocaleString()
+                ? formatNumberInput(focusAreaVal.variation)
                 : 0
             }"
             disabled
@@ -489,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   <input 
                                   type="text" 
                                   id="total-budget-${index}"
-                                  value="${totalBudget.toLocaleString()}"
+                                  value="${formatNumberInput(totalBudget)}"
                                   disabled
                                     class="form-control input-budget currency" disabled>
                                 </div>
@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   <input 
                                   type="text" 
                                   id="total-actualExpense-${index}"
-                                  value="${totalActualExpense.toLocaleString()}"
+                                  value="${formatNumberInput(totalActualExpense)}"
                                   disabled
                                     class="form-control input-budget currency" disabled>
                                 </div>
@@ -521,7 +521,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   <input
                                   type="text" 
                                   id="total-variation-${index}"
-                                  value="${totalVariation.toLocaleString()}"
+                                  value="${formatNumberInput(totalVariation)}"
                                   disabled
                                     class="form-control input-budget currency" disabled>
                                 </div>
@@ -732,13 +732,85 @@ function checkProjects(projects, values) {
 function pushDataElementFA(id) {
   const ids = id.split('-');
   var assignedBudget = document.getElementById(`${ids[0]}-assignedBudget`).value;
-  if(assignedBudget) assignedBudget = assignedBudget.replace(/[^0-9.]/g, '');
+  if(assignedBudget) assignedBudget = unformatNumber(assignedBudget);
     const values= {
       area: focusAreaList[`${ids[0]}area`],
       pillar: focusAreaList[`${ids[0]}pillar`],
       assignedBudget:assignedBudget,
-      expense: document.getElementById(`${ids[0]}-expense`).value,
-      variation: document.getElementById(`${ids[0]}-variation`).value,
+      expense: unformatNumber(document.getElementById(`${ids[0]}-expense`).value),
+      variation: unformatNumber(document.getElementById(`${ids[0]}-variation`).value),
     }
     pushDataElement(ids[0],JSON.stringify(values));
+}
+
+function calculateTotals(idx, expenseId) {
+  var totalExpenses = 0;
+  var totalDifference = 0;
+  dataElements.projectFocusAreaNew.forEach((project,index) => {
+  if($(`#${project.name}`).val()) {
+    var definedBudget = 0;
+    var expenses = 0;
+    var totalVariation = 0;
+    project.focusAreas.forEach(focusArea => {
+      if($(`#${focusArea}-assignedBudget`).val()) {
+      
+      const budget = unformatNumber($(`#${focusArea}-assignedBudget`).val());
+      const expense = unformatNumber($(`#${focusArea}-expense`).val());
+      const variation = budget-expense;
+
+      definedBudget += budget;
+      expenses += expense;
+      totalVariation += variation;
+
+      if(expenseId==`${focusArea}-expense`) {
+        $(`#${focusArea}-variation`).val(formatNumberInput(variation));
+        
+        if(variation >= 0) $(`#${focusArea}-variation`)[0].style.setProperty('background','#C1E1C1', 'important')
+        else $(`#${focusArea}-variation`)[0].style.setProperty('background','#FAA0A0', 'important')
+        const focusAreaVal = JSON.stringify({
+          area:focusAreaList[`${focusArea}area`],
+          pillar:focusAreaList[`${focusArea}pillar`],
+          assignedBudget:unformatNumber($(`#${focusArea}-assignedBudget`).val()),
+          expense: expense,
+          variation: variation
+        })
+        pushDataElement(focusArea, focusAreaVal);
+      } 
+      else if (expenseId==`${focusArea}-assignedBudget`) {
+        $(`#${focusArea}-variation`).val(formatNumberInput(variation));
+        
+        if(variation >= 0) $(`#${focusArea}-variation`)[0].style.setProperty('background','#C1E1C1', 'important')
+        else $(`#${focusArea}-variation`)[0].style.setProperty('background','#FAA0A0', 'important')
+      const focusAreaVal = JSON.stringify({
+        area:focusAreaList[`${focusArea}area`],
+        pillar:focusAreaList[`${focusArea}pillar`],
+        assignedBudget:unformatNumber($(`#${focusArea}-assignedBudget`).val()),
+        expense: expense,
+        variation: variation
+      })
+        pushDataElement(focusArea, focusAreaVal);
+      }
+      } 
+    })
+    if(idx==index) {
+      $(`#total-budget-${idx}`).val(formatNumberInput(definedBudget));
+      $(`#total-actualExpense-${idx}`).val(formatNumberInput(expenses));
+      $(`#total-variation-${idx}`).val(formatNumberInput(totalVariation));
+    }
+    totalDifference += totalVariation;
+    totalExpenses += expenses;
+  }
+  })
+
+  $('.totalExpenses').val(formatNumberInput(totalExpenses));
+  $('.totalDifference').val(formatNumberInput(totalDifference));
+  if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
+  else $('.totalDifference')[0].style.setProperty('background','#FAA0A0', 'important');
+  pushDataElement($('.totalExpenses')[0].id, totalExpenses);
+  pushDataElement($('.totalDifference')[0].id, totalDifference);
+
+}
+
+function submitProjects() {
+  alert("Data Saved Successfully!")
 }

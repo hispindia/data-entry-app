@@ -209,9 +209,6 @@
               </div>
             </div>
 
-
-
-
             <div class="form-wizard mt-3">
               <div class="myContainer">
 
@@ -284,7 +281,7 @@
   
   <!-- Page Specific JS File -->
   <script src="assets/js/config.js"></script>
-  <script src="assets/js/forms/annualreport/budgetVsFocusArea-ar-new.js"></script>
+  <script src="assets/js/forms/annualreport/budgetVsFocusArea-ar.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->
@@ -312,79 +309,6 @@
         else counter.textContent = `${maxWords} words remaining`;
     }
     
-    function calculateTotals(idx, expenseId) {
-      var totalExpenses = 0;
-      var totalDifference = 0;
-      dataElements.projectFocusAreaNew.forEach((project,index) => {
-      if($(`#${project.name}`).val()) {
-        var definedBudget = 0;
-        var expenses = 0;
-        var totalVariation = 0;
-        project.focusAreas.forEach(focusArea => {
-          if($(`#${focusArea}-assignedBudget`).val()) {
-          
-          const budget = Number($(`#${focusArea}-assignedBudget`).val().replace(/,/g, ''));
-          const expense = Number($(`#${focusArea}-expense`).val());
-          const variation = budget-expense;
-
-          definedBudget += budget;
-          expenses += expense;
-          totalVariation += variation;
-
-          if(expenseId==`${focusArea}-expense`) {
-            $(`#${focusArea}-variation`).val(variation.toLocaleString());
-            
-            if(variation >= 0) $(`#${focusArea}-variation`)[0].style.setProperty('background','#C1E1C1', 'important')
-            else $(`#${focusArea}-variation`)[0].style.setProperty('background','#FAA0A0', 'important')
-          const focusAreaVal = JSON.stringify({
-            area:focusAreaList[`${focusArea}area`],
-            pillar:focusAreaList[`${focusArea}pillar`],
-            assignedBudget:$(`#${focusArea}-assignedBudget`).val().replace(/[^0-9.]/g, ''),
-            expense: expense,
-            variation: variation
-          })
-            pushDataElement(focusArea, focusAreaVal);
-          } 
-          else if (expenseId==`${focusArea}-assignedBudget`) {
-            $(`#${focusArea}-variation`).val(variation.toLocaleString());
-            
-            if(variation >= 0) $(`#${focusArea}-variation`)[0].style.setProperty('background','#C1E1C1', 'important')
-            else $(`#${focusArea}-variation`)[0].style.setProperty('background','#FAA0A0', 'important')
-          const focusAreaVal = JSON.stringify({
-            area:focusAreaList[`${focusArea}area`],
-            pillar:focusAreaList[`${focusArea}pillar`],
-            assignedBudget:$(`#${focusArea}-assignedBudget`).val().replace(/[^0-9.]/g, ''),
-            expense: expense,
-            variation: variation
-          })
-            pushDataElement(focusArea, focusAreaVal);
-          }
-          } 
-        })
-        if(idx==index) {
-          $(`#total-budget-${idx}`).val(definedBudget.toLocaleString());
-          $(`#total-actualExpense-${idx}`).val(expenses.toLocaleString());
-          $(`#total-variation-${idx}`).val(totalVariation.toLocaleString());
-        }
-        totalDifference += totalVariation;
-        totalExpenses += expenses;
-      }
-      })
-
-      $('.totalExpenses').val(totalExpenses.toLocaleString());
-      $('.totalDifference').val(totalDifference.toLocaleString());
-      if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
-      else $('.totalDifference')[0].style.setProperty('background','#FAA0A0', 'important');
-      pushDataElement($('.totalExpenses')[0].id, totalExpenses);
-      pushDataElement($('.totalDifference')[0].id, totalDifference);
-  
-    }
-</script>
-
-<script>
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
 </script>
 </body>
 

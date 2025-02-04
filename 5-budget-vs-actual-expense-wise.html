@@ -301,65 +301,6 @@
         else counter.textContent = `${maxWords} words remaining`;
     }
     
-    function calculateTotals(idx, expenseId) {
-      var totalBudget = 0;
-      var totalExpenses = 0;
-      var totalDifference = 0;
-      dataElements.arProjectExpenseCategory.forEach((project,index) => {
-      if($(`#${project.name}`).val()) {
-        var expenses = 0;
-        var budgets = 0;
-        var totalVariation = 0;
-        for(let id in project.budgetExpense) {
-          const budget = $(`#${project.budgetExpense[id]}`).val().replace(/,/g, '');
-          const expense = Number($(`#${project.actualExpense[id]}`).val());
-          const variation = Number(budget) - expense;
-          budgets += Number(budget);
-          expenses += expense;
-          totalVariation += variation;
-
-          if(expenseId==project.actualExpense[id] || expenseId==project.budgetExpense[id] ) {
-            $(`#${project.variation[id]}`).val(variation.toLocaleString());
-            pushDataElement(project.variation[id], variation);
-            
-            if(variation >= 0) $(`#${project.variation[id]}`)[0].style.setProperty('background','#C1E1C1', 'important')
-            else $(`#${project.variation[id]}`)[0].style.setProperty('background','#FAA0A0', 'important')
-          } 
-        }
-        if(idx==index) {
-        $(`#total-actualExpense-${idx}`).val(expenses);
-        $(`#total-variation-${idx}`).val(totalVariation);
-        
-        if(totalVariation >= 0) $(`#total-variation-${idx}`)[0].style.setProperty('background','#C1E1C1', 'important');
-        else $(`#total-variation-${idx}`)[0].style.setProperty('background','#FAA0A0', 'important');
-        }
-        totalExpenses += expenses;
-        totalBudget += budgets
-      }
-      })
-
-      $('.totalExpenses').val(totalExpenses.toLocaleString());
-      if(totalBudget) {
-      totalDifference = totalBudget-totalExpenses;
-      }
-      
-      $('.totalDifference').val(totalDifference.toFixed(2));
-      
-      if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
-      else $('.totalDifference')[0].style.setProperty('background','#FAA0A0', 'important');
-
-      $('.totalBudget').val(totalBudget.toLocaleString());
-      pushDataElement($('.totalBudget')[0].id, totalBudget);
-      pushDataElement($('.totalExpenses')[0].id, totalExpenses);
-      pushDataElement($('.totalDifference')[0].id, totalDifference);
-  
-    }
-</script>
-
-<script>
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
 </script>
 </body>
 

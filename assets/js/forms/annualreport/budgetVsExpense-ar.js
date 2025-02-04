@@ -235,7 +235,7 @@ const maxWords = 200;
           $
         </div>
       </div>
-      <input type="text" value="${totalBudget.toLocaleString()}" id="${dataElements.totalBudget}" class="form-control totalBudget  currency" readonly disabled>
+      <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}" class="form-control totalBudget  currency" readonly disabled>
     </div>
   </td>
   <td>
@@ -245,7 +245,7 @@ const maxWords = 200;
           $
         </div>
       </div>
-      <input type="text" value="${actualExpense.toLocaleString()}" id="${dataElements.totalExpenses}" class="form-control totalExpenses  currency" readonly disabled>
+      <input type="text" value="${formatNumberInput(actualExpense)}" id="${dataElements.totalExpenses}" class="form-control totalExpenses  currency" readonly disabled>
     </div>
   </td>
   <td>
@@ -255,7 +255,7 @@ const maxWords = 200;
           $
         </div>
       </div>
-      <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${difference.toLocaleString()}" id="${dataElements.difference}" class="form-control totalDifference currency" readonly disabled>
+      <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control totalDifference currency" readonly disabled>
     </div>
   </td>
 </tr>
@@ -325,11 +325,11 @@ const maxWords = 200;
                                                     </div>
                                                   </div>
                                                   <input 
-                                                  type="number" 
+                                                  type="text" 
                                                   ${(!list.comment) ? 'disabled': ''}
                                                   id="${id}"
-                                                  oninput="pushDataElement(this.id,this.value);calculateTotals('${index}',this.id)" 
-                                                  value="${expense}" 
+                                                  oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
+                                                  value="${formatNumberInput(expense)}" 
                                                   class="form-control input-budget-${index} currency">
                                               </div>
                                           </td>`
@@ -344,7 +344,7 @@ const maxWords = 200;
                                                   </div>
                                                   <input type="text" 
                                                   disabled
-                                                  value="${total.toLocaleString()}" class="form-control input-budgetExpense currency">
+                                                  value="${formatNumberInput(total)}" class="form-control input-budgetExpense currency">
                                               </div>
                                           </td>
                                           </tr>
@@ -366,11 +366,11 @@ const maxWords = 200;
                                                     </div>
                                                   </div>
                                                   <input 
-                                                  type="number" 
+                                                  type="text" 
                                                   ${tei.disabled ? 'disabled readonly': ''} 
                                                   id="${id}"
-                                                  oninput="pushDataElement(this.id,this.value);calculateTotals('${index}',this.id)" 
-                                                  value="${expense}" class="form-control currency">
+                                                  oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
+                                                  value="${formatNumberInput(expense)}" class="form-control currency">
                                               </div>
                                           </td>`
                                           }
@@ -385,7 +385,7 @@ const maxWords = 200;
                                                   <input type="text" 
                                                   disabled
                                                   id="total-actualExpense-${index}"
-                                                  value="${total.toLocaleString()}" class="form-control input-budget currency">
+                                                  value="${formatNumberInput(total)}" class="form-control input-budget currency">
                                               </div>
                                           </td>
                                           </tr>
@@ -409,7 +409,7 @@ const maxWords = 200;
                                                     id="${id}"
                                                     disabled
                                                     style="background:${varitaionVal >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
-                                                    value="${varitaionVal.toLocaleString()}" class="form-control input-budget currency">
+                                                    value="${formatNumberInput(varitaionVal)}" class="form-control input-budget currency">
                                                 </div>
                                             </td>`
                                             }
@@ -425,7 +425,7 @@ const maxWords = 200;
                                                 disabled
                                                 id="total-variation-${index}"
                                                 style="background:${total >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
-                                                value="${total.toLocaleString()}" class="form-control input-budget currency">
+                                                value="${formatNumberInput(total)}" class="form-control input-budget currency">
                                             </div>
                                         </td>
                                         </tr></tbody></table>
@@ -499,7 +499,6 @@ function submitBudgetExpense() {
 }
 
 function loadCalculatedVariables(dataValues, dataValuesPE, dataElements) {
-  const year = document.getElementById("year-update").value;
   var projectNames = [];
   var totalBudget = {
     dataElement: dataElements.totalBudget,
@@ -572,4 +571,62 @@ function checkProjects(projects, values) {
     });
   }
   return names;
+}
+
+function calculateTotals(idx, expenseId) {
+  var totalBudget = 0;
+  var totalExpenses = 0;
+  var totalDifference = 0;
+  dataElements.arProjectExpenseCategory.forEach((project,index) => {
+  if($(`#${project.name}`).val()) {
+    var expenses = 0;
+    var budgets = 0;
+    var totalVariation = 0;
+    for(let id in project.budgetExpense) {
+      const budget = unformatNumber($(`#${project.budgetExpense[id]}`).val());
+      const expense = unformatNumber($(`#${project.actualExpense[id]}`).val());
+      const variation = Number(budget) - expense;
+      budgets += Number(budget);
+      expenses += expense;
+      totalVariation += variation;
+
+      if(expenseId==project.actualExpense[id] || expenseId==project.budgetExpense[id] ) {
+        $(`#${project.variation[id]}`).val(formatNumberInput(variation));
+        pushDataElement(project.variation[id], variation);
+        
+        if(variation >= 0) $(`#${project.variation[id]}`)[0].style.setProperty('background','#C1E1C1', 'important')
+        else $(`#${project.variation[id]}`)[0].style.setProperty('background','#FAA0A0', 'important')
+      } 
+    }
+    if(idx==index) {
+    $(`#total-actualExpense-${idx}`).val(expenses);
+    $(`#total-variation-${idx}`).val(totalVariation);
+    
+    if(totalVariation >= 0) $(`#total-variation-${idx}`)[0].style.setProperty('background','#C1E1C1', 'important');
+    else $(`#total-variation-${idx}`)[0].style.setProperty('background','#FAA0A0', 'important');
+    }
+    totalExpenses += expenses;
+    totalBudget += budgets
+  }
+  })
+
+  $('.totalExpenses').val(formatNumberInput(totalExpenses));
+  if(totalBudget) {
+  totalDifference = totalBudget-totalExpenses;
+  }
+  
+  $('.totalDifference').val(formatNumberInput(totalDifference.toFixed(2)));
+  
+  if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
+  else $('.totalDifference')[0].style.setProperty('background','#FAA0A0', 'important');
+
+  $('.totalBudget').val(formatNumberInput(totalBudget));
+  pushDataElement($('.totalBudget')[0].id, totalBudget);
+  pushDataElement($('.totalExpenses')[0].id, totalExpenses);
+  pushDataElement($('.totalDifference')[0].id, totalDifference);
+
+}
+
+function submitProjects() {
+  alert("Data Saved Successfully!")
 }

@@ -116,7 +116,6 @@
               </li>
               <li class="dropdown">
                   <a class="nav-link has-dropdown" href="#">
-                      
                       <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report Submission & Approval</span>
                   </a>
                   
@@ -368,50 +367,6 @@
         if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
         else counter.textContent = `${maxWords} words remaining`;
       }
-  
-      function calculateTotals(restricted, unrestricted,id) {
-        const restrictedVal = $(`#${restricted}`)? $(`#${restricted}`).val(): '';
-        const unrestrictedVal = $(`#${unrestricted}`)? $(`#${unrestricted}`).val(): '';
-        const total = Number(restrictedVal) + Number(unrestrictedVal);
-        if($(`#${restricted}-${unrestricted}`)) {
-          $(`#${restricted}-${unrestricted}`).val(total.toLocaleString());
-        }
-  
-        var restrictedTotals = 0;
-        document.querySelectorAll(`.input-restricted-${id}`).forEach(ev=> {
-          var {value} = ev;
-          restrictedTotals += Number(value);
-        })
-       
-        var unrestrictedTotals = 0;
-        document.querySelectorAll(`.input-unrestricted-${id}`).forEach(ev=> {
-          var {value} = ev;
-          unrestrictedTotals += Number(value);
-        })
-        var globalTotals = Number(unrestrictedTotals) + Number(restrictedTotals);
-        
-        $(`.totalIncome-${id}-unrestricted`).val(unrestrictedTotals.toLocaleString());
-        $(`.totalIncome-${id}-restricted`).val(restrictedTotals.toLocaleString());
-        $(`.totalIncome-${id}-total`).val(globalTotals.toLocaleString());
-        pushDataElement($(`.totalIncome-${id}-unrestricted`)[0].id, unrestrictedTotals);
-        pushDataElement($(`.totalIncome-${id}-restricted`)[0].id, restrictedTotals);
-        pushDataElement($(`.totalIncome-${id}-total`)[0].id, globalTotals);
-        
-        const localIncome = $(`#${dataElements.localIncome_total}`).val().replace(/,/g, '');
-        const internationalIncome = $(`#${dataElements.internationalIncome_total}`).val().replace(/,/g, '');
-        const ippfIncome = $(`#${dataElements.ippfIncome_total}`).val().replace(/,/g, '');
-        const totalIncome = Number(localIncome) + Number(internationalIncome) + Number(ippfIncome);
-        const deficit = totalIncome-totalExpenses;
-        $(`#deficit`).val(deficit.toLocaleString()); 
-        if(deficit >= 0) $('#deficit')[0].style.setProperty('background','#C1E1C1', 'important')
-        else $('#deficit')[0].style.setProperty('background','#FAA0A0', 'important')      
-      }
-    </script>
-  
-  <script>
-    function submitProjects() {
-        alert("Data Saved Successfully!")
-    }
   </script>
   </body>
   
