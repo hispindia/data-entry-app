@@ -827,3 +827,18 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
     pointer-events: none; 
     opacity: 0.5; 
   } */
+
+  .main-sidebar .sidebar-menu li.active a {
+    background: rgb(0 0 0 / 13%) !important;
+    padding-left: 0px !important;
+}
+.main-sidebar .sidebar-menu li.active a{background:rgb(0 0 0 / 13%) !important; padding-left:0px!important;}
+.main-sidebar .sidebar-menu li.dropdown.active .dropdown-menu{display:block;}
+.main-sidebar .sidebar-menu li.active ul.dropdown-menu {
+    background-color: rgb(20 28 43 / 3%);
+}
+
+.main-sidebar .sidebar-menu li.active ul.dropdown-menu li.active a {
+    background:rgb(0 0 0 / 6%) !important;
+    color: #fff !important;
+}
