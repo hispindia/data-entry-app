@@ -369,9 +369,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <input 
                 ${tei.disabled ? 'disabled readonly': ''} 
                     id="budget-personnel"
-                    type="number"
+                    type="text"
                     value=""
                     class="form-control currency"
+                    oninput="formatNumberInput(this)"
                 />
                 </div>
             </td>
@@ -385,9 +386,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <input
                 ${tei.disabled ? 'disabled readonly': ''} 
                     id="budget-activities"
-                    type="number"
+                    type="text"
                     value=""
                     class="form-control currency"
+                    oninput="formatNumberInput(this)"
                 />
                 </div>
             </td>
@@ -401,9 +403,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <input
             ${tei.disabled ? 'disabled readonly': ''} 
                 id="budget-commodities"
-                type="number"
+                type="text"
                 value=""
                 class="form-control currency"
+                oninput="formatNumberInput(this)"
             />
             </div>
         </td>
@@ -417,9 +420,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <input
         ${tei.disabled ? 'disabled readonly': ''} 
             id="budget-cost"
-            type="number"
+            type="text"
             value=""
             class="form-control currency"
+            oninput="formatNumberInput(this)"
         />
         </div>
     </td>
@@ -484,7 +488,7 @@ function displayProjectFocusArea(index) {
             <div class="input-group-prepend">
                 <div class="input-group-text">$</div>
             </div>
-            <input type="number" value="" id="assignedBudget-${index}" class="form-control currency">
+            <input type="text" value="" id="assignedBudget-${index}" oninput="formatNumberInput(this)" class="form-control currency">
             </div>
             </div>
         </div>
@@ -746,7 +750,7 @@ async function pushProject() {
             if (document.getElementById(`projectArea-${index}`)) {
                 dataValuesARPFA.push({
                     dataElement: fa,
-                    value: JSON.stringify({ area: document.getElementById(`projectArea-${index}`).value, pillar: document.getElementById(`projectPillar-${index}`).value, assignedBudget: document.getElementById(`assignedBudget-${index}`).value }), expense: '', variation: ''
+                    value: JSON.stringify({ area: document.getElementById(`projectArea-${index}`).value, pillar: document.getElementById(`projectPillar-${index}`).value, assignedBudget: unformatNumber(document.getElementById(`assignedBudget-${index}`).value) }), expense: '', variation: ''
                 })
             }
         })
@@ -828,7 +832,7 @@ async function pushProject() {
         for (let id in dataElements.arProjectExpenseCategory[projectDescriptionCount].budgetExpense) {
             dataValuesAREC.push({
                 dataElement: dataElements.arProjectExpenseCategory[projectDescriptionCount].budgetExpense[id],
-                value: document.getElementById(`budget-${id}`).value
+                value: unformatNumber(document.getElementById(`budget-${id}`).value)
             })
         }
 
