@@ -207,9 +207,9 @@ function getOrganisationDetails(attr, dv) {
   <tr><td>Organisation name (original language)</td><td colspan="3">${dataValues['RUJcqfBvOSh'] ? dataValues['RUJcqfBvOSh'] : ''}</td></tr>
   <tr><td>Primary point of contact for follow-up on business plan</td><td colspan="3">${dataValues['rTDJjf4crQ8'] ? dataValues['rTDJjf4crQ8'] : ''}</td></tr>
   <tr><td>Contact Email</td><td colspan="3">${dataValues['I27jsFBwUnt'] ? dataValues['I27jsFBwUnt'] : ''}</td></tr>
-  <tr><td>Formula-generated proposed grant amount (Year 1) (USD)</td><td colspan="3">${dataValues['fkHkH5jcJV0'] ? dataValues['fkHkH5jcJV0'] : ''}</td></tr>
-  <tr><td>Formula-generated proposed grant amount (Year 2) (USD)</td><td colspan="3">${dataValues['dhaMzFTSGrd'] ? dataValues['dhaMzFTSGrd'] : ''}</td></tr>
-  <tr><td>Provisional formula- generated grant amount (Year 3) (USD)</td><td colspan="3">${dataValues['gQQoxkZsZnn'] ? dataValues['gQQoxkZsZnn'] : ''}</td></tr>
+  <tr><td>Formula-generated proposed grant amount (Year 1) (USD)</td><td colspan="3">${dataValues['fkHkH5jcJV0'] ? formatNumberInput(dataValues['fkHkH5jcJV0']) : ''}</td></tr>
+  <tr><td>Formula-generated proposed grant amount (Year 2) (USD)</td><td colspan="3">${dataValues['dhaMzFTSGrd'] ? formatNumberInput(dataValues['dhaMzFTSGrd']) : ''}</td></tr>
+  <tr><td>Provisional formula- generated grant amount (Year 3) (USD)</td><td colspan="3">${dataValues['gQQoxkZsZnn'] ? formatNumberInput(dataValues['gQQoxkZsZnn']) : ''}</td></tr>
   <tr><td colspan="4" style="font-weight:bold;text-align:center">Institutional Data</td></tr>
   <tr><td>Address</td><td colspan="3">${dataValues['eS8HHmy5krN'] ? dataValues['eS8HHmy5krN'] : ''}</td></tr>
   <tr><td colspan="4" style="font-weight:bold;text-align:center">Key Contacts</td></tr>
@@ -305,7 +305,7 @@ function getProjectFocusAreas(names, dv, deIds) {
   })
 
   values.forEach(value => {
-    tableRows += `<tr><td>${value.name}</td><td>${value.area}</td><td>${value.pillar}</td><td>${displayValue(value.budget)}</td><td>${displayValue(value.expense)}</td><td>${displayValue(value.variation)}</td><td>${value.remarks}</td></tr>`
+    tableRows += `<tr><td>${value.name}</td><td>${value.area}</td><td>${value.pillar}</td><td>${formatNumberInput(displayValue(value.budget))}</td><td>${formatNumberInput(displayValue(value.expense))}</td><td>${formatNumberInput(displayValue(value.variation))}</td><td>${value.remarks}</td></tr>`
   })
 
   return tableRows;
@@ -351,7 +351,7 @@ function getProjectExpenseCategory(names, dv, deIds) {
   })
 
   values.forEach(value => {
-    tableRows += `<tr><td>${value.name}</td><td>${value.type}</td><td>${displayValue(value.budget)}</td><td>${displayValue(value.expense)}</td><td>${displayValue(value.variation)}</td><td>${value.comment}</td></tr>`
+    tableRows += `<tr><td>${value.name}</td><td>${value.type}</td><td>${formatNumberInput(displayValue(value.budget))}</td><td>${formatNumberInput(displayValue(value.expense))}</td><td>${formatNumberInput(displayValue(value.variation))}</td><td>${value.comment}</td></tr>`
   })
   return tableRows;
 }
@@ -486,12 +486,12 @@ function getTotalIncome(dv, deIds) {
           unrestrictedTotal += (dv[ti.unrestricted] ? Number(dv[ti.unrestricted]) : 0);
         }
       })
-      tableBody += `<td>${displayValue(restrictedTotal)}</td><td>${displayValue(unrestrictedTotal)}</td></tr>`
+      tableBody += `<td>${formatNumberInput(displayValue(restrictedTotal))}</td><td>${formatNumberInput(displayValue(unrestrictedTotal))}</td></tr>`
     })
   })
 
   tableBody += `<tr><td>Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="2">How much income did they provide?</td></tr>`;
-  tableBody += `<tr><td>${ dv[dataElements.organisation] ? dv[dataElements.organisation]: ''}</td><td colspan="2">${ dv[dataElements.incomeProvided] ? dv[dataElements.incomeProvided]: ''}</td></tr>`;
+  tableBody += `<tr><td>${ dv[dataElements.organisation] ? dv[dataElements.organisation]: ''}</td><td colspan="2">${ dv[dataElements.incomeProvided] ? formatNumberInput(dv[dataElements.incomeProvided]): ''}</td></tr>`;
 
   return tableBody;
 

@@ -636,7 +636,7 @@ document.addEventListener("DOMContentLoaded", function () {
       deList.forEach((de, index) => {
         if(index<16) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
         else if(de.id=='yTOe8Cca7u1')  tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-        else  tableRow += `<td style="${de.style}">${values[de.id] ? displayValue(values[de.id]): ''}</td>`
+        else  tableRow += `<td style="${de.style}">${values[de.id] ? formatNumberInput(displayValue(values[de.id])): ''}</td>`
       })
       tableRow += "</tr>";
     })

@@ -234,16 +234,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         tableBody += `<tr>
         <td>${ou.name}</td>
-        <td style="text-align:center;">${totalBudget}</td>
-        <td style="text-align:center;">${fund} </td>
-        <td style="text-align:center;">${coreFunding} </td>
-        <td style="background:${colorCode(totalBudgetVariance)};text-align:center;">${totalBudgetVariance} </td>
-        <td style="text-align:center;">${focusAreaBudget} </td>
-        <td style="background:${colorCode(focusAreaVariance)};text-align:center;">${focusAreaVariance} </td>
-        <td style="text-align:center;">${expenseCategory} </td>
-        <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${expenseCategoryVariance} </td>
-        <td style="text-align:center;">${displayValue(totalIncome)} </td>
-        <td style="text-align:center;">${displayValue(totalIncome - expenseCategory)} </td>
+        <td style="text-align:center;">${formatNumberInput(totalBudget)}</td>
+        <td style="text-align:center;">${formatNumberInput(fund)} </td>
+        <td style="text-align:center;">${formatNumberInput(coreFunding)} </td>
+        <td style="background:${colorCode(totalBudgetVariance)};text-align:center;">${formatNumberInput(totalBudgetVariance)} </td>
+        <td style="text-align:center;">${formatNumberInput(focusAreaBudget)} </td>
+        <td style="background:${colorCode(focusAreaVariance)};text-align:center;">${formatNumberInput(focusAreaVariance)} </td>
+        <td style="text-align:center;">${formatNumberInput(expenseCategory)} </td>
+        <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${formatNumberInput(expenseCategoryVariance)} </td>
+        <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))} </td>
+        <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
         </tr>`
       })
     })

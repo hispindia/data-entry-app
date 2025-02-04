@@ -553,7 +553,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
       deList.forEach((de,index) => {
         if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-        else  tableRow += `<td style="${de.style}">${values[de.id] ? displayValue(values[de.id]): ''}</td>`
+        else  tableRow += `<td style="${de.style}">${values[de.id] ? formatNumberInput(displayValue(values[de.id])): ''}</td>`
       })
     tableRow += "</tr>";
     })
@@ -881,7 +881,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     deList.forEach((de,index) => {
       if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-      else  tableRow += `<td style="${de.style}">${values[de.id] ? displayValue(values[de.id]): ''}</td>`
+      else  tableRow += `<td style="${de.style}">${values[de.id] ? formatNumberInput(displayValue(values[de.id])): ''}</td>`
     })
     tableRow += '</tr>'
     })

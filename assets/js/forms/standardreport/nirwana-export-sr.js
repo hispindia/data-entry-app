@@ -276,7 +276,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }))
       var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
       deList.forEach((de, index) => {
-        if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+        if (index <= 3) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+        else if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
       })
       rows += `<td>${year}</td>`
       
@@ -299,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if(values.area) {
               tableRow += `${rows}<td>${values.name}</td><td>${values.area}</td><td>${values.pillar}</td>`;
               // for(let year = tei.year.start; year<=tei.year.end; year++){
-                tableRow += `<td></td><td></td><td>${values[year]}</td>`;
+                tableRow += `<td></td><td></td><td>${formatNumberInput(values[year])}</td>`;
               // } 
               tableRow += '</tr>';
             }
@@ -389,7 +390,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }))
       var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
       deList.forEach((de, index) => {
-        if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+        if (index <= 3) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+        else if(index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
       })
       rows += `<td>${year}</td>`
       dataElements.projectExpenseCategory.forEach((pec, index) => {
@@ -400,10 +402,10 @@ document.addEventListener("DOMContentLoaded", function () {
           let cost = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Indirect/Suppost costs</td><td></td><td></td>`;
 
           // for(let year = tei.year.start; year <= tei.year.end; year++) {
-            personnel += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) ? displayValue(item.dataValuesEC[year][pec.personnel]): ''}</td>`;
-            activities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) ? displayValue(item.dataValuesEC[year][pec.activities]): ''}</td>`;
-            commodities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) ? displayValue(item.dataValuesEC[year][pec.commodities]): ''}</td>`;
-            cost += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) ? displayValue(item.dataValuesEC[year][pec.cost]): ''}</td>`
+            personnel += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) ? formatNumberInput(displayValue(item.dataValuesEC[year][pec.personnel])): ''}</td>`;
+            activities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) ? formatNumberInput(displayValue(item.dataValuesEC[year][pec.activities])): ''}</td>`;
+            commodities += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) ? formatNumberInput(displayValue(item.dataValuesEC[year][pec.commodities])): ''}</td>`;
+            cost += `<td>${(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) ? formatNumberInput(displayValue(item.dataValuesEC[year][pec.cost])): ''}</td>`
           // }
           tableRow += `${rows}${personnel}</tr>`
           tableRow += `${rows}${activities}</tr>`
@@ -491,7 +493,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }))
     var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
     deList.forEach((de, index) => {
-      if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+      if (index <= 3)  {
+        rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+      } else if (index<=6) {
+        rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
+      }
     })
     rows += `<td>${year}</td>`;
 
@@ -504,9 +510,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
-    tableRow += `${rows}<td>IPPF Income</td><td></td><td></td><td>${values['IPPF income']? displayValue(values['IPPF income']): ''}</td></tr>`;
-    tableRow += `${rows}<td>International Income (Non-IPPF)</td><td></td><td></td><td>${values['International income (Non - IPPF)']? displayValue(values['International income (Non - IPPF)']): ''}</td></tr>`;
-    tableRow += `${rows}<td>Locally generated income</td><td></td><td></td><td>${values['Locally generated income']? displayValue(values['Locally generated income']): ''}</td></tr>`;
+    tableRow += `${rows}<td>IPPF Income</td><td></td><td></td><td>${values['IPPF income']? formatNumberInput(displayValue(values['IPPF income'])): ''}</td></tr>`;
+    tableRow += `${rows}<td>International Income (Non-IPPF)</td><td></td><td></td><td>${values['International income (Non - IPPF)']? formatNumberInput(displayValue(values['International income (Non - IPPF)'])): ''}</td></tr>`;
+    tableRow += `${rows}<td>Locally generated income</td><td></td><td></td><td>${values['Locally generated income']? formatNumberInput(displayValue(values['Locally generated income'])): ''}</td></tr>`;
     })
   return {
     tableHead,

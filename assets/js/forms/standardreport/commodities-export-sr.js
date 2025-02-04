@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>${(description[2] ? description[2]: '')}</td>
           <td>${rate}</td>
           <td>${totalQuantityVal}</td>
-          <td>${totalPrice}</td>
+          <td>${formatNumberInput(totalPrice)}</td>
           ${rowVal.row}`;
           
           rowIndex++;
@@ -247,14 +247,14 @@ document.addEventListener("DOMContentLoaded", function () {
         <td colspan="8">Estimated freight costs:</td>`
         totalProductRequest.forEach(product => { 
           var freightCost = calculateFreightCost(product);
-          tableBody += `<td>${freightCost ? Math.round(freightCost) : ''}</td>` 
+          tableBody += `<td>${freightCost ? formatNumberInput(Math.round(freightCost)) : ''}</td>` 
         })
         tableBody +=`</tr>
         <tr>
         <td colspan="8">Total:</td>`
         totalProductRequest.forEach(product => { 
           var freightCost = calculateFreightCost(product);
-          tableBody += `<td>${(product && freightCost) ? (Number(product)+Math.round(freightCost)) : ''}</td>` 
+          tableBody += `<td>${(product && freightCost) ? formatNumberInput(Number(product)+Math.round(freightCost)) : ''}</td>` 
         })
         tableBody +=`</tr>`
     }

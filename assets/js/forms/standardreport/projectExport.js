@@ -288,9 +288,9 @@ function getOrganisationDetails(attr, dv) {
   <tr><td>Primary contact person</td><td colspan="3">${dataValues['HrHPzD3Talq']? dataValues['HrHPzD3Talq']: ''}</td></tr>
   <tr><td>Business plan contact role</td><td colspan="3">${dataValues['LBF4RP0hzNR']? dataValues['LBF4RP0hzNR']: ''}</td></tr>
   <tr><td>Business plan Contact Email</td><td colspan="3">${dataValues['MgoVYQLP3yT']? dataValues['MgoVYQLP3yT']: ''}</td></tr>
-  <tr><td>Formula-generated proposed grant amount (Year 1) (USD)</td><td colspan="3">${dataValues['fkHkH5jcJV0']? dataValues['fkHkH5jcJV0']: ''}</td></tr>
-  <tr><td>Formula-generated proposed grant amount (Year 2) (USD)</td><td colspan="3">${dataValues['dhaMzFTSGrd']? dataValues['dhaMzFTSGrd']: ''}</td></tr>
-  <tr><td>Provisional formula- generated grant amount (Year 3) (USD)</td><td colspan="3">${dataValues['gQQoxkZsZnn']? dataValues['gQQoxkZsZnn']: ''}</td></tr>
+  <tr><td>Formula-generated proposed grant amount (Year 1) (USD)</td><td colspan="3">${dataValues['fkHkH5jcJV0']? formatNumberInput(dataValues['fkHkH5jcJV0']): ''}</td></tr>
+  <tr><td>Formula-generated proposed grant amount (Year 2) (USD)</td><td colspan="3">${dataValues['dhaMzFTSGrd']? formatNumberInput(dataValues['dhaMzFTSGrd']): ''}</td></tr>
+  <tr><td>Provisional formula- generated grant amount (Year 3) (USD)</td><td colspan="3">${dataValues['gQQoxkZsZnn']? formatNumberInput(dataValues['gQQoxkZsZnn']): ''}</td></tr>
   <tr><td colspan="4" style="font-weight:bold;text-align:center"></td></tr>
   <tr><td colspan="4" style="font-weight:bold;text-align:center">Contact Information</td></tr>
   <tr><td>Address</td><td colspan="3">${dataValues['eS8HHmy5krN']? dataValues['eS8HHmy5krN']: ''}</td></tr>
@@ -406,9 +406,9 @@ function getProjectBudget(names, dv, deIds) {
     <td>${index+1}</td>
     <td>${dv[tei.year.start] && dv[tei.year.start][deIds[index].name] ? dv[tei.year.start][deIds[index].name] : ''}</td>`
     for (let year = tei.year.start; year <= tei.year.end; year++) {
-      tableRows += `<td>${dv[year] && dv[year][deIds[index].budget] ? dv[year][deIds[index].budget] : ''}</td>
+      tableRows += `<td>${dv[year] && dv[year][deIds[index].budget] ? formatNumberInput(dv[year][deIds[index].budget]) : ''}</td>
       <td>${dv[year] && dv[year][deIds[index].likelihood] ? dv[year][deIds[index].likelihood] : ''}</td>
-      <td>${dv[year] && dv[year][deIds[index].funding] ? dv[year][deIds[index].funding] : ''}</td>`
+      <td>${dv[year] && dv[year][deIds[index].funding] ? formatNumberInput(dv[year][deIds[index].funding]) : ''}</td>`
     }    
     tableRows += `<td>${dv[tei.year.start] && dv[tei.year.start][deIds[index].comment] ? dv[tei.year.start][deIds[index].comment] : ''}</td>
     </tr>`
@@ -432,7 +432,7 @@ function getProjectFocusAreas(names, dv, deIds) {
           const focusArea = JSON.parse(dv[year][fa]);
           if (focusArea.area) area = focusArea.area;
           if (focusArea.pillar) pillar = focusArea.pillar;
-          values.push(focusArea.budget ? displayValue(focusArea.budget) : '');
+          values.push(focusArea.budget ? formatNumberInput(displayValue(focusArea.budget)) : '');
         }
       }
       if (area) {
@@ -458,10 +458,10 @@ function getProjectExpenseCategory(names, dv, deIds) {
     var commodities = [];
     var cost = [];
     for (let year = tei.year.start; year <= tei.year.end; year++) {
-      personnel.push(`<td>${dv[year] && dv[year][deIds[index].personnel] ? displayValue(dv[year][deIds[index].personnel]) : ''}</td>`);
-      activities.push(`<td>${dv[year] && dv[year][deIds[index].activities] ? displayValue(dv[year][deIds[index].activities]) : ''}</td>`);;
-      commodities.push(`<td>${dv[year] && dv[year][deIds[index].commodities] ? displayValue(dv[year][deIds[index].commodities]) : ''}</td>`);;
-      cost.push(`<td>${dv[year] && dv[year][deIds[index].cost] ? displayValue(dv[year][deIds[index].cost]) : ''}</td>`);
+      personnel.push(`<td>${dv[year] && dv[year][deIds[index].personnel] ? formatNumberInput(displayValue(dv[year][deIds[index].personnel])) : ''}</td>`);
+      activities.push(`<td>${dv[year] && dv[year][deIds[index].activities] ? formatNumberInput(displayValue(dv[year][deIds[index].activities])) : ''}</td>`);;
+      commodities.push(`<td>${dv[year] && dv[year][deIds[index].commodities] ? formatNumberInput(displayValue(dv[year][deIds[index].commodities])) : ''}</td>`);;
+      cost.push(`<td>${dv[year] && dv[year][deIds[index].cost] ? formatNumberInput(displayValue(dv[year][deIds[index].cost])) : ''}</td>`);
     }
     
     tableRows += `<tr><td>${dv[tei.year.start] && dv[tei.year.start][deIds[index].name] ? dv[tei.year.start][deIds[index].name] : ''}</td><td>Personnel</td>${personnel.join('')}<td rowspan="4">${dv[tei.year.start] && dv[tei.year.start][deIds[index].comment] ? dv[tei.year.start][deIds[index].comment] : ''}</td> </tr>
@@ -480,7 +480,7 @@ function getIncomeDonor(dv, deIds) {
 
       tableRows += `<tr><td>${++count}</td><td>${ dv[tei.year.start] && dv[tei.year.start][ids.name] ? dv[tei.year.start][ids.name]: ''}</td>`;
       for (let year = tei.year.start; year <= tei.year.end; year++) {
-        tableRows += `<td>${dv[year] && dv[year][ids.income] ? displayValue(dv[year][ids.income]): ''}</td>`
+        tableRows += `<td>${dv[year] && dv[year][ids.income] ? formatNumberInput(displayValue(dv[year][ids.income])): ''}</td>`
       }
       tableRows += `<td>${ dv[tei.year.start] && dv[tei.year.start][ids.comments] ? dv[tei.year.start][ids.comments]: ''}</td></tr>`;
     } 
@@ -498,7 +498,7 @@ function getValuesCoreFunding(dv, deIds) {
 
       tableRows += `<tr><td>${++count}</td><td>${ dv[tei.year.start] && dv[tei.year.start][ids.name] ? dv[tei.year.start][ids.name]: ''}</td>`;
       for (let year = tei.year.start; year <= tei.year.end; year++) {
-        tableRows += `<td>${dv[year] && dv[year][ids.amountLocked] ? displayValue(dv[year][ids.amountLocked]): ''}</td>`
+        tableRows += `<td>${dv[year] && dv[year][ids.amountLocked] ? formatNumberInput(displayValue(dv[year][ids.amountLocked])) : ''}</td>`
       }
       tableRows += `</tr>`;
     } 
@@ -643,7 +643,7 @@ function getTotalIncome(dv, deIds) {
               unres = Number(unres) + (dv[year][ids.unrestricted] ? Number(dv[year][ids.unrestricted]): 0);
              }
           })
-          tableBody += `<td>${displayValue(res)}</td><td>${displayValue(unres)}</td>`
+          tableBody += `<td>${formatNumberInput(displayValue(res))}</td><td>${formatNumberInput(displayValue(unres))}</td>`
         
         }
       
@@ -671,11 +671,11 @@ function getCommoditiesSource(dataValues) {
   const comment = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['comment']]) ?  Number(dataValues[year][dataElements.sourceCommodities['comment']]) : '';
 
   return `<tr><td>IPPF Unrestricted (Either procurred directly from IPPF or purchased locally using the core grant)</td><td>${unrestrictedValue}</td></tr>
-  <tr><td>International donors</td><td>${internationalValue}</td></tr>
-  <tr><td>Local Income</td><td>${localValue}</td></tr>
-  <tr><td>In-kind donations</td><td>${inkindValue}</td></tr>
-  <tr><td>Other</td><td>${otherValue}</td></tr>
-  <tr><td>Total</td><td>${total}</td></tr>
+  <tr><td>International donors</td><td>${formatNumberInput(internationalValue)}</td></tr>
+  <tr><td>Local Income</td><td>${formatNumberInput(localValue)}</td></tr>
+  <tr><td>In-kind donations</td><td>${formatNumberInput(inkindValue)}</td></tr>
+  <tr><td>Other</td><td>${formatNumberInput(otherValue)}</td></tr>
+  <tr><td>Total</td><td>${formatNumberInput(total)}</td></tr>
   <tr><td>Note</td><td>${comment}</td></tr>`
  
 }
@@ -724,7 +724,7 @@ function displayOrderprojectCommodities(dataSet, dataValues, productList, unrest
     <td>${(description[2] ? description[2]: '')}</td>
     <td>${dataSet.values[dataElement.id] ? dataSet.values[dataElement.id]: ''}</td>
     <td>${dataValues[dataElements.projectCommodities[rowIndex].quantity] ? dataValues[dataElements.projectCommodities[rowIndex].quantity]: ''}</td>
-    <td>${dataValues[dataElements.projectCommodities[rowIndex].price] ? dataValues[dataElements.projectCommodities[rowIndex].price]: ''}</td>
+    <td>${dataValues[dataElements.projectCommodities[rowIndex].price] ? formatNumberInput(dataValues[dataElements.projectCommodities[rowIndex].price]) : ''}</td>
     <td>${(description[3] ? description[3]: '')}</td>
     </tr>`
      rowIndex++;
@@ -733,12 +733,12 @@ function displayOrderprojectCommodities(dataSet, dataValues, productList, unrest
   })
   projectRows += `
   <tr><td style="font-weight:bold;text-align:center;background:#eef0ff" colspan="9">Total Price of the Commodities Ordered</td></tr>
-  <tr><td colspan="5">Combined Cost of All Commodities Ordered</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.combinedCost]?dataValues[dataElements.orderCommoditiesCV.combinedCost]: ''}</td></tr>
-  <tr><td colspan="5">Estimated Freight Cost</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.estimatedCost]?dataValues[dataElements.orderCommoditiesCV.estimatedCost]: ''}</td></tr>
-  <tr><td colspan="5">Total Estimated Cost of Commodities (including Freight Cost)</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.totalCost]?dataValues[dataElements.orderCommoditiesCV.totalCost]: ''}</td></tr>
-  <tr><td colspan="5">Total Unrestricted Core Grant Amount</td><td colspan="4">${unrestrictedCost?unrestrictedCost: ''}</td></tr>
-  <tr><td colspan="5">Total Estimated Cost of Commodities</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.totalCost]?dataValues[dataElements.orderCommoditiesCV.totalCost]: ''}</td></tr>
-  <tr><td colspan="5">Estimated Core Grant Amount in cash</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.estimatedCoreGrant]?dataValues[dataElements.orderCommoditiesCV.estimatedCoreGrant]: ''}</td></tr>`;
+  <tr><td colspan="5">Combined Cost of All Commodities Ordered</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.combinedCost]? formatNumberInput(dataValues[dataElements.orderCommoditiesCV.combinedCost]) : ''}</td></tr>
+  <tr><td colspan="5">Estimated Freight Cost</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.estimatedCost]? formatNumberInput(dataValues[dataElements.orderCommoditiesCV.estimatedCost]): ''}</td></tr>
+  <tr><td colspan="5">Total Estimated Cost of Commodities (including Freight Cost)</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.totalCost]? formatNumberInput(dataValues[dataElements.orderCommoditiesCV.totalCost]): ''}</td></tr>
+  <tr><td colspan="5">Total Unrestricted Core Grant Amount</td><td colspan="4">${unrestrictedCost? formatNumberInput(unrestrictedCost): ''}</td></tr>
+  <tr><td colspan="5">Total Estimated Cost of Commodities</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.totalCost]? formatNumberInput(dataValues[dataElements.orderCommoditiesCV.totalCost]): ''}</td></tr>
+  <tr><td colspan="5">Estimated Core Grant Amount in cash</td><td colspan="4">${dataValues[dataElements.orderCommoditiesCV.estimatedCoreGrant]? formatNumberInput(dataValues[dataElements.orderCommoditiesCV.estimatedCoreGrant]): ''}</td></tr>`;
   return projectRows;
 }
 
