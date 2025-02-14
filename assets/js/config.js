@@ -35,7 +35,7 @@ function formatNumberInput(valueOrInput) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     // Prevent multiple decimals (Keep only the first decimal part)
-    let formattedValue = parts.length > 1 ? parts[0] + "." + parts[1] : parts[0];
+    let formattedValue = parts.length > 1 ? parts[0] + "." + parts[1].substring(0, 2)  : parts[0];
 
     // Update input field if an element was passed
     if (typeof valueOrInput === "object") {
