@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <th  data-i18n="intro.project_year">Year</th>
                   <th data-i18n="intro.budget">Budget</th>
                   <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
-                  <th data-i18n="intro.core_funding">Core Funding Allocated</th>
+                  <th data-i18n="intro.core_funding">IPPF Core Funding Allocated</th>
                 </tr>
               </thead>
               <tbody>`

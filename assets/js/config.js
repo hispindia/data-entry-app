@@ -1,4 +1,6 @@
 const userGroupConfig = (data) => {
+
+    console.trace("====")
     var disabled = false, disabledValues = ''
     const aocUsers = data.userGroups.find(group => disabledUserGroups.includes(group.id));
     const trtUsers = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));

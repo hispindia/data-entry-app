@@ -193,24 +193,26 @@ document.addEventListener("DOMContentLoaded", function () {
   function displayBudgetTotals(level2OU, dataValues) {
 
     var tableHead = `<tr>
-    <th style="background:#276696;color:white;text-align:center;">Member / collaborative Partner</th>
-    <th style="background:#276696;color:white;text-align:center;">Total Budget</th>
-    <th style="background:#276696;color:white;text-align:center;">Core Grant</th>
-    <th style="background:#276696;color:white;text-align:center;">Budgeted Core Grant</th>
-    <th style="background:#276696;color:white;text-align:center;">Variance</th>
-    <th style="background:#276696;color:white;text-align:center;">Total Budget by Focus Area</th>
-    <th style="background:#276696;color:white;text-align:center;">Variance Focus Area</th>
-    <th style="background:#276696;color:white;text-align:center;">Total Budget by Expense Category</th>
-    <th style="background:#276696;color:white;text-align:center;">Variance Expense Category</th>
-    <th style="background:#276696;color:white;text-align:center;">Total Income</th>
-    <th style="background:#276696;color:white;text-align:center;">financial Position</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Member / collaborative Partner</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Expense Budget</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Core Grant</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Core Grant</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Focus Area</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance Focus Area</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Expense Category</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance Expense Category</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Financial Position (Income minus Expenses)</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income by Donor</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance</th>
     </tr>`
 
     $('#table-head').html(tableHead);
 
     var tableBody = '';
     level2OU.forEach(headOU => {
-      tableBody += `<tr><td colspan="11" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
+      tableBody += `<tr><td colspan="13" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       headOU.children.forEach(ou => {
         const totalBudget = dataValues[ou.id] && dataValues[ou.id]['pb']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['pb']['zGn5c7EZLr0']) : '';
@@ -244,6 +246,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${formatNumberInput(expenseCategoryVariance)} </td>
         <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))} </td>
         <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
+        <td style="text-align:center;"> </td>
+        <td style="text-align:center;"> </td>
         </tr>`
       })
     })
@@ -270,6 +274,6 @@ function displayValue(input) {
 }
 
 function colorCode(num) {
-  if (Number(num) == 0) return ''
+  if (Number(num) == 0) return '#50C878'
   else return 'red'
 }

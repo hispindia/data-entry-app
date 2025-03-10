@@ -899,124 +899,154 @@ document.addEventListener("DOMContentLoaded", function () {
       {
         id: 'OgPuoRimaat',
         name: 'Country of Operation',
-        style: ''
+         style: 'background:#276696;'
+         
+        
       },
       {
         id: 'Lv8wUjXV8fl',
         name: 'Affiliate Code',
-        style: ''
+         style: 'background:#276696;'
+        
       },
       {
         id: 'kovn3d3f6S3',
-        name: '# of fixed staff'
+        name: '# of fixed staff',
+         style: 'background:#276696;'
       },
       {
         id: 'CblclJFFlfV',
-        name: '# of volunteers'
+        name: '# of volunteers',
+         style: 'background:#276696;'
       },
       {
         id: 'KfenFbGtZsj',
-        name: 'Type of organisation'
+        name: 'Type of organisation',
+         style: 'background:#276696;'
       },
       {
         id: 'zdWqftJFqGA',
-        name: 'Primary Focus Area'
+        name: 'Primary Focus Area',
+         style: 'background:#276696;'
       },
       {
         id: 'TKYN8eltlPO',
-        name: 'Secondary Focus Area'
+        name: 'Secondary Focus Area',
+         style: 'background:#276696;'
       },
       {
         id: 'dQgZIHO74q5',
-        name: '# of youth volunteers'
+        name: '# of youth volunteers',
+         style: 'background:#276696;'
       },
       {
         id: 'OvbPe9nCJOd',
-        name: '# of branches '
+        name: '# of branches ',
+         style: 'background:#276696;'
       },
       {
         id: 'ruUgWVq48ke',
-        name: 'Primary advocacy priority '
+        name: 'Primary advocacy priority ',
+         style: 'background:#276696;'
       },
       {
         id: 'AqNCKTl9iU9',
-        name: 'Secondary advocacy priority '
+        name: 'Secondary advocacy priority ',
+         style: 'background:#276696;'
       },
       {
         id: 'HrHPzD3Talq',
-        name: 'Primary Contact person'
+        name: 'Primary Contact person',
+         style: 'background:#276696;'
       },
       {
         id: 'MgoVYQLP3yT',
-        name: 'Contact person email'
+        name: 'Contact person email',
+         style: 'background:#276696;'
       },
       {
         id: 'eS8HHmy5krN',
-        name: 'Address'
+        name: 'Address',
+         style: 'background:#276696;'
       },
       {
         id: 'Ctp6kmhwq86',
-        name: 'ED Name'
+        name: 'ED Name',
+         style: 'background:#276696;'
       },
       {
         id: 'yGutLB1Spaa',
-        name: 'ED Email'
+        name: 'ED Email',
+         style: 'background:#276696;'
       },
       {
         id: 'IuyGw22tqYj',
-        name: 'President name'
+        name: 'President name',
+         style: 'background:#276696;'
       },
       {
         id: 'YTtJK3jqsnq',
-        name: 'President email'
+        name: 'President email',
+         style: 'background:#276696;'
       },
       {
         id: 'aA5UkYBNvbl',
-        name: 'Youth board member name'
+        name: 'Youth board member name',
+         style: 'background:#276696;'
       },
       {
         id: 'k86jH9sSXSq',
-        name: 'Youth board member email'
+        name: 'Youth board member email',
+         style: 'background:#276696;'
       },
       {
         id: 'nME0H9rEBz4',
-        name: 'Board Term start'
+        name: 'Board Term start',
+         style: 'background:#276696;'
       },
       {
         id: 'leqtpPX6o97',
-        name: 'Board Term End'
+        name: 'Board Term End',
+         style: 'background:#276696;'
       },
       {
         id: 'bcrC5FlhCrh',
-        name: 'Strategy term start'
+        name: 'Strategy term start',
+         style: 'background:#276696;'
       },
       {
         id: 'pJpPTx4wJcL',
-        name: 'Strategy term end'
+        name: 'Strategy term end',
+         style: 'background:#276696;'
       },
       {
         id: 'projectTotal',
-        name: 'Total number of projects'
+        name: 'Total number of projects',
+         style: 'background:#276696;'
       },
       {
         id: 'projectPillar1',
-        name: '% of 1. Center Care on People'
+        name: '% of 1. Center Care on People',
+         style: 'background:#276696;'
       },
       {
         id: 'projectPillar2',
-        name: '% of 2. Move the Sexuality Agenda'
+        name: '% of 2. Move the Sexuality Agenda',
+         style: 'background:#276696;'
       },
       {
         id: 'projectPillar3',
-        name: '% of 3. Solidarity for Change'
+        name: '% of 3. Solidarity for Change',
+         style: 'background:#276696;'
       },
       {
         id: 'projectPillar4',
-        name: '% of 4. Nurture Our Federation'
+        name: '% of 4. Nurture Our Federation',
+         style: 'background:#276696;'
       },
     ]
-    var tableHead = '<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>';
-    deList.forEach(de => tableHead += `<td style="font-weight:bold">${de.name}</td>`)
+    var tableHead = '<tr><td style="background:#276696;color:white;text-align:center;border:1px solid black;">Region</td><td style="background:#276696;color:white;text-align:center;border:1px solid black;">Affiliate Name</td>';
+    deList.forEach(de => tableHead += `<td  style="${de.style};color:white;text-align:center;border:1px solid black;">${de.name}</td>`)
     tableHead += '</tr>';
 
     const year = document.getElementById("year-update").value;

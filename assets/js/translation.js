@@ -743,6 +743,20 @@ const translation_mapping = [
         ar: 'السؤال 1. السياق القطري'
     },
     {
+        id: "country_context_year2",
+        en: "Country Context - Year 2",
+        sp: "1. Contexto nacional",
+        fr: "Ques 1.Contexte du pays",
+        ar: 'السؤال 1. السياق القطري'
+    },
+    {
+        id: "country_context_year3",
+        en: "Country Context - Year 3",
+        sp: "1. Contexto nacional",
+        fr: "Ques 1.Contexte du pays",
+        ar: 'السؤال 1. السياق القطري'
+    },
+    {
         id: "country_context_ques_description",
         en: "Please describe your country context as relevant to SRHR. What are the main SRHR gaps and social or political factors that should be addressed in the IPPF strategic period (e.g., unmet need, service gaps, political environment, laws, policies, social norms, national health/education programmes and innovations, opposition, etc.). Please use updated and verified statistics where possible, and mention marginalized groups as relevant (500 words max)",
         sp: "1. Contexto nacional  Ofrezca una descripción de su contexto nacional en lo relativo a la SDSR. ¿Cuáles son las principales carencias en materia de SDSR y los factores sociales o políticos que deberían abordarse en el período estratégico de IPPF (por ejemplo, necesidad no satisfecha, carencias en servicios, entorno político, legislación, políticas públicas, normas sociales, innovaciones y programas nacionales de salud/educación, oposición, etc.)? Emplee datos estadísticos actualizados y comprobados cuando sea posible, y mencione los grupos marginados según sea pertinente (500 palabras como máximo)",
@@ -752,6 +766,20 @@ const translation_mapping = [
     {
         id: "strategy",
         en: "Ques 2. Strategy",
+        sp: "2. Estrategia",
+        fr: "Ques 2. Stratégie",
+        ar: '2. الإستراتيجية'
+    },
+    {
+        id: "strategy2",
+        en: "Strategy - Year 2",
+        sp: "2. Estrategia",
+        fr: "Ques 2. Stratégie",
+        ar: '2. الإستراتيجية'
+    },
+    {
+        id: "strategy3",
+        en: "Strategy - Year 3",
         sp: "2. Estrategia",
         fr: "Ques 2. Stratégie",
         ar: '2. الإستراتيجية'
@@ -773,6 +801,20 @@ const translation_mapping = [
     {
         id: "other_actors",
         en: "Ques 3. Landscape of other actors",
+        sp: "3.Panorama de otros actores",
+        fr: "Ques 3.Paysage des autres acteur",
+        ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
+    },
+    {
+        id: "other_actors_year2",
+        en: "Landscape of other actors - Year 2",
+        sp: "3.Panorama de otros actores",
+        fr: "Ques 3.Paysage des autres acteur",
+        ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
+    },
+    {
+        id: "other_actors_year3",
+        en: "Landscape of other actors - Year 3",
         sp: "3.Panorama de otros actores",
         fr: "Ques 3.Paysage des autres acteur",
         ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
@@ -940,14 +982,14 @@ const translation_mapping = [
     },
     {
         id: "capacity_ma",
-        en: "What capacity does my organisation have than they are able to share with  other MAs?",
+        en: "What technical expertise does my organisation have than they are able to share with  other MAs?",
         sp: "¿Qué capacidad tiene mi organización que pueda compartir con otras AM?",
         fr: "De quelle capacité mon organisation dispose-t-elle qu'elle est en mesure de partager avec d'autres AM ?",
         ar: 'ما هي الإمكانات التي تمتلكها منظمتي وتستطيع مشاركتها مع الجمعيات الأعضاء الأخرى؟  '
     },
     {
         id: "capacity_federation",
-        en: "What are your main capacity support needs from the federation (please be  specific)",
+        en: "What are your main technical support needs from the federation (please be  specific)",
         sp: "¿Cuáles son sus principales necesidades de asistencia de parte de la Federación relacionadas con la capacidad? (Sea específico)",
         fr: "Quels sont vos principaux besoins en matière de capacités pour lesquels vous souhaiteriez le soutien de la fédération (veuillez être précis) ?",
         ar: 'ما هي احتياجات الدعم الرئيسية التي تريدونها من الاتحاد (يرجى تحديدها)'
@@ -1095,7 +1137,7 @@ const translation_mapping = [
     },
     {
         id: "core_funding",
-        en: "Core Funding Allocated",
+        en: "IPPF Core Funding Allocated",
         sp: "Financiamiento básico asignado para",
         fr: "Fonds de base alloués à l’",
         ar: 'تقدير الاحتمالية'

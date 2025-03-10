@@ -374,7 +374,7 @@ function getNarrativePlan(dv) {
     name: "Sustainability opportunities"
   },{
     id: "gPcHDHG57PU",
-    name: "What capacity does my organisation have than they are able to share with other MAs?"
+    name: "What technical expertise does my organisation have than they are able to share with other MAs?"
   },{
     id: "l43075Zt8rA",
     name: "Wht are your main capacity support needs from the federation (please be specific)"

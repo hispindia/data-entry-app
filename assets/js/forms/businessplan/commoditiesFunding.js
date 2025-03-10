@@ -151,8 +151,11 @@
     }
     
     $('#push-button').empty();
-    $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();pushToAnnualReport()">Submit Business Plan</button>`)
-     
+    // $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();pushToAnnualReport()">Submit Business Plan</button>`)
+     //above is original code 
+     console.trace("=====")
+     $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly' : ''} class="btn btn-success p-2 my-2" id="submit-btn" onclick="event.preventDefault(); pushToAnnualReport(); this.style.backgroundColor='gray'; this.disabled=true;">Submit Business Plan</button>`);
+
     $("#accordion").empty();
 
     let projectRows = displaySourceCommodities(dataValues, period);

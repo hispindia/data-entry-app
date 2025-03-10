@@ -186,6 +186,13 @@
     const selectedYear = document.getElementById('year-update').value;
     
     $('#push-button').empty();
+    console.trace("-----")
+    // if(window.localStorage.getItem("hideReporting").includes('ed')) {
+    //   $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Update ${selectedYear}</button>`)
+    // }
+    // if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+    //   $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Update ${selectedYear}</button>`)
+    // }
     if(window.localStorage.getItem("hideReporting").includes('ed')) {
       $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Update ${selectedYear}</button>`)
     }

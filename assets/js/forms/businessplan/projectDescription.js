@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var projectRows = "";
     const projectNames =  checkProjects(dataElements.projectDescription, dataValues);
     if(!projectNames.length) {
-      projectRows += addRow(1, dataElements.projectDescription[0], "", "");
+      projectRows += addRow(1, dataElements.projectDescription[0], "", "","","");
       $("#total-projects").val(projectCount);
       projectCount++;
     } else {
@@ -130,11 +130,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const projectDescription = dataValues[project.description]
           ? dataValues[project.description]
           : "";
+          const startDate = dataValues[project.startDate] ? dataValues[project.startDate] : ""; // Fetching Start Date
+          const endDate = dataValues[project.endDate] ? dataValues[project.endDate] : ""; // Fetching End Date
           projectRows += addRow(
             index + 1,
             project,
             projectName,
-            projectDescription
+            projectDescription,
+            startDate,
+            endDate
           );
           projectCount++;
       })
@@ -146,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('body').localize();
 
   }
-  function addRow(count, project, projectName, projectDescription) {
+  function addRow(count, project, projectName, projectDescription,startDate,endDate) {
    
     return `
    <div class="form-row project-list" id="project-list-${count}">
@@ -170,6 +174,34 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="invalid-feedback"> Error here </div>
     </div>
     </div>
+    
+    <div class="form-row d-flex">
+    <div class="form-group col-md-6 textbox-wrap">
+        <label for="${project.startDate}">
+            <span data-i18n="intro.start_date">Project Start Date ${count}</span>
+        </label>
+        <div>
+            <input type="date" id="${project.startDate}"  
+                   class="w-100 form-control"
+                   value="${startDate}" 
+                   onchange='pushDataElement(this.id, this.value)'>
+        </div>
+        <div class="invalid-feedback"> Error here </div>
+    </div>
+
+    <div class="form-group col-md-6 textbox-wrap">
+        <label for="${project.endDate}">
+            <span data-i18n="intro.end_date">Project End Date ${count}</span>
+        </label>
+        <div>
+            <input type="date" id="${project.endDate}"  
+                   class="w-100 form-control" 
+                   value="${endDate}" 
+                   onchange='pushDataElement(this.id, this.value)'>
+        </div>
+        <div class="invalid-feedback"> Error here </div>
+    </div>
+</div>
     <hr>`;
   }
   fetchOrganizationUnitUid();

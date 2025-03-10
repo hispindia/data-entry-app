@@ -281,6 +281,34 @@
                         <div class="invalid-feedback"> Error here </div>
                     </div>
                 </div>
+
+
+                
+                <div class="form-row d-flex">
+    <div class="form-group col-md-6 textbox-wrap">
+        <label for="${dataElements.projectDescription[projectCount]['startDate']}">
+            <span data-i18n="intro.start_date">Project Start Date ${(projectCount+1)}</span>
+        </label>
+        <div>
+            <input type="date" id="${dataElements.projectDescription[projectCount]['startDate']}"  
+                   class="w-100 form-control"
+                   onchange='pushDataElement(this.id, this.value)'>
+        </div>
+        <div class="invalid-feedback"> Error here </div>
+    </div>
+
+    <div class="form-group col-md-6 textbox-wrap">
+        <label for="${dataElements.projectDescription[projectCount]['endDate']}">
+            <span data-i18n="intro.end_date">Project End Date ${(projectCount+1)}</span>
+        </label>
+        <div>
+            <input type="date" id="${dataElements.projectDescription[projectCount]['endDate']}"  
+                   class="w-100 form-control" 
+                   onchange='pushDataElement(this.id, this.value)'>
+        </div>
+        <div class="invalid-feedback"> Error here </div>
+    </div>
+</div>
                 <hr>
             `;
             
