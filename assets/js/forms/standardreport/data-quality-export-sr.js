@@ -197,15 +197,16 @@ document.addEventListener("DOMContentLoaded", function () {
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Expense Budget</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Core Grant</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Core Grant</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">IPPF Core Gant Control</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Focus Area</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance Focus Area</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Focus Area Control</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Expense Category</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance Expense Category</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Expense Category Control</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Financial Position (Income minus Expenses)</th>
+   
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income by Donor</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income Control</th>
+     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Financial Position (Income minus Expenses)</th>
     </tr>`
 
     $('#table-head').html(tableHead);
@@ -245,9 +246,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="text-align:center;">${formatNumberInput(expenseCategory)} </td>
         <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${formatNumberInput(expenseCategoryVariance)} </td>
         <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))} </td>
-        <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
+       
         <td style="text-align:center;"> </td>
         <td style="text-align:center;"> </td>
+         <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
         </tr>`
       })
     })
