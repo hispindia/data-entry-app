@@ -842,3 +842,16 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
     background-color: #B468B0 !important;
     color: #fff !important;
 }
+.main-sidebar .sidebar-menu>li.dropdown {
+    background-color: #EAAA00;}
+.main-sidebar .sidebar-menu>li.dropdown-au {
+    background-color: #00A9E0;
+}
+
+.main-sidebar .sidebar-menu>li.dropdown-ar {
+    background-color: #008C95;
+}
+
+.main-sidebar .sidebar-menu>li.dropdown-sr {
+    background-color: #84329B;
+}

@@ -75,7 +75,7 @@ const maxWords = {
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
     window.localStorage.setItem("annualYear", ev.target.value);
-    fetchEvents(ev.target.value);
+    // fetchEvents(ev.target.value);
   });
 
 
