@@ -207,7 +207,7 @@ const maxWords = 200;
       const overallAssessment = [ 'pfSeozgjfm6', 'Cinud8FN7XL', 'eGsNqkEprfp', 'G16AMDjPKzy','kbN3wLCczLX', 'RTdF2kjEgFk', 'BmVI6lpkoK9', 'Tk5Xp1Gogre', 'CXmcgQFJtDu', 'Z6OVONwpGYD', 'gjVYCryVOGq']
       
       document.querySelectorAll('.serious-risk').forEach((risk) => {
-        if(risk.value) seriousRisk = true;
+        if(risk.value && risk.value.trim()) seriousRisk = true;
       })
       if(seriousRisk) {
         $('#rating-target').addClass('bg-red')

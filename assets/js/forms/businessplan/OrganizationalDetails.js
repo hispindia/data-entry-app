@@ -215,14 +215,17 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
 
 function enableRow(id, checked, idRow, upload) {
   if (checked) {
-    if (upload) pushDataElement(id, 'true');
+    if (upload) pushDataElement(id, checked);
+    $(`input[name=${id}][value=${checked}]`).prop("checked", true);
     $(`#${idRow}`).removeAttr('disabled');
   }
   else {
     if (upload) {
-      pushDataElement(id, 'false');
-      pushDataElement(idRow, '');
+      pushDataElement(id, checked);
+      pushDataElement(idRow, 0);
+      $(`#${idRow}`).val(0);
     }
+    $(`input[name=${id}][value=${checked}]`).prop("checked", true);
     $(`#${idRow}`).attr('disabled', 'disabled');
   }
 }

@@ -152,7 +152,8 @@ document.addEventListener("DOMContentLoaded", function () {
             pb: {}, //project budget
             ec: {}, //expense category
             fa: {}, //focus area
-            ti: {} //total income
+            ti: {}, //total income,
+            id: {} //Income by donor
           }
           const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data values year wise
           if (dataValuesOD && dataValuesOD[year]) dataElementOUValues[ou.id]['od'] = dataValuesOD[year]
@@ -168,6 +169,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
           if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[year]
+
+          const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, dataElements.year.id) //data values year wise
+          if (dataValuesID && dataValuesID[year]) dataElementOUValues[ou.id]['id'] = dataValuesID[year]
         }
       }
     }
@@ -195,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Member / collaborative Partner</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Expense Budget</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Core Grant</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Core Grant</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">PPF Core Grant</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted PPF Core Grant</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">IPPF Core Gant Control</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Focus Area</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Focus Area Control</th>
@@ -225,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const expenseCategory = dataValues[ou.id] && dataValues[ou.id]['ec']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['ec']['zGn5c7EZLr0']) : '';
         const expenseCategoryVariance = displayValue(totalBudget - expenseCategory);
         var totalIncome = 0;
+        var incomeByDonor = 0;
 
         dataElements.projectTotalIncome.forEach(pti => {
           if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.restricted]) {
@@ -235,6 +240,11 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         })
 
+        dataElements.incomeByDonor.forEach(id => {
+          if(dataValues[ou.id]['id'][id.name] && dataValues[ou.id]['id'][id.income]) {
+            incomeByDonor += Number(dataValues[ou.id]['id'][id.income]);
+          }
+        })
         tableBody += `<tr>
         <td>${ou.name}</td>
         <td style="text-align:center;">${formatNumberInput(totalBudget)}</td>
@@ -245,11 +255,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="background:${colorCode(focusAreaVariance)};text-align:center;">${formatNumberInput(focusAreaVariance)} </td>
         <td style="text-align:center;">${formatNumberInput(expenseCategory)} </td>
         <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${formatNumberInput(expenseCategoryVariance)} </td>
-        <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))} </td>
-       
-        <td style="text-align:center;"> </td>
-        <td style="text-align:center;"> </td>
-         <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
+        <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))}</td>
+        <td style="text-align:center;">${formatNumberInput(displayValue(incomeByDonor))}</td>
+        <td  style="background:${colorCode(displayValue(totalIncome-incomeByDonor))};text-align:center;">${formatNumberInput(displayValue(totalIncome-incomeByDonor))}</td>
+         <td style="background:${displayValue(totalIncome - expenseCategory)<0 ? 'red':''};text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
         </tr>`
       })
     })

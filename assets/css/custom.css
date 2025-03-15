@@ -855,3 +855,12 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
 .main-sidebar .sidebar-menu>li.dropdown-sr {
     background-color: #84329B;
 }
+
+@media print {
+    .no-print {
+        display: none; /* Hide buttons when printing */
+    }
+    table {
+        page-break-inside: avoid;
+    }
+}

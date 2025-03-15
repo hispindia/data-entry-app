@@ -720,6 +720,14 @@ const translation_mapping = [
         fr: "Oui",
         ar: 'نعم'
     },
+    //Na
+    {
+        id: "NO",
+        en: "No",
+        sp: "No",
+        fr: "Non",
+        ar: 'لا'
+    },
     //Narrative Plan
     {
         id: "narrative_plan",

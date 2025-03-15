@@ -253,7 +253,7 @@ var riskCount = 0;
       
 
       document.querySelectorAll('.serious-risk').forEach((risk) => {
-        if(risk.value) seriousRisk = true;
+        if(risk.value && risk.value.trim()) seriousRisk = true;
       })
       if(seriousRisk) {
         $('#rating-target').addClass('bg-red')

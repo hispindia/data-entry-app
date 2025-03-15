@@ -1484,18 +1484,23 @@
                                                                     network?</h4>
                                                             </div>
 
-                                                            <div class="form-group col-sm-12 mb-0">
-                                                                <label class="custom-switch mt-2 ml-0 switch-wrap">
-                                                                    <input type="checkbox"
-                                                                        name="custom-switch-checkbox-1"
-                                                                        class="custom-switch-input textValue"
-                                                                        id="ttOZ4zaMXji"
-                                                                        onchange="enableRow(this.id,this.checked, 'dQgZIHO74q5', true)">
-                                                                    <span class="custom-switch-indicator"></span>
-                                                                    <span class="custom-switch-description"
-                                                                        data-i18n="intro.YES">Yes</span>
-                                                                </label>
-                                                                <div class="invalid-feedback">Error here</div>
+                                                            <div class="selectgroup selectgroup-pills  mb-3 col-md-12 textValue"
+                                                            id="ttOZ4zaMXji"
+                                                            onchange="pushRadioValue(this.id, event, 'ttOZ4zaMXji')">
+                                                            <label class="selectgroup-item">
+                                                                <input type="radio" name="ttOZ4zaMXji"
+                                                                    value="true" class="selectgroup-input" 
+                                                                    onclick="enableRow('ttOZ4zaMXji', true, 'dQgZIHO74q5', true)">
+                                                                <span
+                                                                    class="selectgroup-button selectgroup-button-icon px-4 font-weight-bold" data-i18n="intro.YES">Yes</span>
+                                                            </label>
+                                                            <label class="selectgroup-item">
+                                                                <input type="radio" name="ttOZ4zaMXji"
+                                                                    value="false" class="selectgroup-input"
+                                                                    onchange="enableRow('ttOZ4zaMXji', false, 'dQgZIHO74q5', true)">
+                                                                <span
+                                                                    class="selectgroup-button selectgroup-button-icon px-4 font-weight-bold" data-i18n="intro.NO">No</span>
+                                                            </label>
                                                             </div>
                                                         </div>
                                                         <!--- row will be hidden when radio is uncheck --->
@@ -1524,19 +1529,25 @@
                                                                 <h4 data-i18n="intro.ma_branches">Does the MA have
                                                                     branches?</h4>
                                                             </div>
+                                                            
 
-                                                            <div class="form-group col-sm-12 mb-0">
-                                                                <label class="custom-switch mt-2 ml-0 switch-wrap">
-                                                                    <input type="checkbox"
-                                                                        name="custom-switch-checkbox-2"
-                                                                        class="custom-switch-input textValue"
-                                                                        id="UaETNe6k15k"
-                                                                        onchange="enableRow(this.id,this.checked, 'OvbPe9nCJOd', true)">
-                                                                    <span class="custom-switch-indicator"></span>
-                                                                    <span class="custom-switch-description"
-                                                                        data-i18n="intro.YES">Yes</span>
-                                                                </label>
-                                                                <div class="invalid-feedback">Error here</div>
+                                                            <div class="selectgroup selectgroup-pills  mb-3 col-md-12 textValue"
+                                                            id="UaETNe6k15k"
+                                                            onchange="pushRadioValue(this.id, event, 'OvbPe9nCJOd')">
+                                                            <label class="selectgroup-item">
+                                                                <input type="radio" name="UaETNe6k15k"
+                                                                    value="true" class="selectgroup-input" 
+                                                                    onclick="enableRow('UaETNe6k15k', true, 'OvbPe9nCJOd', true)">
+                                                                <span
+                                                                    class="selectgroup-button selectgroup-button-icon px-4 font-weight-bold" data-i18n="intro.YES">Yes</span>
+                                                            </label>
+                                                            <label class="selectgroup-item">
+                                                                <input type="radio" name="UaETNe6k15k"
+                                                                    value="false" class="selectgroup-input"
+                                                                    onchange="enableRow('UaETNe6k15k', false, 'OvbPe9nCJOd', true)">
+                                                                <span
+                                                                    class="selectgroup-button selectgroup-button-icon px-4 font-weight-bold" data-i18n="intro.NO">No</span>
+                                                            </label>
                                                             </div>
                                                         </div>
                                                         <!--- row will be hidden when radio is uncheck --->
