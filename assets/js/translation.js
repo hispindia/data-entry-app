@@ -2244,6 +2244,34 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "تفاوت"
     },
     {
+        id: "control_varaince",
+        en: "Control Cell: Variance ($)",
+        sp: "Célula de control: Varianza ($)",
+        fr: "Cellule de contrôle : Variance ($)",
+        ar: "خلية التحكم: التباين ($)"
+    },
+    {
+        id: "control_cells",
+        en: "Control Cells",
+        sp: "Células de control",
+        fr: "Cellules de contrôle",
+        ar: "خلايا التحكم"
+    },
+    {
+        id: "control_total_spend",
+        en: "Control Cell: Total Spend (%)",
+        sp: "Célula de control: Gasto total (%)",
+        fr: "Cellule de contrôle : Dépenses totales (%)",
+        ar: "خلية التحكم: إجمالي الإنفاق (%)"
+    },
+    {
+        id: "variance_explanation",
+        en: "Variance Explanation",
+        sp: "Explicación de la varianza",
+        fr: "Explication de la variance",
+        ar: "شرح التباين"
+    },
+    {
         id: "commodities_source",
         en: "Commodities by Funding Source",
         sp: "Fuente de financiamiento",
@@ -2472,6 +2500,13 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "الميزانية الإجمالية حسب مجال التركيز"
     },
     {
+        id: "total_spend",
+        en: "Total Spend",
+        sp: "gasto total",
+        fr: "dépense totale",
+        ar: "إجمالي الإنفاق"
+    },
+    {
         id: "actual_expense",
         en: "Actual Expenses",
         sp: "Gastos reales",
@@ -2479,11 +2514,25 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "النفقات الفعلية"
     },
     {
+        id: "actual_including_ippf",
+        en: "Actual (including IPPF Core)",
+        sp: "Actual (incluido el núcleo IPPF)",
+        fr: "Réel (y compris IPPF Core)",
+        ar: "الفعلي (بما في ذلك"
+    },
+    {
         id: "actual_expense_EC",
         en: "Total Actual Expenses (by Expense Categories)",
         sp: "Gastos reales",
         fr: "Dépenses réelles",
         ar: "النفقات الفعلية"
+    },
+    {
+        id: "total_ma_actuals",
+        en: "Total MA Actuals by Expense Category",
+        sp: "Total de gastos reales de MA por categoría de gasto",
+        fr: "Total des dépenses réelles MA par catégorie de dépenses",
+        ar: "إجمالي المبالغ الفعلية حسب فئة المصروفات"
     },
     {
         id: "actual_expense_FA",
@@ -2542,6 +2591,13 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "الميزانية الإجمالية حسب المشاريع"
     },
     {
+        id: "total_ma_budget_expense",
+        en: "Total MA Budgeted Expense",
+        sp: "Gasto total presupuestado de MA",
+        fr: "Dépenses totales budgétisées par MA",
+        ar: "إجمالي النفقات المدرجة في الميزانية"
+    },
+    {
         id: "project_budget_vs_project_expense",
         en: "Total Budgeted Expenses vs Actual Expenses (by Expense Category)",
         sp: "Presupuesto vs. datos reales por categoría de gastos",
@@ -2554,6 +2610,13 @@ de productos (como se indica en la parte de abajo del formulario)
         sp: "Gastos presupuestados",
         fr: "Dépenses budgétisées",
         ar: "النفقات المدرجة في الميزانية"
+    },
+    {
+        id: "budget_including_ippf",
+        en: "Budget (including IPPF Core)",
+        sp: "Presupuesto (incluido el núcleo del IPPF)",
+        fr: "Budget (y compris le noyau IPPF)",
+        ar: "الميزانية (بما في ذلك الميزانية الأساسية للاتحاد الدولي لتنظيم الأسرة)"
     },
     {
         id: "actual_income_details",

@@ -226,6 +226,7 @@ const maxWords = 200;
       const totalBudget = (dataValues[dataElements.totalBudget]) ? Number(dataValues[dataElements.totalBudget]) : '';
       const actualExpense = (dataValues[dataElements.totalExpenses]) ? Number(dataValues[dataElements.totalExpenses]) : '';
       const difference = (dataValues[dataElements.difference]) ? Number(dataValues[dataElements.difference]) : '';
+      const spendPercent = totalBudget && actualExpense/totalBudget && actualExpense/totalBudget!="Infinity" ? ((actualExpense/totalBudget)*100).toFixed(2) : '';
     var totalsRow = `
       <tr>
   <td>
@@ -258,6 +259,16 @@ const maxWords = 200;
       <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control totalDifference currency" readonly disabled>
     </div>
   </td>
+  <td>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          %
+        </div>
+      </div>
+      <input type="text" value="${Math.round(spendPercent)}" class="form-control totalSpend currency" readonly disabled>
+    </div>
+  </td>
 </tr>
 `;
     return totalsRow;
@@ -265,8 +276,17 @@ const maxWords = 200;
   function displayProjectDetails(projectDetails, dataValues) {
     var projectRows = '';
     var length = projectDetails.length;
-    var total = 0;
     projectDetails.forEach((list, index) => {
+      var rows = [];
+      var variationPercent = [];
+      var rowsTotal = {
+        'input-budgetExpense' : 0,
+      };
+      rowsTotal[`total-actualExpense-${index}`]= 0;
+      rowsTotal[`total-variation-${index}`]= 0;
+      rowsTotal[`variation-percent-${index}`]= 0;
+      
+      var rowIndex = 0;
       projectRows += `
       <!--- sect ${(index + 1)}--->
       <div class="accordion">
@@ -298,189 +318,208 @@ const maxWords = 200;
         <table class="table table-striped table-md mb-0 " width="100%">
                                   <thead>
                                       <tr>
-                                          <th></th>
-                                          <th data-i18n="intro.personnel">Personnel</th>
-                                          <th data-i18n="intro.activities">Direct project activities</th>
-                                          <th data-i18n="intro.commodities">Commodities</th>
-                                          <th data-i18n="intro.indirect">Indirect/support costs</th>
-                                          <th data-i18n="intro.total">Total</th>
-
+                            <th></th>
+                            <th data-i18n="intro.budget_including_ippf">Budget (including IPPF Core)</th>
+                            <th data-i18n="intro.actual_including_ippf">Actual (including IPPF Core)</th>
+                            <th><span data-i18n="intro.variation">Variation </span> ($)</th>
+                            <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
                                       </tr>
                                   </thead>
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <strong data-i18n="intro.budget_expenses">Budgeted Expenses</strong>
-                                          </td>`
-                                          total = 0;
-                                          for(let budgetExpense in dataElements.arProjectExpenseCategory[index]['budgetExpense']){
-                                            let id = dataElements.arProjectExpenseCategory[index]['budgetExpense'][budgetExpense]
-                                            let expense= dataValues[id] ? Number(dataValues[id]): '';
-                                            total+= Number(expense)
-                                            projectRows += `<td>
-                                              <div class="input-group">
-                                                  <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                      $
-                                                    </div>
-                                                  </div>
-                                                  <input 
-                                                  type="text" 
-                                                  ${(!list.comment) ? 'disabled': ''}
-                                                  id="${id}"
-                                                  oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
-                                                  value="${formatNumberInput(expense)}" 
-                                                  class="form-control input-budget-${index} currency">
-                                              </div>
-                                          </td>`
-                                          }
-                                          projectRows += `
-                                          <td>
-                                              <div class="input-group">
-                                                  <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                      $
-                                                    </div>
-                                                  </div>
-                                                  <input type="text" 
-                                                  disabled
-                                                  value="${formatNumberInput(total)}" class="form-control input-budgetExpense currency">
-                                              </div>
-                                          </td>
-                                          </tr>
-                                          <tr>
-                                              <td>
-                                                  <strong data-i18n="intro.actual_expense">Actual Expenses</strong>
-                                              </td>`
+                                  <tbody>`
 
-                                              total = 0;
-                                            for(let actualExpense in dataElements.arProjectExpenseCategory[index]['actualExpense']){
-                                            let id = dataElements.arProjectExpenseCategory[index]['actualExpense'][actualExpense]
-                                            let expense = dataValues[id] ? dataValues[id]: '';
-                                            total+= Number(expense)
-                                            projectRows += `<td>
-                                              <div class="input-group">
-                                                  <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                      $
-                                                    </div>
-                                                  </div>
-                                                  <input 
-                                                  type="text" 
-                                                  ${tei.disabled ? 'disabled readonly': ''} 
-                                                  id="${id}"
-                                                  oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
-                                                  value="${formatNumberInput(expense)}" class="form-control currency">
-                                              </div>
-                                          </td>`
-                                          }
-                                          projectRows += `
-                                          <td>
-                                              <div class="input-group">
-                                                  <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                      $
-                                                    </div>
-                                                  </div>
-                                                  <input type="text" 
-                                                  disabled
-                                                  id="total-actualExpense-${index}"
-                                                  value="${formatNumberInput(total)}" class="form-control input-budget currency">
-                                              </div>
-                                          </td>
-                                          </tr>
-                                          <tr>
-                                              <td>
-                                                  <strong data-i18n="intro.variation">Variation</strong>
-                                              </td>`
-                                              total = 0;
-                                              for(let variation in dataElements.arProjectExpenseCategory[index]['variation']){
-                                              let id = dataElements.arProjectExpenseCategory[index]['variation'][variation]
-                                              let varitaionVal= dataValues[id] ? dataValues[id]:0;
-                                              total+= Number(varitaionVal)
-                                              projectRows += `<td>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <div class="input-group-text">
-                                                        $
-                                                      </div>
-                                                    </div>
-                                                    <input type="text" 
-                                                    id="${id}"
-                                                    disabled
-                                                    style="background:${varitaionVal >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
-                                                    value="${formatNumberInput(varitaionVal)}" class="form-control input-budget currency">
-                                                </div>
-                                            </td>`
-                                            }
-                                        projectRows += `
-                                        <td>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                  <div class="input-group-text">
-                                                    $
-                                                  </div>
-                                                </div>
-                                                <input type="text" 
-                                                disabled
-                                                id="total-variation-${index}"
-                                                style="background:${total >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
-                                                value="${formatNumberInput(total)}" class="form-control input-budget currency">
-                                            </div>
-                                        </td>
-                                        </tr></tbody></table>
-                                        </div>
-                                        <div class="form-row">
-                                        <div class="form-group col-md-12 textbox-wrap">
-                                          <label for="" data-i18n="intro.remarks">
-                                              Remarks
-                                          </label>
-                                          <textarea 
-                                          class="form-control-resize textlimit"       
-                                          ${tei.disabled ? 'disabled readonly': ''}                                     
-                                          id="${dataElements.arProjectExpenseCategory[index].comment}"
-                                          onchange="pushDataElement(this.id,this.value);checkWords(this, ${index})"
-                                          >${dataValues[dataElements.arProjectExpenseCategory[index].comment]? dataValues[dataElements.arProjectExpenseCategory[index].comment]: ''}</textarea>
-                          
-                                          <div
-                                          class="char-counter form-text text-muted"
-                                          id="counter${index}"
-                                        >${maxWords- (dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment].trim().split(/\s+/).length: 0)} words remaining
-                                        </div>
-                                          <div class="invalid-feedback"> Error here 
-                                          </div>
-                                        </div>
+      rowIndex = 0;
+      for (let budgetExpense in dataElements.arProjectExpenseCategory[index]['budgetExpense']) {
+        let id = dataElements.arProjectExpenseCategory[index]['budgetExpense'][budgetExpense]
+        let expense = dataValues[id] ? Number(dataValues[id]) : '';
+
+        rowsTotal['input-budgetExpense'] += Number(expense)
+        if (!variationPercent[rowIndex]) variationPercent[rowIndex] = { num: 0, deno: Number(expense) };
+
+        if (!rows[rowIndex]) rows[rowIndex] = '';
+        rows[rowIndex] += `<td>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text">
+                                      $
                                       </div>
-                                        <div class="form-row">
-                                        <div class="col-sm-12 text-right">
-                                            <div
-                                              class="form-group text-end mar-b-0"
-                                            >
-                                              <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
-                                              <input
-                                                type="button"
-                                                value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft" 
-                                                class="btn btn-secondary"
-                                              />
-                                              ${(length-1 == index) ? `                                              
-                                              <button ${tei.disabled ? 'disabled readonly': ''}  class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/6-actual-income-ar.html'">
-                                              <span data-i18n="intro.next">Next</span>:  
-                                              <span data-i18n="intro.actual_income">6. Actual Income</span>
-                                            </button>`:`<input
-                                              type="button"
-                                              value="NEXT"
-                                              data-i18n="[value]intro.next" 
-                                              onClick=changePanel('panel-body-${index+2}')
-                                              class="btn btn-primary"
-                                            />`}
-                                            </div>
-                                          </div>
-                                        </div>
+                                    </div>
+                                    <input 
+                                    type="text" 
+                                    ${(!list.comment) ? 'disabled' : ''}
+                                    id="${id}"
+                                    oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
+                                    value="${formatNumberInput(expense)}" 
+                                    class="form-control input-budget-${index} currency">
+                                </div>
+                            </td>`
+        rowIndex++;
+      }
+      rowIndex = 0;
+      for (let actualExpense in dataElements.arProjectExpenseCategory[index]['actualExpense']) {
+        let id = dataElements.arProjectExpenseCategory[index]['actualExpense'][actualExpense]
+        let expense = dataValues[id] ? dataValues[id] : '';
+
+        rowsTotal[`total-actualExpense-${index}`] += Number(expense);
+        if (!variationPercent[rowIndex]) variationPercent[rowIndex] = { num: 0, deno: 0 };
+        variationPercent[rowIndex]['num'] = Number(expense);
+
+        if (!rows[rowIndex]) rows[rowIndex] = '';
+        rows[rowIndex] += `<td>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                      $
+                                    </div>
+                                  </div>
+                                  <input 
+                                  type="text" 
+                                  ${tei.disabled ? 'disabled readonly' : ''} 
+                                  id="${id}"
+                                  oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
+                                  value="${formatNumberInput(expense)}" class="form-control currency">
+                              </div>
+                          </td>`
+        rowIndex++;
+      }
+      rowIndex = 0;
+      for (let variation in dataElements.arProjectExpenseCategory[index]['variation']) {
+        let id = dataElements.arProjectExpenseCategory[index]['variation'][variation]
+        let varitaionVal = dataValues[id] ? dataValues[id] : 0;
+
+        rowsTotal[`total-variation-${index}`] += Number(varitaionVal);
+
+        if (!rows[rowIndex]) rows[rowIndex] = '';
+        rows[rowIndex] += `<td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                    $
+                                  </div>
+                                </div>
+                                <input type="text" 
+                                id="${id}"
+                                disabled
+                                style="background:${varitaionVal >= 0 ? '#C1E1C1 !important' : '#FAA0A0 !important'}" 
+                                value="${formatNumberInput(varitaionVal)}" class="form-control input-budget currency">
+                            </div>
+                </td>`
+        rowIndex++;
+      }
+      rowIndex = 0;
+      for (let variation in dataElements.arProjectExpenseCategory[index]['variation']) {
+        let id = dataElements.arProjectExpenseCategory[index]['variation'][variation]
+        let value = (variationPercent[rowIndex]['num'] && variationPercent[rowIndex]['deno'] && variationPercent[rowIndex]['num'] / variationPercent[rowIndex]['deno'] !== "Infinity") ? ((variationPercent[rowIndex]['num'] / variationPercent[rowIndex]['deno']) * 100).toFixed(2) : '';
+        rowsTotal[`variation-percent-${index}`] += Number(value);
+        if (!rows[rowIndex]) rows[rowIndex] = '';
+        rows[rowIndex] += `<td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                    %
+                                  </div>
+                                </div>
+                                <input type="text" 
+                                id="${id}-percent"
+                                disabled
+                                value="${formatNumberInput(value)}" class="form-control input-percent currency">
+                            </div>
+                </td>`
+        rowIndex++;
+      }
+      projectRows += `<tr>
+                <td><strong data-i18n="intro.personnel">Personnel</strong></td>
+                ${rows[0]}
+                </tr><tr>
+                <td><strong data-i18n="intro.activities">Direct project activities</strong></td>
+                ${rows[1]}
+                </tr><tr>
+                <td><strong data-i18n="intro.commodities">Commodities</strong></td>
+                ${rows[2]}
+                </tr><tr>
+                <td><strong  data-i18n="intro.indirect">Indirect/ support costs</strong></td>
+                ${rows[3]}
+                </tr></tr>
+                <td><strong  data-i18n="intro.project_total">Project Total</strong></td>`
+      for (let total in rowsTotal) {
+        let value = '';
+        if (total == `variation-percent-${index}`) {
+          let num = 0, deno = 0;
+          variationPercent.forEach(data => {
+            if (data.num) num += Number(data.num);
+            if (data.deno) deno += Number(data.deno);
+          })
+          value = (deno && num / deno && (num / deno) !== "Infinity" ? ((num / deno) * 100).toFixed(2) : '');
+        } else value = rowsTotal[total];
+          projectRows += `
+                          <td>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  %
+                                </div>
+                              </div>
+                              <input type="text" 
+                              disabled
+                              id="${total}"
+                              value="${formatNumberInput(value)}" class="form-control ${total} currency">
+                          </div>
+                            </td>`;
+
+        } 
+      projectRows += `</tr>
+                          </tbody></table>
+                          </div>
+                          <div class="form-row">
+                          <div class="form-group col-md-12 textbox-wrap">
+                            <label for="" data-i18n="intro.variance_explanation">
+                            Variance Explanation
+                            </label>
+                            <textarea 
+                            class="form-control-resize textlimit"       
+                            ${tei.disabled ? 'disabled readonly' : ''}                                     
+                            id="${dataElements.arProjectExpenseCategory[index].comment}"
+                            onchange="pushDataElement(this.id,this.value);checkWords(this, ${index})"
+                            >${dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment] : ''}</textarea>
+                          
+                            <div
+                            class="char-counter form-text text-muted"
+                            id="counter${index}"
+                          >${maxWords - (dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment].trim().split(/\s+/).length : 0)} words remaining
+                          </div>
+                            <div class="invalid-feedback"> Error here 
+                            </div>
+                          </div>
+                                      </div>
+                          <div class="form-row">
+                          <div class="col-sm-12 text-right">
+                <div
+                          class="form-group text-end mar-b-0"
+                >
+                          <!--                                 <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                          <input
+                            type="button"
+                            value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft" 
+                            class="btn btn-secondary"
+                          />
+                          ${(length - 1 == index) ? `                          
+                          <button ${tei.disabled ? 'disabled readonly' : ''}  class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/6-actual-income-ar.html'">
+                          <span data-i18n="intro.next">Next</span>:  
+                          <span data-i18n="intro.actual_income">6. Actual Income</span>
+                </button>`: `<input
+                          type="button"
+                          value="NEXT"
+                          data-i18n="[value]intro.next" 
+                          onClick=changePanel('panel-body-${index + 2}')
+                          class="btn btn-primary"
+                />`}
+                </div>
+                            </div>
+                          </div>
                                       </div>
                                     </div>
                                     <!--- sect ${(index + 1)}--->`
     })
-    
+
     return projectRows;
   }
 
@@ -586,12 +625,14 @@ function calculateTotals(idx, expenseId) {
       const budget = unformatNumber($(`#${project.budgetExpense[id]}`).val());
       const expense = unformatNumber($(`#${project.actualExpense[id]}`).val());
       const variation = Number(budget) - expense;
+      const variationPercent = (budget && (expense/budget) && (expense/budget)!=="Infinity")? (expense/budget*100).toFixed(2): ''
       budgets += Number(budget);
       expenses += expense;
       totalVariation += variation;
 
       if(expenseId==project.actualExpense[id] || expenseId==project.budgetExpense[id] ) {
         $(`#${project.variation[id]}`).val(formatNumberInput(variation));
+        $(`#${project.variation[id]}-percent`).val(formatNumberInput(variationPercent));
         pushDataElement(project.variation[id], variation);
         
         if(variation >= 0) $(`#${project.variation[id]}`)[0].style.setProperty('background','#C1E1C1', 'important')
@@ -599,8 +640,12 @@ function calculateTotals(idx, expenseId) {
       } 
     }
     if(idx==index) {
-    $(`#total-actualExpense-${idx}`).val(expenses);
-    $(`#total-variation-${idx}`).val(totalVariation);
+    $(`#total-actualExpense-${idx}`).val(formatNumberInput(expenses));
+    $(`#total-variation-${idx}`).val(formatNumberInput(totalVariation));
+    let variationPercnet = (budgets && (expenses/budgets) && (expenses/budgets)!=="Infinity")? (expenses/budgets*100).toFixed(2): ''
+
+    $(`#variation-percent-${idx}`).val(formatNumberInput(variationPercnet));
+
     
     if(totalVariation >= 0) $(`#total-variation-${idx}`)[0].style.setProperty('background','#C1E1C1', 'important');
     else $(`#total-variation-${idx}`)[0].style.setProperty('background','#FAA0A0', 'important');
@@ -614,7 +659,9 @@ function calculateTotals(idx, expenseId) {
   if(totalBudget) {
   totalDifference = totalBudget-totalExpenses;
   }
-  
+  const totalSpend = totalBudget && totalExpenses/totalBudget && (totalExpenses/totalBudget)!="Infinity"? (totalExpenses/totalBudget)*100 : '';
+  $('.totalSpend').val(formatNumberInput(totalSpend.toFixed(2)));
+
   $('.totalDifference').val(formatNumberInput(totalDifference.toFixed(2)));
   
   if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
