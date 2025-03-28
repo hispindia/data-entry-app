@@ -1,4 +1,7 @@
 const maxWords = 300;
+const programStageEvent = {
+  keyDetails: ''
+}
 
  document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -11,6 +14,30 @@ const maxWords = 300;
       }
     });
   });
+
+//add Event listener to post all file resources
+document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
+  fileUpload.addEventListener("change", function (ev) {
+    const formData = new FormData();
+    formData.append('file', ev.target.files[0]);
+  fetch('../../fileResources', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+  })
+  .then(data => {
+      linkFileResourceToEvent(ev.target.id, data.response.fileResource);
+  })
+  .catch(error => {
+      console.error('Error uploading file:', error);
+  })
+})
+});
 
   document
     .getElementById("headerPeriod")
@@ -145,6 +172,7 @@ const maxWords = 300;
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
 
       const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:dataElements.year.id, value: year}, {id:dataElements.periodicity.id, value:dataElements.periodicity.value}); //data vlaues period wise
+      const dataValuesKD = getProgramStagePeriodicity(filteredPrograms, tei.program, programStage.arKeyDetails,{id:dataElements.year.id, value: year}, {id:dataElements.periodicity.id, value:dataElements.periodicity.value});
       
         if(!dataValues) {
           if(year && dataElements.period.value && dataElements.periodicity.value) {
@@ -165,8 +193,36 @@ const maxWords = 300;
         tei.event = dataValues['event'];
         tei.dataValues = dataValues;
       }
+
+      if (!dataValuesKD) {
+        if(year && dataElements.period.value && dataElements.periodicity.value) {
+        programStageEvent['keyDetails'] = await createEventOther({
+          orgUnit: tei.orgUnit,
+          program: program.arOrganisationDetails,
+          programStage: programStage.arKeyDetails,
+          teiId: tei.id,
+          dataElements: [{ 
+            dataElement: dataElements.year.id,
+            value: year
+          },{
+            dataElement: dataElements.period.id,
+            value: dataElements.period.value
+          }, {
+            dataElement: dataElements.periodicity.id,
+            value: dataElements.periodicity.value
+          }]
+        })
+      }
+      }
+      else {
+        programStageEvent['keyDetails'] = dataValuesKD["event"];
+        tei.dataValues = {
+          ...tei.dataValues,
+          ...dataValuesKD
+        }
+      }
     
-      populateProgramEvents(tei.dataValues, attributes);
+      populateProgramEvents(tei.dataValues, attributes, dataValuesKD ? dataValuesKD : {});
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -174,7 +230,7 @@ const maxWords = 300;
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues, attributes) {
+  function populateProgramEvents(dataValues, attributes, dataValuesKD) {
 
     //disable feilds
     if (tei.disabled) {
@@ -206,7 +262,60 @@ const maxWords = 300;
         textVal.value = '';
       }
     })
+    document.querySelectorAll('.show-for-sr').forEach((textVal) => {
+      if (dataValuesKD[textVal.id]) {
+        getFileUpload(textVal.id,dataValuesKD[textVal.id]);
+      }
+    })
   }
 
   fetchOrganizationUnitUid();
 });
+
+
+async function getFileUpload(elementId,deValue) {
+  try{
+    const fileData = await fetchFileResource(deValue);
+   
+    if (fileData) {
+        fileData['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${elementId}`;
+        updateFileLabel(elementId, fileData.displayName, fileData.url);
+    }
+  }
+  catch(error) {
+    console.log('file upload error')
+  }
+}
+
+function updateFileLabel(elementId, fileName, fileUrl) {
+  const downloadLink = document.getElementById(`${elementId}-download`);
+  downloadLink.href = fileUrl;
+  downloadLink.textContent = fileName;
+  downloadLink.setAttribute('download', fileName); 
+  document.getElementById(`${elementId}-download`).style.display = 'block';
+}
+
+
+async function fetchFileResource(resourceId) {
+  const apiUrl = `../../fileResources/${resourceId}`;
+  try {
+      const response = await fetch(apiUrl, {
+          method: 'GET',
+      });
+
+      if (!response.ok) {
+          alert("error")
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
+async function linkFileResourceToEvent(id, fileResource) {
+  await pushDataElementOther(id,fileResource.id,program.arOrganisationDetails, programStage.arKeyDetails, programStageEvent['keyDetails']);
+  fileResource['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${id}`;
+  updateFileLabel(id, fileResource.displayName, fileResource.url);
+}

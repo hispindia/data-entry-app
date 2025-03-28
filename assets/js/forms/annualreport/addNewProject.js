@@ -1,6 +1,5 @@
 const maxWords = 200;
 var projectDescriptionCount = 0;
-var projectFAIndex = 0;
 const eventIds = {
     projectDescription: {},
     projectBudget: {},
@@ -11,139 +10,60 @@ const eventIds = {
     projectSAEC: '',
     projectAEC: '',
 };
-const focusAreaOptions = [{
-    "code": "1. Care: Static Clinic",
-    "name": "1. Care: Static Clinic",
-    "id": "CZLBwESjbAX",
-    "index": 1,
-    pillars: [{
-      "code": "1. Center Care on People",
-      "name": "1. Center Care on People",
-      "id": "Cnof6vSGlxa",
-      "index": 1,
-      }]
-    },
-    {
-    "code": "2. Care: Outreach, mobile clinic, Community-based, delivery",
-    "name": "2. Care: Outreach, mobile clinic, Community-based, delivery",
-    "id": "OChleCDWjL3",
-    "index": 2,
-    pillars: [{
-      "code": "1. Center Care on People",
-      "name": "1. Center Care on People",
-      "id": "Cnof6vSGlxa",
-      "index": 1,
-      }]
-    },
-    {
-    "code": "3. Care: Other Services, enabled or referred (associated clinics)",
-    "name": "3. Care: Other Services, enabled or referred (associated clinics)",
-    "id": "wqByE5DAD2B",
-    "index": 3,
-    pillars: [{
-      "code": "1. Center Care on People",
-      "name": "1. Center Care on People",
-      "id": "Cnof6vSGlxa",
-      "index": 1,
-      }]
-    },
-    {
-    "code": "4. Care: Social Marketing Services",
-    "name": "4. Care: Social Marketing Services",
-    "id": "fXav463CcEs",
-    "index": 4,
-    pillars: [{
-      "code": "1. Center Care on People",
-      "name": "1. Center Care on People",
-      "id": "Cnof6vSGlxa",
-      "index": 1,
-      }]
-    },
-    {
-    "code": "5. Care: Digital Health Intervention and Selfcare",
-    "name": "5. Care: Digital Health Intervention and Selfcare",
-    "id": "yaHKcQ0QD8R",
-    "index": 5,
-    pillars: [{
-      "code": "1. Center Care on People",
-      "name": "1. Center Care on People",
-      "id": "Cnof6vSGlxa",
-      "index": 1,
-      }]
-    },
-    {
-    "code": "6. Advocacy",
-    "name": "6. Advocacy",
-    "id": "R4l1TP5OZEG",
-    "index": 6,
-    pillars: [{
-      "code": "2. Move the Sexuality Agenda",
-      "name": "2. Move the Sexuality Agenda",
-      "id": "aWqHHcdbAxP",
-      "index": 2,
-      }]
-    },
-    {
-    "code": "7. CSE",
-    "name": "7. CSE",
-    "id": "Nh55R7CiG1p",
-    "index": 7,
-    pillars: [{
-      "code": "2. Move the Sexuality Agenda",
-      "name": "2. Move the Sexuality Agenda",
-      "id": "aWqHHcdbAxP",
-      "index": 2,
-      }]
-    },
-    {
-    "code": "8. CSE Online, including social media",
-    "name": "8. CSE Online, including social media",
-    "id": "aMdeIx8pRwa",
-    "index": 8,
-    pillars: [{
-      "code": "2. Move the Sexuality Agenda",
-      "name": "2. Move the Sexuality Agenda",
-      "id": "aWqHHcdbAxP",
-      "index": 2,
-      }]
-    },
-    {
-    "code": "9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting",
-    "name": "9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting",
-    "id": "njWSsl6dYmM",
-    "index": 9,
-    pillars: [{
-      "code": "3. Solidarity for Change",
-      "name": "3. Solidarity for Change",
-      "id": "RRZ2NLpKIO7",
-      "index": 2,
-      }]
-    },
-    {
-    "code": "10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles",
-    "name": "10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles",
-    "id": "NLcmQt3b23t",
-    "index": 10,
-    pillars: [{
-      "code": "3. Solidarity for Change",
-      "name": "3. Solidarity for Change",
-      "id": "RRZ2NLpKIO7",
-      "index": 3,
-      }]
-    },
-    {
-    "code": "11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures",
-    "name": "11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures",
-    "id": "Th0iZtCIeOQ",
-    "index": 11,
-    pillars: [{
-      "code": "4. Nurture Our Federation",
-      "name": "4. Nurture Our Federation",
-      "id": "T9b4CVvuq81",
-      "index": 4,
-      }]
-    }
-  ]
+
+const focusAreaTranslation = {
+    '1. Care: Static Clinic': 'focus_area_1',
+    '2. Care: Outreach, mobile clinic, Community-based, delivery': 'focus_area_2',
+    '3. Care: Other Services, enabled or referred (associated clinics)': 'focus_area_3',
+    '4. Care: Social Marketing Services': 'focus_area_4',
+    '5. Care: Digital Health Intervention and Selfcare': 'focus_area_5',
+    '6. Advocacy': 'focus_area_6',
+    '7. CSE': 'focus_area_7',
+    '8. CSE Online, including social media': 'focus_area_8',
+    '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting': 'focus_area_9',
+    '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles': 'focus_area_10',
+    '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures': 'focus_area_11',
+    '1. Center Care on People':'strategic_pillar_1',
+    '2. Move the Sexuality Agenda':'strategic_pillar_2',
+    '3. Solidarity for Change':'strategic_pillar_3',
+    '4. Nurture Our Federation':'strategic_pillar_4',
+  }
+  
+  var focusAreas = [{
+    area: '1. Care: Static Clinic',
+    pillar: "1. Center Care on People",
+  }, {
+    area: '2. Care: Outreach, mobile clinic, Community-based, delivery',
+    pillar: '1. Center Care on People'
+  }, {
+    area: '3. Care: Other Services, enabled or referred (associated clinics)',
+    pillar: '1. Center Care on People'
+  }, {
+    area: '4. Care: Social Marketing Services',
+    pillar: '1. Center Care on People'
+  }, {
+    area: '5. Care: Digital Health Intervention and Selfcare',
+    pillar: '1. Center Care on People'
+  }, {
+    area: '6. Advocacy',
+    pillar: '2. Move the Sexuality Agenda'
+  }, {
+    area: '7. CSE',
+    pillar: '2. Move the Sexuality Agenda'
+  }, {
+    area: '8. CSE Online, including social media',
+    pillar: '2. Move the Sexuality Agenda'
+  }, {
+    area: '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting',
+    pillar: '3. Solidarity for Change'
+  }, {
+    area: '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles',
+    pillar: '3. Solidarity for Change'
+  }, {
+    area: '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures',
+    pillar: '4. Nurture Our Federation'
+  }];
+  
 
 document.addEventListener("DOMContentLoaded", function () {
     // Add event listener to each list item
@@ -332,15 +252,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function createProjectFocusArea() {
-        var projectRows = "";
-        projectRows += displayProjectFocusArea(projectFAIndex);
-        projectRows += `
-    <div class="btn-pfa btn-wrap mt-3">
-        <div class="btn-wrap-inner">
-            <a  onclick="addPFA()" class="plus">+</a>
-            <a  onclick="removePFA()" class="minus">-</a>                 
-        </div>                
-    </div>`;
+        var projectRows = `<table class="table table-striped table-md mb-0 " width="100%">
+        <thead>
+        <tr>
+          <th data-i18n="intro.focus_area">Focus Area</th>
+          <th data-i18n="intro.budget">Budget</th>
+        </tr>
+        </thead>
+        <tbody>`;
+        focusAreas.forEach((_,index) => {
+            var focusAreaVal = {
+                area: focusAreas[index].area,
+                pillar: focusAreas[index].pillar,
+                budget: '',
+            };
+            projectRows += `<tr>
+            <td><span id="projectArea-${index}" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+            <td>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                    $
+                    </div>
+                </div>
+                <input 
+                type="text"  
+                id ="assignedBudget-${index}"
+                class="form-control input-budget currency"
+                oninput="formatNumberInput(this)"
+                ${tei.disabled ? 'disabled readonly': ''} 
+                value="">
+                </div>
+            </td>
+          </tr>`;
+          })
         return projectRows;
     }
 
@@ -435,96 +380,6 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchOrganizationUnitUid();
 });
 
-function displayProjectFocusArea(index) {
-    var projectFARows = "";
-
-    projectFARows += `
-    <!--- Project area sec start--->
-
-    <div class="wrap-project-area">
-        <div class="form-row">
-            <div class="form-group col-md-12 textbox-wrap">
-                <label for=""><span data-i18n="intro.project_focus_area">Project Focus Area</span> ${index + 1}
-                </label>
-
-                <select 
-                ${tei.disabled ? 'disabled readonly': ''} 
-                class="form-control" 
-                id="projectArea-${index}" 
-              onchange="changeStrategicPillar('projectPillar-${index}', this.value);"
-                >
-                    <option class="choose" value="" data-i18n="intro.choose">Choose </option>`;
-    focusAreaOptions.forEach((fa) => {
-        projectFARows += `<option value="${fa.code}" data-i18n="intro.focus_area_${fa.index}">${fa.name}</option>`;
-    });
-    projectFARows += `</select>
-                
-                <div class="invalid-feedback"> Error here 
-                </div>
-            </div>
-        </div>
-
-
-        <div class="form-row">
-            <div class="form-group col-md-12 textbox-wrap">
-                <label for="" data-i18n="intro.strategic_pillar">Associated Strategic Pillar
-                </label>
-                <select
-                ${tei.disabled ? 'disabled readonly': ''} 
-                class="form-control" 
-                id="projectPillar-${index}"
-                >
-                </select>
-                <div class="invalid-feedback"> Error here 
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-12 mb-1">
-            <label for="" data-i18n="intro.budget_focus_area">Budget by "Project Focus Area"</label>
-            </div>
-            <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">$</div>
-            </div>
-            <input type="text" value="" id="assignedBudget-${index}" oninput="formatNumberInput(this)" class="form-control currency">
-            </div>
-            </div>
-        </div>
-    <!--- Project area sec ends--->`;
-    projectFAIndex++;
-    return projectFARows;
-}
-
-function changeStrategicPillar(strategicPillarId, code) {
-    const focusArea = focusAreaOptions.find((area) => area.code == code);
-    if (focusArea) {
-        let pillar = focusArea.pillars[0];
-        let option = `<option selected value="${pillar.code}" data-i18n="intro.strategic_pillarr_${pillar.index}">${pillar.name}</option>`;
-        document.getElementById(strategicPillarId).innerHTML = option;
-    } else {
-        let option = `<option selected value="" data-i18n="intro.choose">Choose</option>`;
-        document.getElementById(strategicPillarId).innerHTML = option;
-    }
-}
-
-function addPFA() {
-    const newProjectRow = displayProjectFocusArea(
-        projectFAIndex
-    );
-
-    $(newProjectRow).insertBefore(`.btn-pfa`);
-    
-      // Localize content
-      $('body').localize();
-}
-function removePFA() {
-    if (projectFAIndex > 1) {
-        projectFAIndex--;
-        $(`.wrap-project-area`).last().remove();
-    }
-}
 function countProjects(projects, dataValues) {
     var prevEmptyNames = [];
     var names = [];
@@ -724,7 +579,7 @@ async function pushProject() {
                 if (document.getElementById(`projectArea-${index}`)) {
                     dataValuesPFA.push({
                         dataElement: `${fa}-${year}`,
-                        value: JSON.stringify({ area: document.getElementById(`projectArea-${index}`).value, pillar: document.getElementById(`projectPillar-${index}`).value, budget: '' })
+                        value: JSON.stringify({  area: focusAreas[index]['area'], pillar: focusAreas[index]['pillar'], budget: '' })
                     })
                 }
             })
@@ -750,7 +605,7 @@ async function pushProject() {
             if (document.getElementById(`projectArea-${index}`)) {
                 dataValuesARPFA.push({
                     dataElement: fa,
-                    value: JSON.stringify({ area: document.getElementById(`projectArea-${index}`).value, pillar: document.getElementById(`projectPillar-${index}`).value, assignedBudget: unformatNumber(document.getElementById(`assignedBudget-${index}`).value) }), expense: '', variation: ''
+                    value: JSON.stringify({ area: focusAreas[index]['area'], pillar: focusAreas[index]['pillar'], assignedBudget: unformatNumber(document.getElementById(`assignedBudget-${index}`).value) }), expense: '', variation: ''
                 })
             }
         })

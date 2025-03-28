@@ -17,6 +17,35 @@ const focusAreaTranslation = {
   '3. Solidarity for Change':'strategic_pillar_3',
   '4. Nurture Our Federation':'strategic_pillar_4',
 }
+var focusAreaStatus = {
+  "1. Care: Static Clinic": false,
+  "2. Care: Outreach, mobile clinic, Community-based, delivery":false,
+  "3. Care: Other Services, enabled or referred (associated clinics)":false,
+  "4. Care: Social Marketing Services":false,
+  "5. Care: Digital Health Intervention and Selfcare":false,
+  "6. Advocacy":false,
+  "7. CSE":false,
+  "8. CSE Online, including social media":false,
+  "9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting":false,
+  "10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles":false,
+  "11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures":false
+};
+
+var focusAreaNames = [
+  "1. Care: Static Clinic",
+  "2. Care: Outreach, mobile clinic, Community-based, delivery",
+  "3. Care: Other Services, enabled or referred (associated clinics)",
+  "4. Care: Social Marketing Services",
+  "5. Care: Digital Health Intervention and Selfcare",
+  "6. Advocacy",
+  "7. CSE",
+  "8. CSE Online, including social media",
+  "9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting",
+  "10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles",
+  "11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures"
+];
+
+
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -290,6 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const difference = dataValues[dataElements.difference]
       ? Number(dataValues[dataElements.difference])
       : "";
+      const totalSpend = totalBudget && (actualExpense/totalBudget) && (actualExpense/totalBudget)!="Infinity" ? (actualExpense/totalBudget)*100:''
     var totalsRow = `
       <tr>
   <td>
@@ -330,6 +360,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }" class="form-control totalDifference currency" readonly disabled>
     </div>
   </td>
+  <td>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          $
+        </div>
+      </div>
+      <input type="text" value="${formatNumberInput(totalSpend)}" class="form-control totalSpend currency" readonly disabled>
+    </div>
+  </td>
 </tr>
 `;
     return totalsRow;
@@ -340,11 +380,27 @@ document.addEventListener("DOMContentLoaded", function () {
     var totalBudget = 0;
     var totalActualExpense = 0;
     var totalVariation = 0;
+    var totalPercent = 0;
 
     projectDetails.forEach((list, index) => {
+
+      var focusAreaStatus = {
+        "1. Care: Static Clinic": false,
+        "2. Care: Outreach, mobile clinic, Community-based, delivery":false,
+        "3. Care: Other Services, enabled or referred (associated clinics)":false,
+        "4. Care: Social Marketing Services":false,
+        "5. Care: Digital Health Intervention and Selfcare":false,
+        "6. Advocacy":false,
+        "7. CSE":false,
+        "8. CSE Online, including social media":false,
+        "9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting":false,
+        "10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles":false,
+        "11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures":false
+      };
       totalBudget = 0;
       totalActualExpense = 0;
       totalVariation = 0;
+      totalPercent = 0;
       projectRows += `
       <!--- sect ${index + 1}--->
       <div class="accordion">
@@ -379,18 +435,64 @@ document.addEventListener("DOMContentLoaded", function () {
                                   <thead>
                                   <tr>
                                     <th data-i18n="intro.focus_area">Focus Area</th>
-                                    <th data-i18n="intro.pillar">Pillar</th>
                                     <th data-i18n="intro.budget">Budget</th>
                                     <th data-i18n="intro.actual_expense">Actual Expense</th>
-                                    <th data-i18n="intro.variation">Variation</th>
-
+                                    <th><span data-i18n="intro.variation">Variation </span> ($)</th>
+                                    <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
                                   </tr>
                                   </thead>
                                   <tbody>`;
+      var newFocusAreaIndex = [];
+      dataElements.projectFocusAreaNew[index].focusAreas.forEach(focusAreaId => {
+        if(dataValues[focusAreaId]) {
+        const dataJson = dataValues[focusAreaId];
+          if (dataJson.includes('1. Care: Static Clinic')) {
+            newFocusAreaIndex[0] = focusAreaId;
+          }
+          else if (dataJson.includes('2. Care: Outreach, mobile clinic, Community-based, delivery')) {
+            newFocusAreaIndex[1] = focusAreaId;
+          }
+          else if (dataJson.includes('3. Care: Other Services, enabled or referred (associated clinics)')) {
+            newFocusAreaIndex[2] = focusAreaId;
+          }
+          else if (dataJson.includes('4. Care: Social Marketing Services')) {
+            newFocusAreaIndex[3] = focusAreaId;
+          }
+          else if (dataJson.includes('5. Care: Digital Health Intervention and Selfcare')) {
+            newFocusAreaIndex[4] = focusAreaId;
+          }
+          else if (dataJson.includes('6. Advocacy')) {
+            newFocusAreaIndex[5] = focusAreaId;
+          }
+          else if (dataJson.includes('7. CSE')) {
+            newFocusAreaIndex[6] = focusAreaId;  
+          }
+          else if (dataJson.includes('8. CSE Online, including social media')) {
+            newFocusAreaIndex[7] = focusAreaId;
+          }
+          else if (dataJson.includes('9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting')) {
+            newFocusAreaIndex[8] = focusAreaId;
+          }
+          else if (dataJson.includes('10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles')) {
+            newFocusAreaIndex[9] = focusAreaId;
+          }
+          else if (dataJson.includes('11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures')) {
+            newFocusAreaIndex[10] = focusAreaId;
+          }
+        }
+      });
+    
       dataElements.projectFocusAreaNew[index].focusAreas.forEach(
-        (focusAreaId) => {
-          if (dataValues[focusAreaId]) {
-            const focusAreaVal = JSON.parse(dataValues[focusAreaId]);
+        (focusAreaId,indexFA) => {
+          if (newFocusAreaIndex[indexFA]) {
+            const focusAreaVal = JSON.parse(dataValues[newFocusAreaIndex[indexFA]]);
+            const newAssignedBudget = focusAreaVal.assignedBudget
+            ? Number(focusAreaVal.assignedBudget)
+            : 0;
+            const newActualExpense = focusAreaVal.expense
+            ? Number(focusAreaVal.expense)
+            : 0;
+            const focusAreaPercent = newAssignedBudget && newActualExpense/newAssignedBudget && newActualExpense/newAssignedBudget!="Infinity" ? (newActualExpense/newAssignedBudget)*100:''
             totalBudget += focusAreaVal.assignedBudget
               ? Number(focusAreaVal.assignedBudget)
               : 0;
@@ -404,9 +506,10 @@ document.addEventListener("DOMContentLoaded", function () {
             focusAreaList[`${focusAreaId}area`]=focusAreaVal.area;
             focusAreaList[`${focusAreaId}pillar`]=focusAreaVal.pillar;
 
+            focusAreaStatus[focusAreaVal.area] = true;
+
           projectRows += `<tr>
           <td><span id="${focusAreaId}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
-          <td><span id="${focusAreaId}-pillar" data-i18n="intro.${focusAreaTranslation[focusAreaVal.pillar]}">${focusAreaVal.pillar}</span></td>
           <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -470,19 +573,141 @@ document.addEventListener("DOMContentLoaded", function () {
             class="form-control input-budget currency">
           </div>
         </td>
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                %
+              </div>
+            </div>
+            <input 
+            type="text" 
+            id ="${focusAreaId}-percent"
+            value="${
+              focusAreaPercent
+                ? formatNumberInput(focusAreaPercent)
+                : 0
+            }"
+            disabled
+            class="form-control ${focusAreaId}-percent currency">
+          </div>
+        </td>
+      </tr>`;
+          } else {
+            const focusAreaVal = {
+              area:focusAreaNames[indexFA],
+              pillar: '',
+              assignedBudget:'',
+              expense:'',
+              variation: ''
+            }
+            totalBudget +=  0;
+            totalActualExpense +=  0;
+            totalVariation +=  0;
+
+            focusAreaList[`${focusAreaId}area`]=focusAreaVal.area;
+            focusAreaList[`${focusAreaId}pillar`]=focusAreaVal.pillar;
+
+            focusAreaStatus[focusAreaVal.area] = true;
+
+          projectRows += `<tr>
+          <td><span id="${focusAreaId}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+          <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                $
+              </div>
+            </div>
+            <input 
+            type="text" 
+            disabled
+            id ="${focusAreaId}-assignedBudget"
+            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
+            value="${
+              focusAreaVal.assignedBudget
+                ? formatNumberInput(focusAreaVal.assignedBudget)
+                : 0
+            }"
+            ${(!list.comment) ? 'disabled': ''}
+            class="form-control input-budget currency">
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                $
+              </div>
+            </div>
+            <input 
+            type="text"  
+            disabled
+            id ="${focusAreaId}-expense"
+            ${tei.disabled ? 'disabled readonly': ''} 
+            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
+            value="${focusAreaVal.expense ? formatNumberInput(focusAreaVal.expense) : 0}"
+            class="form-control input-budget currency">
+          </div>
+        </td>
+  
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                $
+              </div>
+            </div>
+            <input 
+            type="text" 
+            disabled
+            id ="${focusAreaId}-variation"
+            style="background:${
+              focusAreaVal.variation
+                ? focusAreaVal.variation >= 0
+                  ? "#C1E1C1 !important"
+                  : "#FAA0A0 !important"
+                : ""
+            }" 
+            value="${
+              focusAreaVal.variation
+                ? formatNumberInput(focusAreaVal.variation)
+                : 0
+            }"
+            disabled
+            class="form-control input-budget currency">
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                %
+              </div>
+            </div>
+            <input 
+            type="text" 
+            id ="${focusAreaId}-percent"
+            value=""
+            disabled
+            class="form-control ${focusAreaId}-percent currency">
+          </div>
+        </td>
       </tr>`;
           }
         }
       );
 
+      totalPercent = totalBudget && totalActualExpense/totalBudget && totalActualExpense/totalBudget!="Infinity" ? (totalActualExpense/totalBudget)*100:''
+         
       projectRows += `    <tr>
-                              <td colspan="2" class="text-center">
+                              <td class="text-center">
                                 <strong data-i18n="intro.project_total">Project Total</strong>
                               </td>
                               <td>
                                 <div class="input-group">
                                   <div class="input-group-prepend">
-                                    <div class="input-group-text">
+                                    <div class="input-group-text font-weight-bold">
                                       $
                                     </div>
                                   </div>
@@ -491,13 +716,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                   id="total-budget-${index}"
                                   value="${formatNumberInput(totalBudget)}"
                                   disabled
-                                    class="form-control input-budget currency" disabled>
+                                    class="form-control font-weight-bold input-budget currency" disabled>
                                 </div>
                               </td>
                               <td>
                                 <div class="input-group">
                                   <div class="input-group-prepend">
-                                    <div class="input-group-text">
+                                    <div class="input-group-text font-weight-bold">
                                       $
                                     </div>
                                   </div>
@@ -506,7 +731,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   id="total-actualExpense-${index}"
                                   value="${formatNumberInput(totalActualExpense)}"
                                   disabled
-                                    class="form-control input-budget currency" disabled>
+                                    class="form-control font-weight-bold input-budget currency" disabled>
                                 </div>
                               </td>
 
@@ -514,7 +739,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               <td>
                                 <div class="input-group">
                                   <div class="input-group-prepend">
-                                    <div class="input-group-text">
+                                    <div class="input-group-text font-weight-bold">
                                       $
                                     </div>
                                   </div>
@@ -523,7 +748,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                   id="total-variation-${index}"
                                   value="${formatNumberInput(totalVariation)}"
                                   disabled
-                                    class="form-control input-budget currency" disabled>
+                                    class="form-control font-weight-bold input-budget currency" disabled>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold">
+                                      %
+                                    </div>
+                                  </div>
+                                  <input
+                                  type="text" 
+                                  id="total-percent-${index}"
+                                  value="${formatNumberInput(totalPercent)}"
+                                  disabled
+                                    class="form-control font-weight-bold  input-budget currency" disabled>
                                 </div>
                               </td>
                             </tr>
@@ -637,7 +877,6 @@ function loadCalculatedVariables(
   dataValuesFA,
   dataElements
 ) {
-  const year = document.getElementById("year-update").value;
   var projectNames = [];
   var focusAreas = [];
 
@@ -746,6 +985,7 @@ function pushDataElementFA(id) {
 function calculateTotals(idx, expenseId) {
   var totalExpenses = 0;
   var totalDifference = 0;
+  var totalBudget = 0;
   dataElements.projectFocusAreaNew.forEach((project,index) => {
   if($(`#${project.name}`).val()) {
     var definedBudget = 0;
@@ -757,6 +997,7 @@ function calculateTotals(idx, expenseId) {
       const budget = unformatNumber($(`#${focusArea}-assignedBudget`).val());
       const expense = unformatNumber($(`#${focusArea}-expense`).val());
       const variation = budget-expense;
+      const variationPercent =  budget && (expense/budget) && (expense/budget)!="Infinity" ? (expense/budget)*100 : '';
 
       definedBudget += budget;
       expenses += expense;
@@ -764,6 +1005,7 @@ function calculateTotals(idx, expenseId) {
 
       if(expenseId==`${focusArea}-expense`) {
         $(`#${focusArea}-variation`).val(formatNumberInput(variation));
+        $(`#${focusArea}-percent`).val(formatNumberInput(variationPercent));
         
         if(variation >= 0) $(`#${focusArea}-variation`)[0].style.setProperty('background','#C1E1C1', 'important')
         else $(`#${focusArea}-variation`)[0].style.setProperty('background','#FAA0A0', 'important')
@@ -778,6 +1020,7 @@ function calculateTotals(idx, expenseId) {
       } 
       else if (expenseId==`${focusArea}-assignedBudget`) {
         $(`#${focusArea}-variation`).val(formatNumberInput(variation));
+        $(`#${focusArea}-percent`).val(formatNumberInput(variationPercent));
         
         if(variation >= 0) $(`#${focusArea}-variation`)[0].style.setProperty('background','#C1E1C1', 'important')
         else $(`#${focusArea}-variation`)[0].style.setProperty('background','#FAA0A0', 'important')
@@ -793,14 +1036,20 @@ function calculateTotals(idx, expenseId) {
       } 
     })
     if(idx==index) {
+      let totalPercent = definedBudget && expenses/definedBudget && expenses/definedBudget!="Infinity" ? (expenses/definedBudget)*100:''
       $(`#total-budget-${idx}`).val(formatNumberInput(definedBudget));
       $(`#total-actualExpense-${idx}`).val(formatNumberInput(expenses));
       $(`#total-variation-${idx}`).val(formatNumberInput(totalVariation));
+      $(`#total-percent-${idx}`).val(formatNumberInput(totalPercent));
     }
     totalDifference += totalVariation;
     totalExpenses += expenses;
+    totalBudget += definedBudget;
   }
   })
+
+  const totalSpend = totalBudget && totalExpenses/totalBudget && (totalExpenses/totalBudget)!="Infinity"? (totalExpenses/totalBudget)*100 : '';
+  $('.totalSpend').val(formatNumberInput(totalSpend.toFixed(2)));
 
   $('.totalExpenses').val(formatNumberInput(totalExpenses));
   $('.totalDifference').val(formatNumberInput(totalDifference));

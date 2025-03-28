@@ -185,7 +185,7 @@
                                             Category</span></a></li>
                                 <li><a class="nav-link" data-target="6-actual-income-ar.html"><span
                                             data-i18n="intro.actual_income">6. Actual Income</span></a></li>
-                                <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. HYR AOC Review Form</span></a></li>
+                                <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. AOC Review Form</span></a></li>
                             </ul>
                         </li>
                         <li class="dropdown-sr">
@@ -197,6 +197,7 @@
                                 <li><a class="nav-link ma-users aoc-users core-users" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
                                 <li><a style="display:none" class="nav-link aoc-users core-users" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
                                 <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
+                            <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Business Plan</span></a></li>
                                 <li><a style="display:none" class="nav-link core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
                                 <li><a style="display:none" class="nav-link core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
                                 <li><a style="display:none" class="nav-link core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
@@ -943,8 +944,55 @@
                                                                     Error here
                                                                 </div>
                                                             </div>
-
                                                         </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm-12 text-right">
+    
+                                                                <div class="form-group text-end mar-b-0">
+                                                                    <!--                                                     <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                                                                                     
+                                                                    <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                                                                    id="" class="btn btn-secondary">
+                                                                <input type="button" onclick="changePanel('panel-body-3')"  data-i18n="[value]intro.next"  value="NEXT" id="nextButton"
+                                                                    class="btn btn-primary">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="accordion">
+                                                <div class="accordion-header" role="button" data-toggle="collapse"
+                                                    data-target="#panel-body-3">
+                                                    <h4><span class="number">3</span><span
+                                                            data-i18n="intro.key_document"></span> </h4>
+                                                </div>
+                                                <div class="accordion-body collapse" id="panel-body-3"
+                                                    data-parent="#accordion">
+                                                    <form>
+                                                        <div class="form-row">
+
+                                                            <div class="form-group col-md-12">
+                                                                <label id="uploadlogo1-label" for=""
+                                                                    data-i18n="intro.key_annual">Please upload key audits reports documents</label>                                                           
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <input class="form-control show-for-sr" type="file"
+                                                                                id="NxRiTEvtsho"
+                                                                                name="upload_strategy_docs[]" />
+                                                                        </div>
+                                                                        <div class="col">   
+                                                                            <a class="link-success" id="NxRiTEvtsho-download"></a>
+                                                                        </div>
+                                                                    </div>
+                                                                <div class="invalid-feedback">
+                                                                    Error here
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <div class="form-row">
                                                             <div class="col-sm-12 text-right">
                                                                 <div class="form-group text-end mar-b-0">                          

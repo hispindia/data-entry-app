@@ -1530,7 +1530,13 @@ const translation_mapping = [
         ar:  'تكاليف غير مباشرة/الدعم'
     },
     // 3.1 Total Income
-    
+    {
+        id: 'incomeSubCategories',
+        en: 'Income Sub-Categories',
+        sp: 'Subcategorías de ingresos',
+        fr: 'Sous-catégories de revenus',
+        ar: 'فئات الدخل الفرعية'
+    },
     {
         id: "income",
         en: "Income",
@@ -2502,8 +2508,8 @@ de productos (como se indica en la parte de abajo del formulario)
     {
         id: "total_spend",
         en: "Total Spend",
-        sp: "gasto total",
-        fr: "dépense totale",
+        sp: "Gasto total",
+        fr: "Dépense totale",
         ar: "إجمالي الإنفاق"
     },
     {
@@ -2537,9 +2543,9 @@ de productos (como se indica en la parte de abajo del formulario)
     {
         id: "actual_expense_FA",
         en: "Total Actual Expenses (by Focus Areas)",
-        sp: "Gastos reales",
-        fr: "Dépenses réelles",
-        ar: "النفقات الفعلية"
+        sp: "Gastos reales totales (por áreas de enfoque)",
+        fr: "Dépenses réelles totales (par domaines d'intérêt)",
+        ar: "إجمالي النفقات الفعلية (حسب مجالات التركيز)"
     },
     {
         id: "project_vs_focusarea",

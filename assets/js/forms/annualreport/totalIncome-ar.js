@@ -1,19 +1,4 @@
 var totalExpenses = 0;
-var negativeIndex = {
-  localIncome: 0,
-  internationalIncome: 8,
-  ippfIncome: 13
-};
-var filledIndex = {
-  localIncome: 0,
-  internationalIncome: 8,
-  ippfIncome: 13
-};
-const detailsIndex = {
-  localIncome: 8,
-  internationalIncome: 13,
-  ippfIncome: 15
-}
 const totalsId = [{
   id: 'localIncome',
   name: 'Locally generated income',
@@ -31,6 +16,8 @@ const categoryIncome = [
   {
     name: "Locally generated income",
     code: "Locally generated income",
+    shortName: 'localIncome',
+    format: 'locally-generated',
     id: "AwylsBWgOEK",
     options: [
       {
@@ -87,6 +74,8 @@ const categoryIncome = [
     name: "International income (Non - IPPF)",
     code: "International income (Non - IPPF)",
     id: "EbbYrTYLZNZ",
+    shortName: 'internationalIncome',
+    format: 'international-income',
     options: [
       {
         "name": "Multilateral Agencies and Organizations",
@@ -124,6 +113,8 @@ const categoryIncome = [
     name: "IPPF income",
     code: "IPPF income",
     id: "iKycH3397wP",
+    shortName: 'ippfIncome',
+    format: 'ippf-income',
     options: [
       {
         "name": "IPPF Unrestricted Grant",
@@ -140,8 +131,6 @@ const categoryIncome = [
     ],
   },
 ];
-
-const subCategoryIncome = []
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -273,11 +262,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents(year) {
-    filledIndex = {
-    localIncome: 0,
-    internationalIncome: 8,
-    ippfIncome: 13
-  };
     if (!year) year = document.getElementById("year-update").value;
     dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
 
@@ -315,6 +299,12 @@ document.addEventListener("DOMContentLoaded", function () {
       else {
         tei.event = dataValues['event'];
         tei.dataValues = dataValues;
+
+        var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements);
+        calculatedElements.forEach((elements) => {
+          tei.dataValues[elements.dataElement] = elements.value;
+          pushDataElement(elements.dataElement, elements.value);
+        });
       }
 
       populateProgramEvents(tei.dataValues);
@@ -327,10 +317,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(dataValues) {
     $('#push-button').empty();
     if(window.localStorage.getItem("hideReporting").includes('ed')) {
-      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Report </button>`)
+      $('#push-button').append(`<button class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Report </button>`)
     }
     if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Report </button>`)
+      $('#push-button').append(`<button class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Report </button>`)
     }
 
     $("#accordion").empty();
@@ -456,243 +446,78 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function displayTotalIncome(dataValues) {
     var projectRows = "";
-    var hasValue = false;
+    var categoryIndex = 0;
     projectRows = `
-      <div class="accordion">
-        <div class="accordion-header active" role="button" data-toggle="collapse"
-          data-target="#panel-body-1">
-          <h4>
-            <span class="number">1</span> <span data-i18n="intro.locally-generated">Locally generated income</span>
-          </h4>
-        </div>
-        <div class="accordion-body collapse" id="panel-body-1" data-parent="#accordion">`;
-    for (let i = 0; i <= 7; i++) {
-      const income = dataElements.projectTotalIncome[i];
-      if(dataValues[income.subCategory]) {
-        hasValue = true;
-        filledIndex['localIncome']++;
-        
-        projectRows += addProjectIncome(income, dataValues, categoryIncome[0].options, 'localIncome');
-      }
-    }
-    if(!hasValue) {
-      projectRows += addProjectIncome(dataElements.projectTotalIncome[0], dataValues, categoryIncome[0].options, 'localIncome');
-      filledIndex['localIncome']++;
-    }
-    projectRows += `  
-  <div class="btn-localIncome btn-wrap mt-3">
-    <div class="btn-wrap-inner">
-      <a  onclick="addIncome('localIncome', '0')" class="plus">+</a>
-      <a  onclick="removeIncome('localIncome')" class="minus">-</a>                 
-    </div>                
-  </div>
-  <hr>
-  <div class="form-row">
-    <div class="col-sm-12 text-right">
-      <div class="form-group text-end mar-b-0">
-      <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
-      <input
-            type="button"
-            value="NEXT"
-            data-i18n="[value]intro.next" 
-            onClick=changePanel('panel-body-2')
-            class="btn btn-primary"
-            />
-      </div>
-    </div>
-  </div>
-  
-  </div>
-  </div>`
-
-    projectRows += `
-  <div class="accordion">
-    <div class="accordion-header active" role="button" data-toggle="collapse"
-      data-target="#panel-body-2">
-      <h4>
-        <span class="number">2</span>  <span data-i18n="intro.international-income">International income (Non - IPPF)</span>
-      </h4>
-    </div>
-    <div class="accordion-body collapse" id="panel-body-2" data-parent="#accordion">`;
-    hasValue = false;
-    for (let i =8 ; i <= 12; i++) {
-    const income = dataElements.projectTotalIncome[i];
-    if(dataValues[income.subCategory]) {
-      hasValue = true;
-      filledIndex['internationalIncome']++;
-      
-      projectRows += addProjectIncome(income, dataValues, categoryIncome[1].options, 'internationalIncome');
-    }
-  }
-  if(!hasValue) {
-    projectRows += addProjectIncome(dataElements.projectTotalIncome[8], dataValues, categoryIncome[1].options, 'internationalIncome');
-    filledIndex['internationalIncome']++;
-  }
-    projectRows += `     
-  <div class="btn-internationalIncome btn-wrap mt-3">
-    <div class="btn-wrap-inner">
-      <a  onclick="addIncome('internationalIncome', '1')" class="plus">+</a>
-      <a  onclick="removeIncome('internationalIncome')" class="minus">-</a>                 
-    </div>                
-  </div>
-  <hr>
-  <div class="form-row">
-    <div class="col-sm-12 text-right">
-      <div class="form-group text-end mar-b-0">
-      <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary"><input
-            type="button"
-            value="NEXT"
-            data-i18n="[value]intro.next" 
-            onClick=changePanel('panel-body-3')
-            class="btn btn-primary"
-            />
-      </div>
-    </div>
-  </div> 
-  </div>
-</div> `
-    projectRows += `
-  <div class="accordion">
-    <div class="accordion-header active" role="button" data-toggle="collapse"
-      data-target="#panel-body-3">
-      <h4>
-        <span class="number">3</span>  <span data-i18n="intro.ippf-income">IPPF income</span>
-      </h4>
-    </div>
-    <div class="accordion-body collapse" id="panel-body-3" data-parent="#accordion">`;
-    hasValue=false;
-    for (let i = 13; i <= 14; i++) {
-    const income = dataElements.projectTotalIncome[i];
-    if(dataValues[income.subCategory]) {
-      hasValue = true;
-      filledIndex['ippfIncome']++;
-      
-      projectRows += addProjectIncome(income, dataValues, categoryIncome[2].options, 'ippfIncome');
-    }
-  }
-  if(!hasValue) {
-    projectRows += addProjectIncome(dataElements.projectTotalIncome[13], dataValues, categoryIncome[2].options, 'ippfIncome');
-    filledIndex['ippfIncome']++;
-  }
-    projectRows += `  
-  <div class="btn-ippfIncome btn-wrap mt-3">
-    <div class="btn-wrap-inner">
-      <a  onclick="addIncome('ippfIncome', '2')" class="plus">+</a>
-      <a  onclick="removeIncome('ippfIncome')" class="minus">-</a>                 
-    </div>                
-  </div>
-  <hr>
-  <div class="form-row">
-    <div class="col-sm-12 text-right">
-      <div class="form-group text-end mar-b-0">
-      <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
-      <input
-              id="saveProjectFocusArea"
-              type="button"
-              data-i18n="[value]intro.submit" 
-              onclick="submitIncomeByDonor()"
-              value="SUBMIT"
-              class="btn btn-primary"
-            />
-      </div>
-    </div>
-  </div>
-  </div>
-</div>     `
+      <table class="table table-striped table-md mb-0 " width="100%">
+      <tbody>`
+      categoryIncome.forEach(category=> {
+        projectRows+= `<tr><td class="text-center font-weight-bold" colspan="4" data-i18n="intro.${category.format}">${category.name}</td></tr>
+        <tr>
+        <th data-i18n="intro.incomeSubCategories">Income Sub-Categories </th>
+        <th data-i18n="intro.restricted" class="text-center">Restricted</th>
+        <th data-i18n="intro.unrestricted" class="text-center">Unrestricted</th>
+        <th data-i18n="intro.total" class="text-center">Total</th>
+        </tr>`
+        category.options.forEach(option => {
+          const restrictedId = dataElements.projectTotalIncome[categoryIndex].restricted;
+          const unrestrictedId = dataElements.projectTotalIncome[categoryIndex].unrestricted;
+          const restricted = dataValues && dataValues[restrictedId]  ? dataValues[restrictedId] : "";
+          const unrestricted = dataValues && dataValues[unrestrictedId] ? dataValues[unrestrictedId] : "";
+          const totalIncome = Number(restricted) + Number(unrestricted);
+          projectRows += `<tr>
+          <td class="font-weight-bold" data-i18n="intro.${option.format}" >${option.name}</td>
+          <td>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$ </div>
+              </div>
+              <input 
+              type="text" 
+              ${tei.disabled ? 'disabled readonly': ''} 
+              id="${restrictedId}" 
+              value="${formatNumberInput(restricted)}" 
+              oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${restrictedId}', '${unrestrictedId}', '${category.shortName}')" 
+              class="form-control input-restricted-${category.shortName} currency">
+            </div>
+          </td>
+          <td>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$ </div>
+              </div>
+              <input 
+              type="text" 
+              ${tei.disabled ? 'disabled readonly': ''} 
+              id="${unrestrictedId}" 
+              value="${formatNumberInput(unrestricted)}" 
+              oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${restrictedId}', '${unrestrictedId}', '${category.shortName}')" 
+              class="form-control input-unrestricted-${category.shortName} currency">
+            </div>
+          </td>
+          <td>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+              </div>
+              <input 
+              type="text"
+              id="${restrictedId}-${unrestrictedId}" 
+              value="${formatNumberInput(totalIncome)}" 
+              disabled
+              class="form-control  currency">
+            </div>
+          </td>
+      </tr>`
+          categoryIndex++;
+        })
+      })
+      projectRows += `</tbody>
+      </table> `
     return projectRows;
   }
 
   fetchOrganizationUnitUid();
 });
-
-function addProjectIncome(income, dataValues, subCategories, name) {
-  var projectRows = ''
-  const subCategory = dataValues && dataValues[income.subCategory]
-    ? dataValues[income.subCategory] : "";
-  const unrestricted = dataValues && dataValues[income.unrestricted]
-    ? dataValues[income.unrestricted] : "";
-  const restricted = dataValues && dataValues[income.restricted]
-    ? dataValues[income.restricted] : "";
-  const totalIncome = Number(restricted) + Number(unrestricted);
-
-  projectRows += `
-  <div class="budget-wrap-${name} cont-wrap-inner">
-
-        <div class="form-row">
-          <div class="form-group col-md-12 textbox-wrap">
-          <label for="" data-i18n="intro.sub_category">Sub Category</label>
-           <select
-            class="form-control" 
-            ${tei.disabled ? 'disabled readonly': ''} 
-            id="${income.subCategory}"
-            onchange="pushDataElement(this.id,this.value)"
-            >
-            <option class="choose" value="" data-i18n="intro.choose">Choose </option>`
-  subCategories.forEach(sp => {
-    projectRows += `<option ${(subCategory == sp.code) ? "selected" : ''} value="${sp.code}" data-i18n="intro.${sp.format}">${sp.name}</option>`
-  })
-  projectRows += `</select>
-            <div class="invalid-feedback"> Error here </div>
-          </div>
-        </div>
-        <table class="table table-striped table-md mb-0 " width="100%">
-          <thead>
-            <tr>
-              <th data-i18n="intro.restricted">Restricted</th>
-              <th data-i18n="intro.unrestricted">Unrestricted</th>
-              <th data-i18n="intro.total">Total</th>
-              </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                   <div class="input-group-text">$ </div>
-                </div>
-                <input 
-                type="text" 
-                ${tei.disabled ? 'disabled readonly': ''} 
-                id="${income.restricted}"
-                value="${formatNumberInput(restricted)}" 
-                oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${income.restricted}', '${income.unrestricted}', '${name}')" 
-                class="form-control input-restricted-${name} currency">
-              </div>
-              </td>
-              <td>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">$</div>
-                </div>
-                <input 
-                type="text" 
-                ${tei.disabled ? 'disabled readonly': ''} 
-                id="${income.unrestricted}" 
-                value="${formatNumberInput(unrestricted)}" 
-                oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${income.restricted}', '${income.unrestricted}', '${name}')" 
-                class="form-control input-unrestricted-${name} currency">
-              </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                      <div class="input-group-text">$</div>
-                  </div>
-                  <input 
-                  type="text"
-                  id="${income.restricted}-${income.unrestricted}" 
-                  value="${formatNumberInput(totalIncome)}" 
-                  disabled
-                  class="form-control  currency">
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table> 
-      </div>`
-
-  return projectRows;
-}
 
 async function disableAnnualUpdate() {
   await pushDataElement(dataElements.submitAnnualUpdate,true);
@@ -700,7 +525,7 @@ async function disableAnnualUpdate() {
 }
 
 async function enableAnnualUpdate() {
-  await pushDataElement(dataElements.submitAnnualUpdate,false);
+  await pushDataElement(dataElements.submitAnnualUpdate,'');
   alert ("Report Reopened Successfully!");
 }
 
@@ -737,9 +562,62 @@ function calculateTotals(restricted, unrestricted,id) {
   const ippfIncome = unformatNumber($(`#${dataElements.ippfIncome_total}`).val());
   const totalIncome = Number(localIncome) + Number(internationalIncome) + Number(ippfIncome);
   const deficit = totalIncome-totalExpenses;
-  $(`#deficit`).val(formatNumberInput(deficit)); 
+  $('#actual-income').val(formatNumberInput(totalIncome)); 
+  $('#deficit').val(formatNumberInput(deficit)); 
   if(deficit >= 0) $('#deficit')[0].style.setProperty('background','#C1E1C1', 'important')
   else $('#deficit')[0].style.setProperty('background','#FAA0A0', 'important')      
+}
+
+function loadCalculatedVariables(dataValues, dataElements) {
+  var localIncome_restricted = 0;
+  var localIncome_unrestricted = 0;
+  var internationalIncome_restricted = 0;
+  var internationalIncome_unrestricted = 0;
+  var ippfIncome_restricted = 0;
+  var ippfIncome_unrestricted = 0;
+
+  dataElements.projectTotalIncome.forEach((de,index) => {
+    if(index<=7) {
+      localIncome_restricted += dataValues[de.restricted]? Number(dataValues[de.restricted]): 0;
+      localIncome_unrestricted += dataValues[de.unrestricted]? Number(dataValues[de.unrestricted]): 0;
+    } else if(index <= 12) {
+      internationalIncome_restricted += dataValues[de.restricted]? Number(dataValues[de.restricted]): 0;
+      internationalIncome_unrestricted += dataValues[de.unrestricted]? Number(dataValues[de.unrestricted]): 0;
+    }else {
+      ippfIncome_restricted += dataValues[de.restricted]? Number(dataValues[de.restricted]): 0;
+      ippfIncome_unrestricted += dataValues[de.unrestricted]? Number(dataValues[de.unrestricted]): 0;
+    }
+  })
+
+  return [{
+    dataElement:dataElements['localIncome_restricted'],
+    value: localIncome_restricted
+  },{
+    dataElement:dataElements['localIncome_unrestricted'],
+    value: localIncome_unrestricted
+  },{
+    dataElement:dataElements['localIncome_total'],
+    value: localIncome_restricted + localIncome_unrestricted
+  },{
+    dataElement:dataElements['internationalIncome_restricted'],
+    value: internationalIncome_restricted
+  },{
+    dataElement:dataElements['internationalIncome_unrestricted'],
+    value: internationalIncome_unrestricted
+  },{
+    dataElement:dataElements['internationalIncome_total'],
+    value: internationalIncome_restricted + internationalIncome_unrestricted
+  },{
+    dataElement:dataElements['ippfIncome_restricted'],
+    value: ippfIncome_restricted
+  },{
+    dataElement:dataElements['ippfIncome_unrestricted'],
+    value: ippfIncome_unrestricted
+  },{
+    dataElement:dataElements['ippfIncome_total'],
+    value: ippfIncome_restricted + ippfIncome_unrestricted
+  }]
+
 }
 function submitProjects() {
   alert("Data Saved Successfully!")

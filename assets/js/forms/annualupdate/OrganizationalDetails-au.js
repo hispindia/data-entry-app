@@ -341,7 +341,7 @@ async function fetchFileResource(resourceId) {
 
 
 async function linkFileResourceToEvent(id, fileResource) {
-  await pushDataElementOther(id,fileResource.id,program.organisationDetails, programStage.keyDetails, programStageEvent['keyDetails']);
+  await pushDataElementOther(id,fileResource.id,program.auOrganisationDetails, programStage.auKeyDetails, programStageEvent['keyDetails']);
   fileResource['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${id}`;
   updateFileLabel(id, fileResource.displayName, fileResource.url);
 }

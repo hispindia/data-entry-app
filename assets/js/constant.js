@@ -96,6 +96,7 @@ const programStage = {
   arProjectExpenseCategory: "Elli2lv1yUC",
   arTotalIncome: "V9OmnYWiC2j",
   arROFeedback: "zAB8p5cv7wC",
+  arKeyDetails: "u6JygcWZ1gL"
 };
 
 const dataElements = {

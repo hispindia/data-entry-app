@@ -127,17 +127,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if(event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
           enroll.program == program.auProjectDescription
-          || enroll.program == program.arTotalIncome
           );
           dataElementOUValues[ou.id] = {
-            annualUpdate: '',
-            annualReporting: '',
+            projects2024:[],
+            projects2025:[]
           }
           const dataValuesPD =  getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription,dataElements.year.id) //data values year wise
-          if(dataValuesPD && dataValuesPD[year]) dataElementOUValues[ou.id]['annualUpdate']= dataValuesPD[year];
+          if(dataValuesPD && dataValuesPD[2024]) dataElementOUValues[ou.id]['projects2024']= checkProjects(dataElements.projectDescription, dataValuesPD[2024]);
+          if(dataValuesPD && dataValuesPD[2025]) dataElementOUValues[ou.id]['projects2025']= checkProjects(dataElements.projectDescription, dataValuesPD[2025])
          
-          const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, {id:dataElements.year.id, value: 2024}, {id:dataElements.periodicity.id, value:"Semi-Annual Reporting"}); //data vlaues period wise
-          if(dataValuesAI) dataElementOUValues[ou.id]['annualReporting']= dataValuesAI;
         }
       }
     }
@@ -164,8 +162,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;">Member / collaborative Partner</th>
-    <th style="background:#276696;color:white;text-align:center;">Annual Update</th>
-    <th style="background:#276696;color:white;text-align:center;">Annual Reporting</th>
+    <th style="background:#276696;color:white;text-align:center;">2024 projects</th>
+    <th style="background:#276696;color:white;text-align:center;">2025 projects</th>
     </tr>`
     
     $('#table-head').html(tableHead);
@@ -175,13 +173,10 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody += `<tr><td colspan="9" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       headOU.children.forEach(ou => {
-        const annualUpdate = dataValues[ou.id] && dataValues[ou.id]['annualUpdate']['GbGunhHaiDt']?dataValues[ou.id]['annualUpdate']['GbGunhHaiDt']: '';
-        const annualReporting = dataValues[ou.id] && dataValues[ou.id]['annualReporting']['GbGunhHaiDt']?dataValues[ou.id]['annualReporting']['GbGunhHaiDt']: '';
-        
         tableBody += `<tr>
         <td>${ou.name}</td>
-        <td style="text-align:center;">${annualUpdate}</td>
-        <td style="text-align:center;">${annualReporting} </td>
+        <td style="text-align:center;">${dataValues[ou.id]['projects2024'].length}</td>
+        <td style="text-align:center;">${dataValues[ou.id]['projects2025'].length}</td>
         </tr>`
       })
     })
@@ -192,6 +187,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchOrganizationUnitUid();
 });
+
+function checkProjects(projects, values) {
+  var prevEmptyNames = [];
+  var names= [];
+  if(values) {
+    projects.forEach(project => {
+      if(values[project.name]) {
+        names = [...names, ...prevEmptyNames, values[project.name]];
+        prevEmptyNames = [];
+      } else {
+        prevEmptyNames.push('');
+      }
+    })
+  }
+  return names;
+}
 
 
 function displayValue(input) {

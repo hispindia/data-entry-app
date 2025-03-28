@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //   yearOptions += `<option value="${year}">${year}</option>`;
         // }
         // document.getElementById('year-update').innerHTML = yearOptions;
-        document.getElementById('year-update').innerHTML = '<option value="2025">2025 </option>';
+        document.getElementById('year-update').innerHTML = '<option value="2025" selected>2025 </option>';
 
         fetchEvents();
       }

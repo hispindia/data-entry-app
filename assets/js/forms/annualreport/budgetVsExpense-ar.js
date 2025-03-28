@@ -442,6 +442,7 @@ const maxWords = 200;
                 <td><strong  data-i18n="intro.project_total">Project Total</strong></td>`
       for (let total in rowsTotal) {
         let value = '';
+        let sign = '$';
         if (total == `variation-percent-${index}`) {
           let num = 0, deno = 0;
           variationPercent.forEach(data => {
@@ -449,19 +450,23 @@ const maxWords = 200;
             if (data.deno) deno += Number(data.deno);
           })
           value = (deno && num / deno && (num / deno) !== "Infinity" ? ((num / deno) * 100).toFixed(2) : '');
-        } else value = rowsTotal[total];
+          sign='%'
+        } else {
+          sign = "$"
+          value = rowsTotal[total];
+        }
           projectRows += `
                           <td>
                           <div class="input-group">
                               <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                  %
+                                <div class="input-group-text font-weight-bold">
+                                  ${sign}
                                 </div>
                               </div>
                               <input type="text" 
                               disabled
                               id="${total}"
-                              value="${formatNumberInput(value)}" class="form-control ${total} currency">
+                              value="${formatNumberInput(value)}" class="form-control font-weight-bold ${total} currency">
                           </div>
                             </td>`;
 
