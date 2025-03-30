@@ -495,21 +495,21 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = period.start; i <= period.end; i++)
         projectRows += `<td>
                           <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                $
-                              </div>
-                            </div>
-                            <input 
-                            type="text" 
-                            ${tei.disabled ? 'disabled readonly': ''}
-                            id="${dataElements.projectFocusAreaNew[index].variation}-${i}"  
-                            value="${dataValues[i] && dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? formatNumberInput(dataValues[i][dataElements.projectFocusAreaNew[index].variation]): ''}"  
-                            class="form-control currency"
-                            style="background:${dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? (dataValues[i][dataElements.projectFocusAreaNew[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
-                            disabled
-                            readonly
-                            >
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            $
+                          </div>
+                        </div>
+                        <input 
+                        type="text" 
+                        ${tei.disabled ? 'disabled readonly': ''}
+                        id="${dataElements.projectFocusAreaNew[index].variation}-${i}"  
+                        value="${dataValues[i] && dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? formatNumberInput(dataValues[i][dataElements.projectFocusAreaNew[index].variation]): ''}"  
+                        class="form-control currency"
+                        style="background:${dataValues[i][dataElements.projectFocusAreaNew[index].variation] ? (dataValues[i][dataElements.projectFocusAreaNew[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
+                        disabled
+                        readonly
+                        >
                           </div>
                           <div class="invalid-feedback feedback-${i} ${dataValues[i] && dataValues[i][dataElements.projectFocusAreaNew[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance
                           </div>
@@ -520,44 +520,44 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                         <div class="form-row">
                           <div class="form-group col-md-12 textbox-wrap">
-                            <label for=""><span data-i18n="intro.comments">
-                            Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
-                            </label>
-                            <textarea 
-                            class="form-control-resize textlimit" 
-                            ${tei.disabled ? 'disabled readonly': ''}
-                            id="${dataElements.projectFocusAreaNew[index].comment }-${period.start}" 
-                            onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
+                        <label for=""><span data-i18n="intro.comments">
+                        Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
+                        </label>
+                        <textarea 
+                        class="form-control-resize textlimit" 
+                        ${tei.disabled ? 'disabled readonly': ''}
+                        id="${dataElements.projectFocusAreaNew[index].comment }-${period.start}" 
+                        onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
                            >${dataValues[period.start] && dataValues[period.start][dataElements.projectFocusAreaNew[index].comment]
           ? dataValues[period.start][dataElements.projectFocusAreaNew[index].comment]: ""}</textarea>
-                                <div class="char-counter form-text text-muted" id="counter${index}">
-                                ${maxWords -(dataValues[period.start] && dataValues[period.start][dataElements.projectFocusAreaNew[index].comment]
+                            <div class="char-counter form-text text-muted" id="counter${index}">
+                            ${maxWords -(dataValues[period.start] && dataValues[period.start][dataElements.projectFocusAreaNew[index].comment]
           ? dataValues[period.start][dataElements.projectFocusAreaNew[index].comment].trim().split(/\s+/).length: 0)
       } words remaining</div>
-                            
-                            <div class="invalid-feedback"> Error here 
-                            </div>
+                        
+                        <div class="invalid-feedback"> Error here 
+                        </div>
                           </div>
                         </div>
                         <div class="form-row">
                           <div class="col-sm-12 text-right">
-                            <div class="form-group text-end mar-b-0">
-                            <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
-                              ${ length - 1 == index ? 
-                                `<button class="btn btn-primary"  ${tei.disabled ? 'disabled readonly': ''} onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.4-breakdown-by-expense-category-au.html'">
-                                    <span data-i18n="intro.next">Next</span>:  
-                                    <span data-i18n="intro.project_expense">  2.4 Budget by Expense Category</span>
-                                
-                                  </button>`
-                                  : `<input
-                            type="button"
-                            data-i18n="[value]intro.next" 
-                            value="NEXT"
-                            onClick=changePanel('panel-body-${index + 2}')
-                            class="btn btn-primary"
+                        <div class="form-group text-end mar-b-0">
+                        <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
+                          ${ length - 1 == index ? 
+                            `<button class="btn btn-primary"  ${tei.disabled ? 'disabled readonly': ''} onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.4-breakdown-by-expense-category-au.html'">
+                                <span data-i18n="intro.next">Next</span>:  
+                                <span data-i18n="intro.project_expense">  2.4 Budget by Expense Category</span>
+                            
+                              </button>`
+                              : `<input
+                        type="button"
+                        data-i18n="[value]intro.next" 
+                        value="NEXT"
+                        onClick=changePanel('panel-body-${index + 2}')
+                        class="btn btn-primary"
                           />`
-                              }
-                            </div>
+                          }
+                        </div>
                           </div>
                         </div>
                         </div>
@@ -640,22 +640,22 @@ function displayProjectFocusArea(values, period, index, i) {
             for (let year = period.start; year <= period.end; year++) {
               const budget =values['budget'][year] ? values['budget'][year]  : ''
               projectFARows += `<td>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                  $
-                                </div>
-                              </div>
-                              <input type="text" 
-                              ${tei.disabled ? 'disabled readonly': ''}
-                              ${tei.disabledYear[year] ? 'disabled':''} 
-                              value="${formatNumberInput(budget)}" id="${values.id}-budget-${year}" oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals(${year},'totalBudget', ${index})" class="form-control input-totalBudget-${year} currency">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              $
                             </div>
+                          </div>
+                          <input type="text" 
+                          ${tei.disabled ? 'disabled readonly': ''}
+                          ${tei.disabledYear[year] ? 'disabled':''} 
+                          value="${formatNumberInput(budget)}" id="${values.id}-budget-${year}" oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals(${year},'totalBudget', ${index})" class="form-control input-totalBudget-${year} currency">
+                        </div>
                           </td>`;
             }
             projectFARows += `</tr>
-                            </tbody>
-                            </table>
+                        </tbody>
+                        </table>
                           </div>
                 <!--- Project area sec ends--->`;
 

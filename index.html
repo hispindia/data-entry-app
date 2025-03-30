@@ -17,9 +17,9 @@
                 const response = await fetch(
                     `../../me.json?fields=id,username,organisationUnits,userGroups[id,name]`,
                     {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
                     }
                 );
                 const data = await response.json();
@@ -30,21 +30,21 @@
 
                 if (data.organisationUnits && data.organisationUnits.length > 0) {
                     const apiOUGroup = await fetch(
-                        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-                        {
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                        }
+                    `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
+                    {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    }
                     );
                     const resOUGroup = await apiOUGroup.json();
                     const orgUnitList = []
                     resOUGroup.organisationUnits.forEach(ou => {
-                        if (data.organisationUnits.some(mainOU => ou.path.includes(mainOU.id)))
-                            orgUnitList.push(ou);
+                    if (data.organisationUnits.some(mainOU => ou.path.includes(mainOU.id)))
+                    orgUnitList.push(ou);
                     })
                     if (orgUnitList.length > 1) {
-                        window.location.href = '../../apps/IPPF-BPR-App/members-association.html';
+                    window.location.href = '../../apps/IPPF-BPR-App/members-association.html';
                     }
                     else window.location.href = '../../apps/IPPF-BPR-App/1.1-organization-details-au.html';
                 }

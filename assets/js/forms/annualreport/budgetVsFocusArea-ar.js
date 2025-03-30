@@ -432,16 +432,16 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="wrap-project-area">
         <div class="budget-wrap table-responsive">
         <table class="table table-striped table-md mb-0 " width="100%">
-                                  <thead>
-                                  <tr>
-                                    <th data-i18n="intro.focus_area">Focus Area</th>
-                                    <th data-i18n="intro.budget">Budget</th>
-                                    <th data-i18n="intro.actual_expense">Actual Expense</th>
-                                    <th><span data-i18n="intro.variation">Variation </span> ($)</th>
-                                    <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>`;
+                          <thead>
+                          <tr>
+                            <th data-i18n="intro.focus_area">Focus Area</th>
+                            <th data-i18n="intro.budget">Budget</th>
+                            <th data-i18n="intro.actual_expense">Actual Expense</th>
+                            <th><span data-i18n="intro.variation">Variation </span> ($)</th>
+                            <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
+                          </tr>
+                          </thead>
+                          <tbody>`;
       var newFocusAreaIndex = [];
       dataElements.projectFocusAreaNew[index].focusAreas.forEach(focusAreaId => {
         if(dataValues[focusAreaId]) {
@@ -701,122 +701,122 @@ document.addEventListener("DOMContentLoaded", function () {
       totalPercent = totalBudget && totalActualExpense/totalBudget && totalActualExpense/totalBudget!="Infinity" ? (totalActualExpense/totalBudget)*100:''
          
       projectRows += `    <tr>
-                              <td class="text-center">
-                                <strong data-i18n="intro.project_total">Project Total</strong>
-                              </td>
-                              <td>
-                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">
-                                      $
-                                    </div>
-                                  </div>
-                                  <input 
-                                  type="text" 
-                                  id="total-budget-${index}"
-                                  value="${formatNumberInput(totalBudget)}"
-                                  disabled
-                                    class="form-control font-weight-bold input-budget currency" disabled>
-                                </div>
-                              </td>
-                              <td>
-                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">
-                                      $
-                                    </div>
-                                  </div>
-                                  <input 
-                                  type="text" 
-                                  id="total-actualExpense-${index}"
-                                  value="${formatNumberInput(totalActualExpense)}"
-                                  disabled
-                                    class="form-control font-weight-bold input-budget currency" disabled>
-                                </div>
-                              </td>
-
-
-                              <td>
-                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">
-                                      $
-                                    </div>
-                                  </div>
-                                  <input
-                                  type="text" 
-                                  id="total-variation-${index}"
-                                  value="${formatNumberInput(totalVariation)}"
-                                  disabled
-                                    class="form-control font-weight-bold input-budget currency" disabled>
-                                </div>
-                              </td>
-                              <td>
-                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">
-                                      %
-                                    </div>
-                                  </div>
-                                  <input
-                                  type="text" 
-                                  id="total-percent-${index}"
-                                  value="${formatNumberInput(totalPercent)}"
-                                  disabled
-                                    class="form-control font-weight-bold  input-budget currency" disabled>
-                                </div>
-                              </td>
-                            </tr>
-
-
-                            <tr>
-                            <td colspan="2" class="text-center" valign="top">
-                              <strong data-i18n="intro.remarks">Remarks</strong>
-                            </td>
-                            <td colspan="3">
-                              <textarea 
-                              class="form-control-resize textlimit"                                           
-                              id="${
-                                dataElements.projectFocusAreaNew[index].comment
-                              }"
-                              ${tei.disabled ? 'disabled readonly': ''} 
-                              onchange="pushDataElement(this.id,this.value);checkWords(this, ${index})"
-                              >${
-                                dataValues[
-                                  dataElements.projectFocusAreaNew[index]
-                                    .comment
-                                ]
-                                  ? dataValues[
-                                      dataElements.projectFocusAreaNew[index]
-                                        .comment
-                                    ]
-                                  : ""
-                              }</textarea>
-              
-                              <div class="char-counter form-text text-muted" 
-                              id="counter${index}"
-                            >${
-                              maxWords -
-                              (dataValues[
-                                dataElements.projectFocusAreaNew[index].comment
-                              ]
-                                ? dataValues[
-                                    dataElements.projectFocusAreaNew[index]
-                                      .comment
-                                  ]
-                                    .trim()
-                                    .split(/\s+/).length
-                                : 0)
-                            } words remaining
+                      <td class="text-center">
+                        <strong data-i18n="intro.project_total">Project Total</strong>
+                      </td>
+                      <td>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text font-weight-bold">
+                              $
                             </div>
+                          </div>
+                          <input 
+                          type="text" 
+                          id="total-budget-${index}"
+                          value="${formatNumberInput(totalBudget)}"
+                          disabled
+                            class="form-control font-weight-bold input-budget currency" disabled>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text font-weight-bold">
+                              $
+                            </div>
+                          </div>
+                          <input 
+                          type="text" 
+                          id="total-actualExpense-${index}"
+                          value="${formatNumberInput(totalActualExpense)}"
+                          disabled
+                            class="form-control font-weight-bold input-budget currency" disabled>
+                        </div>
+                      </td>
 
-                              <div class="invalid-feedback"> Error here
-                              </div>
-                            </td>
 
-                          </tr>
+                      <td>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text font-weight-bold">
+                              $
+                            </div>
+                          </div>
+                          <input
+                          type="text" 
+                          id="total-variation-${index}"
+                          value="${formatNumberInput(totalVariation)}"
+                          disabled
+                            class="form-control font-weight-bold input-budget currency" disabled>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text font-weight-bold">
+                              %
+                            </div>
+                          </div>
+                          <input
+                          type="text" 
+                          id="total-percent-${index}"
+                          value="${formatNumberInput(totalPercent)}"
+                          disabled
+                            class="form-control font-weight-bold  input-budget currency" disabled>
+                        </div>
+                      </td>
+                    </tr>
 
-                        </tbody>
+
+                    <tr>
+                    <td colspan="2" class="text-center" valign="top">
+                      <strong data-i18n="intro.remarks">Remarks</strong>
+                    </td>
+                    <td colspan="3">
+                      <textarea 
+                      class="form-control-resize textlimit"                                   
+                      id="${
+                        dataElements.projectFocusAreaNew[index].comment
+                      }"
+                      ${tei.disabled ? 'disabled readonly': ''} 
+                      onchange="pushDataElement(this.id,this.value);checkWords(this, ${index})"
+                      >${
+                        dataValues[
+                          dataElements.projectFocusAreaNew[index]
+                            .comment
+                        ]
+                          ? dataValues[
+                              dataElements.projectFocusAreaNew[index]
+                                .comment
+                            ]
+                          : ""
+                      }</textarea>
+              
+                      <div class="char-counter form-text text-muted" 
+                      id="counter${index}"
+                    >${
+                      maxWords -
+                      (dataValues[
+                        dataElements.projectFocusAreaNew[index].comment
+                      ]
+                        ? dataValues[
+                            dataElements.projectFocusAreaNew[index]
+                              .comment
+                          ]
+                            .trim()
+                            .split(/\s+/).length
+                        : 0)
+                    } words remaining
+                    </div>
+
+                      <div class="invalid-feedback"> Error here
+                      </div>
+                    </td>
+
+                      </tr>
+
+                    </tbody>
                       </table>
                     </div>
 
@@ -830,24 +830,24 @@ document.addEventListener("DOMContentLoaded", function () {
                    <input
                       type="button"
                        value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft" 
-                        class="btn btn-secondary"
-                        />
-                        ${length - 1 == index? 
-                          ` <button  ${tei.disabled ? 'disabled readonly': ''} class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/5-budget-vs-actual-expense-wise.html'">
-                          <span data-i18n="intro.next">Next</span>:  
-                          <span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span>
+                    class="btn btn-secondary"
+                    />
+                    ${length - 1 == index? 
+                      ` <button  ${tei.disabled ? 'disabled readonly': ''} class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/5-budget-vs-actual-expense-wise.html'">
+                      <span data-i18n="intro.next">Next</span>:  
+                      <span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span>
                       </button>`
-                            : `<input
-                            type="button"
-                            value="NEXT"
-                            data-i18n="[value]intro.next" 
-                            onClick=changePanel('panel-body-${index + 2}')
-                            class="btn btn-primary"
-                            />`
-                            }
-                            </div>
-                          </div>
-                        </div>
+                    : `<input
+                    type="button"
+                    value="NEXT"
+                    data-i18n="[value]intro.next" 
+                    onClick=changePanel('panel-body-${index + 2}')
+                    class="btn btn-primary"
+                    />`
+                    }
+                    </div>
+                      </div>
+                    </div>
                       </div>
                     </div>
                     <!--- sect ${index + 1}--->`;

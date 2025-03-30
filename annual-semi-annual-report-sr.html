@@ -139,7 +139,7 @@
                     <li class="active"><a class="nav-link ma-users aoc-users core-users" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
                     <li><a style="display:none" class="nav-link aoc-users core-users" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
                     <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
-                            <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Business Plan</span></a></li>
+                    <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Business Plan</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
@@ -227,28 +227,28 @@
                     <div class="cont-wrap-inner" id="project-export">
 
                       <table class="table table-bordered" id="table-od">
-                        <tbody id="th-project-organisationDetails"></tbody>
-                        <tbody id="tb-project-organisationDetails"></tbody>
+                    <tbody id="th-project-organisationDetails"></tbody>
+                    <tbody id="tb-project-organisationDetails"></tbody>
                       </table>
 
                       <table class="table table-bordered"  id="table-np">
-                        <tbody id="th-project-narrativePlan"></tbody>
-                        <tbody id="tb-project-narrativePlan"></tbody>
+                    <tbody id="th-project-narrativePlan"></tbody>
+                    <tbody id="tb-project-narrativePlan"></tbody>
                       </table>
 
                       <table class="table table-bordered" id="table-pfa">
-                        <thead id="th-project-focusArea"></thead>
-                        <tbody id="project-focusArea"></tbody>
+                    <thead id="th-project-focusArea"></thead>
+                    <tbody id="project-focusArea"></tbody>
                       </table>
 
                       <table class="table table-bordered" id="table-pec">
-                        <thead id="th-project-expenseCategory"></thead>
-                        <tbody id="project-expenseCategory"></tbody>
+                    <thead id="th-project-expenseCategory"></thead>
+                    <tbody id="project-expenseCategory"></tbody>
                       </table>
 
                       <table class="table table-bordered" id="table-ti">
-                        <thead id="th-project-totalIncome"></thead>
-                        <tbody id="tb-project-totalIncome"></tbody>
+                    <thead id="th-project-totalIncome"></thead>
+                    <tbody id="tb-project-totalIncome"></tbody>
                       </table>
 
                     </div>
@@ -352,10 +352,10 @@
                       var dataFormula = tables[i].rows[j].cells[k].getAttribute("data-formula");
                       dataFormula = (dataFormula) ? dataFormula : (appname == 'Calc' && dataType == 'DateTime') ? dataValue : null;
                       ctx = {
-                          attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
-                          , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
-                          , data: (dataFormula) ? '' : dataValue
-                          , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
+                      attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
+                      , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
+                      , data: (dataFormula) ? '' : dataValue
+                      , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
                       };
                       rowsXML += format(tmplCellXML, ctx);
                   }

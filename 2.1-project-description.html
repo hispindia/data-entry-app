@@ -139,7 +139,7 @@
                     <li><a class="nav-link ma-users aoc-users core-users" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
                     <li><a style="display:none" class="nav-link aoc-users core-users" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
                     <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
-                            <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Business Plan</span></a></li>
+                    <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Business Plan</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
@@ -195,7 +195,7 @@
 
                     <div class="form-group mb-0">
                       <input class="rounded border-0 bg-white text-dark px-2" type="text" disabled id="total-projects"
-                        value="0" />
+                    value="0" />
                     </div>
                   </div>
                 </div>
@@ -207,26 +207,26 @@
                     <div class="cont-wrap-inner">
 
                       <div class="row">
-                        <div class="col-md-12">
-                          <div class="btn-wrap my-2">
-                            <div class="btn-wrap-inner">
-                              <input type="button"  data-i18n="[value]intro.add_new_project" value="Add New Project" class="btn btn-success plus" />
-                            </div>
-                          </div>
-                        </div>
+                    <div class="col-md-12">
+                      <div class="btn-wrap my-2">
+                    <div class="btn-wrap-inner">
+                      <input type="button"  data-i18n="[value]intro.add_new_project" value="Add New Project" class="btn btn-success plus" />
+                    </div>
+                      </div>
+                    </div>
                       </div>
 
                       <div class="form-row">
-                        <div class="col-sm-12 text-right">
-                          <div class="form-group text-end mar-b-0">
-                            <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
-                                onclick="submitProjects()" class="btn btn-secondary">                                
-                            <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.2-project-budget.html'">
-                              <span data-i18n="intro.next">Next</span>:  
-                              <span data-i18n="intro.project_budget"> 2.2 Project Budget</span>
-                            </button>
-                          </div>
-                        </div>
+                    <div class="col-sm-12 text-right">
+                      <div class="form-group text-end mar-b-0">
+                    <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                        onclick="submitProjects()" class="btn btn-secondary">                        
+                    <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.2-project-budget.html'">
+                      <span data-i18n="intro.next">Next</span>:  
+                      <span data-i18n="intro.project_budget"> 2.2 Project Budget</span>
+                    </button>
+                      </div>
+                    </div>
                       </div>
                     </div>
                   </form>
@@ -271,15 +271,15 @@
         const newProjectRow = `
                 <div class="form-row project-list" id="project-list-${(projectCount+1)}">
                     <div class="form-group col-md-12 textbox-wrap">
-                        <label for="${dataElements.projectDescription[projectCount]['name']}"><span data-i18n="intro.project_name">Project Name</span> ${(projectCount+1)} </label>
-                        <input type="text" class="form-control" id="${dataElements.projectDescription[projectCount]['name']}" oninput='pushDataElement(this.id, this.value)'>
-                        <div class="invalid-feedback"> Error here </div>
+                    <label for="${dataElements.projectDescription[projectCount]['name']}"><span data-i18n="intro.project_name">Project Name</span> ${(projectCount+1)} </label>
+                    <input type="text" class="form-control" id="${dataElements.projectDescription[projectCount]['name']}" oninput='pushDataElement(this.id, this.value)'>
+                    <div class="invalid-feedback"> Error here </div>
                     </div>
                     <div class="form-group col-md-12 textbox-wrap">
-                        <label for="${dataElements.projectDescription[projectCount]['description']}"><span data-i18n="intro.description_project">Description of Project </span> ${(projectCount+1)}</label>
-                        <textarea class="form-control-resize textlimit" id="${dataElements.projectDescription[projectCount]['description']}" oninput='pushDataElement(this.id, this.value)'></textarea>
-                        <div class="char-counter form-text text-muted" id="counter-${dataElements.projectDescription[projectCount]['description']}">250 words remaining</div>
-                        <div class="invalid-feedback"> Error here </div>
+                    <label for="${dataElements.projectDescription[projectCount]['description']}"><span data-i18n="intro.description_project">Description of Project </span> ${(projectCount+1)}</label>
+                    <textarea class="form-control-resize textlimit" id="${dataElements.projectDescription[projectCount]['description']}" oninput='pushDataElement(this.id, this.value)'></textarea>
+                    <div class="char-counter form-text text-muted" id="counter-${dataElements.projectDescription[projectCount]['description']}">250 words remaining</div>
+                    <div class="invalid-feedback"> Error here </div>
                     </div>
                 </div>
 

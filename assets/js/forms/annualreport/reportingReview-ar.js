@@ -53,7 +53,7 @@ var riskCount = 0;
         data = await response.json();
         
         const userConfig = userGroupConfig(data);
-        tei.disabled = userConfig.disabled;
+        // tei.disabled = userConfig.disabled;
         window.localStorage.setItem('hideReporting', userConfig.disabledValues);
       }
 
@@ -291,7 +291,7 @@ var riskCount = 0;
       <div class="form-row">
         <div class="form-group col-md-12 textbox-wrap mb-2">
           <label for="${risk.name}" >Identified Risk ${riskCount+1}</label>
-          <input type="text" class="form-control serious-risk" ${tei.disabled?'disabled': ''} value="${name}" oninput="pushDataElement(this.id,this.value);selectedRatings();" id="${risk.name}">                                      
+          <input type="text" class="form-control serious-risk" ${tei.disabled?'disabled': ''} value="${name}" oninput="pushDataElement(this.id,this.value);selectedRatings();" id="${risk.name}">                              
           <div class="invalid-feedback"> Error here</div>
          </div>
       </div>
@@ -304,7 +304,7 @@ var riskCount = 0;
         </div>
       </div>
     </div><hr>`;
-                          
+                      
       riskCount++;
       return projectRow;
     }

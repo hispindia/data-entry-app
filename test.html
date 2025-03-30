@@ -141,8 +141,8 @@
                     <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Business Plan</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
-                    <li class="active"><a style="display:none" class="nav-link core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
-                    <li><a style="display:none" class="nav-link core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
+                    <li><a style="display:none" class="nav-link core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                    <li class="active"><a style="display:none" class="nav-link core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
                 </ul>
               </li>
           </ul>
@@ -213,15 +213,15 @@
                   <div>
                     <div id="loader" style="width:80%;float:left;"></div>
                     <a id="dlink" style="display:none;"></a>
-                    <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['Kofax Export'], 'Kofax Export')">Export as Excel</button>
+                    <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['Budget by Focus Area', 'Budget by expense category', 'Income'], '8. MA Dashboard Business Plan Report')">Export as Excel</button>
                   </div>
                   <div style="clear:both"></div>
                   <form>
-                    <div class="cont-wrap-inner overflow-auto" id="kofax-export">
+                    <div class="cont-wrap-inner overflow-auto" id="project-export">
 
-                      <table class="table table-bordered" id="table-ke">
-                    <thead id="th-kofax-export"></thead>
-                    <tbody id="tb-kofax-export"></tbody>
+                      <table class="table table-bordered" id="table-od">
+                    <thead id="table-head"></thead>
+                    <tbody id="table-body"></tbody>
                       </table>
 
                     </div>
@@ -251,7 +251,7 @@
   
   <!-- Page Specific JS File -->
   <script src="assets/js/config.js"></script>
-  <script src="assets/js/forms/standardreport/kofax-export-sr.js"></script>
+  <script src="assets/js/forms/standardreport/test-sr.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->

@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="input-group">
                         <div class="input-group-prepend">
                           <div class="input-group-text">
-                            $
+                        $
                           </div>
                         </div>
                         <input type="text" ${tei.disabledYear[year] ? 'disabled':''}  value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}-${year}" onblur="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value))" class="form-control currency">                         

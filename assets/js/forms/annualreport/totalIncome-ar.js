@@ -356,12 +356,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 </td>
                 <td>
                     <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            $
-                          </div>
-                        </div>
-                        <input type="text" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled' : ''}  value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}" oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value))" class="form-control currency">                         
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                    $
+                      </div>
+                    </div>
+                    <input type="text" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled' : ''}  value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}" oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value))" class="form-control currency">                     
                     </div>
                 </td>
             </tr>`
