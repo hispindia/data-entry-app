@@ -123,6 +123,7 @@ var riskCount = 0;
   }
   async function fetchEvents(year) {
     tei.projects = [];
+    riskCount = 0;
     
     if(!year) year = document.getElementById("year-update").value;
     dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
@@ -197,6 +198,7 @@ var riskCount = 0;
       }
     })
     if(!projectRows) projectRows += addRowSeriosRisk(dataElements.seriousRisk[0], {});
+    $(".btn-wrap").prevAll().remove();
     $(projectRows).insertBefore(".btn-wrap");
 
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
@@ -206,11 +208,18 @@ var riskCount = 0;
     })
     selectedRatings()
     if(dataElements.periodicity.value == "Semi-Annual Reporting") {
+     $("input[name='HOuFie6msc6']").prop("disabled", true);
+     $("input[name='vacCAltV8Pp']").prop("disabled", true);
      $('#KGx5UkIS59t').val("Not relevant for HYR");
      $('#RIltL5QmDEP').val("Not relevant for HYR");
 
      $('#KGx5UkIS59t').attr('disabled',  true );
      $('#RIltL5QmDEP').attr('disabled', true);
+    } else  {
+      $("input[name='HOuFie6msc6']").prop("disabled", false);
+      $("input[name='vacCAltV8Pp']").prop("disabled", false);
+     $('#KGx5UkIS59t').attr('disabled',  false);
+     $('#RIltL5QmDEP').attr('disabled', false);
     }
   }
   fetchOrganizationUnitUid();

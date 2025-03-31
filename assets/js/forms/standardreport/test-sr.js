@@ -126,16 +126,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const event = await events.get(ou.id);
         if(event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
-          enroll.program == program.auProjectDescription
+          enroll.program == program.arProjectFocusArea
           );
+          const dataValues = getEventsPeriodicity(
+            filteredPrograms,
+            program.arProjectFocusArea,
+            { id: dataElements.year.id, value: '2024' },
+            {
+              id: dataElements.periodicity.id,
+              value: 'Semi-Annual Reporting',
+            }
+          );
+
           dataElementOUValues[ou.id] = {
-            projects2024:[],
-            projects2025:[]
+            fa: dataValues
           }
-          const dataValuesPD =  getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription,dataElements.year.id) //data values year wise
-          if(dataValuesPD && dataValuesPD[2024]) dataElementOUValues[ou.id]['projects2024']= checkProjects(dataElements.projectDescription, dataValuesPD[2024]);
-          if(dataValuesPD && dataValuesPD[2025]) dataElementOUValues[ou.id]['projects2025']= checkProjects(dataElements.projectDescription, dataValuesPD[2025])
-         
         }
       }
     }
@@ -148,7 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(level2OU,dataValues) {
 
 
-    let projectRows = displayBudgetTotals(level2OU, dataValues);
+    // let projectRows = displayBudgetTotals(level2OU, dataValues);
+    let projectRows = displayFA(level2OU, dataValues);
     $("#table-body").html(projectRows);
 
     $("#loader").empty();
@@ -156,6 +162,54 @@ document.addEventListener("DOMContentLoaded", function () {
           
     // Localize content
     $('body').localize();
+  }
+
+  function displayFA(level2OU, dataValues) {
+
+    var tableHead = `<tr>
+    <th style="background:#276696;color:white;text-align:center;">S.No.</th>
+    <th style="background:#276696;color:white;text-align:center;">Member / collaborative Partner</th>
+    <th style="background:#276696;color:white;text-align:center;">Area</th>
+    <th style="background:#276696;color:white;text-align:center;">assigned budget</th>
+    <th style="background:#276696;color:white;text-align:center;">expense</th>
+    </tr>`
+    
+    $('#table-head').html(tableHead);
+
+    var tableBody = '';
+    level2OU.forEach(headOU => {
+      tableBody += `<tr><td colspan="9" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
+      headOU.children.sort((a, b) => a.name.localeCompare(b.name));
+      headOU.children.forEach(ou => {
+
+        tableBody += `
+        <tr>
+        <td style="background:yellow">${ou.name}</td>
+        <tr>
+        <th style="background:#276696;color:white;text-align:center;">S.No.</th>
+        <th style="background:#276696;color:white;text-align:center;">Member / collaborative Partner</th>
+        <th style="background:#276696;color:white;text-align:center;">Area</th>
+        <th style="background:#276696;color:white;text-align:center;">assigned budget</th>
+        <th style="background:#276696;color:white;text-align:center;">expense</th>
+        </tr>
+        </tr>
+        `
+
+      dataElements.projectFocusAreaNew.forEach((fa,indexFA)=> {fa.focusAreas.forEach(
+        (focusAreaId) => {  
+          if (dataValues[ou.id] && dataValues[ou.id]['fa'][focusAreaId]) {
+            const focusAreaVal = JSON.parse(dataValues[ou.id]['fa'][focusAreaId]);
+            tableBody += `<tr><td>${indexFA+1}</td><td>${ dataValues[ou.id]['fa'][fa.name]}</td><td>${focusAreaVal.area}</td>`;
+            tableBody += `<td>${focusAreaVal.assignedBudget}</td>`;
+            tableBody += `<td>${focusAreaVal.expense}</td></tr>`;
+          }
+        })
+      })
+
+    })
+    })
+    
+    return tableBody;
   }
 
   function displayBudgetTotals(level2OU, dataValues) {

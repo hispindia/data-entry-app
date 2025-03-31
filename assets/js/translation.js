@@ -186,6 +186,13 @@ const translation_mapping = [
         ar: 'سنة تحديث خطة الأعمال'
     },
     {
+        id: "year_business_plan_reporting",
+        en: "Year of Reporting",
+        sp: "Año de presentación del informe",
+        fr: "Année de déclaration",
+        ar: 'سنة الإبلاغ'
+    },
+    {
         id: "reporting_year",
         en: "Reporting Year",
         sp: "Año de informe",
