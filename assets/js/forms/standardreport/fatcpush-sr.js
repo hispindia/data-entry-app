@@ -342,47 +342,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const filteredPrograms =
         data.trackedEntityInstances[0].enrollments.filter(
-          (enroll) => enroll.program == tei.program ||
-            enroll.program == program.arTotalIncome ||
-            enroll.program == program.auProjectBudget ||
-            enroll.program == program.auProjectDescription ||
-            enroll.program == program.arProjectFocusArea
+          (enroll) => 
+            enroll.program == program.arTotalIncome 
         );
 
 
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
-
+var countId = 0;
           const dataValuesTIAR = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, 
-            {id: dataElements.year.id, value: year }, 
+            {id: dataElements.year.id, value: '2024' }, 
             {id: dataElements.periodicity.id, value: 'Annual Reporting'}
           ); //data vlaues period wise
           if (dataValuesTIAR['event']) {
             const eventTI = dataValuesTIAR['event'];
-            const calculatedElements = loadCalculatedVariablesTI(dataValuesTIAR);
-            console.log(calculatedElements);
-            calculatedElements.forEach(el => { 
-              pushDataElementOther(el.name.dataElement,el.name.value, program.arTotalIncome, programStage.arTotalIncome, eventTI)
-              pushDataElementOther(el.restricted.dataElement,el.restricted.value, program.arTotalIncome, programStage.arTotalIncome, eventTI)
-              pushDataElementOther(el.unrestricted.dataElement,el.unrestricted.value, program.arTotalIncome, programStage.arTotalIncome, eventTI)
-             })
+
+  await pushDataElementOther(dataElements.submitAnnualUpdate,'', program.arTotalIncome, programStage.arTotalIncome, eventTI);
+           console.log(++countId, tei.orgUnit)
           }
           
-          const dataValuesTISAR = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, 
-            {id: dataElements.year.id, value: year }, 
-            {id: dataElements.periodicity.id, value: 'Semi-Annual Reporting'}
-          ); //data vlaues period wise
-          if (dataValuesTISAR['event']) {
-            const eventTI = dataValuesTISAR['event'];
-            const calculatedElements = loadCalculatedVariablesTI(dataValuesTISAR);
-            console.log(calculatedElements);
-
-            calculatedElements.forEach(el => {
-              pushDataElementOther(el.name.dataElement,el.name.value, program.arTotalIncome, programStage.arTotalIncome, eventTI)
-              pushDataElementOther(el.restricted.dataElement,el.restricted.value, program.arTotalIncome, programStage.arTotalIncome, eventTI)
-              pushDataElementOther(el.unrestricted.dataElement,el.unrestricted.value, program.arTotalIncome, programStage.arTotalIncome, eventTI)
-            })
-          }
-      }
+      
 
     } else {
       console.log("No data found for the organisation unit.");

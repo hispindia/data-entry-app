@@ -503,13 +503,13 @@ document.addEventListener("DOMContentLoaded", function () {
               ? Number(focusAreaVal.variation)
               : 0;
 
-            focusAreaList[`${focusAreaId}area`]=focusAreaVal.area;
-            focusAreaList[`${focusAreaId}pillar`]=focusAreaVal.pillar;
+            focusAreaList[`${newFocusAreaIndex[indexFA]}area`]=focusAreaVal.area;
+            focusAreaList[`${newFocusAreaIndex[indexFA]}pillar`]=focusAreaVal.pillar;
 
             focusAreaStatus[focusAreaVal.area] = true;
 
           projectRows += `<tr>
-          <td><span id="${focusAreaId}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+          <td><span id="${newFocusAreaIndex[indexFA]}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
           <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -519,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <input 
             type="text" 
-            id ="${focusAreaId}-assignedBudget"
+            id ="${newFocusAreaIndex[indexFA]}-assignedBudget"
             oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
             value="${
               focusAreaVal.assignedBudget
@@ -539,7 +539,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <input 
             type="text"  
-            id ="${focusAreaId}-expense"
+            id ="${newFocusAreaIndex[indexFA]}-expense"
             ${tei.disabled ? 'disabled readonly': ''} 
             oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
             value="${focusAreaVal.expense ? formatNumberInput(focusAreaVal.expense) : 0}"
@@ -556,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <input 
             type="text" 
-            id ="${focusAreaId}-variation"
+            id ="${newFocusAreaIndex[indexFA]}-variation"
             style="background:${
               focusAreaVal.variation
                 ? focusAreaVal.variation >= 0
@@ -582,14 +582,14 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <input 
             type="text" 
-            id ="${focusAreaId}-percent"
+            id ="${newFocusAreaIndex[indexFA]}-percent"
             value="${
               focusAreaPercent
                 ? formatNumberInput(focusAreaPercent)
                 : 0
             }"
             disabled
-            class="form-control ${focusAreaId}-percent currency">
+            class="form-control ${newFocusAreaIndex[indexFA]}-percent currency">
           </div>
         </td>
       </tr>`;
@@ -605,13 +605,13 @@ document.addEventListener("DOMContentLoaded", function () {
             totalActualExpense +=  0;
             totalVariation +=  0;
 
-            focusAreaList[`${focusAreaId}area`]=focusAreaVal.area;
-            focusAreaList[`${focusAreaId}pillar`]=focusAreaVal.pillar;
+            // focusAreaList[`${focusAreaId}area`]=focusAreaVal.area;
+            // focusAreaList[`${focusAreaId}pillar`]=focusAreaVal.pillar;
 
             focusAreaStatus[focusAreaVal.area] = true;
 
           projectRows += `<tr>
-          <td><span id="${focusAreaId}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+          <td><span data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
           <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -622,13 +622,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <input 
             type="text" 
             disabled
-            id ="${focusAreaId}-assignedBudget"
             oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
-            value="${
-              focusAreaVal.assignedBudget
-                ? formatNumberInput(focusAreaVal.assignedBudget)
-                : 0
-            }"
+            value="${formatNumberInput(focusAreaVal.assignedBudget)}"
             ${(!list.comment) ? 'disabled': ''}
             class="form-control input-budget currency">
           </div>
@@ -643,10 +638,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <input 
             type="text"  
             disabled
-            id ="${focusAreaId}-expense"
             ${tei.disabled ? 'disabled readonly': ''} 
             oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
-            value="${focusAreaVal.expense ? formatNumberInput(focusAreaVal.expense) : 0}"
+            value="${formatNumberInput(focusAreaVal.expense)}"
             class="form-control input-budget currency">
           </div>
         </td>
@@ -661,7 +655,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <input 
             type="text" 
             disabled
-            id ="${focusAreaId}-variation"
             style="background:${
               focusAreaVal.variation
                 ? focusAreaVal.variation >= 0
@@ -669,11 +662,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   : "#FAA0A0 !important"
                 : ""
             }" 
-            value="${
-              focusAreaVal.variation
-                ? formatNumberInput(focusAreaVal.variation)
-                : 0
-            }"
+            value="${formatNumberInput(focusAreaVal.variation)}"
             disabled
             class="form-control input-budget currency">
           </div>
@@ -687,7 +676,6 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <input 
             type="text" 
-            id ="${focusAreaId}-percent"
             value=""
             disabled
             class="form-control ${focusAreaId}-percent currency">

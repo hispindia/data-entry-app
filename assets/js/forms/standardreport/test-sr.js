@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //   yearOptions += `<option value="${year}">${year}</option>`;
         // }
         // document.getElementById('year-update').innerHTML = yearOptions;
-        document.getElementById('year-update').innerHTML = '<option value="2025">2025 </option>';
+        document.getElementById('year-update').innerHTML = '<option value="2024">2024 </option>';
 
         fetchEvents();
       }
@@ -134,13 +134,26 @@ document.addEventListener("DOMContentLoaded", function () {
             { id: dataElements.year.id, value: '2024' },
             {
               id: dataElements.periodicity.id,
-              value: 'Semi-Annual Reporting',
+              value: 'Annual Reporting',
             }
           );
 
           dataElementOUValues[ou.id] = {
             fa: dataValues
           }
+
+// var countId = 0;
+// const dataValuesTIAR = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, 
+//   {id: dataElements.year.id, value: '2024' }, 
+//   {id: dataElements.periodicity.id, value: 'Annual Reporting'}
+// ); //data vlaues period wise
+// if (dataValuesTIAR['event']) {
+//   const eventTI = dataValuesTIAR['event'];
+
+// await pushDataElementOther(dataElements.submitAnnualUpdate,'', program.arTotalIncome, programStage.arTotalIncome, eventTI);
+//  console.log(++countId, tei.orgUnit)
+// }
+
         }
       }
     }

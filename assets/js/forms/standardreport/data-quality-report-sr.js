@@ -140,38 +140,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const event = await events.get(ou.id);
         if (event.trackedEntityInstances.length) {
-          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program
-            || enroll.program == program.auOrganisationDetails
-            || enroll.program == program.auProjectBudget
-            || enroll.program == program.auProjectExpenseCategory
-            || enroll.program == program.auProjectFocusArea
+          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
+            // enroll.program == program.auProjectExpenseCategory
+            enroll.program == program.arProjectExpenseCategory
+            || enroll.program == program.arProjectFocusArea
             || enroll.program == program.auIncomeDetails
+            || enroll.program == program.arTotalIncome
           );
           dataElementOUValues[ou.id] = {
-            od: {}, //organization details
-            pb: {}, //project budget
-            ec: {}, //expense category
-            fa: {}, //focus area
-            ti: {}, //total income,
-            id: {} //Income by donor
+            auti: {}, //total income,
+            // auec: {}, //project budget
+            arec: {}, //expense category
+            arfa: {}, //focus area
+            arac: {} //actual income
           }
-          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data values year wise
-          if (dataValuesOD && dataValuesOD[year]) dataElementOUValues[ou.id]['od'] = dataValuesOD[year]
 
-          const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, dataElements.year.id) //data values year wise
-          if (dataValuesPB && dataValuesPB[year]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[year]
-
-          const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, dataElements.year.id) //data values year wise
-          if (dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['ec'] = dataValuesEC[year]
-
-          const dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, dataElements.year.id) //data values year wise
-          if (dataValuesFA && dataValuesFA[year]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[year]
+          // const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, dataElements.year.id) //data values year wise
+          // if (dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['auec'] = dataValuesEC[year]
 
           const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[year]
+          if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['auti'] = dataValuesTI[year]
 
-          const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          if (dataValuesID && dataValuesID[year]) dataElementOUValues[ou.id]['id'] = dataValuesID[year]
+          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          if(dataValuesAREC) dataElementOUValues[ou.id]['arec'] = dataValuesAREC;
+
+          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          if(dataValuesARFA) dataElementOUValues[ou.id]['arfa'] = dataValuesARFA;
+
+          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          if(dataValuesARAC) dataElementOUValues[ou.id]['arac'] = dataValuesARAC;
+    
         }
       }
     }
@@ -201,9 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Expense Budget</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Actual Expense</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (in USD)</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Expense (%)</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Actual by Expense Category</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (Budgeted and Actual Expense Category)</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted vs Actual Expense (%)</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Actual by Focus Area</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (Budgeted and Actual Focus Area)</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Income</th>
@@ -211,54 +207,62 @@ document.addEventListener("DOMContentLoaded", function () {
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Actual Income</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (Budgeted Income minus Actual Income)</th>
      <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Deficit/Surplus (Actual Income minus Actual Expenditure)</th>
+     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Actual Income vs Actual Expenditure (%)</th>
     </tr>`
 
     $('#table-head').html(tableHead);
 
     var tableBody = '';
     level2OU.forEach(headOU => {
-      tableBody += `<tr><td colspan="13" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
+      tableBody += `<tr><td colspan="12" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       headOU.children.forEach(ou => {
-        const totalBudget = dataValues[ou.id] && dataValues[ou.id]['pb']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['pb']['zGn5c7EZLr0']) : '';
-        const fund = dataValues[ou.id] && dataValues[ou.id]['od']['gQQoxkZsZnn'] ? displayValue(dataValues[ou.id]['od']['gQQoxkZsZnn']) : '';
-        const coreFunding = dataValues[ou.id] && dataValues[ou.id]['pb']['x4ER7X2zTOm'] ? displayValue(dataValues[ou.id]['pb']['x4ER7X2zTOm']) : '';
-        const totalBudgetVariance = displayValue(fund - coreFunding);
-        const focusAreaBudget = dataValues[ou.id] && dataValues[ou.id]['fa']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['fa']['zGn5c7EZLr0']) : '';
-        const focusAreaVariance = displayValue(totalBudget - focusAreaBudget);
-        const expenseCategory = dataValues[ou.id] && dataValues[ou.id]['ec']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['ec']['zGn5c7EZLr0']) : '';
-        const expenseCategoryVariance = displayValue(totalBudget - expenseCategory);
+        const totalBudget = dataValues[ou.id] && dataValues[ou.id]['arec']['zGn5c7EZLr0'] ? (dataValues[ou.id]['arec']['zGn5c7EZLr0']) : '';
+        const totalECActual = dataValues[ou.id] && dataValues[ou.id]['arec']['IUb9LMIYIyL'] ? (dataValues[ou.id]['arec']['IUb9LMIYIyL']) : '';
+        var varianceEC = 0;
+        if(totalBudget) varianceEC += Number(totalBudget);
+        if(totalECActual) varianceEC -= totalECActual;
+        var variancePercent = (totalBudget && totalECActual/totalBudget!="Infinity" && totalECActual/totalBudget) ? (totalECActual/totalBudget*100): 0;
+        const totalFAActual = dataValues[ou.id] && dataValues[ou.id]['arfa']['IUb9LMIYIyL'] ? (dataValues[ou.id]['arfa']['IUb9LMIYIyL']) : '';
+        var varianceFA = 0;
+        if(totalECActual) varianceFA += Number(totalECActual);
+        if(totalFAActual) varianceFA -= totalFAActual;
         var totalIncome = 0;
-        var incomeByDonor = 0;
+        var totalIncomeAR = 0;
 
         dataElements.projectTotalIncome.forEach(pti => {
-          if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.restricted]) {
-            totalIncome += Number(dataValues[ou.id]['ti'][pti.restricted]);
+          if (dataValues[ou.id]['arac'][pti.restricted]) {
+            totalIncomeAR += Number(dataValues[ou.id]['arac'][pti.restricted]);
           }
-          if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.unrestricted]) {
-            totalIncome += Number(dataValues[ou.id]['ti'][pti.unrestricted]);
+          if (dataValues[ou.id]['arac'][pti.unrestricted]) {
+            totalIncomeAR += Number(dataValues[ou.id]['arac'][pti.unrestricted]);
           }
         })
 
-        dataElements.incomeByDonor.forEach(id => {
-          if(dataValues[ou.id]['id'][id.name] && dataValues[ou.id]['id'][id.income]) {
-            incomeByDonor += Number(dataValues[ou.id]['id'][id.income]);
+        var varianceECTIPercent = (totalECActual && totalECActual/totalIncomeAR!="Infinity" && totalECActual/totalIncomeAR) ? (totalECActual/totalIncomeAR*100): 0;
+
+        dataElements.projectTotalIncome.forEach(pti => {
+          if (dataValues[ou.id]['auti'][pti.category] && dataValues[ou.id]['auti'][pti.restricted]) {
+            totalIncome += Number(dataValues[ou.id]['auti'][pti.restricted]);
+          }
+          if (dataValues[ou.id]['auti'][pti.category] && dataValues[ou.id]['auti'][pti.unrestricted]) {
+            totalIncome += Number(dataValues[ou.id]['auti'][pti.unrestricted]);
           }
         })
+
         tableBody += `<tr>
         <td>${ou.name}</td>
         <td style="text-align:center;">${formatNumberInput(totalBudget)}</td>
-        <td style="text-align:center;">${formatNumberInput(fund)} </td>
-        <td style="text-align:center;">${formatNumberInput(coreFunding)} </td>
-        <td style="background:${colorCode(totalBudgetVariance)};text-align:center;">${formatNumberInput(totalBudgetVariance)} </td>
-        <td style="text-align:center;">${formatNumberInput(focusAreaBudget)} </td>
-        <td style="background:${colorCode(focusAreaVariance)};text-align:center;">${formatNumberInput(focusAreaVariance)} </td>
-        <td style="text-align:center;">${formatNumberInput(expenseCategory)} </td>
-        <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${formatNumberInput(expenseCategoryVariance)} </td>
-        <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))}</td>
-        <td style="text-align:center;">${formatNumberInput(displayValue(incomeByDonor))}</td>
-        <td  style="background:${colorCode(displayValue(totalIncome-incomeByDonor))};text-align:center;">${formatNumberInput(displayValue(totalIncome-incomeByDonor))}</td>
-         <td style="background:${displayValue(totalIncome - expenseCategory)<0 ? 'red':''};text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
+        <td style="text-align:center;">${formatNumberInput(totalECActual)} </td>
+        <td style="background:${colorCodeGrey(varianceEC)};text-align:center;">${formatNumberInput(varianceEC)} </td>
+        <td style="background:${colorCodeGrey(variancePercent)};text-align:center;">${formatNumberInput(variancePercent)} </td>
+        <td style="text-align:center;">${formatNumberInput(totalFAActual)} </td>
+        <td style="background:${colorCodeGreen(varianceFA)};text-align:center;">${formatNumberInput(varianceFA)} </td>
+        <td style="text-align:center;">${formatNumberInput(totalIncome)} </td>
+        <td style="text-align:center;">${formatNumberInput(totalIncomeAR)} </td>
+        <td style="background:${colorCodeGrey((totalIncome - totalIncomeAR))};text-align:center;">${formatNumberInput(totalIncome - totalIncomeAR)} </td>
+        <td style="background:${colorCodeGrey((totalIncomeAR - totalECActual))};text-align:center;">${formatNumberInput(totalIncomeAR - totalECActual)} </td>
+        <td style="background:${colorCodeGrey((varianceECTIPercent))};text-align:center;">${formatNumberInput(varianceECTIPercent)} </td>
         </tr>`
       })
     })
@@ -284,7 +288,12 @@ function displayValue(input) {
   }
 }
 
-function colorCode(num) {
-  if (Number(num) == 0) return '#50C878'
+function colorCodeGrey(num) {
+  if (Number(num) >= 0) return '#bbbbbb'
+  else return 'red'
+}
+
+function colorCodeGreen(num) {
+  if (Number(num) >= 0) return '#00ab41'
   else return 'red'
 }
