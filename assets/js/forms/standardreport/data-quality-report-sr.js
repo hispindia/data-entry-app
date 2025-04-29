@@ -205,9 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Income</th>
    
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Actual Income</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (Budgeted Income minus Actual Income)</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (Actual Income minus Budgeted Income)</th>
      <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Deficit/Surplus (Actual Income minus Actual Expenditure)</th>
-     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Actual Income vs Actual Expenditure (%)</th>
+     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Actual Spend (%)</th>
     </tr>`
 
     $('#table-head').html(tableHead);
@@ -260,9 +260,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="background:${colorCodeGreen(varianceFA)};text-align:center;">${formatNumberInput(varianceFA)} </td>
         <td style="text-align:center;">${formatNumberInput(totalIncome)} </td>
         <td style="text-align:center;">${formatNumberInput(totalIncomeAR)} </td>
-        <td style="background:${colorCodeGrey((totalIncome - totalIncomeAR))};text-align:center;">${formatNumberInput(totalIncome - totalIncomeAR)} </td>
+        <td style="background:${colorCodeGrey((totalIncomeAR - totalIncome))};text-align:center;">${formatNumberInput(totalIncomeAR - totalIncome)} </td>
         <td style="background:${colorCodeGrey((totalIncomeAR - totalECActual))};text-align:center;">${formatNumberInput(totalIncomeAR - totalECActual)} </td>
-        <td style="background:${colorCodeGrey((varianceECTIPercent))};text-align:center;">${formatNumberInput(varianceECTIPercent)} </td>
+        <td style="background:${colorCodeRed((varianceECTIPercent))};text-align:center;">${formatNumberInput(varianceECTIPercent)} </td>
         </tr>`
       })
     })
@@ -294,6 +294,11 @@ function colorCodeGrey(num) {
 }
 
 function colorCodeGreen(num) {
-  if (Number(num) >= 0) return '#00ab41'
+  if (Number(num) === 0) return '#00ab41'
   else return 'red'
+}
+
+function colorCodeRed(num) {
+  if (Number(num) > 100) return  'red'
+  else return '#bbbbbb'
 }

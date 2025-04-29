@@ -692,6 +692,14 @@ const translation_mapping = [
         fr: "Veuillez télécharger les principaux documents du rapport annuel",
         ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
     },
+
+    {
+        id: "key_management",
+        en: "Please upload the management letter received with the audit report",
+        sp: "Por favor, cargue la carta de gestión recibida junto con el informe de auditoría.",
+        fr: "Veuillez télécharger la lettre de gestion reçue avec le rapport d'audit",
+        ar: 'يرجى تحميل خطاب الإدارة المستلم مع تقرير التدقيق'
+    },
     {
         id: "key_audits",
         en: "Please upload key audits reports documents",

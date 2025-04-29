@@ -84,8 +84,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       document.getElementById('region').innerHTML = regionOptions;
-
-      setMembersAssociation(level2OU, selectedParentOU);
+      
+      if(data.organisationUnits.length==1 && data.organisationUnits[0].level == 3) {
+        let orgUnitOptions = `<option value='${JSON.stringify(data.organisationUnits[0])}'>${data.organisationUnits[0].name}</option>`
+        window.localStorage.setItem("masterOU", JSON.stringify(data.organisationUnits[0]));
+        document.getElementById('organisationUnits').innerHTML = orgUnitOptions;
+      }
+      else setMembersAssociation(level2OU, selectedParentOU);
       
     } catch (error) {
       console.error("Error fetching organization unit:", error);

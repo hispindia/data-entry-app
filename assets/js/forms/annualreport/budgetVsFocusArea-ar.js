@@ -956,7 +956,7 @@ function checkProjects(projects, values) {
 }
 
 
-function pushDataElementFA(id) {
+async function pushDataElementFA(id) {
   const ids = id.split('-');
   var assignedBudget = document.getElementById(`${ids[0]}-assignedBudget`).value;
   if(assignedBudget) assignedBudget = unformatNumber(assignedBudget);
@@ -968,6 +968,7 @@ function pushDataElementFA(id) {
       variation: unformatNumber(document.getElementById(`${ids[0]}-variation`).value),
     }
     pushDataElement(ids[0],JSON.stringify(values));
+
 }
 
 function calculateTotals(idx, expenseId) {
@@ -980,7 +981,7 @@ function calculateTotals(idx, expenseId) {
     var expenses = 0;
     var totalVariation = 0;
     project.focusAreas.forEach(focusArea => {
-      if($(`#${focusArea}-assignedBudget`).val()) {
+      if($(`#${focusArea}-assignedBudget`).val() || expenseId==`${focusArea}-expense` || expenseId==`${focusArea}-assignedBudget`) {
       
       const budget = unformatNumber($(`#${focusArea}-assignedBudget`).val());
       const expense = unformatNumber($(`#${focusArea}-expense`).val());
@@ -1039,10 +1040,12 @@ function calculateTotals(idx, expenseId) {
   const totalSpend = totalBudget && totalExpenses/totalBudget && (totalExpenses/totalBudget)!="Infinity"? (totalExpenses/totalBudget)*100 : '';
   $('.totalSpend').val(formatNumberInput(totalSpend.toFixed(2)));
 
+  $('.totalBudget').val(formatNumberInput(totalBudget));
   $('.totalExpenses').val(formatNumberInput(totalExpenses));
   $('.totalDifference').val(formatNumberInput(totalDifference));
   if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
   else $('.totalDifference')[0].style.setProperty('background','#FAA0A0', 'important');
+  pushDataElement($('.totalBudget')[0].id, totalBudget);
   pushDataElement($('.totalExpenses')[0].id, totalExpenses);
   pushDataElement($('.totalDifference')[0].id, totalDifference);
 

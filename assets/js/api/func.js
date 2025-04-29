@@ -119,14 +119,10 @@ async function createEventOther({orgUnit,program, programStage,teiId,dataElement
 async function pushDataElement(dataElement,value) {
   const payload = {
     program: tei.program,
-    programStage: tei.programStage,
-    orgUnit: tei.orgUnit,
     event: tei.event,
-    trackedEntityInstance: tei.id,
-    status:'ACTIVE',
     dataValues: [{ dataElement, value }],
   };
-  return await events.put(tei.event, dataElement, payload);
+  return await events.put(tei.event, dataElement, payload); 
   
 }
 
