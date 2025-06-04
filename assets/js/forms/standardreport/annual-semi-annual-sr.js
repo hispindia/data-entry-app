@@ -273,7 +273,7 @@ function getNarrativeReport(dv) {
     if (!de.id) {
       tableRows += `<tr><td>${de.name}</td><td>`
       de.list.forEach(list => {
-        tableRows += `${list.name}: ${dv[de.id] ? dv[de.id] : ''}`;
+        tableRows += `<span style="font-weight:bold">${list.name}:</span> ${dv[list.id] ? dv[list.id] : ''}<br/>`;
       })
       tableRows += '</td></tr>'
     } else tableRows += `<tr><td>${de.name}</td><td>${dv[de.id] ? dv[de.id] : ''}</td></tr>`
@@ -474,8 +474,10 @@ function getTotalIncome(dv, deIds) {
     },
   ];
   var tableBody = ''
+  var restrictedGlobalTotal = 0;
+  var unrestrictedGlobalTotal = 0;
   categoryIncome.forEach((categ, index) => {
-    tableBody += `<tr><td>${index + 1}. ${categ.name}</td><td>Restricted</td><td>Unrestricted</td></tr>`;
+    tableBody += `<tr><td style="font-weight:bold">${index + 1}. ${categ.name}</td><td style="font-weight:bold">Restricted</td><td style="font-weight:bold">Unrestricted</td></tr>`;
     categ.options.forEach((option) => {
       tableBody += `<tr><td>${option.name}</td>`;
       var restrictedTotal = 0;
@@ -487,10 +489,12 @@ function getTotalIncome(dv, deIds) {
         }
       })
       tableBody += `<td>${formatNumberInput(displayValue(restrictedTotal))}</td><td>${formatNumberInput(displayValue(unrestrictedTotal))}</td></tr>`
+      restrictedGlobalTotal += restrictedTotal;
+      unrestrictedGlobalTotal += unrestrictedTotal;
     })
   })
 
-  tableBody += `<tr><td>Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="2">How much income did they provide?</td></tr>`;
+  tableBody += `<tr><td style="font-weight:bold">Totals</td><td style="font-weight:bold">${restrictedGlobalTotal}</td><td style="font-weight:bold">${unrestrictedGlobalTotal}</td></tr><tr><td style="font-weight:bold">Global Total</td><td colspan="2"  style="font-weight:bold">${restrictedGlobalTotal + unrestrictedGlobalTotal}</td></tr><tr><td>Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="2">How much income did they provide?</td></tr>`;
   tableBody += `<tr><td>${ dv[dataElements.organisation] ? dv[dataElements.organisation]: ''}</td><td colspan="2">${ dv[dataElements.incomeProvided] ? formatNumberInput(dv[dataElements.incomeProvided]): ''}</td></tr>`;
 
   return tableBody;

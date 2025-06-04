@@ -21,12 +21,17 @@ function downloadTablesAsExcel(sheetList, fileName) {
         const excelCell = sheet.getCell(rowIndex + 1, colIndex);
       
         // Set the value as a number if it is numeric, otherwise as a string
-        if (!isNaN(Number(cellValue)) && cellValue.trim() !== "") {
-          excelCell.value = Number(cellValue);
+        const rawText = cell.textContent.trim();
+        const numericValue = Number(rawText.replace(/,/g, ""));
+
+        if (!isNaN(numericValue) && rawText !== "") {
+          excelCell.value = numericValue;
+          // Format as number with commas (e.g., 1,000)
+          excelCell.numFmt = "#,##0"; // or "#,##0.00" for 2 decimal places
         } else {
-          excelCell.value = cellValue;
+          excelCell.value = rawText;
         }
-      
+
         // Apply inline styles
         const computedStyle = window.getComputedStyle(cell);
         excelCell.font = {
@@ -102,4 +107,46 @@ function rgbToHex(rgb) {
       .slice(1)
       .toUpperCase()
   );
+}
+
+
+async function downloadTablesAsPDF() {
+  
+  const orgUnit = document.getElementById('headerOrgName')?.value;
+  const year = document.getElementById('year-update')?.value;
+  const periodicity = document.getElementById('reporting-periodicity')?.value;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4'); // Set orientation to 'landscape'
+    
+    const tables = document.querySelectorAll('table'); // Get all tables
+    
+for (let i = 0; i < tables.length; i++) {
+  const canvas = await html2canvas(tables[i]);
+  const imgData = canvas.toDataURL('image/png');
+
+  if (i > 0) {
+    doc.addPage(); // Add a new page for each table after the first one
+  }
+
+  // Get the dimensions of the page
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  // Calculate the image dimensions to fit the page while maintaining aspect ratio
+  let imgWidth = pageWidth - 20;  // Set width to fit the page, considering some margins
+  let imgHeight = (canvas.height * imgWidth) / canvas.width;  // Maintain the aspect ratio
+
+  // If the image height exceeds the page height, scale it down
+  if (imgHeight > pageHeight - 20) {
+    const scaleFactor = (pageHeight - 20) / imgHeight;
+    imgWidth *= scaleFactor;
+    imgHeight = pageHeight - 20;
+  }
+
+  doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);  // Add image to the PDF
+}
+
+    doc.save(`${orgUnit}-${year}-${periodicity ? periodicity: ''}.pdf`);
+    
 }

@@ -5,9 +5,9 @@
     "launch_path": "/index.html",
     "appType": "APP",
     "icons": {
-        "16": "/assets/images/fav.png",
-        "48": "/assets/images/fav.png",
-        "128": "/assets/images/fav.png"
+        "16": "assets/images/fav.png",
+        "48": "assets/images/fav.png",
+        "128": "assets/images/fav.png"
     },
     "developer": {
         "name": "HISP India",

@@ -177,6 +177,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(level2OU, dataValuesOU) {
     // const list = getPillarBudgetFA(dataValuesOU, level2OU);
 
+    const listMembership = getMembershipDetails(dataValuesOU, level2OU);
+    document.getElementById('th-project-membership').innerHTML = listMembership.tableHead;
+    document.getElementById('tb-project-membership').innerHTML = listMembership.tableRow;
+
+    const listInstitutional = getInstituationalData(dataValuesOU, level2OU);
+    document.getElementById('th-project-institutional').innerHTML = listInstitutional.tableHead;
+    document.getElementById('tb-project-institutional').innerHTML = listInstitutional.tableRow;
+
     const listFA = getFocusArea(dataValuesOU, level2OU);
     document.getElementById('th-project-focusarea').innerHTML = listFA.tableHead;
     document.getElementById('tb-project-focusarea').innerHTML = listFA.tableRow;
@@ -196,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('body').localize();
   }
 
-  function getFocusArea(dataValuesOU, level2OU) {
+  function getMembershipDetails(dataValuesOU, level2OU) {
 
     var tableRow = "";
     const deList = [
@@ -211,12 +219,28 @@ document.addEventListener("DOMContentLoaded", function () {
         style: ''
       },
       {
+        id: 'year',
+        name: 'Year'
+      },
+      {
+        id: 'H7u3oJh2ifa',
+        name: 'Organisation Name (English)',
+        style: ''
+      },
+      {
+        id: 'RUJcqfBvOSh',
+        name: 'Organisation name',
+        style: ''
+      },
+      {
         id: 'HrHPzD3Talq',
-        name: 'Primary point of contact for follow-up on business plan'
+        name: 'Primary point of contact for follow-up on business plan',
+        style: ''
       },
       {
         id: 'MgoVYQLP3yT',
-        name: 'Contact Email'
+        name: 'Contact Email',
+        style: ''
       },
       {
         id: 'fkHkH5jcJV0',
@@ -230,10 +254,136 @@ document.addEventListener("DOMContentLoaded", function () {
         id: 'gQQoxkZsZnn',
         name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
       },
+    ]
+    var tableHead = '<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>';
+    deList.forEach(de => tableHead += `<td style="font-weight:bold">${de.name}</td>`)
+    tableHead += '</tr>';
+
+    const year = document.getElementById("year-update").value;
+
+    dataValuesOU.forEach(item => {
+      item.dataValuesOD[year] = {
+        year,
+        ...item.dataValuesOD[year],
+        ...item.attributes,
+      }
+      var region = '';
+      level2OU.forEach(parent => parent.children.forEach(ou => {
+        if (ou.name == item.orgUnit) region = parent.name
+      }))
+      tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
+      deList.forEach((de, index) => {
+        if (index > 6) tableRow += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
+        else tableRow += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
+      })
+      tableRow += '</tr>';
+      })
+    return {
+      tableHead,
+      tableRow
+    }
+
+  }
+
+  function getInstituationalData(dataValuesOU, level2OU) {
+
+    var tableRow = "";
+    const deList = [
       {
-        id: 'year',
-        name: 'Year'
+        designation: 'Executive Director / CEO (or equivalent)',
+        name: 'Ctp6kmhwq86',
+        email:'yGutLB1Spaa',
+        contact: 'woWgpD819lF'
       },
+      {
+        designation: 'Board chair / President',
+        name: 'IuyGw22tqYj',
+        email:'YTtJK3jqsnq',
+        contact: 'CFF42nxFPgB'
+      },
+      {
+        designation: 'Officer of the board #1 (e.g., vice president, secretary, treasurer)',
+        name: 'BycCbaxB1Pu',
+        email:'tt9p7BLGhT0',
+        contact: 'Mzn08vVVZVt'
+      },
+      {
+        designation: 'Officer of the board #2 (e.g., vice president, secretary, treasurer)',
+        name: 'MeCYmsrREyS',
+        email:'qShxfRboswE',
+        contact: 'XmDKyaE5SbW'
+      },
+      {
+        designation: 'Officer of the board #3 (e.g., vice president, secretary, treasurer)',
+        name: 'QgqjdnD1a24',
+        email:'QoFEoEFiPZd',
+        contact: 'H2t9gnU6JKb'
+      },
+      {
+        designation: 'Youth board member',
+        name: 'aA5UkYBNvbl',
+        email:'k86jH9sSXSq',
+        contact: 'oYpc136YNgW'
+      },
+      {
+        designation: 'Programmatic lead(s)',
+        name: 'HFyJ2WGQEda',
+        email:'qColDnIqDjT',
+        contact: 'vFhnYZHTxfr'
+      },
+      {
+        designation: 'Programmatic lead(s)',
+        name: 't9LCankavyt',
+        email:'sJpc63Pkpip',
+        contact: 'SDC9mqvdjhQ'
+      },
+      {
+        designation: 'Programmatic lead(s)',
+        name: 'SmJKIYmyAVC',
+        email:'GZAulWuoial',
+        contact: 'dUnjPtPImoY'
+      },
+      {
+        designation: 'Programmatic lead(s)',
+        name: 'uYz5iheRYPO',
+        email:'X82L6C9yiZB',
+        contact: 'VXCYfrSNS8J'
+      },
+      {
+        designation: 'Finance lead',
+        name: 'ptHCVnzUXQl',
+        email:'lea8lybuFI9',
+        contact: 'PZswZ4XFTku'
+      },
+    ]
+    var tableHead = '<tr><td style="font-weight:bold">Entity Code</td><td style="font-weight:bold">Year</td><td style="font-weight:bold">Role</td><td style="font-weight:bold">Name</td><td style="font-weight:bold">Contact Email</td><td style="font-weight:bold">Contact Phone</td>';
+    tableHead += '</tr>';
+
+    const year = document.getElementById("year-update").value;
+
+    dataValuesOU.forEach(item => {
+      deList.forEach((de) => {
+        tableRow += `<tr>
+        <td>${item.attributes['Lv8wUjXV8fl'] ? item.attributes['Lv8wUjXV8fl']: ''}</td>
+        <td>${year}</td>
+        <td>${de.designation}</td>
+        <td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.name] ? item.dataValuesOD[year][de.name] : ''}</td>
+        <td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.email] ? item.dataValuesOD[year][de.email] : ''}</td>
+        <td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.contact] ? item.dataValuesOD[year][de.contact] : ''}</td>
+        </tr>`;
+      })
+      })
+    return {
+      tableHead,
+      tableRow
+    }
+
+  }
+
+  function getFocusArea(dataValuesOU, level2OU) {
+
+    var tableRow = "";
+    const deList = [
       {
         id: '',
         name: 'Project Name'
@@ -259,27 +409,14 @@ document.addEventListener("DOMContentLoaded", function () {
         name: 'Budget by "Project Focus Area" (Year 3)'
       },
     ]
-    var tableHead = '<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>';
+    var tableHead = '<tr><td style="font-weight:bold">Entity Code</td><td style="font-weight:bold">Year</td>';
     deList.forEach(de => tableHead += `<td style="font-weight:bold">${de.name}</td>`)
     tableHead += '</tr>';
 
     const year = document.getElementById("year-update").value;
 
     dataValuesOU.forEach(item => {
-      item.dataValuesOD[year] = {
-        ...item.dataValuesOD[year],
-        ...item.attributes
-      }
-      var region = '';
-      level2OU.forEach(parent => parent.children.forEach(ou => {
-        if (ou.name == item.orgUnit) region = parent.name
-      }))
-      var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-      deList.forEach((de, index) => {
-        if (index <= 3) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
-        else if (index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
-      })
-      rows += `<td>${year}</td>`
+      var rows = `<tr><td>${item.attributes['Lv8wUjXV8fl'] ? item.attributes['Lv8wUjXV8fl']: ''}</td><td>${year}</td>`;
       
         dataElements.projectFocusAreaNew.forEach((pfa, index) => {
         if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
@@ -320,40 +457,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const year = document.getElementById("year-update").value;
     const deList = [
       {
-        id: 'OgPuoRimaat',
-        name: 'Country of Operation',
-        style: ''
-      },
-      {
-        id: 'Lv8wUjXV8fl',
-        name: 'Entity Code',
-        style: ''
-      },
-      {
-        id: 'HrHPzD3Talq',
-        name: 'Primary point of contact for follow-up on business plan'
-      },
-      {
-        id: 'MgoVYQLP3yT',
-        name: 'Contact Email'
-      },
-      {
-        id: 'fkHkH5jcJV0',
-        name: 'Formula-generated proposed grant amount (Year 1) (USD)'
-      },
-      {
-        id: 'dhaMzFTSGrd',
-        name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
-      },
-      {
-        id: 'gQQoxkZsZnn',
-        name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
-      },
-      {
-        id: 'year',
-        name: 'Year'
-      },
-      {
         id: '',
         name: 'Project Name'
       },
@@ -374,26 +477,15 @@ document.addEventListener("DOMContentLoaded", function () {
         name: 'Budget by "Expense Category" (Year 3)'
       },
     ]
-    var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
+    var tableHead = `<tr><td style="font-weight:bold">Entity Code</td><td style="font-weight:bold">Year</td>`;
     deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
     tableHead += '</tr>';
 
     var tableRow = "";
     dataValuesOU.forEach(item => {
-      item.dataValuesOD[year] = {
-        ...item.dataValuesOD[year],
-        ...item.attributes
-      }
-      var region = '';
-      level2OU.forEach(parent => parent.children.forEach(ou => {
-        if (ou.name == item.orgUnit) region = parent.name
-      }))
-      var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-      deList.forEach((de, index) => {
-        if (index <= 3) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
-        else if(index <= 6) rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
-      })
-      rows += `<td>${year}</td>`
+    
+      var rows = `<tr><td>${item.attributes['Lv8wUjXV8fl'] ? item.attributes['Lv8wUjXV8fl']: ''}</td><td>${year}</td>`;
+
       dataElements.projectExpenseCategory.forEach((pec, index) => {
         if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
           let personnel = `<td>${item.dataValuesPD[year][dataElements.projectDescription[index]['name']]}</td><td>Personnel</td><td></td><td></td>`;
@@ -425,40 +517,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const year = document.getElementById("year-update").value;
     const deList = [
       {
-        id: 'OgPuoRimaat',
-        name: 'Country of Operation',
-        style: ''
-      },
-      {
-        id: 'Lv8wUjXV8fl',
-        name: 'Entity Code',
-        style: ''
-      },
-      {
-        id: 'HrHPzD3Talq',
-        name: 'Primary point of contact for follow-up on business plan'
-      },
-      {
-        id: 'MgoVYQLP3yT',
-        name: 'Contact Email'
-      },
-      {
-        id: 'fkHkH5jcJV0',
-        name: 'Formula-generated proposed grant amount (Year 1) (USD)'
-      },
-      {
-        id: 'dhaMzFTSGrd',
-        name: 'PROVISIONAL formula- generated grant amount (Year 2) (USD)'
-      },
-      {
-        id: 'gQQoxkZsZnn',
-        name: 'PROVISIONAL formula- generated grant amount (Year 3) (USD)'
-      },
-      {
-        id: 'year',
-        name: 'Year'
-      },
-      {
         id: '',
         name: 'Income Category'
       },
@@ -476,31 +534,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     ]
 
-  var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
+  var tableHead = `<tr><td style="font-weight:bold">Entity Code</td><td style="font-weight:bold">Year</td>`;
   deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
   tableHead += '</tr>';
 
   
   var tableRow = ''
   dataValuesOU.forEach(item => {
-    item.dataValuesOD[year] = {
-      ...item.dataValuesOD[year],
-      ...item.attributes
-    }
-    var region = '';
-    level2OU.forEach(parent => parent.children.forEach(ou => {
-      if (ou.name == item.orgUnit) region = parent.name
-    }))
-    var rows = `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-    deList.forEach((de, index) => {
-      if (index <= 3)  {
-        rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? item.dataValuesOD[year][de.id] : ''}</td>`;
-      } else if (index<=6) {
-        rows += `<td>${item.dataValuesOD[year] && item.dataValuesOD[year][de.id] ? formatNumberInput(item.dataValuesOD[year][de.id]) : ''}</td>`;
-      }
-    })
-    rows += `<td>${year}</td>`;
-
+    var rows = `<tr><td>${item.attributes['Lv8wUjXV8fl'] ? item.attributes['Lv8wUjXV8fl']: ''}</td><td>${year}</td>`;
     var values = {};
     dataElements.projectTotalIncome.forEach(pti => {
         if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.category]) {

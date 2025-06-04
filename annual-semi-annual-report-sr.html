@@ -142,6 +142,7 @@
                     <li><a style="display:none" class="nav-link aoc-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Report</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                        <li><a style="display:none" class="nav-link core-users" data-target="6.1-ippf-bpr-secretariat-export-annual-report-sr.html"><span>6.1 IPPF BPR Secretariat Export - Annual Report</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
                     <li><a style="display:none" class="nav-link core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
                 </ul>
@@ -178,8 +179,8 @@
                 <div class="form-group col-md-2">
                   <label for="" data-i18n="intro.reporting_periodicity">Reporting Periodicity</label>
                   <select class="form-control mt-1" id="reporting-periodicity">
-                    <!--<option value="Annual Reporting" selected>Annual Reporting</option>-->
-                    <option value="Semi-Annual Reporting" selected>Semi-Annual Reporting</option>
+                    <option value="Annual Reporting" selected>Annual Reporting</option>
+                    <option value="Semi-Annual Reporting">Semi-Annual Reporting</option>
                   </select>
                   <div class="invalid-feedback">
                     Error here
@@ -221,6 +222,7 @@
                 </div>
                 <div class="cont-wrapper mt-2">
                   <a id="dlink" style="display:none;"></a>
+                  <button class="btn btn-primary float-right m-3" onclick="downloadTablesAsPDF()">Export as PDF</button>
                   <button class="btn btn-success float-right m-3" onclick="downloadTablesAsExcel(['1. Ma-Info', '2. Narrative Report', '3. Budget vs Actuals-FA','4. Budget vs Actuals-EC','5. Actual Income'], '2. Annual / Semi-Annual Report Export')">Export as Excel</button>
                     
                   <form>
@@ -273,8 +275,12 @@
   <script src="assets/js/translation.js"></script>
   
   <!-- JS Libraies -->
-    <script src="assets/js/api/events.js"></script>
+  <script src="assets/js/api/events.js"></script>
   <script src="assets/js/api/func.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   
   <!-- Page Specific JS File -->
   <script src="assets/js/config.js"></script>

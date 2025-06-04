@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[year]
 
           const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          if (dataValuesID && dataValuesID[year]) dataElementOUValues[ou.id]['id'] = dataValuesID[year]
+          if (dataValuesID) dataElementOUValues[ou.id]['id'] = dataValuesID
         }
       }
     }
@@ -240,9 +240,10 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         })
 
+        const year = $('#year-update').val();
         dataElements.incomeByDonor.forEach(id => {
-          if(dataValues[ou.id]['id'][id.name] && dataValues[ou.id]['id'][id.income]) {
-            incomeByDonor += Number(dataValues[ou.id]['id'][id.income]);
+          if(dataValues[ou.id]['id'][tei.year.start] && dataValues[ou.id]['id'][tei.year.start][id.name] && dataValues[ou.id]['id'][year] && dataValues[ou.id]['id'][year][id.income]) {
+            incomeByDonor += Number(dataValues[ou.id]['id'][year][id.income]);
           }
         })
         tableBody += `<tr>

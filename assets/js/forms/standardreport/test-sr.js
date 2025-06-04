@@ -126,21 +126,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const event = await events.get(ou.id);
         if(event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
-          enroll.program == program.arProjectFocusArea
+          enroll.program == program.auIncomeDetails
           );
-          const dataValues = getEventsPeriodicity(
-            filteredPrograms,
-            program.arProjectFocusArea,
-            { id: dataElements.year.id, value: '2024' },
-            {
-              id: dataElements.periodicity.id,
-              value: 'Annual Reporting',
-            }
-          );
+          const dataValues = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data vlaues year wise
 
-          dataElementOUValues[ou.id] = {
-            fa: dataValues
-          }
+          dataElementOUValues[ou.id] = dataValues
+          
 
 // var countId = 0;
 // const dataValuesTIAR = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, 
@@ -167,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // let projectRows = displayBudgetTotals(level2OU, dataValues);
-    let projectRows = displayFA(level2OU, dataValues);
+    let projectRows = displayTI(level2OU, dataValues);
     $("#table-body").html(projectRows);
 
     $("#loader").empty();
@@ -177,6 +168,34 @@ document.addEventListener("DOMContentLoaded", function () {
     $('body').localize();
   }
 
+  function displayTI(level2OU, dataValues) {
+
+    var tableBody = '';
+    level2OU.forEach(headOU => {
+      tableBody += `<tr><td colspan="7" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
+      tableBody += `<tr>
+        <th style="background:#276696;color:white;text-align:center;">Member / collaborative Partner</th>`
+      for(let i=tei.year.start; i<=tei.year.end; i++) {
+        tableBody += `
+        <th style="background:#276696;color:white;text-align:center;">Largest Contributor ${i}</th>
+        <th style="background:#276696;color:white;text-align:center;">Income Provided ${i}</th>`
+      }
+      tableBody += `</tr>`
+      headOU.children.sort((a, b) => a.name.localeCompare(b.name));
+      headOU.children.forEach(ou => {
+      tableBody += `<tr><td>${ou.name}</td>`
+      for(let i=tei.year.start; i<=tei.year.end; i++) {
+        tableBody += `<td>${dataValues[ou.id][i] && dataValues[ou.id][i]['isOgz4tNDbM'] ? dataValues[ou.id][i]['isOgz4tNDbM']: ''}</td>`
+        tableBody += `<td>${dataValues[ou.id][i] && dataValues[ou.id][i]['mXSWPVPMkSt'] ? dataValues[ou.id][i]['mXSWPVPMkSt']: ''}</td>`
+      }
+      tableBody += `</tr>`
+
+      })
+    })
+    
+    return tableBody;
+  }
+  
   function displayFA(level2OU, dataValues) {
 
     var tableHead = `<tr>

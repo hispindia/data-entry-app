@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (in USD)</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted vs Actual Expense (%)</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Actual by Focus Area</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Variance (Budgeted and Actual Focus Area)</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Control: Total Actual Expense & Total Actual by Focus Area</th>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Income</th>
    
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Actual Income</th>
@@ -221,12 +221,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalECActual = dataValues[ou.id] && dataValues[ou.id]['arec']['IUb9LMIYIyL'] ? (dataValues[ou.id]['arec']['IUb9LMIYIyL']) : '';
         var varianceEC = 0;
         if(totalBudget) varianceEC += Number(totalBudget);
-        if(totalECActual) varianceEC -= totalECActual;
+        if(totalECActual) varianceEC -= Number(totalECActual);
         var variancePercent = (totalBudget && totalECActual/totalBudget!="Infinity" && totalECActual/totalBudget) ? (totalECActual/totalBudget*100): 0;
         const totalFAActual = dataValues[ou.id] && dataValues[ou.id]['arfa']['IUb9LMIYIyL'] ? (dataValues[ou.id]['arfa']['IUb9LMIYIyL']) : '';
         var varianceFA = 0;
         if(totalECActual) varianceFA += Number(totalECActual);
-        if(totalFAActual) varianceFA -= totalFAActual;
+        if(totalFAActual) varianceFA -= Number(totalFAActual);
         var totalIncome = 0;
         var totalIncomeAR = 0;
 
@@ -254,10 +254,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <td>${ou.name}</td>
         <td style="text-align:center;">${formatNumberInput(totalBudget)}</td>
         <td style="text-align:center;">${formatNumberInput(totalECActual)} </td>
-        <td style="background:${colorCodeGrey(varianceEC)};text-align:center;">${formatNumberInput(varianceEC)} </td>
+        <td style="background:${colorCodeGrey(checkNumber(varianceEC))};text-align:center;">${formatNumberInput(checkNumber(varianceEC))} </td>
         <td style="background:${colorCodeGrey(variancePercent)};text-align:center;">${formatNumberInput(variancePercent)} </td>
         <td style="text-align:center;">${formatNumberInput(totalFAActual)} </td>
-        <td style="background:${colorCodeGreen(varianceFA)};text-align:center;">${formatNumberInput(varianceFA)} </td>
+        <td style="background:${colorCodeGreen(checkNumber(varianceFA))};text-align:center;">${formatNumberInput(checkNumber(varianceFA))} </td>
         <td style="text-align:center;">${formatNumberInput(totalIncome)} </td>
         <td style="text-align:center;">${formatNumberInput(totalIncomeAR)} </td>
         <td style="background:${colorCodeGrey((totalIncomeAR - totalIncome))};text-align:center;">${formatNumberInput(totalIncomeAR - totalIncome)} </td>
@@ -274,6 +274,12 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchOrganizationUnitUid();
 });
 
+function checkNumber(num) {
+
+  if(num.toString().includes('e')) return 0;
+  return num;
+
+}
 function displayValue(input) {
   let num = typeof input === "string" ? parseFloat(input) : input;
 
@@ -294,7 +300,7 @@ function colorCodeGrey(num) {
 }
 
 function colorCodeGreen(num) {
-  if (Number(num) === 0) return '#00ab41'
+  if (Number(num) >= -10 && Number(num)  <= 10) return '#00ab41'
   else return 'red'
 }
 
