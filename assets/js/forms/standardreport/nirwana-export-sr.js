@@ -565,6 +565,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function displayValue(input) {
+  if (input === null || input === undefined || input === '') {
+    return "";
+  }
+
   let num = typeof input === "string" ? parseFloat(input) : input;
 
   if (isNaN(num)) {
@@ -572,6 +576,7 @@ function displayValue(input) {
   }
 
   if (num % 1 === 0) {
+    console.log(num)
     return num.toString();
   } else {
     return num.toFixed(2);

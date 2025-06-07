@@ -743,6 +743,10 @@ function displayOrderprojectCommodities(dataSet, dataValues, productList, unrest
 }
 
 function displayValue(input) {
+  if (input === null || input === undefined || input === '') {
+    return "";
+  }
+  
   let num = typeof input === "string" ? parseFloat(input) : input;
  
   if (isNaN(num)) {
