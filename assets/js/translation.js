@@ -38,7 +38,7 @@ const translation_mapping = [
     },
     {
         id: "project_budget",
-        en: "2.2 Project Budget",
+        en: "2.2. Project Expense Budget",
         sp: "2.2 Presupuesto del proyecto",
         fr: "2.2 Budget du projet",
         ar: "2.2 ميزانية المشاريع",

@@ -20,6 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
   document
+    .getElementById("reporting-periodicity")
+    .addEventListener("change", function () {
+      fetchEvents();
+    });
+
+    
+  document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
       fetchEvents(ev.target.value)

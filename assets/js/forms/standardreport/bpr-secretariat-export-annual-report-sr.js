@@ -772,17 +772,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if(item.dataValuesTI && item.dataValuesTI[pti.restricted]) {
           values[pti.category] += Number(item.dataValuesTI[pti.restricted]);
           values['totalIncome'] += Number(item.dataValuesTI[pti.restricted]);
-          values['totalIncomeRestricted'] += Number(item.dataValuesTI[pti.restricted]);
         }
         if(item.dataValuesTI && item.dataValuesTI[pti.unrestricted]) {
           values[pti.category] += Number(item.dataValuesTI[pti.unrestricted]);
           values['totalIncome'] += Number(item.dataValuesTI[pti.unrestricted]);
           values['ippfCore'] += Number(item.dataValuesTI[pti.unrestricted]);
-          values['totalIncomeUnrestricted'] += Number(item.dataValuesTI[pti.unrestricted]);
         }
 
-        if(item.dataValuesID[year] && item.dataValuesID[year][pti.restricted]) values['budgetedIncome'] += Number(item.dataValuesID[year][pti.restricted]);
-        if(item.dataValuesID[year] && item.dataValuesID[year][pti.unrestricted]) values['budgetedIncome'] += Number(item.dataValuesID[year][pti.unrestricted]);
+        if(item.dataValuesID[year] && item.dataValuesID[year][pti.restricted]) {
+          values['totalIncomeRestricted'] += Number(item.dataValuesID[year][pti.restricted]);
+          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.restricted]);
+        }
+        if(item.dataValuesID[year] && item.dataValuesID[year][pti.unrestricted]) {
+          values['totalIncomeUnrestricted'] += Number(item.dataValuesID[year][pti.unrestricted]);
+          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.unrestricted]);
+        }
       
 
       

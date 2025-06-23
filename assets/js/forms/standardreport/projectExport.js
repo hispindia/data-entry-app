@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var years = ''
       for (let year = tei.year.start; year <= tei.year.end; year++) years += `<th>Budget-${year}</th><th>Estimated likelihood-${year}</th><th>Amount of core funding allocated to projects-${year}</th>`
 
-      tableHead = `<tr><th colspan="11" style="font-weight:bold;text-align:center;background:#eef0ff">2.2 Project Budget</th></tr><tr><th>S.No.</th><th>Project Name</th>${years}<th>Comments</th></tr>`; 
+      tableHead = `<tr><th colspan="11" style="font-weight:bold;text-align:center;background:#eef0ff">2.2. Project Expense Budget</th></tr><tr><th>S.No.</th><th>Project Name</th>${years}<th>Comments</th></tr>`; 
       document.getElementById('th-project-budget').innerHTML = tableHead;
 
       years = ''

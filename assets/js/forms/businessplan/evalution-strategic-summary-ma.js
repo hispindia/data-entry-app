@@ -238,7 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if(significantGapsA>=1 || someGapsA>=4 || notAddressedA>=4 ) {
       if(significantGapsA>=1 || someGapsA>=4) $('#quality-color-a').addClass('bg-red');
+      else $('#quality-color-a').addClass('bg-green');
       if(notAddressedA>=4) $('#strategic-color-a').addClass('bg-red');
+      else $('#strategic-color-a').addClass('bg-green');
       pushDataElement('RI5UuEEpxun', 'Send Back to MA for Revisions')
       dataValuesA['RI5UuEEpxun'] = 'Send Back to MA for Revisions';
     } else {
@@ -247,7 +249,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if(significantGapsB>=1 || someGapsB>=4 || notAddressedB>=4 ) {
       if(significantGapsB>=1 || someGapsB>=4) $('#quality-color-b').addClass('bg-red');
+      else $('#quality-color-b').addClass('bg-green');
       if(notAddressedB>=4) $('#strategic-color-b').addClass('bg-red');
+      else $('#strategic-color-a').addClass('bg-green');
     } 
 
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {

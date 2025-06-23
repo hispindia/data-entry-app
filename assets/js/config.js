@@ -7,7 +7,8 @@ const userGroupConfig = (data) => {
     const edUsers = data.userGroups.find(group => disabledEDUserGroups.includes(group.id));
     const coreTeam = data.userGroups.find(group => coreTeamGroups.includes(group.id));
 
-    if (aocUsers || trtUsers) {
+    // if (aocUsers || trtUsers) {
+    if (aocUsers) {
         disabled = true;
     }
     if (!aocUsers) {
