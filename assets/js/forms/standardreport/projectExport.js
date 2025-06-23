@@ -197,12 +197,12 @@ document.addEventListener("DOMContentLoaded", function () {
       var years = ''
       for (let year = tei.year.start; year <= tei.year.end; year++) years += `<th>Budget-${year}</th><th>Estimated likelihood-${year}</th><th>Amount of core funding allocated to projects-${year}</th>`
 
-      tableHead = `<tr><th colspan="11" style="font-weight:bold;text-align:center;background:#eef0ff">2.2. Project Expense Budget</th></tr><tr><th>S.No.</th><th>Project Name</th>${years}<th>Comments</th></tr>`; 
+      tableHead = `<tr><th colspan="11" style="font-weight:bold;text-align:center;background:#eef0ff">2.2 Project Expense Budget</th></tr><tr><th>S.No.</th><th>Project Name</th>${years}<th>Comments</th></tr>`; 
       document.getElementById('th-project-budget').innerHTML = tableHead;
 
       years = ''
       for (let year = tei.year.start; year <= tei.year.end; year++) years += `<th>${year}</th>`
-      tableHead = `<tr><th colspan="8" style="font-weight:bold;text-align:center;background:#eef0ff">2.3 Budget by Focus Area</th></tr><tr><th>S.No.</th><th>Project Name</th><th>Focus Areas</th><th>Strategic Pillar</th>${years}<th>Comments</th></tr>`
+      tableHead = `<tr><th colspan="8" style="font-weight:bold;text-align:center;background:#eef0ff">2.3 Expense Budget by Focus Area</th></tr><tr><th>S.No.</th><th>Project Name</th><th>Focus Areas</th><th>Strategic Pillar</th>${years}<th>Comments</th></tr>`
       document.getElementById('th-project-focusArea').innerHTML = tableHead;
 
       tableHead = `<tr><th colspan="8" style="font-weight:bold;text-align:center;background:#eef0ff"> 2.4 Budget by Expense Category</th></tr><tr><th>Project Name</th><th>Expense Category</th>${years}<th>Comments</th></tr>`

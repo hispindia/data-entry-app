@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${tei.disabled ? 'disabled readonly': ''} 
               class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.3-breakdown-by-focus-area-au.html'">
               <span data-i18n="intro.next">Next</span>:  
-              <span data-i18n="intro.project_focusarea"> 2.3 Budget by Focus Area</span></button>`:`<input
+              <span data-i18n="intro.project_focusarea"> 2.3 Expense Budget by Focus Area</span></button>`:`<input
               type="button"
               data-i18n="[value]intro.next" 
               value="NEXT"
