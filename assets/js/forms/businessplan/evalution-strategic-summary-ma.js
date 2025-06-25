@@ -237,10 +237,22 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
     if(significantGapsA>=1 || someGapsA>=4 || notAddressedA>=4 ) {
-      if(significantGapsA>=1 || someGapsA>=4) $('#quality-color-a').addClass('bg-red');
-      else $('#quality-color-a').addClass('bg-green');
-      if(notAddressedA>=4) $('#strategic-color-a').addClass('bg-red');
-      else $('#strategic-color-a').addClass('bg-green');
+      if(significantGapsA>=1 || someGapsA>=4)  {
+        $('#quality-color-a').addClass('bg-red');
+        $('#quality-color-a').removeClass('bg-green');
+      }
+      else {
+        $('#quality-color-a').addClass('bg-green');
+        $('#quality-color-a').addClass('bg-red');
+      }
+      if(notAddressedA>=4) {
+        $('#strategic-color-a').addClass('bg-red');
+        $('#strategic-color-a').removeClass('bg-green');
+      }
+      else {
+        $('#strategic-color-a').addClass('bg-green');
+        $('#strategic-color-a').removeClass('bg-red');
+      }
       pushDataElement('RI5UuEEpxun', 'Send Back to MA for Revisions')
       dataValuesA['RI5UuEEpxun'] = 'Send Back to MA for Revisions';
     } else {
@@ -248,10 +260,22 @@ document.addEventListener("DOMContentLoaded", function () {
       dataValuesA['RI5UuEEpxun'] = 'Approved with full allocation';
     }
     if(significantGapsB>=1 || someGapsB>=4 || notAddressedB>=4 ) {
-      if(significantGapsB>=1 || someGapsB>=4) $('#quality-color-b').addClass('bg-red');
-      else $('#quality-color-b').addClass('bg-green');
-      if(notAddressedB>=4) $('#strategic-color-b').addClass('bg-red');
-      else $('#strategic-color-a').addClass('bg-green');
+      if(significantGapsB>=1 || someGapsB>=4) {
+        $('#quality-color-b').addClass('bg-red');
+        $('#quality-color-b').removeClass('bg-green');
+      }
+      else {
+        $('#quality-color-b').addClass('bg-green');
+        $('#quality-color-b').addClass('bg-red');
+      }
+      if(notAddressedB>=4) {
+        $('#strategic-color-b').addClass('bg-red');
+        $('#strategic-color-b').removeClass('bg-green');
+      }
+      else {
+        $('#strategic-color-b').addClass('bg-green');
+        $('#strategic-color-b').removeClass('bg-red');
+      }
     } 
 
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
