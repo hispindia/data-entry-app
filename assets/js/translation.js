@@ -165,13 +165,6 @@ const translation_mapping = [
 
     //header
     {
-        id: "budget_plan_cycle",
-        en: "Budget Plan Cycle",
-        sp: "Ciclo del plan presupuestario",
-        fr: "Cycle de planification budgétaire",
-        ar: 'دورة خطة الميزانية'
-    },
-    {
         id: "region",
         en: "Region",
         sp: "Región",

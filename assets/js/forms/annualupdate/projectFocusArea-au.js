@@ -1,3 +1,7 @@
+import { getEvents, getTEI, pushDataElementYear } from "../../api/func.js";
+import { dataElements, program, programStage, tei } from "../../constant.js";
+import { getUserConfig } from "../config.js";
+import { formatNumberInput, getYears } from "../func.js";
 
 var filledProjectFocusArea = [];
 var totalProjectBudget = [];
@@ -175,110 +179,51 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchEvents();
-    });
-
-  document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
-    tei.disabledYear = {};
-    for(let year=tei.year.start; year <=tei.year.end; year++) {
-      if(year<ev.target.value)  tei.disabledYear[year] = true;
-    }
     window.localStorage.setItem("annualYear", ev.target.value);
     populateProgramEvents(tei.dataValues);
   });
 
+ async function configurePage() {
+    const user = await getUserConfig();
+    tei.disabled = user.disabled;
 
-  async function fetchOrganizationUnitUid() {
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      var data; 
-      const masterOU =  window.localStorage.getItem("masterOU");
-      if(masterOU) {
-        data = {organisationUnits: [{...JSON.parse(masterOU)}]} ;
-        tei.disabled = window.localStorage.getItem("userDisabled");
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-      if(!data) {
-        data = await response.json();
-
-        const userConfig = userGroupConfig(data)
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-      }
-
-      if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name: '';
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-          const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-          if (fpaIndiaButton) {
-              const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-              if (fpaIndiaDiv) {
-                  fpaIndiaDiv.textContent =  data.organisationUnits[0].name;;
-              }
-          }
-          
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!user.hideReporting.includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(user.hideReporting.includes('core')) {
+      $('.core-users').show();
+    }
+
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+
+    tei.program = program.auProjectFocusArea;
+    tei.programStage = programStage.auProjectFocusArea;
+
+    fetchEvents();    
   }
+
 
   async function fetchEvents() {
     tei.projects = [];
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-    tei.program = program.auProjectFocusArea;
-    tei.programStage = programStage.auProjectFocusArea;
-    tei.year = {
-      ...tei.year,
-      start:dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
-    }
+    tei.year.value = document.getElementById("year-update").value;
 
-    var yearOptions = '';
-    tei.disabledYear = {};
-    var annualYear = window.localStorage.getItem("annualYear");
-    for(let year=tei.year.start; year <=tei.year.end; year++) {
-      if(tei.hideYears.includes(year))  tei.disabledYear[year] = true;
-      if(tei.hideYears.includes(year)) continue;
-      yearOptions += `<option value="${year}">${year}</option>`;
-    }
-    document.getElementById('year-update').innerHTML = yearOptions;
-    document.getElementById('year-update').options[0].selected = true;
-    if(annualYear) document.getElementById('year-update').value = annualYear;
-
-    const year = document.getElementById("year-update").value;
-
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -288,37 +233,34 @@ document.addEventListener("DOMContentLoaded", function () {
         (enroll) => enroll.program == tei.program || enroll.program == program.auProjectBudget || enroll.program==program.auProjectDescription 
         );
   
-        const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  dataElements.year.id);
-        if(dataValuesPD[year] && dataValuesPD[year][dataElements.submitAnnualUpdate])  tei.disabled = true;
-        tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[year]);
+        const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
+        if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+        tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
 
-      const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget,  dataElements.year.id);
-      if(dataValuesPB[year]) {
+      const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget,  tei.year.id);
+      if(dataValuesPB[tei.year.value]) {
         dataElements.projectBudget.forEach((project,index) => {
-          if(dataValuesPB[year][project.name] && tei.projects[index]) {
+          if(dataValuesPB[tei.year.value][project.name] && tei.projects[index]) {
           for (let year = tei.year.start; year <= tei.year.end; year++) {
             if(!totalProjectBudget[index]) totalProjectBudget[index] = {};
-            if(!totalProjectBudget[index][year]) totalProjectBudget[index][year] = 0;
-            if(dataValuesPB[year][project.budget]) totalProjectBudget[index][year] += Number(dataValuesPB[year][project.budget]);
+            if(!totalProjectBudget[index][tei.year.value]) totalProjectBudget[index][tei.year.value] = 0;
+            if(dataValuesPB[tei.year.value][project.budget]) totalProjectBudget[index][tei.year.value] += Number(dataValuesPB[tei.year.value][project.budget]);
             
-            tei.yearlyAmount[`amount-${year}`] = dataValuesPB[year][dataElements.totalBudget] ? dataValuesPB[year][dataElements.totalBudget] : ''
+            tei.yearlyAmount[`amount-${year}`] = dataValuesPB[tei.year.value][dataElements.totalBudget] ? dataValuesPB[tei.year.value][dataElements.totalBudget] : ''
           }
         }
       })
     }
 
-      tei.dataValues = getEvents(filteredPrograms, tei.program, dataElements.year.id); //data vlaues period wise
+      tei.dataValues = getEvents(filteredPrograms, tei.program, tei.year.id); //data vlaues period wise
 
       if(tei.projects.length) {
         for (let year = tei.year.start; year <= tei.year.end; year++) {
-          if (!tei.dataValues[year]) {
-            tei.dataValues[year] = {};
+          if (!tei.dataValues[tei.year.value]) {
+            tei.dataValues[tei.year.value] = {};
             const data = [{
-              dataElement: dataElements.year.id,
+              dataElement: tei.year.id,
               value: year
-            },{
-              dataElement: dataElements.period.id,
-              value: dataElements.period.value
             }];
             tei.projects.forEach((name,index) => {
               data.push({
@@ -328,19 +270,19 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           tei.event = {
             ...tei.event,
-            [year]: await createEvent(data)
+            [tei.year.value]: await createEvent(data)
           }
-          data.forEach(de => tei.dataValues[year][de.dataElement]= de.value)
+          data.forEach(de => tei.dataValues[tei.year.value][de.dataElement]= de.value)
           } else {
   
             tei.event = {
               ...tei.event,
-              [year]: tei.dataValues[year]["event"]
+              [tei.year.value]: tei.dataValues[tei.year.value]["event"]
             }
 
           var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, year);
           calculatedElements.forEach(elements =>  {
-            tei.dataValues[year][elements.dataElement] = elements.value;
+            tei.dataValues[tei.year.value][elements.dataElement] = elements.value;
             pushDataElementYear(`${elements.dataElement}-${year}`, elements.value);
           });
           
@@ -570,8 +512,43 @@ document.addEventListener("DOMContentLoaded", function () {
     return projectRows;
   }
 
-  fetchOrganizationUnitUid();
+  configurePage();
+  
 });
+
+  function addPFA(index) {
+
+    const headerPeriod = document.getElementById("headerPeriod").value;
+    const period = {
+      start: headerPeriod.split(" - ")[0],
+      end: headerPeriod.split(" - ")[1],
+    }; 
+    const values = {
+        id: dataElements.projectFocusAreaNew[index].focusAreas[filledProjectFocusArea[index]],
+        area: '',
+        pillar: '',
+        budget: {}
+    }
+    const newProjectRow = displayProjectFocusArea(values, period, index, filledProjectFocusArea[index])
+
+    $(newProjectRow).insertBefore(`.btn-index-${index}`);
+    filledProjectFocusArea[index]++;
+    
+      // Localize content
+      $('body').localize();
+  }
+  function removePFA(index) {
+    if (filledProjectFocusArea[index] > 1) {
+      filledProjectFocusArea[index]--;
+      const id = dataElements.projectFocusAreaNew[index].focusAreas[filledProjectFocusArea[index]];
+      $(`.wrap-project-area-${index}`).last().remove();
+      for(let year=tei.year.start; year<=tei.year.end; year++) {
+        calculateTotals(year, 'totalBudget', index);
+      }
+      pushDataElementFA(id);
+    }
+  }
+  
 
 function displayProjectFocusArea(values, period, index, i) {
   var projectFARows = "";

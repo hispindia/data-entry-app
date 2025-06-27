@@ -56,7 +56,7 @@ export const dataElementApi = {
   put: async (event, id, payload) => {
     const url = `${baseUrl}/events/${event}/${id}`;
     try {
-      const response = await BaseApi({url, method:"POST", payload});
+      const response = await BaseApi({url, method:"PUT", payload});
       return response.json();
     } catch (error) {
       console.error("Error Pusing dataElement", error);

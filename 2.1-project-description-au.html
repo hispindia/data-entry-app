@@ -47,7 +47,7 @@
           <li>
             <a class="btn btn-secondary d-flex align-items-center ml-1">
               <i class="fa fa-building-o" aria-hidden="true"></i>
-              <div>FACILITY</div>
+              <div id="facility">FACILITY</div>
             </a>
           </li>
           <li>
@@ -138,14 +138,6 @@
             <div class="top-detail-form mt-2">
               <div class="form-row">
                 <div class="form-group col-md-3">
-                 <label for="" data-i18n="intro.budget_plan_cycle">Budget Plan Cycle</label>
-                  <select class="form-control" id="headerPeriod">
-                    <option value="2023 - 2025" selected>2023 - 2025</option>
-                    <option value="2026 - 2028">2026 - 2028</option>
-                  </select>
-                  <div class="invalid-feedback">Error here</div>
-                </div>
-                <div class="form-group col-md-3">
                     <label for="" data-i18n="intro.year_business_plan_update" >Year of Business Plan Update</label>
                     <select  class="form-control mt-1" id="year-update">
                     </select>
@@ -153,16 +145,16 @@
                     Error here
                     </div>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                   <label for="" data-i18n="intro.region">Region</label>
-                  <input type="text" class="form-control" id="headerOrgId" disabled />
+                  <input type="text" class="form-control mt-1" id="headerOrgId" disabled />
                   <div class="invalid-feedback">Error here</div>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                   <label for="">MA</label>
                   <input type="text" class="form-control mt-1" disabled id="headerOrgName" disabled="true" />>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                   <label for="">MA-ID</label>
                   <input type="text" class="form-control mt-1" disabled id="headerOrgCode" disabled="true" />>
                   <div class="invalid-feedback">Error here</div>
@@ -235,95 +227,21 @@
 
   <!-- General JS Scripts -->
   <script src="assets/js/app.min.js"></script>
-  <!--Constants-->
-  <script src="assets/js/constant.js"></script>
   <!--Translation-->
   <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
   <script src="assets/js/translation.js"></script>
-  <!-- JS Libraies -->
-  <script src="assets/js/api/events.js"></script>
-  <script src="assets/js/api/func.js"></script>
-  <script src="assets/js/api/eventPush.js"></script>
   
   
   <!-- Page Specific JS File -->
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/forms/annualupdate/projectDescription-au.js"></script>
+  <script type="module" src="assets/js/forms/annualupdate/projectDescription-au.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->
   <script src="assets/js/select2.full.min.js"></script>
   <script src="assets/js/forms-advanced-forms.js"></script>
   <script src="assets/js/custom.js"></script>
-  
-  <script>
-    $(document).ready(function () {
-
-      $(".plus").click(function (e) {
-        e.preventDefault();
-        const newProjectRow = `
-                <div class="form-row project-list" id="project-list-${(projectCount+1)}">
-                    <div class="form-group col-md-12 textbox-wrap">
-                    <label for="${dataElements.projectDescription[projectCount]['name']}"><span data-i18n="intro.project_name">Project Name</span> ${(projectCount+1)}</label>
-                    <input type="text" class="form-control" id="${dataElements.projectDescription[projectCount]['name']}" oninput='pushDataElement(this.id, this.value)'>
-                    <div class="invalid-feedback"> Error here </div>
-                    </div>
-                    <div class="form-group col-md-12 textbox-wrap">
-                    <label for="${dataElements.projectDescription[projectCount]['description']}"><span data-i18n="intro.description_project">Description of Project </span> ${(projectCount+1)}</label>
-                    <textarea class="form-control-resize textlimit" id="${dataElements.projectDescription[projectCount]['description']}" oninput='pushDataElement(this.id, this.value)'></textarea>
-                    <div class="char-counter form-text text-muted" id="counter-${dataElements.projectDescription[projectCount]['description']}">250 words remaining</div>
-                    <div class="invalid-feedback"> Error here </div>
-                    </div>
-                </div>
-                 
-                <div class="form-row d-flex">
-    <div class="form-group col-md-6 textbox-wrap">
-        <label for="${dataElements.projectDescription[projectCount]['startDate']}">
-            <span data-i18n="intro.start_date">Project Start Date ${(projectCount+1)}</span>
-        </label>
-        <div>
-            <input type="date" id="${dataElements.projectDescription[projectCount]['startDate']}"  
-                   class="w-100 form-control"
-                   onchange='pushDataElement(this.id, this.value)'>
-        </div>
-        <div class="invalid-feedback"> Error here </div>
-    </div>
-
-    <div class="form-group col-md-6 textbox-wrap">
-        <label for="${dataElements.projectDescription[projectCount]['endDate']}">
-            <span data-i18n="intro.end_date">Project End Date ${(projectCount+1)}</span>
-        </label>
-        <div>
-            <input type="date" id="${dataElements.projectDescription[projectCount]['endDate']}"  
-                   class="w-100 form-control" 
-                   onchange='pushDataElement(this.id, this.value)'>
-        </div>
-        <div class="invalid-feedback"> Error here </div>
-    </div>
-</div>
-                <hr>
-            `;
-            
-        projectCount++;
-        $(newProjectRow).insertBefore(".btn-wrap");
-        $('#total-projects').val(projectCount)
-      // Localize content
-      $('body').localize();
-      });
-
-      $(".minus").click(function (e) {
-        e.preventDefault();
-        if (projectCount > 1) {
-          $(".project-list").last().remove();
-          projectCount--;
-          $("hr").last().remove(); // Remove the last <hr> element
-          $('#total-projects').val(projectCount)
-        }
-      });
-    });
-  </script>
   
   <script>
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -335,32 +253,9 @@
             }
         });
     });
-</script>
 
-  <script>
-    //Panel toggle
-    function changePanel(id) {
-      $(`#${id}`).collapse('toggle');
-    }
-
-    //textarea word limit
-    function checkWords(event, id) {
-      const counter = document.getElementById('counter-' + (id));
-      const { value } = event;
-      const words = value.trim().split(/\s+/)
-
-      if (words.length >= maxWords) {
-        event.value = words.slice(0, maxWords).join(' ');
-        return
-      }
-      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-      else counter.textContent = `${maxWords} words remaining`;
-    }
-  </script>
-  
-<script>
   function submitProjects() {
-      alert("Data Saved Successfully!")
+    alert("Data Saved Successfully!")
   }
 </script>
 </body>
