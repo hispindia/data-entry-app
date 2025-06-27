@@ -1,4 +1,4 @@
-var tei = {
+export const tei = {
   id: "",
   event: "",
   orgUnit: "",
@@ -11,15 +11,26 @@ var tei = {
   hideYears: "2023;2024",
   dataValues: {},
   disabled: false,
+
+  periodicity: {
+    id: "T1poFhLsB2S",
+    value: "",
+  },
+  year: {
+    id: "rpQi6D8L58H",
+    start: 2023,
+    end: new Date().getFullYear(),
+    value: "",
+  },
 };
-const coreTeamGroups = "Q4GLIiUIxrM";
-const disabledUserGroups = "lUOT60N58M8";
-const disabledTRTUserGroups = "iW2zvv8rc27";
-const disabledMAUserGroups = "c3KCmkPvNrq";
-const disabledEDUserGroups = "dFIS4yYdf6m";
-const dataSetId = "bnq1MlIycGX";
-const dataSetFunds = "hUtLUU9WrIv"
-const program = {
+export const coreTeamGroups = "Q4GLIiUIxrM";
+export const disabledUserGroups = "lUOT60N58M8";
+export const disabledTRTUserGroups = "iW2zvv8rc27";
+export const disabledMAUserGroups = "c3KCmkPvNrq";
+export const disabledEDUserGroups = "dFIS4yYdf6m";
+export const dataSetId = "bnq1MlIycGX";
+export const dataSetFunds = "hUtLUU9WrIv"
+export const program = {
   //business plan
   organisationDetails: "F9wFxXnlgyk",
   projectDescription: "xUnQTUgX6d8",
@@ -50,7 +61,7 @@ const program = {
   arProjectExpenseCategory: "HrI5y3dLrJJ",
   arTotalIncome: "ygYngjW5iYY",
 };
-const programStage = {
+export const programStage = {
   //business plan
   organisationDetails: "tBVRSw2h2pA",
   membershipDetails: "WCRytcUeLfD",
@@ -99,11 +110,7 @@ const programStage = {
   arKeyDetails: "KRcatB99iXF"
 };
 
-const dataElements = {
-  periodicity: {
-    id: "T1poFhLsB2S",
-    value: "",
-  },
+export const dataElements = {
   submitAnnualUpdate: "GbGunhHaiDt",
   localIncome_restricted: "P68FHRMdG9d",
   localIncome_unrestricted: "WaFqR9c9Y3j",
@@ -146,15 +153,6 @@ const dataElements = {
     comment: "Uf7vZLSyG3n",
     commodities: "l77qQjamoQR",
     varitaion: "T4k7xBbeFfc",
-  },
-  period: {
-    id: "Cdxi6aNEkbf",
-    value: "",
-  },
-  year: {
-    id: "rpQi6D8L58H",
-    start: "",
-    end: "",
   },
   projectTotalIncome: [
     {

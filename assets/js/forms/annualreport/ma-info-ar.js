@@ -1,4 +1,8 @@
-const maxWords = 300;
+import { createEvent, createEventOther, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { tei, dataElements, program, programStage } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { disableAll, getYears } from '../func.js';
+
 const programStageEvent = {
   keyDetails: ''
 }
@@ -40,12 +44,6 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
 });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid()
-    });
-
-  document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
     window.localStorage.setItem("annualYearAR", ev.target.value);
@@ -60,101 +58,39 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
   });
 
 
-  async function fetchOrganizationUnitUid() {
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      var data; 
-      const masterOU =  window.localStorage.getItem("masterOU");
-      if(masterOU) {
-        data = {organisationUnits: [{...JSON.parse(masterOU)}]} ;
-        tei.disabled = window.localStorage.getItem("userDisabled");
-      }
-      if(!data) {
-        data = await response.json();
+  async function configurePage() {
+    const user = await getUserConfig();
+    tei.disabled = user.disabled;
 
-        const userConfig = userGroupConfig(data);
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-
-      if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value =  data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name: '';
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-          const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-          if (fpaIndiaButton) {
-              const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-              if (fpaIndiaDiv) {
-                  fpaIndiaDiv.textContent =  data.organisationUnits[0].name;;
-              }
-          }
-
-        assignValues()
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-  }
-
-  function assignValues() {
-    var annualReporting = window.localStorage.getItem("annualReporting");
-    if(annualReporting) document.getElementById('reporting-periodicity').value = annualReporting;
+    ['aoc-reporting', 'trt-review', 'aoc-users', 'core-users'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
     
+    if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+
     tei.program = program.arOrganisationDetails;
     tei.programStage = programStage.arMembershipDetails;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-    dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
+    tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
-    tei.year = {
-      ...tei.year,
-      start:dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
-    }
-    
-    var yearOptions = '';
-    for(let year=tei.year.start; year <=tei.year.end; year++) {
-      if(tei.hideReportingYears.includes(year)) continue;
-      yearOptions += `<option value="${year}">${year}</option>`;
-    }
-    document.getElementById('year-update').innerHTML = yearOptions;
-    document.getElementById('year-update').options[0].selected = true;
-    var annualYear = window.localStorage.getItem("annualYearAR");
-    if(annualYear) document.getElementById('year-update').value = annualYear;
-
+    fetchEvents();    
   }
-  async function fetchEvents(year) {
-    tei.projects = [];
 
-    if(!year) year = document.getElementById("year-update").value;
-    dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
-    
-    const data = await events.get(tei.orgUnit);
+  async function fetchEvents() {
+    tei.projects = [];
+    tei.year.value = document.getElementById("year-update").value;
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -168,23 +104,20 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
         (enroll) => enroll.program == tei.program ||  enroll.program == program.arTotalIncome 
       );
 
-      const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value }); //data vlaues period wise
+      const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
 
-      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:dataElements.year.id, value: year}, {id:dataElements.periodicity.id, value:dataElements.periodicity.value}); //data vlaues period wise
-      const dataValuesKD = getProgramStagePeriodicity(filteredPrograms, tei.program, programStage.arKeyDetails,{id:dataElements.year.id, value: year}, {id:dataElements.periodicity.id, value:dataElements.periodicity.value});
+      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, { id:tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value:tei.periodicity.value }); //data vlaues period wise
+      const dataValuesKD = getProgramStagePeriodicity(filteredPrograms, tei.program, programStage.arKeyDetails,{ id:tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value:tei.periodicity.value });
       
         if(!dataValues) {
-          if(year && dataElements.period.value && dataElements.periodicity.value) {
+          if(tei.year.value && tei.periodicity.value) {
           let data = [{ 
-            dataElement: dataElements.year.id,
-            value: year
-          },{
-            dataElement: dataElements.period.id,
-            value: dataElements.period.value
+            dataElement: tei.year.id,
+            value: tei.year.value
           }, {
-            dataElement: dataElements.periodicity.id,
-            value: dataElements.periodicity.value
+            dataElement: tei.periodicity.id,
+            value: tei.periodicity.value
           }];
         tei.event = await createEvent(data);
         }
@@ -195,21 +128,18 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
       }
 
       if (!dataValuesKD) {
-        if(year && dataElements.period.value && dataElements.periodicity.value) {
+        if(tei.year.value && tei.periodicity.value) {
         programStageEvent['keyDetails'] = await createEventOther({
           orgUnit: tei.orgUnit,
           program: program.arOrganisationDetails,
           programStage: programStage.arKeyDetails,
           teiId: tei.id,
           dataElements: [{ 
-            dataElement: dataElements.year.id,
-            value: year
-          },{
-            dataElement: dataElements.period.id,
-            value: dataElements.period.value
+            dataElement: tei.year.id,
+            value: tei.year.value
           }, {
-            dataElement: dataElements.periodicity.id,
-            value: dataElements.periodicity.value
+            dataElement: tei.periodicity.id,
+            value: tei.periodicity.value
           }]
         })
       }
@@ -233,23 +163,7 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
   function populateProgramEvents(dataValues, attributes, dataValuesKD) {
 
     //disable feilds
-    if (tei.disabled) {
-      $('.textValue').prop('disabled', true);
-
-      // Disable all select elements
-      $('.select-option').prop('disabled', true);
-
-      // Disable all checkbox elements
-      $('input[type="checkbox"]').prop('disabled', true);
-
-      // Disable all radio button elements
-      $('input[type="radio"]').prop('disabled', true);
-
-      // Disable all file input elements
-      $('input[type="file"]').prop('disabled', true);
-      //Disable all button
-      $('button').prop('disabled', true);
-    }
+    if (tei.disabled) disableAll();
 
     document.querySelectorAll('.textValue').forEach((textVal) => {
 
@@ -269,7 +183,7 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
     })
   }
 
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 

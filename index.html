@@ -7,46 +7,34 @@
 
 <body>
     <!--Constants-->
-    <script src="assets/js/constant.js"></script>
-    <script src="assets/js/config.js"></script>
-    <script>
+    <!-- <script src="assets/js/constant.js"></script>
+    <script src="assets/js/config.js"></script> -->
+
+    <script type="module">
+        import { getOrganisationUnits } from './assets/js/api/func.js';
+        import { getUserConfig } from './assets/js/forms/config.js';
+        import { tei } from './assets/js/constant.js';
+
         async function fetchData() {
-            debugger;
             try {
                 localStorage.clear();
-                const response = await fetch(
-                    `../../me.json?fields=id,username,organisationUnits,userGroups[id,name]`,
-                    {
-                    headers: {
-                    "Content-Type": "application/json",
-                    },
-                    }
-                );
-                const data = await response.json();
-                
-                const userConfig = userGroupConfig(data)
-                tei.disabled = userConfig.disabled;
-                window.localStorage.setItem('hideReporting', userConfig.disabledValues);
+                const user = await getUserConfig();
+                tei.disabled = user.disabled;
+                window.localStorage.setItem('hideReporting', user.hideReporting);
 
-                if (data.organisationUnits && data.organisationUnits.length > 0) {
-                    const apiOUGroup = await fetch(
-                    `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-                    {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    }
-                    );
-                    const resOUGroup = await apiOUGroup.json();
+                if (user.organisationUnits && user.organisationUnits.length > 0) {
+                    const resOUGroup = await getOrganisationUnits('mwQWyy8TGZv')
                     const orgUnitList = []
                     resOUGroup.organisationUnits.forEach(ou => {
-                    if (data.organisationUnits.some(mainOU => ou.path.includes(mainOU.id)))
+                    if (user.organisationUnits.some(mainOU => ou.path.includes(mainOU.id)))
                     orgUnitList.push(ou);
                     })
                     if (orgUnitList.length > 1) {
-                    window.location.href = '../../apps/IPPF-BPR-App/members-association.html';
+                    // window.location.href = '../../apps/IPPF-BPR-App/members-association.html';
+                    window.location.href = './members-association.html';
                     }
-                    else window.location.href = '../../apps/IPPF-BPR-App/1.1-organization-details-au.html';
+                    // else window.location.href = '../../apps/IPPF-BPR-App/1.1-organization-details-au.html';
+                    else window.location.href = './1.1-organization-details-au.html';
                 }
             } catch (error) {
                 console.error("OOPS!! Page not found.", error);

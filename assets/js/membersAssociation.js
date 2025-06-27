@@ -1,3 +1,7 @@
+import { getMeData, getOrganisationUnits } from "./api/func.js";
+import { tei } from "./constant.js";
+import { userGroupConfig } from "./forms/config.js";
+
 var orgUnitGroup = [];
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,28 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchOrganizationUnitUid() {
     try {
 
-      const response = await fetch(
-        `../../me.json?fields=id,name,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const apiOUGroup = await fetch(
-        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      const resOUGroup = await apiOUGroup.json();
+      const data = await getMeData();
+      const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
 
       orgUnitGroup = resOUGroup.organisationUnits;
 
-      const userConfig = userGroupConfig(data)
+      const userConfig = userGroupConfig(data);
       tei.disabled = userConfig.disabled;
       window.localStorage.setItem('hideReporting', userConfig.disabledValues);
     

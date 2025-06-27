@@ -1,4 +1,7 @@
-function getEvents(programs, programId, periodId) {
+import { eventApi, dataElementApi, meApi, organisationUnitGroup } from './DataApi.js';
+import { tei } from "../constant.js";
+
+export function getEvents(programs, programId, periodId) {
   var events = {};
 
   const eventList = programs.filter(
@@ -9,14 +12,14 @@ function getEvents(programs, programId, periodId) {
     list.events.forEach((event) => {
       const dataValues = {};
       dataValues['event'] = event.event;
-      event.dataValues.forEach(dv=> dataValues[dv.dataElement] = dv.value);
+      event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
       if (dataValues[periodId]) events[dataValues[periodId]] = dataValues;
     })
   );
   return events;
 }
 
-function getEventsPeriodicity(programs, programId, year,periodicity) {
+export function getEventsPeriodicity(programs, programId, year, periodicity) {
   var events = '';
 
   const eventList = programs.filter(
@@ -27,14 +30,14 @@ function getEventsPeriodicity(programs, programId, year,periodicity) {
     list.events.forEach((event) => {
       const dataValues = {};
       dataValues['event'] = event.event;
-      event.dataValues.forEach(dv=> dataValues[dv.dataElement] = dv.value);
-      if((dataValues[year.id]==year.value) && dataValues[periodicity.id]==periodicity.value) events = dataValues;
+      event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
+      if ((dataValues[year.id] == year.value) && dataValues[periodicity.id] == periodicity.value) events = dataValues;
     })
   );
   return events;
 }
 
-function getProgramStagePeriodicity(programs, programId, programStage, year,periodicity) {
+export function getProgramStagePeriodicity(programs, programId, programStage, year, periodicity) {
   var events = '';
 
   const eventList = programs.filter(
@@ -43,18 +46,18 @@ function getProgramStagePeriodicity(programs, programId, programStage, year,peri
 
   eventList.forEach(list =>
     list.events.forEach((event) => {
-        if(event.programStage==programStage) {
+      if (event.programStage == programStage) {
         const dataValues = {};
         dataValues['event'] = event.event;
-        event.dataValues.forEach(dv=> dataValues[dv.dataElement] = dv.value);
-        if((dataValues[year.id]==year.value) && dataValues[periodicity.id]==periodicity.value) events = dataValues;
+        event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
+        if ((dataValues[year.id] == year.value) && dataValues[periodicity.id] == periodicity.value) events = dataValues;
       }
     })
   );
   return events;
 }
 
-function getProgramStageEvents(programs, programStage, programId, periodId) {
+export function getProgramStageEvents(programs, programStage, programId, periodId) {
   var events = {};
 
   const eventList = programs.filter(
@@ -63,10 +66,10 @@ function getProgramStageEvents(programs, programStage, programId, periodId) {
 
   eventList.forEach(list =>
     list.events.forEach((event) => {
-      if(event.programStage==programStage) {
+      if (event.programStage == programStage) {
         const dataValues = {};
         dataValues['event'] = event.event;
-        event.dataValues.forEach(dv=> dataValues[dv.dataElement] = dv.value);
+        event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
         if (dataValues[periodId]) events[dataValues[periodId]] = dataValues;
       }
     })
@@ -74,89 +77,106 @@ function getProgramStageEvents(programs, programStage, programId, periodId) {
   return events;
 }
 
-async function pushDataElementMultipleYears(dataElement, value) {
-  for(let year = tei.year.start; year <= tei.year.end; year++) {
-   await pushDataElementYear(`${dataElement}-${year}`, value);
+export async function pushDataElementMultipleYears(dataElement, value) {
+  for (let year = tei.year.start; year <= tei.year.end; year++) {
+    await pushDataElementYear(`${dataElement}-${year}`, value);
   }
 }
 
-async function createEvent(dataElements) {
+export async function createEvent(dataElements) {
   const payload = {
     program: tei.program,
     programStage: tei.programStage,
     orgUnit: tei.orgUnit,
     trackedEntityInstance: tei.id,
-    eventDate:formatDate(new Date()),
-    status:'ACTIVE',
+    eventDate: formatDate(new Date()),
+    status: 'ACTIVE',
     dataValues: [...dataElements],
   };
-  return await events.post(payload);
+  return await eventApi.post(payload);
 }
 
-async function getSingleEvent(event) {
-  return await events.getEvent(event);
+export async function getSingleEvent(event) {
+  return await eventApi.getEvent(event);
 }
 
-async function updateEvent(event, dataValues) {
-  return await events.update(event,dataValues);
+export async function updateEvent(event, dataValues) {
+  return await eventApi.put(event, dataValues);
 }
 
 
-async function createEventOther({orgUnit,program, programStage,teiId,dataElements}) {
+export async function createEventOther({ orgUnit, program, programStage, teiId, dataElements }) {
   const payload = {
     program: program,
     programStage: programStage,
     orgUnit: orgUnit,
     trackedEntityInstance: teiId,
-    eventDate:formatDate(new Date()),
-    status:'ACTIVE',
+    eventDate: formatDate(new Date()),
+    status: 'ACTIVE',
     dataValues: [...dataElements],
   };
-  return await events.post(payload);
+  return await eventApi.post(payload);
 }
 
 
-async function pushDataElement(dataElement,value) {
+export async function pushDataElement(dataElement, value) {
   const payload = {
     program: tei.program,
     event: tei.event,
     dataValues: [{ dataElement, value }],
   };
-  return await events.put(tei.event, dataElement, payload); 
-  
+  return await dataElementApi.put(tei.event, dataElement, payload);
+
 }
 
-async function pushDataElementOther(dataElement,value, program, programStage, event) {
+export async function pushDataElementOther(dataElement, value, program, programStage, event) {
   const payload = {
     program: program,
     programStage: programStage,
     orgUnit: tei.orgUnit,
     event: event,
     trackedEntityInstance: tei.id,
-    status:'ACTIVE',
+    status: 'ACTIVE',
     dataValues: [{ dataElement, value }],
   };
-  return await events.put(event, dataElement, payload);
+  return await dataElementApi.put(event, dataElement, payload);
 }
 
-async function pushDataElementYear(id,value) {
+export async function pushDataElementYear(id, value) {
   const dataElement = id.split('-')[0];
   const year = id.split('-')[1];
-  if(year && tei.event[year]) {
+  if (year && tei.event[year]) {
     const payload = {
       program: tei.program,
       programStage: tei.programStage,
       orgUnit: tei.orgUnit,
       event: tei.event[year],
       trackedEntityInstance: tei.id,
-      status:'ACTIVE',
+      status: 'ACTIVE',
       dataValues: [{ dataElement, value }],
     };
-    return await events.put(tei.event[year], dataElement, payload);
+    return await dataElementApi.put(tei.event[year], dataElement, payload);
   }
 }
 
-function formatDate(date) {
+export async function completeEvent() {
+  const payload = {
+    program: program.projectDescription,
+    programStage: programStage.projectDescription,
+    orgUnit: tei.orgUnit,
+    trackedEntityInstance: tei.id,
+    event: tei.event,
+    status: 'COMPLETED'
+  };
+  return await eventApi.complete(payload);
+}
+
+export async function transferEvent(payload) {
+  return await eventApi.post(payload);
+}
+
+
+export function formatDate(date) {
   return [
     date.getFullYear(),
     `00${date.getMonth() + 1}`.slice(-2),
@@ -164,39 +184,37 @@ function formatDate(date) {
   ].join("-");
 }
 
-async function completeEvent() {
-    const payload = {
-        program: program.projectDescription,
-        programStage: programStage.projectDescription,
-        orgUnit: tei.orgUnit,
-        trackedEntityInstance: tei.id,
-        event: tei.event,
-        status: 'COMPLETED'
-      };
-      return await events.complete(payload);
-}
 
-async function transferEvent(payload) {
-  return await events.post(payload);
-}
-
-
-function displayValue(input) {
+export function displayValue(input) {
   if (input === null || input === undefined || input === '') {
     return "";
   }
-  
+
   let num = typeof input === "string" ? parseFloat(input) : input;
- 
+
   if (isNaN(num)) {
-      return "";
+    return "";
   }
- 
+
   if (num % 1 === 0) {
-     return num.toLocaleString();
+    return num.toLocaleString();
   } else {
     let fixedNum = num.toFixed(2);
-     return parseFloat(fixedNum).toLocaleString();
+    return parseFloat(fixedNum).toLocaleString();
   }
- }
- 
+}
+
+export async function getMeData() {
+  return await meApi.get();
+}
+
+export async function getTEI(orgUnit) {
+  return await eventApi.get(orgUnit);
+}
+
+
+export async function getOrganisationUnits(orgUnit) {
+  return await organisationUnitGroup.get(orgUnit);
+}
+
+
