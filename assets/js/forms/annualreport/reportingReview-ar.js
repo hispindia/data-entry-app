@@ -1,3 +1,8 @@
+import { createEvent, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { tei, dataElements, program, programStage } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { disableAll, getYears } from '../func.js';
+
 const maxWords = 200;
 var riskCount = 0;
 
@@ -14,12 +19,6 @@ var riskCount = 0;
   });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid()
-    });
-
-  document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
     window.localStorage.setItem("annualYearAR", ev.target.value);
@@ -34,101 +33,49 @@ var riskCount = 0;
   });
 
 
-  async function fetchOrganizationUnitUid() {
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    async function configurePage() {
+      const user = await getUserConfig();
+      tei.disabled = user.disabled;
+  
+      if (user.organisationUnits?.length) {
+        tei.orgUnit = user.organisationUnits[0].id;
+        if (user.organisationUnits[0].parent) {
+          document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
         }
-      );
-      var data; 
-      const masterOU =  window.localStorage.getItem("masterOU");
-      if(masterOU) {
-        data = {organisationUnits: [{...JSON.parse(masterOU)}]} ;
+        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+        document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
-      if(!data) {
-        data = await response.json();
-        
-        const userConfig = userGroupConfig(data);
-        // tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-      }
-
-      if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
+      ['aoc-reporting', 'trt-review'].forEach(page => {
+        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+      })
       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
         $('.aoc-users').show();
       }
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value =  data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name: '';
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-          const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-          if (fpaIndiaButton) {
-              const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-              if (fpaIndiaDiv) {
-                  fpaIndiaDiv.textContent =  data.organisationUnits[0].name;;
-              }
-          }
-
-        assignValues()
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
-    }
-  }
-
-  function assignValues() {
-    var annualReporting = window.localStorage.getItem("annualReporting");
-    if(annualReporting) document.getElementById('reporting-periodicity').value = annualReporting;
-    
+      
+      
+      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+  
+      const years = getYears(tei.year.start, tei.year.end);
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+  
     tei.program = program.reportFeedback;
     tei.programStage = programStage.arROFeedback;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-    dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
-
-    tei.year = {
-      ...tei.year,
-      start:dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
+  
+      fetchEvents();    
     }
-    
-    var yearOptions = '';
-    for(let year=tei.year.start; year <=tei.year.end; year++) {
-      if(tei.hideReportingYears.includes(year)) continue;
-      yearOptions += `<option value="${year}">${year}</option>`;
-    }
-    document.getElementById('year-update').innerHTML = yearOptions;
-    document.getElementById('year-update').options[0].selected = true;
-    var annualYear = window.localStorage.getItem("annualYearAR");
-    if(annualYear) document.getElementById('year-update').value = annualYear;
 
-  }
   async function fetchEvents(year) {
     tei.projects = [];
     riskCount = 0;
     
-    if(!year) year = document.getElementById("year-update").value;
-    dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
+    tei.year.value = document.getElementById("year-update").value;
+    tei.periodicity.value = document.getElementById("reporting-periodicity").value;
     
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -138,19 +85,16 @@ var riskCount = 0;
         (enroll) => enroll.program == tei.program 
       );
 
-      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:dataElements.year.id, value: year}, {id:dataElements.periodicity.id, value:dataElements.periodicity.value}); //data vlaues period wise
+      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:tei.year.id, value: year}, {id:tei.periodicity.id, value:tei.periodicity.value}); //data vlaues period wise
       
         if(!dataValues) {
-          if(year && dataElements.period.value && dataElements.periodicity.value) {
+          if(year && tei.periodicity.value) {
             let data = [{ 
-              dataElement: dataElements.year.id,
-              value: year
-            },{
-              dataElement: dataElements.period.id,
-              value: dataElements.period.value
+              dataElement: tei.year.id,
+              value: tei.year.value
             }, {
-              dataElement: dataElements.periodicity.id,
-              value: dataElements.periodicity.value
+              dataElement: tei.periodicity.id,
+              value: tei.periodicity.value
             }];
             tei.event = await createEvent(data);
           }
@@ -171,18 +115,10 @@ var riskCount = 0;
   function populateProgramEvents(dataValues) {
 
     
-    if(dataElements.periodicity.value=="Semi-Annual Reporting") $('.annual-reporting-display').hide();
+    if(tei.periodicity.value=="Semi-Annual Reporting") $('.annual-reporting-display').hide();
 
     //disable feilds
-    if (tei.disabled) {
-      $('.textValue').prop('disabled', true);
-
-      // Disable all radio button elements
-      $('input[type="radio"]').prop('disabled', true);
-
-      //Disable all button
-      $('button').prop('disabled', true);
-    }
+    if (tei.disabled) disableAll();
 
     document.querySelectorAll('.textValue').forEach((textVal) => {
     if(dataValues[textVal.id]) {
@@ -207,7 +143,7 @@ var riskCount = 0;
       }
     })
     selectedRatings()
-    if(dataElements.periodicity.value == "Semi-Annual Reporting") {
+    if(tei.periodicity.value == "Semi-Annual Reporting") {
      $("input[name='HOuFie6msc6']").prop("disabled", true);
      $("input[name='vacCAltV8Pp']").prop("disabled", true);
      $('#KGx5UkIS59t').val("Not relevant for HYR");
@@ -222,7 +158,7 @@ var riskCount = 0;
      $('#RIltL5QmDEP').attr('disabled', false);
     }
   }
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 
@@ -256,7 +192,7 @@ var riskCount = 0;
       
       var criticalRequirements = [];
       
-      if(dataElements.periodicity.value == "Semi-Annual Reporting") {
+      if(tei.periodicity.value == "Semi-Annual Reporting") {
         criticalRequirements = ['aXjINT5ttfR'];
       } else criticalRequirements = ['HOuFie6msc6', 'vacCAltV8Pp', 'aXjINT5ttfR'];
       
@@ -316,4 +252,86 @@ var riskCount = 0;
                       
       riskCount++;
       return projectRow;
+    }
+
+    
+$(".plus").click(function (e) {
+        e.preventDefault();
+        if(riskCount<dataElements.seriousRisk.length) {
+        const newProjectRow = `<div class="serious-risk-list">
+          <div class="form-row">
+                          <div class="form-group col-md-12 textbox-wrap mb-2">
+                            <label for="${dataElements.seriousRisk[riskCount]['name']}">
+                              Identified Risk ${riskCount+1}
+                            </label>
+                            <input type="text" class="form-control serious-risk" ${tei.disabled?'disabled': ''} oninput="pushDataElement(this.id,this.value);selectedRatings();" id="${dataElements.seriousRisk[riskCount]['name']}">                              
+                            <div class="invalid-feedback"> Error here 
+                            </div>
+                          </div>
+                        </div>
+
+								                <div class="form-row">
+                          <div class="form-group col-md-12 textbox-wrap mb-0">
+                            <label for="${dataElements.seriousRisk[riskCount]['comment']}">
+                              Comment ${riskCount+1}
+                            </label>
+                            <textarea class="form-control-resize textlimit textValue" ${tei.disabled?'disabled': ''} id="${dataElements.seriousRisk[riskCount]['comment']}" onchange="checkWords(this,'${riskCount+1}');pushDataElement(this.id,this.value);selectedRatings();" ></textarea>
+                            <div class="char-counter form-text text-muted" id="counter-serious-risk${riskCount+1}">200 words remaining</div>
+                            <div class="invalid-feedback"> Error here</div>
+                          </div>
+                        </div>
+                      </div><hr>`;
+            
+        riskCount++;
+        $(newProjectRow).insertBefore(".btn-wrap");
+        }
+      // Localize content
+      $('body').localize();
+      });
+
+      $(".minus").click(function (e) {
+        e.preventDefault();
+        if (riskCount > 1) {
+          riskCount--;
+          pushDataElement(dataElements.seriousRisk[riskCount]['name'],'');
+          pushDataElement(dataElements.seriousRisk[riskCount]['comment'],'');
+          $(".serious-risk-list").last().remove();
+          $("hr").last().remove(); // Remove the last <hr> element
+        }
+      });
+      
+    //textarea word limit
+    document.addEventListener('DOMContentLoaded', function () {
+      const textareas = document.querySelectorAll('.textlimit');
+      textareas.forEach((textarea, index) => {
+        const counter = document.getElementById(`counter${index + 1}`);
+        const updateCounter = () => {
+
+          const words = textarea.value.trim().split(/\s+/)
+
+          if (words.length >= maxWords) {
+            textarea.value = words.slice(0, maxWords).join(' ');
+            return
+          }
+
+          if (textarea.value) {
+            counter.textContent = `${(maxWords - words.length)} words remaining`;
+          } else counter.textContent = `${maxWords} words remaining`;
+        };
+        textarea.addEventListener('input', updateCounter);
+        updateCounter(); // initialize counter on page load
+      });
+    });
+     //textarea word limit
+     function checkWords(event, count) {
+      const counter = document.getElementById('counter-serious-risk' + (count));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+      
+        if (words.length >= maxWords) {
+          event.value = words.slice(0, maxWords).join(' ');
+          return
+        }
+        if(value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+        else counter.textContent = `${maxWords} words remaining`;
     }

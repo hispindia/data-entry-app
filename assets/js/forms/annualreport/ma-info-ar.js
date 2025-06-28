@@ -70,9 +70,16 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    ['aoc-reporting', 'trt-review', 'aoc-users', 'core-users'].forEach(page => {
+    ['aoc-reporting', 'trt-review'].forEach(page => {
       if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
     })
+    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(window.localStorage.getItem("hideReporting").includes('core')) {
+      $('.core-users').show();
+    }
+    
     
     if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
 
@@ -82,7 +89,6 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
 
     tei.program = program.arOrganisationDetails;
     tei.programStage = programStage.arMembershipDetails;
-    tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
     fetchEvents();    
   }
@@ -90,6 +96,7 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
   async function fetchEvents() {
     tei.projects = [];
     tei.year.value = document.getElementById("year-update").value;
+    tei.periodicity.value = document.getElementById("reporting-periodicity").value;
     const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {

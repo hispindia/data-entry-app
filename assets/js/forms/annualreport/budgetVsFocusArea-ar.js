@@ -1,3 +1,8 @@
+import { getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { tei, dataElements, program, programStage } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
+
 const maxWords = 200;
 var focusAreaList = {};
 const focusAreaTranslation = {
@@ -72,12 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
-
-  document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
       window.localStorage.setItem("annualYearAR", ev.target.value);
@@ -91,112 +90,49 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
   
-
-    async function fetchOrganizationUnitUid() {
-      try {
-        const response = await fetch(
-          `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        var data; 
-        const masterOU =  window.localStorage.getItem("masterOU");
-        if(masterOU) {
-          data = {organisationUnits: [{...JSON.parse(masterOU)}]} ;
-          tei.disabled = window.localStorage.getItem("userDisabled");
-        }
-        if(!data) {
-          data = await response.json();
-          
-          const userConfig = userGroupConfig(data);
-          tei.disabled = userConfig.disabled;
-          window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-        }
+    async function configurePage() {
+      const user = await getUserConfig();
+      tei.disabled = user.disabled;
   
-        if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-reporting').hide();
+      if (user.organisationUnits?.length) {
+        tei.orgUnit = user.organisationUnits[0].id;
+        if (user.organisationUnits[0].parent) {
+          document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
         }
-        if(window.localStorage.getItem("hideReporting").includes('trt')) {
-          $('.trt-review').hide();
-        }
-        if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-users').show();
-        }
-        if(window.localStorage.getItem("hideReporting").includes('core')) {
-          $('.core-users').show();
-        }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0]
-          .parent
-          ? data.organisationUnits[0].parent.name
-          : "";
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-
-        assignValues();
-        fetchEvents();
+        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+        document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      ['aoc-reporting', 'trt-review'].forEach(page => {
+        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+      })
+      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+        $('.aoc-users').show();
+      }
+      if(window.localStorage.getItem("hideReporting").includes('core')) {
+        $('.core-users').show();
+      }
+      
+      
+      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+  
+      const years = getYears(tei.year.start, tei.year.end);
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+  
+      tei.program = program.arProjectFocusArea;
+      tei.programStage = programStage.arProjectFocusArea;
+  
+      fetchEvents();    
     }
-  }
 
-  function assignValues() {
-
-    var annualReporting = window.localStorage.getItem("annualReporting");
-    if(annualReporting) document.getElementById('reporting-periodicity').value = annualReporting;
-
-    tei.program = program.arProjectFocusArea;
-    tei.programStage = programStage.arProjectFocusArea;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-    dataElements.periodicity.value = document.getElementById(
-      "reporting-periodicity"
-    ).value;
-
-    tei.year = {
-      ...tei.year,
-      start: dataElements.period.value.split(" - ")[0],
-      end: dataElements.period.value.split(" - ")[1],
-    };
-
-    var yearOptions = "";
-    for (let year = tei.year.start; year <= tei.year.end; year++) {
-      if(tei.hideReportingYears.includes(year)) continue;
-      yearOptions += `<option value="${year}">${year}</option>`;
-    }
-    document.getElementById("year-update").innerHTML = yearOptions;
-    document.getElementById('year-update').options[0].selected = true;
-    var annualYear = window.localStorage.getItem("annualYearAR");
-    if(annualYear) document.getElementById('year-update').value = annualYear;
-  }
   async function fetchEvents(year) {
     tei.projects = [];
     tei.dataValues={};
     focusAreaList = {};
-    if (!year) year = document.getElementById("year-update").value;
-    dataElements.periodicity.value = document.getElementById(
-      "reporting-periodicity"
-    ).value;
+    tei.year.value = document.getElementById("year-update").value;
+    tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -206,21 +142,21 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) =>
           enroll.program == program.auProjectDescription ||
           enroll.program == program.arProjectFocusArea ||
-            enroll.program == program.auProjectFocusArea ||
-            enroll.program == program.arTotalIncome
+          enroll.program == program.auProjectFocusArea ||
+          enroll.program == program.arTotalIncome
 
         );
       
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, dataElements.year.id); //data vlaues period wise
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id); //data vlaues period wise
       tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[year]);
 
-      const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value }); //data vlaues period wise
+      const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
 
       const dataValuesFA = getEvents(
         filteredPrograms,
         program.auProjectFocusArea,
-        dataElements.year.id
+        tei.year.id
       );
       if (dataValuesFA[year]) {
         dataElements.projectFocusAreaNew.forEach((project) => {
@@ -238,29 +174,25 @@ document.addEventListener("DOMContentLoaded", function () {
       const dataValues = getEventsPeriodicity(
         filteredPrograms,
         program.arProjectFocusArea,
-        { id: dataElements.year.id, value: year },
+        { id: tei.year.id, value: year },
         {
-          id: dataElements.periodicity.id,
-          value: dataElements.periodicity.value,
+          id: tei.periodicity.id,
+          value: tei.periodicity.value,
         }
       ); //data vlaues period wise
 
       if (tei.projects.length) {
         //for dataValue 2
         if (!dataValues) {
-        if(year && dataElements.period.value && dataElements.periodicity.value) {
+        if(year && tei.periodicity.value) {
           let data = [
             {
-              dataElement: dataElements.year.id,
+              dataElement: tei.year.id,
               value: year,
             },
             {
-              dataElement: dataElements.period.id,
-              value: dataElements.period.value,
-            },
-            {
-              dataElement: dataElements.periodicity.id,
-              value: dataElements.periodicity.value,
+              dataElement: tei.periodicity.id,
+              value: tei.periodicity.value,
             },
           ];
           tei.projects.forEach((project, index) => {
@@ -892,7 +824,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return projectRows;
   }
 
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function submitBudgetExpense() {
@@ -1112,3 +1044,18 @@ function calculateTotals(idx, expenseId) {
 function submitProjects() {
   alert("Data Saved Successfully!")
 }
+
+    //textarea word limit
+    function checkWords(event, count) {
+      const counter = document.getElementById('counter' + (count));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+      
+        if (words.length >= maxWords) {
+          event.value = words.slice(0, maxWords).join(' ');
+          return
+        }
+        if(value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+        else counter.textContent = `${maxWords} words remaining`;
+    }
+    
