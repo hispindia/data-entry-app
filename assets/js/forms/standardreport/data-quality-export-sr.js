@@ -1,3 +1,9 @@
+import { eventApi } from '../../api/DataApi.js';
+import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
+import { tei, dataElements, program, programStage } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
+
 var eventSource = {};
 var rowIndex = 0;
 var combinedCost = 0;
@@ -18,12 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
-
-  document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
       fetchEvents();
@@ -31,95 +31,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  async function fetchOrganizationUnitUid() {
+  async function configurePage() {
     try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const apiOUGroup = await fetch(
-        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      const resOUGroup = await apiOUGroup.json();
-
-      const userConfig = userGroupConfig(data)
-      tei.disabled = userConfig.disabled;
-      window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
+     const user = await getUserConfig();
+      tei.disabled = user.disabled;
+          
+      if (user.organisationUnits?.length) {
+        tei.orgUnit = user.organisationUnits[0].id;
+        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
+      ['aoc-reporting', 'trt-review'].forEach(page => {
+        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+      })
       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
         $('.aoc-users').show();
       }
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-
-
-        const orgUnitGroup = resOUGroup.organisationUnits;
-
-        data.organisationUnits.forEach(orgUnits => {
-          if (orgUnits.level == 1) {
-            level2OU = orgUnits.children;
-          } else if (orgUnits.level == 2) {
-            level2OU.push(orgUnits);
-          } else if (orgUnits.parent) {
-            level2OU.push(orgUnits.parent);
-          }
-        });
-        level2OU.sort((a, b) => a.name.localeCompare(b.name));
-        level2OU.forEach(headOU => {
-          headOU['children'] = [];
-          orgUnitGroup.forEach(ou => {
-            if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
-          })
-        })
-
-
-        dataElements.period.value = document.getElementById("headerPeriod").value;
-        tei.year = {
-          ...tei.year,
-          start: dataElements.period.value.split(" - ")[0],
-          end: dataElements.period.value.split(" - ")[1],
-        };
-
-        // var yearOptions = '';
-        // for(let year=tei.year.start; year <=tei.year.end; year++) {
-        //   yearOptions += `<option value="${year}">${year}</option>`;
-        // }
-        // document.getElementById('year-update').innerHTML = yearOptions;
-        document.getElementById('year-update').innerHTML = '<option value="2025" selected>2025 </option>';
-
-        fetchEvents();
-      }
+      
+      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+          
+      const years = getYears(tei.year.start, tei.year.end);
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+            
+      const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+     const orgUnitGroup = resOUGroup.organisationUnits;
+     
+     user.organisationUnits.forEach(orgUnits => {
+      if(orgUnits.level == 1) { 
+         level2OU = orgUnits.children;
+       } else if(orgUnits.level == 2) { 
+         level2OU.push(orgUnits);
+       } else if(orgUnits.parent) {
+         level2OU.push(orgUnits.parent);
+       }
+     });
+     level2OU.sort((a, b) => a.name.localeCompare(b.name));
+     level2OU.forEach(headOU => {
+       headOU['children'] = [];
+       orgUnitGroup.forEach(ou => {
+         if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
+       })
+     })
+         
+    fetchEvents();
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
@@ -138,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
-        const event = await events.get(ou.id);
+        const event = await eventApi.get(ou.id);
         if (event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program
             || enroll.program == program.auOrganisationDetails
@@ -155,22 +112,22 @@ document.addEventListener("DOMContentLoaded", function () {
             ti: {}, //total income,
             id: {} //Income by donor
           }
-          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data values year wise
+          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data values year wise
           if (dataValuesOD && dataValuesOD[year]) dataElementOUValues[ou.id]['od'] = dataValuesOD[year]
 
-          const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, dataElements.year.id) //data values year wise
+          const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, tei.year.id) //data values year wise
           if (dataValuesPB && dataValuesPB[year]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[year]
 
-          const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, dataElements.year.id) //data values year wise
+          const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
           if (dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['ec'] = dataValuesEC[year]
 
-          const dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, dataElements.year.id) //data values year wise
+          const dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, tei.year.id) //data values year wise
           if (dataValuesFA && dataValuesFA[year]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[year]
 
-          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
+          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id) //data values year wise
           if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[year]
 
-          const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, dataElements.year.id) //data values year wise
+          const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, tei.year.id) //data values year wise
           if (dataValuesID) dataElementOUValues[ou.id]['id'] = dataValuesID
         }
       }
@@ -268,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function displayValue(input) {

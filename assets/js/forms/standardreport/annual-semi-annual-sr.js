@@ -1,5 +1,7 @@
-
-
+import { getEvents, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { tei, dataElements, program, programStage, dataSetId } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -14,12 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchEvents();
-    });
-
-  document
     .getElementById("reporting-periodicity")
     .addEventListener("change", function () {
       fetchEvents();
@@ -31,83 +27,49 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("change", function (ev) {
       fetchEvents(ev.target.value)
     });
-
-
-
-  async function fetchOrganizationUnitUid() {
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-
-    tei.year = {
-      ...tei.year,
-      start: dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
-    }
-
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      var data;
-      const masterOU = window.localStorage.getItem("masterOU");
-      if (masterOU) {
-        data = { organisationUnits: [{ ...JSON.parse(masterOU) }] };
-        tei.disabled = window.localStorage.getItem("userDisabled");
-      }
-      if (!data) {
-        data = await response.json();
-        
-        const userConfig = userGroupConfig(data)
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-      }
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name : '';
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;;
+    
+        async function configurePage() {
+          const user = await getUserConfig();
+          tei.disabled = user.disabled;
+      
+          if (user.organisationUnits?.length) {
+            tei.orgUnit = user.organisationUnits[0].id;
+            if (user.organisationUnits[0].parent) {
+              document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
+            }
+            document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+            document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
           }
+          ['aoc-reporting', 'trt-review'].forEach(page => {
+            if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+          })
+          if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+            $('.aoc-users').show();
+          }
+          if(window.localStorage.getItem("hideReporting").includes('core')) {
+            $('.core-users').show();
+          }
+          
+          
+          if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+      
+          const years = getYears(tei.year.start, tei.year.end);
+          document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+          if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+      
+          tei.program = program.arOrganisationDetails;
+          tei.programStage = programStage.arMembershipDetails;
+      
+          fetchEvents();    
         }
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
-    }
-  }
+    
 
   async function fetchEvents() {
 
     const year = document.getElementById("year-update").value;
-    dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
+    tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -127,12 +89,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       var dataValuesPFA = {}, dataValuesEC = {}, dataValuesNP = {}, dataValuesOD = {}, dataValuesPD = {}, dataValuesAI = {};
-      dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, dataElements.year.id);
-      dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });
-      dataValuesNP = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arNarrativePlan, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });
-      dataValuesPFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });
-      dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });
-      dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });
+      dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
+      dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesNP = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arNarrativePlan, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesPFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
 
       populateProgramEvents({
         attributes: attributes,
@@ -198,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('body').localize();
 
   }
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function getOrganisationDetails(attr, dv) {
@@ -543,3 +505,16 @@ function checkProjects(projects, values) {
   return names;
 }
 
+    //textarea word limit
+    function checkWords(event, id) {
+      const counter = document.getElementById('counter-' + (id));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+
+      if (words.length >= maxWords) {
+        event.value = words.slice(0, maxWords).join(' ');
+        return
+      }
+      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+      else counter.textContent = `${maxWords} words remaining`;
+    }

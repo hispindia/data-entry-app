@@ -1,5 +1,11 @@
+import { eventApi } from '../../api/DataApi.js';
+import { getEvents, getOrganisationUnits, getProgramStageEvents, getTEI } from '../../api/func.js';
+import { tei, dataElements, program, programStage, dataSetId } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
 
 var regionMA = {};
+var level2OU = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -13,93 +19,52 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
-
-
-  async function fetchOrganizationUnitUid() {
+  async function configurePage() {
     try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const apiOUGroup = await fetch(
-        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      const resOUGroup = await apiOUGroup.json();
-      
-      const userConfig = userGroupConfig(data)
-      tei.disabled = userConfig.disabled;
-      window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
+     const user = await getUserConfig();
+      tei.disabled = user.disabled;
+          
+      if (user.organisationUnits?.length) {
+        tei.orgUnit = user.organisationUnits[0].id;
+        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
+      ['aoc-reporting', 'trt-review'].forEach(page => {
+        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+      })
       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
         $('.aoc-users').show();
       }
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-
-
-        const orgUnitGroup = resOUGroup.organisationUnits;
-
-        data.organisationUnits.forEach(orgUnits => {
-          if (orgUnits.level == 1) {
-            level2OU = orgUnits.children;
-          } else if (orgUnits.level == 2) {
-            level2OU.push(orgUnits);
-          } else if (orgUnits.parent) {
-            level2OU.push(orgUnits.parent);
-          }
-        });
-        level2OU.sort((a, b) => a.name.localeCompare(b.name));
-        level2OU.forEach(headOU => {
-          headOU['children'] = [];
-          orgUnitGroup.forEach(ou => {
-            if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
-          })
-        })
-
-        dataElements.period.value = document.getElementById("headerPeriod").value;
-        tei.year = {
-          ...tei.year,
-          start: dataElements.period.value.split(" - ")[0],
-          end: dataElements.period.value.split(" - ")[1],
-        };
-        fetchEvents();
-      }
+      
+      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+          
+      const years = getYears(tei.year.start, tei.year.end);
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+                
+      const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+     const orgUnitGroup = resOUGroup.organisationUnits;
+                 
+     user.organisationUnits.forEach(orgUnits => {
+      if(orgUnits.level == 1) { 
+         level2OU = orgUnits.children;
+       } else if(orgUnits.level == 2) { 
+         level2OU.push(orgUnits);
+       } else if(orgUnits.parent) {
+         level2OU.push(orgUnits.parent);
+       }
+     });
+     level2OU.sort((a, b) => a.name.localeCompare(b.name));
+     level2OU.forEach(headOU => {
+       headOU['children'] = [];
+       orgUnitGroup.forEach(ou => {
+         if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
+       })
+     })
+             
+    fetchEvents();
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
@@ -119,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
-        const event = await events.get(ou.id);
+        const event = await eventApi.get(ou.id);
 
         var attributes = {};
         if (event.trackedEntityInstances.length && event.trackedEntityInstances[0].attributes) {
@@ -128,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
-               enroll.program == program.auProjectFocusArea
+       enroll.program == program.auProjectFocusArea
             || enroll.program == program.auProjectExpenseCategory
             || enroll.program == program.auProjectBudget
             || enroll.program == program.auProjectDescription
@@ -138,16 +103,16 @@ document.addEventListener("DOMContentLoaded", function () {
             || enroll.program == program.auCommodities
           );
           
-          let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,dataElements.year.id) //data values year wise
-          let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, dataElements.year.id) //data values year wise
-          let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, dataElements.year.id) //data values year wise
-          let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data values year wise
-          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, dataElements.year.id) //data values year wise
-          let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, dataElements.year.id) //data values year wise
-          let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, dataElements.year.id) //data values year wise
-          let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, dataElements.year.id) //data values year wise
+          let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,tei.year.id) //data values year wise
+          let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, tei.year.id) //data values year wise
+          let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, tei.year.id) //data values year wise
+          let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data values year wise
+          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, tei.year.id) //data values year wise
+          let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
+          let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id) //data values year wise
+          let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, tei.year.id) //data values year wise
+          let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id) //data values year wise
+          let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id) //data values year wise
           
 
           dataValuesOU.push({
@@ -422,24 +387,24 @@ document.addEventListener("DOMContentLoaded", function () {
         if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
           pfa.focusAreas.forEach(fa => {
             var values = {
-              name: item.dataValuesPD[year][dataElements.projectDescription[index]['name']],
-              area: '',
-              pillar: '',
+      name: item.dataValuesPD[year][dataElements.projectDescription[index]['name']],
+      area: '',
+      pillar: '',
             };
-              // for(let year = tei.year.start; year<=tei.year.end; year++) {
-                if (item.dataValuesFA[year] && item.dataValuesFA[year][fa]) {
-                  const val = JSON.parse(item.dataValuesFA[year][fa]);
-                  if(!values.area) values.area = val.area;
-                  if(!values.pillar) values.pillar = val.pillar;
-                  values[year] = displayValue(val.budget);
-                } else values[year] = '';
-              // }
+      // for(let year = tei.year.start; year<=tei.year.end; year++) {
+        if (item.dataValuesFA[year] && item.dataValuesFA[year][fa]) {
+          const val = JSON.parse(item.dataValuesFA[year][fa]);
+          if(!values.area) values.area = val.area;
+          if(!values.pillar) values.pillar = val.pillar;
+          values[year] = displayValue(val.budget);
+        } else values[year] = '';
+      // }
             if(values.area) {
-              tableRow += `${rows}<td>${values.name}</td><td>${values.area}</td><td>${values.pillar}</td>`;
-              // for(let year = tei.year.start; year<=tei.year.end; year++){
-                tableRow += `<td></td><td></td><td>${formatNumberInput(values[year])}</td>`;
-              // } 
-              tableRow += '</tr>';
+      tableRow += `${rows}<td>${values.name}</td><td>${values.area}</td><td>${values.pillar}</td>`;
+      // for(let year = tei.year.start; year<=tei.year.end; year++){
+        tableRow += `<td></td><td></td><td>${formatNumberInput(values[year])}</td>`;
+      // } 
+      tableRow += '</tr>';
             }
           })
         }
@@ -561,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   }
   
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function displayValue(input) {
@@ -587,3 +552,18 @@ function colorCode(num) {
   if (Number(num) == 0) return ''
   else return 'red'
 }
+
+
+    //textarea word limit
+    function checkWords(event, id) {
+      const counter = document.getElementById('counter-' + (id));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+
+      if (words.length >= maxWords) {
+        event.value = words.slice(0, maxWords).join(' ');
+        return
+      }
+      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+      else counter.textContent = `${maxWords} words remaining`;
+    }

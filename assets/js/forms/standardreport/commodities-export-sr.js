@@ -1,3 +1,10 @@
+import { eventApi } from '../../api/DataApi.js';
+import { dataSet } from '../../api/dataSet.js';
+import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
+import { tei, dataElements, dataSetId, program, programStage } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
+
 const productList = 38;
 var eventSource = {};
 var rowIndex = 0;
@@ -18,77 +25,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
-
     document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
       fetchEvents();
     });
 
-
-
-    async function fetchOrganizationUnitUid() {
+    async function configurePage() {
       try {
-        const response = await fetch(
-          `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const apiOUGroup = await fetch(
-          `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await response.json();
-        const resOUGroup = await apiOUGroup.json();
-
-        const userConfig = userGroupConfig(data)
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-  
-        if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-reporting').hide();
-        }
-        if (window.localStorage.getItem("hideReporting").includes('trt')) {
-          $('.trt-review').hide();
-        }
-        if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-users').show();
-        }
-        if(window.localStorage.getItem("hideReporting").includes('core')) {
-          $('.core-users').show();
-        }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-        
-
+        const user = await getUserConfig();
+         tei.disabled = user.disabled;
+             
+         if (user.organisationUnits?.length) {
+           tei.orgUnit = user.organisationUnits[0].id;
+           document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+         }
+         ['aoc-reporting', 'trt-review'].forEach(page => {
+           if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+         })
+         if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+           $('.aoc-users').show();
+         }
+         if(window.localStorage.getItem("hideReporting").includes('core')) {
+           $('.core-users').show();
+         }
+         
+         if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+             
+         const years = getYears(tei.year.start, tei.year.end);
+         document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+         if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+       
+         const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
         const orgUnitGroup = resOUGroup.organisationUnits;
 
-        data.organisationUnits.forEach(orgUnits => {
-          if(orgUnits.level == 1) { 
+        user.organisationUnits.forEach(orgUnits => {
+         if(orgUnits.level == 1) { 
             level2OU = orgUnits.children;
           } else if(orgUnits.level == 2) { 
             level2OU.push(orgUnits);
@@ -104,25 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
           })
         })
     
-
-        dataElements.period.value = document.getElementById("headerPeriod").value;
         tei.program = program.auCommodities;
         tei.programStage = programStage.auCommoditiesOrder;
-        tei.year = {
-          ...tei.year,
-          start: dataElements.period.value.split(" - ")[0],
-          end: dataElements.period.value.split(" - ")[1],
-        };
-
-        // var yearOptions = '';
-        // for(let year=tei.year.start; year <=tei.year.end; year++) {
-        //   yearOptions += `<option value="${year}">${year}</option>`;
-        // }
-        // document.getElementById('year-update').innerHTML = yearOptions;
-        document.getElementById('year-update').innerHTML = '<option value="2025">2025</option>';
 
         fetchEvents();
-      }
+      
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
@@ -153,10 +111,10 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
         const dsValues = await fetchDataSet(ou.id, year);
         dataSetOUValues.push(dsValues);
-        const event = await events.fromStage(ou.id, tei.program,tei.programStage);
+        const event = await eventApi.fromStage(ou.id, tei.program,tei.programStage);
         if(event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program);
-          const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.year.id) //data vlaues period wise
+          const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
           if(dataValues && dataValues[year]) dataElementOUValues[ou.id] = dataValues[year]
         }
       }
@@ -292,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return {row, totalPrice, totalQuantityVal};
   }
 
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 

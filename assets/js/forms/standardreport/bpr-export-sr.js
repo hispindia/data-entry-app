@@ -1,5 +1,11 @@
+import { eventApi } from '../../api/DataApi.js';
+import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
+import { tei, dataElements, program, programStage } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
 
 var regionMA = {};
+var level2OU = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -13,94 +19,53 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
-
 
   async function fetchOrganizationUnitUid() {
     try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const user = await getUserConfig();
+       tei.disabled = user.disabled;
+           
+       if (user.organisationUnits?.length) {
+         tei.orgUnit = user.organisationUnits[0].id;
+         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+       }
+       ['aoc-reporting', 'trt-review'].forEach(page => {
+         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+       })
+       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+         $('.aoc-users').show();
+       }
+       if(window.localStorage.getItem("hideReporting").includes('core')) {
+         $('.core-users').show();
+       }
+       
+       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+           
+       const years = getYears(tei.year.start, tei.year.end);
+       document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+              
+       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+      const orgUnitGroup = resOUGroup.organisationUnits;
+           
+      user.organisationUnits.forEach(orgUnits => {
+       if(orgUnits.level == 1) { 
+          level2OU = orgUnits.children;
+        } else if(orgUnits.level == 2) { 
+          level2OU.push(orgUnits);
+        } else if(orgUnits.parent) {
+          level2OU.push(orgUnits.parent);
         }
-      );
-      const apiOUGroup = await fetch(
-        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      const resOUGroup = await apiOUGroup.json();
-
-      const userConfig = userGroupConfig(data)
-      tei.disabled = userConfig.disabled;
-      window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-
-
-        const orgUnitGroup = resOUGroup.organisationUnits;
-
-        data.organisationUnits.forEach(orgUnits => {
-          if (orgUnits.level == 1) {
-            level2OU = orgUnits.children;
-          } else if (orgUnits.level == 2) {
-            level2OU.push(orgUnits);
-          } else if (orgUnits.parent) {
-            level2OU.push(orgUnits.parent);
-          }
-        });
-        level2OU.sort((a, b) => a.name.localeCompare(b.name));
-        level2OU.forEach(headOU => {
-          headOU['children'] = [];
-          orgUnitGroup.forEach(ou => {
-            if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
-          })
+      });
+      level2OU.sort((a, b) => a.name.localeCompare(b.name));
+      level2OU.forEach(headOU => {
+        headOU['children'] = [];
+        orgUnitGroup.forEach(ou => {
+          if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
         })
-
-
-        dataElements.period.value = document.getElementById("headerPeriod").value;
-        tei.year = {
-          ...tei.year,
-          start: dataElements.period.value.split(" - ")[0],
-          end: dataElements.period.value.split(" - ")[1],
-        };
-        fetchEvents();
-      }
+      })
+               
+      fetchEvents();
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
@@ -120,52 +85,52 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
-        const event = await events.get(ou.id);
+        const event = await eventApi.get(ou.id);
 
         var attributes = {};
         if (event.trackedEntityInstances.length && event.trackedEntityInstances[0].attributes) {
-          event.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
+      event.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
         }
 
         if (event.trackedEntityInstances.length) {
-          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
-               enroll.program == program.auProjectFocusArea
-            || enroll.program == program.auProjectExpenseCategory
-            || enroll.program == program.auProjectBudget
-            || enroll.program == program.auProjectDescription
-            || enroll.program == program.auOrganisationDetails
-            || enroll.program == program.reportFeedback
-            || enroll.program == program.auIncomeDetails
-            || enroll.program == program.auCommodities
-          );
-          
-          let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,dataElements.year.id) //data values year wise
-          let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, dataElements.year.id) //data values year wise
-          let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, dataElements.year.id) //data values year wise
-          let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data values year wise
-          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, dataElements.year.id) //data values year wise
-          let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, dataElements.year.id) //data values year wise
-          let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, dataElements.year.id) //data values year wise
-          let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, dataElements.year.id) //data values year wise
-          let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, dataElements.year.id) //data values year wise
-          
+      const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
+           enroll.program == program.auProjectFocusArea
+        || enroll.program == program.auProjectExpenseCategory
+        || enroll.program == program.auProjectBudget
+        || enroll.program == program.auProjectDescription
+        || enroll.program == program.auOrganisationDetails
+        || enroll.program == program.reportFeedback
+        || enroll.program == program.auIncomeDetails
+        || enroll.program == program.auCommodities
+      );
+      
+      let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,tei.year.id) //data values year wise
+      let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, tei.year.id) //data values year wise
+      let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, tei.year.id) //data values year wise
+      let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data values year wise
+      let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, tei.year.id) //data values year wise
+      let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
+      let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id) //data values year wise
+      let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, tei.year.id) //data values year wise
+      let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id) //data values year wise
+      let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id) //data values year wise
+      
 
-          dataValuesOU.push({
-            orgUnit: ou.name,
-            ouId: ou.id,
-            attributes,
-            dataValuesOD,
-            dataValuesPD,
-            dataValuesPB,
-            dataValuesFA,
-            dataValuesEC,
-            dataValuesRO,
-            dataValuesTI,
-            dataValuesVC,
-            dataValuesOC,
-            dataValuesCS,
-          })
+      dataValuesOU.push({
+        orgUnit: ou.name,
+        ouId: ou.id,
+        attributes,
+        dataValuesOD,
+        dataValuesPD,
+        dataValuesPB,
+        dataValuesFA,
+        dataValuesEC,
+        dataValuesRO,
+        dataValuesTI,
+        dataValuesVC,
+        dataValuesOC,
+        dataValuesCS,
+      })
         }
       }
     }
@@ -446,6 +411,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tableHead += '</tr>';
 
     var tableRow = "";
+    var region = "";
     dataValuesOU.forEach(item => {
       level2OU.forEach(parent => parent.children.forEach(ou => {
         if (ou.name == item.orgUnit) region = parent.name
@@ -484,36 +450,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
       dataElements.projectFocusAreaNew.forEach((pfa, index) => {
         pfa.focusAreas.forEach(fa => {
-          if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-            const val = JSON.parse(item.dataValuesFA[year][fa]);
-            
-            if (val.area == '1. Care: Static Clinic') values['focusArea1'] += Number(val.budget);
-            if (val.area == '2. Care: Outreach, mobile clinic, Community-based, delivery') values['focusArea2'] += Number(val.budget);
-            if (val.area == '3. Care: Other Services, enabled or referred (associated clinics)') values['focusArea3'] += Number(val.budget);
-            if (val.area == '4. Care: Social Marketing Services') values['focusArea4'] += Number(val.budget);
-            if (val.area == '5. Care: Digital Health Intervention and Selfcare') values['focusArea5'] += Number(val.budget);
-            if (val.area == '6. Advocacy') values['focusArea6'] += Number(val.budget);
-            if (val.area == '7. CSE') values['focusArea7'] += Number(val.budget);
-            if (val.area == '8. CSE Online, including social media') values['focusArea8'] += Number(val.budget);
-            if (val.area == '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting') values['focusArea9'] += Number(val.budget);
-            if (val.area == '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles') values['focusArea10'] += Number(val.budget);
-            if (val.area == '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures') values['focusArea11'] += Number(val.budget);
+      if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
+        const val = JSON.parse(item.dataValuesFA[year][fa]);
+        
+        if (val.area == '1. Care: Static Clinic') values['focusArea1'] += Number(val.budget);
+        if (val.area == '2. Care: Outreach, mobile clinic, Community-based, delivery') values['focusArea2'] += Number(val.budget);
+        if (val.area == '3. Care: Other Services, enabled or referred (associated clinics)') values['focusArea3'] += Number(val.budget);
+        if (val.area == '4. Care: Social Marketing Services') values['focusArea4'] += Number(val.budget);
+        if (val.area == '5. Care: Digital Health Intervention and Selfcare') values['focusArea5'] += Number(val.budget);
+        if (val.area == '6. Advocacy') values['focusArea6'] += Number(val.budget);
+        if (val.area == '7. CSE') values['focusArea7'] += Number(val.budget);
+        if (val.area == '8. CSE Online, including social media') values['focusArea8'] += Number(val.budget);
+        if (val.area == '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting') values['focusArea9'] += Number(val.budget);
+        if (val.area == '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles') values['focusArea10'] += Number(val.budget);
+        if (val.area == '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures') values['focusArea11'] += Number(val.budget);
 
-            if (val.pillar == '1. Center Care on People') values['pillar1'] += Number(val.budget);
-            else if (val.pillar == '2. Move the Sexuality Agenda')values['pillar2'] += Number(val.budget);
-            else if (val.pillar == '3. Solidarity for Change') values['pillar3'] += Number(val.budget);
-            else if (val.pillar == '4. Nurture Our Federation') values['pillar4'] += Number(val.budget);
+        if (val.pillar == '1. Center Care on People') values['pillar1'] += Number(val.budget);
+        else if (val.pillar == '2. Move the Sexuality Agenda')values['pillar2'] += Number(val.budget);
+        else if (val.pillar == '3. Solidarity for Change') values['pillar3'] += Number(val.budget);
+        else if (val.pillar == '4. Nurture Our Federation') values['pillar4'] += Number(val.budget);
 
-          }
+      }
         })
       })
 
       dataElements.projectExpenseCategory.forEach((pec, index) => {
         if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) values['personnel'] +=  Number(item.dataValuesEC[year][pec.personnel]);
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) values['activities'] +=  Number(item.dataValuesEC[year][pec.activities]);
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) values['commodities'] +=  Number(item.dataValuesEC[year][pec.commodities]);
-          if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) values['cost'] +=  Number(item.dataValuesEC[year][pec.cost]);
+      if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.personnel]) values['personnel'] +=  Number(item.dataValuesEC[year][pec.personnel]);
+      if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.activities]) values['activities'] +=  Number(item.dataValuesEC[year][pec.activities]);
+      if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.commodities]) values['commodities'] +=  Number(item.dataValuesEC[year][pec.commodities]);
+      if(item.dataValuesEC[year] && item.dataValuesEC[year][pec.cost]) values['cost'] +=  Number(item.dataValuesEC[year][pec.cost]);
         }      
       })
 
@@ -795,18 +761,18 @@ document.addEventListener("DOMContentLoaded", function () {
     dataElements.projectTotalIncome.forEach(pti => {
       deList.forEach((de) => {
         if(de.code && item.dataValuesTI[year] && de.code==item.dataValuesTI[year][pti.subCategory]) {
-          if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
-          if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
-          
+      if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
+      if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
+      
         }
       })
       if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.category]) {
         if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.restricted]) {
-          values['totalIncome'] += Number(item.dataValuesTI[year][pti.restricted]);
+      values['totalIncome'] += Number(item.dataValuesTI[year][pti.restricted]);
         }
         if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.unrestricted]) {
-          values['totalIncome'] += Number(item.dataValuesTI[year][pti.unrestricted]);
-          values['ippfCore'] += Number(item.dataValuesTI[year][pti.unrestricted]);
+      values['totalIncome'] += Number(item.dataValuesTI[year][pti.unrestricted]);
+      values['ippfCore'] += Number(item.dataValuesTI[year][pti.unrestricted]);
         }
       }
     })
@@ -1066,9 +1032,9 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         var pdcount = 0;
         dataElements.projectDescription.forEach(pd => {
-          if (item.dataValuesPD[year] && item.dataValuesPD[year][pd['name']]) {
-            pdcount++;
-          }
+      if (item.dataValuesPD[year] && item.dataValuesPD[year][pd['name']]) {
+        pdcount++;
+      }
         })
         tableRow += `<td>${pdcount}</td>`;
 
@@ -1077,31 +1043,31 @@ document.addEventListener("DOMContentLoaded", function () {
         var pillar3 = 0;
         var pillar4 = 0;
         dataElements.projectFocusAreaNew.forEach((pfa, index) => {
-          var hasValue1= false;
-          var hasValue2= false;
-          var hasValue3= false;
-          var hasValue4= false;
-          pfa.focusAreas.forEach(fa => {
-            if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-              const val = JSON.parse(item.dataValuesFA[year][fa]);
-              if (val.pillar == '1. Center Care on People' && !hasValue1) {
-                hasValue1 = true
-                pillar1++;
-              }
-              else if (val.pillar == '2. Move the Sexuality Agenda'&& !hasValue2) {
-                hasValue2 = true;
-                pillar2++;
-              }
-              else if (val.pillar == '3. Solidarity for Change'&& !hasValue3) {
-                hasValue3 = true;
-                pillar3++;
-              }
-              else if (val.pillar == '4. Nurture Our Federation'&& !hasValue4) {
-                hasValue4 = true;
-                pillar4++;
-              }
-            }
-          })
+      var hasValue1= false;
+      var hasValue2= false;
+      var hasValue3= false;
+      var hasValue4= false;
+      pfa.focusAreas.forEach(fa => {
+        if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
+          const val = JSON.parse(item.dataValuesFA[year][fa]);
+          if (val.pillar == '1. Center Care on People' && !hasValue1) {
+            hasValue1 = true
+            pillar1++;
+          }
+          else if (val.pillar == '2. Move the Sexuality Agenda'&& !hasValue2) {
+            hasValue2 = true;
+            pillar2++;
+          }
+          else if (val.pillar == '3. Solidarity for Change'&& !hasValue3) {
+            hasValue3 = true;
+            pillar3++;
+          }
+          else if (val.pillar == '4. Nurture Our Federation'&& !hasValue4) {
+            hasValue4 = true;
+            pillar4++;
+          }
+        }
+      })
         })
         tableRow += `<td>${(pillar1/pdcount) && (pillar1/pdcount)!= "Infinity" ? ((pillar1/pdcount)*100).toFixed(2) : ''}</td><td>${(pillar2/pdcount) && (pillar2/pdcount)!= "Infinity" ? ((pillar2/pdcount)*100).toFixed(2) : ''}</td><td>${(pillar3/pdcount) && (pillar3/pdcount)!= "Infinity" ? ((pillar3/pdcount)*100).toFixed(2) : ''}</td><td>${(pillar4/pdcount) && (pillar4/pdcount)!= "Infinity" ? ((pillar4/pdcount)*100).toFixed(2) : ''}</td></tr>`;
     })
@@ -1281,14 +1247,14 @@ document.addEventListener("DOMContentLoaded", function () {
          if(item.dataValuesRO[year]) color = selectedRatings(item.dataValuesRO[year]);
          tableRow += `<td class="${color}"> </td>`
         } else {
-          if(item.dataValuesRO[year] && item.dataValuesRO[year][de.id]) value=item.dataValuesRO[year][de.id];
+      if(item.dataValuesRO[year] && item.dataValuesRO[year][de.id]) value=item.dataValuesRO[year][de.id];
         
-          if(value=='true') tableRow += `<td >Yes</td>`;
-          else if(value=='false') tableRow += `<td >No</td>`;
-          else if(value=="Addressed") tableRow += `<td class="color-green">Addressed</td>`;
-          else if(value=="Not Addressed") tableRow += `<td class="color-red">Not Addressed</td>`;
-          else if(value=="Not Addressed but Justified") tableRow += `<td class="color-pink">Not Addressed but Justified</td>`;
-          else tableRow += `<td>${value}</td>`
+      if(value=='true') tableRow += `<td >Yes</td>`;
+      else if(value=='false') tableRow += `<td >No</td>`;
+      else if(value=="Addressed") tableRow += `<td class="color-green">Addressed</td>`;
+      else if(value=="Not Addressed") tableRow += `<td class="color-red">Not Addressed</td>`;
+      else if(value=="Not Addressed but Justified") tableRow += `<td class="color-pink">Not Addressed but Justified</td>`;
+      else tableRow += `<td>${value}</td>`
         }
       })
       tableRow += '</tr>'
@@ -1360,3 +1326,18 @@ function colorCode(num) {
   if (Number(num) == 0) return ''
   else return 'red'
 }
+
+
+    //textarea word limit
+    function checkWords(event, id) {
+      const counter = document.getElementById('counter-' + (id));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+
+      if (words.length >= maxWords) {
+        event.value = words.slice(0, maxWords).join(' ');
+        return
+      }
+      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+      else counter.textContent = `${maxWords} words remaining`;
+    }

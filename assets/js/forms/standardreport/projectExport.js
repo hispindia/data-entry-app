@@ -1,5 +1,8 @@
-
-
+import { dataSet } from '../../api/dataSet.js';
+import { getEvents, getProgramStageEvents, getTEI } from '../../api/func.js';
+import { tei, dataElements, program, programStage, dataSetId } from '../../constant.js';
+import { getUserConfig } from '../config.js';
+import { formatNumberInput, getYears } from '../func.js';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -14,100 +17,51 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchEvents();
-    });
-
-  document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
     fetchEvents(ev.target.value) 
   });
 
-
-
-  async function fetchOrganizationUnitUid() {
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-
-    tei.year = {
-      ...tei.year,
-      start:dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
-    }
-
-    var yearOptions = '';
-    for(let year=tei.year.start; year <=tei.year.end; year++) {
-      if(year==tei.year.end)  yearOptions += `<option selected value="${year}">${year}</option>`;
-      else yearOptions += `<option value="${year}">${year}</option>`;
-    }
-    document.getElementById('year-update').innerHTML = yearOptions;
-
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    async function configurePage() {
+      const user = await getUserConfig();
+      tei.disabled = user.disabled;
+  
+      if (user.organisationUnits?.length) {
+        tei.orgUnit = user.organisationUnits[0].id;
+        if (user.organisationUnits[0].parent) {
+          document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
         }
-      );
-      var data;
-      const masterOU = window.localStorage.getItem("masterOU");
-      if (masterOU) {
-        data = { organisationUnits: [{ ...JSON.parse(masterOU) }] };
-        tei.disabled = window.localStorage.getItem("userDisabled");
+        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+        document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
-      if(!data) {
-        data = await response.json();
-
-        const userConfig = userGroupConfig(data)
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-      }
-
-      if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
+      ['aoc-reporting', 'trt-review'].forEach(page => {
+        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+      })
       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
         $('.aoc-users').show();
       }
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name : '';
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;;
-          }
-        }
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      
+      
+      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+  
+      const years = getYears(tei.year.start, tei.year.end);
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+  
+      tei.program = program.arOrganisationDetails;
+      tei.programStage = programStage.arMembershipDetails;
+  
+      fetchEvents();    
     }
-  }
 
   async function fetchEvents() {
-
+    
     const year = document.getElementById("year-update").value;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
 
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
     const dataSet = await fetchDataSet(year);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -123,36 +77,36 @@ document.addEventListener("DOMContentLoaded", function () {
           data.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
         }
   
-        var dataValuesPD,dataValuesPB,dataValuesPFA, dataValuesEC, dataValuesID, dataValuesCF, dataValuesTI, dataValuesNP, dataValuesOD, dataValuesOC = {};
+        var dataValuesPD,dataValuesPB,dataValuesPFA, dataValuesEC, dataValuesID, dataValuesCF, dataValuesTI, dataValuesNP, dataValuesOD, dataValuesCS, dataValuesOC = {};
         if(year==tei.year.start) {
 
-          dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.membershipDetails, program.organisationDetails, dataElements.period.id) //data vlaues year wise
+          dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.membershipDetails, program.organisationDetails, tei.period.id) //data vlaues year wise
           if(dataValuesOD[`${tei.year.start} - ${tei.year.end}`]) dataValuesOD[tei.year.start] = dataValuesOD[`${tei.year.start} - ${tei.year.end}`];
           
-          dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.narrativePlan, program.organisationDetails, dataElements.period.id) //data vlaues year wise
+          dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.narrativePlan, program.organisationDetails, tei.period.id) //data vlaues year wise
           if(dataValuesNP[`${tei.year.start} - ${tei.year.end}`]) dataValuesNP[tei.year.start] = dataValuesNP[`${tei.year.start} - ${tei.year.end}`];
-           dataValuesPD = getEvents(filteredPrograms, program.projectDescription, dataElements.period.id);
-           if(dataValuesPD[dataElements.period.value]) dataValuesPD[year] = dataValuesPD[dataElements.period.value];
-           dataValuesPB = getEvents(filteredPrograms, program.projectBudget, dataElements.year.id);
-           dataValuesPFA = getEvents(filteredPrograms, program.projectFocusArea, dataElements.year.id);
-           dataValuesEC = getEvents(filteredPrograms, program.projectExpenseCategory, dataElements.year.id);
-           dataValuesID = getProgramStageEvents(filteredPrograms, programStage.incomeByDonor, program.incomeDetails, dataElements.year.id);
-           dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.valueAddCoreFunding, program.incomeDetails, dataElements.year.id);
-           dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.totalIncome, program.incomeDetails, dataElements.year.id);
-           dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, dataElements.year.id);
-           dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, dataElements.year.id);
+           dataValuesPD = getEvents(filteredPrograms, program.projectDescription, tei.period.id);
+           if(dataValuesPD[tei.period.value]) dataValuesPD[year] = dataValuesPD[tei.period.value];
+           dataValuesPB = getEvents(filteredPrograms, program.projectBudget, tei.year.id);
+           dataValuesPFA = getEvents(filteredPrograms, program.projectFocusArea, tei.year.id);
+           dataValuesEC = getEvents(filteredPrograms, program.projectExpenseCategory, tei.year.id);
+           dataValuesID = getProgramStageEvents(filteredPrograms, programStage.incomeByDonor, program.incomeDetails, tei.year.id);
+           dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.valueAddCoreFunding, program.incomeDetails, tei.year.id);
+           dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.totalIncome, program.incomeDetails, tei.year.id);
+           dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id);
+           dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id);
         } else {
-          dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.year.id) //data vlaues year wise
-          dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, dataElements.year.id) //data vlaues year wise
-          dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, dataElements.year.id);
-          dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, dataElements.year.id);
-          dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, dataElements.year.id);
-          dataValuesEC = getEvents(filteredPrograms, program.auProjectExpenseCategory, dataElements.year.id);
-          dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, dataElements.year.id);
-          dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, dataElements.year.id);
-          dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id);
-          dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, dataElements.year.id);
-          dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, dataElements.year.id);
+          dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data vlaues year wise
+          dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, tei.year.id) //data vlaues year wise
+          dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
+          dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, tei.year.id);
+          dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, tei.year.id);
+          dataValuesEC = getEvents(filteredPrograms, program.auProjectExpenseCategory, tei.year.id);
+          dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, tei.year.id);
+          dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, tei.year.id);
+          dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id);
+          dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id);
+          dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id);
         }
 
       populateProgramEvents({
@@ -270,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('body').localize();
 
   }
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function getOrganisationDetails(attr, dv) {
@@ -787,3 +741,19 @@ async function fetchDataSet(year) {
     values
   }
 }
+
+   
+
+    //textarea word limit
+    function checkWords(event, id) {
+      const counter = document.getElementById('counter-' + (id));
+      const { value } = event;
+      const words = value.trim().split(/\s+/)
+
+      if (words.length >= maxWords) {
+        event.value = words.slice(0, maxWords).join(' ');
+        return
+      }
+      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+      else counter.textContent = `${maxWords} words remaining`;
+    }
