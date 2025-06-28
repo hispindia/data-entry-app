@@ -1,3 +1,8 @@
+import { getEvents, getProgramStageEvents, getTEI, pushDataElementYear } from "../../api/func.js";
+import { dataElements, program, programStage, tei } from "../../constant.js";
+import { getUserConfig } from "../config.js";
+import { formatNumberInput, getYears } from "../func.js";
+
 const maxWords = 300;
 var donorCount = 0;
 
@@ -13,117 +18,52 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
 
  
     document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
-      tei.disabledYear = {};
-      for(let year=tei.year.start; year <=tei.year.end; year++) {
-        if(year<ev.target.value)  tei.disabledYear[year] = true;
-      }
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents()
     });
 
-    async function fetchOrganizationUnitUid() {
-      try {
-        const response = await fetch(
-          `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        var data; 
-        const masterOU =  window.localStorage.getItem("masterOU");
-        if(masterOU) {
-          data = {organisationUnits: [{...JSON.parse(masterOU)}]} ;
-          tei.disabled = window.localStorage.getItem("userDisabled");
-        }
-        if(!data) {
-          data = await response.json();
+ async function configurePage() {
+    const user = await getUserConfig();
+    tei.disabled = user.disabled;
 
-          const userConfig = userGroupConfig(data)
-          tei.disabled = userConfig.disabled;
-          window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-        }
-  
-        if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-reporting').hide();
-        }
-        if(window.localStorage.getItem("hideReporting").includes('trt')) {
-          $('.trt-review').hide();
-        }
-        if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-users').show();
-        }
-        if(window.localStorage.getItem("hideReporting").includes('core')) {
-          $('.core-users').show();
-        }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-
-        document.getElementById("headerOrgId").value = data.organisationUnits[0]
-          .parent
-          ? data.organisationUnits[0].parent.name
-          : "";
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-        assignValues();
-        fetchEvents();
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-  }
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!user.hideReporting.includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(user.hideReporting.includes('core')) {
+      $('.core-users').show();
+    }
 
-  function assignValues() {
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+
     tei.program = program.auIncomeDetails;
     tei.programStage = programStage.auValueAddCoreFunding;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-    tei.year = {
-      ...tei.year,
-      start: dataElements.period.value.split(" - ")[0],
-      end: dataElements.period.value.split(" - ")[1],
-    };
 
-    var yearOptions = '';
-    tei.disabledYear = {};
-    var annualYear = window.localStorage.getItem("annualYear");
-    for(let year=tei.year.start; year <=tei.year.end; year++) {
-      if(tei.hideYears.includes(year))  tei.disabledYear[year] = true;
-      if(tei.hideYears.includes(year)) continue;
-      yearOptions += `<option value="${year}">${year}</option>`;
-    }
-    document.getElementById('year-update').innerHTML = yearOptions;
-    document.getElementById('year-update').options[0].selected = true;
-    if(annualYear) document.getElementById('year-update').value = annualYear;
+    fetchEvents();    
   }
 
   async function fetchEvents() {
-    const selectedYear = document.getElementById('year-update').value;
+    tei.year.value = document.getElementById('year-update').value;
     
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -133,27 +73,22 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program|| enroll.program==program.auProjectDescription 
           );
     
-          const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  dataElements.year.id);
-          if(dataValuesPD[selectedYear] && dataValuesPD[selectedYear][dataElements.submitAnnualUpdate])  tei.disabled = true;
+          const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
+          if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
     
 
-      tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.year.id) //data vlaues period wise
+      tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
       for (let year = tei.year.start; year <= tei.year.end; year++) {
         if (!tei.dataValues[year]) {
           const data = [
             {
-              dataElement: dataElements.year.id,
+              dataElement: tei.year.id,
               value: year,
-            },
-            {
-              dataElement: dataElements.period.id,
-              value: dataElements.period.value,
             },
           ];
 
           tei.dataValues[year] = {
-            [dataElements.year.id]:year,
-            [dataElements.period.id]: dataElements.period.value,
+            [tei.year.id]:year,
           }
           tei.event = {
             ...tei.event,
@@ -286,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return row;
   }
 
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function checkDonors(donors, values, period) {
@@ -317,3 +252,54 @@ function changeTotals(year) {
 function submitProjects() {
 alert("Data Saved Successfully!")
 }
+$(".plus").click(function (e) {
+            e.preventDefault();
+            var projectRows = `<tr><td><input type="text" value="" id='${dataElements.valuesCoreFunding.donors[donorCount].name}' oninput="pushDataElementMultipleYears(this.id,this.value)" class="form-control"></td>`;
+            for (let year = tei.year.start; year <= tei.year.end; year++) {
+                projectRows += `<td>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                    $
+                    </div>
+                  </div>
+                    <input type="number" value="" ${tei.disabledYear[year] ? 'disabled':''} id='${dataElements.valuesCoreFunding.donors[donorCount].amountLocked}-${year}' oninput="formatNumberInput(this);pushDataElementYear(this.id, unformatNumber(this.value)); changeTotals('${year}')"  class="form-control input-${year} currency">
+                </div>
+                </td>`;
+            }
+            projectRows += '</tr>'
+
+            donorCount++;
+            $("#donor-details").append(projectRows);
+      // Localize content
+      $('body').localize();
+        });
+
+        $(".minus").click(function (e) {
+            e.preventDefault();
+            
+            if (donorCount > 1) {
+                donorCount--;
+                const incomeByDonor = dataElements.valuesCoreFunding.donors[donorCount];
+                $("#donor-details tr:last").remove();
+                for (let year = tei.year.start; year <= tei.year.end; year++) {
+                pushDataElementYear(`${incomeByDonor.name}-${year}`, '');
+                pushDataElementYear(`${incomeByDonor.amountLocked}-${year}`, '');
+                changeTotals(year);
+                }
+            }
+        });
+        
+        //textarea word limit
+        function checkWords(event, count) {
+            const counter = document.getElementById('counter' + (count));
+            const { value } = event;
+            const words = value.trim().split(/\s+/)
+
+            if (words.length >= maxWords) {
+                event.value = words.slice(0, maxWords).join(' ');
+                return
+            }
+            if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+            else counter.textContent = `${maxWords} words remaining`;
+        }

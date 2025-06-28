@@ -1,22 +1,21 @@
+import BaseApi from "./BaseApi.js";
 
-const dataSet = {
+const baseUrl = 'https://links.hispindia.org/ippf_co/api';
+
+export const dataSet = {
   getElements: async (dataSetId) => {
-    const url = `../../dataSets/${dataSetId}.json?fields=sections[name,dataElements[id,name,code,description]`;
+    const url = `${baseUrl}/dataSets/${dataSetId}.json?fields=sections[name,dataElements[id,name,code,description]`;
     try {
-      const response = await fetch(url, { headers: {
-        "Content-Type": "application/json",
-      }});
+      const response = await BaseApi({url, method:"GET"});
       return response.json();
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   },
   getValues:async (dataSetId, orgUnit, period) => {
-    const url = `../../dataValueSets.json?dataSet=${dataSetId}&orgUnit=${orgUnit}&period=${period}`;
+    const url = `${baseUrl}/dataValueSets.json?dataSet=${dataSetId}&orgUnit=${orgUnit}&period=${period}`;
     try {
-      const response = await fetch(url, { headers: {
-        "Content-Type": "application/json",
-      } });
+      const response = await BaseApi({url, method:"GET"});
       return response.json();
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -33,7 +32,7 @@ const dataSet = {
   }
   try {
   $.ajax( {
-		url: '../../dataValues',
+		url: `${baseUrl}/dataValues`,
 		data: dataValue,
 		type: 'post',
 		success: handleSuccess,

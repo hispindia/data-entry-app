@@ -1,3 +1,9 @@
+import { dataSet } from "../../api/dataSet.js";
+import { createEvent, getEvents, getOrganisationUnits, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { dataElements, dataSetId, program, programStage, tei } from "../../constant.js";
+import { getUserConfig } from "../config.js";
+import { formatNumberInput, getYears } from "../func.js";
+
 const productList = 38;
 var eventSource = {};
 var rowIndex = 0;
@@ -24,12 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid();
-    });
-
     document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
@@ -37,91 +37,39 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
 
+ async function configurePage() {
+    const user = await getUserConfig();
+    tei.disabled = user.disabled;
 
-
-    async function fetchOrganizationUnitUid() {
-      try {
-        const response = await fetch(
-          `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        var data; 
-        const masterOU =  window.localStorage.getItem("masterOU");
-        if(masterOU) {
-          data = {organisationUnits: [{...JSON.parse(masterOU)}]} ;
-          tei.disabled = window.localStorage.getItem("userDisabled");
-        }
-        if(!data) {
-          data = await response.json();
-
-          const userConfig = userGroupConfig(data)
-          tei.disabled = userConfig.disabled;
-          window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-        }
-  
-        if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-reporting').hide();
-        }
-        if(window.localStorage.getItem("hideReporting").includes('trt')) {
-          $('.trt-review').hide();
-        }
-        if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-          $('.aoc-users').show();
-        }
-        if(window.localStorage.getItem("hideReporting").includes('core')) {
-          $('.core-users').show();
-        }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0]
-          .parent
-          ? data.organisationUnits[0].parent.name
-          : "";
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-
-        dataElements.period.value = document.getElementById("headerPeriod").value;
-        tei.program = program.auCommodities;
-        tei.programStage = programStage.auCommoditiesOrder;
-        tei.year = {
-          ...tei.year,
-          start: dataElements.period.value.split(" - ")[0],
-          end: dataElements.period.value.split(" - ")[1],
-        };
-
-        var yearOptions = '';
-        var annualYear = window.localStorage.getItem("annualYear");
-        for(let year=tei.year.start; year <=tei.year.end; year++) {
-          if(tei.hideYears.includes(year)) continue;
-          yearOptions += `<option value="${year}">${year}</option>`;
-        }
-        document.getElementById('year-update').innerHTML = yearOptions;
-        document.getElementById('year-update').options[0].selected = true;
-        if(annualYear) document.getElementById('year-update').value = annualYear;
-
-        fetchEvents();
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!user.hideReporting.includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(user.hideReporting.includes('core')) {
+      $('.core-users').show();
+    }
+
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+
+    tei.program = program.auCommodities;
+    tei.programStage = programStage.auCommoditiesOrder;
+
+    fetchEvents();    
   }
+
   async function fetchDataSet(year) {
     const values = {};
     const dataSetElements = await dataSet.getElements(dataSetId);
@@ -154,10 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(dataSet.values[dataElements.freightCost2]) freightCostT2 = Number(dataSet.values[dataElements.freightCost2]);
     if(dataSet.values[dataElements.freightCost3]) freightCostT3 = Number(dataSet.values[dataElements.freightCost3]);
 
-    const LMI =  await (await fetch(`../../organisationUnitGroups/Mh2lrJ4GFnH.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
-    const UMI = await (await fetch(`../../organisationUnitGroups/klrSsDD70QO.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
-    const LI = await (await fetch(`../../organisationUnitGroups/zOKTFwOLhmJ.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
-    const HI = await (await fetch(`../../organisationUnitGroups/r1b22jJ6JaG.json?fields=d,name,description,organisationUnits[id,name`,{headers: {"Content-Type": "application/json"}})).json();
+    const LMI =  await getOrganisationUnits('Mh2lrJ4GFnH');
+    const UMI = await getOrganisationUnits('klrSsDD70QO');
+    const LI = await getOrganisationUnits('zOKTFwOLhmJ');
+    const HI = await getOrganisationUnits('r1b22jJ6JaG');
 
     var productCodeIds = '';
     LMI.organisationUnits.forEach(ou => {
@@ -173,42 +121,36 @@ document.addEventListener("DOMContentLoaded", function () {
       if(tei.orgUnit==ou.id) productCodeIds += HI.description
     });
     
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
     
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
 
-      annualReportTEI = data.trackedEntityInstances[0];
       const filteredPrograms =
         data.trackedEntityInstances[0].enrollments.filter(
           (enroll) => enroll.program == tei.program || enroll.program==program.auOrganisationDetails || enroll.program==program.auProjectDescription 
         );
 
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  dataElements.year.id);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
       if(dataValuesPD[year] && dataValuesPD[year][dataElements.submitAnnualUpdate])  tei.disabled = true;
 
-    const dataValuesMD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, dataElements.period.id);
-    if(dataValuesMD && dataValuesMD[dataElements.period.value] && dataValuesMD[dataElements.period.value][dataElements.yearlyAmount[yearIndex]]) {
-      unrestrictedCost = dataValuesMD[dataElements.period.value][dataElements.yearlyAmount[yearIndex]] ? dataValuesMD[dataElements.period.value][dataElements.yearlyAmount[yearIndex]] : 0;
+    const dataValuesMD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id);
+    if(dataValuesMD && dataValuesMD[tei.year.value] && dataValuesMD[tei.year.value][dataElements.yearlyAmount[yearIndex]]) {
+      unrestrictedCost = dataValuesMD[tei.year.value][dataElements.yearlyAmount[yearIndex]] ? dataValuesMD[tei.year.value][dataElements.yearlyAmount[yearIndex]] : 0;
     } 
-    const dataValueSC =  getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, tei.program,dataElements.year.id) //data vlaues period wise
+    const dataValueSC =  getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, tei.program,tei.year.id) //data vlaues period wise
     
-    const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,dataElements.year.id) //data vlaues period wise
+    const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
    
     if (!dataValues[year]) {
           const data = [
             {
-              dataElement: dataElements.year.id,
+              dataElement: tei.year.id,
               value: year,
-            },
-            {
-              dataElement: dataElements.period.id,
-              value: dataElements.period.value,
-            },
+            }
           ];
           dataValues[year] = {
-            [dataElements.year.id]:year,
-            [dataElements.period.id]: dataElements.period.value,
+            [tei.year.id]:year,
           }
           tei.event = await createEvent(data)
         } else {
@@ -219,13 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           const data = [
             {
-              dataElement: dataElements.year.id,
+              dataElement: tei.year.id,
               value: year,
-            },
-            {
-              dataElement: dataElements.period.id,
-              value: dataElements.period.value,
-            },
+            }
           ];
 
           eventSource[year] = await createEventOther({
@@ -437,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return row;
   }
 
-  fetchOrganizationUnitUid();
+  configurePage();
 });
 
 function calculateFreightCost(cost) {
