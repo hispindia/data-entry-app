@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="invalid-feedback"> Error here </div>`
     document.getElementById('comments').innerHTML = description;
 
-    var projectRows = `<thead><tr><th data-i18n="intro.donor_details">Donor Details</th><th>${tei.year.value}</th>`;
+    var projectRows = `<thead><tr><th data-i18n="intro.donor_details">Donor Details</th><th style="text-align:center">${tei.year.value}</th>`;
     projectRows += `</thead><tbody id="donor-details">`;
 
     const donors =  checkDonors(dataElements.valuesCoreFunding.donors, dataValues);
@@ -177,13 +177,15 @@ document.addEventListener("DOMContentLoaded", function () {
         donorCount++; 
       });
 
-      if(donors.length < dataElements.valuesCoreFunding.length) {
+      for(let rowAdd = 0; rowAdd <10-donors.length; rowAdd++)  {
       projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues);
       donorCount++; 
-    }
+      }
     } else {
+      for(let rowAdd = 0; rowAdd <10; rowAdd++)  {
       projectRows += addRow(dataElements.valuesCoreFunding.donors[0], dataValues);
       donorCount++; 
+      }
     }
     projectRows += '</tbody>'
     return projectRows;

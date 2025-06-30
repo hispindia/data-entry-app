@@ -465,6 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
       projectRows += `</div></div>
                       </div>
                       </div>
+                      </div>
                     <!--- sect ${index + 1} --->`;
     });
 

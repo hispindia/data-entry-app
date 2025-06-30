@@ -240,8 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div class="invalid-feedback"> Error here </div>
     </div>
-</div>
-                <hr>
+</div><hr>
             `;
 
     projectCount++;

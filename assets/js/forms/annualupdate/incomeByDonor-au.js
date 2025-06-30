@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function displayProjectDetails(dataValues, period) {
     var projectRows = `<thead><tr>
     <th data-i18n="intro.donor_name">Donor name</th>
-    <th>${tei.year.value}</th>
+    <th style="text-align:center">${tei.year.value}</th>
     <th data-i18n="intro.grant_description">Brief description of the grant, or notes on its likelihood of success (max 50 words)
     </th>
     </thead>
@@ -159,9 +159,15 @@ document.addEventListener("DOMContentLoaded", function () {
         projectRows += addRow(dataElements.incomeByDonor[donorCount], dataValues);
         donorCount++; 
       }
+      for(let rowAdd = 0; rowAdd <10-donors.length; rowAdd++)  {
+        addRow(dataElements.incomeByDonor[0], dataValues);
+        donorCount++; 
+      }
     } else {
-      projectRows += addRow(dataElements.incomeByDonor[0], dataValues);
-      donorCount++; 
+      for(let rowAdd = 0; rowAdd <10; rowAdd++)  {
+        projectRows += addRow(dataElements.incomeByDonor[0], dataValues);
+        donorCount++; 
+      }
     }
     projectRows += '</tbody>'
     return projectRows;
