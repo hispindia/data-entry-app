@@ -78,30 +78,29 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
       tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
-        if (!tei.dataValues[year]) {
+
+        if (!tei.dataValues[tei.year.value]) {
           const data = [
             {
               dataElement: tei.year.id,
-              value: year,
+              value: tei.year.value,
             },
           ];
 
-          tei.dataValues[year] = {
-            [tei.year.id]:year,
+          tei.dataValues[tei.year.value] = {
+            [tei.year.id]:tei.year.value,
           }
           tei.event = {
             ...tei.event,
-           [year]: await createEvent(data)
+           [tei.year.value]: await createEvent(data)
           }
         } else {
           tei.event = {
             ...tei.event,
-            [year]: tei.dataValues[year]["event"],
+            [tei.year.value]: tei.dataValues[tei.year.value]["event"],
           };
         }
-      }
-      populateProgramEvents(tei.dataValues);
+      populateProgramEvents(tei.dataValues[tei.year.value]);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -110,17 +109,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
     donorCount = 0;
-    const period = {
-      start: tei.year.start,
-      end: tei.year.end,
-    };
 
     $("#values-coreFunding").empty();
 
-    let projectRows = displayProjectDetails(dataValues, period);
+    let projectRows = displayProjectDetails(dataValues);
     $("#values-coreFunding").append(projectRows);
 
-    var totalsRow = displayTotals(dataValues, period);
+    var totalsRow = displayTotals(dataValues);
     $("#totals").empty();
     $("#totals").append(totalsRow);
     
@@ -128,37 +123,33 @@ document.addEventListener("DOMContentLoaded", function () {
       $('body').localize();
   }
 
-  function displayTotals(dataValues, period) {
-    var totalsRow = ` <thead><tr><th></th>`;
-    for (let year = period.start; year <= period.end; year++) {
-      totalsRow += `<th>${year}</th>`;
-    }
-    totalsRow += `</thead><tbody><tr><td><strong data-i18n="intro.amount_unlockaed">Amount Unlocked</strong></td>`;
-    for (let year = period.start; year <= period.end; year++) {
-      const amountsUnlocked =
-        dataValues[year] && dataValues[year][dataElements.amountsUnlocked]
-          ?  Number(dataValues[year][dataElements.amountsUnlocked])
-          : "";
-      totalsRow += `<td>
+  function displayTotals(dataValues) {
+    const amountsUnlocked =dataValues[dataElements.amountsUnlocked]
+          ?  Number(dataValues[dataElements.amountsUnlocked]) : "";
+    var totalsRow = ` <tbody>
+    <tr>
+      <td>
+        <strong data-i18n="intro.amount_unlocked">Amount Unlocked</strong>
+      </td>
+    <td>
       <div class="input-group">
         <div class="input-group-prepend">
           <div class="input-group-text">
               $
           </div>
         </div>
-          <input type="text" value="${formatNumberInput(amountsUnlocked)}" id="${dataElements.amountsUnlocked}-${year}" class="form-control totalBudget-${year} currency" disabled>
+          <input type="text" value="${formatNumberInput(amountsUnlocked)}" id="${dataElements.amountsUnlocked}" class="form-control totalBudget currency" disabled>
       </div>
-      </td>`;
-    }
+    </td>`;
     totalsRow += `</tr></tbody>`;
 
     return totalsRow;
   }
-  function displayProjectDetails(dataValues, period) {
+  function displayProjectDetails(dataValues) {
 
     var comments = '';
-    if(dataValues[period.start] && dataValues[period.start][dataElements.valuesCoreFunding.comments]) {
-      comments = dataValues[period.start][dataElements.valuesCoreFunding.comments];
+    if(dataValues[dataElements.valuesCoreFunding.comments]) {
+      comments = dataValues[dataElements.valuesCoreFunding.comments];
     }
     var description = `
     <label for="${dataElements.valuesCoreFunding.comments}" data-i18n="intro.value_add_title">
@@ -176,47 +167,44 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="invalid-feedback"> Error here </div>`
     document.getElementById('comments').innerHTML = description;
 
-    var projectRows = `<thead><tr><th data-i18n="intro.donor_details">Donor Details</th>`;
-    for (let year = period.start; year <= period.end; year++) {
-      projectRows += `<th>${year}</th>`;
-    }
+    var projectRows = `<thead><tr><th data-i18n="intro.donor_details">Donor Details</th><th>${tei.year.value}</th>`;
     projectRows += `</thead><tbody id="donor-details">`;
 
-    const donors =  checkDonors(dataElements.valuesCoreFunding.donors, dataValues, period);
+    const donors =  checkDonors(dataElements.valuesCoreFunding.donors, dataValues);
     if(donors.length) {
       donors.forEach((_,index) => {
-        projectRows += addRow(dataElements.valuesCoreFunding.donors[index], dataValues, period);
+        projectRows += addRow(dataElements.valuesCoreFunding.donors[index], dataValues);
         donorCount++; 
       });
 
       if(donors.length < dataElements.valuesCoreFunding.length) {
-      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues, period);
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues);
       donorCount++; 
     }
     } else {
-      projectRows += addRow(dataElements.valuesCoreFunding.donors[0], dataValues, period);
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[0], dataValues);
       donorCount++; 
     }
     projectRows += '</tbody>'
     return projectRows;
   }
-  function addRow(donor, dataValues, period) {
-    var row = `<tr><td><input type="text" value="${dataValues[period.start] && dataValues[period.start][donor.name]? dataValues[period.start][donor.name]: ""}"  id="${donor.name}" oninput="pushDataElementMultipleYears(this.id,this.value)" class="form-control"></td>`;
-    for (let year = period.start; year <= period.end; year++) {
-      const amountLocked =
-        dataValues[year] && dataValues[year][donor.amountLocked]
-          ? dataValues[year][donor.amountLocked]: "";
-      row += `<td>
+  function addRow(donor, dataValues) {
+    const amountLocked = dataValues && dataValues[donor.amountLocked]
+          ? dataValues[donor.amountLocked]: "";
+    var row = `<tr>
+    <td>
+    <input type="text" value="${dataValues && dataValues[donor.name]? dataValues[donor.name]: ""}"  id="${donor.name}" oninput="pushDataElementMultipleYears(this.id,this.value)" class="form-control">
+    </td>
+    <td>
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">
                 $
             </div>
           </div>
-            <input type="text" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled':''}  value="${formatNumberInput(amountLocked)}" id="${donor.amountLocked}-${year}"  oninput="formatNumberInput(this);pushDataElementYear(this.id, unformatNumber(this.value)); changeTotals('${year}')" class="form-control  input-${year}  currency">
+            <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${formatNumberInput(amountLocked)}" id="${donor.amountLocked}"  oninput="formatNumberInput(this);pushDataElementYear(this.id, unformatNumber(this.value)); changeTotals('')" class="form-control  input currency">
         </div>
         </td>`;
-    }
     row += '</tr>'
     return row;
   }
@@ -229,8 +217,8 @@ function checkDonors(donors, values, period) {
   var names= [];
   if(values) {
     donors.forEach(donor => {
-      if(values[period.start] && values[period.start][donor.name]) {
-        names = [...names, ...prevEmptyNames, values[period.start][donor.name]];
+      if(values && values[donor.name]) {
+        names = [...names, ...prevEmptyNames, values[donor.name]];
         prevEmptyNames = [];
       } else {
         prevEmptyNames.push('');
@@ -255,7 +243,6 @@ alert("Data Saved Successfully!")
 $(".plus").click(function (e) {
             e.preventDefault();
             var projectRows = `<tr><td><input type="text" value="" id='${dataElements.valuesCoreFunding.donors[donorCount].name}' oninput="pushDataElementMultipleYears(this.id,this.value)" class="form-control"></td>`;
-            for (let year = tei.year.start; year <= tei.year.end; year++) {
                 projectRows += `<td>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -263,11 +250,9 @@ $(".plus").click(function (e) {
                     $
                     </div>
                   </div>
-                    <input type="number" value="" ${tei.disabledYear[year] ? 'disabled':''} id='${dataElements.valuesCoreFunding.donors[donorCount].amountLocked}-${year}' oninput="formatNumberInput(this);pushDataElementYear(this.id, unformatNumber(this.value)); changeTotals('${year}')"  class="form-control input-${year} currency">
+                    <input type="number" value="" ${tei.disabledYear[tei.year.value] ? 'disabled':''} id='${dataElements.valuesCoreFunding.donors[donorCount].amountLocked}-${tei.year.value}' oninput="formatNumberInput(this);pushDataElementYear(this.id, unformatNumber(this.value)); changeTotals('')"  class="form-control input currency">
                 </div>
-                </td>`;
-            }
-            projectRows += '</tr>'
+                </td></tr>`
 
             donorCount++;
             $("#donor-details").append(projectRows);

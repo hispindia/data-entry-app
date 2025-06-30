@@ -1,7 +1,7 @@
 import BaseApi from "./BaseApi.js";
 
-// const baseUrl = '../..';
-const baseUrl = 'https://links.hispindia.org/ippf_co/api';
+const baseUrl = '../..';
+// const baseUrl = 'https://links.hispindia.org/ippf_co/api';
 
 export const eventApi = {
   get: async (orgUnit) => {
