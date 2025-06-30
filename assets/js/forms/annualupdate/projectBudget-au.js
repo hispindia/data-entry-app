@@ -73,39 +73,31 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id);
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
-        const amountId = dataElements.yearlyAmount[year-tei.year.start];
+      tei.yearAmount = dataValuesOD[tei.year.value][dataElements.yearAmount]
 
-        tei.yearlyAmount[`amount-${year}`] = ''
-        if(dataValuesOD[tei.year.value] && dataValuesOD[tei.year.value][amountId]) {
-          tei.yearlyAmount[`amount-${year}`] = dataValuesOD[tei.year.value][amountId]
-        }
-      }
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
       
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
 
-    if (dataValuesPD[tei.year.value]) {
-      tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
-    }
+      if (dataValuesPD[tei.year.value]) {
+        tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
+      }
       tei.dataValues = getEvents(filteredPrograms, tei.program, tei.year.id); //data vlaues period wise
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
-        if (!tei.dataValues[tei.year.value]) {
-          const data = [{
-            dataElement: tei.year.id,
-            value: year
-          }];
-          
-          tei.dataValues[tei.year.value] = {
-            [tei.year.id]:year,
-            [dataElements.period.id]: dataElements.period.value,
-          }
-          tei.projects.forEach((name,index) => {
-            tei.dataValues[tei.year.value][dataElements.projectBudget[index].name] = name;
+      
+      if (!tei.dataValues[tei.year.value]) {
+        const data = [{
+          dataElement: tei.year.id,
+          value: year
+        }];
+        tei.dataValues[tei.year.value] = {
+          [tei.year.id]:year,
+        }
+        tei.projects.forEach((name,index) => {
+          tei.dataValues[tei.year.value][dataElements.projectBudget[index].name] = name;
             data.push({
-            dataElement:dataElements.projectBudget[index].name,
-            value: name
-          })
+              dataElement:dataElements.projectBudget[index].name,
+              value: name
+            })
         })
 
         tei.event = {
@@ -119,14 +111,13 @@ document.addEventListener("DOMContentLoaded", function () {
             [tei.year.value]: tei.dataValues[tei.year.value]["event"]
           }
 
-          var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, year);
+          var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, tei.year.value);
           calculatedElements.forEach(elements =>  {
             tei.dataValues[tei.year.value][elements.dataElement] = elements.value;
-            pushDataElementYear(`${elements.dataElement}-${year}`, elements.value);
+            pushDataElementYear(`${elements.dataElement}-${tei.year.value}`, elements.value);
           });
         }
 
-      }
       populateProgramEvents(tei.dataValues);
     } else {
       console.log("No data found for the organisation unit.");
@@ -135,10 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
-    const period = {
-      start:tei.year.start,
-      end: tei.year.end
-    }
     
     $('#accordion').empty();
 
@@ -146,10 +133,10 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#accordion').append(`<h4 class="text-center text-warning my-4">No Existing Projects! Please add some project in the Project Description Section.</h4>`);
     } 
 
-    let projectRows = displayProjectDetails(tei.projects, dataValues, period)
+    let projectRows = displayProjectDetails(tei.projects, dataValues)
     $('#accordion').append(projectRows);
 
-    var totalsRow = displayTotals(dataValues, period);
+    var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
           
@@ -157,15 +144,13 @@ document.addEventListener("DOMContentLoaded", function () {
       $('body').localize();
   }
 
-  function displayTotals(dataValues, period) {
+  function displayTotals(dataValues) {
     var totalsRow = '';
-    for (let i = period.start;i <= period.end; i++) {
-      const totalBudget = (dataValues[i] && dataValues[i][dataElements.totalBudget]) ?  Number(dataValues[i][dataElements.totalBudget]) : '';
-      const coreFunding = (dataValues[i] && dataValues[i][dataElements.coreFunding]) ?  Number(dataValues[i][dataElements.coreFunding]) : '';
-      const difference = (dataValues[i] && dataValues[i][dataElements.difference]) ?  Number(dataValues[i][dataElements.difference]) : '';
+      const totalBudget = (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.totalBudget]) ?  Number(dataValues[tei.year.value][dataElements.totalBudget]) : '';
+      const coreFunding = (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.coreFunding]) ?  Number(dataValues[tei.year.value][dataElements.coreFunding]) : '';
+      const difference = (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.difference]) ?  Number(dataValues[tei.year.value][dataElements.difference]) : '';
       totalsRow += `
-            <tr>
-        <td>${i}</td>
+        <tr>
         <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -173,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i} currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${tei.year.value}" class="form-control totalBudget-${tei.year.value} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -183,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(coreFunding)}" id="${dataElements.coreFunding}-${i}" class="form-control coreFunding-${i} currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(coreFunding)}" id="${dataElements.coreFunding}-${tei.year.value}" class="form-control coreFunding-${tei.year.value} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -193,15 +178,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(difference)}" id="${dataElements.difference}-${i}" class="form-control difference-${i} currency" disabled readonly>
+            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(difference)}" id="${dataElements.difference}-${tei.year.value}" class="form-control difference-${tei.year.value} currency" disabled readonly>
           </div>
         </td>
       </tr>
       `;
-    }
+    
     return totalsRow;
   }
-  function displayProjectDetails(projectDetails, dataValues, period) {
+  function displayProjectDetails(projectDetails, dataValues) {
 
     var projectRows = '';
     var length = projectDetails.length;
@@ -229,21 +214,16 @@ document.addEventListener("DOMContentLoaded", function () {
             <table class="table table-striped table-md mb-0 " width="100%">
               <thead>
                 <tr>
-                 
-                  <th  data-i18n="intro.project_year">Year</th>
                   <th data-i18n="intro.budget">Budget</th>
                   <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
                   <th data-i18n="intro.core_funding">IPPF Core Funding Allocated</th>
                 </tr>
               </thead>
               <tbody>`
-
-              for(let i = period.start; i<=period.end; i++) {
-                const budget = (dataValues[i] && dataValues[i][dataElements.projectBudget[index].budget]) ? dataValues[i][dataElements.projectBudget[index].budget] : '';
-                const likelihood = (dataValues[i] && dataValues[i][dataElements.projectBudget[index].likelihood]) ? dataValues[i][dataElements.projectBudget[index].likelihood] : '';
-                const funding = (dataValues[i] && dataValues[i][dataElements.projectBudget[index].funding]) ? dataValues[i][dataElements.projectBudget[index].funding] : '';
+                const budget = (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.projectBudget[index].budget]) ? dataValues[tei.year.value][dataElements.projectBudget[index].budget] : '';
+                const likelihood = (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.projectBudget[index].likelihood]) ? dataValues[tei.year.value][dataElements.projectBudget[index].likelihood] : '';
+                const funding = (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.projectBudget[index].funding]) ? dataValues[tei.year.value][dataElements.projectBudget[index].funding] : '';
                 projectRows += `<tr>
-                  <td>${i}</td>
                   <td>
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -251,11 +231,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           $
                         </div>
                       </div>
-                      <input type="text" ${tei.disabled ? 'disabled readonly': ''}  ${tei.disabledYear[i] ? 'disabled':''} value="${formatNumberInput(budget)}" id="${dataElements.projectBudget[index].budget}-${i}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i}, 'totalBudget')" class="form-control input-totalBudget-${i} currency">
+                      <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${formatNumberInput(budget)}" id="${dataElements.projectBudget[index].budget}-${tei.year.value}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${tei.year.value}, 'totalBudget')" class="form-control input-totalBudget-${tei.year.value} currency">
                     </div>
                   </td>
                   <td>
-                    <select class="form-control" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}-${i}" onchange="pushDataElementYear(this.id,this.value)">
+                    <select class="form-control" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}-${tei.year.value}" onchange="pushDataElementYear(this.id,this.value)">
                       <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed">Confirmed</option>
                       <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)">Likely(Over 80%)</option>
                       <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain">Uncertain</option>
@@ -268,11 +248,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           $
                         </div>
                       </div>
-                      <input type="text" ${tei.disabled ? 'disabled readonly': ''}  ${tei.disabledYear[i] ? 'disabled':''}  value="${formatNumberInput(funding)}" id="${dataElements.projectBudget[index].funding}-${i}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i}, 'coreFunding')" class="form-control input-coreFunding-${i} currency">
+                      <input type="text" ${tei.disabled ? 'disabled readonly': ''}   value="${formatNumberInput(funding)}" id="${dataElements.projectBudget[index].funding}-${tei.year.value}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${tei.year.value}, 'coreFunding')" class="form-control input-coreFunding-${tei.year.value} currency">
                     </div>
                   </td>
                 </tr>`
-              }
             projectRows += `</tbody>
               </table>
             </div>
@@ -282,8 +261,8 @@ document.addEventListener("DOMContentLoaded", function () {
               <label for=""><span data-i18n="intro.comments">
               Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
               </label>
-                <textarea class="form-control-resize textlimit" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].comment}-${period.start}" onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})">${(dataValues[period.start] && dataValues[period.start][dataElements.projectBudget[index].comment] ? dataValues[period.start][dataElements.projectBudget[index].comment] : '')}</textarea>
-                <div class="char-counter form-text text-muted" id="counter${index}">${maxWords- (dataValues[period.start] && dataValues[period.start][dataElements.projectBudget[index].comment] ? dataValues[period.start][dataElements.projectBudget[index].comment].trim().split(/\s+/).length: 0)} words remaining
+                <textarea class="form-control-resize textlimit" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].comment}-${tei.year.value}" onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})">${(dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.projectBudget[index].comment] ? dataValues[tei.year.value][dataElements.projectBudget[index].comment] : '')}</textarea>
+                <div class="char-counter form-text text-muted" id="counter${index}">${maxWords- (dataValues[tei.year.value] && dataValues[tei.year.value][dataElements.projectBudget[index].comment] ? dataValues[tei.year.value][dataElements.projectBudget[index].comment].trim().split(/\s+/).length: 0)} words remaining
                 </div>
 
                 <div class="invalid-feedback"> Error here
@@ -348,7 +327,7 @@ function loadCalculatedVariables(dataValues, dataElements, year) {
 
   var difference = {
     dataElement: dataElements.difference,
-    value: tei.yearlyAmount[`amount-${year}`]? `${(tei.yearlyAmount[`amount-${year}`] - coreFunding.value)}`: '0'
+    value: tei.yearAmount ? `${(tei.yearAmount - coreFunding.value)}`: '0'
   };
 
   return [
@@ -387,7 +366,7 @@ function calculateTotals(year, id) {
   pushDataElementYear($(`.${id}-${year}`)[0].id, value);
   
   if(id=="coreFunding") {
-    const difference = tei.yearlyAmount[`amount-${year}`] - value;
+    const difference = tei.yearAmount - value;
     
     $(`.difference-${year}`).val(formatNumberInput(difference)); 
     if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')

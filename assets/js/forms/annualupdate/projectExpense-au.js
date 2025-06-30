@@ -72,12 +72,13 @@ const maxWords = 200;
         (enroll) => enroll.program == tei.program || enroll.program == program.auProjectBudget || enroll.program==program.auProjectDescription 
         );
   
-        const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
-        if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
+      if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
       tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
 
       const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget,  tei.year.id);
       if(dataValuesPB[tei.year.value]) {  
+        tei.yearAmount = dataValuesPB[tei.year.value][dataElements.totalBudget]? dataValuesPB[tei.year.value][dataElements.totalBudget] : ''
         dataElements.projectBudget.forEach((project,index) => {
           if(dataValuesPB[tei.year.value][project.name] && tei.projects[index]) {
             for (let year = tei.year.start; year <= tei.year.end; year++) {
@@ -85,7 +86,6 @@ const maxWords = 200;
               if(!totalProjectBudget[index][tei.year.value]) totalProjectBudget[index][tei.year.value] = 0;
               if(dataValuesPB[tei.year.value][project.budget]) totalProjectBudget[index][tei.year.value] += Number(dataValuesPB[tei.year.value][project.budget]);
             
-              tei.yearlyAmount[`amount-${year}`] = dataValuesPB[tei.year.value][dataElements.totalBudget]? dataValuesPB[tei.year.value][dataElements.totalBudget] : ''
             }
           }
         })
@@ -94,14 +94,13 @@ const maxWords = 200;
       tei.dataValues = getEvents(filteredPrograms, tei.program, tei.year.id); //data vlaues period wise
       
       if(tei.projects.length) {
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
         if (!tei.dataValues[tei.year.value]) {
           const data = [{
             dataElement: tei.year.id,
-            value: year
+            value: tei.year.value
           }];
           tei.dataValues[tei.year.value] = {
-            [tei.year.id]:year,
+            [tei.year.id]:tei.year.value,
           }
           tei.projects.forEach((name,index) => {
             tei.dataValues[tei.year.value][dataElements.projectExpenseCategory[index].name] = name;
@@ -122,16 +121,15 @@ const maxWords = 200;
             [tei.year.value]: tei.dataValues[tei.year.value]["event"]
           }
 
-          var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, year);
+          var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, tei.year.value);
           calculatedElements.forEach(elements =>  {
             tei.dataValues[tei.year.value][elements.dataElement] = elements.value;
-            pushDataElementYear(`${elements.dataElement}-${year}`, elements.value);
+            pushDataElementYear(`${elements.dataElement}-${tei.year.value}`, elements.value);
           });
           
         }
-      }
     }
-      populateProgramEvents(tei.dataValues);
+      populateProgramEvents(tei.dataValues[tei.year.value]);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -140,19 +138,15 @@ const maxWords = 200;
 
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
-    const period = {
-      start:tei.year.start,
-      end: tei.year.end
-    }
     $('#accordion').empty();
     if (tei.projects.length) {
-      let projectRows = displayProjectDetails(tei.projects, dataValues, period)
+      let projectRows = displayProjectDetails(tei.projects, dataValues)
       $('#accordion').append(projectRows);
     } else {
       $('#accordion').append(`<h4 class="text-center text-warning my-4">No Existing Projects! Please add project in the Project Budget Section.</h4>`);
     }
 
-    var totalsRow = displayTotals(dataValues, period);
+    var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
 
@@ -160,40 +154,37 @@ const maxWords = 200;
       $('body').localize();
   }
 
-  function displayTotals(dataValues, period) {
+  function displayTotals(dataValues) {
     var totalsRow = '';
-    for (let i = period.start; i <= period.end; i++) {
-      const totalBudget = (dataValues[i] && dataValues[i][dataElements.totalBudget]) ?  Number(dataValues[i][dataElements.totalBudget]) : '';
-      const difference = (dataValues[i] && dataValues[i][dataElements.difference]) ?  Number(dataValues[i][dataElements.difference]) : '';
+      const totalBudget = (dataValues[dataElements.totalBudget]) ?  Number(dataValues[dataElements.totalBudget]) : '';
+      const difference = (dataValues[dataElements.difference]) ?  Number(dataValues[dataElements.difference]) : '';
       totalsRow += `
       <tr>
-  <td>${i}</td>
-  <td>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          $
-        </div>
-      </div>
-      <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${i}" class="form-control totalBudget-${i}  currency" readonly disabled>
-    </div>
-  </td>
-  <td>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          $
-        </div>
-      </div>
-      <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}-${i}" class="form-control difference-${i}  currency" readonly disabled>
-    </div>
-  </td>
-</tr>
-`;
-    }
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                $
+              </div>
+            </div>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}" class="form-control totalBudget  currency" readonly disabled>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                $
+              </div>
+            </div>
+            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control difference  currency" readonly disabled>
+          </div>
+        </td>
+      </tr>
+      `;
     return totalsRow;
   }
-  function displayProjectDetails(projectDetails, dataValues, period) {
+  function displayProjectDetails(projectDetails, dataValues) {
     var projectRows = '';
     var length = projectDetails.length;
     projectDetails.forEach((list, index) => {
@@ -231,123 +222,72 @@ const maxWords = 200;
           >
             <thead id="project-head">
               <tr>
-                <th style="width: 25%" data-i18n="intro.expense_category">
-                  Expense Category
-                </th>`
-            for (let i = period.start; i <= period.end; i++) projectRows += `<th ><span data-i18n="intro.project_year">Year</span> ${i}</th>`
-            projectRows +=`</tr>
+                <th><strong data-i18n="intro.personnel">Personnel</strong></th>
+                <th><strong data-i18n="intro.activities">Direct project activities</strong></th>
+                <th><strong data-i18n="intro.commodities">Commodities</strong></th>
+                <th><strong data-i18n="intro.indirect">Indirect/support costs</strong></th>
+              </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                <strong data-i18n="intro.personnel">Personnel</strong>
-                </td>`
-
-            for (let i = period.start; i <= period.end; i++) projectRows += `<td>
-            <div class="input-group">
-              <div
-                class="input-group-prepend"
-              >
-                <div
-                  class="input-group-text"
-                >
-                  $
-                </div>
-              </div>
-              <input
-                id="${dataElements.projectExpenseCategory[index].personnel}-${i}"
-                type="text"
-                ${tei.disabled ? 'disabled readonly': ''}
-                ${tei.disabledYear[i] ? 'disabled':''} 
-                value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].personnel]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].personnel]) : ''}"
-                oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
-                class="form-control input-totalBudget-${i}  currency"
-              />
-            </div>
-          </td>`
-            projectRows +=`</tr>
-              <tr>
               <td>
-              <strong data-i18n="intro.activities">Direct project activities</strong>
-              </td>`
-
-                for (let i = period.start; i <= period.end; i++) projectRows += `<td>
-                <div class="input-group">
-                  <div
-                    class="input-group-prepend"
-                  >
-                    <div
-                      class="input-group-text"
-                    >
-                      $
-                    </div>
-                  </div>
-                  <input id="${dataElements.projectExpenseCategory[index].activities}-${i}"
-                    type="text"
-                    ${tei.disabled ? 'disabled readonly': ''}
-                    ${tei.disabledYear[i] ? 'disabled':''} 
-                    value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].activities]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].activities]) : ''}"
-                    oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
-                    class="form-control input-totalBudget-${i}  currency"
-                  />
-                </div>
-              </td>`
-                projectRows +=`</tr>
-              <tr>
-              <td>
-              <strong data-i18n="intro.commodities">Commodities</strong>
-              </td>`
-
-                for (let i = period.start; i <= period.end; i++) projectRows += `<td>
-                <div class="input-group">
-                  <div
-                    class="input-group-prepend"
-                  >
-                    <div
-                      class="input-group-text"
-                    >
-                      $
-                    </div>
-                  </div>
-                  <input
-                    id="${dataElements.projectExpenseCategory[index].commodities}-${i}"
-                    type="text"
-                    ${tei.disabled ? 'disabled readonly': ''}
-                    ${tei.disabledYear[i] ? 'disabled':''} 
-                    value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].commodities]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].commodities]) : ''}"
-                    oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
-                    class="form-control input-totalBudget-${i}  currency"
-                  />
-                </div>
-              </td>`
-              projectRows +=`</tr>
-            <tr>
-            <td>
-            <strong data-i18n="intro.indirect">Indirect/support costs</strong>
-            </td>`
-
-              for (let i = period.start; i <= period.end; i++) projectRows += `<td>
               <div class="input-group">
-                <div
-                  class="input-group-prepend"
-                >
-                  <div
-                    class="input-group-text"
-                  >
-                    $
-                  </div>
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
                 </div>
                 <input
-                  id="${dataElements.projectExpenseCategory[index].cost}-${i}"
+                  id="${dataElements.projectExpenseCategory[index].personnel}"
                   type="text"
                   ${tei.disabled ? 'disabled readonly': ''}
-                  ${tei.disabledYear[i] ? 'disabled':''} 
-                  value="${(dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].cost]) ? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].cost]) : ''}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${i},'totalBudget', ${index})" 
-                  class="form-control input-totalBudget-${i}  currency"
-                />
+                  value="${(dataValues[dataElements.projectExpenseCategory[index].personnel]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].personnel]) : ''}"
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
+                  class="form-control input-totalBudget  currency"
+                />                
               </div>
-            </td>`
+              </td>
+              <td>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">$</div>
+                  </div>
+                  <input id="${dataElements.projectExpenseCategory[index].activities}"
+                        type="text"
+                        ${tei.disabled ? 'disabled readonly': ''}
+                      value="${(dataValues[dataElements.projectExpenseCategory[index].activities]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].activities]) : ''}"
+                      oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
+                      class="form-control input-totalBudget  currency"
+                    />
+                </div>
+              <td>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">$</div>
+                  </div>
+                <input
+                      id="${dataElements.projectExpenseCategory[index].commodities}"
+                      type="text"
+                      ${tei.disabled ? 'disabled readonly': ''}
+                      value="${(dataValues[dataElements.projectExpenseCategory[index].commodities]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].commodities]) : ''}"
+                      oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
+                      class="form-control input-totalBudget  currency"
+                    />
+                </div>
+              </td>
+              <td>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">$</div>
+                  </div>
+                  <input
+                      id="${dataElements.projectExpenseCategory[index].cost}"
+                      type="text"
+                      ${tei.disabled ? 'disabled readonly': ''}
+                      value="${(dataValues[dataElements.projectExpenseCategory[index].cost]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].cost]) : ''}"
+                      oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
+                      class="form-control input-totalBudget  currency"
+                    />
+                </div>
+              </td>`
             projectRows +=`</tr>
             </tbody>
           </table>
@@ -355,43 +295,30 @@ const maxWords = 200;
 
         <div class="form-row">
         <div class="form-group col-md-12 textbox-wrap">
-        <label for="" ><span data-i18n="intro.variation_budget">
+        <label for="${dataElements.projectExpenseCategory[index].variation}" ><span data-i18n="intro.variation_budget">
           Variation from total project budget</span>
           <i class="fas fa-info-circle ml-1" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Difference in Budget provisioned for the project in the concerned year and the expenditure mentioned. Positive number indicates remaining budget and negative number indicates that the expenditure is more than the budget allocated for the project"></i>
-                        </label>`;
-                projectRows += ` <div class="budget-wrap table-responsive">            
-                        <table class="table table-striped table-md mb-0 " width="100%">
-                          <thead>`;
-                for (let i = period.start; i <= period.end; i++)
-                projectRows += `<th>${i}</th>`;
-                projectRows += `</thead><tbody><tr>`; 
-                for (let i = period.start; i <= period.end; i++)
-                projectRows += `<td>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">
-                        $
-                      </div>
-                    </div>
-                    <input 
-                    type="text" 
-                    ${tei.disabled ? 'disabled readonly': ''}
-                    id="${dataElements.projectExpenseCategory[index].variation}-${i}" 
-                    value="${dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].variation]? formatNumberInput(dataValues[i][dataElements.projectExpenseCategory[index].variation]): 0}"  
-                    class="form-control currency"
-                    style="background:${dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].variation] ? (dataValues[i][dataElements.projectExpenseCategory[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
-                    disabled
-                    readonly
-                    >
-                  </div>
-                  <div class="invalid-feedback feedback-${i} ${dataValues[i] && dataValues[i][dataElements.projectExpenseCategory[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance </div>
-                </td>`;
-projectRows += `</tr>
-                  </tbody>
-                  </table>
-                </div>
-                </div>
-</div>
+                        </label>
+          <div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input 
+            type="text" 
+            ${tei.disabled ? 'disabled readonly': ''}
+            id="${dataElements.projectExpenseCategory[index].variation}" 
+            value="${dataValues[dataElements.projectExpenseCategory[index].variation]? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].variation]): 0}"  
+            class="form-control currency"
+            style="background:${dataValues[dataElements.projectExpenseCategory[index].variation] ? (dataValues[dataElements.projectExpenseCategory[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
+            disabled
+            readonly
+            >
+          </div>
+          <div class="invalid-feedback feedback ${dataValues[dataElements.projectExpenseCategory[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance </div>
+          </div>
+        </div>
+        </div>
         <div class="form-row">
           <div
             class="form-group col-md-12 textbox-wrap"
@@ -401,14 +328,13 @@ projectRows += `</tr>
             <textarea
               class="form-control-resize textlimit"
               ${tei.disabled ? 'disabled readonly': ''}
-              id="${dataElements.projectExpenseCategory[index].comment}-${period.start}"
+              id="${dataElements.projectExpenseCategory[index].comment}"
               onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
-            >${dataValues[period.start] && dataValues[period.start][dataElements.projectExpenseCategory[index].comment] ? dataValues[period.start][dataElements.projectExpenseCategory[index].comment] : ''}</textarea>
+            >${dataValues[dataElements.projectExpenseCategory[index].comment] ? dataValues[dataElements.projectExpenseCategory[index].comment] : ''}</textarea>
             <div
               class="char-counter form-text text-muted"
               id="counter${index}"
-            >${maxWords- (dataValues[period.start] &&
-              dataValues[period.start][dataElements.projectExpenseCategory[index].comment] ? dataValues[period.start][dataElements.projectExpenseCategory[index].comment].trim().split(/\s+/).length: 0)} words remaining
+            >${maxWords- (dataValues[dataElements.projectExpenseCategory[index].comment] ? dataValues[dataElements.projectExpenseCategory[index].comment].trim().split(/\s+/).length: 0)} words remaining
             </div>
 
             <div class="invalid-feedback">
@@ -486,7 +412,7 @@ function loadCalculatedVariables(dataValues, dataElements, year) {
 
   var difference = {
     dataElement: dataElements.difference,
-    value: tei.yearlyAmount[`amount-${year}`]? `${(tei.yearlyAmount[`amount-${year}`] - totalBudget.value)}`: '0'
+    value: tei.yearAmount? `${(tei.yearAmount - totalBudget.value)}`: '0'
   };
 
   return [
@@ -523,7 +449,7 @@ function calculateTotals(year, id, idx) {
     value += unformatNumber(el.value);
   });
   $(`.${id}-${year}`).val(formatNumberInput(value));
-  const difference = tei.yearlyAmount[`amount-${year}`] - value;
+  const difference = tei.yearAmount - value;
 
   $(`.difference-${year}`).val(formatNumberInput(difference)); 
   if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')

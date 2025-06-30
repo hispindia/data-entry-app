@@ -246,24 +246,10 @@ const translation_mapping = [
     },
     {
         id: "grant_amount",
-        en: "Formula-generated proposed grant amount (Year 1) (USD)",
-        sp: "Monto de la subvención propuesta generado por fórmula (Año 1) (USD)",
-        fr: "Montant de la subvention proposé tel qu’établi par la formule (Année 1) (USD)",
-        ar: 'المبلغ المقترح للمنحة حسب المعادلة التمويلية (السنة الأولى) (بالدولار الأمريكي)'
-    },
-    {
-        id: "grant_amount_year2",
-        en: "Formula-generated proposed grant amount (Year 2) (USD)",
-        sp: "Monto de la subvención generado por fórmula (Año 2) (USD)",
-        fr: "Montant de la subvention établi par la formule (Année 2) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة (السنة الثانية) (بالدولار الأمريكي)',
-    },
-    {
-        id: "grant_amount_year3",
-        en: "Provisional formula- generated grant amount (Year 3) (USD)",
-        sp: "Monto PROVISIONAL de la subvención generado por fórmula (Año 3) (USD)",
-        fr: "Montant de la subvention PROVISOIRE tel qu’établi par la formule (Année 3) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة المؤقتة (السنة الثالثة) (بالدولار الأمريكي)',
+        en: "Formula-generated proposed grant amount (USD)",
+        sp: "Monto de la subvención propuesta generado por fórmula (USD)",
+        fr: "Montant de la subvention proposé tel qu’établi par la formule (USD)",
+        ar: 'مبلغ المنحة المقترح المولد بالصيغة (بالدولار الأمريكي)'
     },
     {
         id: "primary_contact_person",

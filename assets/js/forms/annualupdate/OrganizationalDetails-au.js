@@ -1,7 +1,7 @@
-import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { disableAll, getYears } from "../func.js";
+import { disableAll, formatNumberInput, getYears } from "../func.js";
 
 const programStageEvent = {
   keyDetails: ''
@@ -85,7 +85,8 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
   
   async function fetchEvents() {
     tei.year.value = document.getElementById("year-update").value;
-    
+    document.getElementById('selected-year').innerHTML = tei.year.value;
+
     const data = await getTEI(tei.orgUnit);
     
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -137,7 +138,7 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
           })
         }
         else {
-          programStageEvent['keyDetails'] = dataValuesKD[year]["event"];
+          programStageEvent['keyDetails'] = dataValuesKD[tei.year.value]["event"];
           tei.dataValues[tei.year.value] = {
             ...tei.dataValues[tei.year.value],
             ...dataValuesKD[tei.year.value]
@@ -206,13 +207,13 @@ function enableRow(id, checked, idRow, upload) {
   }
 }
 
-
 function pushRadioValue(id, event, optionsName) {
   const { name, value } = event.target;
   if (name === optionsName) {
     pushDataElement(id, value)
   }
 }
+
 
 function setRadioValue(id, value) {
   const radio = document.querySelector(`#${id} input[type="radio"][value="${value}"]`);
@@ -264,9 +265,10 @@ async function fetchFileResource(resourceId) {
 
 }
 
-
 async function linkFileResourceToEvent(id, fileResource) {
   await pushDataElementOther(id,fileResource.id,program.auOrganisationDetails, programStage.auKeyDetails, programStageEvent['keyDetails']);
   fileResource['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${id}`;
   updateFileLabel(id, fileResource.displayName, fileResource.url);
 }
+
+window.pushRadioValue = pushRadioValue;
