@@ -5,7 +5,7 @@ import { formatNumberInput, getYears } from "../func.js";
 
  const maxWords = 200
  var eventPD = '';
- var commoditiesEC={};
+ var commoditiesEC='';
  
   document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -54,7 +54,7 @@ import { formatNumberInput, getYears } from "../func.js";
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="''">''</option>`: '').join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auCommodities;
@@ -76,40 +76,37 @@ import { formatNumberInput, getYears } from "../func.js";
       );
 
       const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory,tei.year.id) //data vlaues period wise
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
-        if(dataValuesEC && dataValuesEC[year]) {
-          commoditiesEC[year] = calculateExpenseCategory(dataValuesEC, year);
+        if(dataValuesEC && dataValuesEC[tei.year.value]) {
+          commoditiesEC = calculateExpenseCategory(dataValuesEC, tei.year.value);
         }
-      }
+
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value]['event']) eventPD =dataValuesPD[tei.year.value]['event']
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
       
       tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
-      for (let year = tei.year.start; year <= tei.year.end; year++) {
-        if (!tei.dataValues[year]) {
+        if (!tei.dataValues[tei.year.value]) {
           const data = [
             {
               dataElement: tei.year.id,
-              value: year,
+              value: tei.year.value,
             }
           ];
-          tei.dataValues[year] = {
-            [tei.year.id]:year,
+          tei.dataValues[tei.year.value] = {
+            [tei.year.id]:tei.year.value,
           }
           tei.event = {
             ...tei.event,
-           [year]: await createEvent(data)
+           [tei.year.value]: await createEvent(data)
           }
           } else {
             tei.event = {
               ...tei.event,
-              [year]: tei.dataValues[year]["event"]
+              [tei.year.value]: tei.dataValues[tei.year.value]["event"]
             }
         }
-      }
       
-      populateProgramEvents(tei.dataValues);
+      populateProgramEvents(tei.dataValues[tei.year.value]);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -117,10 +114,6 @@ import { formatNumberInput, getYears } from "../func.js";
 
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
-    const period = {
-      start:tei.year.start,
-      end: tei.year.end
-    }
     
     $('#push-button').empty();
     console.trace("-----")
@@ -139,10 +132,10 @@ import { formatNumberInput, getYears } from "../func.js";
 
     $("#accordion").empty();
 
-    let projectRows = displaySourceCommodities(dataValues, period);
+    let projectRows = displaySourceCommodities(dataValues);
     $("#accordion").append(projectRows);
 
-    var totalsRow = displayTotals(dataValues, period);
+    var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
     
@@ -151,22 +144,20 @@ import { formatNumberInput, getYears } from "../func.js";
            
   }
 
-  function displayTotals(dataValues, period) {
+  function displayTotals(dataValues) {
     var totalsRow = '';
-    for (let year = period.start;year <= period.end; year++) {
-      const unrestrictedValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['unrestricted']]) ?  Number(dataValues[year][dataElements.sourceCommodities['unrestricted']]) : '';
-      const internationalValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['international']]) ?  Number(dataValues[year][dataElements.sourceCommodities['international']]) : '';
-      const localValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['local']]) ?  Number(dataValues[year][dataElements.sourceCommodities['local']]) : '';
-      const inkindValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['inkind']]) ?  Number(dataValues[year][dataElements.sourceCommodities['inkind']]) : '';
-      const otherValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['other']]) ?  Number(dataValues[year][dataElements.sourceCommodities['other']]) : '';
+      const unrestrictedValue = (dataValues[dataElements.sourceCommodities['unrestricted']]) ?  Number(dataValues[dataElements.sourceCommodities['unrestricted']]) : '';
+      const internationalValue = (dataValues[dataElements.sourceCommodities['international']]) ?  Number(dataValues[dataElements.sourceCommodities['international']]) : '';
+      const localValue = (dataValues[dataElements.sourceCommodities['local']]) ?  Number(dataValues[dataElements.sourceCommodities['local']]) : '';
+      const inkindValue = (dataValues[dataElements.sourceCommodities['inkind']]) ?  Number(dataValues[dataElements.sourceCommodities['inkind']]) : '';
+      const otherValue = (dataValues[dataElements.sourceCommodities['other']]) ?  Number(dataValues[dataElements.sourceCommodities['other']]) : '';
       const commodities = Number(unrestrictedValue) + Number(internationalValue) + Number(localValue) + Number(inkindValue) + Number(otherValue);
      
       var variation = 0;
-      if(commoditiesEC[year]) variation = commoditiesEC[year]-commodities;
+      if(commoditiesEC) variation = commoditiesEC-commodities;
       else if(commodities) variation = -commodities;
       totalsRow += `
             <tr>
-        <td>${year}</td>
         <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -175,8 +166,8 @@ import { formatNumberInput, getYears } from "../func.js";
               </div>
             </div>
             <input type="text" 
-            id="${dataElements.sourceCommodities['commodities']}-${year}" 
-            class="form-control total-${year} currency" 
+            id="${dataElements.sourceCommodities['commodities']}" 
+            class="form-control total currency" 
             value="${formatNumberInput(commodities)}" 
             disabled readonly>
           </div>
@@ -188,7 +179,7 @@ import { formatNumberInput, getYears } from "../func.js";
                 $
               </div>
             </div>
-            <input type="text" value="${commoditiesEC[year] ? formatNumberInput(Math.round(commoditiesEC[year])) : ''}" class="form-control currency" disabled readonly>
+            <input type="text" value="${commoditiesEC ? formatNumberInput(Math.round(commoditiesEC)) : ''}" class="form-control currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -198,28 +189,26 @@ import { formatNumberInput, getYears } from "../func.js";
                 $
               </div>
             </div>
-            <input type="text" style="background:${variation >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(Math.round(variation))}" id="${dataElements.sourceCommodities['variation']}-${year}" class="form-control difference-${year} currency" disabled readonly>
+            <input type="text" style="background:${variation >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(Math.round(variation))}" id="${dataElements.sourceCommodities['variation']}" class="form-control difference currency" disabled readonly>
           </div>
         </td>
       </tr>
       `;
-    }
+    
     return totalsRow;
   }
 
-  function displaySourceCommodities(dataValues, period) {
+  function displaySourceCommodities(dataValues) {
 
     var totalsRow = '';
-    for (let year = period.start;year <= period.end; year++) {
-      const unrestrictedValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['unrestricted']]) ?  Number(dataValues[year][dataElements.sourceCommodities['unrestricted']]) : '';
-      const internationalValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['international']]) ?  Number(dataValues[year][dataElements.sourceCommodities['international']]) : '';
-      const localValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['local']]) ?  Number(dataValues[year][dataElements.sourceCommodities['local']]) : '';
-      const inkindValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['inkind']]) ?  Number(dataValues[year][dataElements.sourceCommodities['inkind']]) : '';
-      const otherValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['other']]) ?  Number(dataValues[year][dataElements.sourceCommodities['other']]) : '';
+      const unrestrictedValue = (dataValues[dataElements.sourceCommodities['unrestricted']]) ?  Number(dataValues[dataElements.sourceCommodities['unrestricted']]) : '';
+      const internationalValue = (dataValues[dataElements.sourceCommodities['international']]) ?  Number(dataValues[dataElements.sourceCommodities['international']]) : '';
+      const localValue = (dataValues[dataElements.sourceCommodities['local']]) ?  Number(dataValues[dataElements.sourceCommodities['local']]) : '';
+      const inkindValue = (dataValues[dataElements.sourceCommodities['inkind']]) ?  Number(dataValues[dataElements.sourceCommodities['inkind']]) : '';
+      const otherValue = (dataValues[dataElements.sourceCommodities['other']]) ?  Number(dataValues[dataElements.sourceCommodities['other']]) : '';
       const total = Number(unrestrictedValue) + Number(internationalValue) + Number(localValue) + Number(inkindValue) + Number(otherValue);
      
       totalsRow += `<tr>
-          <td><strong>${year}</strong></td>
           <td>
               <div class="input-group">
                   <div class="input-group-prepend">
@@ -229,11 +218,10 @@ import { formatNumberInput, getYears } from "../func.js";
                   </div>
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  ${tei.disabledYear[year] ? 'disabled':''} 
-                  id="${dataElements.sourceCommodities['unrestricted']}-${year}" 
-                  class="input-${year} form-control"
+                  id="${dataElements.sourceCommodities['unrestricted']}" 
+                  class="input form-control"
                   value="${formatNumberInput(unrestrictedValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})">
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
               </div>
           </td>
           <td>
@@ -245,11 +233,10 @@ import { formatNumberInput, getYears } from "../func.js";
                   </div>
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  ${tei.disabledYear[year] ? 'disabled':''} 
-                  id="${dataElements.sourceCommodities['international']}-${year}" 
-                  class="input-${year} form-control"
+                  id="${dataElements.sourceCommodities['international']}" 
+                  class="input form-control"
                   value="${formatNumberInput(internationalValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})">
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
               </div>
           </td>
           <td>
@@ -261,11 +248,10 @@ import { formatNumberInput, getYears } from "../func.js";
                   </div>
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  ${tei.disabledYear[year] ? 'disabled':''} 
-                  id="${dataElements.sourceCommodities['local']}-${year}" 
-                  class="input-${year} form-control"
+                  id="${dataElements.sourceCommodities['local']}" 
+                  class="input form-control"
                   value="${formatNumberInput(localValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})">
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
               </div>
           </td>
           <td>
@@ -277,11 +263,10 @@ import { formatNumberInput, getYears } from "../func.js";
                   </div>
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  ${tei.disabledYear[year] ? 'disabled':''} 
-                  id="${dataElements.sourceCommodities['inkind']}-${year}" 
-                  class="input-${year} form-control"
+                  id="${dataElements.sourceCommodities['inkind']}" 
+                  class="input form-control"
                   value="${formatNumberInput(inkindValue)}" 
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})">
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
               </div>
           </td>
           <td>
@@ -293,11 +278,10 @@ import { formatNumberInput, getYears } from "../func.js";
                   </div>
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  ${tei.disabledYear[year] ? 'disabled':''} 
-                  id="${dataElements.sourceCommodities['other']}-${year}" 
-                  class="input-${year} form-control"
+                  id="${dataElements.sourceCommodities['other']}" 
+                  class="input form-control"
                   value="${formatNumberInput(otherValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${year})">
+                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
               </div>
           </td>
           <td>
@@ -308,32 +292,30 @@ import { formatNumberInput, getYears } from "../func.js";
                       </div>
                   </div>
                   <input type="text" 
-                  id="${dataElements.sourceCommodities['total']}-${year}" 
-                  class="total-${year} form-control"
+                  id="${dataElements.sourceCommodities['total']}" 
+                  class="total form-control"
                   value="${formatNumberInput(total)}"
                   disabled>
               </div>
           </td>
       </tr>
       <tr>
-          <td></td>
-          <td colspan="6">
+          <td colspan="12">
               <div class="form-group textbox-wrap">
   
                   <textarea class="form-control textlimit"
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  ${tei.disabledYear[year] ? 'disabled':''} 
-                  id="${dataElements.sourceCommodities['comment']}-${year}" 
-                  oninput="pushDataElementYear(this.id,this.value);checkWords(this, ${year})">${(dataValues[year] && dataValues[year][dataElements.sourceCommodities['comment']] ? dataValues[year][dataElements.sourceCommodities['comment']]: '')}</textarea>
+                  id="${dataElements.sourceCommodities['comment']}" 
+                  oninput="pushDataElementYear(this.id,this.value);checkWords(this, '')">${(dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']]: '')}</textarea>
                   <div class="char-counter form-text text-muted"
-                      id="counter-${year}">${maxWords- (dataValues[year] && dataValues[year][dataElements.sourceCommodities['comment']] ? dataValues[year][dataElements.sourceCommodities['comment']].trim().split(/\s+/).length: 0)} words remaining</div>
+                      id="counter">${maxWords- (dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']].trim().split(/\s+/).length: 0)} words remaining</div>
   
                   <div class="invalid-feedback"> Error here
                   </div>
               </div>
           </td>
       </tr>`
-    }
+
     return totalsRow;
   }
   configurePage();
@@ -352,20 +334,20 @@ function enableAnnualUpdate() {
 
 function calculateTotals(year) {
   var totals = 0;
-  $(`.input-${year}`).each(function() {
+  $(`.input`).each(function() {
     totals += unformatNumber($(this).val());
   })
-  $(`.total-${year}`).val(formatNumberInput(totals));
+  $(`.total`).val(formatNumberInput(totals));
 
-  $(`.total-${year}`).each(function() {
+  $(`.total`).each(function() {
     pushDataElementYear(this.id, totals);
   })
 }
 function calculateExpenseCategory(dataValues, year) {
   var value = 0;
   dataElements.projectExpenseCategory.forEach(de => {
-    if(dataValues[year] && dataValues[year][de.commodities]) {
-      value += Number(dataValues[year][de.commodities]);
+    if(dataValues[de.commodities]) {
+      value += Number(dataValues[de.commodities]);
     }
   })
   return value ? value: 0;
