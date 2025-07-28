@@ -1,11 +1,8 @@
 import BaseApi from "./BaseApi.js";
 
-const baseUrl = '../..';
-// const baseUrl = 'https://links.hispindia.org/ippf_co/api';
-
 export const eventApi = {
   get: async (orgUnit) => {
-    const url = `${baseUrl}/trackedEntityInstances.json?skipPaging=true&trackedEntityType=XjSwTokefHP&ou=${orgUnit}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `trackedEntityInstances.json?skipPaging=true&trackedEntityType=XjSwTokefHP&ou=${orgUnit}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -14,7 +11,7 @@ export const eventApi = {
     }
   },
   fromStage: async (orgunit, program, programStage) => {
-    const url = `${baseUrl}/trackedEntityInstances.json?skipPaging=true&ou=${orgunit}&program=${program}&programStage=${programStage}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `trackedEntityInstances.json?skipPaging=true&ou=${orgunit}&program=${program}&programStage=${programStage}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -23,7 +20,7 @@ export const eventApi = {
     }
   },
   post: async (payload) => {
-    const url = `${baseUrl}/events`;
+    const url = `events`;
     try {
       const response = await BaseApi({url, method:"POST", payload});
       const data = await response.json();
@@ -33,7 +30,7 @@ export const eventApi = {
     }
   },
   put: async (event, payload) => {
-    const url = `${baseUrl}/events/${event}`;
+    const url = `events/${event}`;
     try {
       const response = await BaseApi({url, method:"PUT", payload});
       return response.json();
@@ -42,7 +39,7 @@ export const eventApi = {
     }
   },
   complete:async (payload) => {
-    const url = `${baseUrl}/events`;
+    const url = `events`;
     try {
       const response = await BaseApi({url, method:"POST", payload});
       return await response.json();
@@ -54,7 +51,7 @@ export const eventApi = {
 
 export const dataElementApi = {
   put: async (event, id, payload) => {
-    const url = `${baseUrl}/events/${event}/${id}`;
+    const url = `events/${event}/${id}`;
     try {
       const response = await BaseApi({url, method:"PUT", payload});
       return response.json();
@@ -66,7 +63,7 @@ export const dataElementApi = {
 
 export const meApi = {
   get: async () => {
-    const url = `${baseUrl}/me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,children[id,name],parent[id,name]]`;
+    const url = `me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,children[id,name],parent[id,name]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -78,7 +75,7 @@ export const meApi = {
 
 export const organisationUnitGroup =  {
   get: async (group) => {
-    const url = `${baseUrl}/organisationUnitGroups/${group}.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`;
+    const url = `organisationUnitGroups/${group}.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();

@@ -80,7 +80,7 @@
                         </li>
                         <li class="dropdown-au active">
                             <a class="nav-link has-dropdown" href="#">
-                                <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan Updates </span>
+                                <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="active"><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
@@ -277,31 +277,71 @@
                                                     Error here
                                                 </div>
                                             </div>
+                                                   <div class="form-group col-md-4 textbox-wrap">
+                                                       <label for="fkHkH5jcJV0"
+                                                           data-i18n="intro.grant_amount">Formula-generated
+                                                           proposed grant amount
+                                                           (Year 1) (USD)</label>
+                                                       <div class="input-group">
+                                                           <div class="input-group-prepend">
+                                                               <div class="input-group-text disabled">
+                                                                   $
+                                                               </div>
+                                                           </div>
+                                                           <input type="text" value="" id="fkHkH5jcJV0"
+                                                               class="form-control textValue currency"
+                                                               oninput="pushDataElement(this.id,this.value)">
+                                                       </div>
+
+                                                       <div class="invalid-feedback">
+                                                           Error here
+                                                       </div>
+                                                   </div>
 
 
+                                                   <div class="form-group col-md-4 textbox-wrap">
+                                                       <label for="dhaMzFTSGrd">
+                                                          <span data-i18n="intro.grant_amount_year2">Provisional
+                                                           formula- generated grant
+                                                           amount (Year 2) (USD)</span> (only 75% guaranteed)</label>
+                                                       <div class="input-group">
+                                                           <div class="input-group-prepend">
+                                                               <div class="input-group-text disabled">
+                                                                   $
+                                                               </div>
+                                                           </div>
+                                                           <input type="text" value="" id="dhaMzFTSGrd"
+                                                               class="form-control textValue currency"
+                                                               oninput="pushDataElement(this.id,this.value)">
+                                                       </div>
 
-                                            <div class="form-group col-md-6 textbox-wrap">
-                                                <label for="fkHkH5jcJV0"
-                                                    ><span data-i18n="intro.grant_amount">Formula-generated
-                                                    proposed grant amount (USD)</span> 
-                                                    (<span data-i18n="year">Year</span>
-                                                    <span id="selected-year"> </span>)
-                                                </label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text disabled">
-                                                            $
-                                                        </div>
-                                                    </div>
-                                                    <input type="text" value="" id="fkHkH5jcJV0"
-                                                        class="form-control textValue currency"
-                                                        oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value))">
-                                                </div>
+                                                       <div class="invalid-feedback">
+                                                           Error here
+                                                       </div>
+                                                   </div>
 
-                                                <div class="invalid-feedback">
-                                                    Error here
-                                                </div>
-                                            </div>
+
+                                                   <div class="form-group col-md-4 textbox-wrap">
+                                                       <label for="gQQoxkZsZnn">
+                                                          <span data-i18n="intro.grant_amount_year3">Provisional
+                                                           formula- generated grant
+                                                           amount (Year 3) </span> (USD)(only 75% guaranteed)</label>
+                                                       <div class="input-group">
+                                                           <div class="input-group-prepend">
+                                                               <div class="input-group-text disabled">
+                                                                   $
+                                                               </div>
+                                                           </div>
+                                                           <input type="text" value="" id="gQQoxkZsZnn"
+                                                               class="form-control textValue currency"
+                                                               oninput="pushDataElement(this.id,this.value)">
+                                                       </div>
+
+                                                       <div class="invalid-feedback">
+                                                           Error here
+                                                       </div>
+                                                   </div>
+
                                         </div>
 
                                         </div>
@@ -1001,56 +1041,17 @@
                                                     Number of Fixed Staff (paid staff on a
                                                     contract)</h4>
                                             </div>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="fixedStaff">Staff Size</label>
-                                            <div class="form-row">
-                                                <div class="selectgroup selectgroup-pills  mb-3 col-md-12 textValue"
-                                                    id="kovn3d3f6S3"
-                                                    onchange="pushRadioValue(this.id, event, 'fixedStaff')">
-                                                    <label class="selectgroup-item">
-                                                        <input type="radio" name="fixedStaff"
-                                                            value="0-10" class="selectgroup-input">
-                                                        <span
-                                                            class="selectgroup-button selectgroup-button-icon px-4">0-10</span>
-                                                    </label>
-                                                    <label class="selectgroup-item">
-                                                        <input type="radio" name="fixedStaff"
-                                                            value="11-25" class="selectgroup-input">
-                                                        <span
-                                                            class="selectgroup-button selectgroup-button-icon px-4">11-25</span>
-                                                    </label>
-                                                    <label class="selectgroup-item">
-                                                        <input type="radio" name="fixedStaff"
-                                                            value="26-50" class="selectgroup-input">
-                                                        <span
-                                                            class="selectgroup-button selectgroup-button-icon px-4">26-50</span>
-                                                    </label>
-                                                    <label class="selectgroup-item">
-                                                        <input type="radio" name="fixedStaff"
-                                                            value="51-100" class="selectgroup-input">
-                                                        <span
-                                                            class="selectgroup-button selectgroup-button-icon px-4">51-100</span>
-                                                    </label>
-
-                                                    <label class="selectgroup-item">
-                                                        <input type="radio" name="fixedStaff"
-                                                            value="101-250" class="selectgroup-input">
-                                                        <span
-                                                            class="selectgroup-button selectgroup-button-icon px-4">101-250</span>
-                                                    </label>
-
-                                                    <label class="selectgroup-item">
-                                                        <input type="radio" name="fixedStaff"
-                                                            value="251 or above"
-                                                            class="selectgroup-input">
-                                                        <span
-                                                            class="selectgroup-button selectgroup-button-icon px-4">251
-                                                            or above</span>
-                                                    </label>
-                                                </div>
+                                            
+                                        <div class="form-group col-md-4">
+                                            <label for="bcrC5FlhCrh">Staff Size</label>
+                                            <input type="number" class="form-control textValue"
+                                                oninput="pushDataElement(this.id,this.value)"
+                                                id="bcrC5FlhCrh">
+                                            <div class="invalid-feedback">
+                                                Error here
                                             </div>
+                                        </div>
+
                                         </div>
 
                                         <hr>
@@ -1428,7 +1429,7 @@
                                                     priority 1 (choose most relevant)</h4>
                                             </div>
 
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-6">
                                                 <label data-i18n="intro.Select_Any">Select Any</label>
                                                 <select class="form-control  textValue" id="ruUgWVq48ke"
                                                     onchange="pushDataElement(this.id,this.value)">
@@ -1494,9 +1495,7 @@
                                                     priority 2 (chose most relevant)</h4>
                                             </div>
                                             <!--#ruUgWVq48ke id=-->
-                                            <div class="form-group col-md-12">
-                                                <label data-i18n="intro.Select_Any_One">Select Any
-                                                    One</label>
+                                            <div class="form-group col-md-6">
                                                 <select class="form-control  textValue" id="AqNCKTl9iU9"
                                                     onchange="pushDataElement(this.id,this.value)">
                                                     <option value="">Choose</option>
@@ -1552,6 +1551,68 @@
                                             </div>
                                         </div>
 
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="col-sm-12">
+                                                <h4 data-i18n="">
+                                                    1. In this year will your MA receive (donated) commodities from (choose all that apply):
+                                                </h4>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="">
+                                                    <label class="form-check-label" for=""> IPPF (see 3.4) </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="">
+                                                    <label class="form-check-label" for=""> Ministry of Health (upload MoU) </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="">
+                                                    <label class="form-check-label" for=""> UNFPA Supplies (upload IP Agreement) </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="">
+                                                    <label class="form-check-label" for=""> Local Procurement </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <hr>
+                                        <div class="form-row">
+                                            <div class="col-sm-12">
+                                                <h4 data-i18n="">
+                                                    What is the total value of commodities in USD you plan to access in this year from:
+                                                </h4>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                    <label class="form-check-label" for=""> IPPF </label>
+                                                    <input type="text" class="form-control textValue"
+                                                    oninput="pushDataElement(this.id,this.value)"
+                                                    id="">
+                                                </div>
+                                            <div class="form-group col-md-6">
+                                                    <label class="form-check-label" for=""> Ministry of Health </label>
+                                                    <input type="text" class="form-control textValue"
+                                                    oninput="pushDataElement(this.id,this.value)"
+                                                    id="">
+                                                </div>
+                                            <div class="form-group col-md-6">
+                                                    <label class="form-check-label" for=""> UNFPA Supplies </label>
+                                                    <input type="text" class="form-control textValue"
+                                                    oninput="pushDataElement(this.id,this.value)"
+                                                    id="">
+                                                </div>
+                                            <div class="form-group col-md-6">
+                                                    <label class="form-check-label" for=""> Local Procurement </label>
+                                                    <input type="text" class="form-control textValue"
+                                                    oninput="pushDataElement(this.id,this.value)"
+                                                    id="">
+                                                </div>
+                                            </div>
+
                                         <div class="form-row">
                                             <div class="col-sm-12 text-right">
                                                 <div class="form-group text-end mar-b-0">
@@ -1582,12 +1643,12 @@
                                                     upload key strategy documents</label>                                           
                                                     <div class="row">
                                                         <div class="col">
-                                                            <input class="form-control show-for-sr" type="file"
-                                                            id="nZGznE9lZs8"
-                                                            name="upload_strategy_docs[]" />
+                                                   <input class="form-control show-for-sr" type="file"
+                                                   id="nZGznE9lZs8"
+                                                   name="upload_strategy_docs[]" />
                                                         </div>
                                                         <div class="col">   
-                                                            <a class="link-success" id="nZGznE9lZs8-download"></a>
+                                                   <a class="link-success" id="nZGznE9lZs8-download"></a>
                                                         </div>
                                                     </div>
                                                 <div class="invalid-feedback">
@@ -1601,12 +1662,12 @@
                                                     upload key annual report documents</label>                                   
                                                     <div class="row">
                                                         <div class="col-8">
-                                                            <input class="form-control show-for-sr" type="file"
-                                                            id="AOAicoujJT4"
-                                                            name="upload_annual_report_docs[]" />      
+                                                   <input class="form-control show-for-sr" type="file"
+                                                   id="AOAicoujJT4"
+                                                   name="upload_annual_report_docs[]" />      
                                                         </div>
                                                         <div class="col">   
-                                                            <a class="link-success" id="AOAicoujJT4-download"></a>
+                                                   <a class="link-success" id="AOAicoujJT4-download"></a>
                                                         </div>
                                                     </div>
                                                 <div class="invalid-feedback">
@@ -1620,25 +1681,60 @@
                                                     upload key audits reports documents</label>            
                                                     <div class="row">
                                                         <div class="col-8">
-                                                            <input class="form-control show-for-sr" type="file"
-                                                            id="NxRiTEvtsho" name="upload_audit_docs[]" />
+                                                   <input class="form-control show-for-sr" type="file"
+                                                   id="NxRiTEvtsho" name="upload_audit_docs[]" />
                                                         </div>
                                                         <div class="col">   
-                                                            <a class="link-success" id="NxRiTEvtsho-download"></a>
+                                                   <a class="link-success" id="NxRiTEvtsho-download"></a>
                                                         </div>
                                                     </div>
                                                 <div class="invalid-feedback">
                                                     Error here
                                                 </div>
                                             </div>
-
+                                            
+                                            <div class="form-group col-md-12">
+                                                <label id="uploadlogo1-label" for=""
+                                                    data-i18n="">Please upload valid Memorandum of Understanding with your Government, if in place</label>                                           
+                                                    <div class="row">
+                                                        <div class="col">
+                                                   <input class="form-control show-for-sr" type="file"
+                                                   id="id"
+                                                   name="upload_strategy_docs[]" />
+                                                        </div>
+                                                        <div class="col">   
+                                                   <a class="link-success" id="id-download"></a>
+                                                        </div>
+                                                    </div>
+                                                <div class="invalid-feedback">
+                                                    Error here
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-12">
+                                                <label id="uploadlogo1-label" for=""
+                                                    data-i18n=""> Please upload valid Implementing Partner Agreement with UNFPA (Supplies), if in place</label>                                           
+                                                    <div class="row">
+                                                        <div class="col">
+                                                   <input class="form-control show-for-sr" type="file"
+                                                   id="id-1"
+                                                   name="upload_strategy_docs[]" />
+                                                        </div>
+                                                        <div class="col">   
+                                                   <a class="link-success" id="id1-download"></a>
+                                                        </div>
+                                                    </div>
+                                                <div class="invalid-feedback">
+                                                    Error here
+                                                </div>
+                                            </div>
                                             <div class="form-group col-md-12">
                                                 <label id="uploadlogo4-label" for="" data-i18n="intro.other1">Other 1</label>
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <input class="form-control show-for-sr" type="file"
-                                                            id="FO9fF9eA6pK"
-                                                            name="upload_other_docs_1[]"  />
+                                                   id="FO9fF9eA6pK"
+                                                   name="upload_other_docs_1[]"  />
                                                     </div>
                                                     <div class="col">   
                                                         <a class="link-success" id="FO9fF9eA6pK-download"></a>
@@ -1654,8 +1750,8 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <input class="form-control show-for-sr" type="file"
-                                                            id="yjgEdF3rfeO"
-                                                            name="upload_other_docs_2[]"  />
+                                                   id="yjgEdF3rfeO"
+                                                   name="upload_other_docs_2[]"  />
                                                     </div>
                                                     <div class="col">   
                                                         <a class="link-success" id="yjgEdF3rfeO-download"></a>

@@ -16,6 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document.getElementById('region').addEventListener("change", function (ev) {
+    const {value} = ev.target
+    setMembersAssociation([{id: value}])
+  })
+
   async function fetchOrganizationUnitUid() {
     try {
 

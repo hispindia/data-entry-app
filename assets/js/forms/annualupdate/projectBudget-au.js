@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${tei.year.value}" class="form-control totalBudget-${tei.year.value} currency" disabled readonly>
+            <input type="text" value="" id="" class="form-control donor-${tei.year.value} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -169,6 +169,16 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div>
             <input type="text" value="${formatNumberInput(coreFunding)}" id="${dataElements.coreFunding}-${tei.year.value}" class="form-control coreFunding-${tei.year.value} currency" disabled readonly>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                $
+              </div>
+            </div>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${tei.year.value}" class="form-control totalBudget-${tei.year.value} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -214,9 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <table class="table table-striped table-md mb-0 " width="100%">
               <thead>
                 <tr>
-                  <th data-i18n="intro.budget">Budget</th>
-                  <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
+                  <th data-i18n="">Donor Budget</th>
                   <th data-i18n="intro.core_funding">IPPF Core Funding Allocated</th>
+                  <th data-i18n="">Total Budget</th>
+                  <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
                 </tr>
               </thead>
               <tbody>`
@@ -231,15 +242,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           $
                         </div>
                       </div>
-                      <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${formatNumberInput(budget)}" id="${dataElements.projectBudget[index].budget}-${tei.year.value}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${tei.year.value}, 'totalBudget')" class="form-control input-totalBudget-${tei.year.value} currency">
+                      <input type="text" ${tei.disabled ? 'disabled readonly': ''}   value="" id="${dataElements.projectBudget[index].donor}-${tei.year.value}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${tei.year.value}, 'coreFunding')" class="form-control input-coreFunding-${tei.year.value} currency">
                     </div>
-                  </td>
-                  <td>
-                    <select class="form-control" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}-${tei.year.value}" onchange="pushDataElementYear(this.id,this.value)">
-                      <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed">Confirmed</option>
-                      <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)">Likely(Over 80%)</option>
-                      <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain">Uncertain</option>
-                    </select>
                   </td>
                   <td>
                     <div class="input-group">
@@ -250,6 +254,23 @@ document.addEventListener("DOMContentLoaded", function () {
                       </div>
                       <input type="text" ${tei.disabled ? 'disabled readonly': ''}   value="${formatNumberInput(funding)}" id="${dataElements.projectBudget[index].funding}-${tei.year.value}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${tei.year.value}, 'coreFunding')" class="form-control input-coreFunding-${tei.year.value} currency">
                     </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          $
+                        </div>
+                      </div>
+                      <input disabled  value="${formatNumberInput(budget)}" id="${dataElements.projectBudget[index].budget}-${tei.year.value}" oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals(${tei.year.value}, 'totalBudget')" class="form-control input-totalBudget-${tei.year.value} currency">
+                    </div>
+                  </td>
+                  <td>
+                    <select class="form-control" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}-${tei.year.value}" onchange="pushDataElementYear(this.id,this.value)">
+                      <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed">Confirmed</option>
+                      <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)">Likely(Over 80%)</option>
+                      <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain">Uncertain</option>
+                    </select>
                   </td>
                 </tr>`
             projectRows += `</tbody>
