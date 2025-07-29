@@ -312,11 +312,11 @@ const translation_mapping = [
     
     {
         id: "other",
-        en: "Other",
-        sp: "Otro",
-        fr: "Autre",
-        ar: 'آخر'
-    },
+        en: "06. Other (please write below)",
+        sp: "06. Otro (especificar a continuación)",
+        fr: "06. Autres (veuillez préciser ci-dessous)",
+        ar: "06. غير ذلك (نرجو التوضيح أدناه)"
+      },
     {
         id: "secondary_focus",
         en: "What is your secondary focus area (chose most relevant)",
@@ -328,52 +328,117 @@ const translation_mapping = [
     
     {
         id: "focus_1",
-        en: "Abortion Care ",
-        sp: "Atención del aborto",
-        fr: "Soins d'avortement",
-        ar: " الصحة الجنسية والإنجابية الإنسانية"
+        en: "P1. Abortion Care",
+        sp: "P1. Atención del aborto",
+        fr: "P1. Soins d’avortement",
+        ar: 'م1. رعاية الإجهاض'
     },
     {
         id: "focus_2",
-        en: "General SRHR or FP",
-        sp: "SDSR o planificación familiar general",
-        fr: "SDSR générale ou PF",
-        ar: " الدعوة وتبديل المعايير"
+        en: "P1. General Contraception",
+        sp: "P1. Anticoncepción general",
+        fr: "P1. Contraception générale",
+        ar: 'م1. وسائل منع الحمل العامة'
     },
     {
         id: "focus_3",
-        en: "Advocacy & Norms shifting",
-        sp: "Incidencia política y modificación de normas",
-        fr: "Plaidoyer et changement de normes",
-        ar: "تنظيم الأسرة أو الصحة الجنسية والإنجابية العامة"
+        en: "P2. Incidencia y cambio de normas",
+        sp: "P2. Incidencia y cambio de normas  ",
+        fr: "P2. Plaidoyer et changement des normes",        
+        ar: 'م2. المناصرة وتغيير المعايير'
     },
     {
         id: "focus_4",
-        en: "Humanitarian SRHR",
-        sp: "SDSR humanitarios",
-        fr: "SDSR humanitaire",
-        ar: " تنظيم الأسرة أو الصحة الجنسية والإنجابية العامة "
+        en: "P1. Humanitarian SRHR",
+        sp: "P1. SDSR humanitarios",
+        fr: "P1. SDSR humanitaire",
+        ar: 'م1. العمل الإنساني في الحقوق والصحة الجنسية والإنجابية'
     },
     {
         id: "focus_5",
-        en: "Youth Care or CSE",
-        sp: "Atención de personas jóvenes o EIS",
-        fr: "Soins à la jeunesse ou ECS",
-        ar: "رعاية الإجهاض"
+        en: "P2. Youth",
+        sp: "P2. Juventud ",
+        fr: "P2. Jeunesse ",
+        ar: 'م2. الشباب '
     },
     {
         id: "focus_6",
-        en: "HIV Prevention or Care",
-        sp: "Prevención o atención de VIH",
-        fr: "Prévention ou soins du VIH",
-        ar: " الرعاية أو الوقاية من فيروس نقص المناعة البشري"
+        en: "P1. HIV & AIDS",
+        sp: "P1. VIH y SIDA",
+        fr: "P1. VIH et sida",
+        ar: 'م1. فيروس نقص المناعة البشري (HIV) والإيدز'
     },
     {
         id: "focus_7",
-        en: "LGBTQ+ Care",
-        sp: "Atención de LGBTQ+",
-        fr: "Soins LGBTQ+",
-        ar: " رعاية مجتمع الميم (الشواذ +LGBTQ)"
+        en: "P4. Marginalised Pops (incl. LGBTQ+)",
+        sp: "P4. Poblaciones marginadas (incluyendo LGBTQ+)",
+        fr: "P4. Populations marginalisées (y compris LGBTQ+)",
+        ar: 'م4. الفئات المهمشة (بما في ذلك مجتمع الميم (الشواذ +LGBTQ))'
+    },
+    {
+        id: "focus_8",
+        en: "P2. SGBV / Gender",
+        sp: "P2. VSBG / Género",
+        fr: "P2. VSBG / Genre",
+        ar: "م2. العنف الجنسي والعنف القائم على النوع الاجتماعي / النوع الاجتماعي"
+    },
+     {
+        id: "focus_9",
+        en: "P2. Communications & Campaigns",
+        sp: "P2. Comunicaciones y campañas",
+        fr: "P2. Communication et campagnes",
+        ar: "م2. الاتصالات والحملات"
+    },
+    {
+        id: "focus_10",
+        en: "P1. Fertility Care /Support",
+        sp: "P1. Apoyo y atención de la fertilidad",
+        fr: "P1. Soins/soutien relatifs à la fertilité",
+        ar: "م1. دعم/رعاية الخصوبة"
+    },
+    {
+        id: "focus_11",
+        en: "P3. Research / evidence",
+        sp: "P3. Investigación / Pruebas",
+        fr: "P3. Recherche / éléments de preuve",
+        ar: "م3. البحوث / الأدلة"
+    },
+    {
+        id: "focus_12",
+        en: "P4. Organisational Processes and Systems",
+        sp: "P4. Sistemas y procesos organizativos",
+        fr: "P4. Processus et systèmes de l’organisation",
+        ar: "م4. الأنظمة والعمليات التنظيمية"
+    },
+    {
+        id: "focus_13",
+        en: "P4. Commercial Sustainability",
+        sp: "P4. Sostenibilidad comercial",
+        fr: "P4. Pérennité commerciale",
+        ar: 'م4. الاستدامة التجارية'
+
+    },
+    {
+        id: "focus_14",
+        en: "P4. Social Enterprise & Marketing",
+        sp: "P4. Empresa social y marketing",
+        fr: "P4. Entreprise sociale et marketing",
+        ar: "م4. المشاريع الاجتماعية والتسويق"
+
+    },
+    {
+        id: "focus_15",
+        en: "Other (please fill in)",
+        sp: "P5. Otro (completar)",
+        fr: "P5. Autres (à préciser)",
+        ar: 'م5. غير ذلك (نرجو التوضيح)'
+    },
+    {
+        id: "focus_16",
+        en: "P5. Not applicable.",
+        sp: "P5. No aplicable.",
+        fr: "P5. Sans objet.",
+        ar: 'م5. لا ينطبق.'
     },
    {
         id: "organisation_networks",
@@ -726,18 +791,207 @@ const translation_mapping = [
     },
     {
         id: "external_risks",
-        en: "Ques 4. External risks and risk mitigation",
-        sp: "4.Riesgos externos y mitigación de riesgos",
-        fr: "Ques 4. Risques externes et atténuation des risques",
-        ar: '4. المخاطر الخارجية وتخفيف المخاطر'
+        en: "Ques 4. External risks and risk mitigation ",
+        sp: "4. Riesgos externos y mitigación de riesgos ",
+        fr: "Ques 4. 4. Risques externes et atténuation des risques ",
+        ar: '4. المخاطر الخارجية وتخفيف المخاطر '
     },
     {
         id: "external_risks_description",
         en: "Within a three-year perspective, describe critical external risks and challenges related to the delivery of your Business Plan (e.g., political, economic), and your efforts to address/mitigate them.",
         sp: "Con una perspectiva de tres años, describa los desafíos y riesgos externos críticos relacionados con la ejecución de su Plan de negocio (p. ej., políticos, económicos) y sus esfuerzos para abordarlos o mitigarlos.",
         fr: "À un horizon sur trois ans, décrivez les risques et les problèmes externes critiques liés à la réalisation de votre plan d’activité (par ex., d’ordre politique, économique), et vos efforts pour y remédier/les atténuer.",
-        ar: "من منظور يمتد لثلاث سنوات، وضح المخاطر والتحديات الخارجية بالغة الأهمية التي تواجهكم في تنفيذ خطة عملكم (على سبيل المثال، السياسية والاقتصادية)، والجهود التي تبذلونها للتغلب عليها/تخفيفها"
+        ar: "من منظور يمتد لثلاث سنوات، وضح المخاطر والتحديات الخارجية بالغة الأهمية التي تواجهكم في تنفيذ خطة عملكم (على سبيل المثال، السياسية والاقتصادية)، والجهود التي تبذلونها للتغلب عليها/تخفيفها."
     },
+    // created by MN with sheet translation
+    {
+        id: "youth_leadership",
+        en: "Ques 5. SMART Outcomes",
+        sp: "5. Resultados SMART",
+        fr: "5. Résultats SMART",
+        ar: "5. نتائج واضحة وقابلة للقياس ويمكن تحقيقها ووثيقة الصلة ومحددة بوقت (SMART)"
+    },
+    {
+        id: "describe_youth_leadership_para1",
+        en: "SMART: Specific, Measurable, Achievable, Relevant, and Time-bound Outcomes",
+        sp: "SMART: específico, medible, apropiado, realista y con plazos establecidos",
+        fr: "Résultats SMART : spécifiques, mesurables, atteignables, réalistes et limités dans le temps",
+        ar: "SMART: واضحة وقابلة للقياس ويمكن تحقيقها ووثيقة الصلة ومحددة بوقت"
+    },
+    {
+        id: "describe_youth_leadership_para2",
+        en: "Describe your medium term (3-year) expected strategic outcomes (up to five).",
+        sp: "Describa los resultados estratégicos esperados (hasta cinco) a mediano plazo (3 años).",
+        fr: "Décrivez vos résultats stratégiques (5 au maximum) attendus à moyen terme (3 ans).",
+        ar: "وضح النتائج الاستراتيجية التي تتوقعون تحقيقها على المدى المتوسط (3 سنوات) (حتى خمس سنوات)."
+    },
+    {
+        id: "youth_involvement",
+        en: "Ques 6. Youth Leadership and Involvement",
+        sp: "6. Liderazgo y participación juvenil",
+        fr: "6. Leadership des jeunes et participation des jeunes ",
+        ar: "6. قيادة الشباب ومشاركتهم "
+    },
+    // created by MN 
+    {
+        id: "describe_youth_Leadership",
+        en: "Describe the process followed to ensure youth decided 5% of your core funding. Please list the projects that will be youth led and/or have youth involvement.",
+        sp: "Describa el proceso seguido para garantizar que la juventud decida sobre el 5 % del financiamiento básico. Enumere los proyectos que serán liderados por la juventud o en los que participarán.",
+        fr: "Décrivez la démarche que vous avez adoptée pour faire en sorte que les jeunes décident de 5 % de votre financement de base. Veuillez énumérer les projets qui seront dirigés par des jeunes et/ou auxquels des jeunes participeront.",
+        ar: "وضح الإجراءات التي تلتزمون بها لضمان حصول الشباب على 5٪ من تمويلكم الأساسي. نرجو إيضاح المشاريع التي سيقودها الشباب و/أو التي يشارك فيها الشباب."
+    },
+    {
+        id: "organisational_status",
+        en: "Organisational status",
+        sp: "Situación de la organización",
+        fr: "Statut de l’organisation",
+        ar: 'الوضع التنظيمي'
+    },
+    {
+        id: "challenges_opportunities",
+        en: "Challenges and opportunitties",
+        sp: "Desafíos y oportunidades",
+        fr: "Défis et opportunités",
+        ar: 'التحديات والفرص '
+    },
+    {
+        id: "challenges",
+        en: "3. Challenges",
+        sp: "3. Desafíos",
+        fr: "3. Problèmes",
+        ar: 'التحديات'
+    },
+    {
+        id: "opportunities",
+        en: "Opportunities",
+        sp: "Oportunidades",
+        fr: "Opportunités",
+        ar: "الفرص"
+    },
+    {
+        id: "institutional",
+        en: "Institutional",
+        sp: "Institucionales",
+        fr: "Institutionnel",
+        ar: "المؤسسية"
+    },
+    {
+        id: "institutional_challenges_description",
+        en: "For example: governance, leadership, staff, systems, etc",
+        sp: "Por ejemplo: gobernanza, liderazgo, personal, sistemas, etc.",
+        fr: "Par exemple : gouvernance, leadership, personnel, systèmes, etc.",
+        ar: 'مثل الحوكمة، والقيادة، والموظفين، والأنظمة، وما إلى ذلك.'
+    },
+    // created by MN 
+    {
+        id: "operational",
+        en: "Operational",
+        sp: "Operativos",
+        fr: "Opérationnel",
+        ar: "التشغيلية"
+    },
+    {
+        id: "operational_challenges_description",
+        en: "For example: administration, logistics, supply chain, demand, etc.",
+        sp: "Por ejemplo: administración, logística, cadena de suministro, demanda, etc.",
+        fr: "Par exemple : administration, logistique, chaîne d’approvisionnement, demande, etc.",
+        ar: 'مثل الإدارة، واللوجستيات، وسلسلة التوريد، والطلب، وما إلى ذلك.'
+    },
+    // created by MN 
+    {
+        id: "programmatic",
+        en: "Programmatic",
+        sp: "Programáticos",
+        fr: "Programmatique",
+        ar: 'البرامجية ',
+    },
+    // created by MN 
+    {
+        id: "programmatic_example",
+        en: "For example: delivery capacity, M&E, quality of care, client interest",
+        sp: "Por ejemplo: capacidad de prestación de servicios; monitoreo y evaluación, calidad de la atención, interés de los usuarios",
+        fr: "Par exemple : capacité de prestation, suivi-évaluation, qualité des soins, intérêt du client",
+        ar: "مثل القدرة على التنفيذ، والرصد والتقييم، وجودة الرعاية، واهتمام المستفيدين"
+    },
+    {
+        id: "financial",
+        en: "Financial",
+        sp: "Financieros",
+        fr: "Financier",
+        ar: "المالية"
+    },
+    {
+        id: "financial_challenges_description",
+        en: "For example: audits, management letters, capacity, systems, etc.",
+        sp: "Por ejemplo: auditorías, cartas de gestión, capacidad, sistemas, etc.",
+        fr: "Par exemple : audits, lettres de gestion, capacité, systèmes, etc.",
+        ar: 'مثل عمليات التدقيق، وخطابات الإدارة، والإمكانات، والأنظمة، وما إلى ذلك.'
+    },
+     {
+        id: "sustainability_challenges",
+        en: "Sustainability challenges",
+        sp: "Desafíos de sostenibilidad",
+        fr: "Difficultés en matière de durabilité ",
+        ar: "تحديات الاستدامة "
+    },
+    {
+        id: "sustainability_challenges_description",
+        en: "For example: income diversification, social enterprise, domestic financing, etc.",
+        sp: "Por ejemplo: diversificación de ingresos, empresa social, financiamiento nacional, etc.",
+        fr: "Par exemple : diversification des recettes, entreprise sociale, financement national, etc.",
+        ar: 'مثل تنويع الدخل، والمشاريع الاجتماعية، والتمويل المحلي، وما إلى ذلك.'
+    },
+    // created 
+    {
+        id: "technical_assistance_heading",
+        en: "Choose as many as relevant with number 1 being the top priority/area of expertise and 5 being the lowest.",
+        sp: "Elija todas las opciones que sean relevantes y enumere del 1 al 5 en orden decreciente, con el número 1 como principal prioridad / área de experiencia.",
+        fr: "Indiquez-en le plus grand nombre possible, 1 correspondant à une priorité absolue/domaine d’expertise et 5 au niveau le plus bas.",
+        ar: "اختر أكبر عدد ممكن من الخيارات ذات الصلة، بحيث يكون الرقم 1 هو الأولوية/مجال الخبرة الأعلى، والرقم 5 هو الأقل."
+    },
+    {
+        id: "technical_assistance_dropdown_left",
+        en: "Main Technical Assistance / Capacity (our organisational needs)",
+        sp: "Asistencia técnica principal / Capacidad (nuestras necesidades organizativas)",
+        fr: "Assistance/capacité technique principale (les besoins de notre organisation)",
+        ar: 'المساعدة الفنية الرئيسية / الإمكانات (احتياجات منظمتنا)'
+    },
+    {
+        id: "technical_assistance_dropdown_right",
+        en: "Organisational Areas of Expertise / Capacity (we can share tools & train others)",
+        sp: "Áreas organizativas de experiencia / Capacidad (podemos compartir herramientas y capacitar a otros)",
+        fr: "Domaines d’expertise/capacité de l’organisation (nous pouvons partager des outils et former d’autres personnes)",
+        ar: 'الإمكانات / مجالات الخبرة التنظيمية (يمكننا مشاركة الأدوات وتدريب الآخرين)'   
+    },
+
+
+
+
+
+
+
+
+
+
+
+     // doubt
+    {
+        id: "institutional_challenges",
+        en: "Institutional Challenges",
+        sp: "Desafíos institucionales",
+        fr: "Difficultés institutionnelles",
+        ar: "التحديات المؤسسية "
+    },
+    
+    
+
+
+
+
+
+
+
+   
 
 
 
@@ -1049,46 +1303,11 @@ const translation_mapping = [
         ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
     },
     {
-        id: "youth_involvement",
-        en: "Ques 5. Youth Leadership and Involvement",
-        sp: "5. Liderazgo y participación juvenil",
-        fr: "Ques 5. Leadership et participation des jeunes",
-        ar: "'5. قيادة الشباب ومشاركتهم'"
-    },
-    {
         id: "youth_involvement_description",
         en: "Describe the process put in place to ensure that 5% of the budget of your Business  Plan was decided by youth",
         sp: "Describa el proceso que se ha puesto en marcha para garantizar que el 5 % del presupuesto de su Plan de negocio lo decidan las personas jóvenes",
         fr: "Décrivez le processus mis en place pour vous assurer que 5 % du budget de votre plan d'activité a été décidé par les jeunes",
         ar:  'اشرح الإجراءات المتبعة للتأكد من أن 5٪ من ميزانية خطة أعمالكم قد قام الشباب بتحديدها. (بحد أقصى 250 كلمة)'
-    },
-    {
-        id: "organisational_status",
-        en: "Organisational status",
-        sp: "Situación de la organización",
-        fr: "Statut de l’organisation",
-        ar: 'الوضع التنظيمي'
-    },
-    {
-        id: "challenges_opportunities",
-        en: "Challenges and opportunitties",
-        sp: "Desafíos y oportunidades",
-        fr: "Défis et opportunités",
-        ar: 'التحديات والفرص '
-    },
-    {
-        id: "institutional_challenges",
-        en: "Institutional Challenges",
-        sp: "Desafíos institucionales",
-        fr: "Difficultés institutionnelles",
-        ar: "التحديات المؤسسية "
-    },
-    {
-        id: "institutional_challenges_description",
-        en: "For example: governance, leadership, staff, systems, etc",
-        sp: "Por ejemplo: gobernanza, liderazgo, personal, sistemas, etc",
-        fr: "Par exemple : gouvernance, leadership, personnel, systèmes, etc",
-        ar: 'مثل الحوكمة، والقيادة، والموظفين، والأنظمة، وما إلى ذلك. '
     },
     {
         id: "institutional_opportunities",
@@ -1104,13 +1323,7 @@ const translation_mapping = [
         fr: "Difficultés opérationnelles",
         ar: 'التحديات التشغيلية '
     },
-    {
-        id: "operational_challenges_description",
-        en: "For example: administration, logistics, supply chain, demand, etc",
-        sp: "Por ejemplo: administración, logística, cadena de suministro, demanda, etc",
-        fr: "Par exemple : administration, logistique, chaîne d'approvisionnement, demande, etc",
-        ar: 'مثل الإدارة، واللوجستيات، وسلسلة التوريد، والطلب، وما إلى ذلك. '
-    },
+    
     {
         id: "operational_opportunities",
         en: "Operational Opportunities",
@@ -1140,32 +1353,11 @@ const translation_mapping = [
         ar: "التحديات المالية "
     },
     {
-        id: "financial_challenges_description",
-        en: "For example: audits, management letters, capacity, capacity, systems, etc",
-        sp: "Por ejemplo: auditorías, cartas de gestión, capacidad, sistemas, etc",
-        fr: "Par exemple : audits, lettres de gestion, capacité, systèmes, etc",
-        ar: "مثل عمليات التدقيق، وخطابات الإدارة، والإمكانات، والأنظمة، وما إلى ذلك."
-    },
-    {
         id: "financial_opportunities",
         en: "Financial opportunities",
         sp: "Oportunidades financieras",
         fr: "Opportunités financières",
         ar: "الفرص المالية "
-    },
-    {
-        id: "sustainability_challenges",
-        en: "Sustainability challenges",
-        sp: "Desafíos de sostenibilidad",
-        fr: "Difficultés en matière de durabilité ",
-        ar: "تحديات الاستدامة "
-    },
-    {
-        id: "sustainability_challenges_description",
-        en: "For example: income diversification, social enterprise, domestic financing, etc",
-        sp: "Por ejemplo: diversificación de ingresos, empresa social, financiamiento nacional, etc",
-        fr: "Par exemple : diversification des recettes, entreprise sociale, financement intérieur, etc",
-        ar: 'مثل تنويع الدخل، والمشاريع الاجتماعية، والتمويل المحلي، وما إلى ذلك'
     },
     {
         id: "sustainability_opportunities",
@@ -1486,17 +1678,18 @@ const translation_mapping = [
     },
     {
         id: "focus_area_5",
-        en: "5. Care: Digital Health Intervention and Selfcare",
-        sp: "5. Atención: intervención de salud digital y autocuidado",
-        fr: "5. Soins : Interventions de santé numérique et soins auto-administrés",
-        ar: "5. الرعاية: التدخل الصحي الرقمي والرعاية الذاتية"
+        en: "P1. Digital Health Interventions & Selfcare",
+        sp: "P1. Intervenciones de salud digital y autocuidado",
+        fr: "P1. Interventions de santé numérique et soins auto-administrés",
+        ar: 'م1. التدخلات الصحية الرقمية والرعاية الذاتية'
     },
     {
+        //change 
         id: "focus_area_6",
-        en: "6. Advocacy",
-        sp: "6. Incidencia política",
-        fr: "6. Plaidoyer",
-        ar: "6. الدعوة"
+        en: "P2. Advocacy & Norms Change",
+        sp: "P2. Incidencia y cambio de normas",
+        fr: "P2. Plaidoyer et changement des normes",
+        ar: "م2. المناصرة وتغيير المعايير"
     },
     {
         id: "focus_area_7",
@@ -2588,13 +2781,6 @@ de productos (como se indica en la parte de abajo del formulario)
         sp: "Nutrir nuestra Federación:",
         fr: "Consolider notre Fédération",
         ar: 'ننمي اتحادنا:'
-    },
-    {
-        id: "challenges",
-        en: "3. Challenges",
-        sp: "3. Desafíos",
-        fr: "3. Difficultés",
-        ar: '3. التحديات'
     },
     {
         id: "challenges_info",
