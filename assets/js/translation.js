@@ -1,19 +1,5 @@
 const translation_mapping = [
-    //Sidebar
-    {
-        id: "select_ma",
-        en: "Select MA / CP",
-        sp: "Seleccione MA/CP",
-        fr: "Sélectionnez MA/CP",
-        ar: "حدد MA / CP",
-    },
-    {
-        id: "business_plan",
-        en: "3 Year Business Plan",
-        sp: "Plan de negocios de 3 años",
-        fr: "Plan d'affaires sur 3 ans",
-        ar: "خطة عمل لمدة 3 سنوات",
-    },
+    // 1.1 Organization detials
     { 
         id: "organization_details", 
         en: "1.1 Organization Details",
@@ -21,187 +7,6 @@ const translation_mapping = [
         fr: "1.1 Détails de l'organisation",
         ar: "1.1 تفاصيل المنظمة",    
     },
-    //Narrative Plan
-    {
-        id: "narrative_plan",
-        en: "1.2 Narrative Plan",
-        sp: "1.2 Narrativa del Plan",
-        fr: "1.2 Narratif du plan",
-        ar: "2.1 خطة التوضيح",
-    },
-    {
-        id: "project_description",
-        en: "2.1 Project Description",
-        sp: "2.1 Descripción del proyecto",
-        fr: "2.1 Description du projet",
-        ar: "1.2 وصف المشروع",
-    },
-    {
-        id: "project_budget",
-        en: "2.2 Project Expense Budget",
-        sp: "2.2 Presupuesto de gastos del proyecto",
-        fr: "2.2 Budget des dépenses du projet",
-        ar: "2.2 ميزانية نفقات المشروع",
-    },
-    {
-        id: "project_focusarea",
-        en: "2.3 Expense Budget by Focus Area",
-        sp: "2.3 Presupuesto de gastos por área de enfoque",
-        fr: "2.3 Budget des dépenses par domaine d'intérêt",
-        ar: "2.3 ميزانية النفقات حسب مجال التركيز",
-    },
-    {
-        id: "project_expense",
-        en: " 2.4 Budget by Expense Category",
-        sp: "2.4 Proyectos - Categoría de gastos",
-        fr: "2.4 Projets par catégorie de dépenses",
-        ar: "4.2 المشاريع - فئة الإنفاق",
-    },
-    {
-        id: "total_income",
-        en: "3.1 Total Income",
-        sp: "3.1 Ingresos totales",
-        fr: "3.1 Total des recettes",
-        ar: "1.3 إجمالي الدخل",
-    },
-    {
-        id: "total_income_ar",
-        en: "Total Income",
-        sp: "Ingresos totales",
-        fr: "Total des recettes",
-        ar: "إجمالي الدخل",
-    },
-    {
-        id: "income_donor",
-        en: "3.2 Income by Donor",
-        sp: "3.2 Ingresos por donante",
-        fr: "3.2 Recettes par bailleur de fonds",
-        ar: "2.3 الدخل حسب الجهة المانحة",
-    },
-    {
-        id: "value_corefunding",
-        en: "3.3 Value Add of Core Funding",
-        sp: "3.3 Valor añadido del financiamiento básico",
-        fr: "3.3 Valeur ajoutée des fonds de base",
-        ar: "3.3 القيمة المضافة للتمويل الأساسي",
-    },
-    {
-        id: "order_commodities",
-        en: "3.4 Order Commodities from IPPF",
-        sp: "3.4 Pedidos de productos a la IPPF",
-        fr: "3.4 Commande de produits auprès de l’IPPF",
-        ar: "4.3 طلب السلع الطبية من الاتحاد الدولي لتنظيم الأسرة (IPPF)",
-    },
-    {
-        id: "commodities_funding",
-        en: "3.5 Commodities by Source of Funding",
-        sp: "3.5 Productos por fuente",
-        fr: "3.5 Produits par source de financement",
-        ar: "5.3 مصدر السلع الطبية",
-    },
-    {
-        id: "annual_update",
-        en: "Annual Business Plan",
-        sp: "Plan de negocios anual",
-        fr: "Plan d'affaires annuel",
-        ar: "خطة العمل السنوية",
-    },
-    {
-        id: "annual_report",
-        en: "Annual / Semi-Annual Report Submission & Approval",
-        sp: "Presentación y aprobación del informe anual/semestral",
-        fr: "Soumission et Approbation du Rapport annuel/semestriel ",
-        ar: 'إرسال واعتماد التقرير السنوي/نصف السنوي',
-    },
-    {
-        id: "organization_report",
-        en: "1. Organization Details",
-        sp: "1. Información de la AM",
-        fr: "1. Informations sur l'AM",
-        ar: '1.معلومات الجمعية العضو'
-    },
-    {
-        id: "narrative_report",
-        en: "2. Narrative Report",
-        sp: "2. Informe narrativo",
-        fr: "2. Rapport descriptif",
-        ar: '2. التقرير التوضيحي'
-    },
-    {
-        id: "add_project",
-        en: "3. Add New Project",
-        sp: "3. Añadir nuevo proyecto",
-        fr: "3. Ajouter un nouveau projet",
-        ar: '3. إضافة مشروع جديد'
-    },
-    {
-        id: "budget_vs_focusarea",
-        en: "4. Budget vs Actuals by Focus Area",
-        sp: "4. Presupuesto vs. datos reales según área prioritaria",
-        fr: "4. Écart entre le budget et les dépenses réelles par volet d’intervention",
-        ar: '4. الميزانية مقابل القيم الفعلية حسب مجال التركيز'
-    },
-    {
-        id: "budget_vs_expense",
-        en: "5. Budget vs Actuals by Expense Category",
-        sp: "5. Presupuesto vs. datos reales por categoría de gastos",
-        fr: "5. Écart entre le budget et les dépenses réelles par catégorie de dépenses",
-        ar: '5. الميزانية مقابل القيم الفعلية حسب فئة الإنفاق'
-    },
-    {
-        id: "actual_income",
-        en: "6. Actual Income",
-        sp: "6. Ingreso real (real)",
-        fr: "6. Revenus réels (Chiffres réels)",
-        ar: '6. الدخل الفعلي'
-    },
-    {
-        id: "standard_reports",
-        en: "Standard Report Generation from the BP Portal",
-        sp: "Generación de informes estándar desde el portal BP",
-        fr: "Génération de rapports standard à partir du portail BP",
-        ar: 'إنشاء التقارير القياسية من بوابة BP'
-    },
-
-    //header
-    {
-        id: "region",
-        en: "Region",
-        sp: "Región",
-        fr: "Région",
-        ar: 'منطقة'
-    },
-    {
-        id: "year_business_plan_update",
-        en: "Year of Business Plan Update",
-        sp: "Año de actualización del plan de negocio anual",
-        fr: "Année de mise à jour du plan d’activité",
-        ar: 'سنة تحديث خطة الأعمال'
-    },
-    {
-        id: "year_business_plan_reporting",
-        en: "Year of Reporting",
-        sp: "Año de presentación del informe",
-        fr: "Année de déclaration",
-        ar: 'سنة الإبلاغ'
-    },
-    {
-        id: "reporting_year",
-        en: "Reporting Year",
-        sp: "Año de informe",
-        fr: "Année de déclaration",
-        ar: 'سنة الإبلاغ'
-    },
-    {
-        id: "reporting_periodicity",
-        en: "Reporting Periodicity",
-        sp: "Periodicidad de los informes",
-        fr: "Périodicité des rapports",
-        ar: 'دورية التقارير'
-    },
-
-    //Organization Details
-
     {
         id: "membership_details",
         en: "Membership details",
@@ -244,26 +49,26 @@ const translation_mapping = [
         fr: "Nom de l’organisation",
         ar: 'اسم المنظمة (بلغتها الأصلية)'
     },
-     {
+    {
         id: "grant_amount",
-        en: "Formula-generated proposed grant amount (Year 1) (USD)",
-        sp: "Monto de la subvención propuesta generado por fórmula (Año 1) (USD)",
-        fr: "Montant de la subvention proposé tel qu’établi par la formule (Année 1) (USD)",
-        ar: 'المبلغ المقترح للمنحة حسب المعادلة التمويلية (السنة الأولى) (بالدولار الأمريكي)'
+        en: "Formula-generated proposed grant amount (USD)",
+        sp: "Monto de la subvención propuesta generado por fórmula (USD)",
+        fr: "Montant de la subvention proposé tel qu’établi par la formule (USD)",
+        ar: 'مبلغ المنحة المقترح المولد بالصيغة (بالدولار الأمريكي)'
     },
     {
         id: "grant_amount_year2",
-        en: "Formula-generated proposed grant amount (Year 2) (USD)",
-        sp: "Monto de la subvención generado por fórmula (Año 2) (USD)",
-        fr: "Montant de la subvention établi par la formule (Année 2) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة (السنة الثانية) (بالدولار الأمريكي)',
+        en: "Provisional formula- generated grant amount (Year 2) (USD) (only 75% guaranteed)",
+        sp: "Monto de la subvención propuesta generado por fórmula (USD)",
+        fr: "Montant de la subvention proposé tel qu’établi par la formule (USD)",
+        ar: "مبلغ المنحة المقترح المولد بالصيغة (بالدولار الأمريكي)"
     },
     {
         id: "grant_amount_year3",
-        en: "Provisional formula- generated grant amount (Year 3) (USD)",
-        sp: "Monto PROVISIONAL de la subvención generado por fórmula (Año 3) (USD)",
-        fr: "Montant de la subvention PROVISOIRE tel qu’établi par la formule (Année 3) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة المؤقتة (السنة الثالثة) (بالدولار الأمريكي)',
+        en: "Provisional formula- generated grant amount (Year 3) (USD)(only 75% guaranteed)",
+        sp: "Monto provisional de la subvención generado por fórmula (Año 3) (USD) (solo 75% garantizado)",
+        fr: "Montant provisoire de la subvention généré par formule (Année 3) (USD) (seulement 75% garanti)",
+        ar: "مبلغ المنحة المؤقت المولد بالصيغة (السنة الثالثة) (بالدولار الأمريكي) (75٪ فقط مضمون)"
     },
     {
         id: "primary_contact_person",
@@ -281,17 +86,31 @@ const translation_mapping = [
     },
     {
         id: "business_plan_contact_email",
-        en: "Business plan Contact Email",
-        sp: "Correo electrónico de contacto",
-        fr: "E-mail de contact ",
-        ar: "بريد إلكتروني للتواصل"
+        en: "Business plan contact email",
+        sp: "Correo electrónico de contacto para el plan de negocio",
+        fr: "E-mail de contact pour le plan d'affaires",
+        ar: "البريد الإلكتروني للتواصل بشأن خطة الأعمال"
     },
     {
-        id: "institutional_data",
-        en: "Institutional Data",
-        sp: "Datos institucionales",
-        fr: "Données institutionnelles",
-        ar: 'البيانات المؤسسية'
+        id: "save_as_draft",
+        en: "SAVE AS DRAFT",
+        sp: "Guardar como borrador",
+        fr: "ENREGISTRER COMME BROUILLON",
+        ar:  "حفظ كمسودة"
+    },
+    {
+        id: "next",
+        en: "NEXT",
+        sp: "Siguiente",
+        fr: "Suivant",
+        ar:  "التالي",
+    },
+    {
+        id: "contact_information",
+        en: "Contact Information",
+        sp: "Información del contacto",
+        fr: "Coordonnées",
+        ar:  "معلومات الاتصال"
     },
     {
         id: "physical_address",
@@ -313,6 +132,27 @@ const translation_mapping = [
         sp: "Cargo",
         fr: "Directeur·ce exécutif·ve / CEO",
         ar: "المدير التنفيذي / الرئيس التنفيذي"
+    },
+    {
+        id: "name",
+        en: "Name",
+        sp: "Nombre",
+        fr: "Nom",
+        ar: 'الاسم'
+    },
+    {
+        id: "contact_email",
+        en: "Contact Email",
+        sp: "Correo electrónico de contacto",
+        fr: "E-mail de contact",
+        ar: 'بريد إلكتروني للتواصل'
+    },
+    {
+        id: "number",
+        en: "Contact phone",
+        sp: "Teléfono de contacto",
+        fr: "Téléphone de contact",
+        ar: 'اتصل بالهاتف'
     },
     {
         id: "board_chair",
@@ -377,6 +217,7 @@ const translation_mapping = [
         fr: "Année de début",
         ar: ' سنة البداية'
     },
+
     {
         id: "end_year",
         en: "End year",
@@ -384,7 +225,7 @@ const translation_mapping = [
         fr: "Année de fin",
         ar: ' سنة الانتها'
     },
-    {
+     {
         id: "organisation_data",
         en: "Organisation Data",
         sp: "Datos de la organización",
@@ -392,18 +233,25 @@ const translation_mapping = [
         ar: 'بيانات المنظمة'
     },
     {
-        id: "strategic_period",
-        en: "Strategic period",
-        sp: "Período estratégico",
-        fr: "Période stragégique",
-        ar: 'سنة البداية'
-    },
+        id: "stragegic_period",
+        en: "Stragegic Period:",
+        sp: "Período estratégico:",
+        fr: "Période stratégique:",
+        ar: "الفترة الاستراتيجية:"
+    },  
     {
         id: "number_fixed_staff",
         en: "Total Number of Fixed Staff (paid staff on a contract)",
         sp: "Número total de personal fijo (personal pago con contrato)",
         fr: "Nombre total de salariés fixes (personnel rémunéré par contrat)",
         ar: 'إجمالي عدد الموظفين المثبَّتين (الموظفون الذين يتقاضون رواتبهم بموجب عقد)',
+    },
+    {
+        id: "staff_size",
+        en: "Staff Size",
+        sp: "Tamaño del personal",
+        fr: "Taille du personnel",
+        ar: "حجم الموظفين"
     },
     {
         id: "number_volunteers",
@@ -418,6 +266,13 @@ const translation_mapping = [
         sp: "Tipo de organización",
         fr: "Type d’organisation",
         ar: 'نوع المنظمة'
+    },
+    {
+        id: "primary_focus",
+        en: "What is your primary focus area (choose most relevant)",
+        sp: "¿Cuál es su área prioritaria primaria? (Elija la más importante)",
+        fr: "Quel est votre principal volet d'intervention (indiquer le plus pertinent)",
+        ar: 'ما هو مجال تركيزكم الأساسي (اختر أدق وصف)'
     },
     {
         id: "type_1",
@@ -454,12 +309,13 @@ const translation_mapping = [
         fr: "organisation communautaire ",
         ar: "منظمة غير حكومية أو مؤسسة خيرية غير ربحية"
     },
+    
     {
-        id: "primary_focus",
-        en: "What is your primary focus area (choose most relevant)",
-        sp: "¿Cuál es su área prioritaria primaria? (Elija la más importante)",
-        fr: "Quel est votre principal volet d'intervention (indiquer le plus pertinent)",
-        ar: 'ما هو مجال تركيزكم الأساسي (اختر أدق وصف)'
+        id: "other",
+        en: "Other",
+        sp: "Otro",
+        fr: "Autre",
+        ar: 'آخر'
     },
     {
         id: "secondary_focus",
@@ -468,6 +324,8 @@ const translation_mapping = [
         fr: "Quel est votre volet d'intervention secondaire (indiquer le plus pertinent)",
         ar: 'ما هو مجال تركيزكم الثانوي (اختر أدق وصف)'
     },
+      
+    
     {
         id: "focus_1",
         en: "Abortion Care ",
@@ -516,13 +374,27 @@ const translation_mapping = [
         sp: "Atención de LGBTQ+",
         fr: "Soins LGBTQ+",
         ar: " رعاية مجتمع الميم (الشواذ +LGBTQ)"
-    }, 
-    {
+    },
+   {
         id: "organisation_networks",
         en: "Does your organisation have a youth group or networks?",
         sp: "¿Tiene su organización una red o grupo juvenil?",
         fr: "Votre organisation dispose-t-elle d'un groupe ou d'un réseau de jeunes ?",
         ar: 'هل لديكم في منظمتكم مجموعة أو شبكة للشباب؟'
+  },
+  {
+        id: "YES",
+        en: "Yes",
+        sp: "Sí",
+        fr: "Oui",
+        ar: 'نعم'
+    }, 
+    {
+        id: "NO",
+        en: "No",
+        sp: "No",
+        fr: "Non",
+        ar: 'لا'
     },
     {
         id: "network_size",
@@ -545,7 +417,7 @@ const translation_mapping = [
         fr: "Si oui, nombre de succursales",
         ar: 'إذا كانت الإجابة بنعم، فاذكر عدد فروعها'
     },
-    {
+     {
         id: "advocacy_priority1",
         en: "Advocacy priority 1 (choose most relevant)",
         sp: "Prioridad 1 de incidencia política (elija la más importante)",
@@ -559,6 +431,22 @@ const translation_mapping = [
         fr: "Priorité de plaidoyer 2 (indiquer la plus pertinente)",
         ar: 'أولوية الدعوة 2 (اختر أدق عبارة)'
     },
+    {
+        id: "select_any",
+        en: "Select Any",
+        sp: "Seleccionar cualquiera",
+        fr: "Sélectionner n'importe lequel",
+        ar: "اختر أيًّا"
+        
+    },
+    {
+        id: "choose",
+        en: "Choose",
+        sp: "Elegir",
+        fr: "Choisir",
+        ar: "اختر"
+    },
+    
     {
         id: "advocacy_priority_1",
         en: "Access to contraception",
@@ -663,7 +551,49 @@ const translation_mapping = [
         sp: "Cobertura de atención sanitaria universal",
         fr: "Couverture sanitaire universelle",
         ar: "تغطية الرعاية الصحية الشاملة"
-    },           
+    },
+    {
+        id: "commoduties_received",
+        en: "In this year will your MA receive (donated) commodities from (choose all that apply):",
+        sp: "Este año, su AM recibirá productos (donados) de (elija todas las opciones que correspondan):",
+        fr: "Au cours de cette année, votre association recevra-t-elle des produits (reçus en dons) de (veuillez cocher toutes les cases correspondantes) :",
+        ar:  "ي هذا العام، هل ستتلقى جمعيتكم العضو أي سلع )تم التبرع بها( من )اختر جميع اإلجابات التي تنطبق عليها(:"
+    },
+    {
+        id: "commudites_amount",
+        en: "What is the total value of commodities in USD you plan to access in this year from:",
+        sp: "¿Cuál es el valor total en USD de productos a los que planea acceder este año provenientes de:",
+        fr: "Quel est le montant total en USD des produits que vous comptez obtenir auprès de :",
+        ar:  "ما هو إجمالي قيمة السلع بالدولار الأمريكي التي تعتزمون الوصول إليها هذا العام من:"
+    },
+    {
+        id: "ippf",
+        en: "IPPF (see 3.4)",
+        sp: "la IPPF? (Ver 3.4)",
+        fr: "IPPF (voir 3.4)",
+        ar:  "الاتحاد الدولي لتنظيم الأسرة (انظر 4.3)"
+    },
+    {
+        id: "ministry_health",
+        en: "Ministry of Health (upload MoU)",
+        sp: "el Ministerio de Salud? (Subir memorando de entendimiento)",
+        fr: "Ministère de la Santé (télécharger le protocole d’accord)",
+        ar:  "وزارة الصحة (قم بتحميل مذكرة التفاهم)"
+    },
+    {
+        id: "unfpa_supplies",
+        en: "UNFPA Supplies (upload IP Agreement)",
+        sp: "el UNFPA Supplies? (Subir acuerdo con los socios ejecutores)",
+        fr: "UNFPA Supplies (télécharger l’accord de partenaire de mise en œuvre)",
+        ar:  "إمدادات صندوق الأمم المتحدة للسكان (قم بتحميل اتفاقية الشريك التنفيذي)"
+    },
+    {
+        id: "local_procurement",
+        en: "Local Procurement",
+        sp: "adquisición local",
+        fr: "Approvisionnement local",
+        ar:  "التوريدات المحلية"
+    },
     {
         id: "key_document",
         en: "Key Documents",
@@ -685,14 +615,7 @@ const translation_mapping = [
         fr: "Veuillez télécharger les principaux documents du rapport annuel",
         ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
     },
-
-    {
-        id: "key_management",
-        en: "Please upload the management letter received with the audit report",
-        sp: "Por favor, cargue la carta de gestión recibida junto con el informe de auditoría.",
-        fr: "Veuillez télécharger la lettre de gestion reçue avec le rapport d'audit",
-        ar: 'يرجى تحميل خطاب الإدارة المستلم مع تقرير التدقيق'
-    },
+    
     {
         id: "key_audits",
         en: "Please upload key audits reports documents",
@@ -701,42 +624,34 @@ const translation_mapping = [
         ar: 'يرجى تحميل وثائق تقارير التدقيق الرئيسية'
     },
     {
-        id: "other",
-        en: "Other",
-        sp: "Otro",
-        fr: "Autre",
-        ar: 'آخر'
+        id: "memorandum_understanding_upload ",
+        en: "Please upload valid Memorandum of Understanding with your Government, if in place",
+        sp: "Suba un memorando de entendimiento válido con su gobierno, de estar vigente",
+        fr: "Veuillez télécharger le protocole d’accord en cours de validité que vous avez conclu avec votre gouvernement, le cas échéant",
+        ar: "نرجو تحميل مذكرة التفاهم الصحيحة التي تم إبرامها مع حكومة بلدكم، إن وجدت"
+    },
+    {
+        id: "partner_agreement_upload",
+        en: "Please upload valid Implementing Partner Agreement with UNFPA (Supplies), if in place",
+        sp: "Suba un acuerdo de los socios ejecutores con el UNFPA (Supplies), de estar vigente",
+        fr: "Veuillez télécharger l’accord de partenaire de mise en œuvre en cours de validité que vous avez conclu avec l’UNFPA (Supplies), le cas échéant",
+        ar:  "نرجو تحميل اتفاقية الشريك التنفيذي الصحيحة التي أبرمت مع صندوق الأمم المتحدة للسكان (الإمدادات)، إن وجدت"
     },
     {
         id: "other1",
         en: "Other 1",
         sp: "Otro 1",
         fr: "Autre 1",
-        ar: '1 آخر'
+        ar: "غير ذلك 1"
     },
     {
         id: "other2",
         en: "Other 2",
         sp: "Otro 2",
         fr: "Autre 2",
-        ar: '2آخر'
+        ar: "غير ذلك 2"
     },
-    {
-        id: "YES",
-        en: "Yes",
-        sp: "Sí",
-        fr: "Oui",
-        ar: 'نعم'
-    },
-    //Na
-    {
-        id: "NO",
-        en: "No",
-        sp: "No",
-        fr: "Non",
-        ar: 'لا'
-    },
-    //Narrative Plan
+     //Narrative Plan
     {
         id: "narrative_plan",
         en: "1.2 Narrative Plan",
@@ -758,6 +673,325 @@ const translation_mapping = [
         fr: "Ques 1.Contexte du pays",
         ar: 'السؤال 1. السياق القطري'
     },
+    // 
+    {
+        id: "country_context_ques_description",
+        en: "Please describe your country context as relevant to SRHR. What are the main SRHR gaps and social or political factors that should be addressed in the remainder of the IPPF strategic period (e.g., unmet need, service gaps, political environment, laws, policies, social norms, national health/education programmes and innovations, opposition, etc.). Please use updated and verified statistics where possible, and mention marginalized groups as relevant (500 words max)",
+        fr: "Ofrezca una descripción de su contexto nacional en lo relativo a la SDSR. ¿Cuáles son las principales carencias en materia de SDSR y los factores sociales o políticos que deberían abordarse en lo que resta del período estratégico de la IPPF (por ejemplo, necesidad no satisfecha, carencias en servicios, entorno político, legislación, políticas públicas, normas sociales, innovaciones y programas nacionales de salud/educación, oposición, etc.)? Emplee datos estadísticos actualizados y comprobados cuando sea posible, y mencione los grupos marginados según sea pertinente (500 palabras como máximo)",
+        sp: "Veuillez décrire le contexte de votre pays en ce qui concerne la SDSR. Quels sont les principales lacunes et les principaux facteurs sociaux ou politiques en matière de SDSR à prendre en compte au cours de la période stratégique du l’IPPF (par ex., besoins non satisfaits, services manquants, environnement politique, lois, politiques publiques, normes sociales, programmes et innovations sur le plan national en matière de santé et d’éducation, mouvements d’opposition, etc.) ? Veuillez utiliser dans la mesure du possible des statistiques à jour et vérifiées et mentionner les groupes marginalisés le cas échéant (500 mots maximum)",
+        ar: "نرجو توضيح الوضع في بلدكم فيما يتعلق بالحقوق والصحة الجنسية والإنجابية. ما هي الثغرات الرئيسية في مجال الحقوق والصحة الجنسية والإنجابية والعوامل الاجتماعية أو السياسية التي ينبغي معالجتها في الفترة الاستراتيجية المتبقية للاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، الاحتياجات غير الملباة، فجوات الخدمة، البيئة السياسية، القوانين، السياسات، الأعراف الاجتماعية، الابتكارات والبرامج الصحية/التعليمية الوطنية، المعارضة، إلخ). نرجو الاستناد إلى إحصاءات حديثة ومُوثّقة، كلما أمكن، مع ذكر الفئات المهمّشة ذات الصلة (بحد أقصى 500 كلمة)"
+    },
+    {
+        id: "strategy",
+        en: "Ques 2. Strategy",
+        sp: "2. Estrategia",
+        fr: "Ques 2. Stratégie",
+        ar: '2. الإستراتيجية'
+    },
+    {
+        id: "des_curr_high_level",
+        en: "Describe your current high-level strategy or theory of change. How does it respond to your local needs and context described above? What are its key components and activities, and how will you operationalize it?",
+        sp: "Describa su actual estrategia de alto nivel o teoría del cambio. ¿De qué forma da respuesta a sus necesidades locales y al contexto que se describieron antes? ¿Cuáles son sus componentes y actividades principales, y cómo los pondrán en práctica?",
+        fr: "Décrivez votre stratégie de haut niveau ou votre théorie du changement actuelle. Dans quelle mesure répond-elle à vos besoins locaux et à votre contexte tels que décrits ci-dessus ? Quels en sont les principaux composants et les principales activités et comment allez-vous la mettre en pratique ?",
+        ar: "وضح نظريتكم في التغيير أو إستراتيجيتكم الحالية رفيعة المستوى. كيف تلبي هذه الاستراتيجية احتياجاتكم المحلية في ضوء السياق المذكور أعلاه؟ ما هي عناصرها وأنشطتها الرئيسية، وكيف تقومون بتفعيلها؟"
+    },
+    {
+        id: "outline_how_align_with_ippf",
+        en: "Please outline how it aligns with IPPF’s strategic framework. If there are specific target groups you aim to serve, please mention them here. Please highlight any new approaches and how they differ from your past business plans or approaches.",
+        sp: "Explique brevemente de qué forma se alinean con el marco estratégico de la IPPF. Si hay grupos objetivo específicos a los que quieren prestar servicios, menciónelos aquí. Destaque cualquier enfoque nuevo y explique en qué difiere de los enfoques o planes de negocios anteriores.",
+        fr: "Veuillez expliquer dans ses grandes lignes comment elle s’inscrit dans le cadre stratégique de l’IPPF. S’il y a des groupes spécifiques que vous souhaitez cibler avec vos services, veuillez les indiquer ici. Veuillez mettre en évidence les éventuelles approches nouvelles que vous adoptez et en quoi elles diffèrent de vos approches ou de vos plans d’activité passés.",
+        ar: "نرجو تحديد أوجه التوافق بينها وبين إطار اتحاد IPPF الاستراتيجي. وإن كان لديكم مجموعات مستهدفة محددة تهدفون إلى خدمتها، نرجو ذكرها هنا. نرجو إيضاح النُهج الجديدة وأوجه الاختلاف بينها وبين نُهج أو خطط عملكم السابقة."
+
+    },
+    {
+        id: "other_actors",
+        en: "Ques 3. Landscape of other actors",
+        sp: "3.Panorama de otros actores",
+        fr: "Ques 3.Paysage des autres acteur",
+        ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
+    },
+    {
+        id: "other_actors_first",
+        en: "Who are the other key actors in your country (and region if applicable) working to advance SRHR (e.g. civil society, social movements, government ministries, parliamentarians, private sector, etc.)?",
+        sp: "¿Cuáles son los otros actores clave en su país (y región, si es pertinente) que trabajan para promover la SDSR (por ejemplo, sociedad civil, movimientos sociales, ministerios del gobierno, parlamentarios, sector privado, etc.)?",
+        fr: "Qui sont les autres acteurs clés de votre pays (et de votre région, le cas échéant) qui œuvrent pour faire progresser la SDSR (par exemple, issus de la société civile, des mouvements sociaux, des ministères, des parlementaires, le secteur privé, etc.) ?",
+        ar: "من هم الأطراف الفاعلون الرئيسيون الآخرون في بلدكم (والإقليم إن وُجد) الذين يعملون للنهوض بالحقوق والصحة الجنسية والإنجابية (مثل المجتمع المدني، والحركات الاجتماعية، والوزارات الحكومية، والبرلمانيون، والقطاع الخاص، وما إلى ذلك)؟"     
+    },
+    {
+        id: "other_actors_second",
+        en: "How does your organization partner with them, and how do you operationalize those partnerships? Do you have partnerships outside of the SRHR sector?",
+        sp: "¿Qué alianzas tiene su organización con esos otros actores y cómo las ponen en práctica? ¿Tienen alianzas fuera del sector de la SDSR?",
+        fr: "Quels partenariats votre organisation a-t-elle établis avec eux et comment les portez-vous à exécution ? Avez-vous conclu des partenariats en dehors du secteur de la SDSR ?",
+        ar: "هل توجد شراكات بينهم وبين منظمتكم، وكيف تُفعّلون هذه الشراكات؟ هل لديكم شراكات في قطاعات غير قطاع الحقوق والصحة الجنسية والإنجابية؟"
+    },
+    {
+        id: "external_risks",
+        en: "Ques 4. External risks and risk mitigation",
+        sp: "4.Riesgos externos y mitigación de riesgos",
+        fr: "Ques 4. Risques externes et atténuation des risques",
+        ar: '4. المخاطر الخارجية وتخفيف المخاطر'
+    },
+    {
+        id: "external_risks_description",
+        en: "Within a three-year perspective, describe critical external risks and challenges related to the delivery of your Business Plan (e.g., political, economic), and your efforts to address/mitigate them.",
+        sp: "Con una perspectiva de tres años, describa los desafíos y riesgos externos críticos relacionados con la ejecución de su Plan de negocio (p. ej., políticos, económicos) y sus esfuerzos para abordarlos o mitigarlos.",
+        fr: "À un horizon sur trois ans, décrivez les risques et les problèmes externes critiques liés à la réalisation de votre plan d’activité (par ex., d’ordre politique, économique), et vos efforts pour y remédier/les atténuer.",
+        ar: "من منظور يمتد لثلاث سنوات، وضح المخاطر والتحديات الخارجية بالغة الأهمية التي تواجهكم في تنفيذ خطة عملكم (على سبيل المثال، السياسية والاقتصادية)، والجهود التي تبذلونها للتغلب عليها/تخفيفها"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    //Sidebar
+    {
+        id: "select_ma",
+        e
+        : "Select MA / CP",
+        sp: "Seleccione MA/CP",
+        fr: "Sélectionnez MA/CP",
+        ar: "حدد MA / CP",
+    },
+    {
+        id: "business_plan",
+        en: "3 Year Business Plan",
+        sp: "Plan de negocios de 3 años",
+        fr: "Plan d'affaires sur 3 ans",
+        ar: "خطة عمل لمدة 3 سنوات",
+    },
+    
+    //Narrative Plan
+    {
+        id: "narrative_plan",
+        en: "1.2 Narrative Plan",
+        sp: "1.2 Narrativa del Plan",
+        fr: "1.2 Narratif du plan",
+        ar: "2.1 خطة التوضيح",
+    },
+    {
+        id: "project_description",
+        en: "2.1 Project Description",
+        sp: "2.1 Descripción del proyecto",
+        fr: "2.1 Description du projet",
+        ar: "1.2 وصف المشروع",
+    },
+    {
+        id: "project_budget",
+        en: "2.2 Project Expense Budget",
+        sp: "2.2 Presupuesto de gastos del proyecto",
+        fr: "2.2 Budget des dépenses du projet",
+        ar: "2.2 ميزانية نفقات المشروع",
+    },
+    {
+        id: "project_focusarea",
+        en: "2.3 Expense Budget by Focus Area",
+        sp: "2.3 Presupuesto de gastos por área de enfoque",
+        fr: "2.3 Budget des dépenses par domaine d'intérêt",
+        ar: "2.3 ميزانية النفقات حسب مجال التركيز",
+    },
+    {
+        id: "project_expense",
+        en: " 2.4 Budget by Expense Category",
+        sp: "2.4 Proyectos - Categoría de gastos",
+        fr: "2.4 Projets par catégorie de dépenses",
+        ar: "4.2 المشاريع - فئة الإنفاق",
+    },
+    {
+        id: "total_income",
+        en: "3.1 Total Income",
+        sp: "3.1 Ingresos totales",
+        fr: "3.1 Total des recettes",
+        ar: "1.3 إجمالي الدخل",
+    },
+    {
+        id: "total_income_ar",
+        en: "Total Income",
+        sp: "Ingresos totales",
+        fr: "Total des recettes",
+        ar: "إجمالي الدخل",
+    },
+    {
+        id: "income_donor",
+        en: "3.2 Income by Donor",
+        sp: "3.2 Ingresos por donante",
+        fr: "3.2 Recettes par bailleur de fonds",
+        ar: "2.3 الدخل حسب الجهة المانحة",
+    },
+    {
+        id: "value_corefunding",
+        en: "3.3 Value Add of Core Funding",
+        sp: "3.3 Valor añadido del financiamiento básico",
+        fr: "3.3 Valeur ajoutée des fonds de base",
+        ar: "3.3 القيمة المضافة للتمويل الأساسي",
+    },
+    {
+        id: "order_commodities",
+        en: "3.4 Order Commodities from IPPF",
+        sp: "3.4 Pedidos de productos a la IPPF",
+        fr: "3.4 Commande de produits auprès de l’IPPF",
+        ar: "4.3 طلب السلع الطبية من الاتحاد الدولي لتنظيم الأسرة (IPPF)",
+    },
+    {
+        id: "commodities_funding",
+        en: "3.5 Commodities by Source of Funding",
+        sp: "3.5 Productos por fuente",
+        fr: "3.5 Produits par source de financement",
+        ar: "5.3 مصدر السلع الطبية",
+    },
+    {
+        id: "annual_update",
+        en: "Annual Business Plan Updates",
+        sp: "Actualizaciones anuales del plan de negocios",
+        fr: "Mises à jour du plan d’activité annuel",
+        ar: 'تحديث خطة الأعمال السنوية'
+    },
+    {
+        id: "annual_report",
+        en: "Annual / Semi-Annual Report Submission & Approval",
+        sp: "Presentación y aprobación del informe anual/semestral",
+        fr: "Soumission et Approbation du Rapport annuel/semestriel ",
+        ar: 'إرسال واعتماد التقرير السنوي/نصف السنوي',
+    },
+    {
+        id: "organization_report",
+        en: "1. Organization Details",
+        sp: "1. Información de la AM",
+        fr: "1. Informations sur l'AM",
+        ar: '1.معلومات الجمعية العضو'
+    },
+    {
+        id: "narrative_report",
+        en: "2. Narrative Report",
+        sp: "2. Informe narrativo",
+        fr: "2. Rapport descriptif",
+        ar: '2. التقرير التوضيحي'
+    },
+    {
+        id: "add_project",
+        en: "3. Add New Project",
+        sp: "3. Añadir nuevo proyecto",
+        fr: "3. Ajouter un nouveau projet",
+        ar: '3. إضافة مشروع جديد'
+    },
+    {
+        id: "budget_vs_focusarea",
+        en: "4. Budget vs Actuals by Focus Area",
+        sp: "4. Presupuesto vs. datos reales según área prioritaria",
+        fr: "4. Écart entre le budget et les dépenses réelles par volet d’intervention",
+        ar: '4. الميزانية مقابل القيم الفعلية حسب مجال التركيز'
+    },
+    {
+        id: "budget_vs_expense",
+        en: "5. Budget vs Actuals by Expense Category",
+        sp: "5. Presupuesto vs. datos reales por categoría de gastos",
+        fr: "5. Écart entre le budget et les dépenses réelles par catégorie de dépenses",
+        ar: '5. الميزانية مقابل القيم الفعلية حسب فئة الإنفاق'
+    },
+    {
+        id: "actual_income",
+        en: "6. Actual Income",
+        sp: "6. Ingreso real (real)",
+        fr: "6. Revenus réels (Chiffres réels)",
+        ar: '6. الدخل الفعلي'
+    },
+    {
+        id: "standard_reports",
+        en: "Standard Report Generation from the BP Portal",
+        sp: "Generación de informes estándar desde el portal BP",
+        fr: "Génération de rapports standard à partir du portail BP",
+        ar: 'إنشاء التقارير القياسية من بوابة BP'
+    },
+
+    //header
+    {
+        id: "region",
+        en: "Region",
+        sp: "Región",
+        fr: "Région",
+        ar: 'منطقة'
+    },
+    {
+        id: "year_business_plan_update",
+        en: "Year of Business Plan Update",
+        sp: "Año de actualización del plan de negocio anual",
+        fr: "Année de mise à jour du plan d’activité",
+        ar: 'سنة تحديث خطة الأعمال'
+    },
+    {
+        id: "year_business_plan_reporting",
+        en: "Year of Reporting",
+        sp: "Año de presentación del informe",
+        fr: "Année de déclaration",
+        ar: 'سنة الإبلاغ'
+    },
+    {
+        id: "reporting_year",
+        en: "Reporting Year",
+        sp: "Año de informe",
+        fr: "Année de déclaration",
+        ar: 'سنة الإبلاغ'
+    },
+    {
+        id: "reporting_periodicity",
+        en: "Reporting Periodicity",
+        sp: "Periodicidad de los informes",
+        fr: "Périodicité des rapports",
+        ar: 'دورية التقارير'
+    },
+
+    //Organization Details
+
+    
+   
+    {
+        id: "business_plan_contact_email",
+        en: "Business plan Contact Email",
+        sp: "Correo electrónico de contacto",
+        fr: "E-mail de contact ",
+        ar: "بريد إلكتروني للتواصل"
+    }, 
+   
+    {
+        id: "strategic_period",
+        en: "Strategic period",
+        sp: "Período estratégico",
+        fr: "Période stragégique",
+        ar: 'سنة البداية'
+    },        
+    {
+        id: "key_management",
+        en: "Please upload the management letter received with the audit report",
+        sp: "Por favor, cargue la carta de gestión recibida junto con el informe de auditoría.",
+        fr: "Veuillez télécharger la lettre de gestion reçue avec le rapport d'audit",
+        ar: 'يرجى تحميل خطاب الإدارة المستلم مع تقرير التدقيق'
+    },
+   
+   
     {
         id: "country_context_year2",
         en: "Country Context - Year 2",
@@ -771,20 +1005,6 @@ const translation_mapping = [
         sp: "1. Contexto nacional",
         fr: "Ques 1.Contexte du pays",
         ar: 'السؤال 1. السياق القطري'
-    },
-    {
-        id: "country_context_ques_description",
-        en: "Please describe your country context as relevant to SRHR. What are the main SRHR gaps and social or political factors that should be addressed in the IPPF strategic period (e.g., unmet need, service gaps, political environment, laws, policies, social norms, national health/education programmes and innovations, opposition, etc.). Please use updated and verified statistics where possible, and mention marginalized groups as relevant (500 words max)",
-        sp: "1. Contexto nacional  Ofrezca una descripción de su contexto nacional en lo relativo a la SDSR. ¿Cuáles son las principales carencias en materia de SDSR y los factores sociales o políticos que deberían abordarse en el período estratégico de IPPF (por ejemplo, necesidad no satisfecha, carencias en servicios, entorno político, legislación, políticas públicas, normas sociales, innovaciones y programas nacionales de salud/educación, oposición, etc.)? Emplee datos estadísticos actualizados y comprobados cuando sea posible, y mencione los grupos marginados según sea pertinente (500 palabras como máximo)",
-        fr: "1. Contexte du pays Veuillez décrire le contexte de votre pays dans la mesure où il est pertinent au regard de la SDSR. Quels sont les principales lacunes et les principaux facteurs sociaux ou politiques en matière de SDSR qu’il convient de prendre en compte au cours de la période stratégique du l’IPPF (par ex., besoins non satisfaits, services manquants, environnement politique, lois, politiques publiques, normes sociales, programmes et innovations sur le plan nation en matière de santé et d’éducation, mouvements d’opposition, etc.). Veuillez utiliser dans la mesure du possible des statistiques mises à jour et vérifiées et mentionner s’il y a lieu les groupes marginalisés (500 mots maximum)",
-        ar: 'يرجى توضيح سياق بلدكم من حيث علاقته بمجال الحقوق والصحة الجنسية والإنجابية. ما هي الثغرات الرئيسية في مجال الحقوق والصحة الجنسية والإنجابية والعوامل الاجتماعية أو السياسية التي ينبغي معالجتها في الفترة الاستراتيجية للاتحاد الدولي لتنظيم الأسرة (IPPF) (على سبيل المثال، الاحتياجات غير الملباة، فجوات الخدمة، البيئة السياسية، القوانين، السياسات، الأعراف الاجتماعية، الابتكارات والبرامج الصحية/التعليمية الوطنية، المعارضة، إلخ). يرجى استخدام إحصائيات محدثة تم التحقق منها قدر المستطاع، وذكر الفئات المهمشة من حيث علاقتها بها (بحد أقصى 500 كلمة) '
-    },
-    {
-        id: "strategy",
-        en: "Ques 2. Strategy",
-        sp: "2. Estrategia",
-        fr: "Ques 2. Stratégie",
-        ar: '2. الإستراتيجية'
     },
     {
         id: "strategy2",
@@ -815,13 +1035,6 @@ const translation_mapping = [
         ar:  'نرجو تحديد أوجه التوافق بينها وبين إطار اتحاد IPPF الاستراتيجي. وإن كان لديكم مجموعات مستهدفة محددة تهدفون إلى خدمتها، نرجو ذكرها هنا. وخصوصًا، نرجو إيضاح النهج التي تختلف عن نهجكم السابقة. (بحد أقصى 800 كلمة)'
     },
     {
-        id: "other_actors",
-        en: "Ques 3. Landscape of other actors",
-        sp: "3.Panorama de otros actores",
-        fr: "Ques 3.Paysage des autres acteur",
-        ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
-    },
-    {
         id: "other_actors_year2",
         en: "Landscape of other actors - Year 2",
         sp: "3.Panorama de otros actores",
@@ -834,34 +1047,6 @@ const translation_mapping = [
         sp: "3.Panorama de otros actores",
         fr: "Ques 3.Paysage des autres acteur",
         ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
-    },
-    {
-        id: "other_actors_first",
-        en: "Who are the other key actors in your country (and region if applicable) working to advance SRHR (e.g. civil society, social movements, government ministries, parliamentarians, private sector, etc.)?",
-        sp: "¿Cuáles son los otros actores clave en su país (y región, si es pertinente) que trabajan para promover la SDSR (por ejemplo, la sociedad civil, movimientos sociales, ministerios del gobierno, parlamentarios, el sector privado, etc.)?",
-        fr: "Qui sont les autres acteurs clés de votre pays (et de votre région, le cas échéant) qui travaillent à faire progresser la SDSR (par exemple, la société civile, les mouvements sociaux, les ministères gouvernementaux, les parlementaires, le secteur privé, etc.)?",
-        ar: 'من هم الأطراف الفاعلون الرئيسيون الآخرون في بلدكم (والإقليم إن وُجد) الذين يعملون للنهوض بالحقوق والصحة الجنسية والإنجابية (مثل المجتمع المدني، والحركات الاجتماعية، والوزارات الحكومية، والبرلمانيون، والقطاع الخاص، وما إلى ذلك)؟'
-    },
-    {
-        id: "other_actors_second",
-        en: "How does your organization build on those efforts, what partnerships do you have with them, and how do you operationalize those partnerships? Do you have partenrships outside of the SRHR sector?",
-        sp: "¿Cómo aprovecha su organización esos otros esfuerzos? ¿Qué alianzas tienen con esos otros actores y cómo las ponen en práctica? ¿Tienen alianzas fuera del sector de la SDSR?",
-        fr: "Comment votre organisation s’appuiera-t-elle sur ces efforts, quels partenariats avez-vous établis avec eux et comment mettez-vous en pratique ces partenariats ? Avez-vous des partenariats en dehors du secteur de la SDSR?",
-        ar: 'ماذا تضيف منظمتكم إلى هذه الجهود، وما هي الشراكات التي لديكم معها، وكيف تفعِّلون هذه الشراكات؟ هل لديكم شراكات خارج قطاع الحقوق والصحة الجنسية والإنجابية؟ (بحد أقصى 500 كلمة)'
-    },
-    {
-        id: "external_risks",
-        en: "Ques 4. External risks and risk mitigation",
-        sp: "4.Riesgos externos y mitigación de riesgos",
-        fr: "Ques 4. Risques externes et atténuation des risques",
-        ar: '4. المخاطر الخارجية وتخفيف المخاطر'
-    },
-    {
-        id: "external_risks_description",
-        en: "Describe critical external risks and challenges related to the delivery of your  Business Plan (e.g., political, economic), and your strategy to address/mitigate them",
-        sp: "Describa los desafíos y riesgos externos críticos relacionados con la ejecución de su Plan de negocio (p. ej., políticos, económicos) y su estrategia para abordarlos/mitigarlos",
-        fr: "Décrivez les risques et les défis externes critiques liés à la réalisation de votre plan d’activité (par ex., d’ordre politique, économique), et votre stratégie pour y remédier/les atténuer",
-        ar: 'وضح المخاطر والتحديات الخارجية البالغة الخطورة التي تتعلق بتنفيذ خطة أعمالكم (السياسية والاقتصادية، مثلًا)، واستراتيجيتكم المتبعة في مواجهتها/التخفيف من حدتها. (بحد أقصى 250 كلمة)     '
     },
     {
         id: "youth_involvement",
@@ -1055,20 +1240,8 @@ const translation_mapping = [
         fr: "Ajouter un nouveau projet",
         ar: "إضافة مشروع جديد"
     },
-    {
-        id: "save_as_draft",
-        en: "SAVE AS DRAFT",
-        sp: "Guardar como borrador",
-        fr: "ENREGISTRER COMME BROUILLON",
-        ar:  "حفظ كمسودة"
-    },
-    {
-        id: "next",
-        en: "NEXT",
-        sp: "Siguiente",
-        fr: "Suivant",
-        ar:  "التالي",
-    },
+  
+   
     {
         id: "submit",
         en: "Submit",
@@ -2351,34 +2524,7 @@ de productos (como se indica en la parte de abajo del formulario)
         fr: "Interlocuteur principal pour le suivi du plan d'affaires",
         ar: "نقطة الاتصال الأساسية لمتابعة خطة العمل"
     },
-    {
-        id: "name",
-        en: "Name",
-        sp: "Nombre",
-        fr: "Nom",
-        ar: 'الاسم'
-    },
-    {
-        id: "contact_email",
-        en: "Contact Email",
-        sp: "Correo electrónico de contacto",
-        fr: "E-mail de contact",
-        ar: 'بريد إلكتروني للتواصل'
-    },
-    {
-        id: "number",
-        en: "Contact phone",
-        sp: "Teléfono de contacto",
-        fr: "Téléphone de contact",
-        ar: 'اتصل بالهاتف'
-    },
-    {
-        id: "institutional_data",
-        en: "Contact Information",
-        sp: "Información del contacto",
-        fr: "Coordonnées",
-        ar:  "معلومات الاتصال"
-    },
+   
     {
         id: "specify_date",
         en: "Please specify the start date and end date for the current board's term (if different members have different terms, please specify those as well)",
