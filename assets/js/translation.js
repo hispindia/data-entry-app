@@ -275,11 +275,60 @@ const translation_mapping = [
         ar: 'ما هو مجال تركيزكم الأساسي (اختر أدق وصف)'
     },
     {
+        id: "focus_1",
+        en: "Abortion Care ",
+        sp: "Atención del aborto",
+        fr: "Soins d'avortement",
+        ar: " الصحة الجنسية والإنجابية الإنسانية"
+    },
+    {
+        id: "focus_2",
+        en: "General SRHR or FP",
+        sp: "SDSR o planificación familiar general",
+        fr: "SDSR générale ou PF",
+        ar: " الدعوة وتبديل المعايير"
+    },
+    {
+        id: "focus_3",
+        en: "Advocacy & Norms shifting",
+        sp: "Incidencia política y modificación de normas",
+        fr: "Plaidoyer et changement de normes",
+        ar: "تنظيم الأسرة أو الصحة الجنسية والإنجابية العامة"
+    },
+    {
+        id: "focus_4",
+        en: "Humanitarian SRHR",
+        sp: "SDSR humanitarios",
+        fr: "SDSR humanitaire",
+        ar: " تنظيم الأسرة أو الصحة الجنسية والإنجابية العامة "
+    },
+    {
+        id: "focus_5",
+        en: "Youth Care or CSE",
+        sp: "Atención de personas jóvenes o EIS",
+        fr: "Soins à la jeunesse ou ECS",
+        ar: "رعاية الإجهاض"
+    },
+    {
+        id: "focus_6",
+        en: "HIV Prevention or Care",
+        sp: "Prevención o atención de VIH",
+        fr: "Prévention ou soins du VIH",
+        ar: " الرعاية أو الوقاية من فيروس نقص المناعة البشري"
+    },
+    {
+        id: "focus_7",
+        en: "LGBTQ+ Care",
+        sp: "Atención de LGBTQ+",
+        fr: "Soins LGBTQ+",
+        ar: " رعاية مجتمع الميم (الشواذ +LGBTQ)"
+    },
+    {
         id: "type_1",
         en: "Not-for-Profit NGO or Chairity",
         sp: "ONG sin fines de lucro u organización benéfica ",
         fr: "ONG à but non lucratif ou œuvre de bienfaisance ",
-        ar: " منظمة مجتمعية"
+        ar: "منظمة مجتمعية"
     },
     {
         id: "type_2",
@@ -324,94 +373,92 @@ const translation_mapping = [
         fr: "Quel est votre volet d'intervention secondaire (indiquer le plus pertinent)",
         ar: 'ما هو مجال تركيزكم الثانوي (اختر أدق وصف)'
     },
-      
-    
     {
-        id: "focus_1",
+        id: "p_1",
         en: "P1. Abortion Care",
         sp: "P1. Atención del aborto",
         fr: "P1. Soins d’avortement",
         ar: 'م1. رعاية الإجهاض'
     },
     {
-        id: "focus_2",
+        id: "p_2",
         en: "P1. General Contraception",
         sp: "P1. Anticoncepción general",
         fr: "P1. Contraception générale",
         ar: 'م1. وسائل منع الحمل العامة'
     },
     {
-        id: "focus_3",
+        id: "p_3",
         en: "P2. Incidencia y cambio de normas",
         sp: "P2. Incidencia y cambio de normas  ",
         fr: "P2. Plaidoyer et changement des normes",        
         ar: 'م2. المناصرة وتغيير المعايير'
     },
     {
-        id: "focus_4",
+        id: "p_4",
         en: "P1. Humanitarian SRHR",
         sp: "P1. SDSR humanitarios",
         fr: "P1. SDSR humanitaire",
         ar: 'م1. العمل الإنساني في الحقوق والصحة الجنسية والإنجابية'
     },
     {
-        id: "focus_5",
+        id: "p_5",
         en: "P2. Youth",
         sp: "P2. Juventud ",
         fr: "P2. Jeunesse ",
         ar: 'م2. الشباب '
     },
     {
-        id: "focus_6",
+        id: "p_6",
         en: "P1. HIV & AIDS",
         sp: "P1. VIH y SIDA",
         fr: "P1. VIH et sida",
         ar: 'م1. فيروس نقص المناعة البشري (HIV) والإيدز'
     },
     {
-        id: "focus_7",
+        id: "p_7",
         en: "P4. Marginalised Pops (incl. LGBTQ+)",
         sp: "P4. Poblaciones marginadas (incluyendo LGBTQ+)",
         fr: "P4. Populations marginalisées (y compris LGBTQ+)",
         ar: 'م4. الفئات المهمشة (بما في ذلك مجتمع الميم (الشواذ +LGBTQ))'
     },
     {
-        id: "focus_8",
+        id: "p_8",
         en: "P2. SGBV / Gender",
         sp: "P2. VSBG / Género",
         fr: "P2. VSBG / Genre",
         ar: "م2. العنف الجنسي والعنف القائم على النوع الاجتماعي / النوع الاجتماعي"
     },
      {
-        id: "focus_9",
+        id: "p_9",
         en: "P2. Communications & Campaigns",
         sp: "P2. Comunicaciones y campañas",
         fr: "P2. Communication et campagnes",
         ar: "م2. الاتصالات والحملات"
     },
     {
-        id: "focus_10",
+        id: "p_10",
         en: "P1. Fertility Care /Support",
         sp: "P1. Apoyo y atención de la fertilidad",
         fr: "P1. Soins/soutien relatifs à la fertilité",
         ar: "م1. دعم/رعاية الخصوبة"
     },
     {
-        id: "focus_11",
+        id: "p_11",
         en: "P3. Research / evidence",
         sp: "P3. Investigación / Pruebas",
         fr: "P3. Recherche / éléments de preuve",
         ar: "م3. البحوث / الأدلة"
     },
     {
-        id: "focus_12",
+        id: "p_12",
         en: "P4. Organisational Processes and Systems",
         sp: "P4. Sistemas y procesos organizativos",
         fr: "P4. Processus et systèmes de l’organisation",
         ar: "م4. الأنظمة والعمليات التنظيمية"
     },
     {
-        id: "focus_13",
+        id: "p_13",
         en: "P4. Commercial Sustainability",
         sp: "P4. Sostenibilidad comercial",
         fr: "P4. Pérennité commerciale",
@@ -419,7 +466,7 @@ const translation_mapping = [
 
     },
     {
-        id: "focus_14",
+        id: "p_14",
         en: "P4. Social Enterprise & Marketing",
         sp: "P4. Empresa social y marketing",
         fr: "P4. Entreprise sociale et marketing",
@@ -427,14 +474,14 @@ const translation_mapping = [
 
     },
     {
-        id: "focus_15",
+        id: "p_15",
         en: "Other (please fill in)",
         sp: "P5. Otro (completar)",
         fr: "P5. Autres (à préciser)",
         ar: 'م5. غير ذلك (نرجو التوضيح)'
     },
     {
-        id: "focus_16",
+        id: "p_16",
         en: "P5. Not applicable.",
         sp: "P5. No aplicable.",
         fr: "P5. Sans objet.",
@@ -507,9 +554,9 @@ const translation_mapping = [
     {
         id: "choose",
         en: "Choose",
-        sp: "Elegir",
-        fr: "Choisir",
-        ar: "اختر"
+        sp: "",
+        fr: "",
+        ar: ''
     },
     
     {
@@ -611,7 +658,7 @@ const translation_mapping = [
         ar: "تدخلات الصحة الجنسية والإنجابية المدرجة في حزمة الرعاية الصحية الأساسية"
     },
     {
-        id: "advocacy_priority_15",
+        id: "",
         en: "Universal Health Care Coverage",
         sp: "Cobertura de atención sanitaria universal",
         fr: "Couverture sanitaire universelle",
@@ -689,7 +736,7 @@ const translation_mapping = [
         ar: 'يرجى تحميل وثائق تقارير التدقيق الرئيسية'
     },
     {
-        id: "memorandum_understanding_upload ",
+        id: "memorandum_understanding_upload",
         en: "Please upload valid Memorandum of Understanding with your Government, if in place",
         sp: "Suba un memorando de entendimiento válido con su gobierno, de estar vigente",
         fr: "Veuillez télécharger le protocole d’accord en cours de validité que vous avez conclu avec votre gouvernement, le cas échéant",
