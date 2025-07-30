@@ -487,7 +487,14 @@ const translation_mapping = [
         fr: "P5. Sans objet.",
         ar: 'م5. لا ينطبق.'
     },
-   {
+    {
+        id: "not_app",
+        en: "Not applicable",
+        sp: "No aplicable",
+        fr: "Sans objet",
+        ar: "لا ينطبق"
+    },
+    {
         id: "organisation_networks",
         en: "Does your organisation have a youth group or networks?",
         sp: "¿Tiene su organización una red o grupo juvenil?",
@@ -658,7 +665,7 @@ const translation_mapping = [
         ar: "تدخلات الصحة الجنسية والإنجابية المدرجة في حزمة الرعاية الصحية الأساسية"
     },
     {
-        id: "",
+        id: "advocacy_priority_15",
         en: "Universal Health Care Coverage",
         sp: "Cobertura de atención sanitaria universal",
         fr: "Couverture sanitaire universelle",
@@ -1010,18 +1017,294 @@ const translation_mapping = [
         fr: "Domaines d’expertise/capacité de l’organisation (nous pouvons partager des outils et former d’autres personnes)",
         ar: 'الإمكانات / مجالات الخبرة التنظيمية (يمكننا مشاركة الأدوات وتدريب الآخرين)'   
     },
-
-
-
-
-
-
-
-
-
-
-
-     // doubt
+    // Project Description
+    {
+        id: "project_description",
+        en: "2.1 Project Description",
+        sp: "2.1 Descripción del proyecto",
+        fr: "2.1 Description du projet",
+        ar: "1.2 وصف المشروع",
+    },
+    {
+        id: "total_projects",
+        en: "Total projects",
+        sp: "Número total de proyectos",
+        fr: "Nombre total de projets",
+        ar: 'إجمالي عدد المشاريع'
+    },
+    {
+        id: "project_name",
+        en: "Project Name",
+        sp: "Nombre del proyecto",
+        fr: "Nom du projet",
+        ar: 'اسم المشروع'
+    },
+    {
+        id: "project_donor",
+        en: "Project Donor:",
+        sp: "Donante del proyecto:",
+        fr: "Bailleur de fonds du projet :",
+        en: "الجهة المانحة للمشروع:"
+    },
+    {
+        id: "annual_proj_income",
+        en: "Annual Project Income",
+        sp: "Ingreso anual del proyecto",
+        fr: "Recettes annuelles du projet",
+        en: "الدخل السنوي للمشروع"
+    },
+    {
+        id: "funding_type",
+        en: "Funding Type:",
+        sp: "Tipo de financiamiento:",
+        fr: "Type de financement :",
+        ar: "نوع التمويل:"
+    },
+    {
+        id: "start_date",
+        en: "Start Date:",
+        sp: "Fecha de inicio:",
+        fr: "Date de début :",
+        ar: "تاريخ البدء:"
+    },
+    {
+        id: "end_date",
+        en: "End Date:",
+        sp: "Fecha de finalización:",
+        fr: "Date de fin :",
+        ar: 'تاريخ الانتهاء:'
+    },
+    {
+        id: "project_theme",
+        en: "Project Theme",
+        sp: "Tema del proyecto:",
+        fr: "Thématique du projet :",
+        ar: "موضوع المشروع:"
+    },
+    {
+        id: "g_aus",
+        en: "01. Government of Australia / DFAT",
+        sp: "01. Gobierno de Australia / DFAT",
+        fr: "01. Gouvernement de l’Australie / DFAT",
+        ar: "01. حكومة أستراليا / وزارة الشؤون الخارجية والتجارة الأسترالية (DFAT)",
+    },
+    {
+        id: "g_can",
+        en: "01. Government of Canada / GAC",
+        sp: "01. Gobierno de Canadá / GAC",
+        fr: "01. Gouvernement du Canada / GAC",
+        ar: "01. حكومة كندا / وزارة الشؤون العالمية الكندية (GAC)",
+    },
+    {
+        id: "g_ch",
+        en: "01. Government of China",
+        sp: "01. Gobierno de China",
+        fr: "01. Gouvernement de la Chine",
+        ar: "01. حكومة الصين",
+    },
+    {
+        id: "g_den",
+        en: "01. Government of Denmark / DANIDA",
+        sp: "01. Gobierno de Dinamarca / DANIDA",
+        fr: "01. Gouvernement du Danemark / DANIDA",
+        ar: "01. حكومة الدنمارك / الوكالة الدنماركية للتنمية الدولية (DANIDA)",
+    },
+    {
+        id: "g_fin",
+        en: "01. Government of Finland / FINNIDA",
+        sp: "01. Gobierno de Finlandia / FINNIDA",
+        fr: "01. Gouvernement de la Finlande / FINNIDA",
+        ar: "01. حكومة فنلندا / الوكالة الفنلندية للتنمية الدولية (FINNIDA)",
+    },
+    {
+        id: "g_fran",
+        en: "01. Government of France / Agence Française de Développement",
+        sp: "01. Gobierno de Francia / Agence Française de Développement",
+        fr: "01. Gouvernement de la France / Agence Française de Développement",
+        ar: "01. حكومة فرنسا / الوكالة الفرنسية للتنمية",
+    },
+    {
+        id: "g_ger",
+        en: "01. Government of Germany / GIZ",
+        sp: "01. Gobierno de Alemania / GIZ",
+        fr: "01. Gouvernement de l’Allemagne / GIZ",
+        ar: "01. حكومة ألمانيا / الجمعية الألمانية للتعاون الدولي (GIZ)",
+    },
+    {
+        id: "g_jap",
+        en: "01. Government of Japan / Ministry of Foreign Affairs Japan",
+        sp: "01. Gobierno de Japón / Ministerio de Asuntos Exteriores de Japón",
+        fr: "01. Gouvernement du Japon / Ministère japonais des Affaires étrangères",
+        ar: "01. حكومة اليابان / وزارة الخارجية اليابانية",
+    },
+    {
+        id: "g_new",
+        en: "01. Government of New Zealand / MFAT ",
+        sp: "01. Gobierno de Nueva Zelanda / MFAT ",
+        fr: "01. Gouvernement de la Nouvelle-Zélande / MFAT",
+        ar: "01. حكومة نيوزيلندا / وزارة الخارجية والتجارة النيوزيلندية (MFAT)",
+    },
+    {
+        id: "g_nor",
+        en: "01. Government of Norway / NORAD ",
+        sp: "01. Gobierno de Noruega / NORAD ",
+        fr: "01. Gouvernement de la Norvège / NORAD ",
+        ar: "01. حكومة النرويج / الوكالة النرويجية للتعاون الإنمائي (NORAD)",
+    },
+    {
+        id: "g_spain",
+        en: "01. Government of Spain / AECID",
+        sp: "01. Gobierno de España / AECID",
+        fr: "01. Gouvernement de l’Espagne / AECID",
+        ar: "01. حكومة إسبانيا / الوكالة الإسبانية للتعاون الإنمائي الدولي (AECID)",
+    },
+    {
+        id: "g_uk",
+        en: "01. Government of United Kingdom / FCDO",
+        sp: "01. Gobierno del Reino Unido / FCDO",
+        fr: "01. Gouvernement du Royaume-Uni / FCDO",
+        ar: "01. حكومة المملكة المتحدة / وزارة الخارجية وشؤون الكومنولث والتنمية (FCDO)",
+    },
+    {
+        id: "g_eu_comm",
+        en: "02. European Commission (EU/EC)",
+        sp: "02. Comisión Europea",
+        fr: "02. Commission européenne (UE/CE)",
+        ar: "02. المفوضية الأوروبية (الاتحاد الأوروبي/الجماعة الأوروبية)",
+    },
+    {
+        id: "gl_fund_aids",
+        en: "02. Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)",
+        sp: "02. Fondo Mundial de Lucha contra el SIDA, la Tuberculosis y la Malaria (GFATM)",
+        fr: "02. Fonds mondial de lutte contre le sida, la tuberculose et le paludisme (Le Fonds mondial)",
+        ar: "02. الصندوق العالمي لمكافحة الإيدز والسل والملاريا (GFATM)",
+    },
+    {
+        id: "rep_health",
+        en: "02. Reproductive Health Supplies Coalition (RHSC)",
+        sp: "02. Reproductive Health Supplies Coalition (RHSC)",
+        fr: "02. Coalition pour la fourniture de produits de santé reproductive (RHSC)",
+        ar: "02. ائتلاف إمدادات الصحة الإنجابية (RHSC)",
+    },
+    {
+        id: "unaids",
+        en: "02. UNAIDS",
+        sp: "02. ONUSIDA",
+        fr: "02. ONUSIDA",
+        ar: "02. برنامج الأمم المتحدة المشترك لفيروس نقص المناعة البشري (HIV)/الإيدز",
+    },
+    {
+        id: "undp",
+        en: "02. UNDP",
+        sp: "02. PNUD",
+        fr: "02. PNUD",
+        ar: "02. برنامج الأمم المتحدة الإنمائي (UNDP)",
+    },
+    {
+        id: "unesco",
+        en: "02. UNESCO",
+        sp: "02. UNESCO",
+        fr: "02. UNESCO",
+        ar: "02. اليونسكو",
+    },
+    {
+        id: "unfpa",
+        en: "02. UNFPA",
+        sp: "02. UNFPA",
+        fr: "02. UNFPA",
+        ar: "02. صندوق الأمم المتحدة للسكان (UNFPA)",
+    },
+    {
+        id: "unicef",
+        en: "02. UNICEF",
+        sp: "02. UNICEF",
+        fr: "02. UNICEF",
+        ar: "02. اليونيسف",
+    },
+    {
+        id: "who",
+        en: "02. World Health Organisation (WHO)",
+        sp: "02. Organización Mundial de la Salud (OMS)",
+        fr: "02. Organisation mondiale de la Santé (OMS)",
+        ar: "02. منظمة الصحة العالمية",
+    },
+    {
+        id: "amp_ch",
+        en: "03. Amplify Change",
+        sp: "03. Amplify Change",
+        fr: "03. Amplify Change",
+        ar: "03. إعلاء التغيير",
+    },
+    {
+        id: "bill_melinda",
+        en: "03. Bill & Melinda Gates Foundation",
+        sp: "03. Bill & Melinda Gates Foundation",
+        fr: "03. Bill & Melinda Gates Foundation",
+        ar: "03. مؤسسة بيل وميليندا غيتس",
+    },
+    {
+        id: "osf",
+        en: "03. Open Society Foundations (OSF)",
+        sp: "03. Open Society Foundations (OSF)",
+        fr: "03. Open Society Foundations (OSF)",
+        ar: "03. مؤسسات المجتمع المنفتح (OSF)"
+    },
+    {
+        id: "th_william_fl_found",
+        en: "03. The William and Flora Hewlett Foundation",
+        sp: "03. The William and Flora Hewlett Foundation",
+        fr: "03. The William and Flora Hewlett Foundation",
+        ar: "03. مؤسسة ويليام وفلورا هيوليت "
+    },
+    {
+        id: "danish_fpa",
+        en: "04. Danish FPA / Sex og Samfund (Denmark)",
+        sp: "04. Asociación de Planificación Familiar Danesa / Sex og Samfund (Dinamarca)",
+        fr: "04. Danish FPA / Sex og Samfund (Danemark)",
+        ar: "04. الجمعية الدنماركية لتنظيم الأسرة (FPA)/ جمعية Sex og Samfund (الدنمارك)"
+    },
+    {
+        id: "usaid",
+        en: "05. USAID",
+        sp: "05. USAID",
+        fr: "05. USAID",
+        ar: "05. الوكالة الأمريكية للتنمية الدولية (USAID)"
+    },
+    {
+        id: "center_dis_cont",
+        en: "05. Center for Disease Control (CDC)",
+        sp: "05. Centros para el Control y la Prevención de Enfermedades (CDC)",
+        fr: "05. Centre pour le contrôle et la prévention des maladies (CDC)",
+        ar: "05. مركز مكافحة الأمراض (CDC)"
+    },
+    {
+        id: "rutgers",
+        en: "04. Rutgers (Netherlands)",
+        sp: "04. Rutgers (Países Bajos)",
+        fr: "04. Rutgers (Pays-Bas)",
+        ar: "04. منظمة Rutgers (هولندا)"
+    },
+    {
+        id: "rfsu_sweden",
+        en: "04. RFSU (Sweden)",
+        sp: "04. RFSU (Suecia)",
+        fr: "04. RFSU (Suède)",
+        ar: "04. جمعية RFSU (السويد)"
+    },
+    {
+        id: "planned_parenthood_fed_usa",
+        en: "04. Planned Parenthood Federation of America (USA)",
+        sp: "04. Federación de Planificación Familiar de los Estados Unidos (EE. UU.)",
+        fr: "04. Planned Parenthood Federation of America (USA)",
+        ar: "04. اتحاد أمريكا لتنظيم الأسرة (الولايات المتحدة الأمريكية)"
+    },
+    {
+        id: "int_plan_parenth_fed",
+        en: "04. International Planned Parenthood Federation (IPPF)",
+        sp: "04. Federación Internacional de Planificación Familiar (IPPF)",
+        fr: "04. Fédération internationale pour la planification familiale (IPPF)",
+        ar: "04. الاتحاد الدولي لتنظيم الأسرة (IPPF)",
+    },
     {
         id: "institutional_challenges",
         en: "Institutional Challenges",
@@ -1029,51 +1312,9 @@ const translation_mapping = [
         fr: "Difficultés institutionnelles",
         ar: "التحديات المؤسسية "
     },
-    
-    
-
-
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-    //Sidebar
     {
         id: "select_ma",
-        e
-        : "Select MA / CP",
+        en: "Select MA / CP",
         sp: "Seleccione MA/CP",
         fr: "Sélectionnez MA/CP",
         ar: "حدد MA / CP",
@@ -1093,13 +1334,6 @@ const translation_mapping = [
         sp: "1.2 Narrativa del Plan",
         fr: "1.2 Narratif du plan",
         ar: "2.1 خطة التوضيح",
-    },
-    {
-        id: "project_description",
-        en: "2.1 Project Description",
-        sp: "2.1 Descripción del proyecto",
-        fr: "2.1 Description du projet",
-        ar: "1.2 وصف المشروع",
     },
     {
         id: "project_budget",
@@ -1448,22 +1682,6 @@ const translation_mapping = [
         sp: "Enumere todos los proyectos que planifican llevar a cabo en el ciclo de tres años (se deben incluir todos los proyectos, tanto los de fondos restringidos (restricted funds) como los de fondos no restringidos (unrestricted funds)). Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Para cada proyecto, indique su nombre y ofrezca una breve descripción de no más de 250 palabras. En la descripción, mencione el donante o la fuente de financiamiento; las regiones o provincias en las que se implementará; los usuarios o la audiencia meta, y los resultados previstos. Para actualizaciones, agregue todo proyecto nuevo no incluido en el plan de negocio de 3 años. No es necesario completar todas las filas.",
         fr: "Veuillez énumérer tous les projets que vous prévoyez de porter à exécution au cours du cycle de trois ans (incluez tous les projets, financés à la fois par des fonds avec restrictions et des fonds sans restrictions). Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiserVeuillez accompagner chaque projet d’une brève description de pas plus de 250 mots. Dans la description, veuillez mentionner le bailleur de fonds/la source de financement, les régions/provinces où il sera mis en œuvre, le public cible/les clients et ses réalisations/résultats escomptés. Pour les mises à jour, veuillez ajouter tout nouveau projet non inclus dans le plan d'activité de 3 ans. Il n’est pas obligatoire de remplir toutes les lignes.",
         ar: " نرجو إعداد قائمة بجميع المشاريع التي تخططون لتنفيذها في دورة الثلاث سنوات (ينبغي أن تشمل جميع المشاريع التي تمولها الصناديق المقيدة وغير المقيدة). تُدرج فقط المشاريع التي تم تأكيد تمويلها أو تتجاوز فرصة الحصول عليه 80٪ اكتب اسم كل مشروع ووصفًا موجزًا لا يزيد عن 250 كلمة. وفي هذا الوصف، يرجى ذكر اسم الجهة المانحة/مصدر التمويل، الأقاليم/المقاطعات التي سيتم تنفيذه فيها، والشرائح المستهدفة/المستفيدين المستهدفين والنتائج/النتائج النهائية المنشودة. فيما يتعلق بالتحديثات، يرجى إضافة أي مشاريع جديدة لم تُدرج في خطة الأعمال ذات الـ 3 سنوات. "
-    },
-   
-
-    {
-        id: "total_projects",
-        en: "Total projects",
-        sp: "Número total de proyectos",
-        fr: "Nombre total de projets",
-        ar: 'إجمالي عدد المشاريع'
-    },
-    {
-        id: "project_name",
-        en: "Project Name",
-        sp: "Nombre del proyecto",
-        fr: "Nom du projet",
-        ar: 'اسم المشروع'
     },
     {
         id: "description_project",
