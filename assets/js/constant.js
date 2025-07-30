@@ -19,7 +19,7 @@ export const tei = {
   year: {
     id: "rpQi6D8L58H",
     start: 2023,
-    end: new Date().getFullYear(),
+    end: new Date().getFullYear()+1,
     value: "",
   },
 };

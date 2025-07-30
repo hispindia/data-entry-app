@@ -1,4 +1,4 @@
-import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushDataElement } from "../../api/func.js";
+import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { disableAll, formatNumberInput, getYears } from "../func.js";
@@ -19,36 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-//add Event listener to post all file resources
-document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
-  fileUpload.addEventListener("change", function (ev) {
-    const formData = new FormData();
-    formData.append('file', ev.target.files[0]);
-  fetch('../../fileResources', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-  })
-  .then(data => {
-      linkFileResourceToEvent(ev.target.id, data.response.fileResource);
-  })
-  .catch(error => {
-      console.error('Error uploading file:', error);
-  })
-})
-});
-
-  document
-    .getElementById("year-update")
-    .addEventListener("change", function (ev) {
-      window.localStorage.setItem("annualYear", ev.target.value);
-      fetchEvents();
-    });
+  configurePage();
 
   async function configurePage() {
     const user = await getUserConfig();
@@ -85,7 +56,6 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
   
   async function fetchEvents() {
     tei.year.value = document.getElementById("year-update").value;
-    document.getElementById('selected-year').innerHTML = tei.year.value;
 
     const data = await getTEI(tei.orgUnit);
     
@@ -94,10 +64,10 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
 
       const filteredPrograms =
         data.trackedEntityInstances[0].enrollments.filter(
-          (enroll) => enroll.program == tei.program|| enroll.program==program.auProjectDescription 
-          );
+          (enroll) => enroll.program == tei.program || enroll.program == program.auProjectDescription 
+        );
     
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
     
       var attributes = {};
@@ -105,8 +75,8 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
         data.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
       }
 
-      const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, tei.year.id);
-      const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, tei.year.id);
+      const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, {id:tei.year.id,value:tei.year.value});
+      const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
        if (!dataValuesMD[tei.year.value]) {
           tei.dataValues[tei.year.value] = {}
           let data = [{
@@ -163,66 +133,101 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
         textVal.value = attributes[textVal.id];
       }
       else if (dataValues[textVal.id]) {
-        textVal.value = dataValues[textVal.id];
-        //for yes no type and based on that enable rows attaached with it.
-        if (textVal.id == 'ttOZ4zaMXji') {
-          textVal.checked = (textVal.value == "true" ? true : false);
-          enableRow(textVal.id, textVal.checked, 'dQgZIHO74q5', false)
-        }
-        else if (textVal.id == 'UaETNe6k15k') {
-          textVal.checked = (textVal.value == "true" ? true : false);
-          enableRow(textVal.id, textVal.checked, 'OvbPe9nCJOd', false)
-        }
-        else if (textVal.id == 'kovn3d3f6S3' || textVal.id == 'CblclJFFlfV' || textVal.id == 'KfenFbGtZsj' || textVal.id == 'zdWqftJFqGA' || textVal.id == 'TKYN8eltlPO') {
-          setRadioValue(textVal.id, dataValues[textVal.id])
-        }
-
+        if(textVal.type=="checkbox") textVal.checked = true;
+        else textVal.value = dataValues[textVal.id];   
       } else {
         textVal.value = '';
       }
     })
+
+    const radioGroup = [...document.querySelectorAll('.radioValue')]
+                      .map(div => div.querySelector('input[type="radio"]')?.name)
+                      .filter(Boolean);
+
+    radioGroup.forEach(name => {
+      const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${dataValues[name]}"]`);
+      if(radio) {
+        if (name == 'ttOZ4zaMXji') {
+            radio.checked = true;
+            if (radio.value=="true")  $('#dQgZIHO74q5').removeAttr('disabled');
+            else $('#dQgZIHO74q5').attr('disabled', 'disabled');
+          }
+        else if (name == 'UaETNe6k15k') {
+            radio.checked = true;
+            if (radio.value=="true")  $('#OvbPe9nCJOd').removeAttr('disabled');
+            else $('#OvbPe9nCJOd').attr('disabled', 'disabled');
+        }
+        else if (name == 'kovn3d3f6S3' || name == 'CblclJFFlfV' || name == 'KfenFbGtZsj' || name == 'zdWqftJFqGA' || name == 'TKYN8eltlPO') {
+            radio.checked = true;
+        }
+      }
+    })
+
     document.querySelectorAll('.show-for-sr').forEach((textVal) => {
       if (dataValuesKD[textVal.id]) {
         getFileUpload(textVal.id,dataValuesKD[textVal.id]);
       }
     })
   }
-  configurePage();
+
+  document.querySelectorAll('.textValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id,value, type, checked } = ev.target;
+      if(type=="checkbox") {
+        if(checked) pushDataElement(id, true);
+        else pushDataElement(id, '');
+      } else pushDataElement(id,value);
+    })
+  });
+
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualYear", ev.target.value);
+      fetchEvents();
+    });
+
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const { name, value } = e.target;
+      pushDataElement(name, value)
+      if (name == 'ttOZ4zaMXji') {
+        if (value=="true")  $('#dQgZIHO74q5').removeAttr('disabled');
+        else $('#dQgZIHO74q5').attr('disabled', 'disabled');
+      }
+      else if (name == 'UaETNe6k15k') {
+        if (value=="true")  $('#OvbPe9nCJOd').removeAttr('disabled');
+        else $('#OvbPe9nCJOd').attr('disabled', 'disabled');
+      }
+    });
+  });
+
+  //add Event listener to post all file resources
+  document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
+    fileUpload.addEventListener("change", function (ev) {
+      const formData = new FormData();
+      formData.append('file', ev.target.files[0]);
+      fetch('../../fileResources', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          linkFileResourceToEvent(ev.target.id, data.response.fileResource);
+      })
+      .catch(error => {
+          console.error('Error uploading file:', error);
+      })
+    })
+  });
+
 });
 
-function enableRow(id, checked, idRow, upload) {
-  if (checked) {
-    if (upload) pushDataElement(id, checked);
-    $(`input[name=${id}][value=${checked}]`).prop("checked", true);
-    $(`#${idRow}`).removeAttr('disabled');
-  }
-  else {
-    if (upload) {
-      pushDataElement(id, checked);
-      pushDataElement(idRow, 0);
-      $(`#${idRow}`).val(0);
-    }
-    $(`input[name=${id}][value=${checked}]`).prop("checked", true);
-    $(`#${idRow}`).attr('disabled', 'disabled');
-  }
-}
-
-function pushRadioValue(id, event, optionsName) {
-  const { name, value } = event.target;
-  if (name === optionsName) {
-    pushDataElement(id, value)
-  }
-}
-
-
-function setRadioValue(id, value) {
-  const radio = document.querySelector(`#${id} input[type="radio"][value="${value}"]`);
-  if (radio) {
-    radio.checked = true;
-    const event = new Event('change', { bubbles: true });
-    radio.dispatchEvent(event);
-  }
-}
 async function getFileUpload(elementId,deValue) {
   try{
     const fileData = await fetchFileResource(deValue);
@@ -235,7 +240,6 @@ async function getFileUpload(elementId,deValue) {
   catch(error) {
     console.log('file upload error')
   }
-
 }
 
 function updateFileLabel(elementId, fileName, fileUrl) {
@@ -270,5 +274,3 @@ async function linkFileResourceToEvent(id, fileResource) {
   fileResource['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${id}`;
   updateFileLabel(id, fileResource.displayName, fileResource.url);
 }
-
-window.pushRadioValue = pushRadioValue;

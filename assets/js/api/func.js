@@ -1,7 +1,7 @@
 import { eventApi, dataElementApi, meApi, organisationUnitGroup } from './DataApi.js';
 import { tei } from "../constant.js";
 
-export function getEvents(programs, programId, periodId) {
+export function getEvents(programs, programId, year) {
   var events = {};
 
   const eventList = programs.filter(
@@ -13,7 +13,7 @@ export function getEvents(programs, programId, periodId) {
       const dataValues = {};
       dataValues['event'] = event.event;
       event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
-      if (dataValues[periodId]) events[dataValues[periodId]] = dataValues;
+      if (dataValues[year.id] && dataValues[year.id]==year.value) events[dataValues[year.id]] = dataValues;
     })
   );
   return events;
@@ -57,7 +57,7 @@ export function getProgramStagePeriodicity(programs, programId, programStage, ye
   return events;
 }
 
-export function getProgramStageEvents(programs, programStage, programId, periodId) {
+export function getProgramStageEvents(programs, programStage, programId, year) {
   var events = {};
 
   const eventList = programs.filter(
@@ -70,7 +70,7 @@ export function getProgramStageEvents(programs, programStage, programId, periodI
         const dataValues = {};
         dataValues['event'] = event.event;
         event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
-        if (dataValues[periodId]) events[dataValues[periodId]] = dataValues;
+        if (dataValues[year.id] && dataValues[year.id]==year.value) events[dataValues[year.id]] = dataValues;
       }
     })
   );
