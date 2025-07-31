@@ -1025,13 +1025,7 @@ const translation_mapping = [
         ar: 'الإمكانات / مجالات الخبرة التنظيمية (يمكننا مشاركة الأدوات وتدريب الآخرين)'   
     },
     // Project Description
-    {
-        id: "project_description",
-        en: "2.1 Project Description",
-        sp: "2.1 Descripción del proyecto",
-        fr: "2.1 Description du projet",
-        ar: "1.2 وصف المشروع",
-    },
+    
     {
         id: "total_projects",
         en: "Total projects",
@@ -1319,6 +1313,7 @@ const translation_mapping = [
         fr: "Difficultés institutionnelles",
         ar: "التحديات المؤسسية "
     },
+    //Sidebar
     {
         id: "select_ma",
         en: "Select MA / CP",
@@ -1327,20 +1322,25 @@ const translation_mapping = [
         ar: "حدد MA / CP",
     },
     {
-        id: "business_plan",
-        en: "3 Year Business Plan",
-        sp: "Plan de negocios de 3 años",
-        fr: "Plan d'affaires sur 3 ans",
-        ar: "خطة عمل لمدة 3 سنوات",
+        id: "annual_update",
+        en: "Annual Business Plan Updates",
+        sp: "Actualizaciones anuales del plan de negocios",
+        fr: "Mises à jour du plan d’activité annuel",
+        ar: 'تحديث خطة الأعمال السنوية'
     },
-    
-    //Narrative Plan
     {
         id: "narrative_plan",
         en: "1.2 Narrative Plan",
         sp: "1.2 Narrativa del Plan",
         fr: "1.2 Narratif du plan",
         ar: "2.1 خطة التوضيح",
+    },
+    {
+        id: "project_description",
+        en: "2.1 Project Description",
+        sp: "2.1 Descripción del proyecto",
+        fr: "2.1 Description du projet",
+        ar: "1.2 وصف المشروع",
     },
     {
         id: "project_budget",
@@ -1371,13 +1371,6 @@ const translation_mapping = [
         ar: "1.3 إجمالي الدخل",
     },
     {
-        id: "total_income_ar",
-        en: "Total Income",
-        sp: "Ingresos totales",
-        fr: "Total des recettes",
-        ar: "إجمالي الدخل",
-    },
-    {
         id: "income_donor",
         en: "3.2 Income by Donor",
         sp: "3.2 Ingresos por donante",
@@ -1405,13 +1398,8 @@ const translation_mapping = [
         fr: "3.5 Produits par source de financement",
         ar: "5.3 مصدر السلع الطبية",
     },
-    {
-        id: "annual_update",
-        en: "Annual Business Plan Updates",
-        sp: "Actualizaciones anuales del plan de negocios",
-        fr: "Mises à jour du plan d’activité annuel",
-        ar: 'تحديث خطة الأعمال السنوية'
-    },
+    
+    
     {
         id: "annual_report",
         en: "Annual / Semi-Annual Report Submission & Approval",
@@ -1468,6 +1456,29 @@ const translation_mapping = [
         fr: "Génération de rapports standard à partir du portail BP",
         ar: 'إنشاء التقارير القياسية من بوابة BP'
     },
+//changes updated above
+    {
+        id: "business_plan",
+        en: "3 Year Business Plan",
+        sp: "Plan de negocios de 3 años",
+        fr: "Plan d'affaires sur 3 ans",
+        ar: "خطة عمل لمدة 3 سنوات",
+    },
+    
+  
+    
+    
+    
+    
+    {
+        id: "total_income_ar",
+        en: "Total Income",
+        sp: "Ingresos totales",
+        fr: "Total des recettes",
+        ar: "إجمالي الدخل",
+    },
+   
+   
 
     //header
     {
