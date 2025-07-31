@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
-      else if(tei.userDisabled) tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
     
       var attributes = {};

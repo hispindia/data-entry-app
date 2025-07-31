@@ -17,17 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-    document
-    .getElementById("year-update")
-    .addEventListener("change", function (ev) {
-      window.localStorage.setItem("annualYear", ev.target.value);
-      populateProgramEvents(tei.dataValues);
-    });
-
-
+  configurePage();
  async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -49,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auProjectBudget;
@@ -73,24 +66,26 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id);
-      tei.yearAmount = dataValuesOD[tei.year.value][dataElements.yearAmount]
+      if(dataValuesOD[tei.year.value] && dataValuesOD[tei.year.value][dataElements.yearAmount]) tei.yearAmount = dataValuesOD[tei.year.value][dataElements.yearAmount]
 
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value});
       
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
       if (dataValuesPD[tei.year.value]) {
         tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
       }
-      tei.dataValues = getEvents(filteredPrograms, tei.program, tei.year.id); //data vlaues period wise
+      tei.dataValues = getEvents(filteredPrograms, tei.program, {id:tei.year.id, value: tei.year.value}); //data vlaues period wise
       
       if (!tei.dataValues[tei.year.value]) {
         const data = [{
           dataElement: tei.year.id,
-          value: year
+          value: tei.year.value
         }];
         tei.dataValues[tei.year.value] = {
-          [tei.year.id]:year,
+          [tei.year.id]:tei.year.value,
         }
         tei.projects.forEach((name,index) => {
           tei.dataValues[tei.year.value][dataElements.projectBudget[index].name] = name;
@@ -101,13 +96,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
 
         tei.event = {
-          ...tei.event,
          [tei.year.value]: await createEvent(data)
         }
         } else {
 
           tei.event = {
-            ...tei.event,
             [tei.year.value]: tei.dataValues[tei.year.value]["event"]
           }
 
@@ -318,7 +311,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return projectRows;
   }
 
-  configurePage();
+    document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualYear", ev.target.value);
+      fetchEvents();
+    });
 });
 
 function pushProjectBudget() {

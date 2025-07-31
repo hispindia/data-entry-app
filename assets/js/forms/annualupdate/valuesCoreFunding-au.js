@@ -18,18 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-
- 
-    document
-    .getElementById("year-update")
-    .addEventListener("change", function (ev) {
-      window.localStorage.setItem("annualYear", ev.target.value);
-      fetchEvents()
-    });
-
+  configurePage();
  async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -51,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auIncomeDetails;
@@ -73,11 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program|| enroll.program==program.auProjectDescription 
           );
     
-          const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
-          if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
-    
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id,value: tei.year.value});
+      if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
-      tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
+      tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,{id:tei.year.id,value: tei.year.value}) //data vlaues period wise
 
         if (!tei.dataValues[tei.year.value]) {
           const data = [
@@ -211,7 +204,13 @@ document.addEventListener("DOMContentLoaded", function () {
     return row;
   }
 
-  configurePage();
+    document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualYear", ev.target.value);
+      fetchEvents()
+    });
+
 });
 
 function checkDonors(donors, values, period) {
