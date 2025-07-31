@@ -1051,14 +1051,14 @@ const translation_mapping = [
         en: "Project Donor:",
         sp: "Donante del proyecto:",
         fr: "Bailleur de fonds du projet :",
-        en: "الجهة المانحة للمشروع:"
+        ar: "الجهة المانحة للمشروع:"
     },
     {
         id: "annual_proj_income",
         en: "Annual Project Income",
         sp: "Ingreso anual del proyecto",
         fr: "Recettes annuelles du projet",
-        en: "الدخل السنوي للمشروع"
+        ar: "الدخل السنوي للمشروع"
     },
     {
         id: "funding_type",

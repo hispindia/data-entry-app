@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <div class="form-group col-md-12 textbox-wrap my-2">
         <label for="${project.name}"><span data-i18n="intro.project_name">Project Name</span> ${count} </label>
-        <input type="text" ${tei.disabled ? 'disabled readonly': ''} class="form-control" id="${
+        <input type="text" ${tei.disabled ? 'disabled readon  ly': ''} class="form-control" id="${
           project.name
         }" value="${projectName}" oninput='pushDataElement(this.id, this.value)'>
         <div class="invalid-feedback"> Error here </div>
@@ -160,8 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option ${(""=="Government of China") ? "selected": ''} value="Government of China"><span data-i18n="intro.g_ch">Government of China</span></option>
                 <option ${(""=="Government of Denmark / DANIDA") ? "selected": ''} value="Government of Denmark / DANIDA"><span data-i18n="intro.g_den">Government of Denmark / DANIDA</span></option>
                 <option ${(""=="Government of Finland / FINNIDA") ? "selected": ''} value="Government of Finland / FINNIDA"><span data-i18n="intro.g_fin">Government of Finland / FINNIDA</span></option>
-                <option ${(""=="Government of France / Agence Française de Développement") ? "selected": ''} value="Government of France / Agence Française de Développement"><span data-i18n="intro.g_fran
-                ">Government of France / Agence Française de Développement</span></option>
+                <option ${(""=="Government of France / Agence Française de Développement") ? "selected": ''} value="Government of France / Agence Française de Développement"><span data-i18n="intro.g_fran">Government of France / Agence Française de Développement</span></option>
                 <option ${(""=="Government of Germany / GIZ") ? "selected": ''} value="Government of Germany / GIZ"><span data-i18n="intro.g_ger">Government of Germany / GIZ</span></option>
                 <option ${(""=="Government of Japan / Ministry of Foreign Affairs Japan") ? "selected": ''} value="Government of Japan / Ministry of Foreign Affairs Japan"><span data-i18n="intro.g_jap">Government of Japan / Ministry of Foreign Affairs Japan</span></option>
                 <option ${(""=="Government of New Zealand / MFAT ") ? "selected": ''} value="Government of New Zealand / MFAT "><span data-i18n="intro.g_new">Government of New Zealand / MFAT</span></option>
@@ -216,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <label for="${project.endDate}"><span data-i18n="intro.">End Date:</span> </label>
             <input type="date" id="${project.endDate}"  
               class="w-100 form-control" 
-              value="" 
+              value="${endDate}"
               onchange='pushDataElement(this.id, this.value)'>
             <div class="invalid-feedback"> Error here </div>
           </td> 
@@ -280,48 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $(".plus").click(function (e) {
     e.preventDefault();
-    const newProjectRow = `
-                <div class="form-row project-list" id="project-list-${(projectCount + 1)}">
-                    <div class="form-group col-md-12 textbox-wrap">
-                    <label for="${dataElements.projectDescription[projectCount]['name']}"><span data-i18n="intro.project_name">Project Name</span> ${(projectCount + 1)}</label>
-                    <input type="text" class="form-control" id="${dataElements.projectDescription[projectCount]['name']}" oninput='pushDataElement(this.id, this.value)'>
-                    <div class="invalid-feedback"> Error here </div>
-                    </div>
-                    <div class="form-group col-md-12 textbox-wrap">
-                    <label for="${dataElements.projectDescription[projectCount]['description']}"><span data-i18n="intro.description_project">Description of Project </span> ${(projectCount + 1)}</label>
-                    <textarea class="form-control-resize textlimit" id="${dataElements.projectDescription[projectCount]['description']}" oninput='pushDataElement(this.id, this.value)'></textarea>
-                    <div class="char-counter form-text text-muted" id="counter-${dataElements.projectDescription[projectCount]['description']}">250 words remaining</div>
-                    <div class="invalid-feedback"> Error here </div>
-                    </div>
-                </div>
-                 
-                <div class="form-row d-flex">
-    <div class="form-group col-md-6 textbox-wrap">
-        <label for="${dataElements.projectDescription[projectCount]['startDate']}">
-            <span data-i18n="intro.start_date">Project Start Date ${(projectCount + 1)}</span>
-        </label>
-        <div>
-            <input type="date" id="${dataElements.projectDescription[projectCount]['startDate']}"  
-                   class="w-100 form-control"
-                   onchange='pushDataElement(this.id, this.value)'>
-        </div>
-        <div class="invalid-feedback"> Error here </div>
-    </div>
-
-    <div class="form-group col-md-6 textbox-wrap">
-        <label for="${dataElements.projectDescription[projectCount]['endDate']}">
-            <span data-i18n="intro.end_date">Project End Date ${(projectCount + 1)}</span>
-        </label>
-        <div>
-            <input type="date" id="${dataElements.projectDescription[projectCount]['endDate']}"  
-                   class="w-100 form-control" 
-                   onchange='pushDataElement(this.id, this.value)'>
-        </div>
-        <div class="invalid-feedback"> Error here </div>
-    </div>
-</div><hr>
-            `;
-
+    const newProjectRow = addRow((projectCount + 1), dataElements.projectDescription[projectCount], "", "", "", "");
     projectCount++;
     $(newProjectRow).insertBefore(".btn-wrap");
     $('#total-projects').val(projectCount)
