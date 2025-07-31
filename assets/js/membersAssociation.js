@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const userConfig = userGroupConfig(data);
       tei.disabled = userConfig.disabled;
+      window.localStorage.setItem('userDisabled', userConfig.disabled);
       window.localStorage.setItem('hideReporting', userConfig.disabledValues);
     
 

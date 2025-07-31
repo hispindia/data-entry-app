@@ -1,7 +1,7 @@
 import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { disableAll, formatNumberInput, getYears } from "../func.js";
+import { disableAll, enableAll, formatNumberInput, getYears } from "../func.js";
 
 const programStageEvent = {
   keyDetails: ''
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled) tei.disabled = true;
+      else tei.disabled = false;
     
       var attributes = {};
       if (data.trackedEntityInstances.length && data.trackedEntityInstances[0].attributes) {
@@ -126,7 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(attributes, dataValues, dataValuesKD) {
 
     //disable feilds
-   if (tei.disabled) disableAll();
+    if (tei.disabled) disableAll();
+    else enableAll();
 
     document.querySelectorAll('.textValue').forEach((textVal) => {
       if (attributes[textVal.id]) {

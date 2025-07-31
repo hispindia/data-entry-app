@@ -20,6 +20,7 @@
                 localStorage.clear();
                 const user = await getUserConfig();
                 tei.disabled = user.disabled;
+                window.localStorage.setItem('userDisabled', user.disabled);
                 window.localStorage.setItem('hideReporting', user.hideReporting);
 
                 if (user.organisationUnits && user.organisationUnits.length > 0) {

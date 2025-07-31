@@ -1,26 +1,30 @@
-import { createEvent, getEvents, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { createEvent, getEvents, getProgramStageEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { disableAll, getYears } from "../func.js";
+import { disableAll, enableAll, getYears } from "../func.js";
 
 const maxWords = {
   counter1: 500,
   counter2: 800,
   counter3: 500,
   counter4: 250,
-  counter5: 250,
-  counter6: 200,
-  counter7: 200,
-  counter8: 200,
-  counter9: 200,
-  counter10: 200,
+  counter5: 50,
+  counter6: 50,
+  counter7: 50,
+  counter8: 50,
+  counter9: 50,
+  counter10: 250,
   counter11: 200,
   counter12: 200,
   counter13: 200,
   counter14: 200,
   counter15: 200,
-  counter16: 250,
-  counter17: 250,
+  counter16: 200,
+  counter17: 200,
+  counter18: 200,
+  counter19: 200,
+  counter20: 200,
+  counter21: 200,
 }
 
  document.addEventListener("DOMContentLoaded", function () {
@@ -35,16 +39,11 @@ const maxWords = {
     });
   });
 
-  document
-  .getElementById("year-update")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualYear", ev.target.value);
-    // fetchEvents(ev.target.value);
-  });
+  configurePage();
 
- async function configurePage() {
+  async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -76,7 +75,6 @@ const maxWords = {
   }
 
   async function fetchEvents() {
-
     tei.year.value = document.getElementById("year-update").value;
 
     const data = await getTEI(tei.orgUnit);
@@ -89,10 +87,12 @@ const maxWords = {
         (enroll) => enroll.program == tei.program || enroll.program==program.auProjectDescription 
       );
 
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value});
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled) tei.disabled = true;
+      else tei.disabled = false;
 
-      tei.dataValues  =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues year wise
+      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, {id:tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(!tei.dataValues[tei.year.value]) {
         tei.dataValues[tei.year.value] = {}
         let data = [{
@@ -113,11 +113,11 @@ const maxWords = {
     }
   }
 
-
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
     //disable feilds
     if(tei.disabled)  disableAll();
+    else enableAll();
 
     document.querySelectorAll('.textValue').forEach((textVal,index) => {
       if(dataValues[textVal.id]) {
@@ -131,14 +131,24 @@ const maxWords = {
     })
   }
 
-  configurePage();
+  document
+  .getElementById("year-update")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualYear", ev.target.value);
+    fetchEvents();
+  });
+  
+  document.querySelectorAll('.textValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id, value } = ev.target;
+      pushDataElement(id,value);
+    })
+  });
 });
 
-
-    //Panel toggle
-    function changePanel(id) {
-      $(`#${id}`).collapse('toggle');
-    }
+function changePanel(id) {
+  $(`#${id}`).collapse('toggle');
+}
 
   function submitProjects() {
       alert("Data Saved Successfully!")
@@ -151,20 +161,20 @@ const maxWords = {
         const counter = document.getElementById(`counter${index+1}`);
         const updateCounter = () => {
 
-          const words = textarea.value.trim().split(/\s+/).filter(Boolean);
-      const maxCount = maxWords[`counter${index + 1}`];
+        const words = textarea.value.trim().split(/\s+/).filter(Boolean);
+        const maxCount = maxWords[`counter${index + 1}`];
 
-      if (words.length >= maxCount) {
-        textarea.value = words.slice(0, maxCount).join(' ');
-      }
+        if (words.length >= maxCount) {
+          textarea.value = words.slice(0, maxCount).join(' ');
+        }
 
 
-      if (textarea.value) {
-        counter.innerHTML = `${maxCount - words.length} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
-      } else {
-        counter.innerHTML = `${maxCount} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
-      }
-    };
+        if (textarea.value) {
+          counter.innerHTML = `${maxCount - words.length} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
+        } else {
+          counter.innerHTML = `${maxCount} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
+        }
+      };
         textarea.addEventListener('input', updateCounter);
         updateCounter(); // initialize counter on page load
       });

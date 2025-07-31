@@ -10,6 +10,7 @@ export const tei = {
   hideReportingYears: "2023;2025",
   hideYears: "2023;2024",
   dataValues: {},
+  userDisabled: false,
   disabled: false,
 
   periodicity: {

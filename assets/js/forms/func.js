@@ -50,3 +50,22 @@ export function disableAll() {
       //Disable all button
       $('button').prop('disabled', true);
 }
+
+export function enableAll() {
+    $('.textValue').prop('disabled', false);
+
+    // Enable all select elements
+    $('.select-option').prop('disabled', false);
+
+    // Enable all checkbox elements
+    $('input[type="checkbox"]').prop('disabled', false);
+
+    // Enable all radio button elements
+    $('input[type="radio"]').prop('disabled', false);
+
+    // Enable all file input elements
+    $('input[type="file"]').prop('disabled', false);
+
+    // Enable all button elements
+    $('button').prop('disabled', false);
+}
