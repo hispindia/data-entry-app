@@ -866,7 +866,7 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
 }
 
 .rows-wrapper .data-row:nth-of-type(even) {
-  background-color: #E8E9E8;
+  background-color: #F0F0F0;
 }
 /* 
 .data-row:nth-child(even) {

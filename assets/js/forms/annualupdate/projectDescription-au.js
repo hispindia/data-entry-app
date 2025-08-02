@@ -1,4 +1,4 @@
-import { createEvent, getEvents, getTEI } from "../../api/func.js";
+import { createEvent, getEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { getYears } from "../func.js";
@@ -122,8 +122,16 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       $("#total-projects").val(projectCount);
     }
-    $(projectRows).insertBefore(".btn-wrap");
-
+    // $(projectRows).insertBefore(".btn-wrap");
+    const content = document.getElementById('content')
+    content.innerHTML=projectRows;
+    console.log(content.querySelectorAll('.textValue'))
+    content.querySelectorAll('.textValue').forEach((input)=> {
+        input.addEventListener("input", (ev) => {
+          const { id, value } = ev.target;
+          pushDataElement(id,value);
+        })
+      });
     // Localize content
     $('body').localize();
   }
@@ -134,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <div class="form-group col-md-12 textbox-wrap my-2">
         <label for="${project.name}"><span data-i18n="intro.project_name">Project Name</span> ${count} </label>
-        <input type="text" ${tei.disabled ? 'disabled readonly': ''} class="form-control" id="${
+        <input type="text" ${tei.disabled ? 'disabled readonly': ''} class="form-control textValue" id="${
           project.name
         }" value="${values['name']}">
         <div class="invalid-feedback"> Error here </div>
@@ -293,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $(".plus").click(function (e) {
     e.preventDefault();
-    const newProjectRow = addRow((projectCount + 1), dataElements.projectDescription[projectCount], "", "", "", "");
+    const newProjectRow = addRow((projectCount + 1), dataElements.projectDescription[projectCount], { name: "",  description: "", startDate: "", endDate: "", theme: "", themeOther: "", donor: "", donorOther: "", contract: "", income: "", funding: "" });
     projectCount++;
     $(newProjectRow).insertBefore(".btn-wrap");
     $('#total-projects').val(projectCount)
