@@ -33,7 +33,7 @@ const maxWords = 300;
 
   async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -56,7 +56,7 @@ const maxWords = 300;
     if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.arOrganisationDetails;
@@ -82,7 +82,8 @@ const maxWords = 300;
 
       const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
-
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
       const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:tei.year.id, value: tei.year.value}, {id:tei.periodicity.id, value:tei.periodicity.value}); //data vlaues period wise
       

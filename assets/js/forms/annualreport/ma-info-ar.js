@@ -1,4 +1,4 @@
-import { createEvent, createEventOther, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { createEvent, createEventOther, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { disableAll, getYears } from '../func.js';
@@ -43,24 +43,10 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
 })
 });
 
-  document
-  .getElementById("year-update")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualYearAR", ev.target.value);
-    fetchEvents();
-  });
-
-  document
-  .getElementById("reporting-periodicity")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualReporting", ev.target.value);
-    fetchEvents();
-  });
-
-
+configurePage();
   async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -84,7 +70,7 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
     if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.arOrganisationDetails;
@@ -113,6 +99,8 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
 
       const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
       const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, { id:tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value:tei.periodicity.value }); //data vlaues period wise
       const dataValuesKD = getProgramStagePeriodicity(filteredPrograms, tei.program, programStage.arKeyDetails,{ id:tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value:tei.periodicity.value });
@@ -190,7 +178,26 @@ document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
     })
   }
 
-  configurePage();
+  document
+  .getElementById("year-update")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualYearAR", ev.target.value);
+    fetchEvents();
+  });
+
+  document
+  .getElementById("reporting-periodicity")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualReporting", ev.target.value);
+    fetchEvents();
+  });
+
+  document.querySelectorAll('.textValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id,value } = ev.target;
+      pushDataElement(id,value);
+    })
+  });
 });
 
 
