@@ -5,7 +5,7 @@ const translation_mapping = [
         en: "1.1 Organization Details",
         sp: "1.1 Información de la organización",
         fr: "1.1 Détails de l'organisation",
-        ar: "1.1 تفاصيل المنظمة",    
+        ar: "بيانات المنظمة ",    
     },
     {
         id: "membership_details",
@@ -33,7 +33,7 @@ const translation_mapping = [
         en: "IPPF Region",
         sp: "Región de IPPF",
         fr: "Région de l’IPPF",
-        ar: 'إقليم اتحاد IPPF'
+        ar: 'اقليم الاتحاد الدولي لتنظيم الاسرة'
     },
     {
         id: "organisation_name",
@@ -89,7 +89,7 @@ const translation_mapping = [
         en: "Business plan contact role",
         sp: "Persona de contacto para el plan de negocio (nombre y cargo)",
         fr: "Personne de contact du plan d'activité",
-        ar: 'دور الاتصال بخطة العمل'
+        ar: 'دور جهة الاتصال في خطة العمل'
     },
     {
         id: "business_plan_contact_email",
@@ -117,7 +117,7 @@ const translation_mapping = [
         en: "Contact Information",
         sp: "Información del contacto",
         fr: "Coordonnées",
-        ar:  "معلومات الاتصال"
+        ar:  "هاتف الاتصال"
     },
     {
         id: "physical_address",
@@ -159,7 +159,7 @@ const translation_mapping = [
         en: "Contact phone",
         sp: "Teléfono de contacto",
         fr: "Téléphone de contact",
-        ar: 'اتصل بالهاتف'
+        ar: 'هاتف الاتصال '
     },
     {
         id: "board_chair",
@@ -222,7 +222,7 @@ const translation_mapping = [
         en: "Start year",
         sp: "año de inicio",
         fr: "Année de début",
-        ar: ' سنة البداية'
+        ar: 'سنة البداية'
     },
 
     {
@@ -230,7 +230,7 @@ const translation_mapping = [
         en: "End year",
         sp: "año de finalización",
         fr: "Année de fin",
-        ar: ' سنة الانتها'
+        ar: 'سنة الانتهاء '
     },
      {
         id: "organisation_data",
@@ -286,35 +286,35 @@ const translation_mapping = [
         en: "Abortion Care ",
         sp: "Atención del aborto",
         fr: "Soins d'avortement",
-        ar: " الصحة الجنسية والإنجابية الإنسانية"
+        ar: 'رعاية الاجهاض'
     },
     {
         id: "focus_2",
         en: "General SRHR or FP",
         sp: "SDSR o planificación familiar general",
         fr: "SDSR générale ou PF",
-        ar: " الدعوة وتبديل المعايير"
+        ar: 'الصحة والحقوق الجنسية والإنجابية العامة أو تنظيم الأسرة'
     },
     {
         id: "focus_3",
         en: "Advocacy & Norms shifting",
         sp: "Incidencia política y modificación de normas",
         fr: "Plaidoyer et changement de normes",
-        ar: "تنظيم الأسرة أو الصحة الجنسية والإنجابية العامة"
+        ar: 'الدعوة وتبديل المعايير'
     },
     {
         id: "focus_4",
         en: "Humanitarian SRHR",
         sp: "SDSR humanitarios",
         fr: "SDSR humanitaire",
-        ar: " تنظيم الأسرة أو الصحة الجنسية والإنجابية العامة "
+        ar: "الصحة والحقوق الجنسية والإنجابية الإنسانية"
     },
     {
         id: "focus_5",
         en: "Youth Care or CSE",
         sp: "Atención de personas jóvenes o EIS",
         fr: "Soins à la jeunesse ou ECS",
-        ar: "رعاية الإجهاض"
+        ar: "رعاية الشباب أو التربية الجنسية الشاملة"
     },
     {
         id: "focus_6",
@@ -570,7 +570,7 @@ const translation_mapping = [
         en: "Choose",
         sp: "",
         fr: "",
-        ar: ''
+        ar: 'اختر'
     },
     
     {
@@ -775,7 +775,7 @@ const translation_mapping = [
         en: "Other 2",
         sp: "Otro 2",
         fr: "Autre 2",
-        ar: "غير ذلك 2"
+        ar: "آخر 2"
     },
      //Narrative Plan
     {
@@ -783,7 +783,7 @@ const translation_mapping = [
         en: "1.2 Narrative Plan",
         sp: "1.2 Narrativa del Plan",
         fr: "1.2 Narratif du plan",
-        ar: '2.1 خطة التوضيح'
+        ar: 'الخطة السردية '
     },
     {
         id: "country_context",
@@ -797,7 +797,7 @@ const translation_mapping = [
         en: "Ques 1. Country context",
         sp: "1. Contexto nacional",
         fr: "Ques 1.Contexte du pays",
-        ar: 'السؤال 1. السياق القطري'
+        ar: 'السؤال الاول : سياق الدولة'
     },
     // 
     {
@@ -812,7 +812,7 @@ const translation_mapping = [
         en: "Ques 2. Strategy",
         sp: "2. Estrategia",
         fr: "Ques 2. Stratégie",
-        ar: '2. الإستراتيجية'
+        ar: 'السؤال الاول : الاستراتيجية'
     },
     {
         id: "des_curr_high_level",
@@ -1319,7 +1319,7 @@ const translation_mapping = [
         en: "Select MA / CP",
         sp: "Seleccione MA/CP",
         fr: "Sélectionnez MA/CP",
-        ar: "حدد MA / CP",
+        ar: "اختر الجمعية العضو/ الشريك المتعاون",
     },
     {
         id: "annual_update",
@@ -1333,7 +1333,7 @@ const translation_mapping = [
         en: "1.2 Narrative Plan",
         sp: "1.2 Narrativa del Plan",
         fr: "1.2 Narratif du plan",
-        ar: "2.1 خطة التوضيح",
+        ar: "الخطة السردية",
     },
     {
         id: "project_description",
@@ -1361,7 +1361,7 @@ const translation_mapping = [
         en: " 2.4 Budget by Expense Category",
         sp: "2.4 Proyectos - Categoría de gastos",
         fr: "2.4 Projets par catégorie de dépenses",
-        ar: "4.2 المشاريع - فئة الإنفاق",
+        ar: '4.2 المشاريع حسب فئة الانفاق'
     },
     {
         id: "total_income",
@@ -1412,14 +1412,14 @@ const translation_mapping = [
         en: "1. Organization Details",
         sp: "1. Información de la AM",
         fr: "1. Informations sur l'AM",
-        ar: '1.معلومات الجمعية العضو'
+        ar: 'بيانات المنظمة'
     },
     {
         id: "narrative_report",
         en: "2. Narrative Report",
         sp: "2. Informe narrativo",
         fr: "2. Rapport descriptif",
-        ar: '2. التقرير التوضيحي'
+        ar: 'التقرير السردي'
     },
     {
         id: "add_project",
@@ -1464,12 +1464,7 @@ const translation_mapping = [
         fr: "Plan d'affaires sur 3 ans",
         ar: "خطة عمل لمدة 3 سنوات",
     },
-    
-  
-    
-    
-    
-    
+     
     {
         id: "total_income_ar",
         en: "Total Income",
@@ -1486,7 +1481,7 @@ const translation_mapping = [
         en: "Region",
         sp: "Región",
         fr: "Région",
-        ar: 'منطقة'
+        ar: 'اقليم'
     },
     {
         id: "year_business_plan_update",
@@ -1500,14 +1495,14 @@ const translation_mapping = [
         en: "Year of Reporting",
         sp: "Año de presentación del informe",
         fr: "Année de déclaration",
-        ar: 'سنة الإبلاغ'
+        ar: 'سنة التقرير'
     },
     {
         id: "reporting_year",
         en: "Reporting Year",
         sp: "Año de informe",
         fr: "Année de déclaration",
-        ar: 'سنة الإبلاغ'
+        ar: 'سنة التقرير'
     },
     {
         id: "reporting_periodicity",
@@ -1534,7 +1529,7 @@ const translation_mapping = [
         en: "Strategic period",
         sp: "Período estratégico",
         fr: "Période stragégique",
-        ar: 'سنة البداية'
+        ar: 'الفترة الاستراتيجية'
     },        
     {
         id: "key_management",
@@ -1550,28 +1545,28 @@ const translation_mapping = [
         en: "Country Context - Year 2",
         sp: "1. Contexto nacional",
         fr: "Ques 1.Contexte du pays",
-        ar: 'السؤال 1. السياق القطري'
+        ar: 'سياق الدولة - السنة الثانية '
     },
     {
         id: "country_context_year3",
         en: "Country Context - Year 3",
         sp: "1. Contexto nacional",
         fr: "Ques 1.Contexte du pays",
-        ar: 'السؤال 1. السياق القطري'
+        ar: 'سياق الدولة - السنة الثاالثة'
     },
     {
         id: "strategy2",
         en: "Strategy - Year 2",
         sp: "2. Estrategia",
         fr: "Ques 2. Stratégie",
-        ar: '2. الإستراتيجية'
+        ar: 'الاستراتيجية : السنة الثانية'
     },
     {
         id: "strategy3",
         en: "Strategy - Year 3",
         sp: "2. Estrategia",
         fr: "Ques 2. Stratégie",
-        ar: '2. الإستراتيجية'
+        ar: 'الاستراتيجية : السنة الثالثة'
     },
     {
         id: "strategy_description_first",
@@ -1592,14 +1587,14 @@ const translation_mapping = [
         en: "Landscape of other actors - Year 2",
         sp: "3.Panorama de otros actores",
         fr: "Ques 3.Paysage des autres acteur",
-        ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
+        ar: 'المشهد المحيط بالجهات الفاعلة الأخرى - السنة الثانية'
     },
     {
         id: "other_actors_year3",
         en: "Landscape of other actors - Year 3",
         sp: "3.Panorama de otros actores",
         fr: "Ques 3.Paysage des autres acteur",
-        ar: '3. المشهد المحيط بالجهات الفاعلة الأخرى'
+        ar: 'المشهد المحيط بالجهات الفاعلة الأخرى - السنة الثالثة'
     },
     {
         id: "youth_involvement_description",
@@ -1696,10 +1691,10 @@ const translation_mapping = [
     //Project Description
     {
         id: "project_description_info",
-        en: '<p class="mb-1">Please list all of the projects you plan to carry out in the three-year cycle (this should include all projects, both funded by restricted and unrestricted funds).</p><p class="mb-0">Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.<i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="true" aria-controls="collapseExample"></i></p>',
+        en: '<p class="mb-1">Please list all of the projects you plan to carry out in the three-year cycle (this should include all projects, both funded by restricted and unrestricted funds).</p><p class="mb-0">Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p>',
         sp: "Enumere todos los proyectos que planifican llevar a cabo en el ciclo de tres años (se deben incluir todos los proyectos, tanto los de fondos restringidos (restricted funds) como los de fondos no restringidos (unrestricted funds)). Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Para cada proyecto, indique su nombre y ofrezca una breve descripción de no más de 250 palabras. En la descripción, mencione el donante o la fuente de financiamiento; las regiones o provincias en las que se implementará; los usuarios o la audiencia meta, y los resultados previstos. Para actualizaciones, agregue todo proyecto nuevo no incluido en el plan de negocio de 3 años. No es necesario completar todas las filas.",
         fr: "Veuillez énumérer tous les projets que vous prévoyez de porter à exécution au cours du cycle de trois ans (incluez tous les projets, financés à la fois par des fonds avec restrictions et des fonds sans restrictions). Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiserVeuillez accompagner chaque projet d’une brève description de pas plus de 250 mots. Dans la description, veuillez mentionner le bailleur de fonds/la source de financement, les régions/provinces où il sera mis en œuvre, le public cible/les clients et ses réalisations/résultats escomptés. Pour les mises à jour, veuillez ajouter tout nouveau projet non inclus dans le plan d'activité de 3 ans. Il n’est pas obligatoire de remplir toutes les lignes.",
-        ar: " نرجو إعداد قائمة بجميع المشاريع التي تخططون لتنفيذها في دورة الثلاث سنوات (ينبغي أن تشمل جميع المشاريع التي تمولها الصناديق المقيدة وغير المقيدة). تُدرج فقط المشاريع التي تم تأكيد تمويلها أو تتجاوز فرصة الحصول عليه 80٪ اكتب اسم كل مشروع ووصفًا موجزًا لا يزيد عن 250 كلمة. وفي هذا الوصف، يرجى ذكر اسم الجهة المانحة/مصدر التمويل، الأقاليم/المقاطعات التي سيتم تنفيذه فيها، والشرائح المستهدفة/المستفيدين المستهدفين والنتائج/النتائج النهائية المنشودة. فيما يتعلق بالتحديثات، يرجى إضافة أي مشاريع جديدة لم تُدرج في خطة الأعمال ذات الـ 3 سنوات. "
+        ar: "<p>نرجو إعداد قائمة بجميع المشاريع التي تخططون لتنفيذها في دورة الثلاث سنوات (ينبغي أن تشمل جميع المشاريع التي تمولها الصناديق المقيدة وغير المقيدة).</p><p>بالنسبة للسنة الثانية: يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد). </p>"
     },
     {
         id: "description_project",
@@ -1783,8 +1778,12 @@ const translation_mapping = [
       </p>`,
         sp: "Todos los datos del presupuesto deben indicarse en USD utilizando la tasa de cambio que proporcione IPPF. Desglose los fondos anuales en base a los años naturales (de enero a diciembre).	Incluya el presupuesto de cada proyecto; el presupuesto total de todos los proyectos debe ser igual al presupuesto entero de la organización. Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Está bien si muchos de los proyectos del Año 3 tienen un % mayor de incertidumbre. El año próximo tendrá la oportunidad de actualizar el Plan de negocio.",
         fr: "Veuillez indiquer toutes les données budgétaires en USD, en utilisant le taux de change fourni par l’IPPF. Veuillez ventiler les fonds annuels en fonction des années civiles (de janvier à décembre).	Veuillez indiquer le budget de chaque projet. Le budget total de tous vos projets doit correspondre au total du budget de votre organisation. Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiser Il est donc acceptable qu’un grand nombre de projets pour l’Année 3 présentent un plus fort pourcentage d'incertitude. L'occasion vous sera donnée l'an prochain d'actualiser le budget du projet.",
-        ar: "يرجى إكمال جميع البيانات الخاصة بالميزانية بالدولار الأمريكي، مع تطبيق سعر الصرف الذي حدده اتحاد IPPF. ويرجى توزيع التمويلات السنوية حسب التقويم الميلادي (يناير - ديسمبر).							 ويرجى إدراج ميزانية كل مشروع؛ وينبغي أن تتساوي الميزانية الإجمالية لجميع مشاريعكم مع إجمالي ميزانيتكم التنظيمية تُدرج فقط المشاريع التي تم تأكيد تمويلها أو تتجاوز فرصة الحصول عليه 80٪ لا توجد مشكلة إذا كانت النسبة المئوية لعدم اليقين في العديد من مشاريع السنة الثالثة أعلى. سوف تتاح لكم الفرصة لتحديث خطة الأعمال العام المقبل."
-    },
+        ar: `<p>يرجى إكمال جميع البيانات الخاصة بالميزانية بالدولار الأمريكي، مع تطبيق سعر الصرف الذي حدده اتحاد IPPF. ويرجى توزيع التمويلات السنوية حسب التقويم الميلادي (يناير - ديسمبر)</p><p>ملاحظة: يرجى تحديث البيانات للسنة الثانية والثالثة. نرجو تزويدنا بتفاصيل كاملة عن خطط السنة القادمة (السنة الثانية)، وتفاصيل أقل للسنة الثالثة كما هو موضح أدناه.</p><p>في نهاية العام المقبل، سيُطلب منك تحديث الميزانيات وتقديم تفاصيل إضافية للسنة التالية.</p><p>يرجى تضمين ميزانية كل مشروع؛ يجب أن يكون إجمالي ميزانيات جميع مشاريعكم مساوياً للميزانية الكاملة للمنظمة (نفترض أن التكاليف غير المباشرة/دعم الإدارة وتكاليف الإدارة العليا مدرجة ضمن كل مشروع؛ وإذا كانت هناك تكاليف غير مباشرة/دعم إضافية غير مدرجة في المشاريع، يرجى إضافة مشروع منفصل لها بعنوان "تكاليف غير مباشرة/دعم").</p><p>يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر. لكل مشروع، يرجى إدخال الاسم ووصف مختصر يشمل المانح/مصدر التمويل، المناطق/المحافظات التي سيتم تنفيذ المشروع فيها، الجمهور المستهدف/المستفيدين، والنتائج/الأهداف المرجوة.</p><p>إرشادات لتقدير الميزانيات</p><p>بالنسبة للسنة الأولى: لن يُسمح لك بإجراء أي تغييرات على الميزانيات.</p><p>بالنسبة للسنة الثانية: يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد).</p><p>بالنسبة للسنة الثالثة: يرجى إدراج جميع المشاريع التي تخططون لتنفيذها بشكل واقعي، حتى وإن لم تعرفوا بعد الجهة المانحة التي ستمولها. لذلك، من المقبول أن يكون العديد من المشاريع في السنة الثالثة "غير مؤكدة". لكل مشروع، قدم أفضل تقدير لديك للميزانية المتوقعة، حتى لو لم يتم تأكيد المبلغ الدقيق، أو إذا كنتم قد تحتاجون إلى تمويل من عدة جهات مانحة (على سبيل المثال، إذا كنت تتوقع أن تكلفتك للمشروع تتراوح بين 40,000 و80,000، يمكنك ذكر المتوسط وهو 60,000 كتقدير). بعد ذلك، يمكنك اختيار أحد الخيارات الثلاثة للإشارة إلى احتمال تمويل ذلك المشروع:</p><p>مؤكد: يوجد التزام ثابت بالتمويل والمشروع (يمكن أن يشمل التزامات مكتوبة أو شفوية صريحة، حتى لو لم يتم توقيع عقد متعدد السنوات).</p><p>محتمل (أكثر من 80%): تقدّر أن هناك فرصة تزيد عن 80% لتحقيق تمويل المشروع (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد).**</p>
+        <p>غير مؤكد: هناك احتمال أقل من 80% لتنفيذ المشروع والحصول على التمويل. يرجى إدراج المشاريع التي تعتقدون أن هناك فرصة واقعية لتنفيذها فقط، وليس قائمة أمنيات لمشاريع غير مرجحة (على سبيل المثال، إذا كانت منظمتكم تنفذ عادةً 5 إلى 6 مشاريع سنويًا بميزانية إجمالية تبلغ 2 مليون دولار، فلا تقم بإدراج 12 مشروعًا "غير مؤكد" بميزانية إجمالية تبلغ 4 ملايين دولار).</p><p>
+قد تنتهي بعض المشاريع في منتصف الفترة الممتدة لثلاث سنوات؛ إذا حدث ذلك، يرجى وضع "0" في الميزانية للسنوات التي ينتهي فيها المشروع.</p> <p>
+يرجى ملاحظة أنه بالنسبة للسنة القادمة (السنة الثانية)، نطلب أيضًا تفصيلًا لكيفية توزيع المنحة الأساسية غير المقيّدة على كل مشروع. نحن ندرك أن هذا التوزيع قد يتغير خلال العام مع تغيّر احتياجات التمويل؛ ومع ذلك، نرغب في الحصول على أفضل تقدير لديكم في الوقت الحالي. لا تحتاجون إلى تحديد كيفية صرف التمويل الأساسي في السنة الثالثة بدقة، ولكن يجب أن يُحتسب ضمن المبلغ الإجمالي. ليس من الضروري تعبئة جميع الصفوف.
+</p>`
+    }, 
     {
         id: "project_year",
         en: "Year",
@@ -1811,7 +1810,7 @@ const translation_mapping = [
         en: "Difference",
         sp: "Diferencia",
         fr: "Différence",
-        ar: 'اختلاف'
+        ar: 'التمويل الاساسي المخصص من الاتحاد'
     },
     {
         id: "project_details",
@@ -1873,7 +1872,7 @@ const translation_mapping = [
         aria-expanded="true" aria-controls="collapseExample"></i></p>`,
         sp: "Para cada proyecto, divida su presupuesto según las áreas prioritarias de IPPF (seleccione del menú desplegable). Un solo proyecto puede tener varias Áreas prioritarias. Utilice una fila nueva para cada área prioritaria del proyecto que sea directamente pertinente dentro de cada proyecto. Haga la mejor estimación posible para calcular los gastos presupuestados para cada área prioritaria del proyecto. La tabla de referencia en la derecha (columna Q, fila 17) indica qué cantidad del presupuesto del Año 2 de cada proyecto se ha asignado a Áreas prioritarias del proyecto, de ese modo sabrá si se puede asignar más. No es necesario completar todas las filas.",
         fr: "Pour chaque projet, veuillez diviser votre budget en fonction des domaines d'intervention de l'IPPF (sélectionnés dans le menu déroulant). Un même projet peut avoir plusieurs volets d’intervention. Veuillez utiliser une ligne pour chaque volet d'intervention qui est directement pertinent au projet en question Veuillez utiliser vos estimations les plus précises pour décider des dépenses budgétisées par volet d'intervention du projet. Le tableau de référence à droite (colonne Q, ligne 17) indique pour chaque projet la part du budget pour l'Année 2 que vous avez allouée aux volets d'intervention, afin de connaître le montant qu'il vous reste à allouer, le cas échéant Il n’est pas obligatoire de remplir toutes les lignes.",
-        ar: "بالنسبة لكل مشروع، يرجى تقسيم ميزانيتكم وفقًا لمجالات تركيز اتحاد IPPF (تُحدد من القائمة المنسدلة). ويجوز أن تتعدد مجالات التركيز في المشروع الواحد. يرجى استخدام صف جديد لكل مجال من مجالات تركيز المشروع له صلة مباشرة بالمشروع وذلك داخل المشروع الواحد يرجى استخدام أفضل تقدير لديكم لتحديد النفقات المدرجة في الميزانية لكل مجال من مجالات تركيز المشروع. وعلى اليمين جدول مرجعي (العمود Q، الصف 17) يوضح المقدار الذي خصصته من ميزانية السنة الثانية لكل مشروع لمجالات تركيز المشروع، حتى تعرف إن كنت بحاجة إلى تخصيص المزيد"
+        ar: "<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>لكل مشروع، يرجى تقديم توزيع للتكاليف حسب مجالات تركيز المشروع المستخدمة (يتم اختيارها من القائمة المنسدلة).</p><p>يمكن أن يحتوي المشروع الواحد على عدة مجالات تركيز. يرجى استخدام صف جديد لكل مجال تركيز مرتبط مباشرة بالمشروع (على سبيل المثال، المشروع الذي يشمل كلًا من العيادة المتنقلة والعيادة الثابتة يجب أن يُدرج في صفّين).</p><p>يرجى تقدير تكلفة العمل ضمن كل مجال تركيز في المشروع؛ ونظرًا لأن وقت الموظفين قد يكون موزعًا بين عدة مجالات تركيز، يرجى استخدام أفضل تقدير لديك لنسبة الوقت المخصص لكل مجال تركيز للوصول إلى توزيع التكلفة. نرجو التأكد من عدم تغيير مجال التركيز المخصص لأي مشروع في عام 2023 عند تحديثه لعام 2024.</p><p>يوضح الجدول المرجعي على اليمين (العمود Q، الصف 17) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب مجالات التركيز، بحيث يمكنك معرفة ما إذا كان لا يزال هناك جزء لم يتم تخصيصه بعد.</p>"
     },
     {
         id: "total_budget",
@@ -2135,7 +2134,7 @@ const translation_mapping = [
             Le montant des dons de produits doit être comptabilisé à la fois comme dépense et comme source de revenu (ci-dessous).
             <strong>Coûts indirects et de soutien :</strong> Sont inclus les coûts d’occupation, des services publics et d’autres fonctions de soutien qui ne sont pas des coûts directs du projet et qui ne sont pas compris dans les catégories ci-dessus. 
             Il peut s’agir de dépenses récurrentes et de dépenses en capital. Aucuns frais de personnel ne doivent être inclus ici.`,
-        ar: 'بالنسبة لكل مشروع، يرجى إدراج نفقاتكم المدرجة في الميزانية حسب فئة الإنفاق باتحاد IPPF. على غرار الجداول السابقة، هذا الجدول ينبغي أن يشمل ميزانيتكم التنظيمية كلها.	 تُحدد فئات التكلفة على النحو التالي: الأفراد: تشمل جميع التكاليف المخصصة للموظفين المكلفين بهذا المشروع. ينبغي أن تشمل أيضًا حصة من تكاليف موظفي الدعم (على سبيل المثال، المحاسبة والموارد البشرية والقيادة العليا) لكل مشروع ينبغي عدم إظهار تكاليف الموظفين في "أنشطة المشروع المباشرة" ولا في "تكاليف الدعم/غير مباشرة". وندرك أن هذا يظهر الموظفين أكثر مما في التقارير الأخرى، ولا مشكلة في ذلك. وتشمل تكاليف الموظفين الرواتب، والمزايا، ورسوم الدورات، والفصل/الفوائض، والتقاعد/المعاشات التقاعدية، والتوظيف، ونفقات الأفراد الأخرى.  تشمل العمال المؤقتين والمتدربين والزي الرسمي والتأمين والضرائب ورسوم أفراد الشؤون المالية الآخرين. وإذا كانت الجمعية العضو تستخدم مستشارين للعمل كمقدمي خدمات مستمرة  (بدلاً من الموظفين)، تُدرج رواتبهم أيضًا. أنشطة المشروع المباشرة: تشكل أي تكاليف مباشرة لم يتم تسجيلها ضمن تكاليف الأفراد أو السلع الطبية. يجوز أن تدرج فيها المعدات والخدمات المهنية،  السفر والوسائط والمواد المطبوعة، إلخ. يمكنها أن تشمل كلاً من النفقات المتكررة ونفقات رأس المال. ينبغي عدم إدراج تكاليف الأفراد هنا. السلع الطبية: تشمل تكلفة شراء اللوازم الطبية أو وسائل منع الحمل المطلوبة لتقديم خدمات الصحة الجنسية والإنجابية.  وينبغي إدراج قيمة السلع الطبية المتبرَّع بها كأحد النفقات وكمصدر للدخل (أدناه). تكاليف الدعم وغير المباشرة: تشمل تكاليف الإشغال والمرافق ومهام الدعم الأخرى التي لا تعد من تكاليف المشروع المباشرة ولم يتم تسجيلها في الفئات المذكورة أعلاه.  يمكنها أن تشمل كلاً من النفقات المتكررة ونفقات رأس المال. ينبغي عدم إدراج تكاليف الأفراد هنا. وعلى اليمين جدول مرجعي (العمود L، الصف 25) يوضح المقدار الذي خصصته من ميزانية السنة الثانية لكل مشروع لفئات الإنفاق، حتى تعرف إن كنت بحاجة إلى تخصيص المزيد	'
+        ar: '<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>يرجى سرد مصروفاتكم لكل مشروع حسب فئة المصروفات. كما هو موضح أعلاه، يجب أن يشمل هذا الجدول ميزانية المنظمة بالكامل.</p><p><strong>تصنف فئات التكلفة كما يلي:</strong></p><p>الموظفون: تشمل جميع التكاليف الخاصة بالموظفين المخصصين لهذا المشروع. لكل مشروع، يجب أن يتضمن ذلك أيضًا حصة من تكاليف موظفي الدعم (مثل المحاسبة، الموارد البشرية، القيادة العليا). لا ينبغي أن تظهر تكاليف الموظفين ضمن "أنشطة المشروع المباشرة" أو "التكاليف غير المباشرة/دعم". نحن ندرك أن هذا قد يجعل تكاليف الموظفين تبدو أعلى مقارنة بالتقارير الأخرى، وهذا مقبول.</p><p>تشمل تكاليف الموظفين الرواتب، والمزايا، وأتعاب الجلسات، والتعويضات/المكافآت عند الفصل، والتقاعد/المعاشات، والتوظيف، ونفقات أخرى تتعلق بالموظفين. وتشمل أيضًا العمالة المؤقتة، والمتدربين، والزي الرسمي، والتأمين، والضرائب، وغيرها من التكاليف المالية المتعلقة بالموظفين. إذا كانت المنظمة التنفيذية توظف مستشارين كمقدمي خدمات مستمرة (بدلاً من الموظفين)، فيجب أيضًا تضمين أتعابهم.</p><p>الأنشطة المباشرة للمشروع: تشمل أي تكاليف مباشرة لا تندرج تحت تكاليف الموظفين أو السلع. يمكن أن تشمل المعدات، الخدمات المهنية، السفر، المواد الإعلامية والطباعة، وغيرها. يمكن أن تشمل النفقات المتكررة والنفقات الرأسمالية. لا يجب تضمين تكاليف الموظفين هنا.</p><p>السلع: تشمل تكاليف شراء المستلزمات الطبية أو وسائل منع الحمل المطلوبة لتقديم خدمات الصحة الجنسية والإنجابية. يجب إدراج قيمة السلع المتبرع بها كمصروفات وكمصدر دخل (أدناه).</p><p>التكاليف غير المباشرة وتكاليف الدعم: تشمل تكاليف الإشغال والمرافق والوظائف الداعمة الأخرى التي ليست تكاليف مباشرة للمشروع وليست مغطاة في الفئات السابقة. يمكن أن تشمل النفقات المتكررة والنفقات الرأسمالية. لا يجب تضمين تكاليف الموظفين هنا.</p><p>يوضح الجدول المرجعي على اليمين (العمود L، الصف 25) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب فئات المصروفات، بحيث يمكنك معرفة ما إذا كان لا يزال هناك مبلغ لم يتم تخصيصه بعد. ليس من الضروري تعبئة جميع الصفوف.</p>'
     },
     {
         id: "project_based_category",
@@ -2423,7 +2422,7 @@ const translation_mapping = [
     </p>`,
         sp: "Proporcione datos completos para los tres años, aplicando cálculos lo más precisos posibles.<strong> Incluya todos los donantes que o bien financian un proyecto completo, o que financian al menos un 10 % de su presupuesto total. </strong>Estas previsiones de ingresos deben basarse en la situación más probable (p. ej., un 80 % de probabilidad), no en la mejor situación posible. No es necesario completar todas las filas.",
         fr: "Veuillez remplir les données complètes pour les trois années, en utilisant vos estimations les plus précises. <strong>Veuillez inclure tous les bailleurs de fonds qui soit financent un projet dans son intégralité, soit financent au moins 10 % de l’ensemble de votre budget.</strong> Ces estimations de recettes doivent correspondre au scénario le plus probable (plus de 80 % de probabilité) et non au scénario fondé sur les hypothèses les plus favorables. Il n’est pas obligatoire de remplir toutes les lignes.",
-        ar: "يرجى ملء البيانات كاملة لجميع السنوات الثلاث، مستخدمًا أدق تقديراتك. يرجى إدراج جميع الجهات المانحة التي تمول مشروعًا كاملاً، أو تمول 10٪ على الأقل من ميزانيتك كاملة. ينبغي أن تكون تقديرات الدخل المذكورة هي السيناريو الأرجح (بمعنى أنها محتملة بنسبة 80٪)، وليس السيناريو الأفضل. لا ضرورة لتعبئة جميع الصفوف."
+        ar: "<p>يرجى تعبئة البيانات كاملة لجميع السنوات الثلاث، باستخدام أفضل تقديراتكم. في نهاية العام القادم، ستتمكنون من تحديث الأرقام للسنة التالية.</p><p>يرجى تضمين جميع المانحين الذين يمولون مشروعًا كاملاً أو الذين يمولون ما لا يقل عن 10% من إجمالي ميزانيتكم. ليس من الضروري تضمين جميع المانحين الصغار. يجب أن تعكس تقديرات الدخل السيناريو الأكثر احتمالاً (مثل 80% احتمالاً)، وليس السيناريو الافضل . ليس من الضروري تعبئة جميع الصفوف.</p>"
     },
     {
         id: "total_anticipated",
@@ -2699,7 +2698,7 @@ de productos (como se indica en la parte de abajo del formulario)
           يرجى مراجعة الملاحظات أسفل المنتج المطلوب.
             <ul>
               <li>
-              <a href="../../documents/uhH1VcyfDoW/data"> لمعرفة وضع بلادكم، انقر هذا الرابط</a> تتأثر أسعار المنتجات بتصنيف البنك الدولي لبلادكم. </li>
+              <a href="../../documents/uhH1VcyfDoW/data">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </li>
               <li>
               تتأثر المنتجات بمضاعفات بنود الطلب الإجبارية. تسمح لكم استمارة الطلب بإدخال هذه الكميات الإجبارية فقط.</li>
             </ul>
@@ -2707,8 +2706,7 @@ de productos (como se indica en la parte de abajo del formulario)
           <li>
           سوف تُضاف تكاليف النقل إلى إجمالي التكاليف عند تجهيز الشحنات. لأغراض الميزانية فقط، تخضع استمارة الطلب للمعدلات التقديرية الموحدة التالية:
           <ul>
-            <li>
-            100% من قيمة طلب السلع إذا كانت قيمة المنتجات المطلوبة تتراوح بين 0 دولار و 1,000 دولار.
+            <li>%100 من قيمة طلب السلع الخاص بكم إذا كانت قيمة الطلب تتراوح بين 0 و1,000 دولار.
             </li>
             <li>
             40% من قيمة طلب السلع إذا كانت قيمة المنتجات المطلوبة تتراوح بين 1,000 دولار و 5,000 دولار
@@ -2729,7 +2727,7 @@ de productos (como se indica en la parte de abajo del formulario)
           </li>
         </ul>
     
-        <p class="mb-0">وبمجرد صدور طلب التوريد، لن نقبل الإلغاء ولا التغيير.
+        <p class="mb-0">لا يمكننا قبول إلغاءات أو تعديلات على طلبكم بعد إصدار الطلب.
           <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
             aria-expanded="true" aria-controls="collapseExample"></i>
         </p>`
@@ -2782,7 +2780,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "Manufacturer",
         sp: "Fabricante",
         fr: "Fabricant",
-        ar: "وحدة القياس"
+        ar: "المصنّع"
     },
     {
         id: "formulation",
@@ -2883,7 +2881,7 @@ de productos (como se indica en la parte de abajo del formulario)
     </p>`,
         sp: "Se deben aportar los datos completos para el Año 1 al inicio del ciclo. Cuando se acerque el final de cada año, se le pedirá que ofrezca información para el año siguiente.Indique los productos totales previstos para el próximo año, desglosados según las siguientes categorías. La suma de todas estas categorías debería ser igual a los productos totales indicados en los gastos del proyecto. Como antes, solo se deben incluir fuentes cuya probabilidad de otorgar realmente los fondos sea de al menos un 80 %.",
         fr: "Veuillez indiquer les données complètes pour l’Année 1 au début du cycle. Vers la fin de chaque année, il vous sera demandé de fournir des informations pour l’année suivante.Dressez la liste de vos produits de base prévus pour l’année à venir, répartis en fonction des catégories suivantes. La somme de toutes ces catégories doit correspondre au montant total de vos produits indiqué dans vos dépenses de projet. Comme plus haut, veuillez indiquer uniquement les sources de recettes ayant au moins 80 % de chances d’être obtenues.",
-        ar: "يرجى ملء البيانات كاملة للسنة الأولى في بداية الدورة. ومع اقتراب نهاية كل سنة، سوف يُطلب منك بيانات عن السنة التالية. أعِد قائمة بإجمالي السلع الطبية المتوقعة للسنة القادمة، مع تقسيمها حسب الفئات التالية.  ينبغي أن يتساوي مجموع هذه الفئات كلها مع إجمالي السلع الطبية الذي أدرجته في نفقات المشروع. وعلى النحو المبين أعلاه، يرجى إدراج المصادر التي لا تقل فرصة تأمينها عن 80٪."
+        ar: "<p>يرجى ملء البيانات كاملة للسنة الأولى في بداية الدورة. ومع اقتراب نهاية كل سنة، سوف يُطلب منك بيانات عن السنة التالية</p><p> أعِد قائمة بإجمالي السلع الطبية المتوقعة للسنة القادمة، مع تقسيمها حسب الفئات التالية.</p><p>ينبغي أن يتساوي مجموع هذه الفئات كلها مع إجمالي السلع الطبية الذي أدرجته في نفقات المشروع. وعلى النحو المبين أعلاه، يرجى إدراج المصادر التي لا تقل فرصة تأمينها عن 80٪.</p>"
     },
     {
         id: "total_amount_funding",
@@ -2960,7 +2958,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "IPPF Restricted grants or Non-IPPF grants",
         sp: "Donantes internacionales (subvenciones restringidas (restricted grants) de IPPF o subvenciones de entidades que no pertenecen a IPPF)",
         fr: "Bailleurs de fonds internationaux (subventions avec restriction de l’IPPF ou subventions hors IPPF)",
-        ar: "الجهات المانحة الدولية (منح مقيدة (Restricted grants) من اتحاد IPPF أو منح غير تابعة لاتحاد IPPF)"
+        ar: "منح الاتحاد المقيدة او المنح غير التابعة للاتحاد "
     },
     {
         id: "local_income",
@@ -3014,14 +3012,14 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "1. Context Events",
         sp: "1. Hechos del contexto",
         fr: "1. Événements contextuels",
-        ar: '1. فعاليات السياق'
+        ar: 'سياق الاحداث '
     },
     {
         id: "context_info",
         en: "Please describe any major events that shaped your context. Please consider SRHR and political context/legal changes, oppostion in your country.",
         sp: "Describa cualquier hecho importante que haya determinado su contexto. Tenga en cuenta los cambios legales/en el contexto político y en el área de SDSR relacionados con la oposición en su país.",
         fr: "Veuillez décrire tout événement majeur qui a influé sur votre contexte. Veuillez considérer la SDSR et le contexte politique, les changements juridiques et l'opposition dans votre pays.",
-        ar: 'يرجى توضيح أي فعاليات كبيرة شكلت السياق الخاص بكم. يرجى التركيز على الحقوق والصحة الجنسية والإنجابية والسياق السياسي/التغييرات القانونية والمعارضة في بلدكم.'
+        ar: 'يرجى وصف أي أحداث رئيسية أثرت في السياق الذي تعملون فيه. الرجاء أخذ بعين الاعتبار قضايا الصحة الجنسية والإنجابية وحقوقها (SRHR)، والسياق السياسي، والتغييرات القانونية، والمعارضة في بلدكم .'
     },
     {
         id: "results_achivements",
@@ -3119,7 +3117,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "4. Total Budgeted Expenses vs Actual Expenses (by Focus Areas)",
         sp: "4. Presupuesto vs. datos reales según área prioritaria",
         fr: "4. Écart entre le budget et les dépenses réelles par volet d’intervention",
-        ar: "الميزانية مقابل القيم الفعلية حسب مجال التركيز"
+        ar: "الميزانية مقابل القيم الفعلية (حسب مجال التركيز)"
     },
     {
         id: "total_budget_area",
@@ -3147,7 +3145,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "Actual (including IPPF Core)",
         sp: "Actual (incluido el núcleo IPPF)",
         fr: "Réel (y compris IPPF Core)",
-        ar: "الفعلي (بما في ذلك"
+        ar: "الفعلي (بما في ذلك المنحة الاساسية الاتحاد) "
     },
     {
         id: "actual_expense_EC",
@@ -3161,7 +3159,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "Total MA Actuals by Expense Category",
         sp: "Total de gastos reales de MA por categoría de gasto",
         fr: "Total des dépenses réelles MA par catégorie de dépenses",
-        ar: "إجمالي المبالغ الفعلية حسب فئة المصروفات"
+        ar: "إجمالي النفقات الفعلية (حسب فئات المصروفات)"
     },
     {
         id: "actual_expense_FA",
@@ -3189,7 +3187,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "Pillar",
         sp: "Pilar",
         fr: "Pilier",
-        ar: "عمود"
+        ar: "الركيزة"
     },
     {
         id: "project_total",
@@ -3203,14 +3201,14 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "Remarks",
         sp: "Notas",
         fr: "Remarques",
-        ar: "النفقات الفعلية"
+        ar: "ملاحظات"
     },
     {
         id: "budget_vs_project_expense",
         en: "5. Total Budgeted Expenses vs Actual Expenses (by Expense Category)",
         sp: "Presupuesto vs. datos reales por categoría de gastos",
         fr: "Écart entre le budget et les dépenses réelles par catégorie de dépenses",
-        ar: "الميزانية مقابل القيم الفعلية حسب فئة الإنفاق.5"
+        ar: "5. الميزانية مقابل القيم الفعلية (حسب فئة الإنفاق)"
     },
     {
         id: "total_budget_by_project",
@@ -3245,7 +3243,7 @@ de productos (como se indica en la parte de abajo del formulario)
         en: "Budget (including IPPF Core)",
         sp: "Presupuesto (incluido el núcleo del IPPF)",
         fr: "Budget (y compris le noyau IPPF)",
-        ar: "الميزانية (بما في ذلك الميزانية الأساسية للاتحاد الدولي لتنظيم الأسرة)"
+        ar: "الميزانية (بما في ذلك المنحة الأساسية للاتحاد الدولي لتنظيم الأسرة)"
     },
     {
         id: "actual_income_details",
@@ -3266,10 +3264,7 @@ de productos (como se indica en la parte de abajo del formulario)
           in the business plan.</p>`,
         sp: "Esta hoja recoge los ingresos reales durante el año. Está dividida en tres categorías: ingresos locales, ingresos internacionales no procedentes de la IPPF, ingresos de la IPPF. Estas categorías están desglosadas. Complete usando la mejor estimación posible. Estas categorías son las mismas que las del Plan de negocio. ",
         fr: "Cette feuille fait état des revenus réels au cours de l'année. Ces revenus sont divisés dans trois catégories : Revenus locaux, Revenus internationaux hors IPPF et Revenus de l'IPPF.Ces catégories sont ventilées. Veuillez utiliser vos estimations les plus précises pour les renseigner. Les catégories sont les mêmes que dans le plan d'activité. ",
-        ar: `نستعرض في هذه الورقة الدخل الفعلي خلال العام. 
-        ويُقسم إلى ثلاث فئات: الدخل المحلي، والدخل الدولي غير التابع لاتحاد IPPF، ودخل اتحاد IPPF.
-        وهذه الفئات موزعة. ويرجى الاستعانة بأفضل تقدير لديكم لتعبئتها. 
-        الفئات هي نفسها المذكورة في خطة الأعمال. `
+        ar: '<p>التعليمات</p><p>نستعرض في هذه الورقة الدخل الفعلي خلال العام. ويُقسم إلى ثلاث فئات: الدخل المحلي، والدخل الدولي غير التابع لاتحاد IPPF، ودخل اتحاد IPPF. وهذه الفئات موزعة. ويرجى الاستعانة بأفضل تقدير لديكم لتعبئتها. الفئات هي نفسها المذكورة في خطة الأعمال.</p><p>فئات الدخل واضحة بذاتها، ولكن في حال الحاجة إلى مزيد من التوضيح، يُرجى التواصل مع المكتب الإقليمي.</p><p>يجب الإبلاغ عن الدخل الفعلي حسب نوع التمويل (أي المقيّد، غير المقيّد، أو المخصص). سيتم مقارنة المبلغ في عام 2023، والمُصنّف حسب مصادر التمويل الرئيسية، مع الدخل المُقدّر كما هو وارد في خطة العمل.</p>'
     },
 
     //other 
