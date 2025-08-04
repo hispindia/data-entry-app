@@ -1,7 +1,7 @@
 import { eventApi } from '../../api/DataApi.js';
 import { dataSet } from '../../api/dataSet.js';
 import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
-import { tei, dataElements, dataSetId, program, programStage } from '../../constant.js';
+import { tei, dataElements, dataSetPrice, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -88,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchDataSet(orgUnit, year) {
     const values = {};
-    const dataSetElements = await dataSet.getElements(dataSetId);
-    const dataValueSet = await dataSet.getValues(dataSetId, orgUnit,year);
+    const dataSetElements = await dataSet.getElements(dataSetPrice);
+    const dataValueSet = await dataSet.getValues(dataSetPrice, orgUnit,year);
     dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
     return {
       dataElements: dataSetElements,

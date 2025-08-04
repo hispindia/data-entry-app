@@ -1,4 +1,4 @@
-import { getEvents, getTEI, pushDataElementYear } from "../../api/func.js";
+import { getEvents, getTEI, pushDataElement, pushDataElementYear } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears } from "../func.js";
@@ -239,9 +239,8 @@ document.addEventListener("DOMContentLoaded", function () {
       tei.yearAmount = dataValuesPB[tei.year.value][dataElements.totalBudget] ? dataValuesPB[tei.year.value][dataElements.totalBudget] : ''
       dataElements.projectBudget.forEach((project,index) => {
         if(dataValuesPB[tei.year.value][project.name] && tei.projects[index]) {
-          if(!totalProjectBudget[index]) totalProjectBudget[index] = {};
-          if(!totalProjectBudget[index][tei.year.value]) totalProjectBudget[index][tei.year.value] = 0;
-          if(dataValuesPB[tei.year.value][project.budget]) totalProjectBudget[index][tei.year.value] += Number(dataValuesPB[tei.year.value][project.budget]);        
+          if(!totalProjectBudget[index]) totalProjectBudget[index] = 0;
+          if(dataValuesPB[tei.year.value][project.budget]) totalProjectBudget[index] += Number(dataValuesPB[tei.year.value][project.budget]);
         }
       })
     }
@@ -273,10 +272,14 @@ document.addEventListener("DOMContentLoaded", function () {
               [tei.year.value]: tei.dataValues[tei.year.value]["event"]
             }
 
-          var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, tei.year.value);
+          var calculatedElements = loadCalculatedVariables(tei.dataValues[tei.year.value], {
+            projectFocusAreaNew: dataElements.projectFocusAreaNew,
+            totalBudget: dataElements.totalBudget,
+            difference: dataElements.difference,
+        });
           calculatedElements.forEach(elements =>  {
             tei.dataValues[tei.year.value][elements.dataElement] = elements.value;
-            pushDataElementYear(`${elements.dataElement}-${tei.year.value}`, elements.value);
+            pushDataElement(elements.dataElement, elements.value);
           });
           }
       }
@@ -294,7 +297,14 @@ document.addEventListener("DOMContentLoaded", function () {
         tei.projects,
         dataValues
       );
-      $("#accordion").append(projectRows);
+      $('#accordion').html(projectRows);
+      $('#accordion .textValue').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value } = ev.target;
+          pushDataElementFA(id,unformatNumber(value));
+          ev.target.value = formatNumberInput(value);
+        })
+      })
     } else {
       $("#accordion").append(
         `<h4 class="text-center text-warning my-4">No Existing Projects! Please add some project in the Project Description Section.</h4>`
@@ -327,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${tei.year.value}" class="form-control totalBudget-${tei.year.value}  currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${tei.year.value}" class="form-control totalBudget  currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -337,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" style="FAA0A0; background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}-${tei.year.value}" class="form-control difference-${tei.year.value}  currency" disabled readonly>
+            <input type="text" style="FAA0A0; background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control difference currency" disabled readonly>
           </div>
         </td>
       </tr>
@@ -383,15 +393,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if(dataValues[faId]) faValue = JSON.parse(dataValues[faId]);
 
           projectRows += `<tr><td>${focusAreaOptions[indexFA].name}</td>
-                          <td><input 
-                          type="text" 
-                          ${tei.disabled ? 'disabled readonly': ''}
-                          id="${faId}" 
-                          class="form-control input-totalBudget currency"
-                          value="${formatNumberInput(faValue.budget)}" 
-                          oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('totalBudget', ${index})" 
-                          />
-                          </td> </tr>`
+                          <td>
+                            <input 
+                            type="text" 
+                            ${tei.disabled ? 'disabled readonly': ''}
+                            id="${faId}" 
+                            class="form-control textValue currency"
+                            value="${formatNumberInput(faValue.budget)}" 
+                            />
+                          </td></tr>`
 
         })
         projectRows += `</tbody>
@@ -427,7 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
                           </label>
                           <textarea 
-                          class="form-control-resize textlimit" 
+                          class="form-control-resize textlimit textValue" 
                           ${tei.disabled ? 'disabled readonly': ''}
                           id="${dataElements.projectFocusAreaNew[index].comment}" 
                           onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
@@ -536,7 +546,7 @@ function changeStrategicPillar(focusAreaId, strategicPillarId, code) {
 
 }
 
-function loadCalculatedVariables(dataValues, dataElements, year) {
+function loadCalculatedVariables(dataValues, dataElements) {
   var projectNames = [];
   var totalBudget = {
     dataElement: dataElements.totalBudget,
@@ -547,15 +557,13 @@ function loadCalculatedVariables(dataValues, dataElements, year) {
     var budget = 0;
     projectNames.push({dataElement: `${dataElements.projectFocusAreaNew[index].name}`, value: name})
     dataElements.projectFocusAreaNew[index].focusAreas.forEach(id => {
-      if(dataValues[year][id]) {
-        const val = JSON.parse(dataValues[year][id]);
+      if(dataValues[id]) {
+        const val = JSON.parse(dataValues[id]);
         if(val.budget) budget += Number(val.budget);
       }
     })
-    if(totalProjectBudget[index] && !isNaN(totalProjectBudget[index][year])) {
-      let value = ''
-      if(budget || totalProjectBudget[index][year]) value = totalProjectBudget[index][year] - budget;
-      variations.push({dataElement:dataElements.projectFocusAreaNew[index].variation , value})
+    if(totalProjectBudget[index]) {
+      variations.push({dataElement:dataElements.projectFocusAreaNew[index].variation , value: totalProjectBudget[index] - budget})
     }
     totalBudget.value += budget;
   })
@@ -573,28 +581,14 @@ function loadCalculatedVariables(dataValues, dataElements, year) {
   ]
 }
 
-function pushDataElementFA(id) {
-  const ids = id.split('-');
-  if(ids.length>2) {
+function pushDataElementFA(ids, value) {
     const values= {
-      area: document.getElementById(`${ids[0]}-area`).value,
-      pillar:document.getElementById(`${ids[0]}-pillar`).value,
-      budget:unformatNumber(document.getElementById(`${ids[0]}-budget-${ids[2]}`).value),
+      area: document.getElementById(`${ids}-area`).value,
+      pillar:document.getElementById(`${ids}-pillar`).value,
+      budget:unformatNumber(value),
     }
-    if(values.area) pushDataElementYear(`${ids[0]}-${ids[2]}`, JSON.stringify(values))
-    else pushDataElementYear(`${ids[0]}-${ids[2]}`, '')
-  
-  } else {
-    for(let year=tei.year.start; year<=tei.year.end; year++) {
-      const values= {
-        area: document.getElementById(`${ids[0]}-area`) ? document.getElementById(`${ids[0]}-area`).value: '',
-        pillar:document.getElementById(`${ids[0]}-pillar`) ? document.getElementById(`${ids[0]}-pillar`).value:'',
-        budget:document.getElementById(`${ids[0]}-budget-${year}`) ? unformatNumber(document.getElementById(`${ids[0]}-budget-${year}`).value):''
-      }
-      if(values.area) pushDataElementYear(`${ids[0]}-${year}`, JSON.stringify(values))
-      else  pushDataElementYear(`${ids[0]}-${year}`, '')
-    }
-  }
+    if(values.area) pushDataElement(ids, JSON.stringify(values))
+    else pushDataElement(ids, '')
 }
 
 

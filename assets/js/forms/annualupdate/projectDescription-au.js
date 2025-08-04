@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </tr>
         <tr>
           <td>
-            <label for="${project.endDate}"><span data-i18n="intro.">End Date:</span> </label>
+            <label for="${project.endDate}"><span data-i18n="intro.end_date">End Date:</span> </label>
             <input type="date" id="${project.endDate}"  
               ${tei.disabled ? 'disabled readonly': ''}
               class="w-100 form-control textValue" 

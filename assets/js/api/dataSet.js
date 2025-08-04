@@ -1,10 +1,8 @@
 import BaseApi from "./BaseApi.js";
 
-const baseUrl = 'https://links.hispindia.org/ippf_co/api';
-
 export const dataSet = {
   getElements: async (dataSetId) => {
-    const url = `${baseUrl}/dataSets/${dataSetId}.json?fields=sections[name,dataElements[id,name,code,description]`;
+    const url = `dataSets/${dataSetId}.json?fields=sections[name,dataElements[id,name,code,description]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -13,7 +11,7 @@ export const dataSet = {
     }
   },
   getValues:async (dataSetId, orgUnit, period) => {
-    const url = `${baseUrl}/dataValueSets.json?dataSet=${dataSetId}&orgUnit=${orgUnit}&period=${period}`;
+    const url = `dataValueSets.json?dataSet=${dataSetId}&orgUnit=${orgUnit}&period=${period}`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -32,7 +30,7 @@ export const dataSet = {
   }
   try {
   $.ajax( {
-		url: `${baseUrl}/dataValues`,
+		url: `dataValues`,
 		data: dataValue,
 		type: 'post',
 		success: handleSuccess,

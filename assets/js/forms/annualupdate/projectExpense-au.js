@@ -1,9 +1,9 @@
-import { getEvents, getTEI, pushDataElementYear } from "../../api/func.js";
+import { getEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { formatNumberInput, getYears } from "../func.js";
+import { formatNumberInput, unformatNumber, getYears } from "../func.js";
 
-var totalProjectBudget = [];
+var totalProjectBudget = {};
 const maxWords = 200;
 
  document.addEventListener("DOMContentLoaded", function () {
@@ -19,7 +19,7 @@ const maxWords = 200;
   });
 
   configurePage();
- async function configurePage() {
+  async function configurePage() {
     const user = await getUserConfig();
     tei.userDisabled = user.disabled;
 
@@ -75,15 +75,11 @@ const maxWords = 200;
 
       const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, {id:tei.year.id, value: tei.year.value});
       if(dataValuesPB[tei.year.value]) {  
-        tei.yearAmount = dataValuesPB[tei.year.value][dataElements.totalBudget]? dataValuesPB[tei.year.value][dataElements.totalBudget] : ''
+        tei.yearAmount = dataValuesPB[tei.year.value][dataElements.totalBudget] ? dataValuesPB[tei.year.value][dataElements.totalBudget] : ''
         dataElements.projectBudget.forEach((project,index) => {
           if(dataValuesPB[tei.year.value][project.name] && tei.projects[index]) {
-            for (let year = tei.year.start; year <= tei.year.end; year++) {
-              if(!totalProjectBudget[index]) totalProjectBudget[index] = {};
-              if(!totalProjectBudget[index][tei.year.value]) totalProjectBudget[index][tei.year.value] = 0;
-              if(dataValuesPB[tei.year.value][project.budget]) totalProjectBudget[index][tei.year.value] += Number(dataValuesPB[tei.year.value][project.budget]);
-            
-            }
+              if(!totalProjectBudget[index]) totalProjectBudget[index] = 0;
+              if(dataValuesPB[tei.year.value][project.budget]) totalProjectBudget[index] += Number(dataValuesPB[tei.year.value][project.budget]);
           }
         })
       }
@@ -107,19 +103,20 @@ const maxWords = 200;
           })
         })
 
-        tei.event = {
-         [tei.year.value]: await createEvent(data)
-        }
+        tei.event = await createEvent(data);
         } else {
 
-          tei.event = {
-            [tei.year.value]: tei.dataValues[tei.year.value]["event"]
-          }
+          tei.event = tei.dataValues[tei.year.value]["event"];
 
-          var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements, tei.year.value);
+          var calculatedElements = loadCalculatedVariables(tei.dataValues[tei.year.value], {
+            projectBudget: dataElements.projectBudget,
+            projectExpenseCategory: dataElements.projectExpenseCategory,
+            totalBudget: dataElements.totalBudget,
+            difference: dataElements.difference,
+        });
           calculatedElements.forEach(elements =>  {
             tei.dataValues[tei.year.value][elements.dataElement] = elements.value;
-            pushDataElementYear(`${elements.dataElement}-${tei.year.value}`, elements.value);
+            pushDataElement(elements.dataElement, elements.value);
           });
           
         }
@@ -136,7 +133,22 @@ const maxWords = 200;
     $('#accordion').empty();
     if (tei.projects.length) {
       let projectRows = displayProjectDetails(tei.projects, dataValues)
-      $('#accordion').append(projectRows);
+      $('#accordion').html(projectRows);
+      $('#accordion .textValue').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value, name } = ev.target;
+          pushDataElement(id,unformatNumber(value));
+          ev.target.value = formatNumberInput(value);
+          calculateTotals(name)
+        })
+      })
+      $('#accordion .textlimit').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value, dataset } = ev.target;
+          pushDataElement(id,value);
+          checkWords(ev.target, dataset.count);
+        })
+      })
     } else {
       $('#accordion').append(`<h4 class="text-center text-warning my-4">No Existing Projects! Please add project in the Project Budget Section.</h4>`);
     }
@@ -162,7 +174,7 @@ const maxWords = 200;
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}" class="form-control totalBudget  currency" readonly disabled>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}" class="form-control totalBudget-total currency" readonly disabled>
           </div>
         </td>
         <td>
@@ -172,7 +184,7 @@ const maxWords = 200;
                 $
               </div>
             </div>
-            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control difference  currency" readonly disabled>
+            <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control difference-total currency" readonly disabled>
           </div>
         </td>
       </tr>
@@ -235,8 +247,8 @@ const maxWords = 200;
                   type="text"
                   ${tei.disabled ? 'disabled readonly': ''}
                   value="${(dataValues[dataElements.projectExpenseCategory[index].personnel]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].personnel]) : ''}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
-                  class="form-control input-totalBudget  currency"
+                  name="personnel-${dataElements.projectExpenseCategory[index].name}-${index}"
+                  class="form-control textValue currency"
                 />                
               </div>
               </td>
@@ -249,8 +261,8 @@ const maxWords = 200;
                         type="text"
                         ${tei.disabled ? 'disabled readonly': ''}
                       value="${(dataValues[dataElements.projectExpenseCategory[index].activities]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].activities]) : ''}"
-                      oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
-                      class="form-control input-totalBudget  currency"
+                      class="form-control textValue currency"
+                      name="activities-${dataElements.projectExpenseCategory[index].name}-${index}"
                     />
                 </div>
               <td>
@@ -263,8 +275,8 @@ const maxWords = 200;
                       type="text"
                       ${tei.disabled ? 'disabled readonly': ''}
                       value="${(dataValues[dataElements.projectExpenseCategory[index].commodities]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].commodities]) : ''}"
-                      oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
-                      class="form-control input-totalBudget  currency"
+                      class="form-control textValue currency"
+                      name="commodities-${dataElements.projectExpenseCategory[index].name}-${index}"
                     />
                 </div>
               </td>
@@ -278,8 +290,8 @@ const maxWords = 200;
                       type="text"
                       ${tei.disabled ? 'disabled readonly': ''}
                       value="${(dataValues[dataElements.projectExpenseCategory[index].cost]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].cost]) : ''}"
-                      oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('totalBudget', ${index})" 
-                      class="form-control input-totalBudget  currency"
+                      class="form-control textValue  currency"
+                      name="cost-${dataElements.projectExpenseCategory[index].name}-${index}"
                     />
                 </div>
               </td>`
@@ -306,8 +318,8 @@ const maxWords = 200;
             value="${dataValues[dataElements.projectExpenseCategory[index].variation]? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].variation]): 0}"  
             class="form-control currency"
             style="background:${dataValues[dataElements.projectExpenseCategory[index].variation] ? (dataValues[dataElements.projectExpenseCategory[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
-            disabled
-            readonly
+            name="variation-${dataElements.projectExpenseCategory[index].name}"
+            disabled readonly
             >
           </div>
           <div class="invalid-feedback feedback ${dataValues[dataElements.projectExpenseCategory[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance </div>
@@ -323,8 +335,8 @@ const maxWords = 200;
             <textarea
               class="form-control-resize textlimit"
               ${tei.disabled ? 'disabled readonly': ''}
+              data-count="${index}"
               id="${dataElements.projectExpenseCategory[index].comment}"
-              onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
             >${dataValues[dataElements.projectExpenseCategory[index].comment] ? dataValues[dataElements.projectExpenseCategory[index].comment] : ''}</textarea>
             <div
               class="char-counter form-text text-muted"
@@ -391,7 +403,7 @@ function submitProjectExpense() {
   alert('Event Pushed Successfully!');
 }
 
-function loadCalculatedVariables(dataValues, dataElements, year) {
+function loadCalculatedVariables(dataValues, dataElements) {
 
   var projectNames = [];
   var totalBudget = {
@@ -402,18 +414,18 @@ function loadCalculatedVariables(dataValues, dataElements, year) {
   tei.projects.forEach((name,index) => {
     var budget = 0;
     projectNames.push({dataElement: `${dataElements.projectExpenseCategory[index].name}`, value: name})
-    if(dataValues[year] && dataValues[year][dataElements.projectExpenseCategory[index].personnel]) budget += Number(dataValues[year][dataElements.projectExpenseCategory[index].personnel]);
-    if(dataValues[year] && dataValues[year][dataElements.projectExpenseCategory[index].activities]) budget += Number(dataValues[year][dataElements.projectExpenseCategory[index].activities]);
-    if(dataValues[year] && dataValues[year][dataElements.projectExpenseCategory[index].commodities]) budget += Number(dataValues[year][dataElements.projectExpenseCategory[index].commodities]);
-    if(dataValues[year] && dataValues[year][dataElements.projectExpenseCategory[index].cost]) budget += Number(dataValues[year][dataElements.projectExpenseCategory[index].cost]);
+    if(dataValues[dataElements.projectExpenseCategory[index].personnel]) budget += Number(dataValues[dataElements.projectExpenseCategory[index].personnel]);
+    if(dataValues[dataElements.projectExpenseCategory[index].activities]) budget += Number(dataValues[dataElements.projectExpenseCategory[index].activities]);
+    if(dataValues[dataElements.projectExpenseCategory[index].commodities]) budget += Number(dataValues[dataElements.projectExpenseCategory[index].commodities]);
+    if(dataValues[dataElements.projectExpenseCategory[index].cost]) budget += Number(dataValues[dataElements.projectExpenseCategory[index].cost]);
 
-    if(totalProjectBudget[index] && totalProjectBudget[index][year]) variations.push({dataElement:dataElements.projectExpenseCategory[index].variation , value: `${totalProjectBudget[index][year]- budget}`})
+    if(totalProjectBudget[dataElements.projectBudget.name]) variations.push({dataElement:dataElements.projectExpenseCategory[index].variation , value: `${totalProjectBudget[dataElements.projectBudget.name]- budget}`})
     totalBudget.value += budget;
   })
 
   var difference = {
     dataElement: dataElements.difference,
-    value: tei.yearAmount? `${(tei.yearAmount - totalBudget.value)}`: '0'
+    value: tei.yearAmount ? `${(tei.yearAmount - totalBudget.value)}` : '0'
   };
 
   return [
@@ -441,60 +453,63 @@ function checkProjects(projects, values) {
   return names;
 }
 
-function calculateTotals(year, id, idx) {
-  const element = document.querySelectorAll(`.input-${id}-${year}`);
+function calculateTotals(name) {
+  const ids = name.split('-');
   var value = 0;
   var variation = 0;
   var budgetExpense = 0;
-  element.forEach((el) => {
-    value += unformatNumber(el.value);
-  });
-  $(`.${id}-${year}`).val(formatNumberInput(value));
+  $(`.textValue`).each((_, el) => value += unformatNumber(el.value));
   const difference = tei.yearAmount - value;
 
-  $(`.difference-${year}`).val(formatNumberInput(difference)); 
-  if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-  else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
-  
-  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].personnel}-${year}`).val());
-  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].activities}-${year}`).val());
-  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].commodities}-${year}`).val());
-  budgetExpense += unformatNumber($(`#${dataElements.projectExpenseCategory[idx].cost}-${year}`).val());
+  $(`.totalBudget-total`).val(formatNumberInput(value));
 
-  if(totalProjectBudget[idx] &&  !isNaN(totalProjectBudget[idx][year])) {
-    variation = totalProjectBudget[idx][year] - budgetExpense;
+  $(`.difference-total`).val(formatNumberInput(difference)); 
+  if(difference >= 0) $(`.difference-total`)[0].style.setProperty('background','#C1E1C1', 'important')
+  else $(`.difference-total`)[0].style.setProperty('background','#FAA0A0', 'important')
+
+  
+  const personnel =  $(`input[name="personnel-${ids[1]}-${ids[2]}"]`).val();
+  const activites =  $(`input[name="activites-${ids[1]}-${ids[2]}"]`).val();
+  const commodities =  $(`input[name="commodities-${ids[1]}-${ids[2]}"]`).val();
+  const cost =  $(`input[name="cost-${ids[1]}-${ids[2]}"]`).val();
+
+  budgetExpense += unformatNumber(personnel);
+  budgetExpense += unformatNumber(activites);
+  budgetExpense += unformatNumber(commodities);
+  budgetExpense += unformatNumber(cost);
+
+  if(totalProjectBudget[ids[2]]) {
+    variation = totalProjectBudget[ids[2]] - budgetExpense;
   } else if(budgetExpense) variation -= budgetExpense;
 
-  $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`).val(formatNumberInput(variation));
+  $(`input[name="variation-${ids[1]}"]`).val(formatNumberInput(variation));
   if(variation >= 0) {
-    $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
-    $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
+     $(`input[name="variation-${ids[1]}"]`).style.setProperty('background','#C1E1C1', 'important');
+    $(`.feedback`).removeClass('d-block').addClass('d-none');
   }
   else {
-    $(`#${dataElements.projectExpenseCategory[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
-    $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
+     $(`input[name="variation-${ids[1]}"]`).style.setProperty('background','#FAA0A0', 'important');
+    $(`.feedback`).removeClass('d-none').addClass('d-block');
   } 
 
-  pushDataElementYear(`${dataElements.projectExpenseCategory[idx].variation}-${year}`, variation);
-  
-  
-  pushDataElementYear($(`.${id}-${year}`)[0].id, value);
-  pushDataElementYear($(`.difference-${year}`)[0].id, difference);
+  pushDataElement( $(`input[name="variation-${ids[1]}"]`).id, variation);
+  pushDataElement($(`.totalBudget-total`)[0].id, value);
+  pushDataElement($(`.difference-total`)[0].id, difference);
 }
 function submitProjects() {
   alert("Data Saved Successfully!")
 }
 
     //textarea word limit
-    function checkWords(event, count) {
-      const counter = document.getElementById('counter' + (count));
-      const { value } = event;
-      const words = value.trim().split(/\s+/)
+function checkWords(event, count) {
+  const counter = document.getElementById('counter' + (count));
+  const { value } = event;
+  const words = value.trim().split(/\s+/)
       
-        if (words.length >= maxWords) {
-          event.value = words.slice(0, maxWords).join(' ');
-          return
-        }
-        if(value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-        else counter.textContent = `${maxWords} words remaining`;
-    }
+  if (words.length >= maxWords) {
+    event.value = words.slice(0, maxWords).join(' ');
+    return
+  }
+  if(value) counter.textContent = `${(maxWords - words.length)} words remaining`;
+  else counter.textContent = `${maxWords} words remaining`;
+}

@@ -1,6 +1,6 @@
 import { dataSet } from "../../api/dataSet.js";
-import { createEvent, getEvents, getOrganisationUnits, getProgramStageEvents, getTEI } from "../../api/func.js";
-import { dataElements, dataSetId, program, programStage, tei } from "../../constant.js";
+import { createEvent, createEventOther, getEvents, getOrganisationUnits, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { dataElements, dataSetPrice, dataSetQuantity, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears } from "../func.js";
 
@@ -30,16 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-    document
-    .getElementById("year-update")
-    .addEventListener("change", function (ev) {
-      window.localStorage.setItem("annualYear", ev.target.value);
-      fetchEvents();
-    });
-
- async function configurePage() {
+configurePage()
+async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    tei.userDisabled = user.disabled;
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -61,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auCommodities;
@@ -72,11 +66,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchDataSet(year) {
     const values = {};
-    const dataSetElements = await dataSet.getElements(dataSetId);
-    const dataValueSet = await dataSet.getValues(dataSetId, tei.orgUnit,year);
-    dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    const dataElementsPrice = await dataSet.getElements(dataSetPrice);
+    const dataElementsQuantity = await dataSet.getElements(dataSetQuantity);
+    const dataValuesPrice = await dataSet.getValues(dataSetPrice, tei.orgUnit,year);
+    const dataValuesQuantity = await dataSet.getValues(dataSetQuantity, tei.orgUnit,year);
+    dataValuesPrice.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+    var quantities = {};
+    dataElementsQuantity.forEach(quantity => quantity.dataElements.forEach(de => quantities[de.code] = de.id));
+    dataElementsPrice.forEach(price => {
+      price.dataElements.forEach(de => {
+        de['quantity'] = quantities[`${de.code}-1`] ? quantities[`${de.code}-1`]: ''
+      })
+    })
+
     return {
-      dataElements: dataSetElements,
+      dataElements: dataElementsPrice.sections,
       values
     }
   }
@@ -89,15 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
     estimatedCost = 0;
     estimatedCoreGrant = 0;
 
-    const year = document.getElementById('year-update').value;
-    var yearIndex = 0;
-    for(let i=tei.year.start; i <=tei.year.end; i++) {
-      if(i==year) {
-        break;
-      }
-      yearIndex++
-    }
-    const dataSet = await fetchDataSet(year);
+    tei.year.value = document.getElementById('year-update').value;
+    const dataSet = await fetchDataSet(tei.year.value);
     if(dataSet.values[dataElements.freightCost1]) freightCostT1 = Number(dataSet.values[dataElements.freightCost1]);
     if(dataSet.values[dataElements.freightCost2]) freightCostT2 = Number(dataSet.values[dataElements.freightCost2]);
     if(dataSet.values[dataElements.freightCost3]) freightCostT3 = Number(dataSet.values[dataElements.freightCost3]);
@@ -131,63 +130,66 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program || enroll.program==program.auOrganisationDetails || enroll.program==program.auProjectDescription 
         );
 
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
-      if(dataValuesPD[year] && dataValuesPD[year][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id: tei.year.id,value: tei.year.value});
+      if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
-    const dataValuesMD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id);
-    if(dataValuesMD && dataValuesMD[tei.year.value] && dataValuesMD[tei.year.value][dataElements.yearlyAmount[yearIndex]]) {
-      unrestrictedCost = dataValuesMD[tei.year.value][dataElements.yearlyAmount[yearIndex]] ? dataValuesMD[tei.year.value][dataElements.yearlyAmount[yearIndex]] : 0;
+    const dataValuesMD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails,{id: tei.year.id,value: tei.year.value});
+    if(dataValuesMD && dataValuesMD[tei.year.value] && dataValuesMD[tei.year.value][dataElements.yearAmount]) {
+      unrestrictedCost = dataValuesMD[tei.year.value][dataElements.yearAmount] ? dataValuesMD[tei.year.value][dataElements.yearAmount] : 0;
     } 
-    const dataValueSC =  getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, tei.program,tei.year.id) //data vlaues period wise
+
+    // const dataValueSC =  getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, tei.program,{id: tei.year.id,value: tei.year.value}) //data vlaues period wise
     
-    const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
+    // const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,{id: tei.year.id,value: tei.year.value}) //data vlaues period wise
    
-    if (!dataValues[year]) {
-          const data = [
-            {
-              dataElement: tei.year.id,
-              value: year,
-            }
-          ];
-          dataValues[year] = {
-            [tei.year.id]:year,
-          }
-          tei.event = await createEvent(data)
-        } else {
-          tei.event = dataValues[year]["event"]
-        }
+    // if (!dataValues[tei.year.value]) {
+    //       const data = [
+    //         {
+    //           dataElement: tei.year.id,
+    //           value: tei.year.value,
+    //         }
+    //       ];
+    //       dataValues[year] = {
+    //         [tei.year.id]:tei.year.value,
+    //       }
+    //       tei.event = await createEvent(data)
+    //     } else {
+    //       tei.event = dataValues[tei.year.value]["event"]
+    //     }
 
-        if(!dataValueSC[year]) {
+    //     if(!dataValueSC[tei.year.value]) {
 
-          const data = [
-            {
-              dataElement: tei.year.id,
-              value: year,
-            }
-          ];
+    //       const data = [
+    //         {
+    //           dataElement: tei.year.id,
+    //           value: tei.year.value,
+    //         }
+    //       ];
 
-          eventSource[year] = await createEventOther({
-            orgUnit: tei.orgUnit,
-            program: tei.program,
-            programStage: programStage.auCommoditiesSource,
-            teiId: tei.id,
-            dataElements: data
-          })
-        } else {
-          eventSource[year] = dataValueSC[year]["event"]
-        }
+    //       eventSource[tei.year.value] = await createEventOther({
+    //         orgUnit: tei.orgUnit,
+    //         program: tei.program,
+    //         programStage: programStage.auCommoditiesSource,
+    //         teiId: tei.id,
+    //         dataElements: data
+    //       })
+    //     } else {
+    //       eventSource[tei.year.value] = dataValueSC[tei.year.value]["event"]
+    //     }
       
-      populateProgramEvents(dataSet,dataValues[year],productCodeIds);
+      populateProgramEvents(dataSet,productCodeIds);
     } else {
       console.log("No data found for the organisation unit.");
     }
   }
 
   // Function to populate program events data
-  function populateProgramEvents(dataSet,dataValues,productCodeIds) {
+  function populateProgramEvents(dataSet,productCodeIds) {
     $("#accordion").empty();
 
-    let projectRows = displayOrderprojectCommodities(dataSet, dataValues,productCodeIds);
+    let projectRows = displayOrderprojectCommodities(dataSet,productCodeIds);
     $("#accordion").append(projectRows);
 
     var totalsRow = displayTotals();
@@ -278,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function () {
   </tr>`
     return totalsRow;
   }
-  function displayOrderprojectCommodities(dataSet, dataValues,productCodeIds) {
+  function displayOrderprojectCommodities(dataSet, productCodeIds) {
     var projectRows = '';
-    dataSet.dataElements.sections.forEach((section,index) => {
+    dataSet.dataElements.forEach((section,index) => {
     if(rowIndex<=productList) {
     projectRows += `
     <!--- sect 1 --->
@@ -312,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </thead>
             <tbody>`
       section.dataElements.forEach((dataElement) => {
-       projectRows += addRow(dataElement, rowIndex, dataSet.values, dataValues, productCodeIds);
+       projectRows += addRow(dataElement, rowIndex, dataSet.values, productCodeIds);
        rowIndex++;
       })
     projectRows += `</tbody>
@@ -328,10 +330,10 @@ document.addEventListener("DOMContentLoaded", function () {
     return projectRows;
   }
 
-  function addRow(dataElement,index, dataSetValues, dataValues, productCodeIds) {
+  function addRow(dataElement,index, dataSetValues, productCodeIds) {
     const blockField = productCodeIds.includes(dataElement.code);
     const rate = dataSetValues[dataElement.id] ? dataSetValues[dataElement.id]: '';
-    const quantityVal = dataValues[dataElements.projectCommodities[index].quantity] ? dataValues[dataElements.projectCommodities[index].quantity]: '';
+    const quantityVal = dataSetValues[dataElement.quantity] ? dataSetValues[dataElement.quantity]: '';
     const price = dataValues[dataElements.projectCommodities[index].price] ? dataValues[dataElements.projectCommodities[index].price]: '';
     const description = dataElement.description.split(';');
     combinedCost += rate && quantityVal ? Number(rate * quantityVal) : 0;
@@ -375,7 +377,13 @@ document.addEventListener("DOMContentLoaded", function () {
     return row;
   }
 
-  configurePage();
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualYear", ev.target.value);
+      fetchEvents();
+  });
+
 });
 
 function calculateFreightCost(cost) {

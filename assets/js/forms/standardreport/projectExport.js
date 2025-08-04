@@ -1,6 +1,6 @@
 import { dataSet } from '../../api/dataSet.js';
 import { getEvents, getProgramStageEvents, getTEI } from '../../api/func.js';
-import { tei, dataElements, program, programStage, dataSetId } from '../../constant.js';
+import { tei, dataElements, program, programStage, dataSetPrice } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -733,8 +733,8 @@ function checkProjects(projects, values) {
 
 async function fetchDataSet(year) {
   const values = {};
-  const dataSetElements = await dataSet.getElements(dataSetId);
-  const dataValueSet = await dataSet.getValues(dataSetId, tei.orgUnit,year);
+  const dataSetElements = await dataSet.getElements(dataSetPrice);
+  const dataValueSet = await dataSet.getValues(dataSetPrice, tei.orgUnit,year);
   dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
   return {
     dataElements: dataSetElements,

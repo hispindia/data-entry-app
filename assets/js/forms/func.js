@@ -23,6 +23,7 @@ export function formatNumberInput(valueOrInput) {
 
 // Function to remove commas
 export function unformatNumber(value) {
+    if(value==null) return 0;
     return Number(value.replace(/[^0-9.-]/g, ""));
 }
 

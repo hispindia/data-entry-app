@@ -1,9 +1,8 @@
-import { getEvents, getProgramStageEvents, getTEI, pushDataElementYear } from "../../api/func.js";
+import { createEvent, getEvents, getProgramStageEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { formatNumberInput, getYears } from "../func.js";
+import { formatNumberInput, unformatNumber, getYears } from "../func.js";
 
-var filledYear = {};
 var totalExpenses = '';
 const categoryIncome = [
   {
@@ -122,9 +121,6 @@ const categoryIncome = [
   },
 ];
 
-
-const subCategoryIncome = []
-
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -207,16 +203,21 @@ document.addEventListener("DOMContentLoaded", function () {
           tei.dataValues[tei.year.value] = {
             [tei.year.id]:tei.year.value,
           }
-          tei.event = {
-            ...tei.event,
-           [tei.year.value]: await createEvent(data)
-          }
+          tei.event = await createEvent(data);
         } else {
-          tei.event = {
-            ...tei.event,
-            [tei.year.value]: tei.dataValues[tei.year.value]["event"],
-          };
+          tei.event = tei.dataValues[tei.year.value]["event"];
+          var calculatedElements = loadCalculatedVariables(tei.dataValues[tei.year.value], {
+            projectTotalIncome: dataElements.projectTotalIncome,
+            restrictedIncome: dataElements.restrictedIncome,
+            unrestrictedIncome: dataElements.unrestrictedIncome,
+          });
+
+          calculatedElements.forEach(elements =>  {
+          tei.dataValues[tei.year.value][elements.dataElement] = elements.value;
+            pushDataElement(elements.dataElement, elements.value);
+          });       
         }
+        
       populateProgramEvents(tei.dataValues[tei.year.value]);
     } else {
       console.log("No data found for the organisation unit.");
@@ -228,7 +229,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     $("#accordion").empty();
     const projectRows = displayTotalIncome(dataValues);
-    $("#accordion").append(projectRows);
+      $('#accordion').html(projectRows);
+      $('#accordion .textValue').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value, name } = ev.target;
+          pushDataElement(id,unformatNumber(value));
+          ev.target.value = formatNumberInput(value);
+          calculateTotals(name);
+        })
+      })
+      $('#accordion .textArea').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value } = ev.target;
+          pushDataElement(id, value);
+        })
+      })
 
     const organisationContributor = displayContributor(dataValues);
     $("#organisation-contributor").empty();
@@ -252,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       rows += `<tr>
                 <td>
-                <input type="text"  ${tei.disabled ? 'disabled readonly': ''} value="${organisation}" id="${dataElements.organisation}" onblur="pushDataElementYear(this.id,this.value)" class="form-control currency">     
+                <input type="text" ${tei.disabled ? 'disabled readonly': ''} value="${organisation}" id="${dataElements.organisation}" class="form-control textArea currency">     
                 </td>
                 <td>
                     <div class="input-group">
@@ -261,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $
                           </div>
                         </div>
-                        <input type="text" value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}" onblur="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value))" class="form-control currency">                         
+                        <input type="text" value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}" class="form-control textValue currency">                         
                     </div>
                 </td>
             </tr>`
@@ -269,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
    return rows;
   }
 
-  function displayTotals(dataValues, period) {
+  function displayTotals(dataValues) {
     var totalsRow = "";
       const restricted = dataValues[dataElements.restrictedIncome]
           ?  Number(dataValues[dataElements.restrictedIncome])
@@ -290,8 +305,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(restricted)}" id="${dataElements.restrictedIncome}" 
-            class="form-control restricted  currency" disabled readonly>
+            <input type="text" 
+              value="${formatNumberInput(restricted)}" 
+              id="${dataElements.restrictedIncome}" 
+              class="form-control restricted  currency" 
+              disabled readonly />
           </div>
         </td>
         <td>
@@ -301,8 +319,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(unrestricted)}" id="${dataElements.unrestrictedIncome}" 
-            class="form-control unrestricted  currency" disabled readonly>
+            <input type="text" 
+              value="${formatNumberInput(unrestricted)}" 
+              id="${dataElements.unrestrictedIncome}" 
+              class="form-control unrestricted  currency" 
+              disabled readonly />
           </div>
         </td>
         <td>
@@ -312,8 +333,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalIncome)}" id="${dataElements.totalIncome}" 
-            class="form-control totalIncome  currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(totalIncome)}" 
+            id="${dataElements.totalIncome}" 
+            class="form-control totalIncome  currency" 
+            disabled readonly />
           </div>
         </td>
 
@@ -325,8 +348,10 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div> <input type="text" 
             id='deficit'
-            style="background:${deficit >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
-            value="${formatNumberInput(deficit)}" class="form-control input-budget currency" disabled>
+            style="background:${deficit >= 0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
+            value="${formatNumberInput(deficit)}" 
+            class="form-control input-budget currency" 
+            disabled readonly />
           </div>
         </td>
       </tr>
@@ -336,11 +361,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function displayTotalIncome(dataValues) {
-      dataElements.projectTotalIncome.forEach((income, index) => {
-        // if (dataValues[income.category]) {
-          // projectRows += addProjectIncome(income, dataValues, year, index);
-        // }
-      });
     var categoryIndex = 0;
     var projectRows = `
             <table class="table table-striped table-md mb-0 " width="100%">
@@ -369,10 +389,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     <input 
                     type="text" 
                     ${tei.disabled ? 'disabled readonly': ''} 
-                    id="${restrictedId}" 
+                    id="${restrictedId}"
+                    name="${option.id}-restricted" 
                     value="${formatNumberInput(restricted)}" 
-                    oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${restrictedId}', '${unrestrictedId}', '${category.shortName}')" 
-                    class="form-control input-restricted-${category.shortName} currency">
+                    class="form-control input-restricted textValue currency">
                   </div>
                 </td>
                 <td>
@@ -383,10 +403,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     <input 
                     type="text" 
                     ${tei.disabled ? 'disabled readonly': ''} 
-                    id="${unrestrictedId}" 
+                    id="${unrestrictedId}"
+                    name="${option.id}-unrestricted"  
                     value="${formatNumberInput(unrestricted)}" 
-                    oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${restrictedId}', '${unrestrictedId}', '${category.shortName}')" 
-                    class="form-control input-unrestricted-${category.shortName} currency">
+                    class="form-control input-unrestricted textValue currency">
                   </div>
                 </td>
                 <td>
@@ -396,7 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <input 
                     type="text"
-                    id="${restrictedId}-${unrestrictedId}" 
+                    id="${option.id}" 
                     value="${formatNumberInput(totalIncome)}" 
                     disabled
                     class="form-control  currency">
@@ -418,208 +438,49 @@ document.addEventListener("DOMContentLoaded", function () {
     window.localStorage.setItem("annualYear", ev.target.value);
     fetchEvents();
   });
-
 });
 
-// function addProjectIncome(income, dataValues, year, index) {
-//   var projectRows = ''
-//   const category = dataValues && dataValues[income.category]
-//     ? dataValues[income.category] : "";
-//   const subCategory = dataValues && dataValues[income.subCategory]
-//     ? dataValues[income.subCategory] : "";
-//   const unrestricted = dataValues && dataValues[income.unrestricted]
-//     ? dataValues[income.unrestricted] : "";
-//   const restricted = dataValues && dataValues[income.restricted]
-//     ? dataValues[income.restricted] : "";
-//   const totalIncome = Number(restricted) + Number(unrestricted);
-//   var subCategoryOptions = categoryIncome.find(list => (list.code == category));
-//   subCategoryOptions = subCategoryOptions ? subCategoryOptions : {options:[]};
+function loadCalculatedVariables(dataValues, dataElements) {
+  var restricted = 0, unrestricted = 0;
+  dataElements.projectTotalIncome.forEach(de => {
+    restricted += (dataValues[de.restricted] ? unformatNumber(dataValues[de.restricted]) : 0);
+    unrestricted += (dataValues[de.unrestricted] ? unformatNumber(dataValues[de.unrestricted]) : 0);
+  })
 
-//   projectRows += `
-//   <div class="accordion wrap-project-area-${year}">
-//     <div class="accordion-header active" role="button" data-toggle="collapse" data-target="#panel-body-${year}-${index}" aria-expanded="false">
-//       <h4><span class="number">${index + 1}</span><span data-i18n="intro.year">Year</span> ${year}</h4>
-//     </div>
-//     <div class="accordion-body collapse show" id="panel-body-${year}-${index}" data-parent="#accordion" style="">
-//       <div class="budget-wrap">
-//         <div class="form-row">
-//           <div class="form-group col-md-12 textbox-wrap">
-//           <label for="" data-i18n="intro.income_category">Income Category</label>
-//           <select 
-//           class="form-control" 
-//           ${tei.disabled ? 'disabled readonly': ''}
-//           id="${income.category}-${year}" 
-//           onchange="pushDataElementYear(this.id,this.value);changeSubCategory(this.value, '${income.subCategory}-${year}');"
-//           >
-//           <option class="choose" value="" data-i18n="intro.choose">Choose </option>`
-//            categoryIncome.forEach(ci => {
-//               projectRows += `<option ${(category == ci.code) ? "selected" : ''} value="${ci.code}" data-i18n="intro.${ci.format}">${ci.name}</option>`
-//             })
-//             projectRows += `</select>
-//            <div class="invalid-feedback"> Error here</div>
-//           </div>
-//         </div>
-//         <div class="form-row">
-//           <div class="form-group col-md-12 textbox-wrap">
-//           <label for=""  data-i18n="intro.sub_category">Sub Category</label>
-//            <select
-//             class="form-control" 
-//             ${tei.disabled ? 'disabled readonly': ''}
-//             id="${income.subCategory}-${year}"
-//             onchange="pushDataElementYear(this.id,this.value)"
-//             >
-//             <option class="choose" value="" data-i18n="intro.choose">Choose </option>`
-//             subCategoryOptions.options.forEach(sp => {
-//               projectRows += `<option ${(subCategory == sp.code) ? "selected" : ''} value="${sp.code}" data-i18n="intro.${sp.format}">${sp.name}</option>`
-//             })
-//             projectRows += `</select>
-//             <div class="invalid-feedback"> Error here </div>
-//           </div>
-//         </div>
-//         <table class="table table-striped table-md mb-0 " width="100%">
-//           <thead>
-//             <tr>
-//               <th  data-i18n="intro.restricted">Restricted</th>
-//               <th  data-i18n="intro.unrestricted">Unrestricted</th>
-//               <th  data-i18n="intro.total">Total</th>
-//               </tr>
-//           </thead>
-//           <tbody>
-//             <tr>
-//               <td>
-//               <div class="input-group">
-//                 <div class="input-group-prepend">
-//                    <div class="input-group-text">$ </div>
-//                 </div>
-//                 <input 
-//                 type="text" 
-//                 ${tei.disabled ? 'disabled readonly': ''}
-//                 id="${income.restricted}-${year}"
-//                 value="${formatNumberInput(restricted)}" 
-//                 ${tei.disabledYear[year] ? 'disabled':''} 
-//                 oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('${income.restricted}', '${income.unrestricted}','${year}')" 
-             
-//                 class="form-control input-restricted-${year} currency">
-//               </div>
-//               </td>
-//               <td>
-//               <div class="input-group">
-//                 <div class="input-group-prepend">
-//                   <div class="input-group-text">$</div>
-//                 </div>
-//                 <input 
-//                 type="text" 
-//                 ${tei.disabled ? 'disabled readonly': ''}
-//                 ${tei.disabledYear[year] ? 'disabled':''} 
-//                 id="${income.unrestricted}-${year}" 
-//                 value="${formatNumberInput(unrestricted)}" 
-//                 oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('${income.restricted}', '${income.unrestricted}','${year}')" 
-            
-//                 class="form-control input-unrestricted-${year} currency">
-//               </div>
-//               </td>
-//               <td>
-//                 <div class="input-group">
-//                   <div class="input-group-prepend">
-//                       <div class="input-group-text">$</div>
-//                   </div>
-//                   <input 
-//                   type="text"
-//                   id="${income.restricted}-${income.unrestricted}-${year}" 
-//                   value="${formatNumberInput(totalIncome)}" 
-//                   disabled
-//                   class="form-control  currency">
-//                 </div>
-//               </td>
-//             </tr>
-//           </tbody>
-//         </table>  
-//       </div>
-//     </div>
-//   </div>`
+  return [
+    {
+      dataElement: dataElements.restrictedIncome,
+      value: restricted
+    },
+    {
+      dataElement: dataElements.unrestrictedIncome,
+      value: unrestricted
+    }
+  ]
 
-//   return projectRows;
-// }
-
-function changeSubCategory(code, changeSubCategory) {
-  const selectedCategoryIncome = categoryIncome.find((category) => category.code == code);
-  if (selectedCategoryIncome) {
-    let options = '<option class="choose" value="" data-i18n="intro.choose">Choose </option>'
-    selectedCategoryIncome.options.forEach(subCategory => options += `<option value="${subCategory.code}">${subCategory.name}</option>`)
-
-    document.getElementById(changeSubCategory).innerHTML = options;
-  }
 }
 
-
-function calculateTotals(restricted, unrestricted, year) {
-  const restrictedVal = $(`#${restricted}-${year}`)? $(`#${restricted}-${year}`).val(): '';
-  const unrestrictedVal = $(`#${unrestricted}-${year}`)? $(`#${unrestricted}-${year}`).val(): '';
-  const total = Number(restrictedVal) + Number(unrestrictedVal);
-  if($(`#${restricted}-${unrestricted}-${year}`)) {
-    $(`#${restricted}-${unrestricted}-${year}`).val(formatNumberInput(total));
-  }
+function calculateTotals(name) {
+  const ids = name.split('-');
+  const restrictedVal = $(`input[name="${ids[0]}-restricted"]`).val();
+  const unrestrictedVal = $(`input[name="${ids[0]}-unrestricted"]`).val();
+  const total = unformatNumber(restrictedVal) + unformatNumber(unrestrictedVal);
+  $(`#${ids[0]}`).val(total);
 
   var restrictedTotals = 0;
-  document.querySelectorAll(`.input-restricted-${year}`).forEach(ev=> {
-    var {value} = ev;
-    restrictedTotals += unformatNumber(value);
-  })
- 
   var unrestrictedTotals = 0;
-  document.querySelectorAll(`.input-unrestricted-${year}`).forEach(ev=> {
-    var {value} = ev;
-    unrestrictedTotals += unformatNumber(value);
-  })
-  var globalTotals = Number(unrestrictedTotals) + Number(restrictedTotals);
+  $(`.input-restricted`).each((_,el) => restrictedTotals += unformatNumber(el.value));
+  $(`.input-unrestricted`).each((_,el) => unrestrictedTotals += unformatNumber(el.value));
+ 
+  var globalTotals = Number(restrictedTotals) + Number(unrestrictedTotals);
+  $(`#deficit`).val(formatNumberInput(globalTotals-totalExpenses));
+  if(globalTotals-totalExpenses >= 0) $(`#deficit`)[0].style.setProperty('background','#C1E1C1', 'important')
+  else $(`#deficit`)[0].style.setProperty('background','#FAA0A0', 'important')   
 
-  
-  $(`#deficit-${year}`).val(formatNumberInput(globalTotals-totalExpenses));
-  if(globalTotals-totalExpenses >= 0) $(`#deficit-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-  else $(`#deficit-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')   
-
-  $(`.unrestricted-${year}`).val(formatNumberInput(unrestrictedTotals));
-  $(`.restricted-${year}`).val(formatNumberInput(restrictedTotals));
-  $(`.totalIncome-${year}`).val(formatNumberInput(globalTotals));
-  pushDataElementYear($(`.unrestricted-${year}`)[0].id, unrestrictedTotals);
-  pushDataElementYear($(`.restricted-${year}`)[0].id, restrictedTotals);
-  pushDataElementYear($(`.totalIncome-${year}`)[0].id, globalTotals);
+  $(`.restricted`).val(formatNumberInput(restrictedTotals));
+  $(`.unrestricted`).val(formatNumberInput(unrestrictedTotals));
+  $(`.totalIncome`).val(formatNumberInput(globalTotals));
+  pushDataElement($(`.unrestricted`)[0].id, unrestrictedTotals);
+  pushDataElement($(`.restricted`)[0].id, restrictedTotals);
+  pushDataElement($(`.totalIncome`)[0].id, globalTotals);
 }
-
-function submitProjects() {
-  alert("Data Saved Successfully!")
-}
- function addIncome(year) {
-
-      const income = dataElements.projectTotalIncome[filledYear[year]];
-
-      // const newProjectRow = addProjectIncome(income, {}, year, filledYear[year]);
-      // $(newProjectRow).insertBefore(`.btn-index-${year}`);
-    }
-
-    function removeIncome(year) {
-      if (filledYear[year] > 1) {
-        filledYear[year]--;
-        const income = dataElements.projectTotalIncome[filledYear[year]];
-        $(`.wrap-project-area-${year}`).last().remove();
-        calculateTotals(income.restricted, income.unrestricted, year);
-        pushDataElementYear(`${income.category}-${year}`, '');
-        pushDataElementYear(`${income.subCategory}-${year}`, '');
-        pushDataElementYear(`${income.restricted}-${year}`, '');
-        pushDataElementYear(`${income.unrestricted}-${year}`, '');
-      }
-    }
-
-    //textarea word limit
-    function checkWords(event, count) {
-      const counter = document.getElementById('counter' + (count));
-      const { value } = event;
-      const words = value.trim().split(/\s+/)
-
-      if (words.length >= maxWords) {
-        event.value = words.slice(0, maxWords).join(' ');
-        return
-      }
-      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-      else counter.textContent = `${maxWords} words remaining`;
-    }
