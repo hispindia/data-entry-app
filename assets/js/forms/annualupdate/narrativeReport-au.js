@@ -65,7 +65,7 @@ const maxWords = {
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auOrganisationDetails;

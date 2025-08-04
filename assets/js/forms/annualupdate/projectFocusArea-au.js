@@ -1,10 +1,55 @@
 import { getEvents, getTEI, pushDataElement, pushDataElementYear } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { formatNumberInput, getYears } from "../func.js";
+import { formatNumberInput, getYears, unformatNumber } from "../func.js";
 
 var totalProjectBudget = [];
 const maxWords = 200;
+const focusAreaTranslation = {
+  '1. Care: Static Clinic': 'focus_area_1',
+  '2. Care: Outreach, mobile clinic, Community-based, delivery': 'focus_area_2',
+  '3. Care: Other Services, enabled or referred (associated clinics)': 'focus_area_3',
+  '4. Care: Social Marketing Services': 'focus_area_4',
+  '5. Care: Digital Health Intervention and Selfcare': 'focus_area_5',
+  '6. Advocacy': 'focus_area_6',
+  '7. CSE': 'focus_area_7',
+  '8. CSE Online, including social media': 'focus_area_8',
+  '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting': 'focus_area_9',
+  '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles': 'focus_area_10',
+  '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures': 'focus_area_11',
+  '1. Center Care on People':'strategic_pillar_1',
+  '2. Move the Sexuality Agenda':'strategic_pillar_2',
+  '3. Solidarity for Change':'strategic_pillar_3',
+  '4. Nurture Our Federation':'strategic_pillar_4',
+};
+
+var focusAreaNames = [
+  "1. Care: Static Clinic",
+  "2. Care: Outreach, mobile clinic, Community-based, delivery",
+  "3. Care: Other Services, enabled or referred (associated clinics)",
+  "4. Care: Social Marketing Services",
+  "5. Care: Digital Health Intervention and Selfcare",
+  "6. Advocacy",
+  "7. CSE",
+  "8. CSE Online, including social media",
+  "9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting",
+  "10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles",
+  "11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures"
+];
+
+var PillarAreaNames = [
+  "1. Center Care on People",
+  "1. Center Care on People",
+  "1. Center Care on People",
+  "1. Center Care on People",
+  "1. Center Care on People",
+  "2. Move the Sexuality Agenda",
+  "2. Move the Sexuality Agenda",
+  "2. Move the Sexuality Agenda",
+  "3. Solidarity for Change",
+  "3. Solidarity for Change",
+  "4. Nurture Our Federation"
+];
 const focusAreaOptions = [{
   "code": "1. Care: Static Clinic",
   "name": "1. Care: Static Clinic",
@@ -203,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auProjectFocusArea;
@@ -260,17 +305,12 @@ document.addEventListener("DOMContentLoaded", function () {
               value: name
             })
           })
-          tei.event = {
-            ...tei.event,
-            [tei.year.value]: await createEvent(data)
-          }
+          tei.event = await createEvent(data);
+
           data.forEach(de => tei.dataValues[tei.year.value][de.dataElement]= de.value)
           } else {
   
-            tei.event = {
-              ...tei.event,
-              [tei.year.value]: tei.dataValues[tei.year.value]["event"]
-            }
+            tei.event =  tei.dataValues[tei.year.value]["event"];
 
           var calculatedElements = loadCalculatedVariables(tei.dataValues[tei.year.value], {
             projectFocusAreaNew: dataElements.projectFocusAreaNew,
@@ -283,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
           }
       }
-      populateProgramEvents(tei.dataValues[tei.year.value]);
+      populateProgramEvents(tei.dataValues[tei.year.value] ? tei.dataValues[tei.year.value] : {});
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -300,9 +340,10 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#accordion').html(projectRows);
       $('#accordion .textValue').toArray().forEach(el => {
         el.addEventListener("input", (ev) => {
-          var { id, value } = ev.target;
-          pushDataElementFA(id,unformatNumber(value));
+          var { id, name, value } = ev.target;
+          pushDataElementFA(id, name, unformatNumber(value));
           ev.target.value = formatNumberInput(value);
+          calculateTotals(name)
         })
       })
     } else {
@@ -337,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}-${tei.year.value}" class="form-control totalBudget  currency" disabled readonly>
+            <input type="text" value="${formatNumberInput(totalBudget)}" id="${dataElements.totalBudget}" class="form-control totalBudget  currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -392,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var faValue = {};
         if(dataValues[faId]) faValue = JSON.parse(dataValues[faId]);
 
-          projectRows += `<tr><td>${focusAreaOptions[indexFA].name}</td>
+        projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}">${focusAreaOptions[indexFA].name}</td>
                           <td>
                             <input 
                             type="text" 
@@ -400,9 +441,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             id="${faId}" 
                             class="form-control textValue currency"
                             value="${formatNumberInput(faValue.budget)}" 
+                            name="${dataElements.projectFocusAreaNew[index].name}-${index}-${indexFA}"
                             />
-                          </td></tr>`
-
+                        </td></tr>`
         })
         projectRows += `</tbody>
         </table>
@@ -421,15 +462,16 @@ document.addEventListener("DOMContentLoaded", function () {
                           <input 
                           type="text" 
                           ${tei.disabled ? 'disabled readonly': ''}
-                          id="${dataElements.projectFocusAreaNew[index].variation}-${tei.year.value}"  
+                          id="${dataElements.projectFocusAreaNew[index].variation}"  
                           value="${dataValues[dataElements.projectFocusAreaNew[index].variation] ? formatNumberInput(dataValues[dataElements.projectFocusAreaNew[index].variation]): ''}"  
                           class="form-control currency"
+                          name="variation-${dataElements.projectFocusAreaNew[index].name}"
                           style="background:${dataValues[dataElements.projectFocusAreaNew[index].variation] ? (dataValues[dataElements.projectFocusAreaNew[index].variation] >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'): ''}" 
                           disabled
                           readonly
                           >
                         </div>
-                        <div class="invalid-feedback feedback-${tei.year.value} ${dataValues[dataElements.projectFocusAreaNew[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance </div>
+                        <div class="invalid-feedback feedback ${dataValues[dataElements.projectFocusAreaNew[index].variation]<0 ? 'd-block': ''}"> Please provide remarks for the variance </div>
                       </div>
                       <div class="form-row">
                         <div class="form-group col-md-12 textbox-wrap">
@@ -437,7 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
                           </label>
                           <textarea 
-                          class="form-control-resize textlimit textValue" 
+                          class="form-control-resize textlimit" 
                           ${tei.disabled ? 'disabled readonly': ''}
                           id="${dataElements.projectFocusAreaNew[index].comment}" 
                           onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
@@ -488,35 +530,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
 });
-
-  function addPFA(index) {
-
-    const values = {
-        id: dataElements.projectFocusAreaNew[index].focusAreas[filledProjectFocusArea[index]],
-        area: '',
-        pillar: '',
-        budget: {}
-    }
-    
-    const newProjectRow = displayProjectFocusArea(values, index, filledProjectFocusArea[index])
-
-    $(newProjectRow).insertBefore(`.btn-index-${index}`);
-    filledProjectFocusArea[index]++;
-    
-      // Localize content
-      $('body').localize();
-  }
-  function removePFA(index) {
-    if (filledProjectFocusArea[index] > 1) {
-      filledProjectFocusArea[index]--;
-      const id = dataElements.projectFocusAreaNew[index].focusAreas[filledProjectFocusArea[index]];
-      $(`.wrap-project-area-${index}`).last().remove();
-      for(let year=tei.year.start; year<=tei.year.end; year++) {
-        calculateTotals(year, 'totalBudget', index);
-      }
-      pushDataElementFA(id);
-    }
-  }
   
 function submitProjectFocusArea() {
   var value = '';
@@ -527,23 +540,6 @@ function submitProjectFocusArea() {
   
   if(value) alert(value);
   alert('Event Pushed Successfully!')
-}
-
-function changeStrategicPillar(focusAreaId, strategicPillarId, code) {
-  const focusArea = focusAreaOptions.find(area => area.code == code);
-  if(focusArea) {
-    let pillar = focusArea.pillars[0];
-    let option = `<option selected value="${pillar.code}" data-i18n="intro.strategic_pillar_${pillar.index}">${pillar.name}</option>`;
-    document.getElementById(strategicPillarId).innerHTML = option;
-    pushDataElementFA(focusAreaId);
-  } else {
-    let option = `<option selected value="" data-i18n="intro.choose">Choose</option>`;
-    document.getElementById(strategicPillarId).innerHTML = option;
-
-    pushDataElementFA(focusAreaId);
-
-  }
-
 }
 
 function loadCalculatedVariables(dataValues, dataElements) {
@@ -581,14 +577,15 @@ function loadCalculatedVariables(dataValues, dataElements) {
   ]
 }
 
-function pushDataElementFA(ids, value) {
+function pushDataElementFA(id, name, value) {
+  const ids = name.split('-')
     const values= {
-      area: document.getElementById(`${ids}-area`).value,
-      pillar:document.getElementById(`${ids}-pillar`).value,
-      budget:unformatNumber(value),
+      area: focusAreaNames[ids[2]],
+      pillar:PillarAreaNames[ids[2]],
+      budget:value,
     }
-    if(values.area) pushDataElement(ids, JSON.stringify(values))
-    else pushDataElement(ids, '')
+    if(values.budget) pushDataElement(id, JSON.stringify(values))
+    else pushDataElement(id, '')
 }
 
 
@@ -608,42 +605,41 @@ function checkProjects(projects, values) {
   return names;
 }
 
-function calculateTotals(year, id, idx) {
-  const element = document.querySelectorAll(`.input-${id}-${year}`);
+function calculateTotals(name) {
+  const ids = name.split('-');
+  
   var value = 0;
   var variation = 0;
   var budgetFocusArea = 0;
-  element.forEach((el) => {
-    value += unformatNumber(el.value);
-  });
-  $(`.${id}-${year}`).val(formatNumberInput(value));
-  const difference = tei.yearAmount - value;
+  $(`.textValue`).each((_, el) => value += unformatNumber(el.value));
 
-  $(`.difference-${year}`).val(formatNumberInput(difference)); 
-  if(difference >= 0) $(`.difference-${year}`)[0].style.setProperty('background','#C1E1C1', 'important')
-  else $(`.difference-${year}`)[0].style.setProperty('background','#FAA0A0', 'important')
+  const difference = tei.yearAmount - value;
+  $(`.difference`).val(formatNumberInput(difference)); 
+  if(difference >= 0) $(`.difference`)[0].style.setProperty('background','#C1E1C1', 'important')
+  else $(`.difference`)[0].style.setProperty('background','#FAA0A0', 'important')
   
-  dataElements.projectFocusAreaNew[idx].focusAreas.forEach(focusArea => {
-    if( $(`#${focusArea}-budget-${year}`).val()) budgetFocusArea+= unformatNumber($(`#${focusArea}-budget-${year}`).val());
+  $(`input[name="${ids[0]}-${ids[1]}]"]`).each((_, el) => { 
+    budgetFocusArea += unformatNumber(el.value);
   })
 
-  if(totalProjectBudget[idx] && !isNaN(totalProjectBudget[idx][year])) {
-    variation = Number(totalProjectBudget[idx][year]) - budgetFocusArea;
+  if(totalProjectBudget[ids[1]]) {
+    variation = Number(totalProjectBudget[ids[1]]) - budgetFocusArea;
   } else if(budgetFocusArea) variation -= budgetFocusArea;
 
-  $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`).val(formatNumberInput(variation));
+  $(`input[name="variation-${ids[0]}]"]`).val(formatNumberInput(variation));
+  
   if(variation >= 0) {
-    $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#C1E1C1', 'important');
-    $(`.feedback-${year}`).removeClass('d-block').addClass('d-none');
+    document.querySelector(`input[name="variation-${ids[0]}"]`).style.setProperty('background','#C1E1C1', 'important');
+    $(`.feedback`).removeClass('d-block').addClass('d-none');
   }
   else {
-    $(`#${dataElements.projectFocusAreaNew[idx].variation}-${year}`)[0].style.setProperty('background','#FAA0A0', 'important');
-    $(`.feedback-${year}`).removeClass('d-none').addClass('d-block');
+    document.querySelector(`input[name="variation-${ids[0]}"]`).style.setProperty('background','#FAA0A0', 'important');
+    $(`.feedback`).removeClass('d-none').addClass('d-block');
   }
-
-  pushDataElementYear(`${dataElements.projectFocusAreaNew[idx].variation}-${year}`, variation,0);
-  pushDataElementYear($(`.${id}-${year}`)[0].id, value,0);
-  pushDataElementYear($(`.difference-${year}`)[0].id, difference,0);
+  
+  pushDataElement($(`.totalBudget`)[0].id, value);
+  pushDataElement($(`input[name="variation-${ids[0]}"]`)[0].id, variation);
+  pushDataElement($(`.difference`)[0].id, difference);
 }
 
 function submitProjects() {

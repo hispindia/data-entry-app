@@ -22,6 +22,8 @@ export const tei = {
     start: 2023,
     end: new Date().getFullYear() + 1,
     value: "",
+    selectedAnnual: new Date().getFullYear() + 1,
+    selectReporting: new Date().getFullYear(),
   },
 };
 export const coreTeamGroups = "Q4GLIiUIxrM";

@@ -43,7 +43,7 @@ const maxWords = 200;
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
     tei.program = program.auProjectDescription;
@@ -484,15 +484,15 @@ function calculateTotals(name) {
 
   $(`input[name="variation-${ids[1]}"]`).val(formatNumberInput(variation));
   if(variation >= 0) {
-     $(`input[name="variation-${ids[1]}"]`).style.setProperty('background','#C1E1C1', 'important');
+     document.querySelector(`input[name="variation-${ids[1]}"]`).style.setProperty('background','#C1E1C1', 'important');
     $(`.feedback`).removeClass('d-block').addClass('d-none');
   }
   else {
-     $(`input[name="variation-${ids[1]}"]`).style.setProperty('background','#FAA0A0', 'important');
+     document.querySelector(`input[name="variation-${ids[1]}"]`).style.setProperty('background','#FAA0A0', 'important');
     $(`.feedback`).removeClass('d-none').addClass('d-block');
   } 
 
-  pushDataElement( $(`input[name="variation-${ids[1]}"]`).id, variation);
+  pushDataElement( $(`input[name="variation-${ids[1]}"]`)[0].id, variation);
   pushDataElement($(`.totalBudget-total`)[0].id, value);
   pushDataElement($(`.difference-total`)[0].id, difference);
 }
