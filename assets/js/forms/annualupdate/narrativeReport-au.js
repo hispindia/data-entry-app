@@ -146,14 +146,6 @@ const maxWords = {
   });
 });
 
-function changePanel(id) {
-  $(`#${id}`).collapse('toggle');
-}
-
-  function submitProjects() {
-      alert("Data Saved Successfully!")
-  }
-
     //textarea word limit
     document.addEventListener('DOMContentLoaded', function () {
       const textareas = document.querySelectorAll('.textlimit');

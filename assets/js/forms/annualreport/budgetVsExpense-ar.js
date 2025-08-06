@@ -1,4 +1,4 @@
-import { getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
+import { createEvent, getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
@@ -34,13 +34,15 @@ const maxWords = 200;
 
     async function configurePage() {
       const user = await getUserConfig();
-      tei.disabled = user.disabled;
+      tei.userDisabled = user.disabled;
   
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
         if (user.organisationUnits[0].parent) {
           document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
         }
+
+        document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
         document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
@@ -58,7 +60,7 @@ const maxWords = 200;
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
   
       tei.program = program.arProjectExpenseCategory;
@@ -83,17 +85,19 @@ const maxWords = 200;
         (enroll) => enroll.program == tei.program || enroll.program == program.auProjectDescription || enroll.program == program.auProjectExpenseCategory  ||  enroll.program == program.arTotalIncome
       );
 
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id); //data vlaues period wise
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value}); //data vlaues period wise
       tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
 
       const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
-      const dataValuesPE = getEvents(filteredPrograms, program.auProjectExpenseCategory,  tei.year.id);
+      const dataValuesPE = getEvents(filteredPrograms, program.auProjectExpenseCategory, {id:tei.year.id, value: tei.year.value});
       if(dataValuesPE[tei.year.value]) {
         dataElements.projectExpenseCategory.forEach((project) => {
           if(dataValuesPE[tei.year.value][project.name]) {
-            tei.yearlyAmount[`amount-${tei.year.value}`] = dataValuesPE[tei.year.value][dataElements.totalBudget]? dataValuesPE[tei.year.value][dataElements.totalBudget] : ''
+            tei.yearAmount = dataValuesPE[tei.year.value][dataElements.totalBudget]? dataValuesPE[tei.year.value][dataElements.totalBudget] : ''
           }
         })
       }
@@ -102,13 +106,13 @@ const maxWords = 200;
       
       if(tei.projects.length) {
         if(!dataValues) {
-        if(tei.year.value && dataElements.periodicity.value) {
+        if(tei.year.value && tei.periodicity.value) {
             let data = [{ 
               dataElement: tei.year.id,
               value: tei.year.value
             }, {
-              dataElement: dataElements.periodicity.id,
-              value: dataElements.periodicity.value
+              dataElement: tei.periodicity.id,
+              value: tei.periodicity.value
             }];
             tei.projects.forEach((project,index) => {
               data.push({
@@ -117,7 +121,7 @@ const maxWords = 200;
             })
           })
         
-          let calculatedElements = loadCalculatedVariables({}, dataValuesPE[tei.year.value], dataElements, year);
+          let calculatedElements = loadCalculatedVariables({}, dataValuesPE[tei.year.value], dataElements, tei.year.value);
           calculatedElements.forEach(elements => tei.dataValues[elements.dataElement] = elements.value)
           data = [
             ...data,

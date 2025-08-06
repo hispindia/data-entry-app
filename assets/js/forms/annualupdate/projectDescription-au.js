@@ -1,7 +1,7 @@
-import { createEvent, getEvents, getTEI, pushDataElement } from "../../api/func.js";
+import { createEvent, formatDate, getEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { getYears } from "../func.js";
+import { formatNumberInput, getYears, unformatNumber } from "../func.js";
 
 var projectCount = 0;
 const maxWords = 250;
@@ -125,13 +125,22 @@ document.addEventListener("DOMContentLoaded", function () {
     // $(projectRows).insertBefore(".btn-wrap");
     const content = document.getElementById('content')
     content.innerHTML=projectRows;
-    console.log(content.querySelectorAll('.textValue'))
-    content.querySelectorAll('.textValue').forEach((input)=> {
-        input.addEventListener("input", (ev) => {
-          const { id, value } = ev.target;
-          pushDataElement(id,value);
-        })
-      });
+
+    content.addEventListener('input', (ev) => {
+      if(ev.target.matches('.textValue')) {
+        const { id, value } = ev.target;
+        pushDataElement(id,unformatNumber(value));
+        ev.target.value = formatNumberInput(value);
+      } else if (ev.target.matches('.textContent')) {
+        const { id, value } = ev.target;
+        pushDataElement(id,value);
+      } else if (ev.target.matches('.textlimit')) {
+        const { id, value } = ev.target;
+        pushDataElement(id,value);
+        checkWords(ev.target, id)
+
+      }
+    });
     // Localize content
     $('body').localize();
   }
@@ -142,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <div class="form-group col-md-12 textbox-wrap my-2">
         <label for="${project.name}"><span data-i18n="intro.project_name">Project Name</span> ${count} </label>
-        <input type="text" ${tei.disabled ? 'disabled readonly': ''} class="form-control textValue" id="${
+        <input type="text" ${tei.disabled ? 'disabled readonly': ''} class="form-control textContent" id="${
           project.name
         }" value="${values['name']}">
         <div class="invalid-feedback"> Error here </div>
@@ -154,14 +163,15 @@ document.addEventListener("DOMContentLoaded", function () {
             <label for="${project.startDate}"><span data-i18n="intro.start_date">Start Date:</span> </label>
             <input type="date" id="${project.startDate}"  
               ${tei.disabled ? 'disabled readonly': ''} 
-              class="w-100 form-control textValue"
+              class="w-100 form-control textContent"
               value="${values['startDate']}" 
             />
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
             <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
-              <select class="form-control textValue" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}">
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}">
+                <option ${(values['theme']=="") ? "selected": ''} value=""><span data-i18n="">Choose</span></option>
                 <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
                 <option ${(values['theme']=="General Contraception") ? "selected": ''} value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
                 <option ${(values['theme']=="Digital Health Interventions & Selfcare") ? "selected": ''} value="Digital Health Interventions & Selfcare"><span data-i18n="intro.focus_area_5">Digital Health Interventions & Selfcare</span></option>
@@ -182,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
               </select>
             <div style="display:none">
               <input type="text" 
-                class="w-100 form-control my-1 textValue"
+                class="w-100 form-control my-1 textContent"
                 value="${values['themeOther']}" 
                 placeholder="Other (Please specify)"
               />
@@ -191,10 +201,10 @@ document.addEventListener("DOMContentLoaded", function () {
           </td>
           <td>
           <label for="${project.funding}"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
-              <select class="form-control textValue" ${tei.disabled ? 'disabled readonly': ''}  id="${project.funding}">
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.funding}">
                 <option ${(values['funding']=="") ? "selected": ''} value="">Choose</option>
                 <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted">Restricted</option>
-                <option ${(values['funding']=="UnRestricted") ? "selected": ''} value="Unrestricted">Unrestricted</option>
+                <option ${(values['funding']=="Unrestricted") ? "selected": ''} value="Unrestricted">Unrestricted</option>
               </select>
             <div class="invalid-feedback"> Error here </div>
           </td>
@@ -203,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" id="${project.contract}"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textValue"
-              value="${values['contract']}" 
+              value="${formatNumberInput(values['contract'])}" 
             />
             <div class="invalid-feedback"> Error here </div>
           </td>
@@ -211,16 +221,17 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <td>
             <label for="${project.endDate}"><span data-i18n="intro.end_date">End Date:</span> </label>
-            <input type="date" id="${project.endDate}"  
+            <input type="date" id="${project.endDate}"  max="${tei.year.end+3}-12-31"
               ${tei.disabled ? 'disabled readonly': ''}
-              class="w-100 form-control textValue" 
+              class="w-100 form-control textContent" 
               value="${values['endDate']}"
             >
             <div class="invalid-feedback"> Error here </div>
           </td> 
           <td>
             <label for="${project.donor}"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
-              <select class="form-control textValue" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" value="${values['donor']}">
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" value="${values['donor']}">
+                <option ${(values['donor']=="") ? "selected": ''} value=""><span data-i18n="">Choose</span></option>
                 <option ${(values['donor']=="Government of Australia / DFAT") ? "selected": ''} value="Government of Australia / DFAT"><span data-i18n="intro.g_aus">Government of Australia / DFAT</span></option>
                 <option ${(values['donor']=="Government of Canada / GAC") ? "selected": ''} value="Government of Canada / GAC"><span data-i18n="intro.g_can">Government of Canada / GAC</span></option>
                 <option ${(values['donor']=="Government of China") ? "selected": ''} value="Government of China"><span data-i18n="intro.g_ch">Government of China</span></option>
@@ -271,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" id="${project.income}" 
               ${tei.disabled ? 'disabled readonly': ''}  
               class="w-100 form-control textValue"
-              value="${values['income']}" 
+              value="${formatNumberInput(values['income'])}" 
             />
             <div class="invalid-feedback"> Error here </div>
           </td>
@@ -281,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="form-group col-md-12 textbox-wrap">
         <label for="${project.description}"><span data-i18n="intro.description_project">Description of Project </span> ${count} </label>
         <textarea 
-        class="form-control-resize textlimit textValue" 
+        class="form-control-resize textlimit" 
         id="${project.description}" 
         ${tei.disabled ? 'disabled readonly': ''}>${values['description']}</textarea>
         <div class="char-counter form-text text-muted" id="counter-${
@@ -299,30 +310,17 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
 
+ 
+
   $(".plus").click(function (e) {
     e.preventDefault();
     const newProjectRow = addRow((projectCount + 1), dataElements.projectDescription[projectCount], { name: "",  description: "", startDate: "", endDate: "", theme: "", themeOther: "", donor: "", donorOther: "", contract: "", income: "", funding: "" });
     projectCount++;
-    $(newProjectRow).insertBefore(".btn-wrap");
+    $('#content').append(newProjectRow);
     $('#total-projects').val(projectCount)
     // Localize content
     $('body').localize();
   });
-
-  $(".minus").click(function (e) {
-    e.preventDefault();
-    if (projectCount > 1) {
-      $(".project-list").last().remove();
-      projectCount--;
-      $("hr").last().remove(); // Remove the last <hr> element
-      $('#total-projects').val(projectCount)
-    }
-  });
-
-  //Panel toggle
-  function changePanel(id) {
-    $(`#${id}`).collapse('toggle');
-  }
 
   //textarea word limit
   function checkWords(event, id) {

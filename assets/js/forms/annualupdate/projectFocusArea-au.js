@@ -1,4 +1,4 @@
-import { getEvents, getTEI, pushDataElement, pushDataElementYear } from "../../api/func.js";
+import { createEvent, getEvents, getTEI, pushDataElement, pushDataElementYear } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears, unformatNumber } from "../func.js";
@@ -340,8 +340,8 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#accordion').html(projectRows);
       $('#accordion .textValue').toArray().forEach(el => {
         el.addEventListener("input", (ev) => {
-          var { id, name, value } = ev.target;
-          pushDataElementFA(id, name, unformatNumber(value));
+          var { id, name, dataset, value } = ev.target;
+          pushDataElementFA(id, dataset.indexFA, unformatNumber(value));
           ev.target.value = formatNumberInput(value);
           calculateTotals(name)
         })
@@ -441,7 +441,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             id="${faId}" 
                             class="form-control textValue currency"
                             value="${formatNumberInput(faValue.budget)}" 
-                            name="${dataElements.projectFocusAreaNew[index].name}-${index}-${indexFA}"
+                            data-indexFA="${indexFA}"
+                            name="${dataElements.projectFocusAreaNew[index].name}-${index}"
                             />
                         </td></tr>`
         })
@@ -577,11 +578,10 @@ function loadCalculatedVariables(dataValues, dataElements) {
   ]
 }
 
-function pushDataElementFA(id, name, value) {
-  const ids = name.split('-')
+function pushDataElementFA(id, indexFA, value) {
     const values= {
-      area: focusAreaNames[ids[2]],
-      pillar:PillarAreaNames[ids[2]],
+      area: focusAreaNames[indexFA],
+      pillar:PillarAreaNames[indexFA],
       budget:value,
     }
     if(values.budget) pushDataElement(id, JSON.stringify(values))
@@ -612,13 +612,13 @@ function calculateTotals(name) {
   var variation = 0;
   var budgetFocusArea = 0;
   $(`.textValue`).each((_, el) => value += unformatNumber(el.value));
-
+  $(`.totalBudget`).val(value);
   const difference = tei.yearAmount - value;
   $(`.difference`).val(formatNumberInput(difference)); 
   if(difference >= 0) $(`.difference`)[0].style.setProperty('background','#C1E1C1', 'important')
   else $(`.difference`)[0].style.setProperty('background','#FAA0A0', 'important')
   
-  $(`input[name="${ids[0]}-${ids[1]}]"]`).each((_, el) => { 
+  $(`input[name="${ids[0]}-${ids[1]}"]`).each((_, el) => { 
     budgetFocusArea += unformatNumber(el.value);
   })
 
@@ -626,7 +626,7 @@ function calculateTotals(name) {
     variation = Number(totalProjectBudget[ids[1]]) - budgetFocusArea;
   } else if(budgetFocusArea) variation -= budgetFocusArea;
 
-  $(`input[name="variation-${ids[0]}]"]`).val(formatNumberInput(variation));
+  $(`input[name="variation-${ids[0]}"]`).val(formatNumberInput(variation));
   
   if(variation >= 0) {
     document.querySelector(`input[name="variation-${ids[0]}"]`).style.setProperty('background','#C1E1C1', 'important');

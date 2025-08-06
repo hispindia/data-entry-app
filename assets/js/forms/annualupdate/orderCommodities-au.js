@@ -74,8 +74,8 @@ async function configurePage() {
     dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
 
     var quantities = {};
-    dataElementsQuantity.forEach(quantity => quantity.dataElements.forEach(de => quantities[de.code] = de.id));
-    dataElementsPrice.forEach(price => {
+    dataElementsQuantity.sections.forEach(quantity => quantity.dataElements.forEach(de => quantities[de.code] = de.id));
+    dataElementsPrice.sections.forEach(price => {
       price.dataElements.forEach(de => {
         de['quantity'] = quantities[`${de.code}-1`] ? quantities[`${de.code}-1`]: ''
       })
@@ -140,45 +140,6 @@ async function configurePage() {
       unrestrictedCost = dataValuesMD[tei.year.value][dataElements.yearAmount] ? dataValuesMD[tei.year.value][dataElements.yearAmount] : 0;
     } 
 
-    // const dataValueSC =  getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, tei.program,{id: tei.year.id,value: tei.year.value}) //data vlaues period wise
-    
-    // const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,{id: tei.year.id,value: tei.year.value}) //data vlaues period wise
-   
-    // if (!dataValues[tei.year.value]) {
-    //       const data = [
-    //         {
-    //           dataElement: tei.year.id,
-    //           value: tei.year.value,
-    //         }
-    //       ];
-    //       dataValues[year] = {
-    //         [tei.year.id]:tei.year.value,
-    //       }
-    //       tei.event = await createEvent(data)
-    //     } else {
-    //       tei.event = dataValues[tei.year.value]["event"]
-    //     }
-
-    //     if(!dataValueSC[tei.year.value]) {
-
-    //       const data = [
-    //         {
-    //           dataElement: tei.year.id,
-    //           value: tei.year.value,
-    //         }
-    //       ];
-
-    //       eventSource[tei.year.value] = await createEventOther({
-    //         orgUnit: tei.orgUnit,
-    //         program: tei.program,
-    //         programStage: programStage.auCommoditiesSource,
-    //         teiId: tei.id,
-    //         dataElements: data
-    //       })
-    //     } else {
-    //       eventSource[tei.year.value] = dataValueSC[tei.year.value]["event"]
-    //     }
-      
       populateProgramEvents(dataSet,productCodeIds);
     } else {
       console.log("No data found for the organisation unit.");
@@ -334,14 +295,14 @@ async function configurePage() {
     const blockField = productCodeIds.includes(dataElement.code);
     const rate = dataSetValues[dataElement.id] ? dataSetValues[dataElement.id]: '';
     const quantityVal = dataSetValues[dataElement.quantity] ? dataSetValues[dataElement.quantity]: '';
-    const price = dataValues[dataElements.projectCommodities[index].price] ? dataValues[dataElements.projectCommodities[index].price]: '';
+    const price = ''
     const description = dataElement.description.split(';');
     combinedCost += rate && quantityVal ? Number(rate * quantityVal) : 0;
     const formula = description[4] ? description[4]: '';
 
     var row = `<tr>
-    <td><span id="${dataElements.projectCommodities[index].code}">${dataElement.code}</span></td>
-    <td><span id="${dataElements.projectCommodities[index].name}">${dataElement.name}</span></td>
+    <td>${dataElement.code}</td>
+    <td>${dataElement.name}</td>
     <td>${(description[0] ? description[0]: '')}</td>
     <td>${(description[1] ? description[1]: '')}</td>
     <td>${(description[2] ? description[2]: '')}</td>
@@ -350,12 +311,12 @@ async function configurePage() {
         <div class="input-group-prepend">
           <div class="input-group-text"> $ </div>
         </div>
-        <input type="number" id="${dataElements.projectCommodities[index].quantity}-rate" value="${rate}"
+        <input type="number" id="${dataElement.quantity}-rate" value="${rate}"
           class="form-control input-budget currency" disabled readonly>
       </div>
     </td>
     <td>
-      <input type="number" ${(tei.disabled || blockField) ? 'disabled readonly': ''}  class="form-control" id="${dataElements.projectCommodities[index].quantity}" onblur="pushEvent('${index}', '${rate}', '${formula}', '${description[3]}')" value="${quantityVal}">
+      <input type="number" ${(tei.disabled || blockField) ? 'disabled readonly': ''}  class="form-control" id="${dataElement.quantity}" value="${quantityVal}">
       <div id='status-${index}' class='font-italic'></div>
     </td>
     <td>
@@ -363,7 +324,7 @@ async function configurePage() {
         <div class="input-group-prepend">
           <div class="input-group-text"> $ </div>
         </div>
-        <input type="text" id="${dataElements.projectCommodities[index].price}" value="${formatNumberInput(Math.round(price))}" disabled
+        <input type="text" id="${dataElement.qauntity}-price" value="${formatNumberInput(Math.round(price))}" disabled
           class="form-control input-budget currency">
       </div>
     </td>

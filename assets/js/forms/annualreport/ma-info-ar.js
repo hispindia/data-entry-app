@@ -53,6 +53,7 @@ configurePage();
       if (user.organisationUnits[0].parent) {
         document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }

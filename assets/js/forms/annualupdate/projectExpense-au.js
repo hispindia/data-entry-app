@@ -469,7 +469,7 @@ function calculateTotals(name) {
 
   
   const personnel =  $(`input[name="personnel-${ids[1]}-${ids[2]}"]`).val();
-  const activites =  $(`input[name="activites-${ids[1]}-${ids[2]}"]`).val();
+  const activites =  $(`input[name="activities-${ids[1]}-${ids[2]}"]`).val();
   const commodities =  $(`input[name="commodities-${ids[1]}-${ids[2]}"]`).val();
   const cost =  $(`input[name="cost-${ids[1]}-${ids[2]}"]`).val();
 

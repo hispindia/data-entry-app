@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
         (enroll) => enroll.program == tei.program || enroll.program == program.auProjectDescription || enroll.program == program.auOrganisationDetails 
       );
 
-      const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id);
+      const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id:tei.year.id,value: tei.year.value});
       if(dataValuesOD[tei.year.value] && dataValuesOD[tei.year.value][dataElements.yearAmount]) tei.yearAmount = dataValuesOD[tei.year.value][dataElements.yearAmount]
 
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value});

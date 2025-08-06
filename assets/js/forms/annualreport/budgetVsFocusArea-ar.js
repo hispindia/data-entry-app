@@ -1,4 +1,4 @@
-import { getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { createEvent, getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
@@ -92,13 +92,14 @@ document.addEventListener("DOMContentLoaded", function () {
   
     async function configurePage() {
       const user = await getUserConfig();
-      tei.disabled = user.disabled;
+      tei.userDisabled = user.disabled;
   
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
         if (user.organisationUnits[0].parent) {
           document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
         }
+        document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
         document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
@@ -116,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
   
       tei.program = program.arProjectFocusArea;
@@ -147,34 +148,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
         );
       
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id); //data vlaues period wise
-      tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[year]);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value}); //data vlaues period wise
+      tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
 
-      const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
+      const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
 
       const dataValuesFA = getEvents(
         filteredPrograms,
         program.auProjectFocusArea,
-        tei.year.id
+        { id: tei.year.id, value: tei.year.value }
       );
-      if (dataValuesFA[year]) {
+      if (dataValuesFA[tei.year.value]) {
         dataElements.projectFocusAreaNew.forEach((project) => {
-          if (dataValuesFA[year][project.name]) {
+          if (dataValuesFA[tei.year.value][project.name]) {
 
-            tei.yearlyAmount[`amount-${year}`] = dataValuesFA[year][
+            tei.yearAmount = dataValuesFA[tei.year.value][
               dataElements.totalBudget
             ]
-              ? dataValuesFA[year][dataElements.totalBudget]
+              ? dataValuesFA[tei.year.value][dataElements.totalBudget]
               : "";
           }
         });
       }
 
-      const dataValues = getEventsPeriodicity(
+      tei.dataValues = getEventsPeriodicity(
         filteredPrograms,
         program.arProjectFocusArea,
-        { id: tei.year.id, value: year },
+        { id: tei.year.id, value: tei.year.value },
         {
           id: tei.periodicity.id,
           value: tei.periodicity.value,
@@ -183,12 +186,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (tei.projects.length) {
         //for dataValue 2
-        if (!dataValues) {
-        if(year && tei.periodicity.value) {
+        if (!tei.dataValues) {
+        if(tei.year.value && tei.periodicity.value) {
           let data = [
             {
               dataElement: tei.year.id,
-              value: year,
+              value: tei.year.value,
             },
             {
               dataElement: tei.periodicity.id,
@@ -204,22 +207,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
           let calculatedElements = loadCalculatedVariables(
             {},
-            dataValuesFA[year],
+            dataValuesFA[tei.year.value],
             dataElements
           );
+          tei.dataValues = {};
           calculatedElements.forEach(
-            (elements) => (dataValues[elements.dataElement] = elements.value)
+            (elements) => (tei.dataValues[elements.dataElement] = elements.value)
           );
           data = [...data, ...calculatedElements];
           tei.event = await createEvent(data);
         }
         } else {
-          tei.event = dataValues["event"];
-          tei.dataValues = dataValues;
+          tei.event = tei.dataValues["event"];
 
           let calculatedElements = loadCalculatedVariables(
-            dataValues,
-            dataValuesFA[year],
+            tei.dataValues,
+            dataValuesFA[tei.year.value],
             dataElements
           );
           calculatedElements.forEach((elements) => {

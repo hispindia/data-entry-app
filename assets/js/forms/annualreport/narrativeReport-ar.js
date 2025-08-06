@@ -1,4 +1,4 @@
-import { createEvent, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { createEvent, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { disableAll, getYears } from '../func.js';
@@ -17,20 +17,6 @@ const maxWords = 300;
     });
   });
 
-  document
-  .getElementById("year-update")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualYearAR", ev.target.value);
-    fetchEvents();
-  });
-
-  document
-  .getElementById("reporting-periodicity")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualReporting", ev.target.value);
-    fetchEvents();
-  });
-
   async function configurePage() {
     const user = await getUserConfig();
     tei.userDisabled = user.disabled;
@@ -40,6 +26,7 @@ const maxWords = 300;
       if (user.organisationUnits[0].parent) {
         document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
@@ -129,6 +116,27 @@ const maxWords = 300;
   }
   configurePage();
 });
+
+  document
+  .getElementById("year-update")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualYearAR", ev.target.value);
+    fetchEvents();
+  });
+
+  document
+  .getElementById("reporting-periodicity")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualReporting", ev.target.value);
+    fetchEvents();
+  });
+
+  document.querySelectorAll('.textValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id, value } = ev.target;
+      pushDataElement(id,value);
+    })
+  });
 
 document.addEventListener('DOMContentLoaded', function () {
   const textareas = document.querySelectorAll('.textlimit');

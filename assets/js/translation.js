@@ -241,10 +241,10 @@ const translation_mapping = [
     },
     {
         id: "stragegic_period",
-        en: "Stragegic Period:",
-        sp: "Período estratégico:",
-        fr: "Période stratégique:",
-        ar: "الفترة الاستراتيجية:"
+        en: "Strategic period",
+        sp: "Período estratégico",
+        fr: "Période stragégique",
+        ar: 'الفترة الاستراتيجية'
     },  
     {
         id: "number_fixed_staff",
@@ -917,9 +917,9 @@ const translation_mapping = [
     },
     {
         id: "challenges",
-        en: "3. Challenges",
-        sp: "3. Desafíos",
-        fr: "3. Problèmes",
+        en: "Challenges",
+        sp: "Desafíos",
+        fr: "Problèmes",
         ar: 'التحديات'
     },
     {
@@ -1323,7 +1323,7 @@ const translation_mapping = [
     },
     {
         id: "annual_update",
-        en: "Annual Business Plan Updates",
+        en: "Annual Business Plan",
         sp: "Actualizaciones anuales del plan de negocios",
         fr: "Mises à jour du plan d’activité annuel",
         ar: 'تحديث خطة الأعمال السنوية'

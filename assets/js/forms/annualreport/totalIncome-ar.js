@@ -172,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (user.organisationUnits[0].parent) {
           document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
         }
+        document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
         document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
   
       tei.program = program.arTotalIncome;
