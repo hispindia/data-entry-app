@@ -46,8 +46,8 @@ const maxWords = 200;
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
-    tei.program = program.auProjectDescription;
-    tei.programStage = programStage.auProjectDescription;
+    tei.program = program.auProjectExpenseCategory;
+    tei.programStage = programStage.auProjectExpenseCategory;
 
     fetchEvents();    
   }

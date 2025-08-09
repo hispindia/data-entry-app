@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
-    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+    if(user.annualYearAR) document.getElementById('year-update').value = user.annualYearAR;
 
     fetchEvents();    
   }

@@ -75,7 +75,7 @@ export const meApi = {
 
 export const organisationUnitGroup =  {
   get: async (group) => {
-    const url = `organisationUnitGroups/${group}.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`;
+    const url = `organisationUnitGroups/${group}.json?fields=id,name,description,organisationUnits[id,name,path,code,level,parent[id,name]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();

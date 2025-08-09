@@ -1,7 +1,8 @@
-import { createEvent, getEvents, getProgramStageEvents, getTEI } from "../../api/func.js";
-import { dataElements, program, programStage, tei } from "../../constant.js";
+import { dataSet } from "../../api/dataSet.js";
+import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther } from "../../api/func.js";
+import { dataElements, dataSetQuantity, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { formatNumberInput, getYears } from "../func.js";
+import { formatNumberInput, getYears, unformatNumber } from "../func.js";
 
  const maxWords = 200
  var eventPD = '';
@@ -54,14 +55,19 @@ import { formatNumberInput, getYears } from "../func.js";
     }
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => tei.hideYears.includes(year) ? `<option value="${year}">${year}</option>`: '').join('');
+    document.getElementById('year-update').innerHTML =years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
-
-    tei.program = program.auCommodities;
-    tei.programStage = programStage.auCommoditiesSource;
 
     fetchEvents();    
   }
+    async function fetchDataSet(year) {
+      const values = {};
+      
+      const dataValuesQuantity = await dataSet.getValues(dataSetQuantity, tei.orgUnit, year);
+      dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+  
+      return values;
+    }
 
   async function fetchEvents() {
     tei.year.value = document.getElementById('year-update').value;
@@ -72,41 +78,23 @@ import { formatNumberInput, getYears } from "../func.js";
       
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == tei.program  ||  enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
+        (enroll) => enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
       );
 
-      const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory,tei.year.id) //data vlaues period wise
+      const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value})//data vlaues period wise
         if(dataValuesEC && dataValuesEC[tei.year.value]) {
-          commoditiesEC = calculateExpenseCategory(dataValuesEC, tei.year.value);
+          commoditiesEC = calculateExpenseCategory(dataValuesEC[tei.year.value]);
         }
 
-      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  tei.year.id);
+      const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value]['event']) eventPD =dataValuesPD[tei.year.value]['event']
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
+      else if(tei.userDisabled == "true") tei.disabled = true;
+      else tei.disabled = false;
       
-      tei.dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
-        if (!tei.dataValues[tei.year.value]) {
-          const data = [
-            {
-              dataElement: tei.year.id,
-              value: tei.year.value,
-            }
-          ];
-          tei.dataValues[tei.year.value] = {
-            [tei.year.id]:tei.year.value,
-          }
-          tei.event = {
-            ...tei.event,
-           [tei.year.value]: await createEvent(data)
-          }
-          } else {
-            tei.event = {
-              ...tei.event,
-              [tei.year.value]: tei.dataValues[tei.year.value]["event"]
-            }
-        }
-      
-      populateProgramEvents(tei.dataValues[tei.year.value]);
+      tei.dataValues = await fetchDataSet(tei.year.value);
+
+      populateProgramEvents(tei.dataValues);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -133,8 +121,22 @@ import { formatNumberInput, getYears } from "../func.js";
     $("#accordion").empty();
 
     let projectRows = displaySourceCommodities(dataValues);
-    $("#accordion").append(projectRows);
-
+    $("#accordion").html(projectRows);
+    $('#accordion .textValue').toArray().forEach(el => {
+      el.addEventListener("input", async (ev) => {
+        var { id, value } = ev.target;
+        ev.target.value = formatNumberInput(value);
+        await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement: id, value: unformatNumber(value)});
+        calculateTotals();
+      })
+    });
+    $('#accordion .textlimit').toArray().forEach(el => {
+      el.addEventListener("input", async (ev) => {
+        var { id, value } = ev.target;
+        await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement: id, value: value});
+        checkWords(ev.target);
+      })
+    })
     var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
@@ -189,7 +191,7 @@ import { formatNumberInput, getYears } from "../func.js";
                 $
               </div>
             </div>
-            <input type="text" style="background:${variation >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(Math.round(variation))}" id="${dataElements.sourceCommodities['variation']}" class="form-control difference currency" disabled readonly>
+            <input type="text" style="background:${variation >= 0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" value="${formatNumberInput(Math.round(variation))}" id="${dataElements.sourceCommodities['variation']}" class="form-control difference currency" disabled readonly>
           </div>
         </td>
       </tr>
@@ -219,9 +221,9 @@ import { formatNumberInput, getYears } from "../func.js";
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['unrestricted']}" 
-                  class="input form-control"
+                  class="form-control textValue"
                   value="${formatNumberInput(unrestrictedValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
+                  />
               </div>
           </td>
           <td>
@@ -234,9 +236,9 @@ import { formatNumberInput, getYears } from "../func.js";
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['international']}" 
-                  class="input form-control"
+                  class="form-control textValue"
                   value="${formatNumberInput(internationalValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
+                  />
               </div>
           </td>
           <td>
@@ -249,9 +251,9 @@ import { formatNumberInput, getYears } from "../func.js";
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['local']}" 
-                  class="input form-control"
+                  class="form-control textValue"
                   value="${formatNumberInput(localValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
+                  />
               </div>
           </td>
           <td>
@@ -264,9 +266,9 @@ import { formatNumberInput, getYears } from "../func.js";
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['inkind']}" 
-                  class="input form-control"
+                  class="form-control textValue"
                   value="${formatNumberInput(inkindValue)}" 
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
+                  />
               </div>
           </td>
           <td>
@@ -279,9 +281,9 @@ import { formatNumberInput, getYears } from "../func.js";
                   <input type="text" 
                   ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['other']}" 
-                  class="input form-control"
+                  class="form-control textValue"
                   value="${formatNumberInput(otherValue)}"
-                  oninput="formatNumberInput(this);pushDataElementYear(this.id,unformatNumber(this.value));calculateTotals('')">
+                  />
               </div>
           </td>
           <td>
@@ -305,8 +307,7 @@ import { formatNumberInput, getYears } from "../func.js";
   
                   <textarea class="form-control textlimit"
                   ${tei.disabled ? 'disabled readonly': ''} 
-                  id="${dataElements.sourceCommodities['comment']}" 
-                  oninput="pushDataElementYear(this.id,this.value);checkWords(this, '')">${(dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']]: '')}</textarea>
+                  id="${dataElements.sourceCommodities['comment']}" >${(dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']]: '')}</textarea>
                   <div class="char-counter form-text text-muted"
                       id="counter">${maxWords- (dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']].trim().split(/\s+/).length: 0)} words remaining</div>
   
@@ -332,18 +333,17 @@ function enableAnnualUpdate() {
   if(eventPD) pushDataElementOther(dataElements.submitAnnualUpdate,false, program.auProjectDescription, programStage.auProjectDescription, eventPD)
 }
 
-function calculateTotals(year) {
+async function calculateTotals() {
   var totals = 0;
-  $(`.input`).each(function() {
-    totals += unformatNumber($(this).val());
+  $(`.textValue`).each((_, de) => {
+    totals += unformatNumber($(`#${de.id}`).val());
   })
   $(`.total`).val(formatNumberInput(totals));
-
-  $(`.total`).each(function() {
-    pushDataElementYear(this.id, totals);
-  })
+  await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement:  $('.textValue')[0].id, value: totals});
+  await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement:  $('.difference')[0].id, value: commoditiesEC-totals});
 }
-function calculateExpenseCategory(dataValues, year) {
+
+function calculateExpenseCategory(dataValues) {
   var value = 0;
   dataElements.projectExpenseCategory.forEach(de => {
     if(dataValues[de.commodities]) {
@@ -352,8 +352,8 @@ function calculateExpenseCategory(dataValues, year) {
   })
   return value ? value: 0;
 }
- function checkWords(event, id) {
-      const counter = document.getElementById('counter-' + (id));
+ function checkWords(event) {
+      const counter = document.getElementById('counter');
       const { value } = event;
       const words = value.trim().split(/\s+/)
 

@@ -16,58 +16,43 @@ const maxWords = 200;
       }
     });
   });
-
-  document
-  .getElementById("year-update")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualYearAR", ev.target.value);
-    fetchEvents();
-  });
-
-  document
-  .getElementById("reporting-periodicity")
-  .addEventListener("change", function (ev) {
-    window.localStorage.setItem("annualReporting", ev.target.value);
-    fetchEvents();
-  });
-
-
-    async function configurePage() {
-      const user = await getUserConfig();
-      tei.userDisabled = user.disabled;
+  configurePage();
+  async function configurePage() {
+    const user = await getUserConfig();
+    tei.userDisabled = user.disabled;
   
-      if (user.organisationUnits?.length) {
-        tei.orgUnit = user.organisationUnits[0].id;
-        if (user.organisationUnits[0].parent) {
-          document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
-        }
-
-        document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
-        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-      ['aoc-reporting', 'trt-review'].forEach(page => {
-        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-      })
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-      
-      
-      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
-  
-      const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
-      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
-  
-      tei.program = program.arProjectExpenseCategory;
-      tei.programStage = programStage.arProjectExpenseCategory;
-  
-      fetchEvents();    
+
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(window.localStorage.getItem("hideReporting").includes('core')) {
+      $('.core-users').show();
+    }
+      
+      
+    if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+  
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
+    if(user.annualYearAR) document.getElementById('year-update').value = user.annualYearAR;
+  
+    tei.program = program.arProjectExpenseCategory;
+    tei.programStage = programStage.arProjectExpenseCategory;
+  
+    fetchEvents();    
+  }
 
   async function fetchEvents() {
     tei.projects = [];
@@ -94,13 +79,7 @@ const maxWords = 200;
       else tei.disabled = false;
 
       const dataValuesPE = getEvents(filteredPrograms, program.auProjectExpenseCategory, {id:tei.year.id, value: tei.year.value});
-      if(dataValuesPE[tei.year.value]) {
-        dataElements.projectExpenseCategory.forEach((project) => {
-          if(dataValuesPE[tei.year.value][project.name]) {
-            tei.yearAmount = dataValuesPE[tei.year.value][dataElements.totalBudget]? dataValuesPE[tei.year.value][dataElements.totalBudget] : ''
-          }
-        })
-      }
+
       tei.dataValues={};
       const dataValues = getEventsPeriodicity(filteredPrograms, tei.program, {id:tei.year.id, value: tei.year.value}, {id:tei.periodicity.id, value:tei.periodicity.value}); //data vlaues period wise
       
@@ -121,7 +100,7 @@ const maxWords = 200;
             })
           })
         
-          let calculatedElements = loadCalculatedVariables({}, dataValuesPE[tei.year.value], dataElements, tei.year.value);
+          let calculatedElements = loadCalculatedVariables({}, dataValuesPE[tei.year.value], dataElements);
           calculatedElements.forEach(elements => tei.dataValues[elements.dataElement] = elements.value)
           data = [
             ...data,
@@ -134,7 +113,13 @@ const maxWords = 200;
         tei.event = dataValues['event'];
         tei.dataValues = dataValues;
 
-        let calculatedElements = loadCalculatedVariables(dataValues, dataValuesPE[tei.year.value], dataElements, tei.year.value);
+        let calculatedElements = loadCalculatedVariables(dataValues, dataValuesPE[tei.year.value], {
+            projectExpenseCategory: dataElements.projectExpenseCategory,
+            arProjectExpenseCategory: dataElements.arProjectExpenseCategory,
+            totalBudget: dataElements.totalBudget,
+            totalExpenses: dataElements.totalExpenses,
+            difference: dataElements.difference,
+        });
         calculatedElements.forEach(elements =>  {
           tei.dataValues[elements.dataElement] = elements.value;
           pushDataElement(elements.dataElement, elements.value);
@@ -473,7 +458,20 @@ const maxWords = 200;
     return projectRows;
   }
 
-  configurePage();
+  document
+  .getElementById("year-update")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualYearAR", ev.target.value);
+    fetchEvents();
+  });
+
+  document
+  .getElementById("reporting-periodicity")
+  .addEventListener("change", function (ev) {
+    window.localStorage.setItem("annualReporting", ev.target.value);
+    fetchEvents();
+  });
+
 });
 
 function submitBudgetExpense() {

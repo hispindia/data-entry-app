@@ -37,6 +37,7 @@ export const getUserConfig = async() => {
             organisationUnits: {},
             annualReporting: '',
             annualYear: '',
+            annualYearAR: '',
         };
         const masterOU = window.localStorage.getItem("masterOU");
 
@@ -45,7 +46,8 @@ export const getUserConfig = async() => {
             user['disabled'] = window.localStorage.getItem("userDisabled");
             user['hideReporting'] = window.localStorage.getItem("hideReporting");
             user['annualReporting'] = window.localStorage.getItem("annualReporting");
-            user['annualYear'] = window.localStorage.getItem("annualYear")
+            user['annualYear'] = window.localStorage.getItem("annualYear");
+            user['annualYearAR'] = window.localStorage.getItem("annualYearAR");
         }
         else {
             user = await getMeData();

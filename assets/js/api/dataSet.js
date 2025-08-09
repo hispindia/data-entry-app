@@ -28,20 +28,11 @@ export const dataSet = {
       de: dataElement,
       value: value
   }
-  try {
-  $.ajax( {
-		url: `dataValues`,
-		data: dataValue,
-		type: 'post',
-		success: handleSuccess,
-		// error: handleError
-	} );
-  function handleSuccess() {
-    console.log('success')
+  const url = `dataValues`;
+    try {
+      await BaseApi({url, method:"POST", payload:dataValue, mode: 'dataset'});
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   }
-    // return response.json();
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-}
 }
