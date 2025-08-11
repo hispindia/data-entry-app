@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchEvents() {
     tei.year.value = document.getElementById("year-update").value;
     
+    //organization data
     const data = await getTEI(tei.orgUnit);
     
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -65,9 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
         (enroll) => enroll.program == tei.program || enroll.program == program.auProjectDescription || enroll.program == program.auOrganisationDetails 
       );
 
+      //get membership details
       const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id:tei.year.id,value: tei.year.value});
       if(dataValuesOD[tei.year.value] && dataValuesOD[tei.year.value][dataElements.yearAmount]) tei.yearAmount = dataValuesOD[tei.year.value][dataElements.yearAmount]
 
+      //get project description
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value});
       
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
@@ -77,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (dataValuesPD[tei.year.value]) {
         tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
       }
+      //get proj budget data
       tei.dataValues = getEvents(filteredPrograms, tei.program, {id:tei.year.id, value: tei.year.value}); //data vlaues period wise
       
       if (!tei.dataValues[tei.year.value]) {
@@ -234,9 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <table class="table table-striped table-md mb-0 " width="100%">
               <thead>
                 <tr>
-                  <th data-i18n="">Donor Budget</th>
+                  <th data-i18n="">Basic Project Budget</th>
                   <th data-i18n="intro.core_funding">IPPF Core Funding Allocated</th>
-                  <th data-i18n="intro.total_budget">Total Budget</th>
+                  <th data-i18n="intro.total_budget">Total Annual Budget</th>
                   <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
                 </tr>
               </thead>

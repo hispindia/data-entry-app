@@ -367,7 +367,7 @@ const translation_mapping = [
     },
     
     {
-        id: "other",
+        id: "Project budget based on focus area",
         en: "06. Other (please write below)",
         sp: "06. Otro (especificar a continuación)",
         fr: "06. Autres (veuillez préciser ci-dessous)",
@@ -742,23 +742,25 @@ const translation_mapping = [
         ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
     },
     
+    //wrong translation as en changed
     {
         id: "key_audits",
-        en: "Please upload key audits reports documents",
+        en: "Please upload key audits reports documents (if the most recent audit reports was submitted in 2024 Annual Reporting, please leave it as is)",
         sp: "Cargue documentos clave de informes de auditoría",
         fr: "Veuillez télécharger les documents des rapports d'audit clés",
         ar: 'يرجى تحميل وثائق تقارير التدقيق الرئيسية'
     },
     {
         id: "memorandum_understanding_upload",
-        en: "Please upload valid Memorandum of Understanding with your Government, if in place",
+        en: "Please upload valid Memorandum of Understanding with your Government, if in place and available",
         sp: "Suba un memorando de entendimiento válido con su gobierno, de estar vigente",
         fr: "Veuillez télécharger le protocole d’accord en cours de validité que vous avez conclu avec votre gouvernement, le cas échéant",
         ar: "نرجو تحميل مذكرة التفاهم الصحيحة التي تم إبرامها مع حكومة بلدكم، إن وجدت"
     },
+    // en changed wrong translation
     {
         id: "partner_agreement_upload",
-        en: "Please upload valid Implementing Partner Agreement with UNFPA (Supplies), if in place",
+        en: "Please upload valid Implementing Partner Agreement with UNFPA (Supplies), if in place and available",
         sp: "Suba un acuerdo de los socios ejecutores con el UNFPA (Supplies), de estar vigente",
         fr: "Veuillez télécharger l’accord de partenaire de mise en œuvre en cours de validité que vous avez conclu avec l’UNFPA (Supplies), le cas échéant",
         ar:  "نرجو تحميل اتفاقية الشريك التنفيذي الصحيحة التي أبرمت مع صندوق الأمم المتحدة للسكان (الإمدادات)، إن وجدت"
@@ -864,6 +866,13 @@ const translation_mapping = [
         fr: "À un horizon sur trois ans, décrivez les risques et les problèmes externes critiques liés à la réalisation de votre plan d’activité (par ex., d’ordre politique, économique), et vos efforts pour y remédier/les atténuer.",
         ar: "من منظور يمتد لثلاث سنوات، وضح المخاطر والتحديات الخارجية بالغة الأهمية التي تواجهكم في تنفيذ خطة عملكم (على سبيل المثال، السياسية والاقتصادية)، والجهود التي تبذلونها للتغلب عليها/تخفيفها."
     },
+    {
+        id: "other",
+        en: "Other",
+        sp: "Otro",
+        fr: "Autre",
+        ar: "غير ذلك "
+    },
     // created by MN with sheet translation
     {
         id: "youth_leadership",
@@ -885,6 +894,13 @@ const translation_mapping = [
         sp: "Describa los resultados estratégicos esperados (hasta cinco) a mediano plazo (3 años).",
         fr: "Décrivez vos résultats stratégiques (5 au maximum) attendus à moyen terme (3 ans).",
         ar: "وضح النتائج الاستراتيجية التي تتوقعون تحقيقها على المدى المتوسط (3 سنوات) (حتى خمس سنوات)."
+    },
+    {
+        id: "start_pillar_1",
+        en: "IPPF Start Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in national four regions.",
+        sp: "Por ejemplo: IPPF Start Pilar 1: Para diciembre de 2026, implementar al menos tres intervenciones nacionales de salud digital en cuatro regiones nacionales.",
+        fr: "Par exemple : IPPF Start Pilier 1 : D’ici décembre 2026, déployer au moins trois interventions nationales de santé numérique dans quatre régions nationales.",
+        ar: "على سبيل المثال: الركيزة الأولى لبرنامج IPPF Start: بحلول ديسمبر 2026، تم تنفيذ ما لا يقل عن ثلاث تدخلات وطنية في مجال الصحة الرقمية في أربع مناطق وطنية."
     },
     {
         id: "youth_involvement",
@@ -955,8 +971,8 @@ const translation_mapping = [
         id: "operational_challenges_description",
         en: "For example: administration, logistics, supply chain, demand, etc.",
         sp: "Por ejemplo: administración, logística, cadena de suministro, demanda, etc.",
-        fr: "Par exemple : administration, logistique, chaîne d’approvisionnement, demande, etc.",
-        ar: 'مثل الإدارة، واللوجستيات، وسلسلة التوريد، والطلب، وما إلى ذلك.'
+        fr: "Par exemple : administration, logistique, chaîne d'approvisionnement, demande, etc.",
+        ar: "على سبيل المثال: الإدارة، اللوجستيات، سلسلة الإمداد، الطلب، إلخ."
     },
     // created by MN 
     {
@@ -1060,6 +1076,13 @@ const translation_mapping = [
         sp: "Tipo de financiamiento:",
         fr: "Type de financement :",
         ar: "نوع التمويل:"
+    },
+    {
+        id: "total_contract_value",
+        en: "Total Contract Value",
+        sp: " Valor total del contrato",
+        fr: "Valeur totale du contrat",
+        ar: "القيمة الإجمالية للعقد"
     },
     {
         id: "start_date",
@@ -1875,8 +1898,9 @@ const translation_mapping = [
         ar: "<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>لكل مشروع، يرجى تقديم توزيع للتكاليف حسب مجالات تركيز المشروع المستخدمة (يتم اختيارها من القائمة المنسدلة).</p><p>يمكن أن يحتوي المشروع الواحد على عدة مجالات تركيز. يرجى استخدام صف جديد لكل مجال تركيز مرتبط مباشرة بالمشروع (على سبيل المثال، المشروع الذي يشمل كلًا من العيادة المتنقلة والعيادة الثابتة يجب أن يُدرج في صفّين).</p><p>يرجى تقدير تكلفة العمل ضمن كل مجال تركيز في المشروع؛ ونظرًا لأن وقت الموظفين قد يكون موزعًا بين عدة مجالات تركيز، يرجى استخدام أفضل تقدير لديك لنسبة الوقت المخصص لكل مجال تركيز للوصول إلى توزيع التكلفة. نرجو التأكد من عدم تغيير مجال التركيز المخصص لأي مشروع في عام 2023 عند تحديثه لعام 2024.</p><p>يوضح الجدول المرجعي على اليمين (العمود Q، الصف 17) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب مجالات التركيز، بحيث يمكنك معرفة ما إذا كان لا يزال هناك جزء لم يتم تخصيصه بعد.</p>"
     },
     {
+        //chaged en
         id: "total_budget",
-        en: "Total Budget",
+        en: "Total Annual Budget",
         sp: "Presupuesto total",
         fr: "Budget total",
         ar: 'الميزانية الإجمالية'

@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}">
-                <option ${(values['theme']=="") ? "selected": ''} value=""><span data-i18n="">Choose</span></option>
+                <option ${(values['theme']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
                 <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
                 <option ${(values['theme']=="General Contraception") ? "selected": ''} value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
                 <option ${(values['theme']=="Digital Health Interventions & Selfcare") ? "selected": ''} value="Digital Health Interventions & Selfcare"><span data-i18n="intro.focus_area_5">Digital Health Interventions & Selfcare</span></option>
@@ -202,14 +202,14 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
           <label for="${project.funding}"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.funding}">
-                <option ${(values['funding']=="") ? "selected": ''} value="">Choose</option>
+                <option ${(values['funding']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
                 <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted">Restricted</option>
                 <option ${(values['funding']=="Unrestricted") ? "selected": ''} value="Unrestricted">Unrestricted</option>
               </select>
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.contract}"><span data-i18n="">Total Contract Value:</span> </label>
+            <label for="${project.contract}"><span data-i18n="intro.total_contract_value">Total Contract Value:</span> </label>
             <input type="text" id="${project.contract}"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textValue"
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="${project.donor}"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" value="${values['donor']}">
-                <option ${(values['donor']=="") ? "selected": ''} value=""><span data-i18n="">Choose</span></option>
+                <option ${(values['donor']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
                 <option ${(values['donor']=="Government of Australia / DFAT") ? "selected": ''} value="Government of Australia / DFAT"><span data-i18n="intro.g_aus">Government of Australia / DFAT</span></option>
                 <option ${(values['donor']=="Government of Canada / GAC") ? "selected": ''} value="Government of Canada / GAC"><span data-i18n="intro.g_can">Government of Canada / GAC</span></option>
                 <option ${(values['donor']=="Government of China") ? "selected": ''} value="Government of China"><span data-i18n="intro.g_ch">Government of China</span></option>
