@@ -741,29 +741,26 @@ const translation_mapping = [
         fr: "Veuillez télécharger les principaux documents du rapport annuel",
         ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
     },
-    
-    //wrong translation as en changed
     {
         id: "key_audits",
         en: "Please upload key audits reports documents (if the most recent audit reports was submitted in 2024 Annual Reporting, please leave it as is)",
-        sp: "Cargue documentos clave de informes de auditoría",
-        fr: "Veuillez télécharger les documents des rapports d'audit clés",
-        ar: 'يرجى تحميل وثائق تقارير التدقيق الرئيسية'
+        sp: "Por favor, cargue los documentos clave de los informes de auditoría (si el informe de auditoría más reciente fue presentado en el Informe Anual 2024, déjelo tal como está).",
+        fr: "Veuillez télécharger les documents clés des rapports d’audit (si le rapport d’audit le plus récent a été soumis dans le rapport annuel 2024, laissez-le tel quel).",
+        ar: 'يرجى تحميل الوثائق الرئيسية لتقارير التدقيق (إذا تم تقديم أحدث تقارير التدقيق في التقرير السنوي لعام 2024، يرجى تركها كما هي).'
     },
     {
         id: "memorandum_understanding_upload",
         en: "Please upload valid Memorandum of Understanding with your Government, if in place and available",
-        sp: "Suba un memorando de entendimiento válido con su gobierno, de estar vigente",
-        fr: "Veuillez télécharger le protocole d’accord en cours de validité que vous avez conclu avec votre gouvernement, le cas échéant",
-        ar: "نرجو تحميل مذكرة التفاهم الصحيحة التي تم إبرامها مع حكومة بلدكم، إن وجدت"
+        sp: "Por favor, cargue un Memorando de Entendimiento válido con su Gobierno, si existe y está disponible.",
+        fr: "Veuillez télécharger un protocole d’accord valide avec votre gouvernement, s’il existe et est disponible.",
+        ar: "يرجى تحميل مذكرة تفاهم سارية مع حكومتكم، إذا كانت موجودة ومتاحة."
     },
-    // en changed wrong translation
     {
         id: "partner_agreement_upload",
         en: "Please upload valid Implementing Partner Agreement with UNFPA (Supplies), if in place and available",
-        sp: "Suba un acuerdo de los socios ejecutores con el UNFPA (Supplies), de estar vigente",
-        fr: "Veuillez télécharger l’accord de partenaire de mise en œuvre en cours de validité que vous avez conclu avec l’UNFPA (Supplies), le cas échéant",
-        ar:  "نرجو تحميل اتفاقية الشريك التنفيذي الصحيحة التي أبرمت مع صندوق الأمم المتحدة للسكان (الإمدادات)، إن وجدت"
+        sp: "Por favor, cargue un Acuerdo de Socio Implementador válido con el UNFPA (Suministros), si existe y está disponible.",
+        fr: "Veuillez télécharger un accord valide de partenaire d’exécution avec l’UNFPA (Fournitures), s’il existe et est disponible.",
+        ar: "يرجى تحميل اتفاقية شريك منفذ سارية مع صندوق الأمم المتحدة للسكان (الإمدادات)، إذا كانت موجودة ومتاحة."
     },
     {
         id: "other1",
@@ -1818,8 +1815,15 @@ const translation_mapping = [
         id: "budget",
         en: "Budget",
         sp: "Presupuesto",
-        fr: "",
+        fr: "Budget",
         ar: 'الميزانية'
+    },
+    {
+        id: "basic_project_budget",
+        en: "Basic Project Budget",
+        sp: "Presupuesto básico del proyecto"  ,
+        fr: "Budget de base du projet",
+        ar: " الميزانية الأساسية للمشروع"
     },
     {
         id: "core_funding",
@@ -1898,12 +1902,12 @@ const translation_mapping = [
         ar: "<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>لكل مشروع، يرجى تقديم توزيع للتكاليف حسب مجالات تركيز المشروع المستخدمة (يتم اختيارها من القائمة المنسدلة).</p><p>يمكن أن يحتوي المشروع الواحد على عدة مجالات تركيز. يرجى استخدام صف جديد لكل مجال تركيز مرتبط مباشرة بالمشروع (على سبيل المثال، المشروع الذي يشمل كلًا من العيادة المتنقلة والعيادة الثابتة يجب أن يُدرج في صفّين).</p><p>يرجى تقدير تكلفة العمل ضمن كل مجال تركيز في المشروع؛ ونظرًا لأن وقت الموظفين قد يكون موزعًا بين عدة مجالات تركيز، يرجى استخدام أفضل تقدير لديك لنسبة الوقت المخصص لكل مجال تركيز للوصول إلى توزيع التكلفة. نرجو التأكد من عدم تغيير مجال التركيز المخصص لأي مشروع في عام 2023 عند تحديثه لعام 2024.</p><p>يوضح الجدول المرجعي على اليمين (العمود Q، الصف 17) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب مجالات التركيز، بحيث يمكنك معرفة ما إذا كان لا يزال هناك جزء لم يتم تخصيصه بعد.</p>"
     },
     {
-        //chaged en
+       
         id: "total_budget",
         en: "Total Annual Budget",
-        sp: "Presupuesto total",
-        fr: "Budget total",
-        ar: 'الميزانية الإجمالية'
+        sp: "Presupuesto Anual Total",
+        fr: "Budget Annuel Total",
+        ar: 'إجمالي الميزانية السنوية'
     },
     {
         id: "project_based_area",

@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <table class="table table-striped table-md mb-0 " width="100%">
               <thead>
                 <tr>
-                  <th data-i18n="">Basic Project Budget</th>
+                  <th data-i18n="intro.basic_project_budget">Basic Project Budget</th>
                   <th data-i18n="intro.core_funding">IPPF Core Funding Allocated</th>
                   <th data-i18n="intro.total_budget">Total Annual Budget</th>
                   <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
