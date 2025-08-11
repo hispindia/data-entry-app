@@ -149,23 +149,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document
-    .getElementById("year-update")
-    .addEventListener("change", function (ev) {
-      window.localStorage.setItem("annualYearAR", ev.target.value);
-      fetchEvents();
-    });
-
-    document
-    .getElementById("reporting-periodicity")
-    .addEventListener("change", function (ev) {
-      window.localStorage.setItem("annualReporting", ev.target.value);
-      fetchEvents();
-    });
-  
+    configurePage()
     async function configurePage() {
       const user = await getUserConfig();
-      tei.disabled = user.disabled;
+      tei.userDisabled = user.disabled;
   
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
@@ -190,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year ? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYearAR) document.getElementById('year-update').value = user.annualYearAR;
   
       tei.program = program.arTotalIncome;
@@ -287,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     rows += `<tr>
                 <td>
-                <input type="value" value="${organisation}" id="${dataElements.organisation}" oninput="pushDataElement(this.id,this.value)" class="form-control currency">     
+                <input type="value" value="${organisation}" id="${dataElements.organisation}" class="form-control textArea currency">     
                 </td>
                 <td>
                     <div class="input-group">
@@ -296,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $
                       </div>
                     </div>
-                    <input type="text" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled' : ''}  value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}" oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value))" class="form-control currency">                     
+                    <input type="text" ${tei.disabled ? 'disabled readonly': ''} ${tei.disabledYear[year] ? 'disabled' : ''}  value="${formatNumberInput(incomeProvided)}" id="${dataElements.incomeProvided}" class="form-control textValue currency">                     
                     </div>
                 </td>
             </tr>`
@@ -411,8 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${tei.disabled ? 'disabled readonly': ''} 
               id="${restrictedId}" 
               value="${formatNumberInput(restricted)}" 
-              oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${restrictedId}', '${unrestrictedId}', '${category.shortName}')" 
-              class="form-control input-restricted-${category.shortName} currency">
+              class="form-control input-restricted textValue  currency">
             </div>
           </td>
           <td>
@@ -424,9 +410,8 @@ document.addEventListener("DOMContentLoaded", function () {
               type="text" 
               ${tei.disabled ? 'disabled readonly': ''} 
               id="${unrestrictedId}" 
-              value="${formatNumberInput(unrestricted)}" 
-              oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${restrictedId}', '${unrestrictedId}', '${category.shortName}')" 
-              class="form-control input-unrestricted-${category.shortName} currency">
+              value="${formatNumberInput(unrestricted)}"  
+              class="form-control input-unrestricted textValue currency">
             </div>
           </td>
           <td>
@@ -451,7 +436,20 @@ document.addEventListener("DOMContentLoaded", function () {
     return projectRows;
   }
 
-  configurePage();
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualYearAR", ev.target.value);
+      fetchEvents();
+    });
+
+    document
+    .getElementById("reporting-periodicity")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualReporting", ev.target.value);
+      fetchEvents();
+    });
+  
 });
 
 async function disableAnnualUpdate() {

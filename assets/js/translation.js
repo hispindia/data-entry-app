@@ -1988,18 +1988,17 @@ const translation_mapping = [
     },
     {
         id: "focus_area_5",
-        en: "P1. Digital Health Interventions & Selfcare",
-        sp: "P1. Intervenciones de salud digital y autocuidado",
-        fr: "P1. Interventions de santé numérique et soins auto-administrés",
-        ar: 'م1. التدخلات الصحية الرقمية والرعاية الذاتية'
+        en: "5. Care: Digital Health Intervention and Selfcare",
+        sp: "5. Atención: intervención de salud digital y autocuidado",
+        fr: "5. Soins : Interventions de santé numérique et soins auto-administrés",
+        ar: "5. الرعاية: التدخل الصحي الرقمي والرعاية الذاتية"
     },
     {
-        //change 
         id: "focus_area_6",
-        en: "P2. Advocacy & Norms Change",
-        sp: "P2. Incidencia y cambio de normas",
-        fr: "P2. Plaidoyer et changement des normes",
-        ar: "م2. المناصرة وتغيير المعايير"
+        en: "6. Advocacy",
+        sp: "6. Incidencia política",
+        fr: "6. Plaidoyer",
+        ar: "6. الدعوة"
     },
     {
         id: "focus_area_7",

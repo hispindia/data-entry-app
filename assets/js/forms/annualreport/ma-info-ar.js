@@ -1,4 +1,4 @@
-import { createEvent, createEventOther, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
+import { createEvent, createEventOther, getProgramStagePeriodicity, getTEI, pushDataElement, pushDataElementOther } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { disableAll, getYears } from '../func.js';

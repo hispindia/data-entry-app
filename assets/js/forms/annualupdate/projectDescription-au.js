@@ -295,9 +295,9 @@ document.addEventListener("DOMContentLoaded", function () {
         class="form-control-resize textlimit" 
         id="${project.description}" 
         ${tei.disabled ? 'disabled readonly': ''}>${values['description']}</textarea>
-        <div class="char-counter form-text text-muted" id="counter-${
+        <div class="char-counter form-text text-muted"> <span id="counter-${
           project.description
-        }">${maxWords - (values['description'] ? values['description'].trim().split(/\s+/).length : 0)} words remaining</div>
+        }">${maxWords - (values['description'] ? values['description'].trim().split(/\s+/).length : 0)}</span> <span data-i18n="intro.words_remaining">words remaining</span></div>
         <div class="invalid-feedback"> Error here </div>
     </div>
   </div><hr>`;
@@ -332,8 +332,8 @@ document.addEventListener("DOMContentLoaded", function () {
       event.value = words.slice(0, maxWords).join(' ');
       return
     }
-    if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-    else counter.textContent = `${maxWords} words remaining`;
+    if (value) counter.textContent = `${(maxWords - words.length)}`;
+    else counter.textContent = `${maxWords}`;
   }
 
 });
