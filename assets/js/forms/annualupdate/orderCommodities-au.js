@@ -7,7 +7,6 @@ import { formatNumberInput, getYears } from "../func.js";
 var combinedCost = 0;
 
 var unrestrictedCost = 0;
-var estimatedCost = 0;
 
 var freightCostT1 = 1;
 var freightCostT2 =  0.4;
@@ -82,7 +81,6 @@ async function configurePage() {
   async function fetchEvents() {
     combinedCost = 0;    
     unrestrictedCost = 0;
-    estimatedCost = 0;
 
     tei.year.value = document.getElementById('year-update').value;
     const dataSet = await fetchDataSet(tei.year.value);
@@ -162,7 +160,7 @@ async function configurePage() {
   }
 
   function displayTotals() {
-    estimatedCost = calculateFreightCost(combinedCost);
+    var estimatedCost = calculateFreightCost(combinedCost);
     
     var totalsRow  =` <tr>
     <td>
@@ -201,7 +199,7 @@ async function configurePage() {
   }
 
   function displayCombinedCost() {
-    estimatedCost = calculateFreightCost(combinedCost);
+    var estimatedCost = calculateFreightCost(combinedCost);
     var totalsRow  =` <tr>
     <td>
       <div class="input-group">
@@ -291,19 +289,18 @@ async function configurePage() {
 
   function addRow(dataElement, dataSetValues, productCodeIds) {
     if(!dataSetValues[dataElement.id] || !dataElement.quantity || !dataElement.price) return '';
-    console.log(dataElement)
     const blockField = productCodeIds.includes(dataElement.code);
     const rate = dataSetValues[dataElement.id] ? dataSetValues[dataElement.id]: '';
     const quantity = dataSetValues[dataElement.quantity] ? dataSetValues[dataElement.quantity]: '';
     const price = dataSetValues[dataElement.price] ? dataSetValues[dataElement.price]: '';
     const description = dataElement.description.split(';');
     const notes = description[3] ? description[3]: '';
-    combinedCost += rate && quantity ? Number(rate * quantity) : 0;
+    combinedCost += rate && quantity ? Math.round(rate * quantity) : 0;
     const formula = description[4] ? description[4]: '';
 
     var row = `<tr>
     <td>${dataElement.code}</td>
-    <td>${dataElement.name}</td>
+    <td id="${dataElement.quantity}-name">${dataElement.name}</td>
     <td>${(description[0] ? description[0]: '')}</td>
     <td>${(description[1] ? description[1]: '')}</td>
     <td>${(description[2] ? description[2]: '')}</td>
@@ -413,7 +410,7 @@ async function addValuesCV(id) {
   var totalCost = 0;
   $('.textValue').each((_, de) => {
     const quantity = $(`#${de.id}`).val()
-    const rate = $(`input[name="${id}-rate"]`).val();
+    const rate = $(`input[name="${de.id}-rate"]`).val();
     totalCost += rate && quantity ? Math.round(rate * quantity) : 0;
   })
 

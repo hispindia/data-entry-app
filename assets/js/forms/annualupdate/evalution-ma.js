@@ -21,79 +21,45 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchOrganizationUnitUid()
     });
 
+  configurePage();
+  async function configurePage() {
+    const user = await getUserConfig();
+    tei.userDisabled = user.disabled;
 
-  async function fetchOrganizationUnitUid() {
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      var data;
-      const masterOU = window.localStorage.getItem("masterOU");
-      if (masterOU) {
-        data = { organisationUnits: [{ ...JSON.parse(masterOU) }] };
-        tei.disabled = window.localStorage.getItem("userDisabled");
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-      if (!data) {
-        data = await response.json();
-
-        const userConfig = userGroupConfig(data)
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-      }
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name : '';
-
-        document.getElementById("headerOrgName").value =
-          data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value =
-          data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;;
-          }
-        }
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!user.hideReporting.includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(user.hideReporting.includes('core')) {
+      $('.core-users').show();
+    }
+
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
+    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+
+    tei.program = program.roTRTFeedback;
+    tei.programStage = programStage.trtFeedback;
+
+    fetchEvents();    
   }
 
   async function fetchEvents() {
 
-    tei.program = program.roTRTFeedback;
-    tei.programStage = programStage.trtFeedback;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-
-    tei.year = {
-      ...tei.year,
-      start: dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
-    }
-    const data = await events.get(tei.orgUnit);
+    tei.year.value = document.getElementById('year-update').value;
+    
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -103,23 +69,23 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program
         );
 
-      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, dataElements.period.id) //data vlaues year wise
+      dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(dataValuesSummaryA[dataElements.period.value]) {
         eventSummaryAId = dataValuesSummaryA[dataElements.period.value]['event'];
         if(dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun'] && dataValuesSummaryA[dataElements.period.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
       } 
-      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
+      dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(dataValuesSummaryB[dataElements.period.value]) {
         eventSummaryBId = dataValuesSummaryB[dataElements.period.value]['event'];
       }
 
-      dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, dataElements.period.id) //data vlaues year wise
-      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, dataElements.period.id) //data vlaues year wise
+      dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if (!tei.dataValues[dataElements.period.value]) {
         tei.dataValues[dataElements.period.value] = {}
         let data = [{
-          dataElement: dataElements.period.id,
-          value: dataElements.period.value
+          dataElement: tei.year.id,
+          value: tei.year.value
         }];
         tei.event = await createEvent(data);
         data.forEach(element => {
@@ -132,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if(!eventSummaryAId) {
         let data = [{
-          dataElement: dataElements.period.id,
+          dataElement: tei.year.id,
           value: dataElements.period.value
         }];
         eventSummaryAId = await createEventOther({
@@ -146,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if(!eventSummaryBId) {
         let data = [{
-          dataElement: dataElements.period.id,
+          dataElement: tei.year.id,
           value: dataElements.period.value
         }];
         eventSummaryBId = await createEventOther({
@@ -197,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function () {
     calculateCriteria();
   }
 
-  fetchOrganizationUnitUid();
 });
 function submitNarrative() {
   alert("Event Saved SuccessFully")

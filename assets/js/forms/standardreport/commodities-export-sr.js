@@ -1,7 +1,7 @@
 import { eventApi } from '../../api/DataApi.js';
 import { dataSet } from '../../api/dataSet.js';
 import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
-import { tei, dataElements, dataSetPrice, program, programStage } from '../../constant.js';
+import { tei, dataElements, dataSetPrice, program, programStage, dataSetQuantity } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function configurePage() {
       try {
         const user = await getUserConfig();
-         tei.disabled = user.disabled;
+         tei.userDisabled = user.disabled;
              
          if (user.organisationUnits?.length) {
            tei.orgUnit = user.organisationUnits[0].id;
@@ -49,11 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
          if(window.localStorage.getItem("hideReporting").includes('core')) {
            $('.core-users').show();
          }
-         
-         if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
              
          const years = getYears(tei.year.start, tei.year.end);
-         document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+         document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
          if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
        
          const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
@@ -88,11 +86,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchDataSet(orgUnit, year) {
     const values = {};
-    const dataSetElements = await dataSet.getElements(dataSetPrice);
-    const dataValueSet = await dataSet.getValues(dataSetPrice, orgUnit,year);
-    dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    const dataElementsPrice = await dataSet.getElements(dataSetPrice);
+    const dataElementsQuantity = await dataSet.getElements(dataSetQuantity);
+    const dataValuesPrice = await dataSet.getValues(dataSetPrice, orgUnit,year);
+    const dataValuesQuantity = await dataSet.getValues(dataSetQuantity, orgUnit, year);
+    dataValuesPrice.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+    var quantities = {};
+    dataElementsQuantity.sections.forEach(quantity => quantity.dataElements.forEach(de => quantities[de.code] = de.id));
+    dataElementsPrice.sections.forEach(price => {
+      price.dataElements.forEach(de => {
+        de['quantity'] = quantities[`${de.code}-quantity`] ? quantities[`${de.code}-quantity`]: ''
+        de['price'] = quantities[`${de.code}-price`] ? quantities[`${de.code}-price`]: ''
+      })
+    })
+
     return {
-      dataElements: dataSetElements,
+      dataElements: dataElementsPrice.sections,
       values
     }
   }
@@ -111,12 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
         const dsValues = await fetchDataSet(ou.id, year);
         dataSetOUValues.push(dsValues);
-        const event = await eventApi.fromStage(ou.id, tei.program,tei.programStage);
-        if(event.trackedEntityInstances.length) {
-          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program);
-          const dataValues =  getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,tei.year.id) //data vlaues period wise
-          if(dataValues && dataValues[year]) dataElementOUValues[ou.id] = dataValues[year]
-        }
+        dataElementOUValues[ou.id] = dsValues.values;
       }
     }
     
@@ -125,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Function to populate program events data
-  function populateProgramEvents(level2OU, dataSetOUValues,dataValues) {
+  function populateProgramEvents(level2OU, dataSetOUValues, dataValues) {
 
     var tableHead = `<tr>
                       <th colspan="6" style="background:#276696;color:white;text-align:center;">Product requested</th>
@@ -169,32 +175,29 @@ document.addEventListener("DOMContentLoaded", function () {
         level2OU.forEach(headOU => {
           ouLength += headOU.children.length
         });
-      dataSet[0].dataElements.sections.forEach(section => {
-        if(rowIndex<=productList) {
+      
+      dataSet[0].dataElements.forEach(section => {
           tableBody += `<tr><td colspan="${(8+(ouLength*2))}" style="background:#50C878;font-weight:bold">${section.name}</td></tr>`
           section.dataElements.forEach((dataElement) => {
-         
-          const rate = dataSet[0]['values'][dataElement.id] ? dataSet[0]['values'][dataElement.id]: '';
-          const description = dataElement.description.split(';');
-          const rowVal = rowValues(level2OU, rowIndex, dataValues);
+            if(!dataElement.quantity || !dataElement.price) return;  
+            const rate = dataSet[0]['values'][dataElement.id] ? dataSet[0]['values'][dataElement.id]: '';
+            const description = dataElement.description.split(';');
+            const rowVal = rowValues(level2OU, dataElement, dataValues);
 
-          const totalQuantityVal = rowVal.totalQuantityVal;
-          const totalPrice = rowVal.totalPrice;
+            const totalQuantityVal = rowVal.totalQuantityVal;
+            const totalPrice = rowVal.totalPrice;
 
-          tableBody +=`<tr>
-          <td>${dataElement.code}</td>
-          <td>${dataElement.name}</td>
-          <td>${(description[0] ? description[0]: '')}</td>
-          <td>${(description[1] ? description[1]: '')}</td>
-          <td>${(description[2] ? description[2]: '')}</td>
-          <td>${rate}</td>
-          <td>${totalQuantityVal}</td>
-          <td>${formatNumberInput(totalPrice)}</td>
-          ${rowVal.row}`;
-          
-          rowIndex++;
+            tableBody +=`<tr>
+            <td>${dataElement.code}</td>
+            <td>${dataElement.name}</td>
+            <td>${(description[0] ? description[0]: '')}</td>
+            <td>${(description[1] ? description[1]: '')}</td>
+            <td>${(description[2] ? description[2]: '')}</td>
+            <td>${rate}</td>
+            <td>${totalQuantityVal}</td>
+            <td>${formatNumberInput(totalPrice)}</td>
+            ${rowVal.row}`;
           })
-        }
       })
 
         tableBody +=`<tr>
@@ -220,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return tableBody;
   }
 
-  function rowValues(level2OU, rowIndex, dataValues) {
+  function rowValues(level2OU, dataElement, dataValues) {
     var row = '';
 
     var totalPrice = 0;
@@ -230,8 +233,8 @@ document.addEventListener("DOMContentLoaded", function () {
     level2OU.forEach(headOU => {
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       headOU.children.forEach(ou=> {
-        const quantityVal = dataValues[ou.id] && dataValues[ou.id][dataElements.projectCommodities[rowIndex].quantity] ? dataValues[ou.id] && dataValues[ou.id][dataElements.projectCommodities[rowIndex].quantity]: '';
-        const price = dataValues[ou.id] && dataValues[ou.id][dataElements.projectCommodities[rowIndex].price] ? dataValues[ou.id] && dataValues[ou.id][dataElements.projectCommodities[rowIndex].price]: '';
+        const quantityVal = dataValues[ou.id] && dataValues[ou.id][dataElement.quantity] ? dataValues[ou.id][dataElement.quantity]: '';
+        const price = dataValues[ou.id] && dataValues[ou.id][dataElement.price] ?  dataValues[ou.id][dataElement.price]: '';
         row += `<td>${quantityVal}</td><td>${price}</td>`;
 
         totalQuantityVal += Number(quantityVal);
