@@ -161,8 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
     ${tei.disabled ? 'disabled readonly': ''}
     id="${dataElements.valuesCoreFunding.comments}" 
     rows="5" cols="100">${comments}</textarea>
-    <div class="char-counter form-text text-muted" id="counter">
-    ${maxWords -(comments? comments.trim().split(/\s+/).length: 0)} words remaining.
+    <div class="char-counter form-text text-muted">
+    <span id="counter">${maxWords -(comments? comments.trim().split(/\s+/).length: 0)}</span>
+    <span data-i18n="intro.words_remaining">words remaining</span>
     </div>
     <div class="invalid-feedback"> Error here </div>`
     document.getElementById('comments').innerHTML = description;

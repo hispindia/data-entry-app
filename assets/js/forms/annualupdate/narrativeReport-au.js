@@ -122,11 +122,11 @@ const maxWords = {
     document.querySelectorAll('.textValue').forEach((textVal,index) => {
       if(dataValues[textVal.id]) {
         textVal.value = dataValues[textVal.id];
-        $(`#counter${index+1}`).text(`${(maxWords[`counter${index+1}`]- (textVal.value ? textVal.value.trim().split(/\s+/).length: 0))} words remaining`)
+        $(`#counter${index+1}`).text(`${(maxWords[`counter${index+1}`]- (textVal.value ? textVal.value.trim().split(/\s+/).length: 0))}`)
       }
       else {
         textVal.value = '';
-        $(`#counter${index+1}`).text(`${maxWords[`counter${index+1}`]} words remaining`)
+        $(`#counter${index+1}`).text(`${maxWords[`counter${index+1}`]}`)
       }
     })
   }
@@ -162,9 +162,9 @@ const maxWords = {
 
 
         if (textarea.value) {
-          counter.innerHTML = `${maxCount - words.length} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
+          counter.innerHTML = `${maxCount - words.length}`;
         } else {
-          counter.innerHTML = `${maxCount} <span class="hidden" data-i18n="intro.words_remaining">words remaining</span>`;
+          counter.innerHTML = `${maxCount}`;
         }
       };
         textarea.addEventListener('input', updateCounter);

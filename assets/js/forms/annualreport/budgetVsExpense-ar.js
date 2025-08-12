@@ -417,9 +417,10 @@ const maxWords = 200;
                             >${dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment] : ''}</textarea>
                           
                             <div
-                            class="char-counter form-text text-muted"
-                            id="counter${index}"
-                          >${maxWords - (dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment].trim().split(/\s+/).length : 0)} words remaining
+                            class="char-counter form-text text-muted">
+                            <span id="counter${index}">
+                          ${maxWords - (dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment].trim().split(/\s+/).length : 0)}</span>
+                           <span data-i18n="intro.words_remaining">words remaining</span>
                           </div>
                             <div class="invalid-feedback"> Error here 
                             </div>

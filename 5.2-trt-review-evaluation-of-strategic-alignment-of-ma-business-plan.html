@@ -1142,8 +1142,8 @@
             }
   
             if (textarea.value) {
-              counter.textContent = `${(maxWords - words.length)} words remaining `;
-            } else counter.textContent = `${maxWords} words remaining `;
+              counter.textContent = `${(maxWords - words.length)}`;
+            } else counter.textContent = `${maxWords}`;
           };
           textarea.addEventListener('input', updateCounter);
           updateCounter(); // initialize counter on page load

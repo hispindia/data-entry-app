@@ -387,8 +387,9 @@
                                                     </td>
                                                     <td style="width: 80%;">
                                                         <div class="form-group textbox-wrap mb-0">
-                                                            <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya"   onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
-										                                                <div class="char-counter form-text text-muted" id="counter1">200 words remaining</div>
+                                                            <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya" onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
+										                            <div class="char-counter form-text text-muted"><span id="counter1">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                                        </div>
                                                             <div class="invalid-feedback"> Error here
                                                             </div>
                                                         </div>
@@ -704,7 +705,8 @@
                                                         
                                                     <div class="form-group textbox-wrap mb-0">
                                                         <textarea  class="form-control-resize textValue-summaryB textlimit" id="tDdQk319Wqd-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
-                                                        <div class="char-counter form-text text-muted" id="counter3">200 words remaining</div>
+                                                        <div class="char-counter form-text text-muted"><span id="counter3">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                        </div>
                                                         <div class="invalid-feedback"> Error here
                                                         </div>
                                                     </div>
@@ -718,7 +720,8 @@
                                                     <td style="width: 80%;">
                                                         <div class="form-group textbox-wrap mb-0">
                                                             <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya"   onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
-										                                                <div class="char-counter form-text text-muted" id="counter1">200 words remaining</div>
+										                                                <div class="char-counter form-text text-muted"><span id="counter1">200</span> <span data-i18n="intro.words_remaining">words_remaining</span>
+                                                                                        </div>
                                                             <div class="invalid-feedback"> Error here
                                                             </div>
                                                         </div>
@@ -837,8 +840,8 @@
               }
     
               if (textarea.value) {
-                counter.textContent = `${(maxWords - words.length)} words remaining `;
-              } else counter.textContent = `${maxWords} words remaining `;
+                counter.textContent = `${(maxWords - words.length)}`;
+              } else counter.textContent = `${maxWords}`;
             };
             textarea.addEventListener('input', updateCounter);
             updateCounter(); // initialize counter on page load

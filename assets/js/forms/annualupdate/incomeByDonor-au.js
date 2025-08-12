@@ -207,7 +207,9 @@ function addRow(donor, dataValues) {
           </td>
           <td>
             <textarea class="form-control textContent" data-name="${donor.name}" ${tei.disabled ? 'disabled readonly': ''} id="${donor.comments}">${(comments)}</textarea>
-            <div class="char-counter form-text text-muted" id="counter-${donor.name}">${maxWords -(comments? comments.trim().split(/\s+/).length: 0)} words remaining.</div>
+            <div class="char-counter form-text text-muted"><span id="counter-${donor.name}">${maxWords -(comments? comments.trim().split(/\s+/).length: 0)}</span>
+              <span data-i18n="intro.words_remaining">words remaining</span>
+             </div>
           </td>
         </tr>`
     return row;

@@ -486,10 +486,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
                             >${dataValues[dataElements.projectFocusAreaNew[index].comment]
                               ? dataValues[dataElements.projectFocusAreaNew[index].comment]: ""}</textarea>
-                              <div class="char-counter form-text text-muted" id="counter${index}">
+                              <div class="char-counter form-text text-muted">
+                              <span id="counter${index}">
                               ${maxWords -(dataValues[dataElements.projectFocusAreaNew[index].comment]
                               ? dataValues[dataElements.projectFocusAreaNew[index].comment].trim().split(/\s+/).length: 0)
-                              } words remaining</div>
+                              }</span> <span data-i18n="intro.words_remaining">words remaining</span> </div>
                           <div class="invalid-feedback"> Error here </div> 
                         </div>
                       </div>

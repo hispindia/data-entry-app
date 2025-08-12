@@ -145,11 +145,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.textValue').forEach((textVal, index) => {
       if (dataValues[textVal.id]) {
         textVal.value = dataValues[textVal.id];
-        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))} words remaining`)
+        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))}`)
       }
       else {
         textVal.value = '';
-        $(`#counter${index + 1}`).text(`${maxWords} words remaining`)
+        $(`#counter${index + 1}`).text(`${maxWords}`)
       }
     })
     document.querySelectorAll('.textOption').forEach((textVal, index) => {

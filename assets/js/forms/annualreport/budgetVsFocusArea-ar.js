@@ -764,9 +764,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           : ""
                       }</textarea>
               
-                      <div class="char-counter form-text text-muted" 
-                      id="counter${index}"
-                    >${
+                      <div class="char-counter form-text text-muted">
+                      <span id="counter${index}">
+                    ${
                       maxWords -
                       (dataValues[
                         dataElements.projectFocusAreaNew[index].comment
@@ -778,7 +778,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             .trim()
                             .split(/\s+/).length
                         : 0)
-                    } words remaining
+                    }</span>
+                    <span data-i18n="intro.words_remaining">words remaining</span>
                     </div>
 
                       <div class="invalid-feedback"> Error here

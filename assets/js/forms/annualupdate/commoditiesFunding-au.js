@@ -308,8 +308,10 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
                   <textarea class="form-control textlimit"
                   ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['comment']}" >${(dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']]: '')}</textarea>
-                  <div class="char-counter form-text text-muted"
-                      id="counter">${maxWords- (dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']].trim().split(/\s+/).length: 0)} words remaining</div>
+                  <div class="char-counter form-text text-muted">
+                    <span id="counter">${maxWords- (dataValues[dataElements.sourceCommodities['comment']] ? dataValues[dataElements.sourceCommodities['comment']].trim().split(/\s+/).length: 0)}</span>
+                    <span data-i18n="intro.words_remaining">words remaining</span>
+                    </div>
   
                   <div class="invalid-feedback"> Error here
                   </div>

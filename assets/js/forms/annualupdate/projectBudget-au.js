@@ -299,7 +299,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
                   </label>
                     <textarea class="form-control-resize textlimit" ${tei.disabled ? 'disabled readonly': ''} data-count="${index}" id="${dataElements.projectBudget[index].comment}">${(dataValues[dataElements.projectBudget[index].comment] ? dataValues[dataElements.projectBudget[index].comment] : '')}</textarea>
-                    <div class="char-counter form-text text-muted" id="counter${index}">${maxWords- (dataValues[dataElements.projectBudget[index].comment] ? dataValues[dataElements.projectBudget[index].comment].trim().split(/\s+/).length: 0)} words remaining
+                    <div class="char-counter form-text text-muted"><span id="counter${index}">
+                    ${maxWords- (dataValues[dataElements.projectBudget[index].comment] ? dataValues[dataElements.projectBudget[index].comment].trim().split(/\s+/).length: 0)}</span>
+                    <span data-i18n="intro.words_remaining">words remaining</span>
                     </div>
                     <div class="invalid-feedback"> Error here
                     </div>
