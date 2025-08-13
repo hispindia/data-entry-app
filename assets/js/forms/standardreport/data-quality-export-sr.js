@@ -4,12 +4,7 @@ import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
-var eventSource = {};
-var rowIndex = 0;
-var combinedCost = 0;
-var totalCost = 0;
 var level2OU = [];
-var totalProductRequest = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -29,16 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
 
-
-
+  configurePage();
   async function configurePage() {
     try {
      const user = await getUserConfig();
-      tei.disabled = user.disabled;
+      tei.userDisabled = user.disabled;
           
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
-        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       }
       ['aoc-reporting', 'trt-review'].forEach(page => {
         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -83,11 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-    const year = $('#year-update').val();
-    $("#table-head").empty();
-    $("#table-body").empty();
+    $("#project-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
 
+    tei.year.value = $('#year-update').val();
 
     var dataElementOUValues = {};
     for (let headOU of level2OU) {
@@ -112,22 +104,22 @@ document.addEventListener("DOMContentLoaded", function () {
             ti: {}, //total income,
             id: {} //Income by donor
           }
-          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data values year wise
-          if (dataValuesOD && dataValuesOD[year]) dataElementOUValues[ou.id]['od'] = dataValuesOD[year]
+          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesOD && dataValuesOD[tei.year.value]) dataElementOUValues[ou.id]['od'] = dataValuesOD[tei.year.value]
 
-          const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, tei.year.id) //data values year wise
-          if (dataValuesPB && dataValuesPB[year]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[year]
+          const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesPB && dataValuesPB[tei.year.value]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[tei.year.value]
 
-          const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
-          if (dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['ec'] = dataValuesEC[year]
+          const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesEC && dataValuesEC[tei.year.value]) dataElementOUValues[ou.id]['ec'] = dataValuesEC[tei.year.value]
 
-          const dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, tei.year.id) //data values year wise
-          if (dataValuesFA && dataValuesFA[year]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[year]
+          const dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesFA && dataValuesFA[tei.year.value]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[tei.year.value]
 
-          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id) //data values year wise
-          if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[year]
+          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesTI && dataValuesTI[tei.year.value]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[tei.year.value]
 
-          const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, tei.year.id) //data values year wise
+          const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           if (dataValuesID) dataElementOUValues[ou.id]['id'] = dataValuesID
         }
       }
@@ -145,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#table-body").html(projectRows);
 
     $("#loader").empty();
+    $("#project-export").show();
 
 
     // Localize content
@@ -199,8 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const year = $('#year-update').val();
         dataElements.incomeByDonor.forEach(id => {
-          if(dataValues[ou.id]['id'][tei.year.start] && dataValues[ou.id]['id'][tei.year.start][id.name] && dataValues[ou.id]['id'][year] && dataValues[ou.id]['id'][year][id.income]) {
-            incomeByDonor += Number(dataValues[ou.id]['id'][year][id.income]);
+          if(dataValues[ou.id]['id'][tei.year.start] && dataValues[ou.id]['id'][tei.year.start][id.name] && dataValues[ou.id]['id'][tei.year.value] && dataValues[ou.id]['id'][tei.year.value][id.income]) {
+            incomeByDonor += Number(dataValues[ou.id]['id'][tei.year.value][id.income]);
           }
         })
         tableBody += `<tr>
@@ -224,8 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return tableBody;
   }
 
-
-  configurePage();
 });
 
 function displayValue(input) {

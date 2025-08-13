@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           <div class="form-group text-end mar-b-0">
                           <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
                             ${ length - 1 == index ? 
-                              `<button class="btn btn-primary"  ${tei.disabled ? 'disabled readonly': ''} onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.4-breakdown-by-expense-category-au.html'">
+                              `<button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.4-breakdown-by-expense-category-au.html'">
                                   <span data-i18n="intro.next">Next</span>:  
                                   <span data-i18n="intro.project_expense">  2.4 Budget by Expense Category</span>
                               

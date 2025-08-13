@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
              
          if (user.organisationUnits?.length) {
            tei.orgUnit = user.organisationUnits[0].id;
-           document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
          }
          ['aoc-reporting', 'trt-review'].forEach(page => {
            if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -109,10 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-    const year = $('#year-update').val();
     $("#table-head").empty();
     $("#table-body").empty();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
+
+    const year = $('#year-update').val();
 
     var dataSetOUValues = [];
     var dataElementOUValues = {};

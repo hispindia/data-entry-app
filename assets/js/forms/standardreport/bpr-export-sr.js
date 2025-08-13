@@ -19,15 +19,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      fetchEvents()
+    });
 
-  async function fetchOrganizationUnitUid() {
+  configurePage();
+  async function configurePage() {
     try {
       const user = await getUserConfig();
-       tei.disabled = user.disabled;
            
        if (user.organisationUnits?.length) {
          tei.orgUnit = user.organisationUnits[0].id;
-         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
        }
        ['aoc-reporting', 'trt-review'].forEach(page => {
          if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -72,10 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-    $("#table-head").empty();
-    $("#table-body").empty();
+    $("#project-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
 
+    tei.year.value = document.getElementById("year-update").value;
     var dataValuesOU = [];
     for (let headOU of level2OU) {
       regionMA[headOU] = {
@@ -104,16 +108,16 @@ document.addEventListener("DOMContentLoaded", function () {
         || enroll.program == program.auCommodities
       );
       
-      let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,tei.year.id) //data values year wise
-      let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, tei.year.id) //data values year wise
-      let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, tei.year.id) //data values year wise
-      let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data values year wise
-      let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, tei.year.id) //data values year wise
-      let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
-      let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id) //data values year wise
-      let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, tei.year.id) //data values year wise
-      let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id) //data values year wise
-      let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id) //data values year wise
+      let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,{id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, {id: tei.year.id, value: tei.year.value}) //data values year wise
       
 
       dataValuesOU.push({
@@ -158,8 +162,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const listAOC = getAOCReport(dataValuesOU, level2OU);
     document.getElementById('th-project-aocReport').innerHTML = listAOC.tableHead;
     document.getElementById('tb-project-aocReport').innerHTML = listAOC.tableRow;
+    
     $("#loader").empty();
-
+    $("#project-export").show();
 
     // Localize content
     $('body').localize();
@@ -810,14 +815,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     values['totalCommodities'] = Number(values['internationalDonors']) + Number(values['localIncome']) + Number(values['inkindDonations']) + Number(values['otherincome']);
     if(values['totalCommodities'] && values['totalIncome']) values['percentTotalCommodities'] = (values['totalCommodities'] && values['totalIncome'] && values['totalCommodities']/values['totalIncome']) ? (( values['totalCommodities']/values['totalIncome'])*100).toFixed(2): '';
-    var yearIndex = -1;
-    for(let i = tei.year.start; i<=tei.year.end; i++) {
-      yearIndex++;
-      if(year==i) break;
-    }
-    if(item.dataValuesOD[year] && item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]) {
-      values['totalUnrestricted'] = Number(item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]);
-      values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]/values['totalIncome']) ? ((item.dataValuesOD[year][dataElements.yearlyAmount[yearIndex]]/values['totalIncome'])*100).toFixed(2): ''
+
+    if(item.dataValuesOD[year] && item.dataValuesOD[year][dataElements.yearAmount]) {
+      values['totalUnrestricted'] = Number(item.dataValuesOD[year][dataElements.yearAmount]);
+      values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[year][dataElements.yearAmount]/values['totalIncome']) ? ((item.dataValuesOD[year][dataElements.yearAmount]/values['totalIncome'])*100).toFixed(2): ''
     }
 
     if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
@@ -1266,9 +1267,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
   }
-
-
-  fetchOrganizationUnitUid();
 });
 
 function selectedRatings(dataValues) {

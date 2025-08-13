@@ -49,7 +49,7 @@ export function disableAll() {
       // Disable all file input elements
       $('input[type="file"]').prop('disabled', true);
       //Disable all button
-      $('button').prop('disabled', true);
+    //   $('button').prop('disabled', true);
 }
 
 export function enableAll() {
@@ -68,5 +68,5 @@ export function enableAll() {
     $('input[type="file"]').prop('disabled', false);
 
     // Enable all button elements
-    $('button').prop('disabled', false);
+    // $('button').prop('disabled', false);
 }

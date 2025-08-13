@@ -872,3 +872,44 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
 .data-row:nth-child(even) {
   background-color: #e0e0e0;
 } */
+
+/* Base RTL style when html has rtl-mode */
+html.rtl-mode body {
+    direction: rtl;              /* Reverse text flow */
+    unicode-bidi: bidi-override; /* Helps flip inline elements */
+    text-align: right;           /* Align all text to right by default */
+}
+
+/* Tables in RTL */
+html.rtl-mode table {
+    direction: rtl;
+    margin-left: auto; /* Push to the right */
+    margin-right: 0;
+}
+
+html.rtl-mode td,
+html.rtl-mode th {
+    text-align: right !important;
+}
+
+/* Spans and inline elements */
+html.rtl-mode span {
+    display: inline-block; /* so margin works */
+    text-align: right;
+}
+
+/* Flex layouts */
+html.rtl-mode .flex-row {
+    flex-direction: row-reverse;
+}
+
+/* Grid layouts */
+html.rtl-mode .grid {
+    direction: rtl;
+}
+
+/* Generic block elements (move right side) */
+html.rtl-mode body > * {
+    margin-left: auto;
+    margin-right: 0;
+}

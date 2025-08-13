@@ -1,4 +1,4 @@
-import { getEvents, getTEI, pushDataElement } from "../../api/func.js";
+import { createEvent, getEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, unformatNumber, getYears } from "../func.js";
@@ -363,7 +363,7 @@ const maxWords = 200;
                 value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
                 class="btn btn-secondary"
               />
-              ${(length-1 == index) ? `<button class="btn btn-primary" ${tei.disabled ? 'disabled readonly': ''} onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/3.1-total-income-au.html'">
+              ${(length-1 == index) ? `<button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/3.1-total-income-au.html'">
               <span data-i18n="intro.next">Next</span>:  
               <span data-i18n="intro.total_income">3.1 Total Income</span>
             </button>`:`<input

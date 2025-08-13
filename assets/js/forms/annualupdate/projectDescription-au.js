@@ -174,17 +174,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option ${(values['theme']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
                 <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
                 <option ${(values['theme']=="General Contraception") ? "selected": ''} value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
-                <option ${(values['theme']=="Digital Health Interventions & Selfcare") ? "selected": ''} value="Digital Health Interventions & Selfcare"><span data-i18n="intro.focus_area_5">Digital Health Interventions & Selfcare</span></option>
+                <option ${(values['theme']=="Digital Health Interventions & Selfcare") ? "selected": ''} value="Digital Health Interventions & Selfcare"><span data-i18n="intro.p_18">Digital Health Interventions & Selfcare</span></option>
                 <option ${(values['theme']=="Fertility Care /Support") ? "selected": ''} value="Fertility Care /Support"><span data-i18n="intro.p_10">Fertility Care /Support</span></option>
                 <option ${(values['theme']=="HIV & AIDS") ? "selected": ''} value="HIV & AIDS"><span data-i18n="intro.p_6">HIV & AIDS</span></option>
                 <option ${(values['theme']=="Humanitarian SRHR") ? "selected": ''} value="Humanitarian SRHR"><span data-i18n="intro.p_4">Humanitarian SRHR</span></option>
                 <option ${(values['theme']=="SGBV / Gender") ? "selected": ''} value="SGBV / Gender"><span data-i18n="intro.p_8">SGBV / Gender</span></option>
-                <option ${(values['theme']=="Advocacy & Norms Change") ? "selected": ''} value="Advocacy & Norms Change"><span data-i18n="intro.focus_area_6">Advocacy & Norms Change</span></option>
+                <option ${(values['theme']=="Advocacy & Norms Change") ? "selected": ''} value="Advocacy & Norms Change"><span data-i18n="intro.p_17">Advocacy & Norms Change</span></option>
                 <option ${(values['theme']=="Communications & Campaigns") ? "selected": ''} value="Communications & Campaigns"><span data-i18n="intro.p_9">Communications & Campaign</span></option>
                 <option ${(values['theme']=="Youth") ? "selected": ''} value="Youth"><span data-i18n="intro.p_5">Youth</span></option>
-                <option ${(values['theme']=="Research / evidence") ? "selected": ''} value="Research / evidence"><span data-i18n="intro.p_11>Research / evidence</span></option>
-                <option ${(values['theme']=="Organisational Processes and Systems") ? "selected": ''} value="Organisational Processes and Systems"><span intro.p_12>Organisational Processes and Systems</span></option>
-                <option ${(values['theme']=="Commecial Sustainability") ? "selected": ''} value="Commecial Sustainability"><span intro.p_13>Commercial Sustainability</span></option>
+                <option ${(values['theme']=="Research / evidence") ? "selected": ''} value="Research / evidence"><span data-i18n="intro.p_11">Research / evidence</span></option>
+                <option ${(values['theme']=="Organisational Processes and Systems") ? "selected": ''} value="Organisational Processes and Systems"><span data-i18n="intro.p_12">Organisational Processes and Systems</span></option>
+                <option ${(values['theme']=="Commecial Sustainability") ? "selected": ''} value="Commecial Sustainability"><span data-i18n="intro.p_13">Commercial Sustainability</span></option>
                 <option ${(values['theme']=="Social Enterprise & Marketing") ? "selected": ''} value="Social Enterprise & Marketing"><span data-i18n="intro.p_14">Social Enterprise & Marketing</span></option>
                 <option ${(values['theme']=="Marginalised Pops (incl. LGBTQ+)") ? "selected": ''} value="Marginalised Pops (incl. LGBTQ+)"><span data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</span></option>
                 <option ${(values['theme']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.p_16">Not applicable</span></option>
@@ -202,9 +202,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
           <label for="${project.funding}"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.funding}">
-                <option ${(values['funding']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
-                <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted">Restricted</option>
-                <option ${(values['funding']=="Unrestricted") ? "selected": ''} value="Unrestricted">Unrestricted</option>
+                <option ${(values['funding']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
+                <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted"><span data-i18n="intro.restricted">Restricted</span></option>
+                <option ${(values['funding']=="Unrestricted") ? "selected": ''} value="Unrestricted"><span data-i18n="intro.unrestricted">Unrestricted</span></option>
               </select>
             <div class="invalid-feedback"> Error here </div>
           </td>
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option ${(values['donor']=="Reproductive Health Supplies Coalition (RHSC)") ? "selected": ''} value="Reproductive Health Supplies Coalition (RHSC)"><span data-i18n="intro.rep_health">Reproductive Health Supplies Coalition (RHSC)</span></option>
                 <option ${(values['donor']=="UNAIDS") ? "selected": ''} value="UNAIDS"><span data-i18n="intro.unaids">UNAIDA</span></option>
                 <option ${(values['donor']=="UNDP") ? "selected": ''} value="UNDP"><span data-i18n="intro.undp">UNDP</span></option>
-                <option ${(values['donor']=="UNESCO") ? "selected": ''} value="UNESCO"><span data-i18n="intro.unesCo">UNESCO</span></option>
+                <option ${(values['donor']=="UNESCO") ? "selected": ''} value="UNESCO"><span data-i18n="intro.unesco">UNESCO</span></option>
                 <option ${(values['donor']=="UNFPA") ? "selected": ''} value="UNFPA"><span data-i18n="intro.unfpa">UNFPA</span></option>
                 <option ${(values['donor']=="UNICEF") ? "selected": ''} value="UNICEF"><span data-i18n="intro.unicef">UNICEF</span></option>
                 <option ${(values['donor']=="World Health Organisation (WHO)") ? "selected": ''} value="World Health Organisation (WHO)"><span data-i18n="intro.who">World Health Organisation (WHO)</span></option>
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option ${(values['donor']=="Center for Disease Control (CDC)") ? "selected": ''} value="Center for Disease Control (CDC)"><span data-i18n="intro.center_dis_cont">Center for Disease Control (CDC)</span>)</option>
                 <option ${(values['donor']=="USAID") ? "selected": ''} value="USAID"><span data-i18n="intro.usaid">USAID</span></option>
                <option ${(values['donor']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.not_app">Not applicable</span></option> 
-               <option id="${project.donor}-other" ${(values['donor']=="Other (please write below)") ? "selected": ''} value="Other (please write below)"><span data-i18n="intro.other)">Other (please write below)</span></option>
+               <option id="${project.donor}-other" ${(values['donor']=="Other (please write below)") ? "selected": ''} value="Other (please write below)"><span data-i18n="intro.other_please">Other (please write below)</span></option>
               </select>
             <div style="display:none">
               <input type="text"  

@@ -53,41 +53,41 @@ const translation_mapping = [
         id: "grant_amount",
         en: "Formula-generated proposed grant amount (USD)",
         sp: "Monto de la subvención propuesta generado por fórmula (USD)",
-        fr: "Montant de la subvention proposé tel qu’établi par la formule (USD)",
+        fr: "Montant de la subvention proposée tel qu’établi par la formule (USD)",
         ar: 'مبلغ المنحة المقترح المولد بالصيغة (بالدولار الأمريكي)'
     },
      {
         id: "grant_amount",
         en: "Formula-generated proposed grant amount (Year 1) (USD)",
-        sp: "Monto de la subvención propuesta generado por fórmula (Año 1) (USD)",
-        fr: "Montant de la subvention proposé tel qu’établi par la formule (Année 1) (USD)",
+        sp: "Monto de la subvención generado por fórmula (Año 1) (USD)",
+        fr: "Montant de la subvention proposée tel qu’établi par la formule (Année 1) (USD)",
         ar: 'المبلغ المقترح للمنحة حسب المعادلة التمويلية (السنة الأولى) (بالدولار الأمريكي)'
     },
     {
         id: "grant_amount_year2",
         en: "Formula-generated proposed grant amount (Year 2) (USD)",
-        sp: "Monto de la subvención generado por fórmula (Año 2) (USD)",
+        sp: "Monto de la subvención generado por fórmula (Año 2) (USD) (sólo 75% asegurado)",
         fr: "Montant de la subvention établi par la formule (Année 2) (USD)",
         ar: 'المبلغ المقرر للمنحة حسب المعادلة (السنة الثانية) (بالدولار الأمريكي)',
     },
     {
         id: "grant_amount_year3",
-        en: "Provisional formula- generated grant amount (Year 3) (USD)",
-        sp: "Monto PROVISIONAL de la subvención generado por fórmula (Año 3) (USD)",
+        en: "Provisional formula-generated grant amount (Year 3) (USD)",
+        sp: "Monto PROVISIONAL de la subvención generado por fórmula (Año 3) (USD) (sólo 75% asegurado)",
         fr: "Montant de la subvention PROVISOIRE tel qu’établi par la formule (Année 3) (USD)",
         ar: 'المبلغ المقرر للمنحة حسب المعادلة المؤقتة (السنة الثالثة) (بالدولار الأمريكي)',
     },
     {
         id: "primary_contact_person",
         en: "Primary contact person",
-        sp: "Persona de contacto para el plan de negocio (nombre y cargo)",
+        sp: "Persona de contacto para el plan de negocio ",
         fr: "Personne de contact principale",
         ar: "'مسؤول التواصل بشأن خطة الأعمال (الاسم والدور المكلف به)'"
     },
     {
         id: "business_plan_contact_role",
         en: "Business plan contact role",
-        sp: "Persona de contacto para el plan de negocio (nombre y cargo)",
+        sp: "Rol de la persona de contacto",
         fr: "Personne de contact du plan d'activité",
         ar: 'دور جهة الاتصال في خطة العمل'
     },
@@ -136,7 +136,7 @@ const translation_mapping = [
     {
         id: "executive_director",
         en: "Executive Director / CEO (or equivalent)",
-        sp: "Cargo",
+        sp: "Director/a Ejecutivo/a (o equivalente)",
         fr: "Directeur·ce exécutif·ve / CEO",
         ar: "المدير التنفيذي / الرئيس التنفيذي"
     },
@@ -153,6 +153,13 @@ const translation_mapping = [
         sp: "Correo electrónico de contacto",
         fr: "E-mail de contact",
         ar: 'بريد إلكتروني للتواصل'
+    },
+    {
+        id: "institutional_data",
+        en: "Institutional Data",
+        sp: "Datos institucionales",
+        fr: "Données institutionnelles",
+        ar: 'البيانات المؤسسية'
     },
     {
         id: "number",
@@ -176,21 +183,21 @@ const translation_mapping = [
         ar: 'مسؤول في المجلس 1 (على سبيل المثال، نائب الرئيس، السكرتير، أمين الصندوق)'
     },
     {
-        id: "Officer_of_the_board2",
+        id: "officer_of_the_board2",
         en: "Officer of the board #2 (e.g., vice president, secretary, treasurer)",
         sp: "Directivo/a de la Junta #2 (p. ej., vicepresidente/a, secretario/a, tesorero/a)",
         fr: "Membre du Conseil d’administration n° 2 (par ex., vice-président·e, secrétaire, trésorier·ère)",
         ar: 'مسؤول في المجلس 2 (على سبيل المثال، نائب الرئيس، السكرتير، أمين الصندوق)'
     },
     {
-        id: "Officer_of_the_board3",
+        id: "officer_of_the_board3",
         en: "Officer of the board #3 (e.g., vice president, secretary, treasurer)",
         sp: "Directivo/a de la Junta #3 (p. ej., vicepresidente/a, secretario/a, tesorero/a)",
         fr: "Membre du Conseil d’administration n° 3 (par ex., vice-président·e, secrétaire, trésorier·ère)",
         ar: 'مسؤول في المجلس 3 (على سبيل المثال، نائب الرئيس، السكرتير، أمين الصندوق)'
     },
     {
-        id: "Youth_board_member",
+        id: "youth_board_member",
         en: "Youth board member",
         sp: "Miembro de la Junta Juvenil",
         fr: "Jeune parmi les membres du Conseil d'administration",
@@ -367,7 +374,7 @@ const translation_mapping = [
     },
     
     {
-        id: "Project budget based on focus area",
+        id: "other_please",
         en: "06. Other (please write below)",
         sp: "06. Otro (especificar a continuación)",
         fr: "06. Autres (veuillez préciser ci-dessous)",
@@ -493,6 +500,20 @@ const translation_mapping = [
         sp: "P5. No aplicable.",
         fr: "P5. Sans objet.",
         ar: 'م5. لا ينطبق.'
+    },
+    {
+        id: "p_17",
+        en: "P2. Advocacy & Norms Change",
+        sp: "P2. Incidencia y cambio de normas",
+        fr: "P2. Plaidoyer et changement des normes",
+        ar: "م2. المناصرة وتغيير المعايير"
+    },
+    {
+        id: "p_18",
+        en: "P1. Digital Health Interventions & Selfcare",
+        sp: "P1. Intervenciones de salud digital y autocuidado",
+        fr: "P1. Interventions en santé numérique et soins personnels",
+        ar: "م1. التدخلات الصحية الرقمية والرعاية الذاتية"
     },
     {
         id: "not_app",
@@ -683,42 +704,42 @@ const translation_mapping = [
         en: "In this year will your MA receive (donated) commodities from (choose all that apply):",
         sp: "Este año, su AM recibirá productos (donados) de (elija todas las opciones que correspondan):",
         fr: "Au cours de cette année, votre association recevra-t-elle des produits (reçus en dons) de (veuillez cocher toutes les cases correspondantes) :",
-        ar:  "ي هذا العام، هل ستتلقى جمعيتكم العضو أي سلع )تم التبرع بها( من )اختر جميع اإلجابات التي تنطبق عليها(:"
+        ar: "في هذا العام، هل ستتلقى منظمتكم مساعدات (تبرعات) عينية من (اختر كل ما ينطبق):"
     },
     {
         id: "commudites_amount",
         en: "What is the total value of commodities in USD you plan to access in this year from:",
         sp: "¿Cuál es el valor total en USD de productos a los que planea acceder este año provenientes de:",
         fr: "Quel est le montant total en USD des produits que vous comptez obtenir auprès de :",
-        ar:  "ما هو إجمالي قيمة السلع بالدولار الأمريكي التي تعتزمون الوصول إليها هذا العام من:"
+        ar: "ما هي القيمة الإجمالية للمواد العينية (بالدولار الأمريكي) التي تخطط للحصول عليها هذا العام من:"
     },
     {
         id: "ippf",
         en: "IPPF (see 3.4)",
         sp: "la IPPF? (Ver 3.4)",
         fr: "IPPF (voir 3.4)",
-        ar:  "الاتحاد الدولي لتنظيم الأسرة (انظر 4.3)"
+        ar:  "الاتحاد الدولي لتنظيم الاسرة (انظر 3.4)"
     },
     {
         id: "ministry_health",
         en: "Ministry of Health (upload MoU)",
         sp: "el Ministerio de Salud? (Subir memorando de entendimiento)",
         fr: "Ministère de la Santé (télécharger le protocole d’accord)",
-        ar:  "وزارة الصحة (قم بتحميل مذكرة التفاهم)"
+        ar:  "وزارة الصحة ( الرجاء تحميل مذكرة التفاهم)"
     },
     {
         id: "unfpa_supplies",
         en: "UNFPA Supplies (upload IP Agreement)",
-        sp: "el UNFPA Supplies? (Subir acuerdo con los socios ejecutores)",
+        sp: "Suministros de UNFPA (cargar acuerdo con socio implementador)",
         fr: "UNFPA Supplies (télécharger l’accord de partenaire de mise en œuvre)",
-        ar:  "إمدادات صندوق الأمم المتحدة للسكان (قم بتحميل اتفاقية الشريك التنفيذي)"
+        ar: "إمدادات صندوق الأمم المتحدة للسكان (تحميل اتفاقية الشراكة التنفيذية)"
     },
     {
         id: "local_procurement",
         en: "Local Procurement",
         sp: "adquisición local",
         fr: "Approvisionnement local",
-        ar:  "التوريدات المحلية"
+        ar: "المشتريات المحلية"
     },
     {
         id: "key_document",
@@ -746,21 +767,21 @@ const translation_mapping = [
         en: "Please upload key audits reports documents (if the most recent audit reports was submitted in 2024 Annual Reporting, please leave it as is)",
         sp: "Por favor, cargue los documentos clave de los informes de auditoría (si el informe de auditoría más reciente fue presentado en el Informe Anual 2024, déjelo tal como está).",
         fr: "Veuillez télécharger les documents clés des rapports d’audit (si le rapport d’audit le plus récent a été soumis dans le rapport annuel 2024, laissez-le tel quel).",
-        ar: 'يرجى تحميل الوثائق الرئيسية لتقارير التدقيق (إذا تم تقديم أحدث تقارير التدقيق في التقرير السنوي لعام 2024، يرجى تركها كما هي).'
+        ar: "يرجى رفع مستندات تقارير التدقيق الرئيسية (إذا تم تقديم أحدث تقارير التدقيق ضمن التقرير السنوي لعام 2024، يُرجى تركها كما هي)."
     },
     {
         id: "memorandum_understanding_upload",
         en: "Please upload valid Memorandum of Understanding with your Government, if in place and available",
         sp: "Por favor, cargue un Memorando de Entendimiento válido con su Gobierno, si existe y está disponible.",
         fr: "Veuillez télécharger un protocole d’accord valide avec votre gouvernement, s’il existe et est disponible.",
-        ar: "يرجى تحميل مذكرة تفاهم سارية مع حكومتكم، إذا كانت موجودة ومتاحة."
+        ar: "يرجى رفع مذكرة التفاهم السارية مع حكومتكم، إذا كانت موجودة ومُتاحة."
     },
     {
         id: "partner_agreement_upload",
         en: "Please upload valid Implementing Partner Agreement with UNFPA (Supplies), if in place and available",
         sp: "Por favor, cargue un Acuerdo de Socio Implementador válido con el UNFPA (Suministros), si existe y está disponible.",
         fr: "Veuillez télécharger un accord valide de partenaire d’exécution avec l’UNFPA (Fournitures), s’il existe et est disponible.",
-        ar: "يرجى تحميل اتفاقية شريك منفذ سارية مع صندوق الأمم المتحدة للسكان (الإمدادات)، إذا كانت موجودة ومتاحة."
+        ar: "يرجى رفع اتفاقية الشراكة التنفيذية السارية مع صندوق الأمم المتحدة للسكان (للإمدادات)، إذا كانت موجودة ومُتاحة."
     },
     {
         id: "other1",
@@ -777,13 +798,6 @@ const translation_mapping = [
         ar: "آخر 2"
     },
      //Narrative Plan
-    {
-        id: "narrative_plan",
-        en: "1.2 Narrative Plan",
-        sp: "1.2 Narrativa del Plan",
-        fr: "1.2 Narratif du plan",
-        ar: 'الخطة السردية '
-    },
     {
         id: "country_context",
         en: "Country context and theory of change",
@@ -803,7 +817,7 @@ const translation_mapping = [
         id: "country_context_ques_description",
         en: "Please describe your country context as relevant to SRHR. What are the main SRHR gaps and social or political factors that should be addressed in the remainder of the IPPF strategic period (e.g., unmet need, service gaps, political environment, laws, policies, social norms, national health/education programmes and innovations, opposition, etc.). Please use updated and verified statistics where possible, and mention marginalized groups as relevant (500 words max)",
         fr: "Ofrezca una descripción de su contexto nacional en lo relativo a la SDSR. ¿Cuáles son las principales carencias en materia de SDSR y los factores sociales o políticos que deberían abordarse en lo que resta del período estratégico de la IPPF (por ejemplo, necesidad no satisfecha, carencias en servicios, entorno político, legislación, políticas públicas, normas sociales, innovaciones y programas nacionales de salud/educación, oposición, etc.)? Emplee datos estadísticos actualizados y comprobados cuando sea posible, y mencione los grupos marginados según sea pertinente (500 palabras como máximo)",
-        sp: "Veuillez décrire le contexte de votre pays en ce qui concerne la SDSR. Quels sont les principales lacunes et les principaux facteurs sociaux ou politiques en matière de SDSR à prendre en compte au cours de la période stratégique du l’IPPF (par ex., besoins non satisfaits, services manquants, environnement politique, lois, politiques publiques, normes sociales, programmes et innovations sur le plan national en matière de santé et d’éducation, mouvements d’opposition, etc.) ? Veuillez utiliser dans la mesure du possible des statistiques à jour et vérifiées et mentionner les groupes marginalisés le cas échéant (500 mots maximum)",
+        sp: "Describa el contexto de su país en relación con la salud y los derechos sexuales y reproductivos. ¿Cuáles son las principales brechas en salud y los factores sociales o políticos que deberían abordarse en lo que resta del período estratégico del IPPF (por ejemplo, necesidades insatisfechas, deficiencias en los servicios, entorno político, leyes, políticas, normas sociales, programas e innovaciones nacionales de salud y educación, oposición, etc.)? Utilice estadísticas actualizadas y verificadas siempre que sea posible, y mencione a los grupos marginados según corresponda (máximo 500 palabras).",
         ar: "نرجو توضيح الوضع في بلدكم فيما يتعلق بالحقوق والصحة الجنسية والإنجابية. ما هي الثغرات الرئيسية في مجال الحقوق والصحة الجنسية والإنجابية والعوامل الاجتماعية أو السياسية التي ينبغي معالجتها في الفترة الاستراتيجية المتبقية للاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، الاحتياجات غير الملباة، فجوات الخدمة، البيئة السياسية، القوانين، السياسات، الأعراف الاجتماعية، الابتكارات والبرامج الصحية/التعليمية الوطنية، المعارضة، إلخ). نرجو الاستناد إلى إحصاءات حديثة ومُوثّقة، كلما أمكن، مع ذكر الفئات المهمّشة ذات الصلة (بحد أقصى 500 كلمة)"
     },
     {
@@ -881,7 +895,7 @@ const translation_mapping = [
     {
         id: "describe_youth_leadership_para1",
         en: "SMART: Specific, Measurable, Achievable, Relevant, and Time-bound Outcomes",
-        sp: "SMART: específico, medible, apropiado, realista y con plazos establecidos",
+        sp: "SMART: Resultados específicos, medibles, alcanzables, relevantes y con plazos determinados",
         fr: "Résultats SMART : spécifiques, mesurables, atteignables, réalistes et limités dans le temps",
         ar: "SMART: واضحة وقابلة للقياس ويمكن تحقيقها ووثيقة الصلة ومحددة بوقت"
     },
@@ -894,10 +908,10 @@ const translation_mapping = [
     },
     {
         id: "start_pillar_1",
-        en: "IPPF Start Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in national four regions.",
+        en: "IPPF Strat Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in national four regions.",
         sp: "Por ejemplo: IPPF Start Pilar 1: Para diciembre de 2026, implementar al menos tres intervenciones nacionales de salud digital en cuatro regiones nacionales.",
         fr: "Par exemple : IPPF Start Pilier 1 : D’ici décembre 2026, déployer au moins trois interventions nationales de santé numérique dans quatre régions nationales.",
-        ar: "على سبيل المثال: الركيزة الأولى لبرنامج IPPF Start: بحلول ديسمبر 2026، تم تنفيذ ما لا يقل عن ثلاث تدخلات وطنية في مجال الصحة الرقمية في أربع مناطق وطنية."
+        ar: "الركيزة الاستراتيجية الأولى للاتحاد الدولي لتنظيم الأسرة (IPPF): بحلول ديسمبر 2026، يتم تنفيذ ما لا يقل عن ثلاث تدخلات رقمية صحية وطنية في أربع مناطق وطنية."
     },
     {
         id: "youth_involvement",
@@ -1033,7 +1047,7 @@ const translation_mapping = [
     {
         id: "technical_assistance_dropdown_right",
         en: "Organisational Areas of Expertise / Capacity (we can share tools & train others)",
-        sp: "Áreas organizativas de experiencia / Capacidad (podemos compartir herramientas y capacitar a otros)",
+        sp: "Áreas de experiencia/capacidad organizativa (podemos compartir herramientas y capacitar a otros)",
         fr: "Domaines d’expertise/capacité de l’organisation (nous pouvons partager des outils et former d’autres personnes)",
         ar: 'الإمكانات / مجالات الخبرة التنظيمية (يمكننا مشاركة الأدوات وتدريب الآخرين)'   
     },
@@ -1077,7 +1091,7 @@ const translation_mapping = [
     {
         id: "total_contract_value",
         en: "Total Contract Value",
-        sp: " Valor total del contrato",
+        sp: "Valor total del contrato",
         fr: "Valeur totale du contrat",
         ar: "القيمة الإجمالية للعقد"
     },
@@ -1351,9 +1365,9 @@ const translation_mapping = [
     {
         id: "narrative_plan",
         en: "1.2 Narrative Plan",
-        sp: "1.2 Narrativa del Plan",
-        fr: "1.2 Narratif du plan",
-        ar: "الخطة السردية",
+        sp: "1.2 Plan Narrativo",
+        fr: "1.2 Résumé du plan",
+        ar: 'الخطة السردية '
     },
     {
         id: "project_description",
@@ -1828,9 +1842,30 @@ const translation_mapping = [
     {
         id: "core_funding",
         en: "IPPF Core Funding Allocated",
-        sp: "Financiamiento básico asignado para",
+        sp: "Financiamiento básico asignado de IPPF",
         fr: "Fonds de base alloués à l’",
         ar: 'تقدير الاحتمالية'
+    },
+    {
+        id: "confirmed",
+        en: "Confirmed",
+        sp: "Confirmado",
+        fr: "Confirmé",
+        ar: "مؤكد"
+    },
+    {
+        id: "likely_over_80",
+        en: "Likely (Over 80%)",
+        sp: "Probable (más del 80 %)",
+        fr: "Probable (plus de 80 %)",
+        ar: "محتمل (أكثر من 80٪)"
+    },
+    {
+        id: "uncertain",
+        en: "Uncertain",
+        sp: "Incierto",
+        fr: "Incertain",
+        ar: "غير مؤكد"
     },
     {
         id: "difference",
@@ -2251,8 +2286,8 @@ const translation_mapping = [
     {
         id: "total",
         en: "Total",
-        sp: "totales",
-        fr: "Totale",
+        sp: "Totales",
+        fr: "Total",
         ar: 'المجموع'
     },
     {
@@ -2412,7 +2447,7 @@ const translation_mapping = [
     {
         id: "organisation_contributor",
         en: "Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor",
-        sp: "¿Qué organización (gobierno, patronato, fundación, IPPF u otro donante) contribuyó con la suma más grande a sus ingresos de 2023?",
+        sp: "¿Qué organización (gobierno, fideicomiso, fundación, IPPF u otro donante) fue el mayor contribuyente?",
         fr: "Quelle organisation (organisme public, trust, fondation, l'IPPF ou autre bailleur) a le plus contribué à vos revenus de 2023 ?",
         ar: 'ما هي المنظمة (سواء حكومة، اتحاد، مؤسسة، اتحاد IPPF أو جهة مانحة أخرى) التي كانت أكبر مساهم في دخلكم عام 2023؟ '
     },
@@ -2466,6 +2501,13 @@ const translation_mapping = [
         ar: 'تفاصيل الجهة المانحة'
     },
     {
+        id: "add_new_donor",
+        en: "Add New Doonr",
+        sp: "Agregar nuevo donante",
+        fr: "Ajouter un nouveau donateur",
+        ar: 'إضافة مانح جديد'
+    },
+    {
         id: "donor_name",
         en: "Donor name",
         sp: "Nombre del donante",
@@ -2499,13 +2541,13 @@ const translation_mapping = [
         en: "Amount If relevant, please list specific funding unlocked by the IPPF Stream 1 funding, including the source and amount of the grant unlocked.",
         sp: "Si es pertinente, indique fondos específicos desbloqueados por la Línea 1 de financiamiento de IPPF, incluida la fuente y la cantidad de la subvención desbloqueada.",
         fr: "S’il y a lieu, veuillez indiquer les fonds spécifiques débloqués au titre des fonds du Volet 1 de l’IPPF, y compris la source et le montant de la subvention débloquée. ",
-        ar: "وإذا لزم الأمر، يرجى إدراج التمويل النوعي الذي فُتح في إطار تمويلات المسار 1 من اتحاد IPPF، بما في ذلك مصدر ومبلغ المنحة المقدمة. "
+        ar: "المبلغ إذا كان ذلك ذا صلة ، يُرجى إدراج التمويل المحدد الذي تم الحصول عليه بفضل تمويل المرحلة الأولى من الاتحاد الدولي لتنظيم الاسرة، بما في ذلك مصدر التمويل وقيمة المنحة التي تم الحصول عليها."
     },
     //Order Commodities
     {
         id: "summary_commodities",
         en: "Summary of Core Grant in Cash & Commodities",
-        sp: "Resumen de la subvención básica en efectivo y materias primas",
+        sp: "Resumen de la subvención básica en efectivo y en productos",
         fr: "Résumé de la subvention de base en espèces et en matières premières",
         ar: "ملخص المنحة الأساسية في النقد والسلع"
     },
@@ -2527,7 +2569,7 @@ const translation_mapping = [
             Please review the notes below the product you want to order.
             <ul>
               <li>
-                Prices for products can be subject to your country’s World Bank Classification. <a href="../../documents/uhH1VcyfDoW/data">Click on this link to find your country’s status</a>.
+                Prices for products can be subject to your country’s World Bank Classification. <a href="../../documents/RmCrOHqf4NG/data">Click on this link to find your country’s status</a>.
               </li>
               <li>
                 Products can be subject to mandatory order multiples. The order form will only allow you to enter these mandatory quantities.
@@ -2549,7 +2591,7 @@ const translation_mapping = [
           </ul>
           </li>
           <li>
-            This is an indicative budgeting exercise only, commodities quantification for 2025 will be finalized in October 2024 per the initiative of the supply chain team.
+            This is an indicative budgeting exercise only, commodities quantification for 2026 will be finalized in October 2025 per the initiative of the supply chain team.
           </li>
           <li>
             If you wish to procure products from IPPF that are funded by a different grant (e.g.,restricted project), please email the supply chain team (hlynds@ippf.org &amp;sheath@ippf.org).
@@ -2584,7 +2626,7 @@ de productos (como se indica en la parte de abajo del formulario)
             <ul>
               <li>
               Los precios de los productos pueden estar sujetos a la 
-              Clasificación del Banco Mundial de su país. <a href="../../documents/uhH1VcyfDoW/data">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
+              Clasificación del Banco Mundial de su país. <a href="../../documents/RmCrOHqf4NG/data">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
               </li>
               <li>
               Es posible que los pedidos de productos estén sujetos a múltiplos obligatorios. El formulario de pedido solo permitirá introducir esas cantidades obligatorias</li>
@@ -2607,7 +2649,7 @@ de productos (como se indica en la parte de abajo del formulario)
           </ul>
           </li>
           <li>
-          Este es un ejercicio presupuestario meramente indicativo; la  cuantificación de productos para 2025 se completará en octubre de 2024 según la iniciativa del equipo de cadena de suministro.
+          Este es un ejercicio presupuestario meramente indicativo; la  cuantificación de productos para 2026 se completará en octubre de 2025 según la iniciativa del equipo de cadena de suministro.
           </li>
           <li>
           Si desean comprar productos a la IPPF financiados a través de otra 
@@ -2657,7 +2699,7 @@ de productos (como se indica en la parte de abajo del formulario)
               Les prix des produits peuvent être soumis au statut de votre 
               pays en fonction de la classification de la Banque mondiale. 
              
-              <a href="../../documents/uhH1VcyfDoW/data"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
+              <a href="../../documents/RmCrOHqf4NG/data"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
               </li>
               <li>
               Les produits peuvent être soumis à des multiples de commande 
@@ -2689,8 +2731,8 @@ de productos (como se indica en la parte de abajo del formulario)
           </li>
           <li>
           Il s’agit d’un exercice d’établissement du budget uniquement à titre 
-          indicatif. La quantification des produits pour 2025 sera finalisée en 
-          octobre 2024 à l’initiative de l’équipe de la chaîne d’approvisionnement.
+          indicatif. La quantification des produits pour 2026 sera finalisée en 
+          octobre 2025 à l’initiative de l’équipe de la chaîne d’approvisionnement.
           </li>
           <li>
           Si vous souhaitez vous procurer des produits auprès de l’IPPF qui sont 
@@ -2725,7 +2767,7 @@ de productos (como se indica en la parte de abajo del formulario)
           يرجى مراجعة الملاحظات أسفل المنتج المطلوب.
             <ul>
               <li>
-              <a href="../../documents/uhH1VcyfDoW/data">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </li>
+              <a href="../../documents/RmCrOHqf4NG/data">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </a></li>
               <li>
               تتأثر المنتجات بمضاعفات بنود الطلب الإجبارية. تسمح لكم استمارة الطلب بإدخال هذه الكميات الإجبارية فقط.</li>
             </ul>
@@ -2744,7 +2786,7 @@ de productos (como se indica en la parte de abajo del formulario)
           </ul>
           </li>
           <li>
-          وهذا إجراء توضيحي فقط للاستعانة به في إعداد الميزانية، وفي أكتوبر 2024 سيتم الانتهاء من تحديد كمية السلع لعام 2025 حسب مبادرة فريق سلسلة التوريد.
+          وهذا إجراء توضيحي فقط للاستعانة به في إعداد الميزانية، وفي أكتوبر 2025 سيتم الانتهاء من تحديد كمية السلع لعام 2026 حسب مبادرة فريق سلسلة التوريد.
           </li>
           <li>
           وإذا كنت ترغب في شراء منتجات من اتحاد IPPF ممولة من منحة أخرى (على سبيل المثال، مشروع مقيد)، يرجى إرسال بريد إلكتروني إلى فريق سلسلة التوريد (hlynds@ippf.org و sheath@ippf.org).
@@ -2928,7 +2970,7 @@ de productos (como se indica en la parte de abajo del formulario)
         id: "variation",
         en: "Variance",
         sp: "Variación",
-        fr: "Variance",
+        fr: "Écart",
         ar: "تفاوت"
     },
     {
@@ -3383,8 +3425,10 @@ $(function () {
                 const selectedLang = $(this).val();
                 if (selectedLang == 'ar') {
                     document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.classList.add('rtl-mode');
                 } else {
                     document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.classList.remove('rtl-mode');
                 }
                 i18next.changeLanguage(selectedLang, function () {
                     $('body').localize();

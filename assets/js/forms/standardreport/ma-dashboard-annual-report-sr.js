@@ -18,6 +18,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document
+    .getElementById("reporting-periodicity")
+    .addEventListener("change", function () {
+      fetchEvents();
+    });
+
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      fetchEvents()
+    });
+
   async function fetchOrganizationUnitUid() {
     try {
      const user = await getUserConfig();
@@ -25,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
           
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
-        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       }
       ['aoc-reporting', 'trt-review'].forEach(page => {
         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -63,18 +74,17 @@ document.addEventListener("DOMContentLoaded", function () {
        })
      })
            
-              fetchEvents();
+    fetchEvents();
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
   }
 
   async function fetchEvents() {
-    $("#table-head").empty();
-    $("#table-body").empty();
+    $("#project-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
 
-    const year = document.getElementById("year-update").value;
+    tei.year.value = document.getElementById("year-update").value;
     tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
     var dataValuesOU = [];
@@ -101,11 +111,11 @@ document.addEventListener("DOMContentLoaded", function () {
             || enroll.program == program.arProjectExpenseCategory
             || enroll.program == program.arTotalIncome
           );
-          let dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });//data values year wise
-          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, tei.year.id) //data values year wise
-          let dataValuesFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });//data values year wise
-          let dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data values year wise
-          let dataValuesTI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });//data values year wise
+          let dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });//data values year wise
+          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, { id: tei.year.id, value: tei.year.value }) //data values year wise
+          let dataValuesFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });//data values year wise
+          let dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data values year wise
+          let dataValuesTI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });//data values year wise
           
           dataValuesOU.push({
             orgUnit: ou.name,
@@ -150,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('tb-project-totalIncome').innerHTML = listTI.tableRow;
 
     $("#loader").empty();
-
+    $("#project-export").show();
 
     // Localize content
     $('body').localize();

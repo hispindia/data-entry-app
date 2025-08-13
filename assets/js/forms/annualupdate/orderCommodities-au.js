@@ -420,6 +420,8 @@ async function addValuesCV(id) {
   $('#combinedCost').val(formatNumberInput(Math.round(totalCost)));
   $('#totalCost').val(formatNumberInput(Math.round(totalCost+estimatedCost)));
   $('#totalCombinedEstimated').val(formatNumberInput(Math.round(totalCost+estimatedCost)));
-  $('#estimatedCoreGrant').val(formatNumberInput(Math.round(unrestrictedCost-(totalCost+estimatedCost))));
+  $('#estimatedCoreGrant').val(formatNumberInput(Math.round(unrestrictedCost-(totalCost+estimatedCost))));  
+  await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement: dataElements.sourceCommodities['unrestricted'], value:Math.round(totalCost+estimatedCost)});
+  
   $(`#status-${id}`).text('Saved.');
 }

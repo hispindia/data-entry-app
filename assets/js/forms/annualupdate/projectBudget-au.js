@@ -283,9 +283,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   </td>
                   <td>
                     <select class="form-control textValue" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}">
-                      <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed">Confirmed</option>
-                      <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)">Likely(Over 80%)</option>
-                      <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain">Uncertain</option>
+                      <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed"><span data-i18n="intro.confirmed">Confirmed</span></option>
+                      <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)"><span data-i18n="intro.likely_over_80">Likely(Over 80%)</span></option>
+                      <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain"><span data-i18n="intro.uncertain">Uncertain</span></option>
                     </select>
                   </td>
                 </tr>`
@@ -313,7 +313,6 @@ document.addEventListener("DOMContentLoaded", function () {
                       <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
                       ${(length-1 == index) ? `              
                     <button 
-                    ${tei.disabled ? 'disabled readonly': ''} 
                     class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.3-breakdown-by-focus-area-au.html'">
                     <span data-i18n="intro.next">Next</span>:  
                     <span data-i18n="intro.project_focusarea"> 2.3 Expense Budget by Focus Area</span></button>`:`<input

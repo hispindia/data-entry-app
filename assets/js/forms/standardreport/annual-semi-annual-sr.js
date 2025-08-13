@@ -1,5 +1,5 @@
 import { getEvents, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
-import { tei, dataElements, program, programStage, dataSetId } from '../../constant.js';
+import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 

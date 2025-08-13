@@ -85,28 +85,27 @@ document.addEventListener("DOMContentLoaded", function () {
           
           dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.narrativePlan, program.organisationDetails, tei.period.id) //data vlaues year wise
           if(dataValuesNP[`${tei.year.start} - ${tei.year.end}`]) dataValuesNP[tei.year.start] = dataValuesNP[`${tei.year.start} - ${tei.year.end}`];
-           dataValuesPD = getEvents(filteredPrograms, program.projectDescription, tei.period.id);
-           if(dataValuesPD[tei.period.value]) dataValuesPD[year] = dataValuesPD[tei.period.value];
-           dataValuesPB = getEvents(filteredPrograms, program.projectBudget, tei.year.id);
-           dataValuesPFA = getEvents(filteredPrograms, program.projectFocusArea, tei.year.id);
-           dataValuesEC = getEvents(filteredPrograms, program.projectExpenseCategory, tei.year.id);
-           dataValuesID = getProgramStageEvents(filteredPrograms, programStage.incomeByDonor, program.incomeDetails, tei.year.id);
-           dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.valueAddCoreFunding, program.incomeDetails, tei.year.id);
-           dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.totalIncome, program.incomeDetails, tei.year.id);
-           dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id);
-           dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id);
+           dataValuesPD = getEvents(filteredPrograms, program.projectDescription, {id: tei.year.id, value: tei.year.value});
+           dataValuesPB = getEvents(filteredPrograms, program.projectBudget, {id: tei.year.id, value: tei.year.value});
+           dataValuesPFA = getEvents(filteredPrograms, program.projectFocusArea, {id: tei.year.id, value: tei.year.value});
+           dataValuesEC = getEvents(filteredPrograms, program.projectExpenseCategory, {id: tei.year.id, value: tei.year.value});
+           dataValuesID = getProgramStageEvents(filteredPrograms, programStage.incomeByDonor, program.incomeDetails, {id: tei.year.id, value: tei.year.value});
+           dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.valueAddCoreFunding, program.incomeDetails, {id: tei.year.id, value: tei.year.value});
+           dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.totalIncome, program.incomeDetails, {id: tei.year.id, value: tei.year.value});
+           dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, {id: tei.year.id, value: tei.year.value});
+           dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, {id: tei.year.id, value: tei.year.value});
         } else {
-          dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, tei.year.id) //data vlaues year wise
-          dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, tei.year.id) //data vlaues year wise
-          dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
-          dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, tei.year.id);
-          dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, tei.year.id);
-          dataValuesEC = getEvents(filteredPrograms, program.auProjectExpenseCategory, tei.year.id);
-          dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, tei.year.id);
-          dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, tei.year.id);
-          dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id);
-          dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, tei.year.id);
-          dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, tei.year.id);
+          dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+          dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+          dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id: tei.year.id, value: tei.year.value});
+          dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, {id: tei.year.id, value: tei.year.value});
+          dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value});
+          dataValuesEC = getEvents(filteredPrograms, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value});
+          dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value});
+          dataValuesCF = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value});
+          dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value});
+          dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, {id: tei.year.id, value: tei.year.value});
+          dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, {id: tei.year.id, value: tei.year.value});
         }
 
       populateProgramEvents({

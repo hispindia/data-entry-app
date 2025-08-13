@@ -4,12 +4,7 @@ import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
-var eventSource = {};
-var rowIndex = 0;
-var combinedCost = 0;
-var totalCost = 0;
 var level2OU = [];
-var totalProductRequest = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -38,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
           
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
-        document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       }
       ['aoc-reporting', 'trt-review'].forEach(page => {
         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -83,11 +77,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-    const year = $('#year-update').val();
-    $("#table-head").empty();
-    $("#table-body").empty();
+    $("#project-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
 
+    tei.year.value = $('#year-update').val();
 
     var dataElementOUValues = {};
     for (let headOU of level2OU) {
@@ -115,16 +108,16 @@ document.addEventListener("DOMContentLoaded", function () {
           // const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
           // if (dataValuesEC && dataValuesEC[year]) dataElementOUValues[ou.id]['auec'] = dataValuesEC[year]
 
-          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, tei.year.id) //data values year wise
-          if (dataValuesTI && dataValuesTI[year]) dataElementOUValues[ou.id]['auti'] = dataValuesTI[year]
+          const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesTI && dataValuesTI[tei.year.value]) dataElementOUValues[ou.id]['auti'] = dataValuesTI[tei.year.value]
 
-          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
           if(dataValuesAREC) dataElementOUValues[ou.id]['arec'] = dataValuesAREC;
 
-          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
           if(dataValuesARFA) dataElementOUValues[ou.id]['arfa'] = dataValuesARFA;
 
-          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
           if(dataValuesARAC) dataElementOUValues[ou.id]['arac'] = dataValuesARAC;
     
         }
@@ -143,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#table-body").html(projectRows);
 
     $("#loader").empty();
+    $("#project-export").show();
 
 
     // Localize content

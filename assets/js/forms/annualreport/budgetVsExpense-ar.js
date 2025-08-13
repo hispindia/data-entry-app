@@ -1,7 +1,7 @@
 import { createEvent, getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
-import { formatNumberInput, getYears } from '../func.js';
+import { formatNumberInput, getYears, unformatNumber } from '../func.js';
 
 const maxWords = 200;
 
@@ -139,9 +139,24 @@ const maxWords = 200;
     $('#accordion').empty();
     if (tei.projects.length) {
       let projectRows = displayProjectDetails(tei.projects, dataValues)
-      $('#accordion').append(projectRows);
+      $('#accordion').html(projectRows);
+          $('#accordion .textValue').toArray().forEach(el => {
+            el.addEventListener("input", (ev) => {
+              var { id, value, dataset } = ev.target;
+              value = value ? unformatNumber(value): '';
+              pushDataElement(id, value);
+              ev.target.value = formatNumberInput(value);
+              calculateTotals(dataset.index, id);
+            })
+          })
+          $('#accordion .textlimit').toArray().forEach(el => {
+            el.addEventListener("input", (ev) => {
+              var { id, value } = ev.target;
+              pushDataElement(id, value);
+            })
+          })
     } else {
-      $('#accordion').append(`<h4 class="text-center text-warning my-4">No Existing Projects! Please add project in the Project Budget Section.</h4>`);
+      $('#accordion').html(`<h4 class="text-center text-warning my-4">No Existing Projects! Please add project in the Project Budget Section.</h4>`);
     }
 
     var totalsRow = displayTotals(dataValues);
@@ -186,7 +201,7 @@ const maxWords = 200;
           $
         </div>
       </div>
-      <input type="text" style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control totalDifference currency" readonly disabled>
+      <input type="text" style="background:${difference >= 0 ? '#C1E1C1 !important':'#FAA0A0 !important'}"  value="${formatNumberInput(difference)}" id="${dataElements.difference}" class="form-control totalDifference currency" readonly disabled>
     </div>
   </td>
   <td>
@@ -246,16 +261,16 @@ const maxWords = 200;
       >
         <div class="budget-wrap table-responsive">
         <table class="table table-striped table-md mb-0 " width="100%">
-                                  <thead>
-                                      <tr>
-                            <th></th>
-                            <th data-i18n="intro.budget_including_ippf">Budget (including IPPF Core)</th>
-                            <th data-i18n="intro.actual_including_ippf">Actual (including IPPF Core)</th>
-                            <th><span data-i18n="intro.variation">Variation </span> ($)</th>
-                            <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>`
+          <thead>
+            <tr>
+              <th></th>
+              <th data-i18n="intro.budget_including_ippf">Budget (including IPPF Core)</th>
+              <th data-i18n="intro.actual_including_ippf">Actual (including IPPF Core)</th>
+              <th><span data-i18n="intro.variation">Variation </span> ($)</th>
+              <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
+            </tr>
+          </thead>
+        <tbody>`
 
       rowIndex = 0;
       for (let budgetExpense in dataElements.arProjectExpenseCategory[index]['budgetExpense']) {
@@ -277,9 +292,8 @@ const maxWords = 200;
                                     type="text" 
                                     ${(!list.comment) ? 'disabled' : ''}
                                     id="${id}"
-                                    oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
                                     value="${formatNumberInput(expense)}" 
-                                    class="form-control input-budget-${index} currency">
+                                    class="form-control textValue currency">
                                 </div>
                             </td>`
         rowIndex++;
@@ -304,9 +318,10 @@ const maxWords = 200;
                                   <input 
                                   type="text" 
                                   ${tei.disabled ? 'disabled readonly' : ''} 
+                                  data-index="${index}"
                                   id="${id}"
-                                  oninput="formatNumberInput(this);pushDataElement(this.id,unformatNumber(this.value));calculateTotals('${index}',this.id)" 
-                                  value="${formatNumberInput(expense)}" class="form-control currency">
+                                  value="${formatNumberInput(expense)}" 
+                                  class="form-control textValue currency">
                               </div>
                           </td>`
         rowIndex++;
@@ -353,7 +368,7 @@ const maxWords = 200;
                                 disabled
                                 value="${formatNumberInput(value)}" class="form-control input-percent currency">
                             </div>
-                </td>`
+                          </td>`
         rowIndex++;
       }
       projectRows += `<tr>
@@ -385,8 +400,7 @@ const maxWords = 200;
           sign = "$"
           value = rowsTotal[total];
         }
-          projectRows += `
-                          <td>
+          projectRows += `<td>
                           <div class="input-group">
                               <div class="input-group-prepend">
                                 <div class="input-group-text font-weight-bold">
@@ -398,8 +412,7 @@ const maxWords = 200;
                               id="${total}"
                               value="${formatNumberInput(value)}" class="form-control font-weight-bold ${total} currency">
                           </div>
-                            </td>`;
-
+                          </td>`;
         } 
       projectRows += `</tr>
                           </tbody></table>
@@ -413,13 +426,12 @@ const maxWords = 200;
                             class="form-control-resize textlimit"       
                             ${tei.disabled ? 'disabled readonly' : ''}                                     
                             id="${dataElements.arProjectExpenseCategory[index].comment}"
-                            onchange="pushDataElement(this.id,this.value);checkWords(this, ${index})"
                             >${dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment] : ''}</textarea>
                           
                             <div
                             class="char-counter form-text text-muted">
                             <span id="counter${index}">
-                          ${maxWords - (dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment].trim().split(/\s+/).length : 0)}</span>
+                            ${maxWords - (dataValues[dataElements.arProjectExpenseCategory[index].comment] ? dataValues[dataElements.arProjectExpenseCategory[index].comment].trim().split(/\s+/).length : 0)}</span>
                            <span data-i18n="intro.words_remaining">words remaining</span>
                           </div>
                             <div class="invalid-feedback"> Error here 
@@ -428,10 +440,7 @@ const maxWords = 200;
                                       </div>
                           <div class="form-row">
                           <div class="col-sm-12 text-right">
-                <div
-                          class="form-group text-end mar-b-0"
-                >
-                          <!--                                 <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
+                          <div class="form-group text-end mar-b-0">
                           <input
                             type="button"
                             value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft" 
@@ -439,9 +448,9 @@ const maxWords = 200;
                           />
                           ${(length - 1 == index) ? `                          
                           <button ${tei.disabled ? 'disabled readonly' : ''}  class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/6-actual-income-ar.html'">
-                          <span data-i18n="intro.next">Next</span>:  
-                          <span data-i18n="intro.actual_income">6. Actual Income</span>
-                </button>`: `<input
+                            <span data-i18n="intro.next">Next</span>:  
+                            <span data-i18n="intro.actual_income">6. Actual Income</span>
+                          </button>`: `<input
                           type="button"
                           value="NEXT"
                           data-i18n="[value]intro.next" 
@@ -449,11 +458,11 @@ const maxWords = 200;
                           class="btn btn-primary"
                 />`}
                 </div>
-                            </div>
-                          </div>
-                                      </div>
-                                    </div>
-                                    <!--- sect ${(index + 1)}--->`
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--- sect ${(index + 1)}--->`
     })
 
     return projectRows;
@@ -609,9 +618,9 @@ function calculateTotals(idx, expenseId) {
   totalDifference = totalBudget-totalExpenses;
   }
   const totalSpend = totalBudget && totalExpenses/totalBudget && (totalExpenses/totalBudget)!="Infinity"? (totalExpenses/totalBudget)*100 : '';
-  $('.totalSpend').val(formatNumberInput(totalSpend.toFixed(2)));
+  $('.totalSpend').val(formatNumberInput(totalSpend));
 
-  $('.totalDifference').val(formatNumberInput(totalDifference.toFixed(2)));
+  $('.totalDifference').val(formatNumberInput(totalDifference));
   
   if(totalDifference >= 0) $('.totalDifference')[0].style.setProperty('background','#C1E1C1', 'important');
   else $('.totalDifference')[0].style.setProperty('background','#FAA0A0', 'important');

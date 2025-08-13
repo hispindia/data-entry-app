@@ -19,6 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      fetchEvents()
+    });
+
+
+  configurePage();
   async function configurePage() {
     try {
          const user = await getUserConfig();
@@ -26,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
               
           if (user.organisationUnits?.length) {
             tei.orgUnit = user.organisationUnits[0].id;
-            document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
           }
           ['aoc-reporting', 'trt-review'].forEach(page => {
             if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -71,8 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-    $("#table-head").empty();
-    $("#table-body").empty();
+    $("#kofax-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
 
     var dataValuesOU = [];
@@ -100,12 +106,12 @@ document.addEventListener("DOMContentLoaded", function () {
             || enroll.program == program.auProjectDescription
           );
 
-          let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea,tei.year.id) //data values year wise
-          let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails,tei.year.id) //data values year wise
-          let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory,tei.year.id) //data values year wise
-          let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails,tei.year.id) //data values year wise
-          let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails,tei.year.id) //data values year wise
-          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription,tei.year.id) //data values year wise
+          let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea,{id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails,{id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory,{id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails,{id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails,{id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription,{id: tei.year.id, value: tei.year.value}) //data values year wise
 
           dataValuesOU.push({
             orgUnit: ou.name,
@@ -133,7 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const kofaxExport = getExpenseBudget(dataValuesOU, level2OU);
     document.getElementById('th-kofax-export').innerHTML = kofaxExport.tableHead;
     document.getElementById('tb-kofax-export').innerHTML = kofaxExport.tableRow;
+    
     $("#loader").empty();
+    $("#kofax-export").show();
 
 
     // Localize content
@@ -609,8 +617,6 @@ document.addEventListener("DOMContentLoaded", function () {
       tableRow
     }
   }
-
-  configurePage();
 });
 
 

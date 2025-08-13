@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <label for="projectDescription" data-i18n="intro.description_project">Description of Project </label>
                 <textarea class="form-control-resize textlimit" id="projectDescription" ${tei.disabled ? 'disabled readonly': ''} 
                 onchange="checkWords(this,1,250)"></textarea>
-                <div class="char-counter form-text text-muted" id="counter1">250 words remaining</div>
+                <div class="char-counter form-text text-muted"><span id="counter1">250</span> <span data-i18n="intro.words_remaining">Words Remaining</span></div>
                 <div class="invalid-feedback"> Error here </div>
             </div>`;
     }

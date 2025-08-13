@@ -219,7 +219,7 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
                       </div>
                   </div>
                   <input type="text" 
-                  ${tei.disabled ? 'disabled readonly': ''} 
+                  disabled readonly
                   id="${dataElements.sourceCommodities['unrestricted']}" 
                   class="form-control textValue"
                   value="${formatNumberInput(unrestrictedValue)}"

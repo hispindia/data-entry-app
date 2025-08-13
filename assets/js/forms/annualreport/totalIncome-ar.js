@@ -1,7 +1,7 @@
-import { createEvent, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { createEvent, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
-import { formatNumberInput, getYears } from '../func.js';
+import { formatNumberInput, getYears, unformatNumber } from '../func.js';
 
 var totalExpenses = 0;
 const totalsId = [{
@@ -199,18 +199,18 @@ document.addEventListener("DOMContentLoaded", function () {
         data.trackedEntityInstances[0].enrollments.filter(
           (enroll) => enroll.program == tei.program || enroll.program== program.arProjectExpenseCategory);
 
-      const dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
+      const dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesEC) {
         totalExpenses = dataValuesEC[dataElements.totalExpenses] ?  dataValuesEC[dataElements.totalExpenses]: 0;
       }
-      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
+      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValues && dataValues[dataElements.submitAnnualUpdate])  tei.disabled = true;
 
       if (!dataValues) {
-        if(year && tei.periodicity.value) {
+        if(tei.year.value && tei.periodicity.value) {
           let data = [{
             dataElement: tei.year.id,
-            value: year
+            value: tei.year.value
           },{
             dataElement: tei.periodicity.id,
             value: tei.periodicity.value
@@ -247,11 +247,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
     $("#accordion").empty();
     const projectRows = displayTotalIncome(dataValues);
-    $("#accordion").append(projectRows);
+    $('#accordion').html(projectRows);
+    $('#accordion .textValue').toArray().forEach(el => {
+      el.addEventListener("input", (ev) => {
+        var { id, value, name } = ev.target;
+        pushDataElement(id,(value ? unformatNumber(value): ''));
+        ev.target.value = formatNumberInput(value);
+        calculateTotals(name);
+      })
+    })
+    $('#accordion .textArea').toArray().forEach(el => {
+      el.addEventListener("input", (ev) => {
+        var { id, value } = ev.target;
+        pushDataElement(id, value);
+      })
+    })
 
     const organisationContributor = displayContributor(dataValues);
     $("#organisation-contributor").empty();
-    $("#organisation-contributor").append(organisationContributor);
+    $("#organisation-contributor").html(organisationContributor);
+    $('#organisation-contributor .textValue').toArray().forEach(el => {
+      el.addEventListener("input", (ev) => {
+        var { id, value, name } = ev.target;
+        pushDataElement(id,(value ? unformatNumber(value): ''));
+        ev.target.value = formatNumberInput(value);
+        calculateTotals(name);
+      })
+    })
+    $('#organisation-contributor .textArea').toArray().forEach(el => {
+      el.addEventListener("input", (ev) => {
+        var { id, value } = ev.target;
+        pushDataElement(id, value);
+      })
+    })
 
     const totalsRow = displayTotals(dataValues);
     $("#totals").empty();
@@ -274,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     rows += `<tr>
                 <td>
-                <input type="value" value="${organisation}" id="${dataElements.organisation}" class="form-control textArea currency">     
+                <input type="text" value="${organisation}" id="${dataElements.organisation}" class="form-control textArea currency">     
                 </td>
                 <td>
                     <div class="input-group">
@@ -315,8 +343,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(restricted)}" id="${dataElements[`${details.id}_restricted`]}" 
-            class="form-control  totalIncome-${details.id}-restricted currency" disabled readonly>
+            <input type="text" 
+            value="${formatNumberInput(restricted)}" 
+            id="${dataElements[`${details.id}_restricted`]}" 
+            class="form-control restricted-${details.id} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -326,8 +356,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(unrestricted)}" id="${dataElements[`${details.id}_unrestricted`]}" 
-            class="form-control  totalIncome-${details.id}-unrestricted currency" disabled readonly>
+            <input type="text" 
+            value="${formatNumberInput(unrestricted)}" 
+            id="${dataElements[`${details.id}_unrestricted`]}" 
+            class="form-control unrestricted-${details.id} currency" disabled readonly>
           </div>
         </td>
         <td>
@@ -337,8 +369,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 $
               </div>
             </div>
-            <input type="text" value="${formatNumberInput(totalIncomeCategory)}" id="${dataElements[`${details.id}_total`]}" 
-            class="form-control totalIncome-${details.id}-total  currency" disabled readonly>
+            <input type="text" 
+            value="${formatNumberInput(totalIncomeCategory)}" 
+            id="${dataElements[`${details.id}_total`]}" 
+            class="form-control totalIncome-${details.id}  currency" disabled readonly>
           </div>
         </td>
       </tr>`
@@ -360,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <td colspan="3" align="right" data-i18n="intro.deficit">Deficit/Surplus: </td>
   <td> <input type="text" 
   id='deficit'
-  style="background:${deficit >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
+  style="background:${deficit >= 0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
   value="${formatNumberInput(deficit)}" class="form-control input-budget currency" disabled></td>
 </tr>`;
     return totalsRow;
@@ -397,8 +431,9 @@ document.addEventListener("DOMContentLoaded", function () {
               type="text" 
               ${tei.disabled ? 'disabled readonly': ''} 
               id="${restrictedId}" 
+              name="${option.id}-restricted-${category.shortName}" 
               value="${formatNumberInput(restricted)}" 
-              class="form-control input-restricted textValue  currency">
+              class="form-control input-restricted-${category.shortName} textValue  currency">
             </div>
           </td>
           <td>
@@ -410,8 +445,9 @@ document.addEventListener("DOMContentLoaded", function () {
               type="text" 
               ${tei.disabled ? 'disabled readonly': ''} 
               id="${unrestrictedId}" 
+              name="${option.id}-unrestricted-${category.shortName}" 
               value="${formatNumberInput(unrestricted)}"  
-              class="form-control input-unrestricted textValue currency">
+              class="form-control input-unrestricted-${category.shortName} textValue currency">
             </div>
           </td>
           <td>
@@ -421,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
               <input 
               type="text"
-              id="${restrictedId}-${unrestrictedId}" 
+              id="${option.id}"
               value="${formatNumberInput(totalIncome)}" 
               disabled
               class="form-control  currency">
@@ -462,44 +498,6 @@ async function enableAnnualUpdate() {
   alert ("Report Reopened Successfully!");
 }
 
-function calculateTotals(restricted, unrestricted,id) {
-  const restrictedVal = $(`#${restricted}`)? $(`#${restricted}`).val(): '';
-  const unrestrictedVal = $(`#${unrestricted}`)? $(`#${unrestricted}`).val(): '';
-  const total = unformatNumber(restrictedVal) + unformatNumber(unrestrictedVal);
-  if($(`#${restricted}-${unrestricted}`)) {
-    $(`#${restricted}-${unrestricted}`).val(formatNumberInput(total));
-  }
-
-  var restrictedTotals = 0;
-  document.querySelectorAll(`.input-restricted-${id}`).forEach(ev=> {
-    var {value} = ev;
-    restrictedTotals += unformatNumber(value);
-  })
- 
-  var unrestrictedTotals = 0;
-  document.querySelectorAll(`.input-unrestricted-${id}`).forEach(ev=> {
-    var {value} = ev;
-    unrestrictedTotals += unformatNumber(value);
-  })
-  var globalTotals = Number(unrestrictedTotals) + Number(restrictedTotals);
-  
-  $(`.totalIncome-${id}-unrestricted`).val(formatNumberInput(unrestrictedTotals));
-  $(`.totalIncome-${id}-restricted`).val(formatNumberInput(restrictedTotals));
-  $(`.totalIncome-${id}-total`).val(formatNumberInput(globalTotals));
-  pushDataElement($(`.totalIncome-${id}-unrestricted`)[0].id, unrestrictedTotals);
-  pushDataElement($(`.totalIncome-${id}-restricted`)[0].id, restrictedTotals);
-  pushDataElement($(`.totalIncome-${id}-total`)[0].id, globalTotals);
-  
-  const localIncome = unformatNumber($(`#${dataElements.localIncome_total}`).val());
-  const internationalIncome = unformatNumber($(`#${dataElements.internationalIncome_total}`).val());
-  const ippfIncome = unformatNumber($(`#${dataElements.ippfIncome_total}`).val());
-  const totalIncome = Number(localIncome) + Number(internationalIncome) + Number(ippfIncome);
-  const deficit = totalIncome-totalExpenses;
-  $('#actual-income').val(formatNumberInput(totalIncome)); 
-  $('#deficit').val(formatNumberInput(deficit)); 
-  if(deficit >= 0) $('#deficit')[0].style.setProperty('background','#C1E1C1', 'important')
-  else $('#deficit')[0].style.setProperty('background','#FAA0A0', 'important')      
-}
 
 function loadCalculatedVariables(dataValues, dataElements) {
   var localIncome_restricted = 0;
@@ -555,40 +553,64 @@ function loadCalculatedVariables(dataValues, dataElements) {
 function submitProjects() {
   alert("Data Saved Successfully!")
 }
- function addIncome(id,index) {
-        
-        if(detailsIndex[id]>=filledIndex[id]) {
-        const income = dataElements.projectTotalIncome[filledIndex[id]];
-  
-        const newProjectRow =  addProjectIncome(income, {}, categoryIncome[index].options, id);
-        $(newProjectRow).insertBefore(`.btn-${id}`);
-        filledIndex[id]++;
+// function calculateTotals(restricted, unrestricted,id) {
+//   const restrictedVal = $(`#${restricted}`)? $(`#${restricted}`).val(): '';
+//   const unrestrictedVal = $(`#${unrestricted}`)? $(`#${unrestricted}`).val(): '';
+//   const total = unformatNumber(restrictedVal) + unformatNumber(unrestrictedVal);
+//   if($(`#${restricted}-${unrestricted}`)) {
+//     $(`#${restricted}-${unrestricted}`).val(formatNumberInput(total));
+//   }
 
-        }
-      }
+//   var restrictedTotals = 0;
+//   document.querySelectorAll(`.input-restricted-${id}`).forEach(ev=> {
+//     var {value} = ev;
+//     restrictedTotals += unformatNumber(value);
+//   })
+ 
+//   var unrestrictedTotals = 0;
+//   document.querySelectorAll(`.input-unrestricted-${id}`).forEach(ev=> {
+//     var {value} = ev;
+//     unrestrictedTotals += unformatNumber(value);
+//   })
+//   var globalTotals = Number(unrestrictedTotals) + Number(restrictedTotals);
   
-      function removeIncome(id) {
-        if (filledIndex[id] > negativeIndex[id]) {
-          filledIndex[id]--;
-          const income = dataElements.projectTotalIncome[filledIndex[id]];
-          $(`.budget-wrap-${id}`).last().remove();
-          calculateTotals(income.restricted, income.unrestricted,id);
-          pushDataElement(`${income.subCategory}`, '');
-          pushDataElement(`${income.restricted}`, '');
-          pushDataElement(`${income.unrestricted}`, '');
-        }
-      }
-      
-      //textarea word limit
-      function checkWords(event, count) {
-        const counter = document.getElementById('counter' + (count));
-        const { value } = event;
-        const words = value.trim().split(/\s+/)
-  
-        if (words.length >= maxWords) {
-          event.value = words.slice(0, maxWords).join(' ');
-          return
-        }
-        if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-        else counter.textContent = `${maxWords} words remaining`;
-      }
+//   $(`.totalIncome-${id}-unrestricted`).val(formatNumberInput(unrestrictedTotals));
+//   $(`.totalIncome-${id}-restricted`).val(formatNumberInput(restrictedTotals));
+//   $(`.totalIncome-${id}-total`).val(formatNumberInput(globalTotals));
+//   pushDataElement($(`.totalIncome-${id}-unrestricted`)[0].id, unrestrictedTotals);
+//   pushDataElement($(`.totalIncome-${id}-restricted`)[0].id, restrictedTotals);
+//   pushDataElement($(`.totalIncome-${id}-total`)[0].id, globalTotals);
+    
+// }
+
+function calculateTotals(name) {
+  const ids = name.split('-');
+  const restrictedVal = $(`input[name="${ids[0]}-restricted-${ids[2]}"]`).val();
+  const unrestrictedVal = $(`input[name="${ids[0]}-unrestricted-${ids[2]}"]`).val();
+  const total = unformatNumber(restrictedVal) + unformatNumber(unrestrictedVal);
+  $(`#${ids[0]}`).val(total);
+
+  var restrictedTotals = 0;
+  var unrestrictedTotals = 0;
+  $(`.input-restricted-${ids[2]}`).each((_,el) => restrictedTotals += unformatNumber(el.value));
+  $(`.input-unrestricted-${ids[2]}`).each((_,el) => unrestrictedTotals += unformatNumber(el.value));
+ 
+  var globalTotals = Number(restrictedTotals) + Number(unrestrictedTotals);
+
+  $(`.restricted-${ids[2]}`).val(formatNumberInput(restrictedTotals));
+  $(`.unrestricted-${ids[2]}`).val(formatNumberInput(unrestrictedTotals));
+  $(`.totalIncome-${ids[2]}`).val(formatNumberInput(globalTotals));
+  pushDataElement($(`.unrestricted-${ids[2]}`)[0].id, unrestrictedTotals);
+  pushDataElement($(`.restricted-${ids[2]}`)[0].id, restrictedTotals);
+  pushDataElement($(`.totalIncome-${ids[2]}`)[0].id, globalTotals);
+
+  const localIncome = unformatNumber($(`#${dataElements.localIncome_total}`).val());
+  const internationalIncome = unformatNumber($(`#${dataElements.internationalIncome_total}`).val());
+  const ippfIncome = unformatNumber($(`#${dataElements.ippfIncome_total}`).val());
+  const totalIncome = Number(localIncome) + Number(internationalIncome) + Number(ippfIncome);
+  const deficit = totalIncome-totalExpenses;
+  $('#actual-income').val(formatNumberInput(totalIncome)); 
+  $('#deficit').val(formatNumberInput(deficit)); 
+  if(deficit >= 0) $('#deficit')[0].style.setProperty('background','#C1E1C1', 'important')
+  else $('#deficit')[0].style.setProperty('background','#FAA0A0', 'important')    
+}

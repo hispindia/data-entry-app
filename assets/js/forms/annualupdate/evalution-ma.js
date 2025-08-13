@@ -1,3 +1,5 @@
+import { getUserConfig } from "../config";
+
 const maxWords = 200;
 var sendBackToMA = false;
 var eventSummaryAId = '';
