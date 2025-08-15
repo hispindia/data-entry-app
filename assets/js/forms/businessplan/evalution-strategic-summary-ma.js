@@ -333,7 +333,7 @@ async function updateValue(value,index) {
     }
   }
   $(`#grant-total`).text(grantTotal)
-await dataSet.post({dataSetId:dataSetFunds, co, orgUnit, period: selectedYear, dataElement, value:displayValue(finalGrant)})
+// await dataSet.post({dataSetId:dataSetFunds, co, orgUnit, period: selectedYear, dataElement, value:displayValue(finalGrant)})
   
 }
 

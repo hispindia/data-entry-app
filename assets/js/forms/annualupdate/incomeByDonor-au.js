@@ -100,20 +100,21 @@ configurePage();
 
     let projectRows = displayProjectDetails(dataValues);
       $('#donor-details').html(projectRows);
-      $('#donor-details .textValue').toArray().forEach(el => {
-        el.addEventListener("input", (ev) => {
+
+      const content = document.getElementById('donor-details')
+      content.addEventListener('input', (ev) => {
+        if(ev.target.matches('.textValue')) {
           var { id, value } = ev.target;
-          pushDataElement(id, unformatNumber(value));
+          value = value ? unformatNumber(value) : '';
+          pushDataElement(id,value);
           ev.target.value = formatNumberInput(value);
           changeTotals();
-        })
-      }) 
-      $('#donor-details .textContent').toArray().forEach(el => {
-        el.addEventListener("input", (ev) => {
-          var { id, value, dataset } = ev.target;
+        }
+        if(ev.target.matches('.textContent')) {
+          var { id, value } = ev.target;
           pushDataElement(id, value);
           if(dataset.name) checkWords(ev.target, dataset.name);
-        })
+        }
       })
 
     var totalsRow = displayTotals(dataValues);
@@ -165,12 +166,16 @@ configurePage();
         donorCount++; 
       }
       for(let rowAdd = 0; rowAdd < 10-donors.length; rowAdd++)  {
-        addRow(dataElements.incomeByDonor[0], dataValues);
+        addRow(dataElements.incomeByDonor[donorCount], dataValues);
         donorCount++; 
+      }
+      if(donors.length >= 10 && donors.length <=14) {
+      projectRows += addRow(dataElements.incomeByDonor[donorCount], dataValues);
+      donorCount++; 
       }
     } else {
       for(let rowAdd = 0; rowAdd < 10; rowAdd++)  {
-        projectRows += addRow(dataElements.incomeByDonor[0], dataValues);
+        projectRows += addRow(dataElements.incomeByDonor[donorCount], dataValues);
         donorCount++; 
       }
     }

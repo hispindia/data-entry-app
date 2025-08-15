@@ -1,5 +1,6 @@
+import { dataSet } from "../../api/dataSet.js";
 import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
-import { dataElements, program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { disableAll, enableAll, formatNumberInput, getYears } from "../func.js";
 
@@ -53,14 +54,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetchEvents();    
   }
+
+  async function fetchDataSet() {
+    const values = {};
+        
+    const years = getYears(tei.year.value, Number(tei.year.value)+2);
+    for(let year of years) {
+    const dataValuesQuantity = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+      dataValuesQuantity.dataValues.forEach(dv => {
+        if(!values[dv.dataElement]) values[dv.dataElement] = {};
+        values[dv.dataElement][year] = dv.value
+      })
+    }
+    
+    return values;
+  }
   
   async function fetchEvents() {
     tei.year.value = document.getElementById("year-update").value;
 
     const data = await getTEI(tei.orgUnit);
-    
+    const dataSetValues = await fetchDataSet();
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
+
+      var attributes = {
+        ...dataSetValues
+      };
+      if (data.trackedEntityInstances.length && data.trackedEntityInstances[0].attributes) {
+        data.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
+      }
 
       const filteredPrograms =
         data.trackedEntityInstances[0].enrollments.filter(
@@ -71,11 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
-    
-      var attributes = {};
-      if (data.trackedEntityInstances.length && data.trackedEntityInstances[0].attributes) {
-        data.trackedEntityInstances[0].attributes.forEach(attr => attributes[attr.attribute] = attr.value);
-      }
 
       const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
@@ -131,6 +149,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tei.disabled) disableAll();
     else enableAll();
 
+    const years = getYears(tei.year.value, Number(tei.year.value)+2);
+    years.map((year, index) => {
+      const id = `${dataElements.formulaGenerated}-year${(index+1)}`;
+      if(attributes[dataElements.formulaGenerated][year]) {
+        $(`#${id}`).val(formatNumberInput(attributes[dataElements.formulaGenerated][year]))
+      }
+      else {
+        $(`#${id}`).val('')
+      }
+    })
+    
     document.querySelectorAll('.textValue').forEach((textVal) => {
       if (attributes[textVal.id]) {
         textVal.value = attributes[textVal.id];
@@ -182,6 +211,19 @@ document.addEventListener("DOMContentLoaded", function () {
       } else pushDataElement(id,value);
     })
   });
+  // document.querySelectorAll('.dataValues').forEach((input)=> {
+  //   input.addEventListener("input", async (ev) => {
+  //     const { id,value} = ev.target;
+  //     const years = getYears(tei.year.value, Number(tei.year.value)+2);
+  //     years.forEach
+
+  //     id = id.split('-')
+  //     if(checked) pushDataElement(id[0], true);
+  //     else pushDataElement(id[0], '');
+  //     await dataSet.post({dataSetId: dataSetFunds, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement: id, value: unformatNumber(value)});
+      
+  //   })
+  // });
 
   document
     .getElementById("year-update")

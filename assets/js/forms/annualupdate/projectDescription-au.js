@@ -133,6 +133,14 @@ document.addEventListener("DOMContentLoaded", function () {
         ev.target.value = formatNumberInput(value);
       } else if (ev.target.matches('.textContent')) {
         const { id, value } = ev.target;
+        if(value == 'Other (please fill in)' || value == "Other (please write below)") {
+          $(`.${id}-other`).show();
+        } else if($(`#${id}`).hasClass(`${id}-other`) && $(`#${id}`).val() && ($(`[name="${id}"]`).val() !='Other (please fill in)' &&  $(`[name="${id}"]`).val() != 'Other (please write below)')) {
+          $(`.${id}-other`).hide();
+          console.log( $(`[name="${id}"]`).val())
+         
+          pushDataElement($(`.${id}-other`)[0].id,'');
+        }
         pushDataElement(id,value);
       } else if (ev.target.matches('.textlimit')) {
         const { id, value } = ev.target;
@@ -170,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </td>
           <td>
             <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
-              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}">
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}" name="${project.themeOther}" >
                 <option ${(values['theme']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
                 <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
                 <option ${(values['theme']=="General Contraception") ? "selected": ''} value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
@@ -188,11 +196,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option ${(values['theme']=="Social Enterprise & Marketing") ? "selected": ''} value="Social Enterprise & Marketing"><span data-i18n="intro.p_14">Social Enterprise & Marketing</span></option>
                 <option ${(values['theme']=="Marginalised Pops (incl. LGBTQ+)") ? "selected": ''} value="Marginalised Pops (incl. LGBTQ+)"><span data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</span></option>
                 <option ${(values['theme']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.p_16">Not applicable</span></option>
-                <option id="${project.theme}-other" ${(values['theme']=="Other (please fill in)") ? "selected": ''} value="Other"><span data-i18n="intro.p_15">Other (please fill in)</span></option>
+                <option ${(values['theme']=="Other (please fill in)") ? "selected": ''} value="Other (please fill in)"><span data-i18n="intro.p_15">Other (please fill in)</span></option>
               </select>
-            <div style="display:none">
+            <div>
               <input type="text" 
-                class="w-100 form-control my-1 textContent"
+                class="w-100 form-control my-1 ${project.theme}-other textContent"
+                id="${project.themeOther}"
+                style="${values['theme']!="Other (please fill in)" ? `display:none`:``}"
                 value="${values['themeOther']}" 
                 placeholder="Other (Please specify)"
               />
@@ -230,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </td> 
           <td>
             <label for="${project.donor}"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
-              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" value="${values['donor']}">
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" name="${project.donorOther}" >
                 <option ${(values['donor']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
                 <option ${(values['donor']=="Government of Australia / DFAT") ? "selected": ''} value="Government of Australia / DFAT"><span data-i18n="intro.g_aus">Government of Australia / DFAT</span></option>
                 <option ${(values['donor']=="Government of Canada / GAC") ? "selected": ''} value="Government of Canada / GAC"><span data-i18n="intro.g_can">Government of Canada / GAC</span></option>
@@ -264,13 +274,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option ${(values['donor']=="Rutgers (Netherlands)") ? "selected": ''} value="Rutgers (Netherlands)"><span data-i18n="intro.rutgers">Rutgers (Netherlands)</span></option>
                 <option ${(values['donor']=="Center for Disease Control (CDC)") ? "selected": ''} value="Center for Disease Control (CDC)"><span data-i18n="intro.center_dis_cont">Center for Disease Control (CDC)</span>)</option>
                 <option ${(values['donor']=="USAID") ? "selected": ''} value="USAID"><span data-i18n="intro.usaid">USAID</span></option>
-               <option ${(values['donor']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.not_app">Not applicable</span></option> 
-               <option id="${project.donor}-other" ${(values['donor']=="Other (please write below)") ? "selected": ''} value="Other (please write below)"><span data-i18n="intro.other_please">Other (please write below)</span></option>
+                <option ${(values['donor']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.not_app">Not applicable</span></option> 
+                <option ${(values['donor']=="Other (please write below)") ? "selected": ''} value="Other (please write below)"><span data-i18n="intro.other_please">Other (please write below)</span></option>
               </select>
-            <div style="display:none">
+            <div>
               <input type="text"  
-                class="w-100 form-control my-1"
+                class="w-100 form-control ${project.donor}-other  my-1 textContent"
                 ${tei.disabled ? 'disabled readonly': ''} 
+                id="${project.donorOther}"
+                style="${values['donor']!="Other (please write below)" ? `display:none`:``}"
                 value="${values['donorOther']}" 
                 placeholder="Other (Please specify)"
               />

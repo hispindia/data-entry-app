@@ -292,6 +292,7 @@ const maxWords = 200;
                                     type="text" 
                                     ${(!list.comment) ? 'disabled' : ''}
                                     id="${id}"
+                                    data-index="${index}"
                                     value="${formatNumberInput(expense)}" 
                                     class="form-control textValue currency">
                                 </div>

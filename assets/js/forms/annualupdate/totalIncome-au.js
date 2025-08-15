@@ -186,9 +186,9 @@ document.addEventListener("DOMContentLoaded", function () {
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
 
-      const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory , program.auProjectExpenseCategory , tei.year.id) //data vlaues year wise
+      const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory , program.auProjectExpenseCategory , {id:tei.year.id, value: tei.year.value}) //data vlaues year wise
 
-      totalExpenses = dataValuesEC[dataElements.totalBudget] ? Number(dataValuesEC[dataElements.totalBudget] ): 0;
+      totalExpenses = dataValuesEC[tei.year.value] && dataValuesEC[tei.year.value][dataElements.totalBudget] ? Number(dataValuesEC[tei.year.value][dataElements.totalBudget] ): 0;
       
       tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, {id:tei.year.id, value: tei.year.value}) //data vlaues year wise
 
@@ -233,7 +233,8 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#accordion .textValue').toArray().forEach(el => {
         el.addEventListener("input", (ev) => {
           var { id, value, name } = ev.target;
-          pushDataElement(id,unformatNumber(value));
+          value = value ? unformatNumber(value) : '';
+          pushDataElement(id,value);
           ev.target.value = formatNumberInput(value);
           calculateTotals(name);
         })

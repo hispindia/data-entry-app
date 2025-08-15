@@ -586,13 +586,6 @@ const translation_mapping = [
         ar: "اختر أيًّا"
         
     },
-    {
-        id: "choose",
-        en: "Choose",
-        sp: "",
-        fr: "",
-        ar: 'اختر'
-    },
     
     {
         id: "advocacy_priority_1",
@@ -809,14 +802,14 @@ const translation_mapping = [
         id: "country_context_ques",
         en: "Ques 1. Country context",
         sp: "1. Contexto nacional",
-        fr: "Ques 1.Contexte du pays",
+        fr: "1. Contexte du pays",
         ar: 'السؤال الاول : سياق الدولة'
     },
     // 
     {
         id: "country_context_ques_description",
         en: "Please describe your country context as relevant to SRHR. What are the main SRHR gaps and social or political factors that should be addressed in the remainder of the IPPF strategic period (e.g., unmet need, service gaps, political environment, laws, policies, social norms, national health/education programmes and innovations, opposition, etc.). Please use updated and verified statistics where possible, and mention marginalized groups as relevant (500 words max)",
-        fr: "Ofrezca una descripción de su contexto nacional en lo relativo a la SDSR. ¿Cuáles son las principales carencias en materia de SDSR y los factores sociales o políticos que deberían abordarse en lo que resta del período estratégico de la IPPF (por ejemplo, necesidad no satisfecha, carencias en servicios, entorno político, legislación, políticas públicas, normas sociales, innovaciones y programas nacionales de salud/educación, oposición, etc.)? Emplee datos estadísticos actualizados y comprobados cuando sea posible, y mencione los grupos marginados según sea pertinente (500 palabras como máximo)",
+        fr: "Veuillez décrire le contexte de votre pays en matière de SDSR. Quelles sont les principales lacunes en matière de SDSR et les facteurs sociaux ou politiques à prendre en compte d'ici la fin de la période stratégique de l'IPPF (par exemple, besoins non satisfaits, lacunes dans les services, environnement politique, lois, politiques, normes sociales, programmes et innovations nationaux en matière de santé et d'éducation, opposition, etc.) ? Veuillez utiliser des statistiques actualisées et vérifiées dans la mesure du possible, et mentionner les groupes marginalisés si nécessaire (500 mots maximum).",
         sp: "Describa el contexto de su país en relación con la salud y los derechos sexuales y reproductivos. ¿Cuáles son las principales brechas en salud y los factores sociales o políticos que deberían abordarse en lo que resta del período estratégico del IPPF (por ejemplo, necesidades insatisfechas, deficiencias en los servicios, entorno político, leyes, políticas, normas sociales, programas e innovaciones nacionales de salud y educación, oposición, etc.)? Utilice estadísticas actualizadas y verificadas siempre que sea posible, y mencione a los grupos marginados según corresponda (máximo 500 palabras).",
         ar: "نرجو توضيح الوضع في بلدكم فيما يتعلق بالحقوق والصحة الجنسية والإنجابية. ما هي الثغرات الرئيسية في مجال الحقوق والصحة الجنسية والإنجابية والعوامل الاجتماعية أو السياسية التي ينبغي معالجتها في الفترة الاستراتيجية المتبقية للاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، الاحتياجات غير الملباة، فجوات الخدمة، البيئة السياسية، القوانين، السياسات، الأعراف الاجتماعية، الابتكارات والبرامج الصحية/التعليمية الوطنية، المعارضة، إلخ). نرجو الاستناد إلى إحصاءات حديثة ومُوثّقة، كلما أمكن، مع ذكر الفئات المهمّشة ذات الصلة (بحد أقصى 500 كلمة)"
     },
@@ -908,7 +901,7 @@ const translation_mapping = [
     },
     {
         id: "start_pillar_1",
-        en: "IPPF Strat Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in national four regions.",
+        en: "For example: IPPF Strat Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in four national regions.",
         sp: "Por ejemplo: IPPF Start Pilar 1: Para diciembre de 2026, implementar al menos tres intervenciones nacionales de salud digital en cuatro regiones nacionales.",
         fr: "Par exemple : IPPF Start Pilier 1 : D’ici décembre 2026, déployer au moins trois interventions nationales de santé numérique dans quatre régions nationales.",
         ar: "الركيزة الاستراتيجية الأولى للاتحاد الدولي لتنظيم الأسرة (IPPF): بحلول ديسمبر 2026، يتم تنفيذ ما لا يقل عن ثلاث تدخلات رقمية صحية وطنية في أربع مناطق وطنية."
@@ -2502,7 +2495,7 @@ const translation_mapping = [
     },
     {
         id: "add_new_donor",
-        en: "Add New Doonr",
+        en: "Add New Donor",
         sp: "Agregar nuevo donante",
         fr: "Ajouter un nouveau donateur",
         ar: 'إضافة مانح جديد'
@@ -3007,6 +3000,13 @@ de productos (como se indica en la parte de abajo del formulario)
         sp: "Fuente de financiamiento",
         fr: "Source de financement",
         ar: "مصدر التمويل"
+    },
+    {
+        id: "submit_business_plan",
+        en: "Submit Business Plan",
+        sp: "Presentar Plan de Negocios",
+        fr: "Soumettre le Plan d’Affaires ",
+        ar: "تقديم خطة العمل"
     },
     {
         id: "ippf_unrestricted",

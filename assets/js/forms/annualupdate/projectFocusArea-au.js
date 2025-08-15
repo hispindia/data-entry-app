@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#accordion .textValue').toArray().forEach(el => {
         el.addEventListener("input", (ev) => {
           var { id, name, dataset, value } = ev.target;
-          pushDataElementFA(id, dataset.indexFA, unformatNumber(value));
+          pushDataElementFA(id, dataset.index, unformatNumber(value));
           ev.target.value = formatNumberInput(value);
           calculateTotals(name)
         })
@@ -429,11 +429,77 @@ document.addEventListener("DOMContentLoaded", function () {
                   </tr>
                 </thead>
                 <tbody>`
-      dataElements.projectFocusAreaNew[index].focusAreas.forEach((faId,indexFA) => {
-        var faValue = {};
-        if(dataValues[faId]) faValue = JSON.parse(dataValues[faId]);
+      var newFocusAreaIndex = [];
+      var emptyFocusAreaIndex = [];
+      var takenIds = [];
+      dataElements.projectFocusAreaNew[index].focusAreas.forEach( (focusAreaId,index) => {
+        if(!takenIds[index]) takenIds[index] = false;
+        if(dataValues[focusAreaId]) {
+          const dataJson = dataValues[focusAreaId];
+          if (dataJson.includes('1. Care: Static Clinic')) {
+            newFocusAreaIndex[0] = focusAreaId;
+            takenIds[0] = true;
+          }
+          else if (dataJson.includes('2. Care: Outreach, mobile clinic, Community-based, delivery')) {
+            newFocusAreaIndex[1] = focusAreaId;
+            takenIds[1] = true;
+          }
+          else if (dataJson.includes('3. Care: Other Services, enabled or referred (associated clinics)')) {
+            newFocusAreaIndex[2] = focusAreaId;
+            takenIds[2] = true;
+          }
+          else if (dataJson.includes('4. Care: Social Marketing Services')) {
+            newFocusAreaIndex[3] = focusAreaId;
+            takenIds[3] = true;
+          }
+          else if (dataJson.includes('5. Care: Digital Health Intervention and Selfcare')) {
+            newFocusAreaIndex[4] = focusAreaId;
+            takenIds[4] = true;
+          }
+          else if (dataJson.includes('6. Advocacy')) {
+            newFocusAreaIndex[5] = focusAreaId;
+            takenIds[5] = true;
+          }
+          else if (dataJson.includes('7. CSE')) {
+            newFocusAreaIndex[6] = focusAreaId;  
+            takenIds[6] = true;
+          }
+          else if (dataJson.includes('8. CSE Online, including social media')) {
+            newFocusAreaIndex[7] = focusAreaId;
+            takenIds[7] = true;
+          }
+          else if (dataJson.includes('9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting')) {
+            newFocusAreaIndex[8] = focusAreaId;
+            takenIds[8] = true;
+          }
+          else if (dataJson.includes('10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles')) {
+            newFocusAreaIndex[9] = focusAreaId;
+            takenIds[9] = true;
+          }
+          else if (dataJson.includes('11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures')) {
+            newFocusAreaIndex[10] = focusAreaId;
+            takenIds[10] = true;
+          }
+        }
+      });
 
-        projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}">${focusAreaOptions[indexFA].name}</td>
+      dataElements.projectFocusAreaNew[index].focusAreas.forEach( (focusAreaId) =>  {
+        if(!newFocusAreaIndex.includes(focusAreaId)) {
+
+          var newIndex = takenIds.indexOf(false);
+          if(newIndex != -1) {
+            takenIds[newIndex] = true;
+            emptyFocusAreaIndex[newIndex]  = focusAreaId;
+          }
+        }
+    })
+
+      dataElements.projectFocusAreaNew[index].focusAreas.forEach((faId,indexFA) => {
+
+          if (newFocusAreaIndex[indexFA]) {
+            var faValue = {};
+            faValue = JSON.parse(dataValues[newFocusAreaIndex[indexFA]]) 
+            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}">${focusAreaOptions[indexFA].name}</td>
                           <td>
                             <input 
                             type="text" 
@@ -441,10 +507,25 @@ document.addEventListener("DOMContentLoaded", function () {
                             id="${faId}" 
                             class="form-control textValue currency"
                             value="${formatNumberInput(faValue.budget)}" 
-                            data-indexFA="${indexFA}"
+                            data-index="${indexFA}"
                             name="${dataElements.projectFocusAreaNew[index].name}-${index}"
                             />
                         </td></tr>`
+          } else {
+            
+            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}">${focusAreaOptions[indexFA].name}</td>
+                          <td>
+                            <input 
+                            type="text" 
+                            ${tei.disabled ? 'disabled readonly': ''}
+                            id="${emptyFocusAreaIndex[indexFA]}" 
+                            class="form-control textValue currency"
+                            value="" 
+                            data-index="${indexFA}"
+                            name="${dataElements.projectFocusAreaNew[index].name}-${index}"
+                            />
+                        </td></tr>`
+          }
         })
         projectRows += `</tbody>
         </table>

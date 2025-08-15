@@ -1,6 +1,6 @@
 import { dataSet } from "../../api/dataSet.js";
 import { getEvents, getOrganisationUnits, getProgramStageEvents, getTEI } from "../../api/func.js";
-import { dataElements, dataSetPrice, dataSetQuantity, program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetFunds, dataSetPrice, dataSetQuantity, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears } from "../func.js";
 
@@ -59,8 +59,10 @@ async function configurePage() {
     const values = {};
     const dataElementsPrice = await dataSet.getElements(dataSetPrice);
     const dataElementsQuantity = await dataSet.getElements(dataSetQuantity);
+    const dataValuesFunds = await dataSet.getValues(dataSetFunds, tei.orgUnit,year);
     const dataValuesPrice = await dataSet.getValues(dataSetPrice, tei.orgUnit,year);
     const dataValuesQuantity = await dataSet.getValues(dataSetQuantity, tei.orgUnit, year);
+    dataValuesFunds.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
     dataValuesPrice.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
     dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
 
@@ -122,10 +124,7 @@ async function configurePage() {
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
 
-    const dataValuesMD =  getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails,{id: tei.year.id,value: tei.year.value});
-    if(dataValuesMD && dataValuesMD[tei.year.value] && dataValuesMD[tei.year.value][dataElements.yearAmount]) {
-      unrestrictedCost = dataValuesMD[tei.year.value][dataElements.yearAmount] ? dataValuesMD[tei.year.value][dataElements.yearAmount] : 0;
-    } 
+    unrestrictedCost = dataSet.values[dataElements.formulaGenerated] ? dataSet.values[dataElements.formulaGenerated] : '';
 
       populateProgramEvents(dataSet, productCodeIds);
     } else {

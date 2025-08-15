@@ -112,10 +112,10 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
     //   $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Update ${tei.year.value}</button>`)
     // }
     if(window.localStorage.getItem("hideReporting").includes('ed')) {
-      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Update ${tei.year.value}</button>`)
+      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()"><span data-i18n="intro.submit_business_plan">Submit Business Plan </span> ${tei.year.value}</button>`)
     }
     if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Update ${tei.year.value}</button>`)
+      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Business Plan ${tei.year.value}</button>`)
     }
 
     $("#accordion").empty();

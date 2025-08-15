@@ -1,7 +1,7 @@
 import { createEvent, getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
-import { formatNumberInput, getYears } from '../func.js';
+import { formatNumberInput, getYears, unformatNumber } from '../func.js';
 
 const maxWords = 200;
 var focusAreaList = {};
@@ -89,7 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
       window.localStorage.setItem("annualReporting", ev.target.value);
       fetchEvents();
     });
-  
+
+    configurePage();
     async function configurePage() {
       const user = await getUserConfig();
       tei.userDisabled = user.disabled;
@@ -242,16 +243,31 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#accordion").empty();
     if (tei.projects.length) {
       let projectRows = displayProjectDetails(tei.projects, dataValues);
-      $("#accordion").append(projectRows);
+      $("#accordion").html(projectRows);
+      $('#accordion .textValue').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value, dataset } = ev.target;
+          value = value ? unformatNumber(value): '';
+          pushDataElementFA(id, value);
+          ev.target.value = formatNumberInput(value);
+          calculateTotals(dataset.index, id);
+        })
+      })
+      $('#accordion .textlimit').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value } = ev.target;
+          pushDataElement(id, value);
+        })
+      })
     } else {
-      $("#accordion").append(
+      $("#accordion").html(
         `<h4 class="text-center text-warning my-4">No Existing Projects! Please add project in the Project Budget Section.</h4>`
       );
     }
 
     var totalsRow = displayTotals(dataValues);
     $("#totals").empty();
-    $("#totals").append(totalsRow);
+    $("#totals").html(totalsRow);
     
       // Localize content
       $('body').localize();
@@ -501,14 +517,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <input 
             type="text" 
             id ="${newFocusAreaIndex[indexFA]}-assignedBudget"
-            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
+            data-index="${index}"
             value="${
               focusAreaVal.assignedBudget
                 ? formatNumberInput(focusAreaVal.assignedBudget)
                 : 0
             }"
             ${(!list.comment) ? 'disabled': ''}
-            class="form-control input-budget currency">
+            class="form-control textValue input-budget currency">
           </div>
         </td>
         <td>
@@ -521,10 +537,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <input 
             type="text"  
             id ="${newFocusAreaIndex[indexFA]}-expense"
+            data-index="${index}"
             ${tei.disabled ? 'disabled readonly': ''} 
-            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
             value="${focusAreaVal.expense ? formatNumberInput(focusAreaVal.expense) : 0}"
-            class="form-control input-budget currency">
+            class="form-control textValue input-budget currency">
           </div>
         </td>
   
@@ -603,10 +619,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <input 
             type="text" 
             id ="${emptyFocusAreaIndex[indexFA]}-assignedBudget"
-            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)"
+            data-index="${index}"
             value="${formatNumberInput(focusAreaVal.assignedBudget)}"
             ${(!list.comment) ? 'disabled': ''}
-            class="form-control input-budget currency">
+            class="form-control textValue input-budget currency">
           </div>
         </td>
         <td>
@@ -620,9 +636,9 @@ document.addEventListener("DOMContentLoaded", function () {
             type="text"  
             id ="${emptyFocusAreaIndex[indexFA]}-expense"
             ${tei.disabled ? 'disabled readonly': ''} 
-            oninput="formatNumberInput(this);pushDataElementFA(this.id);calculateTotals('${index}',this.id)" 
+            data-index="${index}"
             value="${formatNumberInput(focusAreaVal.expense)}"
-            class="form-control input-budget currency">
+            class="form-control textValue input-budget currency">
           </div>
         </td>
   
@@ -671,7 +687,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       totalPercent = totalBudget && totalActualExpense/totalBudget && totalActualExpense/totalBudget!="Infinity" ? (totalActualExpense/totalBudget)*100:''
          
-      projectRows += `    <tr>
+      projectRows += `<tr>
                       <td class="text-center">
                         <strong data-i18n="intro.project_total">Project Total</strong>
                       </td>
@@ -751,7 +767,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         dataElements.projectFocusAreaNew[index].comment
                       }"
                       ${tei.disabled ? 'disabled readonly': ''} 
-                      onchange="pushDataElement(this.id,this.value);checkWords(this, ${index})"
                       >${
                         dataValues[
                           dataElements.projectFocusAreaNew[index]
@@ -827,8 +842,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     return projectRows;
   }
-
-  configurePage();
 });
 
 function submitBudgetExpense() {

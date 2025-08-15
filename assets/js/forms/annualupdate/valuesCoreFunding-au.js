@@ -101,19 +101,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let projectRows = displayProjectDetails(dataValues);
     $('#values-coreFunding').html(projectRows);
-    $('#values-coreFunding .textValue').toArray().forEach(el => {
-      el.addEventListener("input", (ev) => {
+    const content = document.getElementById('values-coreFunding')
+    content.addEventListener('input', (ev) => {
+      if(ev.target.matches('.textValue')) {
         var { id, value } = ev.target;
-        pushDataElement(id, unformatNumber(value));
-        ev.target.value = formatNumberInput(value);
-        changeTotals();
-      })
-    }) 
-    $('#values-coreFunding .textContent').toArray().forEach(el => {
-      el.addEventListener("input", (ev) => {
+          value = value ? unformatNumber(value) : '';
+          pushDataElement(id,value);
+          ev.target.value = formatNumberInput(value);
+          changeTotals();
+      }
+      if(ev.target.matches('.textContent')) {
         var { id, value } = ev.target;
         pushDataElement(id, value);
-      })
+      }
     })
 
     var totalsRow = displayTotals(dataValues);
@@ -189,9 +189,13 @@ document.addEventListener("DOMContentLoaded", function () {
       projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues);
       donorCount++; 
       }
+      if(donors.length >= 10 && donors.length <=14) {
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues);
+      donorCount++; 
+      }
     } else {
       for(let rowAdd = 0; rowAdd < 10; rowAdd++)  {
-      projectRows += addRow(dataElements.valuesCoreFunding.donors[0], dataValues);
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[rowAdd], dataValues);
       donorCount++; 
       }
     }

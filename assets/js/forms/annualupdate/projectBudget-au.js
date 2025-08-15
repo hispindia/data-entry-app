@@ -1,5 +1,6 @@
+import { dataSet } from "../../api/dataSet.js";
 import { createEvent, getEvents, getProgramStageEvents, getTEI, pushDataElement, pushDataElementYear } from "../../api/func.js";
-import { dataElements, program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, unformatNumber, getYears } from "../func.js";
 
@@ -51,24 +52,32 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchEvents();    
   }
 
+  async function fetchDataSet(year) {
+    const values = {};
+        
+    const dataValuesQuantity = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+      dataValuesQuantity.dataValues.forEach(dv => {
+        values[dv.dataElement] = dv.value
+      })
+    
+    return values;
+  }
 
   async function fetchEvents() {
     tei.year.value = document.getElementById("year-update").value;
     
     //organization data
     const data = await getTEI(tei.orgUnit);
+    const dataSetValues = await fetchDataSet(tei.year.value);
+    tei.yearAmount = dataSetValues[dataElements.formulaGenerated] ? dataSetValues[dataElements.formulaGenerated] : '';
     
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
 
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectDescription || enroll.program == program.auOrganisationDetails 
+        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectDescription
       );
-
-      //get membership details
-      const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id:tei.year.id,value: tei.year.value});
-      if(dataValuesOD[tei.year.value] && dataValuesOD[tei.year.value][dataElements.yearAmount]) tei.yearAmount = dataValuesOD[tei.year.value][dataElements.yearAmount]
 
       //get project description
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, {id:tei.year.id, value: tei.year.value});
@@ -426,13 +435,14 @@ function calculateTotals(name) {
   const donorBudgetVal =  $(`input[name="donorBudget-${ids[1]}"]`).val();
   const coreFundingVal =  $(`input[name="coreFunding-${ids[1]}"]`).val();
   const totalBudgetVal = unformatNumber(donorBudgetVal) + unformatNumber(coreFundingVal);
-  $(`input[name="totalBudget-${ids[1]}"]`).val(totalBudgetVal);
   pushDataElement($(`input[name="totalBudget-${ids[1]}"]`)[0].id, totalBudgetVal);
+  $(`input[name="totalBudget-${ids[1]}"]`).val(formatNumberInput(totalBudgetVal));
 
   //For global total
   var totalBudgets = 0;
   $(`.totalBudget`).each((_,el)  => totalBudgets += unformatNumber(el.value));
   pushDataElement($(`.totalBudget-total`)[0].id, value);
+  $(`.totalBudget-total`).val(formatNumberInput(value));
 
   if(ids[0]=="coreFunding") {
     const difference = tei.yearAmount - value;

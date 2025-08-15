@@ -1,15 +1,15 @@
-import { createEventOther, getEvents, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
+import { createEventOther, getEvents, getEventsPeriodicity, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
-import { getYears } from '../func.js';
+import { formatNumberInput, getYears, unformatNumber } from '../func.js';
 
 const maxWords = 200;
 var projectDescriptionCount = 0;
 const eventIds = {
-    projectDescription: {},
-    projectBudget: {},
-    projectFA: {},
-    projectEC: {},
+    projectDescription: '',
+    projectBudget: '',
+    projectFA: '',
+    projectEC: '',
     projectSAFA: '',
     projectAFA: '',
     projectSAEC: '',
@@ -94,6 +94,12 @@ document.addEventListener("DOMContentLoaded", function () {
           window.localStorage.setItem("annualReporting", ev.target.value);
         });
 
+        document
+        .getElementById("submit-button")
+        .addEventListener("click", function () {
+            pushProject();
+        });
+
 
   async function configurePage() {
     const user = await getUserConfig();
@@ -160,14 +166,36 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to populate program events data
     function populateProgramStages() {
         const projectDescription = createProjectDescription();
-        $("#project-description").append(projectDescription);
+        $("#project-description").html(projectDescription);
 
+        document.getElementById("project-description").addEventListener('input', (ev) => {
+            if(ev.target.matches('.input-budget')) {
+              var { id, value, dataset } = ev.target;
+              ev.target.value = formatNumberInput(value);
+            }  else if(ev.target.matches('.textlimit')) {
+              var { id, value } = ev.target;
+              checkWords(ev.target, 1, 250)
+            }
+        });
         const projectFocusArea = createProjectFocusArea();
         $("#project-focus-area").append(projectFocusArea);
+
+        document.getElementById("project-focus-area").addEventListener('input', (ev) => {
+            if(ev.target.matches('.input-budget')) {
+              var { id, value, dataset } = ev.target;
+              ev.target.value = formatNumberInput(value);
+            }
+        });
 
         const projectExpenseCategory = createProjectExpenseCategory();
         $("#project-expense-category").append(projectExpenseCategory);
         
+        document.getElementById("project-expense-category").addEventListener('input', (ev) => {
+            if(ev.target.matches('.input-budget')) {
+              var { id, value, dataset } = ev.target;
+              ev.target.value = formatNumberInput(value);
+            }
+        });
       // Localize content
       $('body').localize();
     }
@@ -176,13 +204,141 @@ document.addEventListener("DOMContentLoaded", function () {
         return `
             <div class="form-group col-md-12 textbox-wrap">
                 <label for="projectName" data-i18n="intro.project_name">Project Name</label>
-                <input type="text" class="form-control" id="projectName"  ${tei.disabled ? 'disabled readonly': ''} >
+                <input type="text" class="form-control textContent" id="projectName"  ${tei.disabled ? 'disabled readonly': ''} >
                 <div class="invalid-feedback"> Error here </div>
             </div>
+    <table class="table w-100">
+      <tbody>
+        <tr>
+          <td>
+            <label for="startDate"><span data-i18n="intro.start_date">Start Date:</span> </label>
+            <input type="date" id="startDate"  
+              ${tei.disabled ? 'disabled readonly': ''} 
+              class="w-100 form-control textContent"
+            />
+            <div class="invalid-feedback"> Error here </div>
+          </td>
+          <td>
+            <label for="projectTheme"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectTheme" name="projectThemeOther" >
+                <option value=""><span data-i18n="intro.choose">Choose</span></option>
+                <option value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
+                <option value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
+                <option value="Digital Health Interventions & Selfcare"><span data-i18n="intro.p_18">Digital Health Interventions & Selfcare</span></option>
+                <option value="Fertility Care /Support"><span data-i18n="intro.p_10">Fertility Care /Support</span></option>
+                <option value="HIV & AIDS"><span data-i18n="intro.p_6">HIV & AIDS</span></option>
+                <option value="Humanitarian SRHR"><span data-i18n="intro.p_4">Humanitarian SRHR</span></option>
+                <option value="SGBV / Gender"><span data-i18n="intro.p_8">SGBV / Gender</span></option>
+                <option value="Advocacy & Norms Change"><span data-i18n="intro.p_17">Advocacy & Norms Change</span></option>
+                <option value="Communications & Campaigns"><span data-i18n="intro.p_9">Communications & Campaign</span></option>
+                <option value="Youth"><span data-i18n="intro.p_5">Youth</span></option>
+                <option value="Research / evidence"><span data-i18n="intro.p_11">Research / evidence</span></option>
+                <option value="Organisational Processes and Systems"><span data-i18n="intro.p_12">Organisational Processes and Systems</span></option>
+                <option value="Commecial Sustainability"><span data-i18n="intro.p_13">Commercial Sustainability</span></option>
+                <option value="Social Enterprise & Marketing"><span data-i18n="intro.p_14">Social Enterprise & Marketing</span></option>
+                <option value="Marginalised Pops (incl. LGBTQ+)"><span data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</span></option>
+                <option value="Not applicable"><span data-i18n="intro.p_16">Not applicable</span></option>
+                <option value="Other (please fill in)"><span data-i18n="intro.p_15">Other (please fill in)</span></option>
+              </select>
+            <div>
+              <input type="text" 
+                class="w-100 form-control my-1 projectTheme-other textContent"
+                id="projectThemeOther"
+                placeholder="Other (Please specify)"
+              />
+            </div>
+            <div class="invalid-feedback"> Error here </div>
+          </td>
+          <td>
+          <label for="projectFunding"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''} id="projectFunding">
+                <option value=""><span data-i18n="intro.choose">Choose</span></option>
+                <option value="Restricted"><span data-i18n="intro.restricted">Restricted</span></option>
+                <option value="Unrestricted"><span data-i18n="intro.unrestricted">Unrestricted</span></option>
+              </select>
+            <div class="invalid-feedback"> Error here </div>
+          </td>
+          <td>
+            <label for="projectContract"><span data-i18n="intro.total_contract_value">Total Contract Value:</span> </label>
+            <input type="text" id="projectContract"  
+              ${tei.disabled ? 'disabled readonly': ''} 
+              class="w-100 form-control input-budget "
+            />
+            <div class="invalid-feedback"> Error here </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="endDate"><span data-i18n="intro.end_date">End Date:</span> </label>
+            <input type="date" id="endDate"  max="${tei.year.end+3}-12-31"
+              ${tei.disabled ? 'disabled readonly': ''}
+              class="w-100 form-control textContent" 
+            >
+            <div class="invalid-feedback"> Error here </div>
+          </td> 
+          <td>
+            <label for="projectDonor"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
+              <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectDonor" name="projectDonorOther" >
+                <option value=""><span data-i18n="intro.choose">Choose</span></option>
+                <option value="Government of Australia / DFAT"><span data-i18n="intro.g_aus">Government of Australia / DFAT</span></option>
+                <option value="Government of Canada / GAC"><span data-i18n="intro.g_can">Government of Canada / GAC</span></option>
+                <option value="Government of China"><span data-i18n="intro.g_ch">Government of China</span></option>
+                <option value="Government of Denmark / DANIDA"><span data-i18n="intro.g_den">Government of Denmark / DANIDA</span></option>
+                <option value="Government of Finland / FINNIDA"><span data-i18n="intro.g_fin">Government of Finland / FINNIDA</span></option>
+                <option value="Government of France / Agence Française de Développement"><span data-i18n="intro.g_fran">Government of France / Agence Française de Développement</span></option>
+                <option value="Government of Germany / GIZ"><span data-i18n="intro.g_ger">Government of Germany / GIZ</span></option>
+                <option value="Government of Japan / Ministry of Foreign Affairs Japan"><span data-i18n="intro.g_jap">Government of Japan / Ministry of Foreign Affairs Japan</span></option>
+                <option value="Government of New Zealand / MFAT "><span data-i18n="intro.g_new">Government of New Zealand / MFAT</span></option>
+                <option value="Government of Norway / NORAD"><span data-i18n="intro.g_nor">Government of Norway / NORAD</span></option>
+                <option value="Government of Spain / AECID"><span data-i18n="intro.g_spain">Government of Spain / AECID</span></option>
+                <option value="Government of United Kingdom / FCDO"><span data-i18n="intro.g_uk">Government of United Kingdom / FCDO</span></option>
+                <option value="European Commission (EU/EC)"><span data-i18n="intro.g_eu_comm">European Commission (EU/EC)</span></option>
+                <option value="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)"><span data-i18n="intro.gl_fund_aids">Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)</span></option>
+                <option value="Reproductive Health Supplies Coalition (RHSC)"><span data-i18n="intro.rep_health">Reproductive Health Supplies Coalition (RHSC)</span></option>
+                <option value="UNAIDS"><span data-i18n="intro.unaids">UNAIDA</span></option>
+                <option value="UNDP"><span data-i18n="intro.undp">UNDP</span></option>
+                <option value="UNESCO"><span data-i18n="intro.unesco">UNESCO</span></option>
+                <option value="UNFPA"><span data-i18n="intro.unfpa">UNFPA</span></option>
+                <option value="UNICEF"><span data-i18n="intro.unicef">UNICEF</span></option>
+                <option value="World Health Organisation (WHO)"><span data-i18n="intro.who">World Health Organisation (WHO)</span></option>
+                <option value="Amplify Change"><span data-i18n="intro.amp_ch">Amplify Change</span></option>
+                <option value="Bill & Melinda Gates Foundation"><span data-i18n="intro.bill_melinda">Bill & Melinda Gates Foundation</span></option>
+                <option value="Open Society Foundations (OSF)"><span data-i18n="intro.osf">Open Society Foundations (OSF)</span></option>
+                <option value="The William and Flora Hewlett Foundation"><span data-i18n="intro.th_william_fl_found">The William and Flora Hewlett Foundation</span></option>
+                <option value="Danish FPA / Sex og Samfund (Denmark)"><span data-i18n="intro.danish_fpa">Danish FPA / Sex og Samfund (Denmark)</span></option>
+                <option value="International Planned Parenthood Federation (IPPF)"><span data-i18n="intro.int_plan_parenth_fed">International Planned Parenthood Federation (IPPF)</span></option>
+                <option value="Planned Parenthood Federation of America (USA)"><span data-i18n="intro.planned_parenthood_fed_usa">Planned Parenthood Federation of America (USA)</span></option>
+                <option value="RFSU (Sweden)"><span data-i18n="intro.rfsu_sweden">RFSU (Sweden)</span></option>
+                <option value="Rutgers (Netherlands)"><span data-i18n="intro.rutgers">Rutgers (Netherlands)</span></option>
+                <option value="Center for Disease Control (CDC)"><span data-i18n="intro.center_dis_cont">Center for Disease Control (CDC)</span>)</option>
+                <option value="USAID"><span data-i18n="intro.usaid">USAID</span></option>
+                <option value="Not applicable"><span data-i18n="intro.not_app">Not applicable</span></option> 
+                <option value="Other (please write below)"><span data-i18n="intro.other_please">Other (please write below)</span></option>
+              </select>
+            <div>
+              <input type="text"  
+                class="w-100 form-control projectDonor-other  my-1 textContent"
+                ${tei.disabled ? 'disabled readonly': ''} 
+                id="projectDonorOther"
+                placeholder="Other (Please specify)"
+              />
+            </div>
+            <div class="invalid-feedback"> Error here </div>
+          </td>
+          <td>
+            <label for="projectIncome"><span data-i18n="intro.annual_proj_income">Annual Project Income:</span> </label>
+            <input type="text" id="projectIncome" 
+              ${tei.disabled ? 'disabled readonly': ''}  
+              class="w-100 form-control input-budget"
+            />
+            <div class="invalid-feedback"> Error here </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
             <div class="form-group col-md-12 textbox-wrap">
                 <label for="projectDescription" data-i18n="intro.description_project">Description of Project </label>
-                <textarea class="form-control-resize textlimit" id="projectDescription" ${tei.disabled ? 'disabled readonly': ''} 
-                onchange="checkWords(this,1,250)"></textarea>
+                <textarea class="form-control-resize textlimit" id="projectDescription" ${tei.disabled ? 'disabled readonly': ''}></textarea>
                 <div class="char-counter form-text text-muted"><span id="counter1">250</span> <span data-i18n="intro.words_remaining">Words Remaining</span></div>
                 <div class="invalid-feedback"> Error here </div>
             </div>`;
@@ -216,7 +372,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 type="text"  
                 id ="assignedBudget-${index}"
                 class="form-control input-budget currency"
-                oninput="formatNumberInput(this)"
                 ${tei.disabled ? 'disabled readonly': ''} 
                 value="">
                 </div>
@@ -253,8 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     id="budget-personnel"
                     type="text"
                     value=""
-                    class="form-control currency"
-                    oninput="formatNumberInput(this)"
+                    class="form-control input-budget currency"
                 />
                 </div>
             </td>
@@ -270,8 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     id="budget-activities"
                     type="text"
                     value=""
-                    class="form-control currency"
-                    oninput="formatNumberInput(this)"
+                    class="form-control input-budget currency"
                 />
                 </div>
             </td>
@@ -287,8 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 id="budget-commodities"
                 type="text"
                 value=""
-                class="form-control currency"
-                oninput="formatNumberInput(this)"
+                class="form-control input-budget currency"
             />
             </div>
         </td>
@@ -304,8 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id="budget-cost"
             type="text"
             value=""
-            class="form-control currency"
-            oninput="formatNumberInput(this)"
+            class="form-control input-budget currency"
         />
         </div>
     </td>
@@ -404,10 +555,10 @@ async function pushProject() {
             { id: tei.periodicity.id, value: 'Annual Reporting' }
         );
 
-        eventIds['projectDescription'][tei.year.value] = dataValuesPD[tei.year.value]['event'];
-        eventIds['projectBudget'][tei.year.value] = dataValuesPB[tei.year.value]['event'];
-        eventIds["projectFA"][tei.year.value] = dataValuesFA[tei.year.value]["event"];
-        eventIds["projectEC"][tei.year.value] = dataValuesEC[tei.year.value]["event"];
+        eventIds['projectDescription'] = dataValuesPD[tei.year.value]['event'];
+        eventIds['projectBudget'] = dataValuesPB[tei.year.value]['event'];
+        eventIds["projectFA"] = dataValuesFA[tei.year.value]["event"];
+        eventIds["projectEC"] = dataValuesEC[tei.year.value]["event"];
 
         eventIds["projectSAFA"] = dataValuesSemiAnnualFA.event;
         eventIds["projectAFA"] = dataValuesAnnualFA.event;
@@ -415,15 +566,50 @@ async function pushProject() {
         eventIds["projectAEC"] = dataValuesAnnualEC.event;
 
         var updatedDataValues = [];
-        const projectDescription = {
+        const projectDescription = [{
             dataElement: `${dataElements.projectDescription[projectDescriptionCount].name}`,
             value: document.getElementById('projectName').value
-        }
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].description}`,
+            value: document.getElementById('projectDescription').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].startDate}`,
+            value: document.getElementById('startDate').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].endDate}`,
+            value: document.getElementById('endDate').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].theme}`,
+            value: document.getElementById('projectTheme').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].donor}`,
+            value: document.getElementById('projectDonor').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].funding}`,
+            value: document.getElementById('projectFunding').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].income}`,
+            value: unformatNumber(document.getElementById('projectIncome').value)
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].contract}`,
+            value: unformatNumber(document.getElementById('projectContract').value)
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].themeOther}`,
+            value: document.getElementById('projectThemeOther').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].donorOther}`,
+            value: document.getElementById('projectDonorOther').value
+        }, {
+            dataElement: `${dataElements.projectDescription[projectDescriptionCount].comment}`,
+            value: tei.year.value + ',' + reportingPeriodicity
+        }]
         try {
             tei.program = program.auProjectDescription;
             tei.programStage = programStage.auProjectDescription;
             tei.event = eventIds["projectDescription"];
-            await pushDataElement(projectDescription.dataElement, projectDescription.value);
+            for(let element of projectDescription) {
+                if(element.value) await pushDataElement(element.dataElement, element.value);
+            }
             
         } catch (error) {
             console.error("Error in Project Description!:", error);
@@ -478,7 +664,7 @@ async function pushProject() {
             tei.program = program.auProjectExpenseCategory;
             tei.programStage = programStage.auProjectExpenseCategory;
             tei.event = eventIds["projectFA"];
-            for (element of dataValuesPFA) {
+            for (let element of dataValuesPFA) {
                 await pushDataElement(element.dataElement, element.value);
             }
         } catch (error) {
@@ -494,7 +680,7 @@ async function pushProject() {
             if (document.getElementById(`projectArea-${index}`)) {
                 dataValuesARPFA.push({
                     dataElement: fa,
-                    value: JSON.stringify({ area: focusAreas[index]['area'], pillar: focusAreas[index]['pillar'], assignedBudget: unformatNumber(document.getElementById(`assignedBudget-${index}`).value) }), expense: '', variation: ''
+                    value: JSON.stringify({ area: focusAreas[index]['area'], pillar: focusAreas[index]['pillar'], assignedBudget: unformatNumber(document.getElementById(`assignedBudget-${index}`).value), expense: '', variation: ''})
                 })
             }
         })
@@ -507,7 +693,7 @@ async function pushProject() {
             if (reportingPeriodicity != "Annual Reporting") {
                 tei.event = eventIds["projectSAFA"];
                 if (eventIds['projectSAFA']) {
-                    for (element of dataValuesARPFA) {
+                    for (let element of dataValuesARPFA) {
                         await pushDataElement(element.dataElement, element.value);
                     }
                 } else {
@@ -534,7 +720,7 @@ async function pushProject() {
 
             tei.event = eventIds["projectAFA"];
             if (eventIds['projectAFA']) {
-                for (element of dataValuesARPFA) {
+                for (let element of dataValuesARPFA) {
                     await pushDataElement(element.dataElement, element.value);
                 }
             } else {
@@ -582,7 +768,7 @@ async function pushProject() {
 
                 tei.event = eventIds["projectSAEC"];
                 if (eventIds['projectSAEC']) {
-                    for (element of dataValuesAREC) {
+                    for (let element of dataValuesAREC) {
                         await pushDataElement(element.dataElement, element.value);
                     }
                 } else {
@@ -610,7 +796,7 @@ async function pushProject() {
 
             tei.event = eventIds["projectAEC"];
             if (eventIds['projectAEC']) {
-                for (element of dataValuesAREC) {
+                for (let element of dataValuesAREC) {
                     await pushDataElement(element.dataElement, element.value);
                 }
             } else {
@@ -653,8 +839,8 @@ function checkWords(event, count, maxWords) {
         event.value = words.slice(0, maxWords).join(" ");
         return;
     }
-    if (value) counter.textContent = `${maxWords - words.length} words remaining`;
-    else counter.textContent = `${maxWords} words remaining`;
+    if (value) counter.textContent = `${maxWords - words.length}`;
+    else counter.textContent = `${maxWords}`;
 }
 
 
@@ -673,28 +859,3 @@ function checkProjects(projects, values) {
     }
     return names;
 }
-
-
-
-    //textarea word limit
-    document.addEventListener('DOMContentLoaded', function () {
-      const textareas = document.querySelectorAll('.textlimit');
-      textareas.forEach((textarea, index) => {
-        const counter = document.getElementById(`counter${index + 1}`);
-        const updateCounter = () => {
-
-          const words = textarea.value.trim().split(/\s+/)
-
-          if (words.length >= maxWords[`counter${index + 1}`]) {
-            textarea.value = words.slice(0, maxWords[`#counter${index + 1}`]).join(' ');
-            return
-          }
-
-          if (textarea.value) {
-            counter.textContent = `${(maxWords[`counter${index + 1}`] - words.length)} words remaining`;
-          } else counter.textContent = `${maxWords[`counter${index + 1}`]} words remaining`;
-        };
-        textarea.addEventListener('input', updateCounter);
-        updateCounter(); // initialize counter on page load
-      });
-    });
