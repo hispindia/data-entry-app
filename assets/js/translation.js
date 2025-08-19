@@ -2562,7 +2562,7 @@ const translation_mapping = [
             Please review the notes below the product you want to order.
             <ul>
               <li>
-                Prices for products can be subject to your country’s World Bank Classification. <a href="../../documents/RmCrOHqf4NG/data">Click on this link to find your country’s status</a>.
+                Prices for products can be subject to your country’s World Bank Classification. <a href="../../documents/yB4XF1ps5uX/data">Click on this link to find your country’s status</a>.
               </li>
               <li>
                 Products can be subject to mandatory order multiples. The order form will only allow you to enter these mandatory quantities.
@@ -2619,7 +2619,7 @@ de productos (como se indica en la parte de abajo del formulario)
             <ul>
               <li>
               Los precios de los productos pueden estar sujetos a la 
-              Clasificación del Banco Mundial de su país. <a href="../../documents/RmCrOHqf4NG/data">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
+              Clasificación del Banco Mundial de su país. <a href="../../documents/yB4XF1ps5uX/data">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
               </li>
               <li>
               Es posible que los pedidos de productos estén sujetos a múltiplos obligatorios. El formulario de pedido solo permitirá introducir esas cantidades obligatorias</li>
@@ -2692,7 +2692,7 @@ de productos (como se indica en la parte de abajo del formulario)
               Les prix des produits peuvent être soumis au statut de votre 
               pays en fonction de la classification de la Banque mondiale. 
              
-              <a href="../../documents/RmCrOHqf4NG/data"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
+              <a href="../../documents/yB4XF1ps5uX/data"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
               </li>
               <li>
               Les produits peuvent être soumis à des multiples de commande 
@@ -2760,7 +2760,7 @@ de productos (como se indica en la parte de abajo del formulario)
           يرجى مراجعة الملاحظات أسفل المنتج المطلوب.
             <ul>
               <li>
-              <a href="../../documents/RmCrOHqf4NG/data">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </a></li>
+              <a href="../../documents/yB4XF1ps5uX/data">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </a></li>
               <li>
               تتأثر المنتجات بمضاعفات بنود الطلب الإجبارية. تسمح لكم استمارة الطلب بإدخال هذه الكميات الإجبارية فقط.</li>
             </ul>

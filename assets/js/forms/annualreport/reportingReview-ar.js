@@ -1,4 +1,4 @@
-import { createEvent, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
+import { createEvent, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { disableAll, getYears } from '../func.js';
@@ -33,9 +33,16 @@ var riskCount = 0;
   });
 
 
+  document.querySelectorAll('.textValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id, value } = ev.target;
+      pushDataElement(id,value);
+    })
+  });
+
     async function configurePage() {
       const user = await getUserConfig();
-      tei.disabled = user.disabled;
+      tei.userDisabled = user.disabled;
   
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
@@ -69,7 +76,7 @@ var riskCount = 0;
       fetchEvents();    
     }
 
-  async function fetchEvents(year) {
+  async function fetchEvents() {
     tei.projects = [];
     riskCount = 0;
     
@@ -86,10 +93,10 @@ var riskCount = 0;
         (enroll) => enroll.program == tei.program 
       );
 
-      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:tei.year.id, value: year}, {id:tei.periodicity.id, value:tei.periodicity.value}); //data vlaues period wise
+      const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:tei.year.id, value: tei.year.value}, {id:tei.periodicity.id, value:tei.periodicity.value}); //data vlaues period wise
       
         if(!dataValues) {
-          if(year && tei.periodicity.value) {
+          if(tei.year.value && tei.periodicity.value) {
             let data = [{ 
               dataElement: tei.year.id,
               value: tei.year.value
@@ -114,8 +121,6 @@ var riskCount = 0;
 
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
-
-    
     if(tei.periodicity.value=="Semi-Annual Reporting") $('.annual-reporting-display').hide();
 
     //disable feilds
@@ -131,12 +136,26 @@ var riskCount = 0;
     var projectRows = '';
     dataElements.seriousRisk.forEach(risk => {
       if(dataValues[risk.name]) {
-       projectRows += addRowSeriosRisk(risk, dataValues);
+       projectRows += addRowSeriousRisk(risk, dataValues);
       }
     })
-    if(!projectRows) projectRows += addRowSeriosRisk(dataElements.seriousRisk[0], {});
+    if(!projectRows) projectRows += addRowSeriousRisk(dataElements.seriousRisk[0], {});
     $(".btn-wrap").prevAll().remove();
     $(projectRows).insertBefore(".btn-wrap");
+
+    const content = document.getElementById('risk-comment');
+    content.addEventListener('input', (ev) => {
+      if (ev.target.matches('.textContent')) {
+        const { id, value } = ev.target;
+        pushDataElement(id,value);
+        selectedRatings();
+      } else if (ev.target.matches('.textlimit')) {
+        const { id, value, dataset } = ev.target;
+        pushDataElement(id,value);
+        selectedRatings();
+        checkWords(ev.target, dataset.count);
+      }
+      });
 
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
       if (dataValues[radio.name] && radio.value === dataValues[radio.name]) {
@@ -230,21 +249,21 @@ var riskCount = 0;
       return;
     }
 
-    function addRowSeriosRisk(risk, dataValues) {
+    function addRowSeriousRisk(risk, dataValues) {
       const name = dataValues[risk.name] ? dataValues[risk.name] : ''
       const comment = dataValues[risk.comment] ? dataValues[risk.comment] : ''
       const projectRow = `<div  class="serious-risk-list">
       <div class="form-row">
         <div class="form-group col-md-12 textbox-wrap mb-2">
           <label for="${risk.name}" >Identified Risk ${riskCount+1}</label>
-          <input type="text" class="form-control serious-risk" ${tei.disabled?'disabled': ''} value="${name}" oninput="pushDataElement(this.id,this.value);selectedRatings();" id="${risk.name}">                              
+          <input type="text" class="form-control serious-risk textContent" ${tei.disabled ? 'disabled' : ''} value="${name}" id="${risk.name}">                              
           <div class="invalid-feedback"> Error here</div>
          </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-12 textbox-wrap mb-0">
           <label for="${risk.comment}">Comment ${riskCount+1}</label>
-          <textarea class="form-control-resize textlimit textValue" ${tei.disabled?'disabled': ''}  id="${risk.comment}" onchange="pushDataElement(this.id,this.value);checkWords(this, '${riskCount+1}');selectedRatings();">${comment}</textarea>
+          <textarea class="form-control-resize textlimit" ${tei.disabled?'disabled': ''}  id="${risk.comment}" data-count="${riskCount+1}">${comment}</textarea>
           <div class="char-counter form-text text-muted" id="counter-serious-risk${riskCount+1}">${maxWords - (comment ? comment.trim().split(/\s+/).length : 0)}  words remaining</div>
           <div class="invalid-feedback"> Error here</div>
         </div>
@@ -257,38 +276,15 @@ var riskCount = 0;
 
     
 $(".plus").click(function (e) {
-        e.preventDefault();
-        if(riskCount<dataElements.seriousRisk.length) {
-        const newProjectRow = `<div class="serious-risk-list">
-          <div class="form-row">
-                          <div class="form-group col-md-12 textbox-wrap mb-2">
-                            <label for="${dataElements.seriousRisk[riskCount]['name']}">
-                              Identified Risk ${riskCount+1}
-                            </label>
-                            <input type="text" class="form-control serious-risk" ${tei.disabled?'disabled': ''} oninput="pushDataElement(this.id,this.value);selectedRatings();" id="${dataElements.seriousRisk[riskCount]['name']}">                              
-                            <div class="invalid-feedback"> Error here 
-                            </div>
-                          </div>
-                        </div>
-
-								                <div class="form-row">
-                          <div class="form-group col-md-12 textbox-wrap mb-0">
-                            <label for="${dataElements.seriousRisk[riskCount]['comment']}">
-                              Comment ${riskCount+1}
-                            </label>
-                            <textarea class="form-control-resize textlimit textValue" ${tei.disabled?'disabled': ''} id="${dataElements.seriousRisk[riskCount]['comment']}" onchange="checkWords(this,'${riskCount+1}');pushDataElement(this.id,this.value);selectedRatings();" ></textarea>
-                            <div class="char-counter form-text text-muted" id="counter-serious-risk${riskCount+1}">200 words remaining</div>
-                            <div class="invalid-feedback"> Error here</div>
-                          </div>
-                        </div>
-                      </div><hr>`;
-            
-        riskCount++;
-        $(newProjectRow).insertBefore(".btn-wrap");
-        }
-      // Localize content
-      $('body').localize();
-      });
+  e.preventDefault();
+  if(riskCount < dataElements.seriousRisk.length) {
+    const rows = addRowSeriousRisk(dataElements.seriousRisk[riskCount], {}); 
+    riskCount++;
+    $(rows).insertBefore(".btn-wrap");
+  }
+  // Localize content
+  $('body').localize();
+});
 
       $(".minus").click(function (e) {
         e.preventDefault();
