@@ -3413,8 +3413,10 @@ $(function () {
             $('#languageSwitcher').val(i18next.language);
             if (i18next.language == 'ar') {
                 document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.classList.add('rtl-mode');
             } else {
                 document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.classList.remove('rtl-mode');
             }
 
             // Localize content
@@ -3425,10 +3427,10 @@ $(function () {
                 const selectedLang = $(this).val();
                 if (selectedLang == 'ar') {
                     document.documentElement.setAttribute('dir', 'rtl');
-    document.documentElement.classList.add('rtl-mode');
+                    document.documentElement.classList.add('rtl-mode');
                 } else {
                     document.documentElement.setAttribute('dir', 'ltr');
-    document.documentElement.classList.remove('rtl-mode');
+                    document.documentElement.classList.remove('rtl-mode');
                 }
                 i18next.changeLanguage(selectedLang, function () {
                     $('body').localize();

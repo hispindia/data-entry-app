@@ -221,24 +221,24 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="projectTheme"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectTheme" name="projectThemeOther" >
-                <option value=""><span data-i18n="intro.choose">Choose</span></option>
-                <option value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
-                <option value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
-                <option value="Digital Health Interventions & Selfcare"><span data-i18n="intro.p_18">Digital Health Interventions & Selfcare</span></option>
-                <option value="Fertility Care /Support"><span data-i18n="intro.p_10">Fertility Care /Support</span></option>
-                <option value="HIV & AIDS"><span data-i18n="intro.p_6">HIV & AIDS</span></option>
-                <option value="Humanitarian SRHR"><span data-i18n="intro.p_4">Humanitarian SRHR</span></option>
-                <option value="SGBV / Gender"><span data-i18n="intro.p_8">SGBV / Gender</span></option>
-                <option value="Advocacy & Norms Change"><span data-i18n="intro.p_17">Advocacy & Norms Change</span></option>
-                <option value="Communications & Campaigns"><span data-i18n="intro.p_9">Communications & Campaign</span></option>
-                <option value="Youth"><span data-i18n="intro.p_5">Youth</span></option>
-                <option value="Research / evidence"><span data-i18n="intro.p_11">Research / evidence</span></option>
-                <option value="Organisational Processes and Systems"><span data-i18n="intro.p_12">Organisational Processes and Systems</span></option>
-                <option value="Commecial Sustainability"><span data-i18n="intro.p_13">Commercial Sustainability</span></option>
-                <option value="Social Enterprise & Marketing"><span data-i18n="intro.p_14">Social Enterprise & Marketing</span></option>
-                <option value="Marginalised Pops (incl. LGBTQ+)"><span data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</span></option>
-                <option value="Not applicable"><span data-i18n="intro.p_16">Not applicable</span></option>
-                <option value="Other (please fill in)"><span data-i18n="intro.p_15">Other (please fill in)</span></option>
+                <option value="" data-i18n="intro.choose">Choose</span></option>
+                <option value="Abortion Care" data-i18n="intro.p_1">Abortion Care</option>
+                <option value="General Contraception" data-i18n="intro.p_2">General Contraception</option>
+                <option value="Digital Health Interventions & Selfcare" data-i18n="intro.p_18">Digital Health Interventions & Selfcare</option>
+                <option value="Fertility Care /Support" data-i18n="intro.p_10">Fertility Care /Support</option>
+                <option value="HIV & AIDS" data-i18n="intro.p_6">HIV & AIDS</option>
+                <option value="Humanitarian SRHR" data-i18n="intro.p_4">Humanitarian SRHR</option>
+                <option value="SGBV / Gender" data-i18n="intro.p_8">SGBV / Gender</option>
+                <option value="Advocacy & Norms Change" data-i18n="intro.p_17">Advocacy & Norms Change</option>
+                <option value="Communications & Campaigns" data-i18n="intro.p_9">Communications & Campaign</option>
+                <option value="Youth" data-i18n="intro.p_5">Youth</option>
+                <option value="Research / evidence" data-i18n="intro.p_11">Research / evidence</option>
+                <option value="Organisational Processes and Systems" data-i18n="intro.p_12">Organisational Processes and Systems</option>
+                <option value="Commecial Sustainability" data-i18n="intro.p_13">Commercial Sustainability</option>
+                <option value="Social Enterprise & Marketing" data-i18n="intro.p_14">Social Enterprise & Marketing</option>
+                <option value="Marginalised Pops (incl. LGBTQ+)" data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</option>
+                <option value="Not applicable" data-i18n="intro.p_16">Not applicable</option>
+                <option value="Other (please fill in)" data-i18n="intro.p_15">Other (please fill in)</option>
               </select>
             <div>
               <input type="text" 
@@ -252,9 +252,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
           <label for="projectFunding"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''} id="projectFunding">
-                <option value=""><span data-i18n="intro.choose">Choose</span></option>
-                <option value="Restricted"><span data-i18n="intro.restricted">Restricted</span></option>
-                <option value="Unrestricted"><span data-i18n="intro.unrestricted">Unrestricted</span></option>
+                <option value="" data-i18n="intro.choose">Choose</option>
+                <option value="Restricted" data-i18n="intro.restricted">Restricted</option>
+                <option value="Unrestricted" data-i18n="intro.unrestricted">Unrestricted</option>
               </select>
             <div class="invalid-feedback"> Error here </div>
           </td>
