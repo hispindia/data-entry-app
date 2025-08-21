@@ -292,9 +292,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   </td>
                   <td>
                     <select class="form-control textValue" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}">
-                      <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed"><span data-i18n="intro.confirmed">Confirmed</span></option>
-                      <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)"><span data-i18n="intro.likely_over_80">Likely(Over 80%)</span></option>
-                      <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain"><span data-i18n="intro.uncertain">Uncertain</span></option>
+                      <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed" data-i18n="intro.confirmed">Confirmed</option>
+                      <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)" data-i18n="intro.likely_over_80">Likely(Over 80%)</option>
+                      <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain" data-i18n="intro.uncertain">Uncertain</option>
                     </select>
                   </td>
                 </tr>`
