@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="projectTheme"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectTheme" name="projectThemeOther" >
-                <option value="" data-i18n="intro.choose">Choose</span></option>
+                <option value="" data-i18n="intro.choose">Choose</option>
                 <option value="Abortion Care" data-i18n="intro.p_1">Abortion Care</option>
                 <option value="General Contraception" data-i18n="intro.p_2">General Contraception</option>
                 <option value="Digital Health Interventions & Selfcare" data-i18n="intro.p_18">Digital Health Interventions & Selfcare</option>
@@ -279,41 +279,41 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="projectDonor"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectDonor" name="projectDonorOther" >
-                <option value=""><span data-i18n="intro.choose">Choose</span></option>
-                <option value="Government of Australia / DFAT"><span data-i18n="intro.g_aus">Government of Australia / DFAT</span></option>
-                <option value="Government of Canada / GAC"><span data-i18n="intro.g_can">Government of Canada / GAC</span></option>
-                <option value="Government of China"><span data-i18n="intro.g_ch">Government of China</span></option>
-                <option value="Government of Denmark / DANIDA"><span data-i18n="intro.g_den">Government of Denmark / DANIDA</span></option>
-                <option value="Government of Finland / FINNIDA"><span data-i18n="intro.g_fin">Government of Finland / FINNIDA</span></option>
-                <option value="Government of France / Agence Française de Développement"><span data-i18n="intro.g_fran">Government of France / Agence Française de Développement</span></option>
-                <option value="Government of Germany / GIZ"><span data-i18n="intro.g_ger">Government of Germany / GIZ</span></option>
-                <option value="Government of Japan / Ministry of Foreign Affairs Japan"><span data-i18n="intro.g_jap">Government of Japan / Ministry of Foreign Affairs Japan</span></option>
-                <option value="Government of New Zealand / MFAT "><span data-i18n="intro.g_new">Government of New Zealand / MFAT</span></option>
-                <option value="Government of Norway / NORAD"><span data-i18n="intro.g_nor">Government of Norway / NORAD</span></option>
-                <option value="Government of Spain / AECID"><span data-i18n="intro.g_spain">Government of Spain / AECID</span></option>
-                <option value="Government of United Kingdom / FCDO"><span data-i18n="intro.g_uk">Government of United Kingdom / FCDO</span></option>
-                <option value="European Commission (EU/EC)"><span data-i18n="intro.g_eu_comm">European Commission (EU/EC)</span></option>
-                <option value="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)"><span data-i18n="intro.gl_fund_aids">Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)</span></option>
-                <option value="Reproductive Health Supplies Coalition (RHSC)"><span data-i18n="intro.rep_health">Reproductive Health Supplies Coalition (RHSC)</span></option>
-                <option value="UNAIDS"><span data-i18n="intro.unaids">UNAIDA</span></option>
-                <option value="UNDP"><span data-i18n="intro.undp">UNDP</span></option>
-                <option value="UNESCO"><span data-i18n="intro.unesco">UNESCO</span></option>
-                <option value="UNFPA"><span data-i18n="intro.unfpa">UNFPA</span></option>
-                <option value="UNICEF"><span data-i18n="intro.unicef">UNICEF</span></option>
-                <option value="World Health Organisation (WHO)"><span data-i18n="intro.who">World Health Organisation (WHO)</span></option>
-                <option value="Amplify Change"><span data-i18n="intro.amp_ch">Amplify Change</span></option>
-                <option value="Bill & Melinda Gates Foundation"><span data-i18n="intro.bill_melinda">Bill & Melinda Gates Foundation</span></option>
-                <option value="Open Society Foundations (OSF)"><span data-i18n="intro.osf">Open Society Foundations (OSF)</span></option>
-                <option value="The William and Flora Hewlett Foundation"><span data-i18n="intro.th_william_fl_found">The William and Flora Hewlett Foundation</span></option>
-                <option value="Danish FPA / Sex og Samfund (Denmark)"><span data-i18n="intro.danish_fpa">Danish FPA / Sex og Samfund (Denmark)</span></option>
-                <option value="International Planned Parenthood Federation (IPPF)"><span data-i18n="intro.int_plan_parenth_fed">International Planned Parenthood Federation (IPPF)</span></option>
-                <option value="Planned Parenthood Federation of America (USA)"><span data-i18n="intro.planned_parenthood_fed_usa">Planned Parenthood Federation of America (USA)</span></option>
-                <option value="RFSU (Sweden)"><span data-i18n="intro.rfsu_sweden">RFSU (Sweden)</span></option>
-                <option value="Rutgers (Netherlands)"><span data-i18n="intro.rutgers">Rutgers (Netherlands)</span></option>
-                <option value="Center for Disease Control (CDC)"><span data-i18n="intro.center_dis_cont">Center for Disease Control (CDC)</span>)</option>
-                <option value="USAID"><span data-i18n="intro.usaid">USAID</span></option>
-                <option value="Not applicable"><span data-i18n="intro.not_app">Not applicable</span></option> 
-                <option value="Other (please write below)"><span data-i18n="intro.other_please">Other (please write below)</span></option>
+                <option value="" data-i18n="intro.choose">Choose</option>
+                <option value="Government of Australia / DFAT" data-i18n="intro.g_aus">Government of Australia / DFAT</option>
+                <option value="Government of Canada / GAC" data-i18n="intro.g_can">Government of Canada / GAC</option>
+                <option value="Government of China" data-i18n="intro.g_ch">Government of China</option>
+                <option value="Government of Denmark / DANIDA" data-i18n="intro.g_den">Government of Denmark / DANIDA</option>
+                <option value="Government of Finland / FINNIDA" data-i18n="intro.g_fin">Government of Finland / FINNIDA</option>
+                <option value="Government of France / Agence Française de Développement" data-i18n="intro.g_fran">Government of France / Agence Française de Développement</option>
+                <option value="Government of Germany / GIZ" data-i18n="intro.g_ger">Government of Germany / GIZ</option>
+                <option value="Government of Japan / Ministry of Foreign Affairs Japan" data-i18n="intro.g_jap">Government of Japan / Ministry of Foreign Affairs Japan</option>
+                <option value="Government of New Zealand / MFAT" data-i18n="intro.g_new">Government of New Zealand / MFAT</option>
+                <option value="Government of Norway / NORAD" data-i18n="intro.g_nor">Government of Norway / NORAD</option>
+                <option value="Government of Spain / AECID" data-i18n="intro.g_spain">Government of Spain / AECID</option>
+                <option value="Government of United Kingdom / FCDO" data-i18n="intro.g_uk">Government of United Kingdom / FCDO</option>
+                <option value="European Commission (EU/EC)" data-i18n="intro.g_eu_comm">European Commission (EU/EC)</option>
+                <option value="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)" data-i18n="intro.gl_fund_aids">Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)</option>
+                <option value="Reproductive Health Supplies Coalition (RHSC)" data-i18n="intro.rep_health">Reproductive Health Supplies Coalition (RHSC)</option>
+                <option value="UNAIDS" data-i18n="intro.unaids">UNAIDA</option>
+                <option value="UNDP" data-i18n="intro.undp">>UNDP</option>
+                <option value="UNESCO" data-i18n="intro.unesco">UNESCO</span></option>
+                <option value="UNFPA" data-i18n="intro.unfpa">UNFPA</option>
+                <option value="UNICEF" data-i18n="intro.unicef">UNICEF</option>
+                <option value="World Health Organisation (WHO)" data-i18n="intro.who">World Health Organisation (WHO)</option>
+                <option value="Amplify Change" data-i18n="intro.amp_ch">Amplify Change</option>
+                <option value="Bill & Melinda Gates Foundation" data-i18n="intro.bill_melinda">Bill & Melinda Gates Foundation</option>
+                <option value="Open Society Foundations (OSF)" data-i18n="intro.osf">Open Society Foundations (OSF)</option>
+                <option value="The William and Flora Hewlett Foundation" data-i18n="intro.th_william_fl_found">The William and Flora Hewlett Foundation</option>
+                <option value="Danish FPA / Sex og Samfund (Denmark)" data-i18n="intro.danish_fpa">Danish FPA / Sex og Samfund (Denmark)</option>
+                <option value="International Planned Parenthood Federation (IPPF)" data-i18n="intro.int_plan_parenth_fed">International Planned Parenthood Federation (IPPF)</option>
+                <option value="Planned Parenthood Federation of America (USA)" data-i18n="intro.planned_parenthood_fed_usa">Planned Parenthood Federation of America (USA)</option>
+                <option value="RFSU (Sweden)" data-i18n="intro.rfsu_sweden">RFSU (Sweden)</option>
+                <option value="Rutgers (Netherlands)" data-i18n="intro.rutgers">Rutgers (Netherlands)</option>
+                <option value="Center for Disease Control (CDC)" data-i18n="intro.center_dis_cont">Center for Disease Control (CDC))</option>
+                <option value="USAID" data-i18n="intro.usaid">USAID</option>
+                <option value="Not applicable" data-i18n="intro.not_app">Not applicable</option> 
+                <option value="Other (please write below)" data-i18n="intro.other_please">Other (please write below)</option>
               </select>
             <div>
               <input type="text"  
