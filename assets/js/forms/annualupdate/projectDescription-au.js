@@ -179,24 +179,24 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}" name="${project.themeOther}" >
-                <option ${(values['theme']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
-                <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care"><span data-i18n="intro.p_1">Abortion Care</span></option>
-                <option ${(values['theme']=="General Contraception") ? "selected": ''} value="General Contraception"><span data-i18n="intro.p_2">General Contraception</span></option>
-                <option ${(values['theme']=="Digital Health Interventions & Selfcare") ? "selected": ''} value="Digital Health Interventions & Selfcare"><span data-i18n="intro.p_18">Digital Health Interventions & Selfcare</span></option>
-                <option ${(values['theme']=="Fertility Care /Support") ? "selected": ''} value="Fertility Care /Support"><span data-i18n="intro.p_10">Fertility Care /Support</span></option>
-                <option ${(values['theme']=="HIV & AIDS") ? "selected": ''} value="HIV & AIDS"><span data-i18n="intro.p_6">HIV & AIDS</span></option>
-                <option ${(values['theme']=="Humanitarian SRHR") ? "selected": ''} value="Humanitarian SRHR"><span data-i18n="intro.p_4">Humanitarian SRHR</span></option>
-                <option ${(values['theme']=="SGBV / Gender") ? "selected": ''} value="SGBV / Gender"><span data-i18n="intro.p_8">SGBV / Gender</span></option>
-                <option ${(values['theme']=="Advocacy & Norms Change") ? "selected": ''} value="Advocacy & Norms Change"><span data-i18n="intro.p_17">Advocacy & Norms Change</span></option>
-                <option ${(values['theme']=="Communications & Campaigns") ? "selected": ''} value="Communications & Campaigns"><span data-i18n="intro.p_9">Communications & Campaign</span></option>
-                <option ${(values['theme']=="Youth") ? "selected": ''} value="Youth"><span data-i18n="intro.p_5">Youth</span></option>
-                <option ${(values['theme']=="Research / evidence") ? "selected": ''} value="Research / evidence"><span data-i18n="intro.p_11">Research / evidence</span></option>
-                <option ${(values['theme']=="Organisational Processes and Systems") ? "selected": ''} value="Organisational Processes and Systems"><span data-i18n="intro.p_12">Organisational Processes and Systems</span></option>
-                <option ${(values['theme']=="Commecial Sustainability") ? "selected": ''} value="Commecial Sustainability"><span data-i18n="intro.p_13">Commercial Sustainability</span></option>
-                <option ${(values['theme']=="Social Enterprise & Marketing") ? "selected": ''} value="Social Enterprise & Marketing"><span data-i18n="intro.p_14">Social Enterprise & Marketing</span></option>
-                <option ${(values['theme']=="Marginalised Pops (incl. LGBTQ+)") ? "selected": ''} value="Marginalised Pops (incl. LGBTQ+)"><span data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</span></option>
-                <option ${(values['theme']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.p_16">Not applicable</span></option>
-                <option ${(values['theme']=="Other (please fill in)") ? "selected": ''} value="Other (please fill in)"><span data-i18n="intro.p_15">Other (please fill in)</span></option>
+                <option ${(values['theme']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
+                <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care" data-i18n="intro.p_1">Abortion Care</option>
+                <option ${(values['theme']=="General Contraception") ? "selected": ''} value="General Contraception" data-i18n="intro.p_2">General Contraception</option>
+                <option ${(values['theme']=="Digital Health Interventions & Selfcare") ? "selected": ''} value="Digital Health Interventions & Selfcare" data-i18n="intro.p_18">Digital Health Interventions & Selfcare</option>
+                <option ${(values['theme']=="Fertility Care /Support") ? "selected": ''} value="Fertility Care /Support" data-i18n="intro.p_10">Fertility Care /Support</option>
+                <option ${(values['theme']=="HIV & AIDS") ? "selected": ''} value="HIV & AIDS" data-i18n="intro.p_6">HIV & AIDS</option>
+                <option ${(values['theme']=="Humanitarian SRHR") ? "selected": ''} value="Humanitarian SRHR" data-i18n="intro.p_4">Humanitarian SRHR</option>
+                <option ${(values['theme']=="SGBV / Gender") ? "selected": ''} value="SGBV / Gender" data-i18n="intro.p_8">SGBV / Gender</option>
+                <option ${(values['theme']=="Advocacy & Norms Change") ? "selected": ''} value="Advocacy & Norms Change" data-i18n="intro.p_17">Advocacy & Norms Change</option>
+                <option ${(values['theme']=="Communications & Campaigns") ? "selected": ''} value="Communications & Campaigns" data-i18n="intro.p_9">Communications & Campaign</option>
+                <option ${(values['theme']=="Youth") ? "selected": ''} value="Youth" data-i18n="intro.p_5">Youth</option>
+                <option ${(values['theme']=="Research / evidence") ? "selected": ''} value="Research / evidence" data-i18n="intro.p_11">Research / evidence</option>
+                <option ${(values['theme']=="Organisational Processes and Systems") ? "selected": ''} value="Organisational Processes and Systems" data-i18n="intro.p_12">Organisational Processes and Systems</option>
+                <option ${(values['theme']=="Commecial Sustainability") ? "selected": ''} value="Commecial Sustainability" data-i18n="intro.p_13">Commercial Sustainability</option>
+                <option ${(values['theme']=="Social Enterprise & Marketing") ? "selected": ''} value="Social Enterprise & Marketing" data-i18n="intro.p_14">Social Enterprise & Marketing</option>
+                <option ${(values['theme']=="Marginalised Pops (incl. LGBTQ+)") ? "selected": ''} value="Marginalised Pops (incl. LGBTQ+)" data-i18n="intro.p_7">Marginalised Pops (incl. LGBTQ+)</option>
+                <option ${(values['theme']=="Not applicable") ? "selected": ''} value="Not applicable" data-i18n="intro.p_16">Not applicable</option>
+                <option ${(values['theme']=="Other (please fill in)") ? "selected": ''} value="Other (please fill in)" data-i18n="intro.p_15">Other (please fill in)</option>
               </select>
             <div>
               <input type="text" 
@@ -212,9 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
           <label for="${project.funding}"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.funding}">
-                <option ${(values['funding']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
-                <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted"><span data-i18n="intro.restricted">Restricted</span></option>
-                <option ${(values['funding']=="Unrestricted") ? "selected": ''} value="Unrestricted"><span data-i18n="intro.unrestricted">Unrestricted</span></option>
+                <option ${(values['funding']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
+                <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted" data-i18n="intro.restricted">Restricted</option>
+                <option ${(values['funding']=="Unrestricted") ? "selected": ''} value="Unrestricted" data-i18n="intro.unrestricted">Unrestricted</option>
               </select>
             <div class="invalid-feedback"> Error here </div>
           </td>
@@ -241,41 +241,41 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>
             <label for="${project.donor}"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" name="${project.donorOther}" >
-                <option ${(values['donor']=="") ? "selected": ''} value=""><span data-i18n="intro.choose">Choose</span></option>
-                <option ${(values['donor']=="Government of Australia / DFAT") ? "selected": ''} value="Government of Australia / DFAT"><span data-i18n="intro.g_aus">Government of Australia / DFAT</span></option>
-                <option ${(values['donor']=="Government of Canada / GAC") ? "selected": ''} value="Government of Canada / GAC"><span data-i18n="intro.g_can">Government of Canada / GAC</span></option>
-                <option ${(values['donor']=="Government of China") ? "selected": ''} value="Government of China"><span data-i18n="intro.g_ch">Government of China</span></option>
-                <option ${(values['donor']=="Government of Denmark / DANIDA") ? "selected": ''} value="Government of Denmark / DANIDA"><span data-i18n="intro.g_den">Government of Denmark / DANIDA</span></option>
-                <option ${(values['donor']=="Government of Finland / FINNIDA") ? "selected": ''} value="Government of Finland / FINNIDA"><span data-i18n="intro.g_fin">Government of Finland / FINNIDA</span></option>
-                <option ${(values['donor']=="Government of France / Agence Française de Développement") ? "selected": ''} value="Government of France / Agence Française de Développement"><span data-i18n="intro.g_fran">Government of France / Agence Française de Développement</span></option>
-                <option ${(values['donor']=="Government of Germany / GIZ") ? "selected": ''} value="Government of Germany / GIZ"><span data-i18n="intro.g_ger">Government of Germany / GIZ</span></option>
-                <option ${(values['donor']=="Government of Japan / Ministry of Foreign Affairs Japan") ? "selected": ''} value="Government of Japan / Ministry of Foreign Affairs Japan"><span data-i18n="intro.g_jap">Government of Japan / Ministry of Foreign Affairs Japan</span></option>
-                <option ${(values['donor']=="Government of New Zealand / MFAT ") ? "selected": ''} value="Government of New Zealand / MFAT "><span data-i18n="intro.g_new">Government of New Zealand / MFAT</span></option>
-                <option ${(values['donor']=="Government of Norway / NORAD") ? "selected": ''} value="Government of Norway / NORAD"><span data-i18n="intro.g_nor">Government of Norway / NORAD</span></option>
-                <option ${(values['donor']=="Government of Spain / AECID") ? "selected": ''} value="Government of Spain / AECID"><span data-i18n="intro.g_spain">Government of Spain / AECID</span></option>
-                <option ${(values['donor']=="Government of United Kingdom / FCDO") ? "selected": ''} value="Government of United Kingdom / FCDO"><span data-i18n="intro.g_uk">Government of United Kingdom / FCDO</span></option>
-                <option ${(values['donor']=="European Commission (EU/EC)") ? "selected": ''} value="European Commission (EU/EC)"><span data-i18n="intro.g_eu_comm">European Commission (EU/EC)</span></option>
-                <option ${(values['donor']=="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)") ? "selected": ''} value="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)"><span data-i18n="intro.gl_fund_aids">Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)</span></option>
-                <option ${(values['donor']=="Reproductive Health Supplies Coalition (RHSC)") ? "selected": ''} value="Reproductive Health Supplies Coalition (RHSC)"><span data-i18n="intro.rep_health">Reproductive Health Supplies Coalition (RHSC)</span></option>
-                <option ${(values['donor']=="UNAIDS") ? "selected": ''} value="UNAIDS"><span data-i18n="intro.unaids">UNAIDA</span></option>
-                <option ${(values['donor']=="UNDP") ? "selected": ''} value="UNDP"><span data-i18n="intro.undp">UNDP</span></option>
-                <option ${(values['donor']=="UNESCO") ? "selected": ''} value="UNESCO"><span data-i18n="intro.unesco">UNESCO</span></option>
-                <option ${(values['donor']=="UNFPA") ? "selected": ''} value="UNFPA"><span data-i18n="intro.unfpa">UNFPA</span></option>
-                <option ${(values['donor']=="UNICEF") ? "selected": ''} value="UNICEF"><span data-i18n="intro.unicef">UNICEF</span></option>
-                <option ${(values['donor']=="World Health Organisation (WHO)") ? "selected": ''} value="World Health Organisation (WHO)"><span data-i18n="intro.who">World Health Organisation (WHO)</span></option>
-                <option ${(values['donor']=="Amplify Change") ? "selected": ''} value="Amplify Change"><span data-i18n="intro.amp_ch">Amplify Change</span></option>
-                <option ${(values['donor']=="Bill & Melinda Gates Foundation") ? "selected": ''} value="Bill & Melinda Gates Foundation"><span data-i18n="intro.bill_melinda">Bill & Melinda Gates Foundation</span></option>
-                <option ${(values['donor']=="Open Society Foundations (OSF)") ? "selected": ''} value="Open Society Foundations (OSF)"><span data-i18n="intro.osf">Open Society Foundations (OSF)</span></option>
-                <option ${(values['donor']=="The William and Flora Hewlett Foundation") ? "selected": ''} value="The William and Flora Hewlett Foundation"><span data-i18n="intro.th_william_fl_found">The William and Flora Hewlett Foundation</span></option>
-                <option ${(values['donor']=="Danish FPA / Sex og Samfund (Denmark)") ? "selected": ''} value="Danish FPA / Sex og Samfund (Denmark)"><span data-i18n="intro.danish_fpa">Danish FPA / Sex og Samfund (Denmark)</span></option>
-                <option ${(values['donor']=="International Planned Parenthood Federation (IPPF)") ? "selected": ''} value="International Planned Parenthood Federation (IPPF)"><span data-i18n="intro.int_plan_parenth_fed">International Planned Parenthood Federation (IPPF)</span></option>
-                <option ${(values['donor']=="Planned Parenthood Federation of America (USA)") ? "selected": ''} value="Planned Parenthood Federation of America (USA)"><span data-i18n="intro.planned_parenthood_fed_usa">Planned Parenthood Federation of America (USA)</span></option>
-                <option ${(values['donor']=="RFSU (Sweden)") ? "selected": ''} value="RFSU (Sweden)"><span data-i18n="intro.rfsu_sweden">RFSU (Sweden)</span></option>
-                <option ${(values['donor']=="Rutgers (Netherlands)") ? "selected": ''} value="Rutgers (Netherlands)"><span data-i18n="intro.rutgers">Rutgers (Netherlands)</span></option>
-                <option ${(values['donor']=="Center for Disease Control (CDC)") ? "selected": ''} value="Center for Disease Control (CDC)"><span data-i18n="intro.center_dis_cont">Center for Disease Control (CDC)</span>)</option>
-                <option ${(values['donor']=="USAID") ? "selected": ''} value="USAID"><span data-i18n="intro.usaid">USAID</span></option>
-                <option ${(values['donor']=="Not applicable") ? "selected": ''} value="Not applicable"><span data-i18n="intro.not_app">Not applicable</span></option> 
-                <option ${(values['donor']=="Other (please write below)") ? "selected": ''} value="Other (please write below)"><span data-i18n="intro.other_please">Other (please write below)</span></option>
+                <option ${(values['donor']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
+                <option ${(values['donor']=="Government of Australia / DFAT") ? "selected": ''} value="Government of Australia / DFAT" data-i18n="intro.g_aus">Government of Australia / DFAT</option>
+                <option ${(values['donor']=="Government of Canada / GAC") ? "selected": ''} value="Government of Canada / GAC" data-i18n="intro.g_can">Government of Canada / GAC</option>
+                <option ${(values['donor']=="Government of China") ? "selected": ''} value="Government of China"  data-i18n="intro.g_ch">Government of China</option>
+                <option ${(values['donor']=="Government of Denmark / DANIDA") ? "selected": ''} value="Government of Denmark / DANIDA" data-i18n="intro.g_den">Government of Denmark / DANIDA</option>
+                <option ${(values['donor']=="Government of Finland / FINNIDA") ? "selected": ''} value="Government of Finland / FINNIDA" data-i18n="intro.g_fin">Government of Finland / FINNIDA</option>
+                <option ${(values['donor']=="Government of France / Agence Française de Développement") ? "selected": ''} value="Government of France / Agence Française de Développement" data-i18n="intro.g_fran">Government of France / Agence Française de Développement</option>
+                <option ${(values['donor']=="Government of Germany / GIZ") ? "selected": ''} value="Government of Germany / GIZ"  data-i18n="intro.g_ger">Government of Germany / GIZ</option>
+                <option ${(values['donor']=="Government of Japan / Ministry of Foreign Affairs Japan") ? "selected": ''} value="Government of Japan / Ministry of Foreign Affairs Japan" data-i18n="intro.g_jap">Government of Japan / Ministry of Foreign Affairs Japan</option>
+                <option ${(values['donor']=="Government of New Zealand / MFAT ") ? "selected": ''} value="Government of New Zealand / MFAT" data-i18n="intro.g_new">Government of New Zealand / MFAT</option>
+                <option ${(values['donor']=="Government of Norway / NORAD") ? "selected": ''} value="Government of Norway / NORAD" data-i18n="intro.g_nor">Government of Norway / NORAD</option>
+                <option ${(values['donor']=="Government of Spain / AECID") ? "selected": ''} value="Government of Spain / AECID" data-i18n="intro.g_spain">Government of Spain / AECID</option>
+                <option ${(values['donor']=="Government of United Kingdom / FCDO") ? "selected": ''} value="Government of United Kingdom / FCDO" data-i18n="intro.g_uk">Government of United Kingdom / FCDO</option>
+                <option ${(values['donor']=="European Commission (EU/EC)") ? "selected": ''} value="European Commission (EU/EC)" data-i18n="intro.g_eu_comm">European Commission (EU/EC)></option>
+                <option ${(values['donor']=="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)") ? "selected": ''} value="Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)" data-i18n="intro.gl_fund_aids">Global Fund for AIDS,  Tuberculosis, and Malaria (GFATM)</option>
+                <option ${(values['donor']=="Reproductive Health Supplies Coalition (RHSC)") ? "selected": ''} value="Reproductive Health Supplies Coalition (RHSC)" data-i18n="intro.rep_health">Reproductive Health Supplies Coalition (RHSC)</option>
+                <option ${(values['donor']=="UNAIDS") ? "selected": ''} value="UNAIDS" data-i18n="intro.unaids">UNAIDA</option>
+                <option ${(values['donor']=="UNDP") ? "selected": ''} value="UNDP" data-i18n="intro.undp">UNDP</option>
+                <option ${(values['donor']=="UNESCO") ? "selected": ''} value="UNESCO" data-i18n="intro.unesco">UNESCO</option>
+                <option ${(values['donor']=="UNFPA") ? "selected": ''} value="UNFPA" data-i18n="intro.unfpa">UNFPA</option>
+                <option ${(values['donor']=="UNICEF") ? "selected": ''} value="UNICEF" data-i18n="intro.unicef">UNICEF</option>
+                <option ${(values['donor']=="World Health Organisation (WHO)") ? "selected": ''} value="World Health Organisation (WHO)" data-i18n="intro.who">World Health Organisation (WHO)</option>
+                <option ${(values['donor']=="Amplify Change") ? "selected": ''} value="Amplify Change" data-i18n="intro.amp_ch">Amplify Change</option>
+                <option ${(values['donor']=="Bill & Melinda Gates Foundation") ? "selected": ''} value="Bill & Melinda Gates Foundation" data-i18n="intro.bill_melinda">Bill & Melinda Gates Foundation</option>
+                <option ${(values['donor']=="Open Society Foundations (OSF)") ? "selected": ''} value="Open Society Foundations (OSF)" data-i18n="intro.osf">Open Society Foundations (OSF)</option>
+                <option ${(values['donor']=="The William and Flora Hewlett Foundation") ? "selected": ''} value="The William and Flora Hewlett Foundation" data-i18n="intro.th_william_fl_found">The William and Flora Hewlett Foundation</option>
+                <option ${(values['donor']=="Danish FPA / Sex og Samfund (Denmark)") ? "selected": ''} value="Danish FPA / Sex og Samfund (Denmark)" data-i18n="intro.danish_fpa">Danish FPA / Sex og Samfund (Denmark)</option>
+                <option ${(values['donor']=="International Planned Parenthood Federation (IPPF)") ? "selected": ''} value="International Planned Parenthood Federation (IPPF)" data-i18n="intro.int_plan_parenth_fed">International Planned Parenthood Federation (IPPF)</option>
+                <option ${(values['donor']=="Planned Parenthood Federation of America (USA)") ? "selected": ''} value="Planned Parenthood Federation of America (USA)" data-i18n="intro.planned_parenthood_fed_usa">Planned Parenthood Federation of America (USA)</option>
+                <option ${(values['donor']=="RFSU (Sweden)") ? "selected": ''} value="RFSU (Sweden)" data-i18n="intro.rfsu_sweden">RFSU (Sweden)</option>
+                <option ${(values['donor']=="Rutgers (Netherlands)") ? "selected": ''} value="Rutgers (Netherlands)" data-i18n="intro.rutgers">Rutgers (Netherlands)</option>
+                <option ${(values['donor']=="Center for Disease Control (CDC)") ? "selected": ''} value="Center for Disease Control (CDC)" data-i18n="intro.center_dis_cont">Center for Disease Control (CDC))</option>
+                <option ${(values['donor']=="USAID") ? "selected": ''} value="USAID" data-i18n="intro.usaid">USAID</option>
+                <option ${(values['donor']=="Not applicable") ? "selected": ''} value="Not applicable" data-i18n="intro.not_app">Not applicable</option> 
+                <option ${(values['donor']=="Other (please write below)") ? "selected": ''} value="Other (please write below)" data-i18n="intro.other_please">Other (please write below)</option>
               </select>
             <div>
               <input type="text"  
