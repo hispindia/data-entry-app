@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
           ? dataValues[donor.amountLocked]: "";
     var row = `<tr>
     <td>
-    <input type="text" value="${dataValues && dataValues[donor.name]? dataValues[donor.name]: ""}"  id="${donor.name}" class="form-control textContent">
+    <input type="text"  ${tei.disabled ? 'disabled readonly': ''} value="${dataValues && dataValues[donor.name]? dataValues[donor.name]: ""}"  id="${donor.name}" class="form-control textContent">
     </td>
     <td>
         <div class="input-group">

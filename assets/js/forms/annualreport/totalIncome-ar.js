@@ -237,13 +237,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to populate program events data
   function populateProgramEvents(dataValues) {
-    $('#push-button').empty();
-    if(window.localStorage.getItem("hideReporting").includes('ed')) {
-      $('#push-button').append(`<button class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Report </button>`)
-    }
-    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-      $('#push-button').append(`<button class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Report </button>`)
-    }
+        $('#push-button').empty();
+    
+        if(window.localStorage.getItem("hideReporting").includes('ed')) {
+          const btn = document.createElement("button");
+          btn.innerHTML = `<span data-i18n="intro.submit_annual_report">Submit Annual Report</span>`;
+          btn.classList.add("btn", "btn-success", "p-2", "m-2");
+          if(tei.disabled) btn.setAttribute("disabled", "true");
+          btn.addEventListener("click", async(event) => {
+          event.preventDefault(); 
+          await pushDataElement(dataElements.submitAnnualUpdate,true);
+          alert ("Report Submitted Successfully!");
+          });
+          $('#push-button').append(btn);
+        }
+        if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+          const btn = document.createElement("button");
+          btn.innerHTML = `<span data-i18n="intro.reopen_annual_report">Reopen Annual Report</span>`;
+          btn.classList.add("btn", "btn-success", "p-2", "m-2");
+          btn.addEventListener("click", async(event) => {
+            event.preventDefault(); 
+            await pushDataElement(dataElements.submitAnnualUpdate,'');
+            alert ("Report Reopened Successfully!");
+          });
+          $('#push-button').append(btn);
+        }
 
     $("#accordion").empty();
     const projectRows = displayTotalIncome(dataValues);
@@ -487,17 +505,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   
 });
-
-async function disableAnnualUpdate() {
-  await pushDataElement(dataElements.submitAnnualUpdate,true);
-  alert ("Report Submitted Successfully!");
-}
-
-async function enableAnnualUpdate() {
-  await pushDataElement(dataElements.submitAnnualUpdate,'');
-  alert ("Report Reopened Successfully!");
-}
-
 
 function loadCalculatedVariables(dataValues, dataElements) {
   var localIncome_restricted = 0;

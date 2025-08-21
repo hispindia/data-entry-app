@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchEvents() {
 
-    const year = document.getElementById("year-update").value;
+    tei.year.value = document.getElementById("year-update").value;
     tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
     const data = await getTEI(tei.orgUnit);
@@ -89,18 +89,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       var dataValuesPFA = {}, dataValuesEC = {}, dataValuesNP = {}, dataValuesOD = {}, dataValuesPD = {}, dataValuesAI = {};
-      dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, tei.year.id);
-      dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
-      dataValuesNP = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arNarrativePlan, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
-      dataValuesPFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
-      dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
-      dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: year }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription, { id: tei.year.id, value: tei.year.value },);
+      dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesNP = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arNarrativePlan, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesPFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });
+      dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value });
 
       populateProgramEvents({
         attributes: attributes,
         organisationDetails: dataValuesOD,
         narrativePlan: dataValuesNP,
-        projectDescription: dataValuesPD[year] ? dataValuesPD[year] : [],
+        projectDescription: dataValuesPD[tei.year.value] ? dataValuesPD[tei.year.value] : [],
         projectFocusAreas: dataValuesPFA,
         projectExpenseCategory: dataValuesEC,
         projectTotalIncome: dataValuesAI

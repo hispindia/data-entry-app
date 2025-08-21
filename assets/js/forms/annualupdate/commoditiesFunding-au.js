@@ -104,18 +104,29 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
   function populateProgramEvents(dataValues) {
     
     $('#push-button').empty();
-    console.trace("-----")
-    // if(window.localStorage.getItem("hideReporting").includes('ed')) {
-    //   $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()">Submit Annual Update ${tei.year.value}</button>`)
-    // }
-    // if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-    //   $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Annual Update ${tei.year.value}</button>`)
-    // }
+
     if(window.localStorage.getItem("hideReporting").includes('ed')) {
-      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();disableAnnualUpdate()"><span data-i18n="intro.submit_business_plan">Submit Business Plan </span> ${tei.year.value}</button>`)
+      const btn = document.createElement("button");
+      btn.innerHTML = `<span data-i18n="intro.submit_business_plan">Submit Business Plan </span> ${tei.year.value}`;
+      btn.classList.add("btn", "btn-success", "p-2", "m-2");
+      if(tei.disabled) btn.setAttribute("disabled", "true");
+      btn.addEventListener("click", async(event) => {
+      event.preventDefault(); 
+      if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
+      alert('Annual Update Submitted Successfully!');
+      });
+      $('#push-button').append(btn);
     }
     if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-      $('#push-button').append(`<button ${tei.disabled ? 'disabled readonly': ''} class="btn btn-success p-2 my-2" onclick="event.preventDefault();enableAnnualUpdate()">Reopen Business Plan ${tei.year.value}</button>`)
+      const btn = document.createElement("button");
+      btn.innerHTML = `<span data-i18n="intro.reopen_business_plan">Reopen Business Plan </span> ${tei.year.value}`;
+      btn.classList.add("btn", "btn-success", "p-2", "m-2");
+      btn.addEventListener("click", async(event) => {
+        event.preventDefault(); 
+        if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,'', program.auProjectDescription, programStage.auProjectDescription, eventPD);
+        alert('Annual Update Reopened Successfully!');
+      });
+      $('#push-button').append(btn);
     }
 
     $("#accordion").empty();
@@ -324,16 +335,6 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
   configurePage();
 });
 
-
-function disableAnnualUpdate() {
-  alert('Annual Update Submitted Successfully!');
-  if(eventPD) pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD)
-}
-
-function enableAnnualUpdate() {
-  alert('Annual Update Reopened Successfully!');
-  if(eventPD) pushDataElementOther(dataElements.submitAnnualUpdate,false, program.auProjectDescription, programStage.auProjectDescription, eventPD)
-}
 
 async function calculateTotals() {
   var totals = 0;

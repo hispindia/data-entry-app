@@ -3009,6 +3009,27 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "تقديم خطة العمل"
     },
     {
+        id: "reopen_business_plan",
+        en: "Reopen Business Plan",
+        sp: "Reabrir el plan de negocios",
+        fr: "Plan d'affaires de réouverture",
+        ar: "إعادة فتح خطة العمل"
+    },
+    {
+        id: "submit_annual_report",
+        en: "Submit Annual Report",
+        sp: "Presentar informe anual",
+        fr: "Soumettre le rapport annuel",
+        ar: "تقديم التقرير السنوي",
+    },
+    {
+        id: "reopen_annual_report",
+        en: "Reopen Annual Report",
+        sp: "Reabrir el informe anual",
+        fr: "Rouvrir le rapport annuel",
+        ar: "إعادة فتح التقرير السنوي",
+    },
+    {
         id: "ippf_unrestricted",
         en: "IPPF Unrestricted (Either procurred directly from IPPF or purchased locally using the core grant)",
         sp: "No restringidos de IPPF (bien sea otorgados directamente por IPPF o comprados de forma local con la subvención básica)",
