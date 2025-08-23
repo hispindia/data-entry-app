@@ -29,7 +29,8 @@ export const userGroupConfig = (data) => {
 }
 
 
-export const getUserConfig = async() => {
+export const 
+getUserConfig = async() => {
     try { 
         var user = {
             disabled: false,

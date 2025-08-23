@@ -30,9 +30,14 @@ document.addEventListener("DOMContentLoaded", function () {
         tei.orgUnit = user.organisationUnits[0].id;
         if (user.organisationUnits[0].parent) {
           document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
+          // console.log('headOrgId', user.organisationUnits[0].parent.name);
         }
         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+        // console.log('-headerOrgName', user.organisationUnits[0].name);
+        
         document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
+        // console.log('--headerOrgCode--', user.organisationUnits[0].code);
+        
       }
       ['aoc-reporting', 'trt-review'].forEach(page => {
         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -45,32 +50,43 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       
       
-      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+      if(user.annualReporting) {
+        console.log('User---', user);
+        document.getElementById('reporting-periodicity').value = user.annualReporting;
+      }
   
       const years = getYears(tei.year.start, tei.year.end);
       document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
-  
+
+
+      // console.log('tei-program', tei);   
       tei.program = program.arOrganisationDetails;
+      // console.log('teiprogram', tei.program);
+
       tei.programStage = programStage.arMembershipDetails;
+      // console.log('tei Program State', tei.programStage);
   
       fetchEvents();    
-    }
+  }
 
   async function fetchEvents() {
     
-    const year = document.getElementById("year-update").value;
+  const year = document.getElementById("year-update").value;
+  tei.year.value = year;
 
     const data = await getTEI(tei.orgUnit);
     const dataSet = await fetchDataSet(year);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
-      
+      // console.log("TEI enrollments:", data.trackedEntityInstances[0].enrollments);
+
       const filteredPrograms =
         data.trackedEntityInstances[0].enrollments.filter(
           (enroll) => enroll.program == program.projectDescription || enroll.program == program.projectBudget || enroll.program == program.projectFocusArea || enroll.program == program.projectExpenseCategory ||program.auProjectDescription || enroll.program == program.auProjectBudget || enroll.program == program.auProjectFocusArea || enroll.program == program.auProjectExpenseCategory
-        );
+        ); 
+        // console.log("filtered Programs for the selected year: ", filteredPrograms);
 
         var attributes = {};
         if (data.trackedEntityInstances.length && data.trackedEntityInstances[0].attributes) {
@@ -85,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
           
           dataValuesNP =  getProgramStageEvents(filteredPrograms, programStage.narrativePlan, program.organisationDetails, tei.period.id) //data vlaues year wise
           if(dataValuesNP[`${tei.year.start} - ${tei.year.end}`]) dataValuesNP[tei.year.start] = dataValuesNP[`${tei.year.start} - ${tei.year.end}`];
-           dataValuesPD = getEvents(filteredPrograms, program.projectDescription, {id: tei.year.id, value: tei.year.value});
+          dataValuesPD = getEvents(filteredPrograms, program.projectDescription, {id: tei.year.id, value: tei.year.value});
            dataValuesPB = getEvents(filteredPrograms, program.projectBudget, {id: tei.year.id, value: tei.year.value});
            dataValuesPFA = getEvents(filteredPrograms, program.projectFocusArea, {id: tei.year.id, value: tei.year.value});
            dataValuesEC = getEvents(filteredPrograms, program.projectExpenseCategory, {id: tei.year.id, value: tei.year.value});
@@ -130,7 +146,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Function to populate program events data
-  function populateProgramEvents(dv) {
+  function 
+  populateProgramEvents(dv) {
 
     const year = document.getElementById("year-update").value;
     const projectNames = checkProjects(dataElements.projectDescription, dv.projectDescription[year]);

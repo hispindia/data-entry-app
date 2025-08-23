@@ -8,12 +8,17 @@ export function getEvents(programs, programId, year) {
     (enroll) => (enroll.program == programId)
   );
 
+  // console.log('getEvents: year object:', year);
   eventList.forEach(list =>
     list.events.forEach((event) => {
       const dataValues = {};
       dataValues['event'] = event.event;
       event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
-      if (dataValues[year.id] && dataValues[year.id]==year.value) events[dataValues[year.id]] = dataValues;
+      // console.log('getEvents: checking event dataValues:', dataValues);
+      if (dataValues[year.id] && dataValues[year.id]==year.value) {
+        events[dataValues[year.id]] = dataValues;
+        // console.log('getEvents: matched year', year.value, 'event:', dataValues);
+      }
     })
   );
   return events;
@@ -64,13 +69,18 @@ export function getProgramStageEvents(programs, programStage, programId, year) {
     (enroll) => (enroll.program == programId)
   );
 
+  // console.log('getProgramStageEvents: year object:', year);
   eventList.forEach(list =>
     list.events.forEach((event) => {
       if (event.programStage == programStage) {
         const dataValues = {};
         dataValues['event'] = event.event;
         event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
-        if (dataValues[year.id] && dataValues[year.id]==year.value) events[dataValues[year.id]] = dataValues;
+        // console.log('getProgramStageEvents: checking event dataValues:', dataValues);
+        if (dataValues[year.id] && dataValues[year.id]==year.value) {
+          events[dataValues[year.id]] = dataValues;
+          // console.log('getProgramStageEvents: matched year', year.value, 'event:', dataValues);
+        }
       }
     })
   );
