@@ -30,14 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
         tei.orgUnit = user.organisationUnits[0].id;
         if (user.organisationUnits[0].parent) {
           document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
-          // console.log('headOrgId', user.organisationUnits[0].parent.name);
         }
         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
-        // console.log('-headerOrgName', user.organisationUnits[0].name);
-        
-        document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
-        // console.log('--headerOrgCode--', user.organisationUnits[0].code);
-        
+        document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;   
       }
       ['aoc-reporting', 'trt-review'].forEach(page => {
         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
@@ -48,10 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
-      
-      
+            
       if(user.annualReporting) {
-        console.log('User---', user);
         document.getElementById('reporting-periodicity').value = user.annualReporting;
       }
   
@@ -59,24 +52,18 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
-
-      // console.log('tei-program', tei);   
       tei.program = program.arOrganisationDetails;
-      // console.log('teiprogram', tei.program);
-
       tei.programStage = programStage.arMembershipDetails;
-      // console.log('tei Program State', tei.programStage);
-  
+      
       fetchEvents();    
   }
 
   async function fetchEvents() {
     
-  const year = document.getElementById("year-update").value;
-  tei.year.value = year;
-
+  tei.year.value = document.getElementById("year-update").value;
+  
     const data = await getTEI(tei.orgUnit);
-    const dataSet = await fetchDataSet(year);
+    const dataSet = await fetchDataSet(tei.year.value);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -94,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
   
         var dataValuesPD,dataValuesPB,dataValuesPFA, dataValuesEC, dataValuesID, dataValuesCF, dataValuesTI, dataValuesNP, dataValuesOD, dataValuesCS, dataValuesOC = {};
-        if(year==tei.year.start) {
+        if(tei.year.value == tei.year.start) {
 
           dataValuesOD =  getProgramStageEvents(filteredPrograms, programStage.membershipDetails, program.organisationDetails, tei.period.id) //data vlaues year wise
           if(dataValuesOD[`${tei.year.start} - ${tei.year.end}`]) dataValuesOD[tei.year.start] = dataValuesOD[`${tei.year.start} - ${tei.year.end}`];
@@ -149,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function 
   populateProgramEvents(dv) {
 
-    const year = document.getElementById("year-update").value;
+    const year = tei.year.value;
     const projectNames = checkProjects(dataElements.projectDescription, dv.projectDescription[year]);
 
     if (!projectNames.length) {
@@ -245,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function getOrganisationDetails(attr, dv) {
   var dataValues = {};
-  const year = document.getElementById("year-update").value;
+  const year = tei.year.value;
   if(attr) dataValues = {...attr};
   if(dv && dv[year]) dataValues = {...dataValues, ...dv[year]}
   return `
@@ -296,7 +283,7 @@ function getOrganisationDetails(attr, dv) {
 }
 
 function getNarrativePlan(dv) {
-  const year = document.getElementById("year-update").value;
+  const year = tei.year.value;
   const dataElements= [{
     id: "oizxXuGwWLL",
     name: "Ques 1. Country context"
@@ -631,7 +618,7 @@ function getTotalIncome(dv, deIds) {
 
 function getCommoditiesSource(dataValues) {
 
-  const year = document.getElementById("year-update").value;
+  const year = tei.year.value;
   const unrestrictedValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['unrestricted']]) ?  Number(dataValues[year][dataElements.sourceCommodities['unrestricted']]) : '';
   const internationalValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['international']]) ?  Number(dataValues[year][dataElements.sourceCommodities['international']]) : '';
   const localValue = (dataValues[year] && dataValues[year][dataElements.sourceCommodities['local']]) ?  Number(dataValues[year][dataElements.sourceCommodities['local']]) : '';
@@ -652,7 +639,7 @@ function getCommoditiesSource(dataValues) {
 function getOrderCommodities(dvOD, dv, dataSet) {
   var unrestrictedCost = 0;
   const productList = 38;
-  const year = document.getElementById("year-update").value;
+  const year = tei.year.value;
   const dataValues = dv[year] ? dv[year]: {};
 
   var yearIndex = 0;
