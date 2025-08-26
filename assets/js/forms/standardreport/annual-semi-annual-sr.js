@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (user.organisationUnits[0].parent) {
               document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
             }
+            document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
             document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
             document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
           }
@@ -54,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
       
           const years = getYears(tei.year.start, tei.year.end);
-          document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+          document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
           if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
       
           tei.program = program.arOrganisationDetails;
@@ -171,14 +172,11 @@ function getOrganisationDetails(attr, dv) {
   <tr><td colspan="4" style="font-weight:bold;text-align:center">Membership Details</td></tr>
   <tr><td>Country of Operation</td><td colspan="3">${dataValues['OgPuoRimaat'] ? dataValues['OgPuoRimaat'] : ''}</td></tr>
   <tr><td>Organisation Code</td><td colspan="3">${dataValues['Lv8wUjXV8fl'] ? dataValues['Lv8wUjXV8fl'] : ''}</td></tr>
-  <tr><td>IPPF Region</td><td colspan="3">${dataValues[''] ? dataValues[''] : ''}</td></tr>
+  <tr><td>IPPF Region</td><td colspan="3">${dataValues['Nu5FHDVne91'] ? dataValues['Nu5FHDVne91'] : ''}</td></tr>
   <tr><td>Organisation Name(English)</td><td colspan="3">${dataValues['H7u3oJh2ifa'] ? dataValues['H7u3oJh2ifa'] : ''}</td></tr>
   <tr><td>Organisation name (original language)</td><td colspan="3">${dataValues['RUJcqfBvOSh'] ? dataValues['RUJcqfBvOSh'] : ''}</td></tr>
   <tr><td>Primary point of contact for follow-up on business plan</td><td colspan="3">${dataValues['rTDJjf4crQ8'] ? dataValues['rTDJjf4crQ8'] : ''}</td></tr>
   <tr><td>Contact Email</td><td colspan="3">${dataValues['I27jsFBwUnt'] ? dataValues['I27jsFBwUnt'] : ''}</td></tr>
-  <tr><td>Formula-generated proposed grant amount (Year 1) (USD)</td><td colspan="3">${dataValues['fkHkH5jcJV0'] ? formatNumberInput(dataValues['fkHkH5jcJV0']) : ''}</td></tr>
-  <tr><td>Formula-generated proposed grant amount (Year 2) (USD)</td><td colspan="3">${dataValues['dhaMzFTSGrd'] ? formatNumberInput(dataValues['dhaMzFTSGrd']) : ''}</td></tr>
-  <tr><td>Provisional formula- generated grant amount (Year 3) (USD)</td><td colspan="3">${dataValues['gQQoxkZsZnn'] ? formatNumberInput(dataValues['gQQoxkZsZnn']) : ''}</td></tr>
   <tr><td colspan="4" style="font-weight:bold;text-align:center">Institutional Data</td></tr>
   <tr><td>Address</td><td colspan="3">${dataValues['eS8HHmy5krN'] ? dataValues['eS8HHmy5krN'] : ''}</td></tr>
   <tr><td colspan="4" style="font-weight:bold;text-align:center">Key Contacts</td></tr>
@@ -445,25 +443,22 @@ function getTotalIncome(dv, deIds) {
   var tableBody = ''
   var restrictedGlobalTotal = 0;
   var unrestrictedGlobalTotal = 0;
+  var optionIndex = 0;
   categoryIncome.forEach((categ, index) => {
     tableBody += `<tr><td style="font-weight:bold">${index + 1}. ${categ.name}</td><td style="font-weight:bold">Restricted</td><td style="font-weight:bold">Unrestricted</td></tr>`;
     categ.options.forEach((option) => {
       tableBody += `<tr><td>${option.name}</td>`;
-      var restrictedTotal = 0;
-      var unrestrictedTotal = 0;
-      deIds.forEach(ti => {
-        if (dv[ti.subCategory] && dv[ti.subCategory] == option.code) {
-          restrictedTotal += (dv[ti.restricted] ? Number(dv[ti.restricted]) : 0);
-          unrestrictedTotal += (dv[ti.unrestricted] ? Number(dv[ti.unrestricted]) : 0);
-        }
-      })
+      var restrictedTotal = (dv[deIds[optionIndex]["restricted"]] ? Number(dv[deIds[optionIndex]["restricted"]]) : 0);
+      var unrestrictedTotal = (dv[deIds[optionIndex]["unrestricted"]] ? Number(dv[deIds[optionIndex]["unrestricted"]]) : 0);
+
       tableBody += `<td>${formatNumberInput(displayValue(restrictedTotal))}</td><td>${formatNumberInput(displayValue(unrestrictedTotal))}</td></tr>`
       restrictedGlobalTotal += restrictedTotal;
       unrestrictedGlobalTotal += unrestrictedTotal;
+      optionIndex++;
     })
   })
 
-  tableBody += `<tr><td style="font-weight:bold">Totals</td><td style="font-weight:bold">${restrictedGlobalTotal}</td><td style="font-weight:bold">${unrestrictedGlobalTotal}</td></tr><tr><td style="font-weight:bold">Global Total</td><td colspan="2"  style="font-weight:bold">${restrictedGlobalTotal + unrestrictedGlobalTotal}</td></tr><tr><td>Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="2">How much income did they provide?</td></tr>`;
+  tableBody += `<tr><td style="font-weight:bold">Totals</td><td style="font-weight:bold">${formatNumberInput(displayValue(restrictedGlobalTotal))}</td><td style="font-weight:bold">${formatNumberInput(displayValue(unrestrictedGlobalTotal))}</td></tr><tr><td style="font-weight:bold">Global Total</td><td colspan="2"  style="font-weight:bold">${formatNumberInput(displayValue(restrictedGlobalTotal + unrestrictedGlobalTotal))}</td></tr><tr><td>Which organisation (government, trust, foundation, IPPF or other donor) was the largest contributor</td><td colspan="2">How much income did they provide?</td></tr>`;
   tableBody += `<tr><td>${ dv[dataElements.organisation] ? dv[dataElements.organisation]: ''}</td><td colspan="2">${ dv[dataElements.incomeProvided] ? formatNumberInput(dv[dataElements.incomeProvided]): ''}</td></tr>`;
 
   return tableBody;
