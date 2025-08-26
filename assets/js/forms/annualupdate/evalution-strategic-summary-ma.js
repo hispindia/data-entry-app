@@ -1,3 +1,8 @@
+import { createEvent, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { program, programStage, tei } from "../../constant.js";
+import { getUserConfig } from "../config.js";
+import { getYears } from "../func.js";
+
 const maxWords = 200;
 var eventSummaryB = '';
 
@@ -28,69 +33,46 @@ document.addEventListener("DOMContentLoaded", function () {
   }); 
 
   document
-    .getElementById("headerPeriod")
-    .addEventListener("change", function () {
-      fetchOrganizationUnitUid()
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      window.localStorage.setItem("annualYear", ev.target.value);
+      fetchEvents();
     });
 
-  async function fetchOrganizationUnitUid() {
-    try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      var data;
-      const masterOU = window.localStorage.getItem("masterOU");
-      if (masterOU) {
-        data = { organisationUnits: [{ ...JSON.parse(masterOU) }] };
-        tei.disabled = window.localStorage.getItem("userDisabled");
-      }
-      if (!data) {
-        data = await response.json();
+  configurePage();
+  async function configurePage() {
+    const user = await getUserConfig();
+    tei.userDisabled = user.disabled;
 
-        const userConfig = userGroupConfig(data)
-        tei.disabled = userConfig.disabled;
-        window.localStorage.setItem('hideReporting', userConfig.disabledValues);
+    if (user.organisationUnits?.length) {
+      tei.orgUnit = user.organisationUnits[0].id;
+      if (user.organisationUnits[0].parent) {
+        document.getElementById("headerOrgId").value = user.organisationUnits[0].parent.name;
       }
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-review').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-
-      if (data.organisationUnits && data.organisationUnits.length > 0) {
-        tei.orgUnit = data.organisationUnits[0].id;
-        document.getElementById("headerOrgId").value = data.organisationUnits[0].parent ? data.organisationUnits[0].parent.name : '';
-
-        document.getElementById("headerOrgName").value = data.organisationUnits[0].name;
-        document.getElementById("headerOrgCode").value = data.organisationUnits[0].code;
-
-        const fpaIndiaButton = document.querySelector('.fa-building-o').closest('a');
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector('div');
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;;
-          }
-        }
-
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error("Error fetching organization unit:", error);
+      document.getElementById("facility").innerHTML = user.organisationUnits[0].name;
+      document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
+      document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!user.hideReporting.includes('aoc')) {
+      $('.aoc-users').show();
+    }
+    if(user.hideReporting.includes('core')) {
+      $('.core-users').show();
+    }
+
+    const years = getYears(tei.year.start, tei.year.end);
+    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
+    if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+
+    tei.program = program.roTRTFeedback;
+    tei.programStage = programStage.trtFeedback;
+
+    fetchEvents();    
   }
+
   async function fetchDataSet(selectedYear) {
 
     const values = {};
@@ -108,19 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
     
     tei.program = program.roTRTFeedback;
     tei.programStage = programStage.trtSummaryA;
-    dataElements.period.value = document.getElementById("headerPeriod").value;
-
-    tei.year = {
-      ...tei.year,
-      start: dataElements.period.value.split(' - ')[0],
-      end: dataElements.period.value.split(' - ')[1]
-    }
+    tei.year.value = document.getElementById('year-update').value;
 
     const dataSet = await fetchDataSet(tei.year);
     var yearIndex = 0;
     var proposedTotal = 0;
     var grantTotal = 0;
-    for(let year = tei.year.start; year <=tei.year.end;year++) {
+    for(let year = tei.year.value; year <=(tei.year.value+2);year++) {
       yearIndex++;
       if(dataSet.values[year]['QQngZ31YwUi']) {
         $(`#proposed-year-${yearIndex}`).text(dataSet.values[year]['QQngZ31YwUi'])
@@ -134,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $(`#proposed-total`).text(proposedTotal)
     $(`#grant-total`).text(grantTotal)
 
-    const data = await events.get(tei.orgUnit);
+    const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
       tei.id = data.trackedEntityInstances[0].trackedEntityInstance;
@@ -209,11 +185,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if(textVal.id.split('-')[0] == "E1MmmTUtrZh") notAddressedB = dataValuesB[textVal.id.split('-')[0]];
         
         textVal.value = dataValuesB[textVal.id.split('-')[0]];
-        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))} words remaining`)
+        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))}`)
       }
       else {
         textVal.value = '';
-        $(`#counter${index + 1}`).text(`${maxWords} words remaining`)
+        $(`#counter${index + 1}`).text(`${maxWords}`)
       }
     })
 
@@ -228,11 +204,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if(textVal.id.split('-')[0] == "E1MmmTUtrZh") notAddressedA = dataValuesA[textVal.id.split('-')[0]];
         
         textVal.value = dataValuesA[textVal.id.split('-')[0]];
-        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))} words remaining`)
+        $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))} `)
       }
       else {
         textVal.value = '';
-        $(`#counter${index + 1}`).text(`${maxWords} words remaining`)
+        $(`#counter${index + 1}`).text(`${maxWords}`)
       }
     })
 
@@ -308,7 +284,27 @@ document.addEventListener("DOMContentLoaded", function () {
     $('.trt-phase-2').removeClass('d-none');
   }
 
-  fetchOrganizationUnitUid();
+  document.addEventListener('DOMContentLoaded', function () {
+    const textareas = document.querySelectorAll('.textValue');
+    textareas.forEach((textarea, index) => {
+      const counter = document.getElementById(`counter${index + 1}`);
+      const updateCounter = () => {
+    
+        const words = textarea.value.trim().split(/\s+/)
+    
+        if (words.length >= maxWords) {
+          textarea.value = words.slice(0, maxWords[`#counter${index + 1}`]).join(' ');
+          return
+        }
+    
+        if (textarea.value) {
+          counter.textContent = `${(maxWords - words.length)}`;
+        } else counter.textContent = `${maxWords} `;
+      };
+      textarea.addEventListener('input', updateCounter);
+      updateCounter(); // initialize counter on page load
+    });
+  });
 });
 
 async function updateValue(value,index) {

@@ -62,9 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-
     tei.year.value = document.getElementById('year-update').value;
-    
+
     const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -75,19 +74,19 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program
         );
 
-      const dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      const dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, tei.year.id) //data vlaues year wise
       if(dataValuesSummaryA[tei.year.value]) {
         eventSummaryAId = dataValuesSummaryA[tei.year.value]['event'];
         if(dataValuesSummaryA[tei.year.value]['RI5UuEEpxun'] && dataValuesSummaryA[tei.year.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
       } 
       
-      const dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      const dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, tei.year.id) //data vlaues year wise
       if(dataValuesSummaryB[tei.year.value]) {
         eventSummaryBId = dataValuesSummaryB[tei.year.value]['event'];
       }
 
-      const dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
-      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      const dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, tei.year.id) //data vlaues year wise
+      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, tei.year.id) //data vlaues year wise
       if (!tei.dataValues[tei.year.value]) {
         tei.dataValues[tei.year.value] = {}
         let data = [{
@@ -130,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
           dataElements: data
         })
       }
-
+      
       populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesMA[tei.year.value] ? dataValuesMA[tei.year.value]: {}));
     } else {
       console.log("No data found for the organisation unit.");
@@ -192,44 +191,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
-
-async function calculateCriteria(){
-  var countSatisfactory = 0;
-  var countSomeGaps = 0;
-  var countSignificantGaps= 0;
-  var countNotApplicable = 0;
-
-  document.querySelectorAll('.textOption').forEach((textVal, index) => {
-      if(textVal.value == "Satisfactory" ) countSatisfactory++;
-      if(textVal.value == "Some Gaps" ) countSomeGaps++;
-      if(textVal.value == "Significant Gaps" ) countSignificantGaps++;
-      if(textVal.value == "Not Applicable" ) countNotApplicable++;    
-  })
-
-  if($('.satisfactory').val()!=countSatisfactory) {
-    $('.satisfactory').val(countSatisfactory);
-    pushDataElement($('.satisfactory').attr('id') , countSatisfactory);
-    if(sendBackToMA) await pushDataElementOther($('.satisfactory').attr('id'),countSatisfactory, tei.program, programStage.trtSummaryB, eventSummaryBId);
-    else await pushDataElementOther($('.satisfactory').attr('id'),countSatisfactory, tei.program, programStage.trtSummaryA, eventSummaryAId);
-  }
-  if($('.some-gaps').val()!=countSomeGaps) {
-    $('.some-gaps').val(countSomeGaps);
-    pushDataElement($('.some-gaps').attr('id') , countSomeGaps)
-    if(sendBackToMA) await pushDataElementOther($('.some-gaps').attr('id'),countSomeGaps, tei.program, programStage.trtSummaryB, eventSummaryBId);
-    else await pushDataElementOther($('.some-gaps').attr('id'),countSomeGaps, tei.program, programStage.trtSummaryA, eventSummaryAId);
-  }
-  if($('.significant-gaps').val()!=countSignificantGaps) {
-    $('.significant-gaps').val(countSignificantGaps);
-    pushDataElement($('.significant-gaps').attr('id') , countSignificantGaps)
-    if(sendBackToMA) await pushDataElementOther($('.significant-gaps').attr('id'),countSignificantGaps, tei.program, programStage.trtSummaryB, eventSummaryBId);
-    else await pushDataElementOther($('.significant-gaps').attr('id'),countSignificantGaps, tei.program, programStage.trtSummaryA, eventSummaryAId);
-  }
-  if($('.not-applicable').val()!=countNotApplicable) {
-    $('.not-applicable').val(countNotApplicable);
-    pushDataElement($('.not-applicable').attr('id') , countNotApplicable)
-    if(sendBackToMA) await pushDataElementOther($('.not-applicable').attr('id'),countNotApplicable, tei.program, programStage.trtSummaryB, eventSummaryBId);
-    else await pushDataElementOther($('.not-applicable').attr('id'),countNotApplicable, tei.program, programStage.trtSummaryA, eventSummaryAId);
-  }
+function submitNarrative() {
+  alert("Event Saved SuccessFully")
 }
 
+async function calculateCriteria(){
+  var countAddressed = 0;
+  var countAddressedJustified = 0;
+  var countNotAddressed= 0;
+ 
+  document.querySelectorAll('.textOption').forEach((textVal, index) => {
+     if(textVal.value == "Addressed" ) countAddressed++;
+     if(textVal.value == "Not Addressed" ) countNotAddressed++;
+     if(textVal.value == "Not Addressed but Justified" ) countAddressedJustified++;
+  })
+
+  if($('.addressed').val()!=countAddressed) {
+    $('.addressed').val(countAddressed);
+    pushDataElement($('.addressed').attr('id') , countAddressed)
+    if(sendBackToMA) await pushDataElementOther($('.addressed').attr('id'),countAddressed, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.addressed').attr('id'),countAddressed, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  
+  }
+  if($('.Not-Addressed-But-Justified').val()!=countAddressedJustified) {
+    $('.Not-Addressed-But-Justified').val(countAddressedJustified);
+    pushDataElement($('.Not-Addressed-But-Justified').attr('id') , countAddressedJustified)
+    if(sendBackToMA) await pushDataElementOther($('.Not-Addressed-But-Justified').attr('id'),countAddressedJustified, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.Not-Addressed-But-Justified').attr('id'),countAddressedJustified, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  
+  }
+  if($('.Not-Addressed').val()!=countNotAddressed) {
+    $('.Not-Addressed').val(countNotAddressed);
+    pushDataElement($('.Not-Addressed').attr('id') , countNotAddressed)  
+    if(sendBackToMA) await pushDataElementOther($('.Not-Addressed').attr('id'),countNotAddressed, tei.program, programStage.trtSummaryB, eventSummaryBId);
+    else await pushDataElementOther($('.Not-Addressed').attr('id'),countNotAddressed, tei.program, programStage.trtSummaryA, eventSummaryAId);
+  
+  }
+
+   
+}

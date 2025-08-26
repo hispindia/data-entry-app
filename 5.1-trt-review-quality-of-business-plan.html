@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>IPPF:5.1 TRT Review - Quality of Business Plan </title>
+  <title>IPPF: 5.1 TRT Review - Quality of Business Plan </title>
   <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/css/app.min.css">
   <!-- Template CSS -->
@@ -47,7 +47,7 @@
           <li>
             <a class="btn btn-secondary d-flex align-items-center ml-1">
               <i class="fa fa-building-o" aria-hidden="true"></i>
-              <div>FACILITY</div>
+              <div id="facility">FACILITY</div>
             </a>
           </li>
           <li>
@@ -134,16 +134,14 @@
 
             <div class="top-detail-form mt-2">
               <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label for="">Budget Plan Cycle</label>
-                  <select class="form-control" id="headerPeriod">
-                    <option value="2023 - 2025" selected>2023 - 2025</option>
-                    <option value="2026 - 2028">2026 - 2028</option>
-                </select>
+              <div class="form-group col-md-3">
+                  <label for="" data-i18n="intro.year" >Year</label>
+                  <select  class="form-control mt-1" id="year-update">
+                  </select>
                   <div class="invalid-feedback">
-                    Error here
+                  Error here
                   </div>
-                </div>
+              </div>
 
 
                 <div class="form-group col-md-3">
@@ -175,269 +173,7 @@
             <div class="form-wizard mt-3">
               <div class="myContainer">
                 <div class="d-flex justify-content-between mb-2">
-                  <h6 class="title-main mb-2">1- Evaluation of Quality of MA Business Plan <i
-                      class="fas fa-info-circle ml-1" data-toggle="collapse" data-target="#collapseExample1"
-                      aria-expanded="false" aria-controls="collapseExample"></i></h6>
-                </div>
-                <div class="info-boxwrap collapse mb-2" id="collapseExample1">
-                  <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                    <tbody>
-
-                      <tr height="21" style="height:15.75pt">
-
-                    <td colspan="4" class="xl95" style="border-right:1.0pt solid black">Questions</td>
-                    <td colspan="3" class="xl95" style="border-right:1.0pt solid black;border-left:
-  none">Guidance </td>
-                      </tr>
-                      <tr height="51" style="height:38.25pt">
-
-                    <td class="xl76" width="127" style="border-top:none;width:95pt">OECD DAC
-                      evaluation category</td>
-                    <td class="xl77" width="167" style="border-top:none;border-left:none;width:125pt">Criteria</td>
-                    <td class="xl77" width="246" style="border-top:none;border-left:none;width:185pt">Description
-                    </td>
-                    <td class="xl78" width="115" style="border-top:none;border-left:none;width:86pt">Key
-                      business plan questions</td>
-                    <td class="xl84" width="281" style="border-top:none;border-left:none;width:211pt">1:
-                      Significant gaps</td>
-                    <td class="xl85" width="281" style="border-top:none;border-left:none;width:211pt">2:
-                      Some gaps</td>
-                    <td class="xl86" width="281" style="border-top:none;border-left:none;width:211pt">3:
-                      Satisfactory</td>
-                      </tr>
-                      <tr height="85" style="height:63.75pt">
-
-                    <td rowspan="2" class="xl79" width="127" style="border-top:none;width:95pt">Relevance</td>
-                    <td class="xl71" width="167" style="border-top:none;border-left:none;width:125pt">Country
-                      context</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Strategy
-                      and individual projects respond to country's social, economic, political, and
-                      health context</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      and projects fail to address one or more major elements of the country need
-                      (e.g., marginalized populations, political context)</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      acknowledges elements of country need (e.g., marginalized populations,
-                      political circumstances, social change, etc.), but the individual projects do
-                      not properly address them</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      identifies most relevant factors within the country context (e.g.,
-                      marginalized populations, political circumstances, social change, etc.) and
-                      MA projects respond to these</td>
-                      </tr>
-                      <tr height="68" style="height:51.0pt">
-
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Compelling and
-                      ambitious strategy</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Strategy
-                      presents a bold approach to meeting local needs, and includes improvements
-                      from prior approaches</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      is not effectively addressing areas of highest need, and/or relies on
-                      outdated approaches</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      presents some strengths, but also has gaps in notable areas; might not
-                      represent a big step forward from prior approach
-                    </td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      presents a compelling way to meet local needs, and shows improvements from
-                      past years' approaches</td>
-                      </tr>
-                      <tr height="51" style="height:38.25pt">
-
-                    <td class="xl79" width="127" style="width:95pt">Coherence</td>
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">External
-                      coherence</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Strategy
-                      complements the work of other organizations in the country, and seeks to
-                      partner with them effectively</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      does not include any meaningful coordination with other partners</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      references external partners and other organizations, but does not show
-                      meaningful efforts towards working with them</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      shows intentional, deep coordination with other partners</td>
-                      </tr>
-                      <tr height="68" style="height:51.0pt">
-
-                    <td class="xl79" width="127" style="width:95pt">Effectiveness</td>
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Project design</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Projects
-                      are each well-designed based on best practices and tailored to local
-                      needs</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">2.1</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Projects
-                      use approaches with significant flaws or major untested assumptions,
-                      potentially including elements that will not work in the local context</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Projects
-                      have some design issues or elements that might make them less effective in
-                      the local context</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Projects
-                      rely on best practices and are tailored to ensure strong impact in their
-                      local context</td>
-                      </tr>
-                      <tr height="51" style="height:38.25pt">
-
-                    <td rowspan="2" class="xl79" width="127" style="border-bottom:.5pt solid black;
-  width:95pt">Efficiency</td>
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Cost efficiency</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Expenses
-                      are reasonable given the MA's activities and targeted results</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">2.2</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Expenses
-                      are very unreasonable or not well justified given the country context and
-                      MA's plans and expected results</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Some
-                      expenses are unreasonable or not well justified given the country context and
-                      MA's plans and expected results</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Expenses
-                      are reasonable and justified given country context and MA plans and expected
-                      results</td>
-                      </tr>
-                      <tr height="68" style="height:51.0pt">
-
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Expense logic</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Spending
-                      by expense category (e.g., personnel, commodities) is reasonable and
-                      justified according to MA plans and strategy</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">2.4</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Breakdown
-                      of expenses by expense type is very concerning and not properly
-                      justified</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Breakdown
-                      of expenses by expense type appears slightly concerning, and is not fully
-                      justified</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Breakdown
-                      of expenses by expense type appears reasonable and justified</td>
-                      </tr>
-                      <tr height="68" style="height:51.0pt">
-
-                    <td rowspan="2" class="xl79" width="127" style="border-bottom:.5pt solid black;
-  border-top:none;width:95pt">Impact</td>
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Project results</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Expected
-                      results from each project are reasonable, justifiable, and ambitious</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">2.3</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Some
-                      expected results appear unreasonable given MA's project plans, and/or the MA
-                      has set unreasonably low results given its spending and context</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">It
-                      is not clear how some expected results will be achieved from the MA's
-                      projects</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Expected
-                      results flow clearly and convincingly from each project's plans, and the MA
-                      has aimed to achieve significant results</td>
-                      </tr>
-                      <tr height="51" style="height:38.25pt">
-
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Systemic impact</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">MA's
-                      plans are advancing longer-term systemic impact</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2,
-                      2.1</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">MA
-                      plan focuses only on near-term outcomes and changes</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">MA
-                      plan considers some longer-term needs, but does not have a compelling
-                      approach for building towards them</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">MA
-                      plan develops specific ways to build towards long-term systemic change while
-                      continuing near-term impact</td>
-                      </tr>
-                      <tr height="51" style="height:38.25pt">
-
-                    <td rowspan="4" class="xl79" width="127" style="border-bottom:1.0pt solid black;
-  border-top:none;width:95pt">Sustainability</td>
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Resource
-                      mobilization</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Strategy
-                      demonstrates ambitious resource-mobilization efforts and multi-year planning</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2,
-                      3.1, 3.2, 3.3</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      does not describe long-term resource mobilization plans</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      describes elements of a long-term resource mobilization plan, but shows
-                      little evidence of its full implementation</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Strategy
-                      describes a detailed plan for multi-year resource mobilization and
-                      demonstrates efforts to achieve it</td>
-                      </tr>
-                      <tr height="85" style="height:63.75pt">
-
-                    <td class="xl71" width="167" style="border-left:none;width:125pt">Financial
-                      sustainability</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Income
-                      streams are balanced and reasonable across core, non-core, private, and
-                      public funding, and show potential for MA to become increasingly sustainable</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2,
-                      3.1, 3.2, 3.3</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">MA
-                      is overly reliant on a small number of income sources and does not have plans
-                      to expand its funding sources or increase its sustainability</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">MA
-                      income streams are not sufficiently diversified, and MA is taking some steps,
-                      though insufficient, towards increasing its sustainability</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">MA
-                      has diversified income streams and is actively working to increase
-                      sustainability</td>
-                      </tr>
-                      <tr height="58" style="height:44.1pt">
-
-                    <td class="xl73" width="167" style="border-left:none;width:125pt">Operational
-                      sustainability</td>
-                    <td class="xl72" width="246" style="border-top:none;border-left:none;width:185pt">Internal
-                      governance, procedures, staffing, and other capacities support long-term
-                      organizational success</td>
-                    <td class="xl80" width="115" style="border-top:none;border-left:none;width:86pt">1.2</td>
-                    <td class="xl87" width="281" style="border-top:none;border-left:none;width:211pt">Fails
-                      to identify a major potential internal challenge (e.g., audit/finance
-                      systems, governance, leadership change), or identifies a challenge but the
-                      approach to addressing it is unlikely to meaningfully help</td>
-                    <td class="xl75" width="281" style="border-top:none;border-left:none;width:211pt">Identifies
-                      at least some, if not all, potential internal challenges (e.g., audit/finance
-                      systems, governance, leadership change), but does not have a strong plan for
-                      addressing them</td>
-                    <td class="xl88" width="281" style="border-top:none;border-left:none;width:211pt">Identifies
-                      potential internal challenges, and has strong plans for addressing possible
-                      challenges</td>
-                      </tr>
-                      <tr height="58" style="height:44.1pt">
-
-                    <td class="xl81" style="border-top:none;border-left:none">Budgetary soundness</td>
-                    <td class="xl82" valign="middle">Project
-                      budgets are realistic and feasible on an individual and collective basis</td>
-                    <td class="xl83" width="115" style="border-top:none;border-left:none;width:86pt">2.2,
-                      2.3, 2.4, 3.1, 3.2</td>
-                    <td class="xl89" width="281" style="border-top:none;border-left:none;width:211pt">Budgets
-                      are not consistent across tabs and do not match total income. Budgets are
-                      significantly different from the MA's norm with no explanation.</td>
-                    <td class="xl90" width="281" style="border-top:none;border-left:none;width:211pt">Budgets
-                      are consistent throughout tabs and roughly add up to total in come in Year 1, but are wildly inconsistent
-                      in Years 2 and 3. There is some wide variance from the MA's norm, with
-                      insufficient explanation.</td>
-                    <td class="xl91" width="281" style="border-top:none;border-left:none;width:211pt">Budgets
-                      are identical across all tabs and add up to total income in Year 1, and are
-                      similar enough for Years 2 and 3. Budgets and income are similar levels to
-                      previous years and do not vary significantly from Year 1 to Year 3. Whatever
-                      variance exists is justified clearly in explanation columns or cells.</td>
-                      </tr>
-
-                      <!--[endif]-->
-                    </tbody>
-                  </table>
-
-
-                  <p class="mb-0  text-right pt-2">
-
-                    <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-                      aria-expanded="true" aria-controls="collapseExample"></i>
-                  </p>
-
+                  <h6 class="title-main mb-2">5.1 - TRT Review - Quality of Business Plan</h6>
                 </div>
                 <div class="cont-wrapper mt-2">
                   <form>
@@ -449,7 +185,6 @@
 
                       <div class="form-wizard">
                     <div class="myContainer">
-                      <h6 class="title-main mb-2"> Evaluation based on OECD DAC Categories and Criteria</h6>
                       <div class=" stepperform animated accordion-wrap p-0 shadow-none">
                     <form>
                       <div id="accordion">
@@ -477,7 +212,7 @@
                                       <table>
                                         <tr>
                                           <td><span class="font-weight-bold">Description</span>:<br/>Strategy and individual projects respond to country's social, economic, political, and health context.</td>
-                                          <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2</td>
+                                          <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                           <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy and projects fail to address one or more major elements of the country need (e.g., marginalized populations, political context).</td>
                                           <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy acknowledges elements of country need (e.g., marginalized populations, political circumstances, social change, etc.), but the individual projects do not properly address them.</td>
                                           <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy identifies most relevant factors within the country context (e.g., marginalized populations, political circumstances, social change, etc.) and MA projects respond to these.</td>
@@ -537,7 +272,7 @@
                                     <table>
                                       <tr>
                                         <td><span class="font-weight-bold">Description</span>:<br/>Strategy presents a bold approach to meeting local needs, and includes improvements from prior approaches.</td>
-                                        <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2</td>
+                                        <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                         <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy is not effectively addressing areas of highest need, and/or relies on outdated approaches.</td>
                                         <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy presents some strengths, but also has gaps in notable areas; might not represent a big step forward from prior approach .</td>
                                         <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy presents a compelling way to meet local needs, and shows improvements from past years' approaches.</td>
@@ -629,7 +364,7 @@
                                   <table>
                                     <tr>
                                       <td><span class="font-weight-bold">Description</span>:<br/>Strategy complements the work of other organizations in the country, and seeks to partner with them effectively.</td>
-                                      <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2</td>
+                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy does not include any meaningful coordination with other partners.</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy references external partners and other organizations, but does not show meaningful efforts towards working with them.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy shows intentional, deep coordination with other partners.</td>
@@ -721,7 +456,7 @@
                                   <table>
                                     <tr>
                                       <td><span class="font-weight-bold">Description</span>:<br/>Projects are well described and link logically to the organisational strategy</td>
-                                      <td><span class="font-weight-bold">Key business plan questions</span>:<br/>2.1</td>
+                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>2.1</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Projects are badly described or not described at all, and give no sense of what is being implemented and how it relates to the strategy section.</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Projects are  described in some details and give some sense of what is being implemented and how it relates to the strategy section.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Projects well described  and give a clear sense of what is being implemented and how it relates to the strategy section.</td>
@@ -810,7 +545,7 @@
                                   <table>
                                     <tr>
                                       <td><span class="font-weight-bold">Description</span>:<br/>Has the IPPF Core grant been fully and strategically allocated in the BP (as either core grant or commodities)?</td>
-                                      <td><span class="font-weight-bold">Key business plan questions</span>:<br/>2.2</td>
+                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>2.2</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Not  all IPPF core funds have been allocated to the projects, and/or it has been allocated to projects that are not relevant to IPPF's strategy.</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>The IPPF core funds have been allocated to projects but there are small variances (less than 500) and/or projects do not appear to be relevant to IPPF's strategy.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>All IPPF core funds have been allocated to projects, and the projects are relevant to IPPF's strategy.</td>
@@ -870,7 +605,7 @@
                                   <table>
                                     <tr>
                                       <td><span class="font-weight-bold">Description</span>:<br/>Spending by expense category (e.g., personnel, commodities) is reasonable and justified according to MA plans and strategy.</td>
-                                      <td><span class="font-weight-bold">Key business plan questions</span>:<br/>2.4</td>
+                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>2.4</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Breakdown of expenses by expense type is very concerning and not properly justified .</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Breakdown of expenses by expense type appears slightly concerning, and is not fully justified.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Breakdown of expenses by expense type appears reasonable and justified.</td>
@@ -966,7 +701,7 @@
                               <table>
                                 <tr>
                                   <td><span class="font-weight-bold">Description</span>:<br/>What strategic results (described as high level outcomes) do you expect to achieve over a three-year horizon?</td>
-                                  <td><span class="font-weight-bold">Key business plan questions</span>:<br/>2.3</td>
+                                  <td><span class="font-weight-bold">Consult Section</span>:<br/>2.3</td>
                                   <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Expected Results are badly described (not high-level outcoms) or not described at all, and give no sense of what will be achieved in a three year horizon.</td>
                                   <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Expected Results are described as high-level outcoms but do not give a sense of what will be achieved in a three year horizon.</td>
                                   <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Expected Results are described as high-level outcoms and give a clear sense of what will be achieved in a three year horizon. </td>
@@ -1024,7 +759,7 @@
                               <table>
                                 <tr>
                                   <td><span class="font-weight-bold">Description</span>:<br/>At least 5% of the total IPPF Core budget must be decided by  youth in the organization. Has this been sufficiently and credibly explained?</td>
-                                  <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2, 2.1</td>
+                                  <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 2.1</td>
                                   <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>There is little or no explanation or evidence,  and /or the explanation does not give the impression that decisions were made by youth.</td>
                                   <td><span class="font-weight-bold">2: Some gaps</span>:<br/>There is some explanation or evidence, but it is difficult to ascertain whether the decisions was made by youth.</td>
                                   <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>There is credible explanation or evidence to indicate that the decisions was made by youth.</td>
@@ -1116,7 +851,7 @@
                             <table>
                               <tr>
                                 <td><span class="font-weight-bold">Description</span>:<br/>Strategy demonstrates ambitious resource-mobilization efforts and multi-year planning.</td>
-                                <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
+                                <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy does not describe long-term resource mobilization plans.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy describes elements of a long-term resource mobilization plan, but shows little evidence of its full implementation.</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy describes a detailed plan for multi-year resource mobilization and demonstrates efforts to achieve it.</td>
@@ -1176,7 +911,7 @@
                             <table>
                               <tr>
                                 <td><span class="font-weight-bold">Description</span>:<br/>Income streams are balanced and reasonable across core, non-core, private, and public funding, and show potential for MA to become increasingly sustainable.</td>
-                                <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
+                                <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>MA is overly reliant on a small number of income sources and does not have plans to expand its funding sources or increase its sustainability.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>MA income streams are not sufficiently diversified, and MA is taking some steps, though insufficient, towards increasing its sustainability.</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>MA has diversified income streams and is actively working to increase sustainability.</td>
@@ -1237,7 +972,7 @@
                             <table>
                               <tr>
                                 <td><span class="font-weight-bold">Description</span>:<br/>Internal governance, procedures, staffing, and other capacities support long-term organizational success.</td>
-                                <td><span class="font-weight-bold">Key business plan questions</span>:<br/>1.2</td>
+                                <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Fails to identify a major potential internal challenge (e.g., audit/finance systems, governance, leadership change), or identifies a challenge but the approach to addressing it is unlikely to meaningfully help.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Identifies at least some, if not all, potential internal challenges (e.g., audit/finance systems, governance, leadership change), but does not have a strong plan for addressing them .</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Identifies potential internal challenges, and has strong plans for addressing possible challenges.</td>
@@ -1297,7 +1032,7 @@
                             <table>
                               <tr>
                                 <td><span class="font-weight-bold">Description</span>:<br/>Project budgets are realistic and feasible on an individual and collective basis.</td>
-                                <td><span class="font-weight-bold">Key business plan questions</span>:<br/>2.2, 2.3, 2.4, 3.1, 3.2</td>
+                                <td><span class="font-weight-bold">Consult Section</span>:<br/>2.2, 2.3, 2.4, 3.1, 3.2</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Budgets are not consistent across tabs and do not match total income. Budgets are significantly different from the MA's norm with no explanation.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Budgets are consistent throughout tabs and  roughly add up to total in come in Year 1, but are wildly inconsistent in Years 2 and 3. There is some wide variance from the MA's norm, with insufficient explanation.</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Budgets are identical across all tabs and add up to total income in Year 1, and are similar enough for Years 2 and 3. Budgets and income are similar levels to previous years and do not vary significantly from Year 1 to Year 3. Whatever variance exists is justified clearly in explanation columns or cells.</td>
@@ -1434,52 +1169,21 @@
   </div>
       <!-- General JS Scripts -->
       <script src="assets/js/app.min.js"></script>
-      <!--Constants-->
-      <script src="assets/js/constant.js"></script>
+
     <!--Translation-->
     <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="assets/js/translation.js"></script>
-      <!-- JS Libraies -->
-      <script src="assets/js/api/events.js"></script>
-      <script src="assets/js/api/eventPush.js"></script>
-      <script src="assets/js/api/func.js"></script>
       
   <!-- Page Specific JS File -->
-  <script src="assets/js/config.js"></script>
-      <script src="assets/js/forms/annualupdate/evalution-ma.js"></script>
+      <script type="module" src="assets/js/forms/annualupdate/evalution-ma.js"></script>
       <!-- Template JS File -->
       <script src="assets/js/scripts.js"></script>
       <!-- Custom JS File -->
       <script src="assets/js/select2.full.min.js"></script>
       <script src="assets/js/forms-advanced-forms.js"></script>
       <script src="assets/js/custom.js"></script>
-  
-    <script>
-      //textarea word limit
-      document.addEventListener('DOMContentLoaded', function () {
-        const textareas = document.querySelectorAll('.textlimit');
-        textareas.forEach((textarea, index) => {
-          const counter = document.getElementById(`counter${index + 1}`);
-          const updateCounter = () => {
-  
-            const words = textarea.value.trim().split(/\s+/)
-  
-            if (words.length >= maxWords) {
-              textarea.value = words.slice(0, maxWords[`#counter${index + 1}`]).join(' ');
-              return
-            }
-  
-            if (textarea.value) {
-              counter.textContent = `${(maxWords - words.length)} words remaining `;
-            } else counter.textContent = `${maxWords} words remaining `;
-          };
-          textarea.addEventListener('input', updateCounter);
-          updateCounter(); // initialize counter on page load
-        });
-      });
-    </script>
 
 <script>
   function submitProjects() {
