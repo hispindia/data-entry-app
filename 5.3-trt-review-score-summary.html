@@ -86,9 +86,9 @@
                                 <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
                                 <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
                                 <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
-                                <li><a class="nav-link trt-review" href="#" data-target="5.1-trt-review-quality-of-business-plan.html"><span data-i18n="">5.1 TRT Review - Quality of Business Plan</span></a></li>
-                                <li><a class="nav-link trt-review" href="#" data-target="5.2-trt-review-strategic-alignment.html"><span data-i18n="">5.2 TRT Review - Strategic Alignment</span></a></li>
-                                <li class="active"><a class="nav-link trt-review" href="#" data-target="5.3-trt-review-score-summary.html"><span data-i18n=""> 5.3 - TRT Review - Score Summary</span></a></li>
+                                <li><a class="nav-link trt-users aoc-users" href="#" data-target="5.1-trt-review-quality-of-business-plan.html"><span data-i18n="">5.1 TRT Review - Quality of Business Plan</span></a></li>
+                                <li><a class="nav-link trt-users aoc-users" href="#" data-target="5.2-trt-review-strategic-alignment.html"><span data-i18n="">5.2 TRT Review - Strategic Alignment</span></a></li>
+                                <li class="active"><a class="nav-link trt-users aoc-users" href="#" data-target="5.3-trt-review-score-summary.html"><span data-i18n=""> 5.3 - TRT Review - Score Summary</span></a></li>
                             </ul>
                         </li>
                         <li class="dropdown-ar">
@@ -102,7 +102,7 @@
                                 <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus Area</span></a></li>
                                 <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span></a></li>
                                 <li><a class="nav-link" data-target="6-actual-income-ar.html"><span data-i18n="intro.actual_income">6. Actual Income</span></a></li>
-                                <li><a class="nav-link aoc-reporting" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. AOC Review Form</span></a></li>
+                                <li><a class="nav-link aoc-users" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. AOC Review Form</span></a></li>
                             </ul>
                         </li>
                         <li class="dropdown-sr">
@@ -351,9 +351,6 @@
                                                             <label class="form-check-label text-danger text-bold" for="inlineradio4">Send Back to MA
                                                             for Revisions</label>
                                                               </div>
-
-                                                            
-
                                                         </div>
 
                                                     </td>
@@ -370,8 +367,28 @@
                                                     <td>
                                                         <div class="form-group textbox-wrap mb-0">
                                                             <textarea  class="form-control-resize textValue-summaryB textlimit" disabled id="BERmaldxyMY-summaryb"   onchange="pushDataElementFormB(this.id.split('-')[0],this.value)"></textarea>
-                                                            
+                                                            <div class="char-counter form-text text-muted"><span id="counter1">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                                        </div>
+                                                            <div class="invalid-feedback"> Error here
+                                                            </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="mr-2" style="text-align: left;">
+                                                        <strong>Do you agree with the Primary TRT review? </strong>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group mb-0">
+                                                            <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" disabled id="inlineradio3"  value="true" name="" > 
+                                                            <label class="form-check-label text-success text-bold" for="inlineradio3"><strong>Yes</strong></label>
+                                                              </div>
+                                                              <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" disabled id="inlineradio4" value="false"  name="" >
+                                                            <label class="form-check-label text-danger text-bold" for="inlineradio4">No</label>
+                                                              </div>
                                                         </div>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -381,7 +398,7 @@
                                                     <td style="width: 80%;">
                                                         <div class="form-group textbox-wrap mb-0">
                                                             <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya" onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
-										                            <div class="char-counter form-text text-muted"><span id="counter1">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
+										                            <div class="char-counter form-text text-muted"><span id="counter2">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                                                         </div>
                                                             <div class="invalid-feedback"> Error here
                                                             </div>
@@ -711,7 +728,7 @@
                                                     <td style="width: 80%;">
                                                         <div class="form-group textbox-wrap mb-0">
                                                             <textarea  class="form-control-resize textValue-summaryA textlimit" id="KVhKnLlbTXI-summarya"   onchange="pushDataElement(this.id.split('-')[0],this.value)"></textarea>
-										                                                <div class="char-counter form-text text-muted"><span id="counter1">200</span> <span data-i18n="intro.words_remaining">words_remaining</span>
+										                                                <div class="char-counter form-text text-muted"><span id="counter4">200</span> <span data-i18n="intro.words_remaining">words_remaining</span>
                                                                                         </div>
                                                             <div class="invalid-feedback"> Error here
                                                             </div>

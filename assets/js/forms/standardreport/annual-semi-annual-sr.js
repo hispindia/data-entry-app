@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
             document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
           }
-          ['aoc-reporting', 'trt-review'].forEach(page => {
+          ['aoc-users', 'trt-users'].forEach(page => {
             if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
           })
           if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
@@ -426,14 +426,14 @@ function getTotalIncome(dv, deIds) {
       format: 'ippf-income',
       options: [
         {
-          "name": "IPPF Unrestricted Grant",
-          "code": "IPPF Unrestricted Grant",
+          "name": "IPPF Core Grant",
+          "code": "IPPF Core Grant",
           "id": "D0YD3aNWqGp",
           format: "ippf-unrestricted"
         },
         {
-          "name": "IPPF Restricted Grant",
-          "code": "IPPF Restricted Grant",
+          "name": "Other IPPF Grant",
+          "code": "Other IPPF Grant",
           "id": "fOsunx90DGG",
           format: "ippf-restricted"
         }

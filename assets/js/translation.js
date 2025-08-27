@@ -2425,17 +2425,17 @@ const translation_mapping = [
     },
     {
         id: "ippf-restricted",
-        en: "IPPF Restricted Grant",
-        sp: "SUBVENCIONES RESTRINGIDAS DE IPPF",
-        fr: "SUBVENTION AVEC RESTRICTIONS DE L'IPPF",
-        ar: "منحة مقيدة اتحاد IPPF"
+        en: "Other IPPF Grant",
+        sp: "Otra subvención de IPPF",
+        fr: "Autre subvention IPPF",
+        ar: "منحة IPPF أخرىF"
     },
     {
         id: "ippf-unrestricted",
-        en: "IPPF Unrestricted Grant",
-        sp: "SUBVENCIONES NO RESTRINGIDAS DE LA IPPF",
-        fr: "SUBVENTION SANS RESTRICTIONS DE L'IPPF",
-        ar: "منحة غير مقيدة اتحاد IPPF"
+        en: "IPPF Core Grant",
+        sp: "Subvención básica de IPPF",
+        fr: "Subvention de base de l'IPPF",
+        ar: "منحة IPPF الأساسية"
     },
     {
         id: "organisation_contributor",

@@ -50,7 +50,7 @@ var eventSummaryBId = '';
           $('.aoc-reporting').hide();
         }
         if(window.localStorage.getItem("hideReporting").includes('trt')) {
-          $('.trt-review').hide();
+          $('.trt-users').hide();
         }
         if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
           $('.aoc-users').show();

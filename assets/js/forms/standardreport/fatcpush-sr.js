@@ -102,14 +102,14 @@ const categoryIncome = [
     id: "iKycH3397wP",
     options: [
       {
-        "name": "IPPF Unrestricted Grant",
-        "code": "IPPF Unrestricted Grant",
+        "name": "IPPF Core Grant",
+        "code": "IPPF Core Grant",
         "id": "D0YD3aNWqGp",
         format: "ippf-unrestricted"
       },
       {
-        "name": "IPPF Restricted Grant",
-        "code": "IPPF Restricted Grant",
+        "name": "Other IPPF Grant",
+        "code": "Other IPPF Grant",
         "id": "fOsunx90DGG",
         format: "ippf-restricted"
       }

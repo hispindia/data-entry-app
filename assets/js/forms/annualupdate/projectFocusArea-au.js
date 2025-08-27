@@ -237,12 +237,10 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    ['aoc-reporting', 'trt-review'].forEach(page => {
-      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-    })
-    if(!user.hideReporting.includes('!aoc')) {
-      $('.aoc-users').show();
-    }
+    if(user.hideReporting.includes('aoc') || user.hideReporting.includes('trt')) {
+      $(`.aoc-users`).show();
+    } else $(`.aoc-users`).hide();
+    
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }

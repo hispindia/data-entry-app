@@ -34,19 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
       window.localStorage.setItem('userDisabled', userConfig.disabled);
       window.localStorage.setItem('hideReporting', userConfig.disabledValues);
     
-
-    if(window.localStorage.getItem("hideReporting").includes('aoc')) {
-      $('.aoc-reporting').hide();
-    }
-    if(window.localStorage.getItem("hideReporting").includes('trt')) {
-      $('.trt-review').hide();
-    }
-    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-      $('.aoc-users').show();
-    }
-    if(window.localStorage.getItem("hideReporting").includes('core')) {
+    if(userConfig.disabledValues.includes('aoc') || userConfig.disabledValues.includes('trt')) {
+      $(`.aoc-users`).show();
+    } else $(`.aoc-users`).hide();
+    
+    if(userConfig.disabledValues.includes('core')) {
       $('.core-users').show();
-      $('.maintenance').removeClass('d-none').addClass("d-block")
     }
 
       var level2OU = [];

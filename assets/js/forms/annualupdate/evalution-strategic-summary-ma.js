@@ -53,15 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    ['aoc-reporting', 'trt-review'].forEach(page => {
-      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-    })
-    if(!user.hideReporting.includes('!aoc')) {
-      $('.aoc-users').show();
-    }
+    if(user.hideReporting.includes('aoc') || user.hideReporting.includes('trt')) {
+      $(`.aoc-users`).show();
+    } else $(`.aoc-users`).hide();
+    
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
     if(user.hideReporting.includes('aoc')) {
       $('.trt-users').prop('disabled', true);
       $('.textOption').prop('disabled', true);
@@ -69,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('trt')) {
       $('.aoc-users').prop('disabled', true);
     }
-    
+
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
@@ -127,39 +126,39 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program
         );
 
-      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, dataElements.period.id) //data vlaues year wise
-      if (!tei.dataValues[dataElements.period.value]) {
-        tei.dataValues[dataElements.period.value] = {}
+      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      if (!tei.dataValues[tei.year.value]) {
+        tei.dataValues[tei.year.value] = {}
         let data = [{
-          dataElement: dataElements.period.id,
-          value: dataElements.period.value
+          dataElement: tei.year.id,
+          value: tei.year.value
         }];
         tei.event = await createEvent(data);
         data.forEach(element => {
-          tei.dataValues[dataElements.period.value][element.dataElement] = element.value;
+          tei.dataValues[tei.year.value][element.dataElement] = element.value;
         })
       }
       else {
-        tei.event = tei.dataValues[dataElements.period.value]['event'];
+        tei.event = tei.dataValues[tei.year.value]['event'];
       }
 
-      var dataValuesB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, dataElements.period.id) //data vlaues year wise
-      if (!dataValuesB[dataElements.period.value]) {
-        dataValuesB[dataElements.period.value] = {}
+      var dataValuesB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      if (!dataValuesB[tei.year.value]) {
+        dataValuesB[tei.year.value] = {}
         let data = [{
-          dataElement: dataElements.period.id,
-          value: dataElements.period.value
+          dataElement: tei.year.id,
+          value: tei.year.value
         }];
         eventSummaryB = await createEvent(data);
         data.forEach(element => {
-          dataValuesB[dataElements.period.value][element.dataElement] = element.value;
+          dataValuesB[tei.year.value][element.dataElement] = element.value;
         })
       }
       else {
-        eventSummaryB = dataValuesB[dataElements.period.value]['event'];
+        eventSummaryB = dataValuesB[tei.year.value]['event'];
       }
 
-      populateProgramEvents(tei.dataValues[dataElements.period.value], (dataValuesB[[dataElements.period.value]]? dataValuesB[dataElements.period.value]: ''));
+      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[[tei.year.value]]? dataValuesB[tei.year.value]: ''));
     } else {
       console.log("No data found for the organisation unit.");
     }

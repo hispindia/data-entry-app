@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (user.organisationUnits?.length) {
             tei.orgUnit = user.organisationUnits[0].id;
           }
-          ['aoc-reporting', 'trt-review'].forEach(page => {
+          ['aoc-users', 'trt-users'].forEach(page => {
             if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
           })
           if(!window.localStorage.getItem("hideReporting").includes('aoc')) {

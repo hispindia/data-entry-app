@@ -41,15 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    ['aoc-reporting', 'trt-review'].forEach(page => {
-      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-    })
-    if(!user.hideReporting.includes('!aoc')) {
-      $('.aoc-users').show();
-    }
+    if(user.hideReporting.includes('aoc') || user.hideReporting.includes('trt')) {
+      $(`.aoc-users`).show();
+    } else $(`.aoc-users`).hide();
+    
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
     if(user.hideReporting.includes('aoc')) {
       $('.trt-users').prop('disabled', true);
       $('.textOption').prop('disabled', true);
@@ -81,19 +80,19 @@ document.addEventListener("DOMContentLoaded", function () {
           (enroll) => enroll.program == tei.program
         );
 
-      const dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, tei.year.id) //data vlaues year wise
+      const dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(dataValuesSummaryA[tei.year.value]) {
         eventSummaryAId = dataValuesSummaryA[tei.year.value]['event'];
         if(dataValuesSummaryA[tei.year.value]['RI5UuEEpxun'] && dataValuesSummaryA[tei.year.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
       } 
       
-      const dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, tei.year.id) //data vlaues year wise
+      const dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(dataValuesSummaryB[tei.year.value]) {
         eventSummaryBId = dataValuesSummaryB[tei.year.value]['event'];
       }
 
-      const dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, tei.year.id) //data vlaues year wise
-      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, tei.year.id) //data vlaues year wise
+      const dataValuesMA = getProgramStageEvents(filteredPrograms, programStage.roTRTFeedback, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
+      tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if (!tei.dataValues[tei.year.value]) {
         tei.dataValues[tei.year.value] = {}
         let data = [{
