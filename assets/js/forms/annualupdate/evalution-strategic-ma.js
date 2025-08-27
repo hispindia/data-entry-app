@@ -175,6 +175,21 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     calculateCriteria();
   }
+  
+    document.querySelectorAll('.textValue').forEach((input)=> {
+      input.addEventListener("input", (ev) => {
+        const { id, value } = ev.target;
+        pushDataElement(id,value);
+      })
+    });
+  
+    document.querySelectorAll('.textOption').forEach((input)=> {
+      input.addEventListener("input", (ev) => {
+        const { id, value } = ev.target;
+        pushDataElement(id,value);
+        calculateCriteria();
+      })
+    });
 
   document.addEventListener('DOMContentLoaded', function () {
     const textareas = document.querySelectorAll('.textValue');
