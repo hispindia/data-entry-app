@@ -13,11 +13,15 @@ export const userGroupConfig = (data) => {
     if (aocUsers) {
         disabled = true;
     }
-    if (!aocUsers) {
+    if (aocUsers) {
         disabledValues += 'aoc'
+    } else {
+        disabledValues += '!aoc'
     }
-    if (!trtUsers) {
+    if (trtUsers) {
         disabledValues += 'trt'
+    } else {
+        disabledValues += '!trt'
     }
     if (edUsers) {
         disabledValues += 'ed'

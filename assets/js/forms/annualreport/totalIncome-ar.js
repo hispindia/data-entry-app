@@ -163,17 +163,16 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
         document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
       }
-      ['aoc-reporting', 'trt-review'].forEach(page => {
-        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-      })
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
-      
-      
+    ['aoc-reporting', 'trt-review'].forEach(page => {
+      if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
+    })
+    if(!user.hideReporting.includes('!aoc')) {
+      $('.aoc-users').show();
+    }
+    if(user.hideReporting.includes('core')) {
+      $('.core-users').show();
+    }
+
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
       const years = getYears(tei.year.start, tei.year.end);

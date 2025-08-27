@@ -60,13 +60,12 @@ configurePage();
     ['aoc-reporting', 'trt-review'].forEach(page => {
       if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
     })
-    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+    if(!user.hideReporting.includes('!aoc')) {
       $('.aoc-users').show();
     }
-    if(window.localStorage.getItem("hideReporting").includes('core')) {
+    if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
-    
     
     if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
 

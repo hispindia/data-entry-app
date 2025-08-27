@@ -1,4 +1,4 @@
-import { createEvent, createEventOther, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { createEvent, createEventOther, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
 import { program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { getYears } from "../func.js";
@@ -44,11 +44,18 @@ document.addEventListener("DOMContentLoaded", function () {
     ['aoc-reporting', 'trt-review'].forEach(page => {
       if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
     })
-    if(!user.hideReporting.includes('aoc')) {
+    if(!user.hideReporting.includes('!aoc')) {
       $('.aoc-users').show();
     }
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
+    }
+    if(user.hideReporting.includes('aoc')) {
+      $('.trt-users').prop('disabled', true);
+      $('.textOption').prop('disabled', true);
+    }
+    if(user.hideReporting.includes('trt')) {
+      $('.aoc-users').prop('disabled', true);
     }
 
     const years = getYears(tei.year.start, tei.year.end);
@@ -159,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#counter${index + 1}`).text(`${maxWords}`)
       }
     })
-    document.querySelectorAll('.textOption').forEach((textVal, index) => {
+    document.querySelectorAll('.textOption').forEach((textVal) => {
       if (dataValues[textVal.id]) {
         textVal.value = dataValues[textVal.id];
       }
@@ -169,6 +176,21 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     calculateCriteria();
   }
+
+  document.querySelectorAll('.textValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id, value } = ev.target;
+      pushDataElement(id,value);
+    })
+  });
+
+  document.querySelectorAll('.textOption').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id, value } = ev.target;
+      pushDataElement(id,value);
+      calculateCriteria();
+    })
+  });
 
   document.addEventListener('DOMContentLoaded', function () {
     const textareas = document.querySelectorAll('.textValue');

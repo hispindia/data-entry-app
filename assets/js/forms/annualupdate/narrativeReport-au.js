@@ -57,7 +57,7 @@ const maxWords = {
     ['aoc-reporting', 'trt-review'].forEach(page => {
       if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
     })
-    if(!user.hideReporting.includes('aoc')) {
+    if(!user.hideReporting.includes('!aoc')) {
       $('.aoc-users').show();
     }
     if(user.hideReporting.includes('core')) {
