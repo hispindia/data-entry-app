@@ -229,7 +229,7 @@
                                   <div class="col-sm-12 text-right">
                                     <div class="form-group text-end mar-b-0">
                                       <!--                                             <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
-                                      <input type="button" onclick="submitProjects()"  value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
+                                      <input type="button" onclick="submitProjects()" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
                                       
                                     <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/3.3-value-add-of-core-funding-au.html'">
                                         <span data-i18n="intro.next">Next</span>:  
@@ -262,6 +262,12 @@
     <script src="assets/js/select2.full.min.js"></script>
     <script src="assets/js/forms-advanced-forms.js"></script>
     <script src="assets/js/custom.js"></script>
+    
+    <script>
+        function submitProjects(){
+            alert("Data Saved Successfully!");
+        }
+    </script>
 
 </body>
 

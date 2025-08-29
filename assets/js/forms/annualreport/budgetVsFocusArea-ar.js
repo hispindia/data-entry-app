@@ -262,6 +262,12 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
+    $('#accordion .save-as-draft-btn').toArray().forEach(btn => {
+      btn.addEventListener("click", () => {
+        alert("Data Saved Sucessfully!")
+      });
+    });
+      
     var totalsRow = displayTotals(dataValues);
     $("#totals").empty();
     $("#totals").html(totalsRow);
@@ -813,8 +819,8 @@ document.addEventListener("DOMContentLoaded", function () {
                    <!-- <input type="button" value="CANCEL" class="btn btn-secondary mr-3"> -->
                    <input
                       type="button"
-                       value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft" 
-                    class="btn btn-secondary"
+                       value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" 
+                    class="save-as-draft-btn btn btn-secondary"
                     />
                     ${length - 1 == index? 
                       ` <button  ${tei.disabled ? 'disabled readonly': ''} class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/5-budget-vs-actual-expense-wise.html'">

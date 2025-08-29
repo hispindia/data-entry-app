@@ -156,6 +156,12 @@ document.addEventListener("DOMContentLoaded", function () {
       })
     })
 
+    $('#accordion .save-as-draft-btn').toArray().forEach(btn => {
+      btn.addEventListener("click", () => {
+        alert("Data Saved Successfully!");
+      });
+    });
+
     var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
@@ -317,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="form-row">
                   <div class="col-sm-12 text-right">
                     <div class="form-group text-end mar-b-0">
-                      <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
+                      <input type="button" value="SAVE AS DRAFT" data-i18n="[value]intro.save_as_draft" class="save-as-draft-btn btn btn-secondary">
                       ${(length-1 == index) ? `              
                     <button 
                     class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/2.3-breakdown-by-focus-area-au.html'">

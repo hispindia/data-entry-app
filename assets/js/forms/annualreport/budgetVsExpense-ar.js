@@ -156,6 +156,12 @@ const maxWords = 200;
       $('#accordion').html(`<h4 class="text-center text-warning my-4">No Existing Projects! Please add project in the Project Budget Section.</h4>`);
     }
 
+    $('#accordion .save-as-draft-btn').toArray().forEach(btn => {
+      btn.addEventListener("click", () => {
+        alert("Data Saved Successfully!")
+      });
+    });
+
     var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
@@ -441,8 +447,8 @@ const maxWords = 200;
                           <div class="form-group text-end mar-b-0">
                           <input
                             type="button"
-                            value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft" 
-                            class="btn btn-secondary"
+                            value="SAVE AS DRAFT"  data-i18n="[value]intro.save_as_draft" 
+                            class="save-as-draft-btn btn btn-secondary"
                           />
                           ${(length - 1 == index) ? `                          
                           <button ${tei.disabled ? 'disabled readonly' : ''}  class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/6-actual-income-ar.html'">
