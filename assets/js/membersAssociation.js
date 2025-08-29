@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if(userConfig.disabledValues.includes('core')) {
       $('.core-users').show();
+      $('.maintenance').removeClass('d-none').addClass("d-block")
     }
 
       var level2OU = [];
