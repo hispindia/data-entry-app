@@ -113,7 +113,6 @@ const maxWords = 300;
     })
   }
   configurePage();
-});
 
   document
   .getElementById("year-update")
@@ -135,6 +134,7 @@ const maxWords = 300;
       pushDataElement(id,value);
     })
   });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
   const textareas = document.querySelectorAll('.textlimit');
