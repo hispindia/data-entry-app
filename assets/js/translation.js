@@ -1421,9 +1421,9 @@ const translation_mapping = [
     {
         id: "commodities_funding",
         en: "3.5 Commodities by Source of Funding",
-        sp: "3.5 Productos por fuente",
+        sp: "3.5 Productos por fuente de financiamiento",
         fr: "3.5 Produits par source de financement",
-        ar: "5.3 مصدر السلع الطبية",
+        ar: "5.3 السلع الطبية حسب مصدر التمويل"
     },
     
     
