@@ -251,7 +251,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalsRow = displayTotals(dataValues);
     $("#totals").empty();
     $("#totals").append(totalsRow);
-    
+
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
       // Localize content
       $('body').localize();
   }
@@ -434,6 +436,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("year-update")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualYear", ev.target.value);
     fetchEvents();
   });

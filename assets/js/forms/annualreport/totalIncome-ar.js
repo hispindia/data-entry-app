@@ -300,6 +300,8 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#totals").empty();
     $("#totals").append(totalsRow);
     
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
       // Localize content
       $('body').localize();
   }
@@ -490,6 +492,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
       window.localStorage.setItem("annualYearAR", ev.target.value);
       fetchEvents();
     });
@@ -497,6 +501,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document
     .getElementById("reporting-periodicity")
     .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
       window.localStorage.setItem("annualReporting", ev.target.value);
       fetchEvents();
     });

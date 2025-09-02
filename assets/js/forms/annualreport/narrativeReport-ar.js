@@ -111,12 +111,16 @@ const maxWords = 300;
         $(`#counter${index+1}`).text(`${maxWords}`)
       }
     })
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
   }
   configurePage();
 
   document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualYearAR", ev.target.value);
     fetchEvents();
   });
@@ -124,6 +128,8 @@ const maxWords = 300;
   document
   .getElementById("reporting-periodicity")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualReporting", ev.target.value);
     fetchEvents();
   });

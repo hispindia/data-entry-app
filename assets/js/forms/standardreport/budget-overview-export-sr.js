@@ -17,10 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("headerPeriod")
     .addEventListener("change", function () {
       fetchOrganizationUnitUid();
+      // populateProgramEvents();
     });
 
 
     async function fetchOrganizationUnitUid() {
+
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
+
       try {
         const response = await fetch(
           `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
@@ -104,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }
+    await fetchEvents();
   }
 
   async function fetchEvents() {
@@ -822,7 +828,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
     $("#loader").empty();
 
-          
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();     
     // Localize content
     $('body').localize();
   }

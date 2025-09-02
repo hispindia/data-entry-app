@@ -166,8 +166,10 @@ const maxWords = 200;
     $('#totals').empty();
     $('#totals').append(totalsRow);
 
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
       // Localize content
-      $('body').localize();
+    $('body').localize();
   }
 
   function displayTotals(dataValues) {
@@ -475,6 +477,8 @@ const maxWords = 200;
   document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualYearAR", ev.target.value);
     fetchEvents();
   });
@@ -482,6 +486,8 @@ const maxWords = 200;
   document
   .getElementById("reporting-periodicity")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualReporting", ev.target.value);
     fetchEvents();
   });

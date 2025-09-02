@@ -174,11 +174,17 @@ configurePage();
         getFileUpload(textVal.id,dataValuesKD[textVal.id]);
       }
     })
+
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
+
   }
 
   document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualYearAR", ev.target.value);
     fetchEvents();
   });
@@ -186,6 +192,8 @@ configurePage();
   document
   .getElementById("reporting-periodicity")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualReporting", ev.target.value);
     fetchEvents();
   });

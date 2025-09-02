@@ -27,6 +27,9 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
       for(let year=tei.year.start; year <=tei.year.end; year++) {
         if(year<ev.target.value)  tei.disabledYear[year] = true;
       }
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
+
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
     });
@@ -150,6 +153,8 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
     $('#totals').empty();
     $('#totals').append(totalsRow);
     
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
       // Localize content
       $('body').localize();
            

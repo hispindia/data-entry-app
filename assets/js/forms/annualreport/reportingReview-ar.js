@@ -21,6 +21,8 @@ var riskCount = 0;
   document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualYearAR", ev.target.value);
     fetchEvents();
   });
@@ -28,6 +30,8 @@ var riskCount = 0;
   document
   .getElementById("reporting-periodicity")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass('d-flex').removeClass('d-none');
+    $('.myContainer').hide();
     window.localStorage.setItem("annualReporting", ev.target.value);
     fetchEvents();
   });
@@ -113,6 +117,8 @@ var riskCount = 0;
     } else {
       console.log("No data found for the organisation unit.");
     }
+    $('.loader-container').removeClass('d-flex').addClass('d-none');
+    $('.myContainer').show();
   }
 
 
@@ -280,6 +286,8 @@ $(".plus").click(function (e) {
     $(rows).insertBefore(".btn-wrap");
   }
   // Localize content
+  $('.loader-container').addClass('d-flex').removeClass('d-none');
+  $('.myContainer').show();
   $('body').localize();
 });
 

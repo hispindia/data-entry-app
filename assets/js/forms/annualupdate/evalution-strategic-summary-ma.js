@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
     });
@@ -280,6 +282,9 @@ document.addEventListener("DOMContentLoaded", function () {
         textVal.value = '';
       }
     })
+
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
 
   }
 

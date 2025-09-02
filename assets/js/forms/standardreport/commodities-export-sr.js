@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
       fetchEvents();
     });
 
@@ -125,6 +127,9 @@ document.addEventListener("DOMContentLoaded", function () {
         dataElementOUValues[ou.id] = dsValues.values;
       }
     }
+
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show(); 
     
     populateProgramEvents(level2OU,dataSetOUValues,dataElementOUValues);
     

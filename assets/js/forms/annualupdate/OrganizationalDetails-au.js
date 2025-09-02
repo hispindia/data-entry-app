@@ -198,6 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
         getFileUpload(textVal.id,dataValuesKD[textVal.id]);
       }
     })
+    $('.loader-container').addClass("d-none").removeClass('d-flex');
+    $('.myContainer').show();
   }
 
   document.querySelectorAll('.textValue').forEach((input)=> {
@@ -226,6 +228,9 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
+    $('.loader-container').addClass("d-flex").removeClass("d-none");
+    $('.myContainer').hide();
+    
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
     });

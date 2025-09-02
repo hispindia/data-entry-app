@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
       fetchEvents()
     });
 
@@ -166,6 +168,8 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#loader").empty();
     $("#project-export").show();
 
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
     // Localize content
     $('body').localize();
   }

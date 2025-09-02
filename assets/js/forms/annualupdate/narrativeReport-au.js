@@ -127,11 +127,15 @@ const maxWords = {
         $(`#counter${index+1}`).text(`${maxWords[`counter${index+1}`]}`)
       }
     })
+    $('.loader-container').addClass("d-none").removeClass("d-flex");
+    $('.myContainer').show();
   }
 
   document
   .getElementById("year-update")
   .addEventListener("change", function (ev) {
+    $('.loader-container').addClass("d-flex").removeClass("d-none");
+    $('.myContainer').hide();
     window.localStorage.setItem("annualYear", ev.target.value);
     fetchEvents();
   });

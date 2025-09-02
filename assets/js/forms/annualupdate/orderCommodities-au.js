@@ -151,6 +151,9 @@ async function configurePage() {
     var totalsRow = displayCombinedCost();
     $('#combined-cost').empty();
     $('#combined-cost').append(totalsRow);
+
+    $('.loader-container').addClass('d-none').removeClass('d-flex');
+    $('.myContainer').show();
           
     // Localize content
     $('body').localize();
@@ -346,6 +349,8 @@ async function configurePage() {
   document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
   });
