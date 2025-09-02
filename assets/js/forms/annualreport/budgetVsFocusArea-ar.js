@@ -526,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? formatNumberInput(focusAreaVal.assignedBudget)
                 : 0
             }"
-            ${(!list.comment) ? 'disabled': ''}
+            ${(!list.comment.includes(tei.year.value)) ? 'disabled': ''}
             class="form-control textValue input-budget currency">
           </div>
         </td>
@@ -624,7 +624,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id ="${emptyFocusAreaIndex[indexFA]}-assignedBudget"
             data-index="${index}"
             value="${formatNumberInput(focusAreaVal.assignedBudget)}"
-            ${(!list.comment) ? 'disabled': ''}
+            ${(!list.comment.includes(tei.year.value)) ? 'disabled': ''}
             class="form-control textValue input-budget currency">
           </div>
         </td>
@@ -908,7 +908,7 @@ function loadCalculatedVariables(
             assignedBudget =auFocusArea.budget;
             focusArea["assignedBudget"] = assignedBudget;
             totalBudget.value += Number(assignedBudget);
-          } else if(project.comment && arFocusArea.assignedBudget) {
+          } else if(project.comment.includes(tei.year.value) && arFocusArea.assignedBudget) {
             assignedBudget = arFocusArea.assignedBudget;
             focusArea["assignedBudget"] = assignedBudget;
             totalBudget.value += Number(assignedBudget);
@@ -955,7 +955,7 @@ function checkProjects(projects, values) {
   if (values) {
     projects.forEach((project) => {
       if (values[project.name]) {
-        names = [...names, ...prevEmptyNames, {name:values[project.name],comment: values[project.comment]}];
+        names = [...names, ...prevEmptyNames, {name:values[project.name],comment: (values[project.comment] ? values[project.comment]: '')}];
         prevEmptyNames = [];
       } else {
         prevEmptyNames.push("");

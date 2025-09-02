@@ -293,7 +293,7 @@ const maxWords = 200;
                                     </div>
                                     <input 
                                     type="text" 
-                                    ${(!list.comment) ? 'disabled' : ''}
+                                    ${(!list.comment.includes(tei.year.value)) ? 'disabled' : ''}
                                     id="${id}"
                                     data-index="${index}"
                                     value="${formatNumberInput(expense)}" 
@@ -524,7 +524,7 @@ function loadCalculatedVariables(dataValues, dataValuesPE, dataElements) {
       let arExpenseCategoryVal = dataValues && dataValues[dataElements.arProjectExpenseCategory[index]['budgetExpense'][id]] ? dataValues[dataElements.arProjectExpenseCategory[index]['budgetExpense'][id]]: 0
       let budgetExpenseVal = 0;
 
-      if(project.comment && (arExpenseCategoryVal || arExpenseCategoryVal==0)) budgetExpenseVal = Number(arExpenseCategoryVal);
+      if(project.comment.includes(tei.year.value) && (arExpenseCategoryVal || arExpenseCategoryVal==0)) budgetExpenseVal = Number(arExpenseCategoryVal);
       else if(expenseCategoryVal || expenseCategoryVal==0)  budgetExpenseVal = Number(expenseCategoryVal);
         
       totalBudget.value += Number(budgetExpenseVal);
@@ -564,7 +564,7 @@ function checkProjects(projects, values) {
   if (values) {
     projects.forEach((project) => {
       if (values[project.name]) {
-        names = [...names, ...prevEmptyNames, {name:values[project.name],comment: values[project.comment]}];
+        names = [...names, ...prevEmptyNames, {name:values[project.name],comment: (values[project.comment] ? values[project.comment]: '')}];
         prevEmptyNames = [];
       } else {
         prevEmptyNames.push("");
