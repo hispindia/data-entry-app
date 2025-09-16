@@ -1,10 +1,11 @@
 import {getMeData} from '../api/func.js';
-import { disabledUserGroups, disabledTRTUserGroups, disabledEDUserGroups, coreTeamGroups} from '../constant.js';
+import { disabledUserGroups, disabledTRTUserGroups, disabledEDUserGroups, coreTeamGroups, disabledMAUserGroups} from '../constant.js';
 
 export const userGroupConfig = (data) => {
 
     var disabled = false, disabledValues = ''
     const aocUsers = data.userGroups.find(group => disabledUserGroups.includes(group.id));
+    const maUsers = data.userGroups.find(group => disabledMAUserGroups.includes(group.id));
     const trtUsers = data.userGroups.find(group => disabledTRTUserGroups.includes(group.id));
     const edUsers = data.userGroups.find(group => disabledEDUserGroups.includes(group.id));
     const coreTeam = data.userGroups.find(group => coreTeamGroups.includes(group.id));
@@ -16,6 +17,9 @@ export const userGroupConfig = (data) => {
     if (aocUsers) {
         disabledValues += 'aoc'
     } 
+    if(maUsers) {
+        disabledValues += 'ma'
+    }
     if (trtUsers) {
         disabledValues += 'trt'
     } 

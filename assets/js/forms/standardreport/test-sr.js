@@ -1,5 +1,9 @@
+import { meApi, organisationUnitGroup } from "../../api/DataApi.js";
+import { getProgramStageEvents, getTEI } from "../../api/func.js";
+import { program, programStage, tei } from "../../constant.js";
 
 var regionMA = {};
+var level2OU = '';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -22,59 +26,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchOrganizationUnitUid() {
     try {
-      const response = await fetch(
-        `../../me.json?fields=id,username,organisationUnits[id,name,level,children[id,name],parent[id,name]],userGroups[id,name]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const apiOUGroup = await fetch(
-        `../../organisationUnitGroups/mwQWyy8TGZv.json?fields=id,name,organisationUnits[id,name,path,code,level,parent[id,name]]`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      const resOUGroup = await apiOUGroup.json();
 
-      const userConfig = userGroupConfig(data)
-      tei.disabled = userConfig.disabled;
-      window.localStorage.setItem('hideReporting', userConfig.disabledValues);
-
-      if (window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-reporting').hide();
-      }
-      if (window.localStorage.getItem("hideReporting").includes('trt')) {
-        $('.trt-users').hide();
-      }
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
-        $('.core-users').show();
-      }
+      const data = await meApi.get();
+      const resOUGroup = await organisationUnitGroup.get('mwQWyy8TGZv')
+      tei.year.value = document.getElementById('year-update').value;
 
       if (data.organisationUnits && data.organisationUnits.length > 0) {
         document.getElementById("headerOrgName").value =
           data.organisationUnits[0].name;
 
-        const fpaIndiaButton = document
-          .querySelector(".fa-building-o")
-          .closest("a");
-        if (fpaIndiaButton) {
-          const fpaIndiaDiv = fpaIndiaButton.querySelector("div");
-          if (fpaIndiaDiv) {
-            fpaIndiaDiv.textContent = data.organisationUnits[0].name;
-          }
-        }
-
-
         const orgUnitGroup = resOUGroup.organisationUnits;
-
         data.organisationUnits.forEach(orgUnits => {
           if (orgUnits.level == 1) {
             level2OU = orgUnits.children;
@@ -92,13 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
           })
         })
 
-
-        dataElements.period.value = document.getElementById("headerPeriod").value;
-        tei.year = {
-          ...tei.year,
-          start: dataElements.period.value.split(" - ")[0],
-          end: dataElements.period.value.split(" - ")[1],
-        };
         fetchEvents();
       }
     } catch (error) {
@@ -111,8 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#table-body").empty();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
     
-    const year = document.getElementById("year-update").value;
-    dataElements.periodicity.value = document.getElementById("reporting-periodicity").value;
 
     var dataValuesOU = [];
     for (let headOU of level2OU) {
@@ -123,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
-        const event = await events.get(ou.id);
+        const event = await getTEI(ou.id);
 
         var attributes = {};
         if (event.trackedEntityInstances.length && event.trackedEntityInstances[0].attributes) {
@@ -132,35 +84,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
-               enroll.program == program.arProjectFocusArea
-            || enroll.program == program.arProjectExpenseCategory
-            || enroll.program == program.auProjectDescription
-            || enroll.program == program.arOrganisationDetails
-            || enroll.program == program.reportFeedback
-            || enroll.program == program.auIncomeDetails
-            || enroll.program == program.arTotalIncome
-            || enroll.program == program.auCommodities
+            enroll.program == program.auProjectDescription
+            || enroll.program == program.auProjectBudget
           );
           
-          let dataValuesFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });//data values year wise
-          let dataValuesRO = getProgramStagePeriodicity(filteredPrograms, program.reportFeedback, programStage.arROFeedback, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });//data values year wise
-          let dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });//data values year wise
-          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, dataElements.year.id) //data values year wise
-          let dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value }); //data values year wise
-          let dataValuesTI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: dataElements.year.id, value: year }, { id: dataElements.periodicity.id, value: dataElements.periodicity.value });//data values year wise
-          let dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, dataElements.year.id) //data values year wise
-         
+          let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, {id: tei.year.id, value: tei.year.value}) //data values year wise
+
           dataValuesOU.push({
             orgUnit: ou.name,
             ouId: ou.id,
             attributes,
-            dataValuesOD,
             dataValuesPD,
-            dataValuesID,
-            dataValuesFA,
-            dataValuesEC,
-            dataValuesRO,
-            dataValuesTI,
+            dataValuesPB,
           })
         }
       }
@@ -174,21 +110,21 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(level2OU, dataValuesOU) {
     // const list = getPillarBudgetFA(dataValuesOU, level2OU);
 
-    const listOD = getOrganisationDetails(dataValuesOU, level2OU);
-    document.getElementById('th-project-organisationDetails').innerHTML = listOD.tableHead;
-    document.getElementById('tb-project-organisationDetails').innerHTML = listOD.tableRow;
+    // const listOD = getOrganisationDetails(dataValuesOU, level2OU);
+    // document.getElementById('th-project-organisationDetails').innerHTML = listOD.tableHead;
+    // document.getElementById('tb-project-organisationDetails').innerHTML = listOD.tableRow;
 
     const listEB = getExpenseBudget(dataValuesOU, level2OU);
     document.getElementById('th-project-expBudget').innerHTML = listEB.tableHead;
     document.getElementById('tb-project-expBudget').innerHTML = listEB.tableRow;
 
-    const listTI = getTotalIncome(dataValuesOU, level2OU);
-    document.getElementById('th-project-totalIncome').innerHTML = listTI.tableHead;
-    document.getElementById('tb-project-totalIncome').innerHTML = listTI.tableRow;
+    // const listTI = getTotalIncome(dataValuesOU, level2OU);
+    // document.getElementById('th-project-totalIncome').innerHTML = listTI.tableHead;
+    // document.getElementById('tb-project-totalIncome').innerHTML = listTI.tableRow;
 
-    const listAOC = getAOCReport(dataValuesOU, level2OU);
-    document.getElementById('th-project-aocReport').innerHTML = listAOC.tableHead;
-    document.getElementById('tb-project-aocReport').innerHTML = listAOC.tableRow;
+    // const listAOC = getAOCReport(dataValuesOU, level2OU);
+    // document.getElementById('th-project-aocReport').innerHTML = listAOC.tableHead;
+    // document.getElementById('tb-project-aocReport').innerHTML = listAOC.tableRow;
     $("#loader").empty();
 
 
@@ -198,363 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getExpenseBudget(dataValuesOU, level2OU) {
 
-    const year = document.getElementById("year-update").value;
+    console.log(dataValuesOU, level2OU)
 
-    const deList = [
-      {
-        id: 'OgPuoRimaat',
-        name: 'Country of Operation',
-        style: ''
-      },
-      {
-        id: 'Lv8wUjXV8fl',
-        name: 'Affiliate Code',
-        style: ''
-      },
-      {
-        id: 'expBudget',
-        name: `2.2. Total ${year} Expense budget`,
-        style: 'background:#4ea72e;'
-      },
-      {
-        id: 'focusArea1',
-        name: '1. Care: Static Clinic',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea2',
-        name: '2. Care: Outreach, mobile clinic, Community-based, delivery',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea3',
-        name: '3. Care: Other Services, enabled or referred (associated clinics)',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea4',
-        name: '4. Care: Social Marketing Services',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea5',
-        name: '5. Care: Digital Health Intervention and Selfcare',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea6',
-        name: '6. Advocacy',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea7',
-        name: '7. CSE',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea8',
-        name: '8. CSE Online, including social media',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea9',
-        name: '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea10',
-        name: '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea11',
-        name: '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'totalFocusArea',
-        name: 'Total in $ (Control)',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea1Per',
-        name: '1. Care: Static Clinic as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea2Per',
-        name: '2. Care: Outreach, mobile clinic, Community-based, delivery as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea3Per',
-        name: '3. Care: Other Services, enabled or referred (associated clinics) as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea4Per',
-        name: '4. Care: Social Marketing Services as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea5Per',
-        name: '5. Care: Digital Health Intervention and Selfcare as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea6Per',
-        name: '6. Advocacy as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea7Per',
-        name: '7. CSE as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea8Per',
-        name: '8. CSE Online, including social media as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea9Per',
-        name: '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea10Per',
-        name: '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'focusArea11Per',
-        name: '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures as percentage',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'totalFocusAreaPer',
-        name: 'Total percentage (control)',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'pillar1',
-        name: '1. Center Care on People',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar1Per',
-        name: '1. Center Care on People as percentage',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar2',
-        name: '2. Move the Sexuality Agenda',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar2Per',
-        name: '2. Move the Sexuality Agenda as percentage',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar3',
-        name: '3. Solidarity for Change',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar3Per',
-        name: '3. Solidarity for Change as percentage',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar4',
-        name: '4. Nurture Our Federation',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'pillar4Per',
-        name: '4. Nurture Our Federation as percentage',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'totalPillarPer',
-        name: 'Total percentage (control)',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'totalFocusArea',
-        name: 'Total in $ (control)',
-        style: 'background:#61cbf3;'
-      },
-      {
-        id: 'personnel',
-        name: '2.4. Total Personnel',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'personnelPer',
-        name: '2.4. Total Personnel as percentage',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'activities',
-        name: '2.4. Total Direct Project Activites',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'activitiesPer',
-        name: '2.4. Total Direct Project Activites as percentage',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'commodities',
-        name: '2.4. Total Commodities',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'commoditiesPer',
-        name: '2.4. Total Commodities as percentage',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'cost',
-        name: '2.4. Total Indirect / Support cost',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'costPer',
-        name: '2.4. Total Indirect / Support cost as percentage',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'expPer',
-        name: 'Total percentage (control)',
-        style: 'background:#e97132;'
-      },
-      {
-        id: 'totalExp',
-        name: 'Total in $ (control)',
-        style: 'background:#e97132;'
-      },
-    ]
-    var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
-    deList.forEach(de => tableHead += `<td style="${de.style};font-weight:bold">${de.name}</td>`)
-    tableHead += '</tr>';
-
-    var tableRow = "";
-    dataValuesOU.forEach(item => {
-      level2OU.forEach(parent => parent.children.forEach(ou => {
-        if (ou.name == item.orgUnit) region = parent.name
-      }))
-      tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-
-      var values = {
-        ...item.attributes
-      };
-
-      for(let i = 1; i <=11; i++) {
-        values[`focusArea${i}`] = 0;
-        values[`focusArea${i}Per`] = 0;
-        values[`pillar${i}`] = 0;
-        values[`pillar${i}Per`] = 0;
-      }
-
-      values['totalFocusArea'] = 0;
-      values['totalFocusAreaPer'] = 0;
-      values['totalPillar'] = 0;
-      values['totalPillarPer'] = 0;
-      values['expBudget'] = 0;
-      
-      values['personnel'] = 0;
-      values['personnelPer'] = 0;
-      values['activities'] = 0;
-      values['activitiesPer'] = 0;
-      values['commodities'] = 0;
-      values['commoditiesPer'] = 0;
-      values['cost'] = 0;
-      values['costPer'] = 0;
-      values['expPer'] = 0;
-      values['totalExp'] = 0;
-
-      values['expBudget'] = item.dataValuesEC['zGn5c7EZLr0']?displayValue(item.dataValuesEC['zGn5c7EZLr0']): '';
-
-      dataElements.projectFocusAreaNew.forEach((pfa, index) => {
-        pfa.focusAreas.forEach(fa => {
-          if (item.dataValuesFA[fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-            const val = JSON.parse(item.dataValuesFA[fa]);
-            if(val.expense) {
-            if (val.area == '1. Care: Static Clinic') values['focusArea1'] += Number(val.expense);
-            if (val.area == '2. Care: Outreach, mobile clinic, Community-based, delivery') values['focusArea2'] += Number(val.expense);
-            if (val.area == '3. Care: Other Services, enabled or referred (associated clinics)') values['focusArea3'] += Number(val.expense);
-            if (val.area == '4. Care: Social Marketing Services') values['focusArea4'] += Number(val.expense);
-            if (val.area == '5. Care: Digital Health Intervention and Selfcare') values['focusArea5'] += Number(val.expense);
-            if (val.area == '6. Advocacy') values['focusArea6'] += Number(val.expense);
-            if (val.area == '7. CSE') values['focusArea7'] += Number(val.expense);
-            if (val.area == '8. CSE Online, including social media') values['focusArea8'] += Number(val.expense);
-            if (val.area == '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting') values['focusArea9'] += Number(val.expense);
-            if (val.area == '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles') values['focusArea10'] += Number(val.expense);
-            if (val.area == '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures') values['focusArea11'] += Number(val.expense);
-
-            if (val.pillar == '1. Center Care on People') values['pillar1'] += Number(val.expense);
-            else if (val.pillar == '2. Move the Sexuality Agenda')values['pillar2'] += Number(val.expense);
-            else if (val.pillar == '3. Solidarity for Change') values['pillar3'] += Number(val.expense);
-            else if (val.pillar == '4. Nurture Our Federation') values['pillar4'] += Number(val.expense);
-
-            }
-          }
-        })
-      })
-
-      dataElements.arProjectExpenseCategory.forEach((pec, index) => {
-        if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-          if( item.dataValuesEC[pec.actualExpense.personnel]) values['personnel'] +=  Number(item.dataValuesEC[pec.actualExpense.personnel]);
-          if( item.dataValuesEC[pec.actualExpense.activities]) values['activities'] +=  Number(item.dataValuesEC[pec.actualExpense.activities]);
-          if( item.dataValuesEC[pec.actualExpense.commodities]) values['commodities'] +=  Number(item.dataValuesEC[pec.actualExpense.commodities]);
-          if( item.dataValuesEC[pec.actualExpense.cost]) values['cost'] +=  Number(item.dataValuesEC[pec.actualExpense.cost]);
-        }      
-      })
-
-      values['personnelPer'] = (values['expBudget'] && values['personnel'] && values['personnel']/values['expBudget'] != "Infinity") ? (values['personnel']/values['expBudget']*100).toFixed(2): '';
-      values['activitiesPer'] = (values['expBudget'] && values['activities'] && values['activities']/values['expBudget'] != "Infinity") ? (values['activities']/values['expBudget']*100).toFixed(2): '';
-      values['commoditiesPer'] = (values['expBudget'] && values['commodities'] && values['commodities']/values['expBudget'] != "Infinity") ? (values['commodities']/values['expBudget']*100).toFixed(2): '';
-      values['costPer'] = (values['expBudget'] && values['cost'] && values['cost']/values['expBudget'] != "Infinity") ? (values['cost']/values['expBudget']*100).toFixed(2): '';
-      values['expPer'] = Math.round(Number(values['personnelPer']) + Number(values['activitiesPer']) + Number(values['commoditiesPer']) + Number(values['costPer']));
-      values['totalExp'] = Number(values['personnel']) + Number(values['activities']) + Number(values['commodities']) + Number(values['cost']);
-
-      values['focusArea1Per'] = (values['expBudget'] && values['focusArea1'] && values['focusArea1']/values['expBudget'] != "Infinity") ? (values['focusArea1']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea2Per'] = (values['expBudget'] && values['focusArea2'] && values['focusArea2']/values['expBudget'] != "Infinity") ? (values['focusArea2']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea3Per'] = (values['expBudget'] && values['focusArea3'] && values['focusArea3']/values['expBudget'] != "Infinity") ? (values['focusArea3']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea4Per'] = (values['expBudget'] && values['focusArea4'] && values['focusArea4']/values['expBudget'] != "Infinity") ? (values['focusArea4']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea5Per'] = (values['expBudget'] && values['focusArea5'] && values['focusArea5']/values['expBudget'] != "Infinity") ? (values['focusArea5']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea6Per'] = (values['expBudget'] && values['focusArea6'] && values['focusArea6']/values['expBudget'] != "Infinity") ? (values['focusArea6']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea7Per'] = (values['expBudget'] && values['focusArea7'] && values['focusArea7']/values['expBudget'] != "Infinity") ? (values['focusArea7']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea8Per'] = (values['expBudget'] && values['focusArea8'] && values['focusArea8']/values['expBudget'] != "Infinity") ? (values['focusArea8']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea9Per'] = (values['expBudget'] && values['focusArea9'] && values['focusArea9']/values['expBudget'] != "Infinity") ? (values['focusArea9']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea10Per'] = (values['expBudget'] && values['focusArea10'] && values['focusArea10']/values['expBudget'] != "Infinity") ? (values['focusArea10']/values['expBudget']*100).toFixed(2): '';
-      values['focusArea11Per'] = (values['expBudget'] && values['focusArea11'] && values['focusArea11']/values['expBudget'] != "Infinity") ? (values['focusArea11']/values['expBudget']*100).toFixed(2): '';
-      
-
-      values['pillar1Per'] = (values['expBudget'] && values['pillar1'] && values['pillar1']/values['expBudget'] != "Infinity") ? (values['pillar1']/values['expBudget']*100).toFixed(2): '';
-      values['pillar2Per'] = (values['expBudget'] && values['pillar2'] && values['pillar2']/values['expBudget'] != "Infinity") ? (values['pillar2']/values['expBudget']*100).toFixed(2): '';
-      values['pillar3Per'] = (values['expBudget'] && values['pillar3'] && values['pillar3']/values['expBudget'] != "Infinity") ? (values['pillar3']/values['expBudget']*100).toFixed(2): '';
-      values['pillar4Per'] = (values['expBudget'] && values['pillar4'] && values['pillar4']/values['expBudget'] != "Infinity") ? (values['pillar4']/values['expBudget']*100).toFixed(2): '';
-      
-      for(let i=1; i<=11; i++) {
-        values['totalFocusArea'] += Number(values[`focusArea${i}`]);
-        values['totalFocusAreaPer'] += Number(values[`focusArea${i}Per`]);
-        values['totalPillar'] += Number(values[`pillar${i}`]);
-        values['totalPillarPer'] += Number(values[`pillar${i}Per`]);
-      }
-      values['totalFocusAreaPer'] = Math.round(values['totalFocusAreaPer']);
-      values['totalPillarPer'] = Math.round(values['totalPillarPer']);
-      
-      deList.forEach((de,index) => {
-        if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-        else  tableRow += `<td style="${de.style}">${values[de.id] ? formatNumberInput(displayValue(values[de.id])): ''}</td>`
-      })
-    tableRow += "</tr>";
-    })
-
+    tableHead += `<tr><td>project Description</td><td>Comments</td><td>Budget</td></tr>`
     return {
       tableHead,
       tableRow

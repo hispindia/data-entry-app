@@ -37,6 +37,10 @@ const maxWords = 200;
     
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
+    } 
+
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
     }
       
     if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
@@ -140,8 +144,7 @@ const maxWords = 200;
           $('#accordion .textValue').toArray().forEach(el => {
             el.addEventListener("input", (ev) => {
               var { id, value, dataset } = ev.target;
-              value = value ? unformatNumber(value): '';
-              pushDataElement(id, value);
+              pushDataElement(id, (value ? unformatNumber(value): ''));
               ev.target.value = formatNumberInput(value);
               calculateTotals(dataset.index, id);
             })
@@ -230,7 +233,7 @@ const maxWords = 200;
       var rows = [];
       var variationPercent = [];
       var rowsTotal = {
-        'input-budgetExpense' : 0,
+        [`input-budgetExpense-${index}`] : 0,
       };
       rowsTotal[`total-actualExpense-${index}`]= 0;
       rowsTotal[`total-variation-${index}`]= 0;
@@ -282,7 +285,7 @@ const maxWords = 200;
         let id = dataElements.arProjectExpenseCategory[index]['budgetExpense'][budgetExpense]
         let expense = dataValues[id] ? Number(dataValues[id]) : '';
 
-        rowsTotal['input-budgetExpense'] += Number(expense)
+        rowsTotal[`input-budgetExpense-${index}`] += Number(expense)
         if (!variationPercent[rowIndex]) variationPercent[rowIndex] = { num: 0, deno: Number(expense) };
 
         if (!rows[rowIndex]) rows[rowIndex] = '';
@@ -295,7 +298,7 @@ const maxWords = 200;
                                     </div>
                                     <input 
                                     type="text" 
-                                    ${(!list.comment.includes(tei.year.value)) ? 'disabled' : ''}
+                                    ${(!list.comment) ? 'disabled' : ''}
                                     id="${id}"
                                     data-index="${index}"
                                     value="${formatNumberInput(expense)}" 
@@ -530,7 +533,7 @@ function loadCalculatedVariables(dataValues, dataValuesPE, dataElements) {
       let arExpenseCategoryVal = dataValues && dataValues[dataElements.arProjectExpenseCategory[index]['budgetExpense'][id]] ? dataValues[dataElements.arProjectExpenseCategory[index]['budgetExpense'][id]]: 0
       let budgetExpenseVal = 0;
 
-      if(project.comment.includes(tei.year.value) && (arExpenseCategoryVal || arExpenseCategoryVal==0)) budgetExpenseVal = Number(arExpenseCategoryVal);
+      if(project.comment && (arExpenseCategoryVal || arExpenseCategoryVal==0)) budgetExpenseVal = Number(arExpenseCategoryVal);
       else if(expenseCategoryVal || expenseCategoryVal==0)  budgetExpenseVal = Number(expenseCategoryVal);
         
       totalBudget.value += Number(budgetExpenseVal);
@@ -573,7 +576,7 @@ function checkProjects(projects, values) {
         names = [...names, ...prevEmptyNames, {name:values[project.name],comment: (values[project.comment] ? values[project.comment]: '')}];
         prevEmptyNames = [];
       } else {
-        prevEmptyNames.push("");
+        prevEmptyNames.push({name: '', comment: ''});
       }
     });
   }
@@ -608,6 +611,7 @@ function calculateTotals(idx, expenseId) {
       } 
     }
     if(idx==index) {
+    $(`#input-budgetExpense-${idx}`).val(formatNumberInput(budgets));
     $(`#total-actualExpense-${idx}`).val(formatNumberInput(expenses));
     $(`#total-variation-${idx}`).val(formatNumberInput(totalVariation));
     let variationPercnet = (budgets && (expenses/budgets) && (expenses/budgets)!=="Infinity")? (expenses/budgets*100).toFixed(2): ''

@@ -154,6 +154,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -248,6 +252,21 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#organisation-contributor").empty();
     $("#organisation-contributor").append(organisationContributor);
 
+      $('#organisation-contributor .textValue').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value, name } = ev.target;
+          value = value ? unformatNumber(value) : '';
+          pushDataElement(id,value);
+          ev.target.value = formatNumberInput(value);
+          calculateTotals(name);
+        })
+      })
+      $('#organisation-contributor .textArea').toArray().forEach(el => {
+        el.addEventListener("input", (ev) => {
+          var { id, value } = ev.target;
+          pushDataElement(id, value);
+        })
+      })
     const totalsRow = displayTotals(dataValues);
     $("#totals").empty();
     $("#totals").append(totalsRow);

@@ -39,6 +39,10 @@ const maxWords = 200;
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -52,6 +56,7 @@ const maxWords = 200;
 
   async function fetchEvents() {
     tei.projects = [];
+    totalProjectBudget = [];
     tei.year.value = document.getElementById("year-update").value;
    
     const data = await getTEI(tei.orgUnit);
@@ -428,7 +433,11 @@ function loadCalculatedVariables(dataValues, dataElements) {
     if(dataValues[dataElements.projectExpenseCategory[index].commodities]) budget += Number(dataValues[dataElements.projectExpenseCategory[index].commodities]);
     if(dataValues[dataElements.projectExpenseCategory[index].cost]) budget += Number(dataValues[dataElements.projectExpenseCategory[index].cost]);
 
-    if(totalProjectBudget[dataElements.projectBudget.name]) variations.push({dataElement:dataElements.projectExpenseCategory[index].variation , value: `${totalProjectBudget[dataElements.projectBudget.name]- budget}`})
+    if(budget) {
+      variations.push({dataElement:dataElements.projectExpenseCategory[index].variation , value: `${totalProjectBudget[index] - budget}`})
+    } else {
+      variations.push({dataElement:dataElements.projectExpenseCategory[index].variation , value: totalProjectBudget[index]})
+    }
     totalBudget.value += budget;
   })
 

@@ -49,6 +49,17 @@ export const eventApi = {
   },
 };
 
+export const attributeApi = {
+  put: async (teiId, payload) => {
+    const url = `trackedEntityInstances/${teiId}`;
+    try {
+      const response = await BaseApi({url, method:"PUT", payload});
+      return response.json();
+    } catch (error) {
+      console.error("Error while updating attributes", error);
+    }
+  }
+}
 export const dataElementApi = {
   put: async (event, id, payload) => {
     const url = `events/${event}/${id}`;

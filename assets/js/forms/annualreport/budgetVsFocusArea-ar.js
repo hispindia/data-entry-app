@@ -115,6 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if(user.hideReporting.includes('core')) {
         $('.core-users').show();
       }
+    
+      if(user.hideReporting.includes('ma')) {
+        $('.ma-users').show();
+      }
       
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
@@ -248,8 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#accordion .textValue').toArray().forEach(el => {
         el.addEventListener("input", (ev) => {
           var { id, value, dataset } = ev.target;
-          value = value ? unformatNumber(value): '';
-          pushDataElementFA(id, value);
+          pushDataElementFA(id, (value ? unformatNumber(value): ''));
           ev.target.value = formatNumberInput(value);
           calculateTotals(dataset.index, id);
         })
@@ -533,7 +536,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? formatNumberInput(focusAreaVal.assignedBudget)
                 : 0
             }"
-            ${(!list.comment.includes(tei.year.value)) ? 'disabled': ''}
+            ${(!list.comment) ? 'disabled': ''}
             class="form-control textValue input-budget currency">
           </div>
         </td>
@@ -631,7 +634,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id ="${emptyFocusAreaIndex[indexFA]}-assignedBudget"
             data-index="${index}"
             value="${formatNumberInput(focusAreaVal.assignedBudget)}"
-            ${(!list.comment.includes(tei.year.value)) ? 'disabled': ''}
+            ${(!list.comment) ? 'disabled': ''}
             class="form-control textValue input-budget currency">
           </div>
         </td>
@@ -915,7 +918,7 @@ function loadCalculatedVariables(
             assignedBudget =auFocusArea.budget;
             focusArea["assignedBudget"] = assignedBudget;
             totalBudget.value += Number(assignedBudget);
-          } else if(project.comment.includes(tei.year.value) && arFocusArea.assignedBudget) {
+          } else if(project.comment && arFocusArea.assignedBudget) {
             assignedBudget = arFocusArea.assignedBudget;
             focusArea["assignedBudget"] = assignedBudget;
             totalBudget.value += Number(assignedBudget);
@@ -965,7 +968,7 @@ function checkProjects(projects, values) {
         names = [...names, ...prevEmptyNames, {name:values[project.name],comment: (values[project.comment] ? values[project.comment]: '')}];
         prevEmptyNames = [];
       } else {
-        prevEmptyNames.push("");
+        prevEmptyNames.push({name: '', comment: ''});
       }
     });
   }
@@ -1054,8 +1057,8 @@ function calculateTotals(idx, expenseId) {
   }
   })
 
-  const totalSpend = totalBudget && totalExpenses/totalBudget && (totalExpenses/totalBudget)!="Infinity"? (totalExpenses/totalBudget)*100 : '';
-  $('.totalSpend').val(formatNumberInput(totalSpend.toFixed(2)));
+  const totalSpend = totalBudget && totalExpenses/totalBudget && (totalExpenses/totalBudget)!="Infinity"? ((totalExpenses/totalBudget)*100).toFixed(2) : '';
+  $('.totalSpend').val(formatNumberInput(totalSpend));
 
   $('.totalBudget').val(formatNumberInput(totalBudget));
   $('.totalExpenses').val(formatNumberInput(totalExpenses));

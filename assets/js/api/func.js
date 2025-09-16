@@ -1,4 +1,4 @@
-import { eventApi, dataElementApi, meApi, organisationUnitGroup } from './DataApi.js';
+import { eventApi, dataElementApi, meApi, organisationUnitGroup, attributeApi } from './DataApi.js';
 import { tei } from "../constant.js";
 
 export function getEvents(programs, programId, year) {
@@ -91,6 +91,10 @@ export async function pushDataElementMultipleYears(dataElement, value) {
   for (let year = tei.year.start; year <= tei.year.end; year++) {
     await pushDataElementYear(`${dataElement}-${year}`, value);
   }
+}
+
+export async function pushAttribute(teiId, payload) {
+    await attributeApi.put(teiId, payload);
 }
 
 export async function createEvent(dataElements) {

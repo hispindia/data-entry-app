@@ -159,7 +159,7 @@ export const dataElements = {
     total: "IgWfIuXUxrQ",
     comment: "O3abWulyciw",
     commodities: "KiWo9bRSlgG",
-    varitaion: "wBin2Qxb4G4",
+    variation: "wBin2Qxb4G4",
   },
   projectTotalIncome: [
     {

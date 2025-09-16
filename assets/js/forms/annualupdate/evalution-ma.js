@@ -51,6 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
       $('.core-users').show();
     }
     
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
+    
     if(user.hideReporting.includes('aoc')) {
       $('.trt-users').prop('disabled', true);
       $('.textOption').prop('disabled', true);

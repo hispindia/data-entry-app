@@ -1,4 +1,4 @@
-import { createEvent, createEventOther, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { createEvent, createEventOther, getProgramStageEvents, getTEI, pushDataElement } from "../../api/func.js";
 import { program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { getYears } from "../func.js";
@@ -49,6 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
+    }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
     }
     
     if(user.hideReporting.includes('aoc')) {

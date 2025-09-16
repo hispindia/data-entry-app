@@ -63,6 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
           $('.core-users').show();
         }
 
+        if(window.localStorage.getItem("hideReporting").includes('ma')) {
+          $('.ma-users').show();
+        }
+
       if (data.organisationUnits && data.organisationUnits.length > 0) {
         document.getElementById("headerOrgName").value =
           data.organisationUnits[0].name;

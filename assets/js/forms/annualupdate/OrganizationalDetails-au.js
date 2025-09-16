@@ -1,5 +1,5 @@
 import { dataSet } from "../../api/dataSet.js";
-import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
+import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushAttribute, pushDataElement, pushDataElementOther } from "../../api/func.js";
 import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { disableAll, enableAll, formatNumberInput, getYears } from "../func.js";
@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
+    }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
     }
 
     const years = getYears(tei.year.start, tei.year.end);
@@ -150,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const years = getYears(tei.year.value, Number(tei.year.value)+2);
     years.map((year, index) => {
       const id = `${dataElements.formulaGenerated}-year${(index+1)}`;
-      if(attributes[dataElements.formulaGenerated][year]) {
+      if(attributes[dataElements.formulaGenerated] && attributes[dataElements.formulaGenerated][year]) {
         $(`#${id}`).val(formatNumberInput(attributes[dataElements.formulaGenerated][year]))
       }
       else {
@@ -158,11 +162,15 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
     
-    document.querySelectorAll('.textValue').forEach((textVal) => {
+    document.querySelectorAll('.attributeValue').forEach((textVal) => {
       if (attributes[textVal.id]) {
         textVal.value = attributes[textVal.id];
+      } else {
+        textVal.value = '';
       }
-      else if (dataValues[textVal.id]) {
+    })
+    document.querySelectorAll('.textValue').forEach((textVal) => {
+     if (dataValues[textVal.id]) {
         if(textVal.type=="checkbox") textVal.checked = true;
         else textVal.value = dataValues[textVal.id];   
       } else {
@@ -209,6 +217,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if(checked) pushDataElement(id, true);
         else pushDataElement(id, '');
       } else pushDataElement(id,value);
+    })
+  });
+
+  document.querySelectorAll('.attributeValue').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id,value } = ev.target;
+      pushAttribute(tei.id, {orgUnit: tei.orgUnit, attributes:[{attribute:id,value:value}]});
     })
   });
   // document.querySelectorAll('.dataValues').forEach((input)=> {

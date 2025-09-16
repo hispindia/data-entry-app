@@ -244,6 +244,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -258,6 +262,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchEvents() {
     tei.projects = [];
+    totalProjectBudget = [];
+
     tei.year.value = document.getElementById("year-update").value;
 
     const data = await getTEI(tei.orgUnit);
@@ -650,8 +656,10 @@ function loadCalculatedVariables(dataValues, dataElements) {
         if(val.budget) budget += Number(val.budget);
       }
     })
-    if(totalProjectBudget[index]) {
+    if(budget) {
       variations.push({dataElement:dataElements.projectFocusAreaNew[index].variation , value: totalProjectBudget[index] - budget})
+    } else {
+      variations.push({dataElement:dataElements.projectFocusAreaNew[index].variation , value: totalProjectBudget[index]})
     }
     totalBudget.value += budget;
   })

@@ -1,5 +1,5 @@
 import { eventApi } from '../../api/DataApi.js';
-import { getOrganisationUnits, getProgramStageEvents, getProgramStagePeriodicity } from '../../api/func.js';
+import { getMeData, getOrganisationUnits, getProgramStageEvents, getProgramStagePeriodicity } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
@@ -43,17 +43,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
+      if(window.localStorage.getItem("hideReporting").includes('ma')) {
+        $('.ma-users').show();
+      }
       
-      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
+      // if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
           
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
-      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${"2025"==year? 'selected': ''}>${year}</option>`).join('');
+      // if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
                   
-      const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
-     const orgUnitGroup = resOUGroup.organisationUnits;
+
+    const data = await getMeData();
+    const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+    const orgUnitGroup = resOUGroup.organisationUnits;
            
-     user.organisationUnits.forEach(orgUnits => {
+     data.organisationUnits.forEach(orgUnits => {
       if(orgUnits.level == 1) { 
          level2OU = orgUnits.children;
        } else if(orgUnits.level == 2) { 
@@ -111,13 +116,13 @@ document.addEventListener("DOMContentLoaded", function () {
           const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           if (dataValuesTI && dataValuesTI[tei.year.value]) dataElementOUValues[ou.id]['auti'] = dataValuesTI[tei.year.value]
 
-          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Semi-Annual Reporting" }); //data vlaues period wise
           if(dataValuesAREC) dataElementOUValues[ou.id]['arec'] = dataValuesAREC;
 
-          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Semi-Annual Reporting" }); //data vlaues period wise
           if(dataValuesARFA) dataElementOUValues[ou.id]['arfa'] = dataValuesARFA;
 
-          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
+          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Semi-Annual Reporting" }); //data vlaues period wise
           if(dataValuesARAC) dataElementOUValues[ou.id]['arac'] = dataValuesARAC;
     
         }

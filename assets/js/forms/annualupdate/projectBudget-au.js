@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -146,6 +150,12 @@ document.addEventListener("DOMContentLoaded", function () {
         pushDataElement(id,unformatNumber(value));
         ev.target.value = formatNumberInput(value);
         calculateTotals(name);
+      })
+    })
+    $('#accordion .selectValue').toArray().forEach(el => {
+      el.addEventListener("input", (ev) => {
+        var { id, value, name } = ev.target;
+        pushDataElement(id,value);
       })
     })
     $('#accordion .textlimit').toArray().forEach(el => {
@@ -298,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                   </td>
                   <td>
-                    <select class="form-control textValue" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}">
+                    <select class="form-control selectValue" ${tei.disabled ? 'disabled readonly': ''}  id="${dataElements.projectBudget[index].likelihood}">
                       <option ${(likelihood=="Confirmed") ? "selected": ''} value="Confirmed" data-i18n="intro.confirmed">Confirmed</option>
                       <option ${(likelihood=="Likely (over 80%)") ? "selected": ''} value="Likely (over 80%)" data-i18n="intro.likely_over_80">Likely(Over 80%)</option>
                       <option ${(likelihood=="Uncertain") ? "selected": ''} value="Uncertain" data-i18n="intro.uncertain">Uncertain</option>
@@ -450,8 +460,8 @@ function calculateTotals(name) {
   //For global total
   var totalBudgets = 0;
   $(`.totalBudget`).each((_,el)  => totalBudgets += unformatNumber(el.value));
-  pushDataElement($(`.totalBudget-total`)[0].id, value);
-  $(`.totalBudget-total`).val(formatNumberInput(value));
+  pushDataElement($(`.totalBudget-total`)[0].id, totalBudgets);
+  $(`.totalBudget-total`).val(formatNumberInput(totalBudgets));
 
   if(ids[0]=="coreFunding") {
     const difference = tei.yearAmount - value;

@@ -42,6 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
       $('.core-users').show();
       $('.maintenance').removeClass('d-none').addClass("d-block")
     }
+    if(userConfig.disabledValues.includes('ma')) {
+      $('.ma-users').show();
+    }
 
       var level2OU = [];
       data.organisationUnits.forEach(orgUnits => {

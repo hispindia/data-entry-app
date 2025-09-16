@@ -1,5 +1,5 @@
 import { dataSet } from "../../api/dataSet.js";
-import { createEvent, getProgramStageEvents, getTEI } from "../../api/func.js";
+import { createEvent, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
 import { dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { getYears } from "../func.js";
@@ -42,6 +42,18 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
 
+  document.querySelectorAll('.textlimit').forEach((input)=> {
+    input.addEventListener("input", (ev) => {
+      const { id, value } = ev.target;
+      if(id.includes('summarya')) {
+        pushDataElement(id.split('-')[0],value)
+      }
+      else if(id.includes('summaryb')) {
+        pushDataElementFormB(id.split('-')[0],value)
+      }
+    })
+  });
+
   configurePage();
   async function configurePage() {
     const user = await getUserConfig();
@@ -64,6 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
       $('.core-users').show();
     }
     
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
+    
     if(user.hideReporting.includes('aoc')) {
       $('.trt-users').prop('disabled', true);
       $('.textOption').prop('disabled', true);
@@ -82,14 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchEvents();    
   }
 
-  async function fetchDataSet(selectedYear) {
-
+  async function fetchDataSet(year) {
     const values = {};
-    for(let year = selectedYear.start; year<=selectedYear.end; year++) {
-      values[year] = {}
-      const dataValueSet = await dataSet.getValues(dataSetFunds, tei.orgUnit,year);
-      dataValueSet.dataValues.forEach(dv => values[year][dv.dataElement] = dv.value);
-    }
+    const dataValueSet = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+    dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
     return {
       values
     }
@@ -101,23 +114,9 @@ document.addEventListener("DOMContentLoaded", function () {
     tei.programStage = programStage.trtSummaryA;
     tei.year.value = document.getElementById('year-update').value;
 
-    const dataSet = await fetchDataSet(tei.year);
-    var yearIndex = 0;
-    var proposedTotal = 0;
-    var grantTotal = 0;
-    for(let year = tei.year.value; year <=(tei.year.value+2);year++) {
-      yearIndex++;
-      if(dataSet.values[year]['QQngZ31YwUi']) {
-        $(`#proposed-year-${yearIndex}`).text(dataSet.values[year]['QQngZ31YwUi'])
-        proposedTotal += Number(dataSet.values[year]['QQngZ31YwUi']);
-      }
-      if(dataSet.values[year]['zb45IJuA9HQ']) {
-        $(`#grant-year-${yearIndex}`).text(dataSet.values[year]['zb45IJuA9HQ'])
-        grantTotal += Number(dataSet.values[year]['zb45IJuA9HQ']);
-      }
-    }
-    $(`#proposed-total`).text(proposedTotal)
-    $(`#grant-total`).text(grantTotal)
+    const dataSet = await fetchDataSet(tei.year.value);
+    if(dataSet.values['QQngZ31YwUi']) $(`#proposed-year`).text(dataSet.values['QQngZ31YwUi']);
+    if(dataSet.values['zb45IJuA9HQ']) $(`#grant-year`).text(dataSet.values['zb45IJuA9HQ']);
 
     const data = await getTEI(tei.orgUnit);
 
@@ -161,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         eventSummaryB = dataValuesB[tei.year.value]['event'];
       }
 
-      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[[tei.year.value]]? dataValuesB[tei.year.value]: ''));
+      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[[tei.year.value]] ? dataValuesB[tei.year.value]: ''));
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -204,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document.querySelectorAll('.text-summaryA').forEach(item => {
-      if (dataValuesB[item.id.split('-')[0]]) $(`#${item.id}`).text(dataValuesB[item.id.split('-')[0]]);
+      if (dataValuesA[item.id.split('-')[0]]) $(`#${item.id}`).text(dataValuesA[item.id.split('-')[0]]);
     })
     document.querySelectorAll('.textValue-summaryA').forEach((textVal, index) => {
       if (dataValuesA[textVal.id.split('-')[0]]) {
@@ -330,9 +329,8 @@ async function updateValue(value,index) {
     grantCut = (proposedGrant && value && (proposedGrant/value)) ? (proposedGrant/value) : 0;
     finalGrant = proposedGrant - grantCut;
   }
-  $(`#grant-year-${index}`).text(displayValue(finalGrant));
+  $(`#grant-year`).text(displayValue(finalGrant));
   var grantTotal = 0;
-  var selectedYear = '';
   var indexCount = 0
   for(let year = tei.year.start; year<=tei.year.end; year++) {
     grantTotal += Number($(`#grant-year-${++indexCount}`).text());

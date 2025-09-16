@@ -64,7 +64,11 @@ var riskCount = 0;
       if(user.hideReporting.includes('core')) {
         $('.core-users').show();
       }
-        
+    
+      if(user.hideReporting.includes('ma')) {
+        $('.ma-users').show();
+      }
+          
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
   
       const years = getYears(tei.year.start, tei.year.end);

@@ -1,6 +1,7 @@
 import { eventApi } from '../../api/DataApi.js';
-import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { dataSet } from '../../api/dataSet.js';
+import { getMeData, getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
+import { tei, dataElements, program, programStage, dataSetFunds } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -24,6 +25,17 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
 
+  async function fetchDataSet(orgUnit, year) {
+    const values = {};
+        
+    const dataValuesQuantity = await dataSet.getValues(dataSetFunds, orgUnit, year);
+      dataValuesQuantity.dataValues.forEach(dv => {
+      values[dv.dataElement] = dv.value
+    })
+        
+    return values;
+    }
+
   configurePage();
   async function configurePage() {
     try {
@@ -42,17 +54,20 @@ document.addEventListener("DOMContentLoaded", function () {
       if(window.localStorage.getItem("hideReporting").includes('core')) {
         $('.core-users').show();
       }
+      if(window.localStorage.getItem("hideReporting").includes('ma')) {
+        $('.ma-users').show();
+      }
       
-      if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
           
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
             
+      const data = await getMeData();
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
      const orgUnitGroup = resOUGroup.organisationUnits;
      
-     user.organisationUnits.forEach(orgUnits => {
+     data.organisationUnits.forEach(orgUnits => {
       if(orgUnits.level == 1) { 
          level2OU = orgUnits.children;
        } else if(orgUnits.level == 2) { 
@@ -88,24 +103,27 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
         const event = await eventApi.get(ou.id);
+        const dataSet = await fetchDataSet(ou.id, tei.year.value);
         if (event.trackedEntityInstances.length) {
-          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == tei.program
-            || enroll.program == program.auOrganisationDetails
+          const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) => enroll.program == program.auProjectDescription
             || enroll.program == program.auProjectBudget
             || enroll.program == program.auProjectExpenseCategory
             || enroll.program == program.auProjectFocusArea
             || enroll.program == program.auIncomeDetails
           );
           dataElementOUValues[ou.id] = {
-            od: {}, //organization details
+            funds: {}, //DataSet
+            pd: {},
             pb: {}, //project budget
             ec: {}, //expense category
             fa: {}, //focus area
             ti: {}, //total income,
             id: {} //Income by donor
           }
-          const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
-          if (dataValuesOD && dataValuesOD[tei.year.value]) dataElementOUValues[ou.id]['od'] = dataValuesOD[tei.year.value]
+          if(dataSet) dataElementOUValues[ou.id]['funds'] = dataSet;
+          
+          const dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          if (dataValuesPD && dataValuesPD[tei.year.value]) dataElementOUValues[ou.id]['pd'] = dataValuesPD[tei.year.value]
 
           const dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, {id: tei.year.id, value: tei.year.value}) //data values year wise
           if (dataValuesPB && dataValuesPB[tei.year.value]) dataElementOUValues[ou.id]['pb'] = dataValuesPB[tei.year.value]
@@ -148,19 +166,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Member / collaborative Partner</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Expense Budget</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">PPF Core Grant</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted PPF Core Grant</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">IPPF Core Gant Control</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Focus Area</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Focus Area Control</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Budget by Expense Category</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Expense Category Control</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">IPPF Core Grant</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Budgeted Core</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">2.2. Expense by Project</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">2.3. Expense by Focus Area</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">2.4. Expense by Category </th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">3.1. Total Income</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">2.1. Project Income</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">3.2. Income by donor</th>
    
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income by Donor</th>
-    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Total Income Control</th>
-     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Financial Position (Income minus Expenses)</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Financial Position (Income minus Expenses)</th>
+    <th style="background:#276696;color:white;text-align:center;border:1px solid black;">5.3. TRT Review Status (flag)</th>
     </tr>`
 
     $('#table-head').html(tableHead);
@@ -170,9 +186,9 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody += `<tr><td colspan="13" style="background:#50C878;color:white;text-align:center;">${headOU.name}</td></tr>`
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       headOU.children.forEach(ou => {
-        const totalBudget = dataValues[ou.id] && dataValues[ou.id]['pb']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['pb']['zGn5c7EZLr0']) : '';
-        const fund = dataValues[ou.id] && dataValues[ou.id]['od']['gQQoxkZsZnn'] ? displayValue(dataValues[ou.id]['od']['gQQoxkZsZnn']) : '';
+        const fund = dataValues[ou.id] && dataValues[ou.id]['funds'][dataElements.formulaGenerated] ? displayValue(dataValues[ou.id]['funds'][dataElements.formulaGenerated]) : '';
         const coreFunding = dataValues[ou.id] && dataValues[ou.id]['pb']['x4ER7X2zTOm'] ? displayValue(dataValues[ou.id]['pb']['x4ER7X2zTOm']) : '';
+        const totalBudget = dataValues[ou.id] && dataValues[ou.id]['pb']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['pb']['zGn5c7EZLr0']) : '';
         const totalBudgetVariance = displayValue(fund - coreFunding);
         const focusAreaBudget = dataValues[ou.id] && dataValues[ou.id]['fa']['zGn5c7EZLr0'] ? displayValue(dataValues[ou.id]['fa']['zGn5c7EZLr0']) : '';
         const focusAreaVariance = displayValue(totalBudget - focusAreaBudget);
@@ -180,36 +196,42 @@ document.addEventListener("DOMContentLoaded", function () {
         const expenseCategoryVariance = displayValue(totalBudget - expenseCategory);
         var totalIncome = 0;
         var incomeByDonor = 0;
+        var projectIncome = 0;
+
+        dataElements.projectDescription.forEach(pd => {
+          if(dataValues[ou.id]['pd'][pd.income]) projectIncome += Number(dataValues[ou.id]['pd'][pd.income]);
+        })
 
         dataElements.projectTotalIncome.forEach(pti => {
-          if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.restricted]) {
+          if (dataValues[ou.id]['ti'][pti.restricted]) {
             totalIncome += Number(dataValues[ou.id]['ti'][pti.restricted]);
           }
-          if (dataValues[ou.id]['ti'][pti.category] && dataValues[ou.id]['ti'][pti.unrestricted]) {
+          if (dataValues[ou.id]['ti'][pti.unrestricted]) {
             totalIncome += Number(dataValues[ou.id]['ti'][pti.unrestricted]);
           }
         })
 
-        const year = $('#year-update').val();
         dataElements.incomeByDonor.forEach(id => {
-          if(dataValues[ou.id]['id'][tei.year.start] && dataValues[ou.id]['id'][tei.year.start][id.name] && dataValues[ou.id]['id'][tei.year.value] && dataValues[ou.id]['id'][tei.year.value][id.income]) {
+          if(dataValues[ou.id]['id'][tei.year.value] && dataValues[ou.id]['id'][tei.year.value][id.name] && dataValues[ou.id]['id'][tei.year.value] && dataValues[ou.id]['id'][tei.year.value][id.income]) {
             incomeByDonor += Number(dataValues[ou.id]['id'][tei.year.value][id.income]);
           }
         })
+
+        const projectIncomeVariance = displayValue(totalIncome - projectIncome);
+        const incomeDonorVariance = displayValue(totalIncome - incomeByDonor);
+        const financialPosition = displayValue(totalIncome - expenseCategory)
         tableBody += `<tr>
         <td>${ou.name}</td>
-        <td style="text-align:center;">${formatNumberInput(totalBudget)}</td>
         <td style="text-align:center;">${formatNumberInput(fund)} </td>
-        <td style="text-align:center;">${formatNumberInput(coreFunding)} </td>
         <td style="background:${colorCode(totalBudgetVariance)};text-align:center;">${formatNumberInput(totalBudgetVariance)} </td>
-        <td style="text-align:center;">${formatNumberInput(focusAreaBudget)} </td>
+        <td style="text-align:center;">${formatNumberInput(totalBudget)} </td>
         <td style="background:${colorCode(focusAreaVariance)};text-align:center;">${formatNumberInput(focusAreaVariance)} </td>
-        <td style="text-align:center;">${formatNumberInput(expenseCategory)} </td>
         <td style="background:${colorCode(expenseCategoryVariance)};text-align:center;">${formatNumberInput(expenseCategoryVariance)} </td>
         <td style="text-align:center;">${formatNumberInput(displayValue(totalIncome))}</td>
-        <td style="text-align:center;">${formatNumberInput(displayValue(incomeByDonor))}</td>
-        <td  style="background:${colorCode(displayValue(totalIncome-incomeByDonor))};text-align:center;">${formatNumberInput(displayValue(totalIncome-incomeByDonor))}</td>
-         <td style="background:${displayValue(totalIncome - expenseCategory)<0 ? 'red':''};text-align:center;">${formatNumberInput(displayValue(totalIncome - expenseCategory))} </td>
+        <td style="background:${colorCode(projectIncomeVariance)};text-align:center;">${formatNumberInput(projectIncomeVariance)} </td>
+        <td style="background:${colorCode(incomeDonorVariance)};text-align:center;">${formatNumberInput(incomeDonorVariance)} </td>
+        <td style="background:${colorCode(financialPosition)};text-align:center;">${formatNumberInput(financialPosition)} </td>
+        <td></td>
         </tr>`
       })
     })

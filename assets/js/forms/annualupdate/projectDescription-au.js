@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -177,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
+            <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme</span>:</label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}" name="${project.themeOther}" >
                 <option ${(values['theme']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
                 <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care" data-i18n="intro.p_1">Abortion Care</option>
@@ -219,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.contract}"><span data-i18n="intro.total_contract_value">Total Contract Value:</span> </label>
+            <label for="${project.contract}"><span data-i18n="intro.total_contract_value">Total Contract Value</span>: </label>
             <input type="text" id="${project.contract}"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textValue"
@@ -290,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.income}"><span data-i18n="intro.annual_proj_income">Annual Project Income:</span> </label>
+            <label for="${project.income}"><span data-i18n="intro.annual_proj_income">Annual Project Income</span>: </label>
             <input type="text" id="${project.income}" 
               ${tei.disabled ? 'disabled readonly': ''}  
               class="w-100 form-control textValue"
@@ -319,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
       $('.loader-container').addClass("d-flex").removeClass("d-none");
-      $('myContainer').hide();
+      $('.myContainer').hide();
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
     });

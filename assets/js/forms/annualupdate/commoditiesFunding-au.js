@@ -54,6 +54,10 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
+    
+    if(user.hideReporting.includes('ma')) {
+      $('.ma-users').show();
+    }
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML =years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -233,7 +237,7 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
                       </div>
                   </div>
                   <input type="text" 
-                  disabled readonly
+                  ${tei.disabled ? 'disabled readonly': ''} 
                   id="${dataElements.sourceCommodities['unrestricted']}" 
                   class="form-control textValue"
                   value="${formatNumberInput(unrestrictedValue)}"
@@ -345,7 +349,7 @@ async function calculateTotals() {
     totals += unformatNumber($(`#${de.id}`).val());
   })
   $(`.total`).val(formatNumberInput(totals));
-  await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement:  $('.textValue')[0].id, value: totals});
+  await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement:  dataElements.sourceCommodities['total'], value: totals});
   await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement:  $('.difference')[0].id, value: commoditiesEC-totals});
 }
 

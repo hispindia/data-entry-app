@@ -1,8 +1,19 @@
 
 export function formatNumberInput(valueOrInput) {
-    let value = typeof valueOrInput === "object" ? valueOrInput.value : valueOrInput;
+    let value;
 
-    if (!value) return ""; // Handle empty values safely
+    if (typeof valueOrInput === "object" && valueOrInput !== null) {
+        value = valueOrInput.value;
+    } else {
+        value = valueOrInput;
+    }
+
+    if (value == null || value === "") return ""; // Safely handle null, undefined, empty
+
+    // Convert scientific notation to decimal string
+    if (/^-?\d+(\.\d+)?e[+-]?\d+$/i.test(String(value))) {
+        value = Number(value).toFixed(20).replace(/\.?0+$/, "");
+    }
 
     value = value.toString().replace(/[^0-9.-]/g, ""); // Remove non-numeric except '.'
     let parts = value.split(".");

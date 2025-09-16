@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
        if(window.localStorage.getItem("hideReporting").includes('core')) {
          $('.core-users').show();
        }
+      if(window.localStorage.getItem("hideReporting").includes('ma')) {
+        $('.ma-users').show();
+      }
        
        if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
            
