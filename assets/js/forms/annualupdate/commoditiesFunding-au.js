@@ -122,7 +122,7 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
       });
       $('#push-button').append(btn);
     }
-    if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+    if(window.localStorage.getItem("hideReporting").includes('aoc')) {
       const btn = document.createElement("button");
       btn.innerHTML = `<span data-i18n="intro.reopen_business_plan">Reopen Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");

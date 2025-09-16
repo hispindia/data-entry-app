@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
           $('#push-button').append(btn);
         }
-        if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
+        if(window.localStorage.getItem("hideReporting").includes('aoc')) {
           const btn = document.createElement("button");
           btn.innerHTML = `<span data-i18n="intro.reopen_annual_report">Reopen Annual Report</span>`;
           btn.classList.add("btn", "btn-success", "p-2", "m-2");
