@@ -1,11 +1,12 @@
 import { dataSet } from "../../api/dataSet.js";
 import { createEvent, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
-import { dataSetFunds, program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
-import { getYears } from "../func.js";
+import { formatNumberInput, getYears, unformatNumber } from "../func.js";
 
 const maxWords = 200;
 var eventSummaryB = '';
+var secondReviewer = false;
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -24,14 +25,68 @@ document.addEventListener("DOMContentLoaded", function () {
   allRadios.forEach(radio => {
     radio.addEventListener('change', (event) => {
         if (event.target.checked) {
+        if(radio.name == "AxNvkIEgUGf") {
           pushDataElement(event.target.name, event.target.value);
+        }
+        if(radio.name=="bknBZSSErqr") {
+          pushDataElementFormB(event.target.name, event.target.value)
+          $('#review-type-second').text(event.target.value);
+          if(event.target.value == "Approved at Lesser Allocation Amount") openFundAllocation();
+          else closeFundAllocation();
+        }
 
-          if(radio.name=="bknBZSSErqr") $('#review-type-second').text(event.target.value);
-        if(event.target.name=="RI5UuEEpxun" && event.target.value== "Approved with full allocation") closeDiv();
-        if(event.target.name=="RI5UuEEpxun" && event.target.value== "Send Back to MA for Revisions") openDiv();
+        if(tei.dataValues[tei.year.value]["RI5UuEEpxun"] == " Send Back to MA for Revisions" && event.target.name == "AxNvkIEgUGf" && event.target.value == "true") {
+          $('#submit-button').show();
+        } else  $('#submit-button').hide();
+
+        if(tei.dataValues[tei.year.value]["RI5UuEEpxun"] == "Approved with full allocation" && event.target.name == "AxNvkIEgUGf" &&  event.target.value == "true") {
+          $('#submit-allocation').show();
+        } else  $('#submit-allocation').hide();
+        
+        if(event.target.name=="RI5UuEEpxun") {
+          pushDataElement(event.target.name, event.target.value);
+          if(secondReviewer) {
+            if(event.target.value == "Approved with full allocation" && tei.dataValues["AxNvkIEgUGf"] == "true") closeDiv();
+          } else {
+            if(event.target.value== "Approved with full allocation") closeDiv();
+            else if(event.target.value== " Send Back to MA for Revisions") openDiv();
+          }
+        }
         }
     });
   }); 
+
+  document
+    .getElementById("submit-button")
+    .addEventListener("click", function (ev) {
+      pushDataElement(dataElements.submitTRTReport, true);
+      openDiv();
+      alert('Initiated Revised Business Plan Review')
+    });
+
+  document
+    .getElementById("submit-fund-allocation")
+    .addEventListener("click", async function () {
+      const allocatedValue = $('input[name="bknBZSSErqr"]:checked').val();
+      const grantedValues = $("#grant-year").text().trim();
+      const proposedValues = $("#proposed-year").text().trim();
+      if(allocatedValue=="Approved at Lesser Allocation Amount" && grantedValues) {
+        await dataSet.post({dataSetId:dataSetFunds, co:"HllvX50cXC0", orgUnit:tei.orgUnit, period: tei.year.value, dataElement: dataElements.fullAllocation, value:unformatNumber(grantedValues)});
+      } else if(allocatedValue=="Approved with full allocation") {
+        await dataSet.post({dataSetId:dataSetFunds, co:"HllvX50cXC0", orgUnit:tei.orgUnit, period: tei.year.value, dataElement: dataElements.fullAllocation, value:unformatNumber(proposedValues)});
+      }
+      alert('Data Pushed Successfully!')
+    });
+    
+          
+    const content = document.getElementById('section-content')
+    content.addEventListener('change', (ev) => {
+      if(ev.target.matches('.proposed-percent')) {
+        const {id, value} = ev.target;
+        pushDataElementFormB(id,value)
+        updateValue(value);
+      }
+    })
 
   document
     .getElementById("year-update")
@@ -68,9 +123,13 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    if(user.hideReporting.includes('aoc') || user.hideReporting.includes('trt')) {
+    if(user.hideReporting.includes('aoc')) {
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
+    
+    if(user.hideReporting.includes('trt')) {
+      $(`.trt-users`).show();
+    } else $(`.trt-users`).hide();
     
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
@@ -78,14 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if(user.hideReporting.includes('ma')) {
       $('.ma-users').show();
-    }
-    
-    if(user.hideReporting.includes('aoc')) {
-      $('.trt-users').prop('disabled', true);
-      $('.textOption').prop('disabled', true);
-    }
-    if(user.hideReporting.includes('trt')) {
-      $('.aoc-users').prop('disabled', true);
     }
 
     const years = getYears(tei.year.start, tei.year.end);
@@ -113,10 +164,16 @@ document.addEventListener("DOMContentLoaded", function () {
     tei.program = program.roTRTFeedback;
     tei.programStage = programStage.trtSummaryA;
     tei.year.value = document.getElementById('year-update').value;
+    $(`#selected-year`).text(tei.year.value);
 
     const dataSet = await fetchDataSet(tei.year.value);
-    if(dataSet.values['QQngZ31YwUi']) $(`#proposed-year`).text(dataSet.values['QQngZ31YwUi']);
-    if(dataSet.values['zb45IJuA9HQ']) $(`#grant-year`).text(dataSet.values['zb45IJuA9HQ']);
+    const formulaGenerated = dataSet.values[dataElements.formulaGenerated] ? dataSet.values[dataElements.formulaGenerated] : 0
+    if(formulaGenerated) $(`#proposed-year`).text(formatNumberInput(dataSet.values[dataElements.formulaGenerated]));
+    if(formulaGenerated<=350000) {
+      $('.second-review').hide();
+      secondReviewer = false;
+    } else secondReviewer = true;
+    if(dataSet.values[dataElements.fullAllocation]) $(`#grant-year`).text(formatNumberInput(dataSet.values[dataElements.fullAllocation]));
 
     const data = await getTEI(tei.orgUnit);
 
@@ -160,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
         eventSummaryB = dataValuesB[tei.year.value]['event'];
       }
 
-      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[[tei.year.value]] ? dataValuesB[tei.year.value]: ''));
+      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[tei.year.value] ? dataValuesB[tei.year.value]: ''));
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -176,6 +233,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (dataValuesB.disabled) {
       $('.textValue-summaryB').prop('disabled', true);
     }
+    if(tei.dataValues[tei.year.value]["RI5UuEEpxun"] == " Send Back to MA for Revisions" && tei.dataValues[tei.year.value]["AxNvkIEgUGf"] == "true") {
+      $('#submit-button').show();
+    } else  $('#submit-button').hide();
+
 
     var someGapsA = 0;
     var significantGapsA = 0;
@@ -237,8 +298,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#strategic-color-a').addClass('bg-green');
         $('#strategic-color-a').removeClass('bg-red');
       }
-      pushDataElement('RI5UuEEpxun', 'Send Back to MA for Revisions')
-      dataValuesA['RI5UuEEpxun'] = 'Send Back to MA for Revisions';
+      pushDataElement('RI5UuEEpxun', ' Send Back to MA for Revisions')
+      dataValuesA['RI5UuEEpxun'] = ' Send Back to MA for Revisions';
     } else {
       pushDataElement('RI5UuEEpxun', 'Approved with full allocation')
       dataValuesA['RI5UuEEpxun'] = 'Approved with full allocation';
@@ -263,23 +324,25 @@ document.addEventListener("DOMContentLoaded", function () {
     } 
 
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-      if (dataValuesA[radio.name.split('-')[0]] && radio.value === dataValuesA[radio.name.split('-')[0]]) {
+      if ((dataValuesA[radio.name.split('-')[0]] && radio.value === dataValuesA[radio.name.split('-')[0]]) || (dataValuesB[radio.name.split('-')[0]] && radio.value === dataValuesB[radio.name.split('-')[0]])) {
         radio.checked = true;  // Set it as checked
-        if(radio.name=="bknBZSSErqr") $('#review-type-second').text(radio.value);
+        if(radio.name=="bknBZSSErqr") {
+          closeFundAllocation();
+          $('#review-type-second').text(radio.value);
+          if(radio.value == "Approved at Lesser Allocation Amount") openFundAllocation();
+        }
         if(radio.name=="RI5UuEEpxun") {
           $('#review-type-first').text(radio.value);
-          if(radio.value== "Approved with full allocation") closeDiv();
-          if(radio.value== "Send Back to MA for Revisions") openDiv();
-        }
-      }
-    })
+          if(secondReviewer) {
+            closeDiv();
+            if(radio.value == " Send Back to MA for Revisions" && dataValuesA["AxNvkIEgUGf"] == "true" && dataValuesA[dataElements.submitTRTReport] == "true") openDiv();
+            else if(radio.value == "Approved with full allocation" && dataValuesA["AxNvkIEgUGf"] == "true") $('#submit-allocation').show();
 
-    document.querySelectorAll('.textOption').forEach((textVal, index) => {
-      if (dataValuesB[textVal.id]) {
-        textVal.value = dataValuesB[textVal.id];
-      }
-      else {
-        textVal.value = '';
+          } else {
+            if(radio.value== "Approved with full allocation") closeDiv();
+            else if(radio.value== " Send Back to MA for Revisions") openDiv();
+          }
+        }
       }
     })
 
@@ -293,6 +356,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function openDiv() {
     $('.trt-phase-2').removeClass('d-none');
+  }
+
+  function closeFundAllocation() {
+    $('.fund-reallocate').addClass('d-none');
+  }
+  function openFundAllocation() {
+    $('.fund-reallocate').removeClass('d-none');
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -318,28 +388,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-async function updateValue(value,index) {
-  const dataElement = 'zb45IJuA9HQ'
-  const co = "HllvX50cXC0"
-  const orgUnit = tei.orgUnit;
-  const proposedGrant = $(`#proposed-year-${index}`).text();
+async function updateValue(value) {
+  const proposedGrant = unformatNumber($(`#proposed-year`).text());
   var grantCut = 0;
   var finalGrant = 0;
   if(proposedGrant) {
     grantCut = (proposedGrant && value && (proposedGrant/value)) ? (proposedGrant/value) : 0;
     finalGrant = proposedGrant - grantCut;
   }
-  $(`#grant-year`).text(displayValue(finalGrant));
-  var grantTotal = 0;
-  var indexCount = 0
-  for(let year = tei.year.start; year<=tei.year.end; year++) {
-    grantTotal += Number($(`#grant-year-${++indexCount}`).text());
-    if(indexCount==index) {
-      selectedYear= year;
-    }
-  }
-  $(`#grant-total`).text(grantTotal)
-// await dataSet.post({dataSetId:dataSetFunds, co, orgUnit, period: selectedYear, dataElement, value:displayValue(finalGrant)})
+  $(`#grant-year`).text(formatNumberInput(finalGrant));
   
 }
 

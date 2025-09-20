@@ -1,5 +1,6 @@
+import { dataSet } from "../../api/dataSet.js";
 import { createEvent, createEventOther, getProgramStageEvents, getTEI, pushDataElement, pushDataElementOther } from "../../api/func.js";
-import { program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { getYears } from "../func.js";
 
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    if(user.hideReporting.includes('aoc') || user.hideReporting.includes('trt')) {
+    if(user.hideReporting.includes('aoc')) {
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
     
@@ -56,12 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     if(user.hideReporting.includes('aoc')) {
-      $('.trt-users').prop('disabled', true);
+      $('.trt-values').prop('disabled', true);
       $('.textOption').prop('disabled', true);
     }
     if(user.hideReporting.includes('trt')) {
-      $('.aoc-users').prop('disabled', true);
-    }
+      $('.aoc-values').prop('disabled', true);
+      $(`.trt-users`).show();
+    } else $(`.trt-users`).hide();
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
@@ -73,10 +75,21 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchEvents();    
   }
 
+  async function fetchDataSet(year) {
+    const values = {};
+    const dataValueSet = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+    dataValueSet.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+    return {
+      values
+    }
+  }
+  
   async function fetchEvents() {
 
     tei.year.value = document.getElementById('year-update').value;
     
+    const dataSet = await fetchDataSet(tei.year.value);
     const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -90,8 +103,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const dataValuesSummaryA = getProgramStageEvents(filteredPrograms, programStage.trtSummaryA, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(dataValuesSummaryA[tei.year.value]) {
         eventSummaryAId = dataValuesSummaryA[tei.year.value]['event'];
-        if(dataValuesSummaryA[tei.year.value]['RI5UuEEpxun'] && dataValuesSummaryA[tei.year.value]['RI5UuEEpxun']=="Send Back to MA for Revisions") sendBackToMA = true
-      } 
+        if(dataValuesSummaryA[tei.year.value]) {
+          eventSummaryAId = dataValuesSummaryA[tei.year.value]['event'];
+          const formulaGenerated = dataSet.values[dataElements.formulaGenerated] ? dataSet.values[dataElements.formulaGenerated] : 0
+          if(formulaGenerated<=350000) {
+            if(dataValuesSummaryA[tei.year.value]['RI5UuEEpxun'] == " Send Back to MA for Revisions"){
+              sendBackToMA = true
+            } 
+          } else if(dataValuesSummaryA[tei.year.value]["AxNvkIEgUGf"] == "true" && dataValuesSummaryA[tei.year.value][dataElements.submitTRTReport] == "true" && dataValuesSummaryA[tei.year.value]['RI5UuEEpxun'] == " Send Back to MA for Revisions") {
+              sendBackToMA = true
+          }
+        } 
+      }
       
       const dataValuesSummaryB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program,{id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if(dataValuesSummaryB[tei.year.value]) {
@@ -199,6 +222,9 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   });
 
+});
+
+
   document.addEventListener('DOMContentLoaded', function () {
     const textareas = document.querySelectorAll('.textValue');
     textareas.forEach((textarea, index) => {
@@ -220,8 +246,6 @@ document.addEventListener("DOMContentLoaded", function () {
       updateCounter(); // initialize counter on page load
     });
   });
-});
-
 
 async function calculateCriteria(){
   var countSatisfactory = 0;

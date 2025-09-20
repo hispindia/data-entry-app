@@ -45,20 +45,22 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
             document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
           }
-          ['aoc-users', 'trt-users'].forEach(page => {
-            if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-          })
-          if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-            $('.aoc-users').show();
-          }
-          if(window.localStorage.getItem("hideReporting").includes('core')) {
+          
+          if(user.hideReporting.includes('aoc')) {
+            $(`.aoc-users`).show();
+          } else $(`.aoc-users`).hide();
+
+          if(user.hideReporting.includes('trt')) {
+            $(`.trt-users`).show();
+          } else $(`.trt-users`).hide();
+            
+          if(user.hideReporting.includes('core')) {
             $('.core-users').show();
           }
-    
-          if(window.localStorage.getItem("hideReporting").includes('ma')) {
+          
+          if(user.hideReporting.includes('ma')) {
             $('.ma-users').show();
           }
-          
           
           if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
       

@@ -1,5 +1,5 @@
 import { eventApi } from '../../api/DataApi.js';
-import { getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
+import { getMeData, getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
@@ -35,29 +35,34 @@ document.addEventListener("DOMContentLoaded", function () {
        if (user.organisationUnits?.length) {
          tei.orgUnit = user.organisationUnits[0].id;
        }
-       ['aoc-users', 'trt-users'].forEach(page => {
-         if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-       })
-       if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-         $('.aoc-users').show();
-       }
-       if(window.localStorage.getItem("hideReporting").includes('core')) {
-         $('.core-users').show();
-       }
-      if(window.localStorage.getItem("hideReporting").includes('ma')) {
+          
+      if(user.hideReporting.includes('aoc')) {
+        $(`.aoc-users`).show();
+      } else $(`.aoc-users`).hide();
+
+      if(user.hideReporting.includes('trt')) {
+        $(`.trt-users`).show();
+      } else $(`.trt-users`).hide();
+            
+      if(user.hideReporting.includes('core')) {
+        $('.core-users').show();
+      }
+          
+      if(user.hideReporting.includes('ma')) {
         $('.ma-users').show();
       }
-       
+
        if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
            
        const years = getYears(tei.year.start, tei.year.end);
        document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
        if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
               
-       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+      const data = await getMeData();
+      const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
       const orgUnitGroup = resOUGroup.organisationUnits;
            
-      user.organisationUnits.forEach(orgUnits => {
+      data.organisationUnits.forEach(orgUnits => {
        if(orgUnits.level == 1) { 
           level2OU = orgUnits.children;
         } else if(orgUnits.level == 2) { 

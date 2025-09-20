@@ -142,7 +142,8 @@ export const dataElements = {
   freightCost2: "z96KUORotMJ",
   freightCost3: "sSkWs0vxf6i",
   formulaGenerated: "QQngZ31YwUi",
-  fullAllcation: "zb45IJuA9HQ",
+  fullAllocation: "zb45IJuA9HQ",
+  submitTRTReport: "yo1Ymcjhzgh",
   orderCommoditiesCV: {
     unrestrictedCost: "IWOY5XRXtuC",
     estimatedCost: "AuBi8BS1QiZ",

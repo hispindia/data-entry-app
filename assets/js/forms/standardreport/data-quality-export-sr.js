@@ -45,20 +45,23 @@ document.addEventListener("DOMContentLoaded", function () {
       if (user.organisationUnits?.length) {
         tei.orgUnit = user.organisationUnits[0].id;
       }
-      ['aoc-users', 'trt-users'].forEach(page => {
-        if(user.hideReporting.includes(page.split('-')[0])) $(`.${page}`).hide();
-      })
-      if(!window.localStorage.getItem("hideReporting").includes('aoc')) {
-        $('.aoc-users').show();
-      }
-      if(window.localStorage.getItem("hideReporting").includes('core')) {
+          
+      if(user.hideReporting.includes('aoc')) {
+        $(`.aoc-users`).show();
+      } else $(`.aoc-users`).hide();
+
+      if(user.hideReporting.includes('trt')) {
+        $(`.trt-users`).show();
+      } else $(`.trt-users`).hide();
+            
+      if(user.hideReporting.includes('core')) {
         $('.core-users').show();
       }
-      if(window.localStorage.getItem("hideReporting").includes('ma')) {
+          
+      if(user.hideReporting.includes('ma')) {
         $('.ma-users').show();
       }
       
-          
       const years = getYears(tei.year.start, tei.year.end);
       document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;

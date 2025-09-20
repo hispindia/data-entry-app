@@ -129,9 +129,7 @@
             <!-- Main Content -->
             <div class="main-content">
                 <section class="section">
-                    <div class="section-body">
-
-
+                    <div class="section-body" id="section-content">
 
                     <div class="top-detail-form mt-2">
                     <div class="form-row">
@@ -315,8 +313,7 @@
 
                                         <tbody>
                                         <tr>
-                                            <td><strong>Potential Issues / Risks identified by
-                                                    RO (for information of TRT)</strong></td>
+                                            <td><strong>Potential Issues / Risks identified by RO (for information of TRT)</strong></td>
                                             <td>
                                                 <textarea  class="form-control-resize textValue-summaryA textlimit aoc-users" id="bhJH8eShna7-summarya"></textarea>                                                
                                             </td>
@@ -348,7 +345,7 @@
                                                             Allocation</strong></label>
                                                               </div>
                                                               <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" disabled id="inlineradio4" value="Send Back to MA for Revisions"  name="RI5UuEEpxun" >
+                                                            <input class="form-check-input" type="radio" disabled id="inlineradio4" value=" Send Back to MA for Revisions"  name="RI5UuEEpxun" >
                                                             <label class="form-check-label text-danger text-bold" for="inlineradio4">Send Back to MA
                                                             for Revisions</label>
                                                               </div>
@@ -356,12 +353,6 @@
 
                                                     </td>
                                                 </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <table>
-                                            <tbody>
-
                                                 <tr>
                                                     <td class="mx-2" style="text-align: left;">
                                                         <strong> Summary comments from Primary TRT member</strong></td>
@@ -374,25 +365,25 @@
                                                             </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="second-review">
                                                     <td class="mr-2" style="text-align: left;">
                                                         <strong>Do you agree with the Primary TRT review? </strong>
                                                     </td>
                                                     <td>
                                                         <div class="form-group mb-0">
                                                             <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" disabled id="inlineradio3"  value="true" name="AxNvkIEgUGf" > 
+                                                            <input class="form-check-input trt-users" type="radio" id="inlineradio3"  value="true" name="AxNvkIEgUGf" > 
                                                             <label class="form-check-label text-success text-bold" for="inlineradio3"><strong>Yes</strong></label>
                                                               </div>
                                                               <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" disabled id="inlineradio4" value="false"  name="AxNvkIEgUGf" >
+                                                            <input class="form-check-input trt-users" type="radio" id="inlineradio4" value="false"  name="AxNvkIEgUGf" >
                                                             <label class="form-check-label text-danger text-bold" for="inlineradio4">No</label>
                                                               </div>
                                                         </div>
 
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="second-review">
                                                     <td class="mx-2" style="text-align: left;">
                                                         <strong>Summary comments from Additional TRT reviewer</strong>
                                                     </td>
@@ -412,9 +403,10 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12 text-right">
-                                                <div class="form-group text-end mar-b-0">
-                                                    <input type="button" value="SUBMIT" data-i18n="[value]intro.submit"  class="btn btn-secondary">
-                                                   
+                                                <div class="form-group text-end mar-b-0" >
+                                                    <input type="button" value="SUBMIT" data-i18n="[value]intro.submit"  style="display:none" class="btn btn-secondary" id="submit-button">       
+                                                    <input type="button" value="SUBMIT" style="display: none;" onclick="submitAllocation()"  class="btn btn-secondary" id="submit-allocation">
+
                                                 </div>
                                             </div>
                                         </div>
@@ -564,8 +556,7 @@
 
                                         <tbody>
                                         <tr>
-                                            <td><strong>Potential Issues / Risks identified by
-                                                    RO (for information of TRT)</strong></td>
+                                            <td><strong>Potential Issues / Risks identified by RO (for information of TRT)</strong></td>
                                             <td>
                                                 <textarea  class="form-control-resize textValue-summaryB textlimit aoc-users" disabled id="bhJH8eShna7-summaryb"></textarea>
                                                             
@@ -598,7 +589,7 @@
                                                             Allocation</strong></label>
                                                               </div>
                                                               <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="inlineradio2"  value="Send Back to MA for Revisions"  name="bknBZSSErqr" >
+                                                            <input class="form-check-input" type="radio" id="inlineradio2"  value="Approved at Lesser Allocation Amount"  name="bknBZSSErqr" >
                                                             <label class="form-check-label text-danger text-bold" for="">
                                                             Approved at Lesser Allocation Amount</label>
                                                               </div>
@@ -610,20 +601,14 @@
                                         </table>
 
 
-                                        <table class="w-100 my-5"
-                                            id="formula_table">
+                                        <table class="w-100 my-5 fund-reallocate d-none"
+                                            id="fund_allocation">
                                             <tbody>
                                                 <tr>
                                                     <td>
                                                     </td>
-                                                    <td class="text-center">
-                                                        Year 1</td>
-                                                    <td class="text-center">
-                                                        Year 2</td>
-                                                    <td class="text-center">
-                                                        Year 3</td>
-                                                    <td class="text-center">
-                                                        Total</td>
+                                                    <td class="text-center font-weight-bold">
+                                                        Year (<span id="selected-year"></span>)</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Formula Generated Proposed Grant Amount(USD)</td>
@@ -635,7 +620,7 @@
                                                     <td>Percentage reduction</td>
                                                     <td>
                                                         <div class="form-group col-md-12">
-                                                            <select class="form-control mt-1 proposed=percent textOption" id="x5QDTZetPOf">
+                                                            <select class="form-control mt-1 proposed-percent textValue-summaryB" id="x5QDTZetPOf">
                                                             <option value="">Select</option>
                                                             <option value="5">5%</option>
                                                             <option value="10">10%</option>
@@ -660,12 +645,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="mx-2" style="text-align: left;">
-                                                        <strong>Conditions Precedent<i
-                                                            class="fas fa-info-circle ml-1"
-                                                            data-toggle="collapse"
-                                                            data-target="#collapseExample1"
-                                                            aria-expanded="false"
-                                                            aria-controls="collapseExample"></i></strong>
+                                                        <strong>Conditions Precedent</strong>
                                                     </td>
                                                     <td>
                                                         
@@ -678,7 +658,7 @@
                                                     </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="second-review">
                                                     <td class="mx-2" style="text-align: left;">
                                                         <strong>Summary comments from Additional TRT reviewer</strong>
                                                     </td>
@@ -700,7 +680,7 @@
                                             <div class="col-sm-12 text-right">
                                                 <div class="form-group text-end mar-b-0">
                                                     <input type="button" value="SAVE AS DRAFT" onclick="submitProjects()" data-i18n="[value]intro.save_as_draft"  class="btn btn-secondary">
-                                                   
+                                                    <input type="button" value="SUBMIT" data-i18n="[value]intro.submit" class="btn btn-success" id="submit-fund-allocation">  
                                                 </div>
                                             </div>
                                         </div>
@@ -752,6 +732,9 @@
 
         function submitProjects() {
         alert("Data Saved Successfully!")
+        } 
+        function submitAllocation() {
+        alert("Approved with full Allocation!")
         }
   </script>
 </body>

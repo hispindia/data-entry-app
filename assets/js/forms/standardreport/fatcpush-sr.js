@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-var countId = 0;
+          var countId = 0;
           const dataValuesTIAR = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, 
             {id: dataElements.year.id, value: '2024' }, 
             {id: dataElements.periodicity.id, value: 'Annual Reporting'}
@@ -355,7 +355,7 @@ var countId = 0;
           if (dataValuesTIAR['event']) {
             const eventTI = dataValuesTIAR['event'];
 
-  await pushDataElementOther(dataElements.submitAnnualUpdate,'', program.arTotalIncome, programStage.arTotalIncome, eventTI);
+          await pushDataElementOther(dataElements.submitAnnualUpdate,'', program.arTotalIncome, programStage.arTotalIncome, eventTI);
            console.log(++countId, tei.orgUnit)
           }
           

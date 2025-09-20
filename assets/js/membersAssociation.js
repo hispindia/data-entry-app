@@ -34,14 +34,19 @@ document.addEventListener("DOMContentLoaded", function () {
       window.localStorage.setItem('userDisabled', userConfig.disabled);
       window.localStorage.setItem('hideReporting', userConfig.disabledValues);
     
-    if(userConfig.disabledValues.includes('aoc') || userConfig.disabledValues.includes('trt')) {
+      
+    if(userConfig.disabledValues.includes('aoc')) {
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
-    
+
+    if(userConfig.disabledValues.includes('trt')) {
+      $(`.trt-users`).show();
+    } else $(`.trt-users`).hide();
+      
     if(userConfig.disabledValues.includes('core')) {
       $('.core-users').show();
-      $('.maintenance').removeClass('d-none').addClass("d-block")
     }
+    
     if(userConfig.disabledValues.includes('ma')) {
       $('.ma-users').show();
     }

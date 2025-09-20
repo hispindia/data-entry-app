@@ -47,10 +47,15 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
       document.getElementById("headerOrgName").value = user.organisationUnits[0].name;
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
-    if(user.hideReporting.includes('aoc') || user.hideReporting.includes('trt')) {
+      
+    if(user.hideReporting.includes('aoc')) {
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
-    
+
+    if(user.hideReporting.includes('trt')) {
+      $(`.trt-users`).show();
+    } else $(`.trt-users`).hide();
+      
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
     }
