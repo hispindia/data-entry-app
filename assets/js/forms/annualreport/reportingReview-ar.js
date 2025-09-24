@@ -64,7 +64,7 @@ var riskCount = 0;
 
       if(user.hideReporting.includes('trt')) {
         $(`.trt-users`).show();
-      } else $(`.trt-users`).hide();
+      } else if(!user.hideReporting.includes('trt') && !user.hideReporting.includes('aoc')) $(`.trt-users`).hide();
       
       if(user.hideReporting.includes('core')) {
         $('.core-users').show();

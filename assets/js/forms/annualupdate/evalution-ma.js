@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('trt')) {
       $('.aoc-values').prop('disabled', true);
       $(`.trt-users`).show();
-    } else $(`.trt-users`).hide();
+    } else if(!user.hideReporting.includes('trt') && !user.hideReporting.includes('aoc')) $(`.trt-users`).hide();
 
     const years = getYears(tei.year.start, tei.year.end);
     document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');

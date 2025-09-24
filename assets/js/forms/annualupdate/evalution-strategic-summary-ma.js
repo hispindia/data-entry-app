@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", function (ev) {
       pushDataElement(dataElements.submitTRTReport, true);
       openDiv();
-      alert('Initiated Revised Business Plan Review')
+      alert('Data Saved Successfully!')
     });
 
   document
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if(user.hideReporting.includes('trt')) {
       $(`.trt-users`).show();
-    } else $(`.trt-users`).hide();
+    } else if(!user.hideReporting.includes('trt') && !user.hideReporting.includes('aoc')) $(`.trt-users`).hide();
     
     if(user.hideReporting.includes('core')) {
       $('.core-users').show();
@@ -172,7 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(formulaGenerated<=350000) {
       $('.second-review').hide();
       secondReviewer = false;
-    } else secondReviewer = true;
+
+    } else {
+      secondReviewer = true;
+    }
     if(dataSet.values[dataElements.fullAllocation]) $(`#grant-year`).text(formatNumberInput(dataSet.values[dataElements.fullAllocation]));
 
     const data = await getTEI(tei.orgUnit);
@@ -199,6 +202,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       else {
         tei.event = tei.dataValues[tei.year.value]['event'];
+      }
+      if(formulaGenerated<=350000) { 
+        if(tei.dataValues[tei.year.value]["RI5UuEEpxun"] == "Approved with full allocation") {
+          $('#submit-button').show();
+        } else  $('#submit-button').hide();
+      }
+      else {
+        if(tei.dataValues[tei.year.value]["RI5UuEEpxun"] == " Send Back to MA for Revisions" && tei.dataValues[tei.year.value]["AxNvkIEgUGf"] == "true") {
+          $('#submit-button').show();
+        } else  $('#submit-button').hide();
       }
 
       var dataValuesB = getProgramStageEvents(filteredPrograms, programStage.trtSummaryB, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
@@ -233,10 +246,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (dataValuesB.disabled) {
       $('.textValue-summaryB').prop('disabled', true);
     }
-    if(tei.dataValues[tei.year.value]["RI5UuEEpxun"] == " Send Back to MA for Revisions" && tei.dataValues[tei.year.value]["AxNvkIEgUGf"] == "true") {
-      $('#submit-button').show();
-    } else  $('#submit-button').hide();
-
 
     var someGapsA = 0;
     var significantGapsA = 0;

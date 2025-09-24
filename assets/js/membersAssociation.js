@@ -3,6 +3,7 @@ import { tei } from "./constant.js";
 import { userGroupConfig } from "./forms/config.js";
 
 var orgUnitGroup = [];
+var userOrgUnit = {};
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -23,11 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchOrganizationUnitUid() {
     try {
-
       const data = await getMeData();
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
-
-      orgUnitGroup = resOUGroup.organisationUnits;
 
       const userConfig = userGroupConfig(data);
       tei.disabled = userConfig.disabled;
@@ -41,15 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if(userConfig.disabledValues.includes('trt')) {
       $(`.trt-users`).show();
-    } else $(`.trt-users`).hide();
+    } else if(!userConfig.disabledValues.includes('trt') && !userConfig.disabledValues.includes('aoc')) $(`.trt-users`).hide();
       
     if(userConfig.disabledValues.includes('core')) {
       $('.core-users').show();
+      $('.maintenance').removeClass('d-none').addClass("d-block")
     }
     
     if(userConfig.disabledValues.includes('ma')) {
       $('.ma-users').show();
     }
+    
+    orgUnitGroup = resOUGroup.organisationUnits;    
+    data.organisationUnits.forEach(ou => userOrgUnit[ou.id] = true);
 
       var level2OU = [];
       data.organisationUnits.forEach(orgUnits => {
@@ -98,12 +100,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function setMembersAssociation(level2OU, selectedParentOU) {
   var orgUnitList = [];
+  var someOrgUnit = [];
+  var hasOrgunit = false;
   orgUnitGroup.forEach(ou => {
     if(selectedParentOU) {
-      if (ou.path.includes(selectedParentOU)) orgUnitList.push(ou);
+      if (ou.path.includes(selectedParentOU)) {
+      if(userOrgUnit[ou.id]) {
+        hasOrgunit = true;
+        orgUnitList.push(ou);
+      }
+      someOrgUnit.push(ou);
     }
-    else if (level2OU.some(mainOU => ou.path.includes(mainOU.id))) orgUnitList.push(ou);
+      
+    }
+    else if (level2OU.some(mainOU => ou.path.includes(mainOU.id))) {
+      if(userOrgUnit[ou.id]) {
+        hasOrgunit = true;
+        orgUnitList.push(ou);
+      }
+      someOrgUnit.push(ou);
+    }
   })
+  if(!hasOrgunit) orgUnitList = someOrgUnit;
 
   var masterOU = window.localStorage.getItem("masterOU");
   masterOU = JSON.parse(masterOU);
