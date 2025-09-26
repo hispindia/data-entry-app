@@ -54,13 +54,21 @@ document.addEventListener("DOMContentLoaded", function () {
     data.organisationUnits.forEach(ou => userOrgUnit[ou.id] = true);
 
       var level2OU = [];
+      var hasRegion = {};
       data.organisationUnits.forEach(orgUnits => {
         if(orgUnits.level == 1) { 
           level2OU = orgUnits.children;
+          orgUnits.children.forEach(ou => {
+             hasRegion[ou.id] = true;
+          })
         } else if(orgUnits.level == 2) { 
           level2OU.push(orgUnits);
+          hasRegion[orgUnits.id] = true;
         } else if(orgUnits.parent) {
-          level2OU.push(orgUnits.parent);
+          if(!hasRegion[orgUnits.parent.id]) {
+            level2OU.push(orgUnits.parent);
+            hasRegion[orgUnits.parent.id] = true;
+          }
         }
       });
 
