@@ -91,13 +91,16 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
         (enroll) => enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
       );
 
-      const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value})//data vlaues period wise
-        if(dataValuesEC && dataValuesEC[tei.year.value]) {
-          commoditiesEC = calculateExpenseCategory(dataValuesEC[tei.year.value]);
-        }
-
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value]['event']) eventPD =dataValuesPD[tei.year.value]['event']
+      if (dataValuesPD[tei.year.value]) {
+        tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
+      }
+      const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value})//data vlaues period wise
+        if(dataValuesEC && dataValuesEC[tei.year.value] && tei.projects.length) {
+          commoditiesEC = calculateExpenseCategory(dataValuesEC[tei.year.value], tei.projects);
+        }
+
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
@@ -358,14 +361,30 @@ async function calculateTotals() {
   await dataSet.post({dataSetId: dataSetQuantity, co: "HllvX50cXC0", orgUnit: tei.orgUnit, period: tei.year.value, dataElement:  $('.difference')[0].id, value: commoditiesEC-totals});
 }
 
-function calculateExpenseCategory(dataValues) {
+function calculateExpenseCategory(dataValues, projects) {
   var value = 0;
-  dataElements.projectExpenseCategory.forEach(de => {
-    if(dataValues[de.commodities]) {
+  dataElements.projectExpenseCategory.forEach((de, index) => {
+    if(dataValues[de.commodities] && projects[index]) {
       value += Number(dataValues[de.commodities]);
     }
   })
   return value ? value: 0;
+}
+
+function checkProjects(projects, values) {
+  var prevEmptyNames = [];
+  var names= [];
+  if(values) {
+    projects.forEach(project => {
+      if(values[project.name]) {
+        names = [...names, ...prevEmptyNames, values[project.name]];
+        prevEmptyNames = [];
+      } else {
+        prevEmptyNames.push('');
+      }
+    })
+  }
+  return names;
 }
  function checkWords(event) {
       const counter = document.getElementById('counter');
