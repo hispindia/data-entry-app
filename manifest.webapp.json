@@ -1,7 +1,7 @@
 {
-  "name": "PMNP scorecard app",
-  "short_name": "PMNP scorecard app",
-  "description": "PMNP scorecard app",
+  "name": "Capture app",
+  "short_name": "Capture app",
+  "description": "Capture app",
   "background_color": "#f68e22",
   "theme_color": "#f68e22",
   "display": "standalone",
@@ -49,7 +49,7 @@
   },
   "appType": "APP",
   "developer": {
-    "name": "HISPVN Team"
+    "name": "HISPIN Team"
   },
-  "key": "fiv2-pwa"
+  "key": "ca-pwa"
 }

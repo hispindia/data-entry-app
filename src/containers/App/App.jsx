@@ -9,8 +9,7 @@ import withSkeletonLoading from "@/hocs/withSkeletonLoading";
 import {
   setOrgUnitLevels,
   setOrgUnits,
-  setProgramMetadata,
-  setProgramMetadataMember,
+  setProgramsMetadata,
   setSelectedOrgUnit,
 } from "@/redux/actions/metadata";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,8 +47,7 @@ const AppContainer = () => {
       i18n.changeLanguage(currentLocale);
 
       Promise.all(getMetadataSet(isOfflineMode)).then(async (results) => {
-        debugger;
-        dispatch(setProgramMetadata(results[0]));
+        dispatch(setProgramsMetadata(results[0]));
         dispatch(setOrgUnitLevels(results[3].organisationUnitLevels));
         const savedSelectedOrgUnit = sessionStorage.getItem("selectedOrgUnit");
 

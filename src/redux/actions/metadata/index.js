@@ -8,8 +8,16 @@ import {
   SET_ORGUNIT_GROUPS,
   SET_ORGUNIT_LEVELS,
   SET_ORGUNITS,
+  SET_PROGRAMS_METADATA,
+  GET_PROGRAM_METADATA,
 } from "./type";
 
+export const setProgramsMetadata = (programsMetadata) => ({
+  type: SET_PROGRAMS_METADATA,
+  payload: {
+    programsMetadata,
+  },
+});
 export const setProgramMetadata = (programMetadata) => ({
   type: SET_PROGRAM_METADATA,
   payload: {
@@ -69,4 +77,11 @@ export const setOrgUnits = (orgUnits) => ({
   payload: {
     orgUnits,
   },
+});
+
+export const getProgram = (program) => ({
+    type: GET_PROGRAM_METADATA,
+    payload: {
+      program
+    }
 });

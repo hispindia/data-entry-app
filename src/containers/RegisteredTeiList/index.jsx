@@ -27,7 +27,7 @@ const RegisteredTeiListContainer = () => {
   const dispatch = useDispatch();
   const onDeleteTei = (record) => dispatch(deleteTei(record.teiId));
   const { selectedOrgUnit } = useSelector((state) => state.metadata);
-  const trackedEntityAttributes = useSelector((state) => state.metadata.programMetadata.trackedEntityAttributes);
+  const trackedEntityAttributes = useSelector((state) => state.metadata.programMetadata.programTrackedEntityAttributes);
   const {
     teis,
     loading,

@@ -10,7 +10,7 @@ const App = () => {
       <Route path="/" render={() => <ControlBar />} />
       <Switch>
         <Route exact path="/">
-          <Redirect to="/list" />
+          {/* <Redirect to="/list" /> */}
         </Route>
         <Route path="/list" component={RegisteredTeiListContainer} />
         <Route path="/form" component={MainForm} />

@@ -1,19 +1,17 @@
 import React from "react";
-import { Button } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Select } from "antd";
 
-const ProgramSelection = ({ isAssignedToOrg, onClick, disabled, ...props }) => {
+const ProgramSelection = ({ onChange, disabled, ...props }) => {
   return (
     <Select
-      type="primary"
+      prefix="Program:"
+      style={{ width: 250 }}
       // disableElevation
       disabled={disabled}
-      onClick={onClick}
-      icon={<FontAwesomeIcon icon={faPlus} />}
+      onChange={onChange}
       {...props}
     />
   );
 };
 
-export default AddNewFamilyButton;
+export default ProgramSelection;

@@ -81,8 +81,12 @@ const RegisteredTeiList = ({
 
   const createColumns = () => {
     let columns = trackedEntityAttributes
-      .filter((tea) => tea.displayInList)
+      ?.filter((tea) => tea.displayInList)
       .map((tea) => {
+        tea = {
+          ...tea,
+          ...tea.trackedEntityAttribute
+        }
         const teaObject = {
           title: pickTranslation(tea, i18n.language),
           dataIndex: tea.id,
@@ -119,7 +123,7 @@ const RegisteredTeiList = ({
   const createDataSource = () => {
     const columns = createColumns();
 
-    const data = teis.instances.map((tei, index) => {
+    const data = teis.trackedEntities.map((tei, index) => {
       const rowObject = {
         key: index,
       };

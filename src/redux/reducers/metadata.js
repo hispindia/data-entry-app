@@ -4,6 +4,7 @@ import {
   SET_ORGUNITS,
   SET_ORGUNIT_GROUPS,
   SET_ORGUNIT_LEVELS,
+  SET_PROGRAMS_METADATA,
   SET_PROGRAM_METADATA,
   SET_PROGRAM_METADATA_MEMBER,
   SET_SELECTED_ORGUNIT,
@@ -13,6 +14,7 @@ import {
 } from "../actions/metadata/type";
 
 const initialState = {
+  programsMetadata: null,
   programMetadata: null,
   programMetadataMember: null,
   selectedOrgUnit: null,
@@ -33,6 +35,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         eventDate: action.payload.eventDate,
+      };
+    }
+    case SET_PROGRAMS_METADATA: {
+      return {
+        ...state,
+        programsMetadata: action.payload.programsMetadata,
       };
     }
     case SET_PROGRAM_METADATA: {
