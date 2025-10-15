@@ -1,8 +1,8 @@
 import { eventApi } from "../../api/DataApi.js";
 import { getMeData, getOrganisationUnits, getProgramStageEvents } from "../../api/func.js";
-import { program, programStage, tei } from "../../constant.js";
+import { dataElements, program, programStage, tei } from "../../constant.js";
 import { getUserConfig, userGroupConfig } from "../config.js";
-import { getYears } from "../func.js";
+import { formatNumberInput, getYears } from "../func.js";
 
 var pillars = {};
 var regionMA = {};
@@ -24,16 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
-      $('.loader-container').addClass('d-flex').removeClass('d-none');
-      $('.myContainer').hide();
       fetchEvents();
     });
 
   async function fetchOrganizationUnitUid() {
-
-    $('.loader-container').addClass('d-flex').removeClass('d-none');
-    $('.myContainer').hide();
-
     try {
 
       const user = await getUserConfig();
@@ -61,9 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
 
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${"2025" == year ? 'selected' : ''}>${year}</option>`).join('');
-      // if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
-
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
+      if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
       const data = await getMeData();
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
@@ -94,9 +87,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function fetchEvents() {
-    $("#table-head").empty();
-    $("#table-body").empty();
+    $("#pillar-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
+    tei.year.value = $('#year-update').val();
 
     var dataValuesOU = [];
     for (let headOU of level2OU) {
@@ -807,10 +800,9 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody += `<tr><td>Total</td><td>${formatNumberInput(totalBudget)}</td></tr>`;
     $('#tb-project-budget').html(tableBody);
 
+    $("#pillar-export").show();
     $("#loader").empty();
 
-    $('.loader-container').addClass('d-none').removeClass('d-flex');
-    $('.myContainer').show();
     // Localize content
     $('body').localize();
   }
@@ -828,7 +820,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const regionBudgetProject = {};
     const regionBudgetTotal = {};
-    const topSpendors = {}
+    const topSpendors = {};
+    const year = document.getElementById('year-update').value;
 
     dataElements.projectFocusAreaNew.forEach((pfa, index) => {
       pfa.focusAreas.forEach(fa => {
@@ -839,7 +832,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (ou.name == item.orgUnit) region = parent.name
           }))
 
-          for (let year = tei.year.start; year <= tei.year.end; year++) {
             if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
               const val = JSON.parse(item.dataValuesFA[year][fa]);
               if (val.budget) {
@@ -895,7 +887,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!dvMAPillar[val.pillar][year][item.orgUnit]) dvMAPillar[val.pillar][year][item.orgUnit] = 0;
               }
             }
-          }
         })
       })
     })
@@ -918,7 +909,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const countryExpenseCategory = {};
     dataElements.projectExpenseCategory.forEach((ec, index) => {
       dataValuesOU.forEach(item => {
-        for (let year = tei.year.start; year <= tei.year.end; year++) {
+        const year = document.getElementById('year-update').value;
           if (item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
             if (!dvExpenseCategoryYrs[year]) dvExpenseCategoryYrs[year] = {};
 
@@ -950,7 +941,6 @@ document.addEventListener("DOMContentLoaded", function () {
               countryExpenseCategory[item.orgUnit][year]['cost'] += Number(item.dataValuesEC[year][ec.cost]);
             }
           }
-        }
       })
     })
     return { ec: dvExpenseCategoryYrs, ecCountry: countryExpenseCategory };
@@ -965,6 +955,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const ouUrestrictedIncome = {};
     const countrySubCategory = {};
     const countrySubCategoryDissAgre = {};
+    const year = document.getElementById('year-update').value;
     // const totalUnrestrictedIncome = {};
     dataElements.projectTotalIncome.forEach(ti => {
       dataValuesOU.forEach(item => {
@@ -972,7 +963,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!ippfUnrestrictedIncome[item.orgUnit]) ippfUnrestrictedIncome[item.orgUnit] = {}
         if (!ouUrestrictedIncome[item.orgUnit]) ouUrestrictedIncome[item.orgUnit] = {}
 
-        for (let year = tei.year.start; year <= tei.year.end; year++) {
           if (!unrestrictedIncome[item.orgUnit][year]) unrestrictedIncome[item.orgUnit][year] = 0;
           if (!ippfUnrestrictedIncome[item.orgUnit][year]) ippfUnrestrictedIncome[item.orgUnit][year] = 0;
           if (!ouUrestrictedIncome[item.orgUnit][year]) ouUrestrictedIncome[item.orgUnit][year] = 0;
@@ -1030,7 +1020,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
           }
-        }
       })
     })
     return { ti: dvTotalIncomeYrs, cw: totalCategoryRevenue, scw: totalSubCategoryRevenue, csc: countrySubCategory, countrySCWise: countrySubCategoryDissAgre, ui: unrestrictedIncome, ippfUI: ippfUnrestrictedIncome, ouic: ouUrestrictedIncome };
@@ -1038,16 +1027,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getPillarBudgetCF(dataValuesOU) {
     const totalCoreFunding = {};
+    const year = document.getElementById('year-update').value;
 
     dataElements.valuesCoreFunding.donors.forEach(ti => {
       dataValuesOU.forEach(item => {
         if (!totalCoreFunding[item.orgUnit]) totalCoreFunding[item.orgUnit] = {};
-        for (let year = tei.year.start; year <= tei.year.end; year++) {
           if (item.dataValuesCF[year] && item.dataValuesCF[year][ti.amountLocked]) {
             if (!totalCoreFunding[item.orgUnit][year]) totalCoreFunding[item.orgUnit][year] = 0;
             totalCoreFunding[item.orgUnit][year] += Number(item.dataValuesCF[year][ti.amountLocked]);
           }
-        }
       })
     })
     return { id: totalCoreFunding };
@@ -1055,16 +1043,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getPillarBudgetPB(dataValuesOU) {
     const totalProjectBudgetCountry = {};
-
+    const year = document.getElementById('year-update').value;
     dataElements.projectBudget.forEach((pb, index) => {
       dataValuesOU.forEach(item => {
         if (!totalProjectBudgetCountry[item.orgUnit]) totalProjectBudgetCountry[item.orgUnit] = {};
-        for (let year = tei.year.start; year <= tei.year.end; year++) {
           if (item.dataValuesPB[year] && item.dataValuesPB[year][pb.budget] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
             if (!totalProjectBudgetCountry[item.orgUnit][year]) totalProjectBudgetCountry[item.orgUnit][year] = 0;
             totalProjectBudgetCountry[item.orgUnit][year] += Number(item.dataValuesPB[year][pb.budget]);
           }
-        }
+        
       })
     })
     return { pbc: totalProjectBudgetCountry };

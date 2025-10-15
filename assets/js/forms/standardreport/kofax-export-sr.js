@@ -55,9 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
           if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
               
           const years = getYears(tei.year.start, tei.year.end);
-          document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+          document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
           if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
-                            
+                                
           const data = await getMeData();
           const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
           const orgUnitGroup = resOUGroup.organisationUnits;

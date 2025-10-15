@@ -143,22 +143,19 @@
             </div>
 
             <div class="form-wizard mt-3">
-              <div class="loader-container d-flex justify-content-center mt-5">
-                <div class="section-loader"></div>
-              </div>
-              <div class="myContainer" style="display: none;">
+              <div class="myContainer">
                 <div class="d-flex justify-content-between mb-2">
                   <h6 class="title-main mb-2">
                    <span data-i18n="intro.export">Commodities Report</span>
                   </h6>
                 </div>
                 <div class="cont-wrapper mt-2">
+                  <div id="loader" style="width:80%;float:left;"></div>
                   <a id="dlink" style="display:none;"></a>
                   <button class="btn btn-success float-right m-3" onclick="tableToExcel('project-export', '3. Commodities Export', '3. Commodities Export')">Export as Excel</button>
-                    
+                  <div style="clear:both"></div>
                   <form>
-                    <div id="loader"></div>
-                    <div class="cont-wrap-inner overflow-auto" id="project-export" style="clear:both">
+                    <div class="cont-wrap-inner overflow-auto" id="project-export">
                     <table class="table table-bordered">
                     <thead id="table-head">
                         

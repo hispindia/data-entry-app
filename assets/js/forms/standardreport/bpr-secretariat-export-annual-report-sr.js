@@ -22,16 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("reporting-periodicity")
     .addEventListener("change", function () {
-    $('.loader-container').addClass('d-flex').removeClass('d-none');
-    $('.myContainer').hide();
       fetchEvents();
     });
 
   document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
-      $('.loader-container').addClass('d-flex').removeClass('d-none');
-      $('.myContainer').hide();
       fetchEvents()
     });
 
@@ -63,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
           
       const years = getYears(tei.year.start, tei.year.end);
-      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join('');
+      document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}" ${"2025"==year? 'selected': ''}>${year}</option>`).join('');
       if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
                         
       const data = await getMeData();
@@ -178,9 +174,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     $("#loader").empty();
     $("#project-export").show();
-
-    $('.loader-container').addClass('d-none').removeClass('d-flex');
-    $('.myContainer').show();
 
     // Localize content
     $('body').localize();

@@ -124,10 +124,12 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
     if(user.hideReporting.includes('aoc')) {
+      $('.trt-values').prop('disabled', true);
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
     
     if(user.hideReporting.includes('trt')) {
+      $('.aoc-values').prop('disabled', true);
       $(`.trt-users`).show();
     } else if(!user.hideReporting.includes('trt') && !user.hideReporting.includes('aoc')) $(`.trt-users`).hide();
     
