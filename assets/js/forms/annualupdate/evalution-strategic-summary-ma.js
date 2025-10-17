@@ -293,7 +293,17 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#counter${index + 1}`).text(`${maxWords}`)
       }
     })
-    if(roTRTFeedback[dataElements.submitTRTQuality]== "true" && roTRTFeedback[dataElements.submitTRTStrategic]== "true" ) {
+      if(roTRTFeedback[dataElements.submitTRTQuality]== "true" && roTRTFeedback[dataElements.submitTRTStrategic]== "true" ) {
+        if(significantGapsA>=1 || someGapsA>=4 || notAddressedA>=4 ) {
+          pushDataElement('RI5UuEEpxun', ' Send Back to MA for Revisions')
+          dataValuesA['RI5UuEEpxun'] = ' Send Back to MA for Revisions';
+        }
+        else {
+          pushDataElement('RI5UuEEpxun', 'Approved with full allocation')
+          dataValuesA['RI5UuEEpxun'] = 'Approved with full allocation';
+        }
+      }
+      
       if(significantGapsA>=1 || someGapsA>=4 || notAddressedA>=4 ) {
         if(significantGapsA>=1 || someGapsA>=4)  {
           $('#quality-color-a').addClass('bg-red');
@@ -311,13 +321,8 @@ document.addEventListener("DOMContentLoaded", function () {
           $('#strategic-color-a').addClass('bg-green');
           $('#strategic-color-a').removeClass('bg-red');
         }
-        pushDataElement('RI5UuEEpxun', ' Send Back to MA for Revisions')
-        dataValuesA['RI5UuEEpxun'] = ' Send Back to MA for Revisions';
-      } else {
-        pushDataElement('RI5UuEEpxun', 'Approved with full allocation')
-        dataValuesA['RI5UuEEpxun'] = 'Approved with full allocation';
-      }
-    }
+      } 
+      
     if(significantGapsB>=1 || someGapsB>=4 || notAddressedB>=4 ) {
       if(significantGapsB>=1 || someGapsB>=4) {
         $('#quality-color-b').addClass('bg-red');
