@@ -29,6 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
     });
+    
+  document
+    .getElementById("submit-trt")
+    .addEventListener("click", function (ev) {
+      pushDataElement(dataElements.submitTRTStrategic,true);
+      alert("Strategic alignment submitted Successfully!")
+    });
 
   configurePage();
   async function configurePage() {
@@ -45,6 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
     if(user.hideReporting.includes('aoc')) {
+      $('.trt-values').prop('disabled', true);
+      $('.textOption').prop('disabled', true);
+      $(`#submit-trt`).hide();
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
     
@@ -55,14 +65,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if(user.hideReporting.includes('ma')) {
       $('.ma-users').show();
     }
-    
-    if(user.hideReporting.includes('aoc')) {
-      $('.trt-values').prop('disabled', true);
-      $('.textOption').prop('disabled', true);
-    }
 
     if(user.hideReporting.includes('trt')) {
       $('.aoc-values').prop('disabled', true);
+      $(`#submit-trt`).show();
       $(`.trt-users`).show();
     } else if(!user.hideReporting.includes('trt') && !user.hideReporting.includes('aoc')) $(`.trt-users`).hide();
 

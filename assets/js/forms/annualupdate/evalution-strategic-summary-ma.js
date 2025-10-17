@@ -187,9 +187,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const filteredPrograms =
         data.trackedEntityInstances[0].enrollments.filter(
-          (enroll) => enroll.program == tei.program
+          (enroll) => enroll.program == tei.program ||
+          enroll.program == program.roTRTFeedback
         );
 
+      const roTRTFeedback = getProgramStageEvents(filteredPrograms, programStage.trtFeedback, program.roTRTFeedback, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       tei.dataValues = getProgramStageEvents(filteredPrograms, tei.programStage, tei.program, {id: tei.year.id, value: tei.year.value}) //data vlaues year wise
       if (!tei.dataValues[tei.year.value]) {
         tei.dataValues[tei.year.value] = {}
@@ -232,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         eventSummaryB = dataValuesB[tei.year.value]['event'];
       }
 
-      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[tei.year.value] ? dataValuesB[tei.year.value]: ''));
+      populateProgramEvents(tei.dataValues[tei.year.value], (dataValuesB[tei.year.value] ? dataValuesB[tei.year.value]: ''), (roTRTFeedback[tei.year.value] ? roTRTFeedback[tei.year.value]: ''));
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -240,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValuesA, dataValuesB) {
+  function populateProgramEvents(dataValuesA, dataValuesB, roTRTFeedback) {
     //disable feilds
     if (dataValuesA.disabled) {
       $('.textValue-summaryA').prop('disabled', true);
@@ -291,29 +293,30 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#counter${index + 1}`).text(`${maxWords}`)
       }
     })
-
-    if(significantGapsA>=1 || someGapsA>=4 || notAddressedA>=4 ) {
-      if(significantGapsA>=1 || someGapsA>=4)  {
-        $('#quality-color-a').addClass('bg-red');
-        $('#quality-color-a').removeClass('bg-green');
+    if(roTRTFeedback[dataElements.submitTRTQuality]== "true" && roTRTFeedback[dataElements.submitTRTStrategic]== "true" ) {
+      if(significantGapsA>=1 || someGapsA>=4 || notAddressedA>=4 ) {
+        if(significantGapsA>=1 || someGapsA>=4)  {
+          $('#quality-color-a').addClass('bg-red');
+          $('#quality-color-a').removeClass('bg-green');
+        }
+        else {
+          $('#quality-color-a').addClass('bg-green');
+          $('#quality-color-a').addClass('bg-red');
+        }
+        if(notAddressedA>=4) {
+          $('#strategic-color-a').addClass('bg-red');
+          $('#strategic-color-a').removeClass('bg-green');
+        }
+        else {
+          $('#strategic-color-a').addClass('bg-green');
+          $('#strategic-color-a').removeClass('bg-red');
+        }
+        pushDataElement('RI5UuEEpxun', ' Send Back to MA for Revisions')
+        dataValuesA['RI5UuEEpxun'] = ' Send Back to MA for Revisions';
+      } else {
+        pushDataElement('RI5UuEEpxun', 'Approved with full allocation')
+        dataValuesA['RI5UuEEpxun'] = 'Approved with full allocation';
       }
-      else {
-        $('#quality-color-a').addClass('bg-green');
-        $('#quality-color-a').addClass('bg-red');
-      }
-      if(notAddressedA>=4) {
-        $('#strategic-color-a').addClass('bg-red');
-        $('#strategic-color-a').removeClass('bg-green');
-      }
-      else {
-        $('#strategic-color-a').addClass('bg-green');
-        $('#strategic-color-a').removeClass('bg-red');
-      }
-      pushDataElement('RI5UuEEpxun', ' Send Back to MA for Revisions')
-      dataValuesA['RI5UuEEpxun'] = ' Send Back to MA for Revisions';
-    } else {
-      pushDataElement('RI5UuEEpxun', 'Approved with full allocation')
-      dataValuesA['RI5UuEEpxun'] = 'Approved with full allocation';
     }
     if(significantGapsB>=1 || someGapsB>=4 || notAddressedB>=4 ) {
       if(significantGapsB>=1 || someGapsB>=4) {
@@ -334,6 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } 
 
+    if(!dataValuesA["RI5UuEEpxun"]) closeDiv();
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
       if ((dataValuesA[radio.name.split('-')[0]] && radio.value === dataValuesA[radio.name.split('-')[0]]) || (dataValuesB[radio.name.split('-')[0]] && radio.value === dataValuesB[radio.name.split('-')[0]])) {
         radio.checked = true;  // Set it as checked
@@ -350,8 +354,8 @@ document.addEventListener("DOMContentLoaded", function () {
             else if(radio.value == "Approved with full allocation" && dataValuesA["AxNvkIEgUGf"] == "true") $('#submit-allocation').show();
 
           } else {
-            if(radio.value== "Approved with full allocation") closeDiv();
-            else if(radio.value== " Send Back to MA for Revisions") openDiv();
+            if(radio.value== " Send Back to MA for Revisions") openDiv();
+            else closeDiv();
           }
         }
       }

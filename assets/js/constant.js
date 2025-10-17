@@ -144,6 +144,8 @@ export const dataElements = {
   formulaGenerated: "QQngZ31YwUi",
   fullAllocation: "zb45IJuA9HQ",
   submitTRTReport: "yo1Ymcjhzgh",
+  submitTRTQuality: "tpkp5Bdx8xi",
+  submitTRTStrategic: "MTCWlG8rNSY",
   orderCommoditiesCV: {
     unrestrictedCost: "IWOY5XRXtuC",
     estimatedCost: "AuBi8BS1QiZ",

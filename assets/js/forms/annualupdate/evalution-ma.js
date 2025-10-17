@@ -30,6 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchEvents();
     });
 
+  document
+    .getElementById("submit-trt")
+    .addEventListener("click", function (ev) {
+      pushDataElement(dataElements.submitTRTQuality,true);
+      alert("Quality of Business plan submitted Successfully!")
+    });
+
   configurePage();
   async function configurePage() {
     const user = await getUserConfig();
@@ -45,6 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("headerOrgCode").value = user.organisationUnits[0].code;
     }
     if(user.hideReporting.includes('aoc')) {
+      $('.trt-values').prop('disabled', true);
+      $('.textOption').prop('disabled', true);
+      $(`#submit-trt`).hide();
       $(`.aoc-users`).show();
     } else $(`.aoc-users`).hide();
     
@@ -56,12 +66,9 @@ document.addEventListener("DOMContentLoaded", function () {
       $('.ma-users').show();
     }
     
-    if(user.hideReporting.includes('aoc')) {
-      $('.trt-values').prop('disabled', true);
-      $('.textOption').prop('disabled', true);
-    }
     if(user.hideReporting.includes('trt')) {
       $('.aoc-values').prop('disabled', true);
+      $(`#submit-trt`).show();
       $(`.trt-users`).show();
     } else if(!user.hideReporting.includes('trt') && !user.hideReporting.includes('aoc')) $(`.trt-users`).hide();
 
