@@ -6,13 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import RegisteredTeiList from "../../components/RegisteredTeiList";
 import withSkeletonLoading from "../../hocs/withSkeletonLoading";
 import withOrgUnitRequired from "../../hocs/withOrgUnitRequired";
+import withProgramRequired from "../../hocs/withProgramRequired";
 import TeiListSkeleton from "../../skeletons/TeiList";
 import { useHistory } from "react-router-dom";
 import OrgUnitRequired from "../../skeletons/OrgUnitRequired";
+import ProgramRequired from "../../skeletons/ProgramRequired";
 import { deleteTei } from "../../redux/actions/data/tei";
 import { compose } from "redux";
 import withFeedback from "../../hocs/withFeedback";
 import {
+  getEvents,
   getTeis,
   getTeisErrorMessage,
   getTeisSuccessMessage,
@@ -26,8 +29,9 @@ const LoadingRegisteredTeiList = compose(withFeedback(), withSkeletonLoading(Tei
 const RegisteredTeiListContainer = () => {
   const dispatch = useDispatch();
   const onDeleteTei = (record) => dispatch(deleteTei(record.teiId));
-  const { selectedOrgUnit } = useSelector((state) => state.metadata);
+  const { programMetadata, selectedOrgUnit } = useSelector((state) => state.metadata);
   const trackedEntityAttributes = useSelector((state) => state.metadata.programMetadata.programTrackedEntityAttributes);
+  const stageElements = useSelector(state => state.metadata.programMetadata.programStages);
   const {
     teis,
     loading,
@@ -38,12 +42,18 @@ const RegisteredTeiListContainer = () => {
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(getTeis());
+    if(programMetadata && selectedOrgUnit) {
+      if(programMetadata.programType=="WITH_REGISTRATION") {
+      dispatch(getTeis());
+      } else if(programMetadata.programType=="WITHOUT_REGISTRATION") {
+      dispatch(getEvents())
+      }
+    }
     return () => {
       dispatch(getTeisSuccessMessage(null));
       dispatch(getTeisErrorMessage(null));
     };
-  }, [selectedOrgUnit]);
+  }, [selectedOrgUnit, programMetadata]);
 
   const onSort = (sorter) => {
     dispatch(tableSort(sorter));
@@ -75,7 +85,7 @@ const RegisteredTeiListContainer = () => {
       page={page}
       pageSize={pageSize}
       total={total}
-      trackedEntityAttributes={trackedEntityAttributes}
+      trackedEntityAttributes={programMetadata?.programType ? programMetadata.programType=="WITH_REGISTRATION"?trackedEntityAttributes:stageElements[0].programStageDataElements: []}
       onDeleteTei={onDeleteTei}
       onSort={onSort}
       onChangePage={onChangePage}
@@ -85,4 +95,7 @@ const RegisteredTeiListContainer = () => {
   );
 };
 
-export default withOrgUnitRequired(OrgUnitRequired)(RegisteredTeiListContainer);
+export default compose(
+  withOrgUnitRequired(OrgUnitRequired),
+  withProgramRequired(ProgramRequired)
+)(RegisteredTeiListContainer);

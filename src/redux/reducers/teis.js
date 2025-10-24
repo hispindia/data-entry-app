@@ -4,6 +4,7 @@ import {
   GET_TEIS_ERROR_MESSAGE,
   GET_TEIS_SUCCEED,
   GET_TEIS_SUCCESS_MESSAGE,
+  LOAD_EVENTS,
   LOAD_TEIS,
   SORT,
 } from "../types/teis";
@@ -30,8 +31,8 @@ export default function (state = initialState, action) {
         teis: action.teis,
       };
     }
-
-    case LOAD_TEIS: {
+    case LOAD_TEIS:
+    case LOAD_EVENTS: {
       return {
         ...state,
         loading: action.loading,

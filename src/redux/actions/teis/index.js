@@ -1,10 +1,12 @@
 import {
     CHANGE_PAGER,
     FILTER,
+    GET_EVENTS,
     GET_TEIS,
     GET_TEIS_ERROR_MESSAGE,
     GET_TEIS_SUCCEED,
     GET_TEIS_SUCCESS_MESSAGE,
+    LOAD_EVENTS,
     LOAD_TEIS,
     SORT,
     TABLE_CHANGE_PAGE,
@@ -15,6 +17,10 @@ import {
 export const getTeis = () => ({
     type: GET_TEIS,
 });
+export const getEvents = () => ({
+    type: GET_EVENTS,
+});
+
 
 export const getTeisSucceed = (teis) => ({
     type: GET_TEIS_SUCCEED,
@@ -33,6 +39,11 @@ export const getTeisErrorMessage = (error) => ({
 
 export const loadTeis = (loading) => ({
     type: LOAD_TEIS,
+    loading,
+});
+
+export const loadEvents = (loading) => ({
+    type: LOAD_EVENTS,
     loading,
 });
 

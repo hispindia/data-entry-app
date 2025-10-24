@@ -67,6 +67,24 @@ export default class DataApiClass extends BaseApiClass {
       [`orgUnit=${orgUnit}`, `ouMode=SELECTED`, `program=${program}`],
     );
 
+  getEvents = (orgUnit, program, page, pageSize) => {
+      return pull(
+        this.baseUrl,
+        this.username,
+        this.password,
+        `/api/tracker/events`,
+        {
+          paging: true,
+          page:page,
+          pageSize:pageSize
+        },
+        [
+          `program=${program}`,
+          `orgUnit=${orgUnit}`,
+        ],
+      );
+  };
+
   getEventsByTEI = (program, trackedEntityInstance, startDate, endDate) => {
     return pull(
       this.baseUrl,

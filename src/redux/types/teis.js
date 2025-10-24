@@ -6,6 +6,8 @@ export const LOAD_TEIS = "LOAD_TEIS";
 export const CHANGE_PAGER = "CHANGE_PAGER";
 export const SORT = "SORT";
 export const FILTER = "FILTER";
+export const GET_EVENTS = "GET_EVENTS";
+export const LOAD_EVENTS = "LOAD_EVENTS";
 
 // saga action
 export const TABLE_FILTER = "TABLE_FILTER";

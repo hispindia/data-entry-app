@@ -1,5 +1,5 @@
 import { put, select, takeLatest, call, all } from "redux-saga/effects";
-import { GET_TEIS, TABLE_CHANGE_PAGE, TABLE_FILTER, TABLE_SORT } from "../types/teis";
+import { GET_EVENTS, GET_TEIS, TABLE_CHANGE_PAGE, TABLE_FILTER, TABLE_SORT } from "../types/teis";
 import { dataApi } from "../../api";
 import {
   changePager,
@@ -14,7 +14,7 @@ import { returnFilterString } from "../../utils";
 import * as trackedEntityManager from "@/indexDB/TrackedEntityManager/TrackedEntityManager";
 import { DATA_COLLECT_ATTRIBUTE_ID } from "@/constants/app-config";
 
-function* getTeis(newPayload = {}) {
+function* getEvents(newPayload = {}) {
   const { offlineStatus } = yield select((state) => state.common);
   const me = yield select((state) => state.me);
 
@@ -41,31 +41,28 @@ function* getTeis(newPayload = {}) {
         program: programMetadata.id,
         pageSize: nextPayload.pageSize,
         page: nextPayload.page,
+        filters: returnFilterString(nextPayload.filters).split("&").filter(Boolean),
         ouMode: "DESCENDANTS",
       });
-
-      console.log("getTrackedEntityInstanceListByQuery", { instanceList });
     } else {
       instanceList = yield call(
-        dataApi.getTrackedEntityInstanceListByQuery,
+        dataApi.getEvents,
         selectedOrgUnit.id,
         programMetadata.id,
-        nextPayload.pageSize,
         nextPayload.page,
-        nextPayload.orderString
+        nextPayload.pageSize,
       );
     }
-    console.log("instancelist", instanceList)
-    var { trackedEntities, ...pagelist } = instanceList;
-    if(trackedEntities.length) {
-      trackedEntities = trackedEntities.map(trackedEntity => ({
-        id: trackedEntity.trackedEntity, 
-        updatedAt: trackedEntity.updatedAt,
-        values: trackedEntity.attributes.map(attr => ({ id: attr.attribute, value: attr.value }))
+    var { events, ...pagelist } = instanceList;
+    if(events.length) {
+      events = events.map(event => ({
+        id: event.event, 
+        updatedAt: event.updatedAt,
+        values: event.dataValues.map(dv => ({ id: dv.dataElement, value: dv.value }))
       }))
     }
 
-    yield put(getTeisSucceed({ ...pagelist, trackedEntities }));
+    yield put(getTeisSucceed({ ...pagelist, trackedEntities:events }));
     yield all([
       put(filter(nextPayload.filters)),
       put(sort(nextPayload.orderString)),
@@ -92,8 +89,8 @@ function* getTeis(newPayload = {}) {
   }
 }
 
-export default function* getTeisSaga() {
-  yield takeLatest(GET_TEIS, getTeis);
+export default function* getEventsSaga() {
+  yield takeLatest(GET_EVENTS, getEvents);
   yield takeLatest(TABLE_FILTER, handleTableFilter);
   yield takeLatest(TABLE_SORT, handleTableSort);
   yield takeLatest(TABLE_CHANGE_PAGE, handleChangePage);
@@ -117,7 +114,7 @@ function* handleTableFilter({ value, teiId }) {
       let find = newFilters.findIndex((e) => e.teiId === teiId);
       newFilters.splice(find, 1);
     }
-    yield call(getTeis, {
+    yield call(getEvents, {
       page: 1,
       filters: newFilters,
     });
@@ -140,7 +137,7 @@ function* handleTableSort({ tableFilterData }) {
           newOrderString = `order=lastupdated:desc`;
         }
       }
-      yield call(getTeis, {
+      yield call(getEvents, {
         page: 1,
         orderString: newOrderString,
       });
@@ -153,7 +150,7 @@ function* handleTableSort({ tableFilterData }) {
 
 function* handleChangePage({ page: newPage, pageSize: newPageSize }) {
   try {
-    yield call(getTeis, {
+    yield call(getEvents, {
       page: newPage,
       pageSize: newPageSize,
     });
