@@ -17,6 +17,8 @@ export const getMetadataSet = (isOfflineMode) => {
       organisationUnitManager.getUserOrgs(),
     ];
   } else {
+    const savedProgram = sessionStorage.getItem("program");
+    
     return [
       metadataApi.getPrograms(),
       metadataApi.get(`/api/organisationUnits`, {}, [
@@ -25,6 +27,9 @@ export const getMetadataSet = (isOfflineMode) => {
       metadataApi.getMe(),
       metadataApi.getOrgUnitLevels(),
       metadataApi.getUserOrgUnits(),
+      metadataApi.getProgramRules(),
+      metadataApi.getProgramRuleVariables(),
+      ...(savedProgram ? [metadataApi.getProgramMetadata(savedProgram)]: []),
     ];
   }
 };

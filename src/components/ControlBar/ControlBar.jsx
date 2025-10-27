@@ -20,7 +20,7 @@ import LanguageSelectionButton from "./LanguageSelectionButton";
 import manifest from "../../../manifest.webapp.json";
 import ProgramSelectionContainer from "@/containers/ControlBar/ProgramSelectionContainer";
 
-const { controlBarContainer, antBreadcrumbSeparator } = styles;
+const { controlBarContainer } = styles;
 
 const items = [
   {
@@ -83,7 +83,7 @@ const ControlBar = () => {
               <OrgUnitContainer />
             </div>
 
-            <div className="mr-3 d-none d-lg-block">
+            <div className="mr-3">
               <ProgramSelectionContainer />
             </div>
             

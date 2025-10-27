@@ -85,6 +85,18 @@ export default class DataApiClass extends BaseApiClass {
       );
   };
 
+  getEventById = (id) => {
+      return pull(
+        this.baseUrl,
+        this.username,
+        this.password,
+        `/api/tracker/events/${id}`,
+        {
+          paging: false,
+        }
+      );
+  };
+
   getEventsByTEI = (program, trackedEntityInstance, startDate, endDate) => {
     return pull(
       this.baseUrl,

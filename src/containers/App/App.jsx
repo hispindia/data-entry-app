@@ -7,8 +7,11 @@ import AppSkeleton from "../../skeletons/App";
 /* REDUX */
 import withSkeletonLoading from "@/hocs/withSkeletonLoading";
 import {
+  getProgram,
   setOrgUnitLevels,
   setOrgUnits,
+  setProgramMetadata,
+  setProgramRules,
   setProgramsMetadata,
   setSelectedOrgUnit,
 } from "@/redux/actions/metadata";
@@ -64,6 +67,26 @@ const AppContainer = () => {
         }
 
         dispatch(setOrgUnits(results[4].organisationUnits));
+        if(results[5]?.programRules && results[6]?.programRuleVariables) {
+          var rules = [];
+          const ruleVariables = {};
+          results[6]?.programRuleVariables.forEach(de => {
+                if(de?.dataElement?.id) ruleVariables[de.name] = de.dataElement.id;
+          });
+          results[5].programRules.forEach(rule => {
+                  var modifiedRule = JSON.parse(JSON.stringify(rule));
+                  modifiedRule.programRuleActions.forEach(action => {
+                    if(action.content)
+                    action['content'] = action.content.replace(/#\{(.*?)\}/g, (_, key) => `${ruleVariables[key] || key}`);
+                    if(action.data) action['data'] = modifiedRule.condition.replace(/(?:#|A)\{(.*?)\}/g, (_, key) => `data['${ruleVariables[key] || key}']`);
+                })
+              modifiedRule['condition'] = modifiedRule.condition.replace(/(?:#|A)\{(.*?)\}/g, (_, key) => `data['${ruleVariables[key] || key}']`);
+              rules.push(modifiedRule);
+            
+          })
+          dispatch(setProgramRules(rules));
+        }
+        dispatch(setProgramMetadata(results[7]));
         dispatch(setMe(results[2]));
         setLoading(false);
         setLoaded(true);

@@ -7,6 +7,7 @@ import {
   SET_PROGRAMS_METADATA,
   SET_PROGRAM_METADATA,
   SET_PROGRAM_METADATA_MEMBER,
+  SET_PROGRAM_RULES,
   SET_SELECTED_ORGUNIT,
   SET_TEAS,
   SET_TRACKER_DATA_ELEMENTS,
@@ -17,6 +18,7 @@ const initialState = {
   programsMetadata: null,
   programMetadata: null,
   programMetadataMember: null,
+  programRules: null,
   selectedOrgUnit: null,
   orgUnitGroups: null,
   orgUnitLevels: null,
@@ -47,6 +49,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         programMetadata: action.payload.programMetadata,
+      };
+    }
+    case SET_PROGRAM_RULES: {
+      return {
+        ...state,
+        programRules: action.payload.programRules,
       };
     }
     case SET_PROGRAM_METADATA_MEMBER: {

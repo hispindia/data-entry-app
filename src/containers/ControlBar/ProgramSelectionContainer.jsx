@@ -8,24 +8,16 @@ import ProgramSelection from "@/components/ControlBar/ProgramSelection";
 import { getProgram } from "@/redux/actions/metadata";
 
 const ProgramSelectionContainer = () => {
-  const { programsMetadata, selectedOrgUnit } = useSelector((state) => state.metadata);
-  const { t } = useTranslation();
-  const location = useLocation();
-  const history = useHistory();
   const dispatch = useDispatch();
-  // const isAssignedToOrg = useMemo(() => {
-  //   return programMetadata?.organisationUnits?.find((e) => e.id == selectedOrgUnit.id);
-  // }, [selectedOrgUnit]);
-
+  const { programsMetadata, programMetadata} = useSelector((state) => state.metadata);
   // const disabled = location.pathname === "/form" || !isAssignedToOrg;
   const programs = programsMetadata?.programs.map(program => ({label: program.displayName, value: program.id}))
   const onChange = (program) => {
-    debugger
+    sessionStorage.setItem("program", program);
     dispatch(getProgram(program))
-    // history.push("/list");
   };
   return (
-    <ProgramSelection  options={programs} onChange={onChange} disabled={false} />
+    <ProgramSelection  options={programs} onChange={onChange} value={programMetadata?.id} disabled={false} />
   );
 };
 

@@ -3,6 +3,7 @@ import RegisteredTeiListContainer from "../../containers/RegisteredTeiList";
 import ControlBar from "../ControlBar/ControlBar";
 import MainForm from "../../containers/MainForm";
 import ReportContainer from "./ReportContainer";
+import "../CustomStyles/css/bootstrap.min.css";
 
 const App = () => {
   return (

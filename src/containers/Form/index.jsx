@@ -15,13 +15,14 @@ const FormContainer = () => {
     error,
     data: { currentTei },
   } = useSelector((state) => state.data.tei);
+  const {programType} = useSelector(state => state.metadata.programMetadata.programType)
 
   const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { tei } = queryString.parse(location.search);
-    dispatch(getTei(tei));
+    const { tei,event } = queryString.parse(location.search);
+    dispatch(getTei(tei ? tei: event));
   }, []);
   return <LoadingFormContainer loading={loading} mask loaded={!!currentTei} />;
 };

@@ -7,8 +7,9 @@ import { call, select } from "redux-saga/effects";
 
 export function* getTeiId() {
   const searchString = yield select((state) => state.router.location.search);
-  const { tei: teiId } = queryString.parse(searchString);
-  return teiId;
+  const { tei: teiId, event: eventId } = queryString.parse(searchString);
+  
+  return teiId ? teiId : eventId;
 }
 
 export function* getHeaderIndexes(payload) {

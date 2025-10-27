@@ -64,16 +64,19 @@ const RegisteredTeiListContainer = () => {
   };
 
   const onRowClick = (record) => {
+    var param = '';
+    if(record.teiId) param = `tei=${record.teiId}`;
+    else if(record.eventId) param = `event=${record.eventId}`;
     history.push({
       pathname: "/form",
-      search: `?tei=${record.teiId}`,
+      search: `?${param}`,
     });
   };
 
   const onFilter = (value, teiId) => {
     dispatch(tableFilter(value, teiId));
   };
-
+debugger;
   return (
     <LoadingRegisteredTeiList
       errorMessage={error}
@@ -85,7 +88,7 @@ const RegisteredTeiListContainer = () => {
       page={page}
       pageSize={pageSize}
       total={total}
-      trackedEntityAttributes={programMetadata?.programType ? programMetadata.programType=="WITH_REGISTRATION"?trackedEntityAttributes:stageElements[0].programStageDataElements: []}
+      trackedEntityAttributes={programMetadata?.programType ? programMetadata.programType=="WITH_REGISTRATION"?trackedEntityAttributes:stageElements[0].dataElements: []}
       onDeleteTei={onDeleteTei}
       onSort={onSort}
       onChangePage={onChangePage}

@@ -5,14 +5,25 @@ import { GET_TEI } from "../../types/data/tei";
 
 function* handleGetTei({ tei: teiId }) {
   const programId = yield select((state) => state.metadata.programMetadata.id);
+  const programType = yield select((state) => state.metadata.programMetadata.programMetadata);
 
   if (teiId) {
     try {
-      const data = yield call(
-        dataApi.getTrackedEntityInstanceById,
-        teiId,
-        programId
-      );
+      var data = {};
+      if(programType=="WITH_REGISTRATION") {
+        data = yield call(
+          dataApi.getTrackedEntityInstanceById,
+          teiId,
+          programId
+        );
+      }
+      else if(programType=="WITHOUT_REGISTRATION") {
+        data = yield call(
+          dataApi.getEventById,
+          teiId,
+        );
+      }
+      debugger;
       yield put(initData(data));
     } catch (e) {
       console.log(e);

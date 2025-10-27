@@ -9,21 +9,26 @@ function* initCascadeDataFromTEIsEvents(payload, eventIncluded = true) {
   if (!payload) return [];
 
   let currentCascade = {};
-
-  const memberTEIsWithEvents = payload ? payload.instances : [];
+debugger;
+  const memberTEIsWithEvents = payload ? [payload] : [];
 
   currentCascade = memberTEIsWithEvents.reduce((cas, tei) => {
     let theTEI = {
-      id: tei.trackedEntity,
+      id: tei?.trackedEntity,
     };
+    debugger;
+    if(tei?.trackedEntity) theTEI['id'] = tei.trackedEntity;
+    if(tei?.event) theTEI['id'] = tei.event;
 
-    tei.attributes.forEach((attr) => {
+
+    tei?.attributes?.forEach((attr) => {
       theTEI[attr.attribute] = attr.value;
     });
 
     if (eventIncluded) {
-      const enr = tei.enrollments[0];
-      const events = enr.events;
+      // const enr = tei.enrollments[0];
+      // const events = enr.event;
+      const events = [tei];
 
       events.forEach((event) => {
         event.dataValues.forEach((de) => {
@@ -41,7 +46,7 @@ function* initCascadeDataFromTEIsEvents(payload, eventIncluded = true) {
   }, []);
 
   process.env.NODE_ENV && console.log("currentCascade", currentCascade, memberTEIsWithEvents);
-
+currentCascade = currentCascade[0];
   yield put(
     getCascadeSuccess({
       currentCascade,

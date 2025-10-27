@@ -12,6 +12,7 @@ import initCascadeDataFromTEIsEvents from "./initCascadeData";
 import handleInitData from "./initData";
 import initInterviewCascadeDataFromTEIsEvents from "./initInterviewCascadeData";
 import handleInitNewData from "./initNewData";
+import queryString from "query-string";
 
 export const teiMapping = {
   // firstname: "IEE2BMhfoSc",
@@ -28,7 +29,7 @@ export const teiMapping = {
 
 function* handleGetTei() {
   yield put(loadTei(true));
-
+debugger;
   try {
     const teiId = yield call(getTeiId);
     if (teiId) {
@@ -40,7 +41,7 @@ function* handleGetTei() {
         return yield put(push("/"));
       }
       yield call(initNewDataSaga);
-      yield put(getTeiSuccessMessage(`Open add new family form`));
+      yield put(getTeiSuccessMessage(`Open add new event`));
     }
   } catch (e) {
     console.error("handleGetTei", e);
@@ -56,69 +57,35 @@ export default function* getTei() {
 
 function* initExistedDataSaga() {
   const { offlineStatus } = yield select((state) => state.common);
-  const teiId = yield call(getTeiId);
   const programId = yield select((state) => state.metadata.programMetadata.id);
 
-  let data = {};
+  const searchString = yield select((state) => state.router.location.search);
+  const { tei: teiId, event: eventId } = queryString.parse(searchString);
+
+  let dataList = [];
 
   // OFFLINE MODE
   if (offlineStatus) {
     // clone new data object
-    data = yield call(trackedEntityManager.getTrackedEntityInstanceById, {
+    dataList = yield call(trackedEntityManager.getTrackedEntityInstanceById, {
       trackedEntity: teiId,
       program: programId,
     });
   } else {
     // get Family TEI
-    data = yield call(dataApi.getTrackedEntityInstanceById, teiId, programId);
+    if(teiId) dataList = yield call(dataApi.getTrackedEntityInstanceById, teiId, programId);
+    else if(eventId) dataList = yield call(dataApi.getEventById, eventId);
   }
 
-  console.log("initExistedDataSaga", { data });
+  console.log("initExistedDataSaga", { dataList });
 
   // clone new data object
-  const teiData = JSON.parse(JSON.stringify(data));
+  const teiData = JSON.parse(JSON.stringify(dataList));
 
-  const { orgUnit } = data;
+  const { orgUnit } = dataList;
 
   const selectedOrgUnit = yield call(getSelectedOrgUnitByOuId, orgUnit);
 
-  let memberTEIs = { trackedEntities: [] };
-
-  // OFFLINE MODE
-  if (offlineStatus) {
-    memberTEIs = yield call(trackedEntityManager.getTrackedEntityInstances, {
-      orgUnit,
-      filters: [`attribute=${FAMILY_UID_ATTRIBUTE_ID}:EQ:${teiId}`],
-    });
-  } else {
-    // get Members TEI
-    memberTEIs = yield call(dataApi.getTrackedEntityInstances, {
-      ou: orgUnit,
-      filters: [`attribute=${FAMILY_UID_ATTRIBUTE_ID}:EQ:${teiId}`],
-      attributes: Object.entries(teiMapping).map((e) => e[1]),
-      program: MEMBER_PROGRAM_ID,
-    });
-  }
-
-  // const headerIndexes = yield call(getHeaderIndexes, memberTEIs);
-  const memberTEIsUid = memberTEIs.instances.map((tei) => tei.trackedEntity);
-
-  // get by event query
-  let memberTEIsEvents = null;
-
-  if (memberTEIsUid && memberTEIsUid.length > 0) {
-    if (offlineStatus) {
-      memberTEIsEvents = yield call(trackedEntityManager.getTrackedEntityInstancesByIDs, {
-        program: MEMBER_PROGRAM_ID,
-        trackedEntities: memberTEIsUid,
-      });
-    } else {
-      memberTEIsEvents = yield call(dataApi.getAllTrackedEntityInstancesByIDs, {
-        program: MEMBER_PROGRAM_ID,
-        teiList: memberTEIsUid,
-      });
-    }
-  }
 
   if (!selectedOrgUnit) {
     throw new Error("Org Unit not found!");
@@ -126,8 +93,8 @@ function* initExistedDataSaga() {
 
   yield put(setSelectedOrgUnit(selectedOrgUnit));
   yield call(handleInitData, teiData);
-  yield call(initCascadeDataFromTEIsEvents, memberTEIs, false);
-  yield call(initInterviewCascadeDataFromTEIsEvents, memberTEIsEvents, memberTEIs);
+  yield call(initCascadeDataFromTEIsEvents, dataList);
+  // yield call(initInterviewCascadeDataFromTEIsEvents, memberTEIsEvents, memberTEIs);
   yield put(editingAttributes(false));
 }
 

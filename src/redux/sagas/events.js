@@ -56,7 +56,7 @@ function* getEvents(newPayload = {}) {
     var { events, ...pagelist } = instanceList;
     if(events.length) {
       events = events.map(event => ({
-        id: event.event, 
+        eventId: event.event, 
         updatedAt: event.updatedAt,
         values: event.dataValues.map(dv => ({ id: dv.dataElement, value: dv.value }))
       }))

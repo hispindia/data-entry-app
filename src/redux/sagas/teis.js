@@ -59,7 +59,7 @@ function* getTeis(newPayload = {}) {
     var { trackedEntities, ...pagelist } = instanceList;
     if(trackedEntities.length) {
       trackedEntities = trackedEntities.map(trackedEntity => ({
-        id: trackedEntity.trackedEntity, 
+        teiId: trackedEntity.trackedEntity, 
         updatedAt: trackedEntity.updatedAt,
         values: trackedEntity.attributes.map(attr => ({ id: attr.attribute, value: attr.value }))
       }))

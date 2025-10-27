@@ -27,7 +27,16 @@ export default class MetadataApiClass extends BaseApiClass {
     pull(this.baseUrl, this.username, this.password, "/api/me", { paging: false }, [
       "fields=:all,userRoles[code,name,id]",
     ]);
+
   getPrograms = () => pull(this.baseUrl, this.username, this.password, "/api/programs", { paging: false }, []);
+
+  getProgramRules = () => pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
+    "fields=id,name,displayName,program,programRuleActions[programRuleActionType,data,content,dataElement],condition"
+  ]);
+
+  getProgramRuleVariables = () => pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [
+    "fields=id,name,valueType,program,dataElement"
+  ]);
 
   getHeaderBarData = async () => {
     let headerBarData = {};
@@ -112,7 +121,7 @@ export default class MetadataApiClass extends BaseApiClass {
       "fields=programType,programSections[id,name,trackedEntityAttributes,displayName,displayFormName,translations],id,displayName,trackedEntityType,organisationUnits[id,displayName,code,path],programRuleVariables[name,programRuleVariableSourceType,dataElement,trackedEntityAttribute],programTrackedEntityAttributes[mandatory,displayInList,trackedEntityAttribute[description,fieldMask,attributeValues,id,displayName,displayFormName,translations,displayShortName,valueType,optionSet[id]]],programStages[programStageSections[id,dataElements,displayName,displayFormName,translations,],id,displayName,programStageDataElements[compulsory,displayInReports,dataElement[url,translations,attributeValues,id,displayName,displayFormName,displayShortName,description,valueType,optionSet[code,name,translations,options[code,name,translations,id,displayName,attributeValues],valueType,version,displayName,id,attributeValues]]",
     ]);
 
-    return p;
+    return await this.convertProgramMetadata(p);
   };
 
   getProgramMetadataFromCacher = async (cacherType) => {
@@ -152,8 +161,10 @@ export default class MetadataApiClass extends BaseApiClass {
 
     const programMetadata = {};
     programMetadata.id = p.id;
+    programMetadata.name = p.displayName;
+    programMetadata.programType = p.programType;
     programMetadata.organisationUnits = p.organisationUnits;
-    programMetadata.trackedEntityType = p.trackedEntityType.id;
+    programMetadata.trackedEntityType = p?.trackedEntityType?.id;
     programMetadata.organisationUnits = p.organisationUnits;
     programMetadata.programSections = p.programSections;
     programMetadata.trackedEntityAttributes = p.programTrackedEntityAttributes.map((ptea) => {
@@ -221,6 +232,7 @@ export default class MetadataApiClass extends BaseApiClass {
             valueType: psde.dataElement.valueType,
             translations: psde.dataElement.translations,
             fieldMask: psde.dataElement.fieldMask,
+            displayInReports: psde.displayInReports,
           };
 
           const foundAttr = psde.dataElement.attributeValues.find(

@@ -11,6 +11,8 @@ function* handleInitData(trackedEntity) {
   // Safety check for enrollments array
   if (currentTei.enrollments && Array.isArray(currentTei.enrollments) && currentTei.enrollments.length > 0) {
     currentEnrollment = currentTei.enrollments[0];
+  } else if(currentTei.enrollment && currentTei.event) {
+    currentEnrollment = {events:[currentTei]};
   } else {
     currentEnrollment = [];
   }
@@ -29,10 +31,12 @@ function* handleInitData(trackedEntity) {
   }
   currentTei.isNew = false;
   currentTei.isDirty = false;
-  currentTei.attributes = currentTei.attributes.reduce((previousValue, currentValue) => {
-    previousValue[currentValue.attribute] = convertValue(currentValue.valueType, currentValue.value);
-    return previousValue;
-  }, {});
+  if(currentTei.attributes) {
+    currentTei.attributes = currentTei.attributes.reduce((previousValue, currentValue) => {
+      previousValue[currentValue.attribute] = convertValue(currentValue.valueType, currentValue.value);
+      return previousValue;
+    }, {});
+  }
 
   // Process enrollment only if it exists
   if (currentEnrollment && Array.isArray(currentEnrollment) && currentEnrollment.length > 0) {

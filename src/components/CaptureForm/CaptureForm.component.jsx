@@ -51,7 +51,6 @@ function CaptureForm(props) {
     handleEditRow,
     handleAddNewRow,
     editRowCallback = null,
-    formProgramMetadata,
     saveDisabled,
     cancelable = true,
     locale,
@@ -60,9 +59,10 @@ function CaptureForm(props) {
     showSubmitButtons = false,
     ...other
   } = props;
-  const { programMetadataMember } = useSelector((state) => state.metadata);
-  const { programSections, programStages } = formProgramMetadata || programMetadataMember;
-
+  
+  const { programMetadata } = useSelector((state) => state.metadata);
+  const { programSections, programStages } = programMetadata;
+  
   const displayDEs = programStages.reduce((acc, pStage) => {
     const dataElements = pStage.programStageSections.reduce((acc, pSection) => {
       const dataElements = pSection.dataElements.map((de) => de.id);
@@ -114,12 +114,12 @@ function CaptureForm(props) {
     changeMetadata([...Object.values(cloneMetadata)]);
   }, [data.id]);
 
-  useEffect(() => {
-    checkFormFulfilled();
-    return () => {
-      clear();
-    };
-  }, []);
+  // useEffect(() => {
+  //   checkFormFulfilled();
+  //   return () => {
+  //     clear();
+  //   };
+  // }, []);
 
   const editCall = (metadata, prevData, formData, code, value) => {
     let data = _.clone(formData);
@@ -168,8 +168,6 @@ function CaptureForm(props) {
               }}
               error={validation(f.code)}
               warning={validationWarning(f.code)}
-              maxDate={f.maxDate || props.maxDate}
-              minDate={f.minDate || props.minDate || "1900-12-31"}
               data-element-id={f.code}
               hyperlink={f.url}
               base64={base64Object}
@@ -185,7 +183,7 @@ function CaptureForm(props) {
 
   const generateSectionFields = () => {
     if (!programSections || programSections.length === 0) {
-      const trackedEntityAttributes = programMetadataMember.trackedEntityAttributes.map((t) => t.id);
+      const trackedEntityAttributes = programMetadata.trackedEntityAttributes.map((t) => t.id);
       const TEIFormMetadata = formMetadata.filter((f) => trackedEntityAttributes.includes(f.id));
       return (
         <div className="row" style={{ alignItems: "flex-end" }}>
@@ -205,25 +203,6 @@ function CaptureForm(props) {
       // if all field hidden => hide the section
       const filtered = TEIFormMetadata.filter((f) => !f.hidden);
       if (filtered.length === 0) return null;
-
-      if (pSection.id == "f9KZ0YnBsm6") {
-        return (
-          <ChildHealthCustomForm
-            section={pSection}
-            formMetadata={formMetadata}
-            changeValue={changeValue}
-            disableForm={disableForm}
-            editCall={editCall}
-            formData={formData}
-            formStatus={formStatus}
-            prevData={prevData}
-            locale={locale}
-            props={props}
-            validation={validation}
-            validationWarning={validationWarning}
-          />
-        );
-      }
 
       return (
         <div className="row">
@@ -290,7 +269,6 @@ function CaptureForm(props) {
   };
 
   const handleCancelForm = () => {
-    setFormStatus(FORM_ACTION_TYPES.NONE);
     onCancel();
   };
 

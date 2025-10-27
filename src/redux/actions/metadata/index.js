@@ -10,6 +10,7 @@ import {
   SET_ORGUNITS,
   SET_PROGRAMS_METADATA,
   GET_PROGRAM_METADATA,
+  SET_PROGRAM_RULES,
 } from "./type";
 
 export const setProgramsMetadata = (programsMetadata) => ({
@@ -18,6 +19,7 @@ export const setProgramsMetadata = (programsMetadata) => ({
     programsMetadata,
   },
 });
+
 export const setProgramMetadata = (programMetadata) => ({
   type: SET_PROGRAM_METADATA,
   payload: {
@@ -25,6 +27,12 @@ export const setProgramMetadata = (programMetadata) => ({
   },
 });
 
+export const setProgramRules = (programRules) => ({
+  type: SET_PROGRAM_RULES,
+  payload: {
+    programRules,
+  },
+});
 
 export const setProgramMetadataMember = (programMetadataMember) => ({
   type: SET_PROGRAM_METADATA_MEMBER,

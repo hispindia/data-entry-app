@@ -1,7 +1,7 @@
 import React from "react";
 import { Select } from "antd";
 
-const ProgramSelection = ({ onChange, disabled, ...props }) => {
+const ProgramSelection = ({ onChange, disabled, value, ...props }) => {
   return (
     <Select
       prefix="Program:"
@@ -9,6 +9,7 @@ const ProgramSelection = ({ onChange, disabled, ...props }) => {
       // disableElevation
       disabled={disabled}
       onChange={onChange}
+      value={value}
       {...props}
     />
   );

@@ -1,65 +1,160 @@
-import InterviewDetailContainer from "@/containers/InterviewDetail/InterviewDetailContainer";
-import { CloseOutlined } from "@ant-design/icons";
+
 import { Button, Card, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
-import FMLayoutContainer from "../../containers/FMLayout";
-import ProfileFormContainer from "../../containers/ProfileForm";
+import CaptureForm from "../CaptureForm";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import _ from "lodash";
+import { CloseOutlined } from "@ant-design/icons";
+import { FORM_ACTION_TYPES } from "../constants";
+import { updateCascade } from "@/redux/actions/data/tei/currentCascade";
+import { transformEvent } from "@/utils/event";
+import { submitEvent } from "@/redux/actions/data";
 
-const MainForm = ({ onCloseClick, currentTab, onTabChange, isEditingAttributes }) => {
-  const { t } = useTranslation();
+const MainForm = ({onCloseClick}) => {
+    const dispatch = useDispatch();
 
-  const items = [
-    {
-      label: t("familyRegistration"),
-      key: "1",
-      children: <ProfileFormContainer />,
-    },
-    {
-      label: t("householdMembers"),
-      key: "2",
-      children: <FMLayoutContainer />,
-      disabled: isEditingAttributes,
-    },
-    {
-      label: t("interviewDetails"),
-      key: "4",
-      children: <InterviewDetailContainer />,
-      disabled: isEditingAttributes,
-    },
-    // {
-    //   label: t("Household Survey"),
-    //   key: "3",
-    //   children: <HouseHoldSurveyContainer />,
-    //   disabled: isEditingAttributes,
-    // },
-  ];
+    const { programMetadata, selectedOrgUnit, programRules } = useSelector((state) => state.metadata);
+    const currentCascade = useSelector((state) => state.data.tei.data.currentCascade);
+    const currentEvents = useSelector((state) => state.data.tei.data.currentEvents);
+    const tei = useSelector(state => state.data.tei.data.currentTei);
+    const [data, setData] = useState(currentCascade || {});
+    const [formStatus, setFormStatus] = useState(FORM_ACTION_TYPES.NONE);
+
+    const [metadata, setMetadata] = useState(_.cloneDeep(convertOriginMetadata({programMetadata})));
+
+  const handleAddNew = (e, newData, continueAdd) => {
+    setData(newData);
+    
+    // submit new event
+    const { id: event, ...dataValues } = newData;
+
+    // init new event
+    const occurredAt = new Date();
+
+    // const eventPayload = transformEvent({
+    //   event,
+    //   enrollment,
+    //   occurredAt,
+    //   status: "ACTIVE",
+    //   programStage: HOUSEHOLD_INTERVIEW_RESULT_PROGRAM_STAGE_ID,
+    //   trackedEntity,
+    //   orgUnit: selectedOrgUnit.id,
+    //   program: programMetadata.id,
+    //   dataValues,
+    //   _isDirty: true,
+    // });
+
+    const eventPayload = transformEvent({
+      event,
+      occurredAt,
+      status: "ACTIVE",
+      orgUnit: selectedOrgUnit.id,
+      program: programMetadata.id,
+      dataValues,
+      _isDirty: true,
+    });
+
+    // dispatch(submitAttributes({ ...attributes, [HH_STATUS_ATTR_ID]: hhStatus }));
+    dispatch(submitEvent(eventPayload));
+    setFormDirty(false);
+  };
+
+
+  const handleEditRow = (e, row, rowIndex) => {
+    // Update data
+    debugger;
+    let newData = _.clone(data);
+    newData[rowIndex] = { ...row };
+
+    setData(newData);
+
+    // callbackFunction && callbackFunction(metadata, newData, rowIndex, "edit");
+
+    // let updatedMetadata = updateMetadata(metadata, newData);
+    // console.log("handleEditRow", { updatedMetadata, newData });
+
+    // setMetadata([...updatedMetadata]);
+    setFormStatus(FORM_ACTION_TYPES.NONE);
+    // setSelectedRowIndex(null);
+
+    // save event
+    const currentEvent = currentEvents.find((e) => e.event === row.id);
+    const { id, disabled, key, ...dataValues } = row;
+
+    // const occurredAt = currentEvent.occurredAt;
+
+    const eventPayload = transformEvent({
+      ...currentEvent,
+      _isDirty: true,
+      // occurredAt,
+      // dueDate: occurredAt,
+      dataValues,
+    });
+
+    dispatch(submitEvent(eventPayload));
+  };
+
+    const editRowCallback = (data) => {
+    
+      // ruleEngine(data,programRules)
+
+    } ;
+
+    useEffect(() => {
+      if(tei.isNew) {
+        setFormStatus(FORM_ACTION_TYPES.ADD_NEW)
+      } 
+      else if(tei.isNew === false) {
+        setFormStatus(FORM_ACTION_TYPES.EDIT)
+      }
+    }, [tei])
 
   return (
-    <Card size="small" style={{ borderRadius: 0, borderTop: 0 }}>
-      <Tabs
-        style={{
-          overflow: "visible",
-        }}
-        activeKey={currentTab}
-        onChange={onTabChange}
-        // defaultActiveKey="1"
-        tabBarExtraContent={{
-          right: (
-            <div
-              style={{
-                marginBottom: 10,
-              }}
-            >
-              <Button type="text">
-                <CloseOutlined onClick={onCloseClick} />
-              </Button>
-            </div>
-          ),
-        }}
-        items={items}
-      />
+    <Card size="small" 
+      style={{ borderRadius: 0, borderTop: 0 }} 
+      title={`Program: ${programMetadata.name}`}
+      extra={<Button type="text"><CloseOutlined onClick={onCloseClick} /></Button>}
+      >
+       <CaptureForm 
+        data={data}  
+        editRowCallback={editRowCallback}
+        setData={setData}
+        metadata={metadata} 
+        setMetadata={setMetadata} 
+        onCancel={onCloseClick}
+        formStatus={formStatus} 
+        handleAddNewRow={handleAddNew}
+        handleEditRow={handleEditRow} />
     </Card>
   );
 };
 
+const convertOriginMetadata = ({
+  programMetadata,
+  eventIncluded = true,
+}) => {
+  let trackedEntityAttributes = programMetadata.trackedEntityAttributes.map((attr) => {
+    return {
+      ...attr,
+      code: attr.id,
+    };
+  });
+
+  let programStagesDataElements = [];
+  if (eventIncluded) {
+    programStagesDataElements = programMetadata.programStages.reduce((acc, stage) => {
+      stage.dataElements.forEach((de) => {
+        de.code= de.id;
+      });
+      return [...acc, ...stage.dataElements];
+    }, []);
+  }
+
+  return [...trackedEntityAttributes, ...programStagesDataElements];
+};
+
+
+
 export default MainForm;
+
