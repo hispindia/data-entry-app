@@ -7,29 +7,29 @@ import * as programManager from "@/indexDB/ProgramManager/ProgramManager";
 import db from "@/indexDB/db";
 
 export const getMetadataSet = (isOfflineMode) => {
+  const savedProgram = sessionStorage.getItem("program");
   if (isOfflineMode) {
     return [
-      programManager.getProgramById(HOUSEHOLD_PROGRAM_ID),
       organisationUnitManager.getAllOrganisationUnits(),
       meManager.getMe(),
       organisationUnitLevelsManager.getAllOrganisationUnitLevels(),
-      programManager.getProgramById(MEMBER_PROGRAM_ID),
       organisationUnitManager.getUserOrgs(),
+      programManager.getPrograms(),
+      programManager.getProgramById(savedProgram),
     ];
   } else {
-    const savedProgram = sessionStorage.getItem("program");
     
     return [
-      metadataApi.getPrograms(),
       metadataApi.get(`/api/organisationUnits`, {}, [
         "paging=false&fields=id,code,path,displayName,level,parent,translations&withinUserHierarchy=true",
       ]),
       metadataApi.getMe(),
       metadataApi.getOrgUnitLevels(),
       metadataApi.getUserOrgUnits(),
+      metadataApi.getPrograms(),
+      ...(savedProgram ? [metadataApi.getProgramMetadata(savedProgram)]: []),
       metadataApi.getProgramRules(),
       metadataApi.getProgramRuleVariables(),
-      ...(savedProgram ? [metadataApi.getProgramMetadata(savedProgram)]: []),
     ];
   }
 };

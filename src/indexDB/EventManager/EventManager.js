@@ -71,7 +71,7 @@ try {
       handleDispatchCurrentOfflineLoading({ id: "event_program", percent: 100 });
       return;
     }
-    persist(beforePersist(resultEvents));
+    await persist(await beforePersist(resultEvents));
  } catch (error) {
     console.log("Events:pull", error);
   }

@@ -12,7 +12,7 @@ const ProgramSelectionContainer = ({onChange, value}) => {
   const { programsMetadata, programMetadata} = useSelector((state) => state.metadata);
   const programId = value ?? programMetadata?.id;
   // const disabled = location.pathname === "/form" || !isAssignedToOrg;
-  const programs = programsMetadata?.programs.map(program => ({label: program.displayName, value: program.id}))
+  const programs = programsMetadata.map(program => ({label: program.displayName, value: program.id}))
   const handleProgram = (program) => {
     sessionStorage.setItem("program", program);
     dispatch(getProgram(program))

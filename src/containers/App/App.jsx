@@ -50,8 +50,8 @@ const AppContainer = () => {
       i18n.changeLanguage(currentLocale);
 
       Promise.all(getMetadataSet(isOfflineMode)).then(async (results) => {
-        dispatch(setProgramsMetadata(results[0]));
-        dispatch(setOrgUnitLevels(results[3].organisationUnitLevels));
+        dispatch(setMe(results[1]));
+        dispatch(setOrgUnitLevels(results[2].organisationUnitLevels));
         const savedSelectedOrgUnit = sessionStorage.getItem("selectedOrgUnit");
 
         if (savedSelectedOrgUnit) {
@@ -66,14 +66,15 @@ const AppContainer = () => {
           // history.push("/list");
         }
 
-        dispatch(setOrgUnits(results[4].organisationUnits));
-        if(results[5]?.programRules && results[6]?.programRuleVariables) {
+        dispatch(setOrgUnits(results[3].organisationUnits));
+        dispatch(setProgramsMetadata(results[4]));
+        if(results[6]?.programRules && results[7]?.programRuleVariables) {
           var rules = [];
           const ruleVariables = {};
-          results[6]?.programRuleVariables.forEach(de => {
+          results[7]?.programRuleVariables.forEach(de => {
                 if(de?.dataElement?.id) ruleVariables[de.name] = de.dataElement.id;
           });
-          results[5].programRules.forEach(rule => {
+          results[6].programRules.forEach(rule => {
                   var modifiedRule = JSON.parse(JSON.stringify(rule));
                   modifiedRule.programRuleActions.forEach(action => {
                     if(action.content)
@@ -86,8 +87,7 @@ const AppContainer = () => {
           })
           dispatch(setProgramRules(rules));
         }
-        dispatch(setProgramMetadata(results[7]));
-        dispatch(setMe(results[2]));
+        dispatch(setProgramMetadata(results[5]));
         setLoading(false);
         setLoaded(true);
       });

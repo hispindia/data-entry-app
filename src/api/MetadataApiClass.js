@@ -28,7 +28,10 @@ export default class MetadataApiClass extends BaseApiClass {
       "fields=:all,userRoles[code,name,id]",
     ]);
 
-  getPrograms = () => pull(this.baseUrl, this.username, this.password, "/api/programs", { paging: false }, []);
+  getPrograms = async () => {
+    const resPrograms = await pull(this.baseUrl, this.username, this.password, "/api/programs", { paging: false }, []);
+    return resPrograms.programs;
+  }
 
   getProgramRules = () => pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
     "fields=id,name,displayName,program,programRuleActions[programRuleActionType,data,content,dataElement],condition"
