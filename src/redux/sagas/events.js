@@ -12,6 +12,7 @@ import {
 } from "../actions/teis";
 import { returnFilterString } from "../../utils";
 import * as trackedEntityManager from "@/indexDB/TrackedEntityManager/TrackedEntityManager";
+import * as eventManager from "@/indexDB/EventManager/EventManager";
 import { DATA_COLLECT_ATTRIBUTE_ID } from "@/constants/app-config";
 
 function* getEvents(newPayload = {}) {
@@ -36,13 +37,11 @@ function* getEvents(newPayload = {}) {
 
     // OFFLINE MODE
     if (offlineStatus) {
-      instanceList = yield call(trackedEntityManager.find, {
+      instanceList = yield call(eventManager.find, {
         orgUnit: selectedOrgUnit.id,
         program: programMetadata.id,
         pageSize: nextPayload.pageSize,
         page: nextPayload.page,
-        filters: returnFilterString(nextPayload.filters).split("&").filter(Boolean),
-        ouMode: "DESCENDANTS",
       });
     } else {
       instanceList = yield call(

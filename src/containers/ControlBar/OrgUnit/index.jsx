@@ -14,12 +14,13 @@ const OrgUnitContainer = ({ singleSelection = true, onChange, limit, value }) =>
   const dispatch = useDispatch();
   const { selectedOrgUnit, orgUnits } = useSelector((state) => state.metadata);
   const currentSelectedOrgUnit = value || selectedOrgUnit;
+  
 
   const buttonLabel = useMemo(() => {
     if (singleSelection || !orgUnits || !currentSelectedOrgUnit?.selected?.length) {
       return currentSelectedOrgUnit?.displayName ? <b>{currentSelectedOrgUnit.displayName} </b> : t("select");
     }
-
+debugger;
     return currentSelectedOrgUnit.selected
       .map((path) => orgUnits.find((ou) => ou.id === path.split("/").pop()))
       .map(({ displayName }) => displayName || "")
@@ -27,13 +28,15 @@ const OrgUnitContainer = ({ singleSelection = true, onChange, limit, value }) =>
   }, [currentSelectedOrgUnit, orgUnits]);
 
   const handleSelectOrgUnit = (orgUnit) => {
+    const programs = orgUnits.find(ou => ou.id == orgUnit.id)?.programs || [];
     const selectedOrgUnit = {
       ...orgUnit,
       level: orgUnit.path.split("/").filter(Boolean).length,
+      programs
     };
 
     dispatch(setSelectedOrgUnit(selectedOrgUnit));
-    sessionStorage.setItem("selectedOrgUnit", JSON.stringify(orgUnit));
+    sessionStorage.setItem("selectedOrgUnit", JSON.stringify(selectedOrgUnit));
   };
 
   const onVisibleChange = (visible) => {

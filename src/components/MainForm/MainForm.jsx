@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import CaptureForm from "../CaptureForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import _ from "lodash";
+import _, { cond } from "lodash";
 import { CloseOutlined } from "@ant-design/icons";
 import { FORM_ACTION_TYPES } from "../constants";
 import { updateCascade } from "@/redux/actions/data/tei/currentCascade";
@@ -63,7 +63,6 @@ const MainForm = ({onCloseClick}) => {
 
   const handleEditRow = (e, row, rowIndex) => {
     // Update data
-    debugger;
     let newData = _.clone(data);
     newData[rowIndex] = { ...row };
 
@@ -107,7 +106,7 @@ const MainForm = ({onCloseClick}) => {
           if(rule.program.id == programMetadata.id) {
             var value;
             var condition = rule.condition;
-            if(rule.condition.includes('data')) {
+            if(condition.includes('data')) {
                 if(condition.includes('d2:hasValue')) {
                     condition = condition.replace(/^d2:hasValue\(\s*(.*?)\s*\)$/, "$1");
                     // value = d2.hasValue(eval(condition));
@@ -119,11 +118,19 @@ const MainForm = ({onCloseClick}) => {
                             if(action.data.includes('d2:hasValue')) {
                                 let condition = action.data.replace(/^d2:hasValue\(\s*(.*?)\s*\)$/, "$1");
                                 if(d2.hasValue(eval(condition))) data[action.dataElement.id] = eval(condition);
-
                             } else {
+                              if(eval(condition)) {
                                 if(action.data.includes('data')) data[action.dataElement.id] = eval(action.data);
-                                else data[action.dataElement.id] = action.data;
+                                else data[action.dataElement.id] = action.data.replace(/^'|'$/g, ''); 
+                              }
                             }
+                        } 
+                        else if(action.programRuleActionType == "HIDEFIELD") {
+                          if(eval(condition)) metadata[action.dataElement.id].hidden = true;
+                          else {
+                            metadata[action.dataElement.id].hidden = false;
+                            data[action.dataElement.id] = '';
+                          }
                         }
                     })
                 }
@@ -146,7 +153,7 @@ const MainForm = ({onCloseClick}) => {
   return (
     <Card size="small" 
       style={{ borderRadius: 0, borderTop: 0 }} 
-      title={`Program: ${programMetadata.name}`}
+      title={`Program: ${programMetadata.displayName}`}
       extra={<Button type="text"><CloseOutlined onClick={onCloseClick} /></Button>}
       >
        <CaptureForm 
@@ -178,7 +185,8 @@ const convertOriginMetadata = ({
   if (eventIncluded) {
     programStagesDataElements = programMetadata.programStages.reduce((acc, stage) => {
       stage.dataElements.forEach((de) => {
-        de.code= de.id;
+        de.code = de.id;
+        de.hidden = false;
       });
       return [...acc, ...stage.dataElements];
     }, []);

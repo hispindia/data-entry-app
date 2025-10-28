@@ -9,14 +9,14 @@ function* initCascadeDataFromTEIsEvents(payload, eventIncluded = true) {
   if (!payload) return [];
 
   let currentCascade = {};
-debugger;
+  
   const memberTEIsWithEvents = payload ? [payload] : [];
 
   currentCascade = memberTEIsWithEvents.reduce((cas, tei) => {
     let theTEI = {
       id: tei?.trackedEntity,
     };
-    debugger;
+    
     if(tei?.trackedEntity) theTEI['id'] = tei.trackedEntity;
     if(tei?.event) theTEI['id'] = tei.event;
 

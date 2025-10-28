@@ -86,7 +86,7 @@ const RegisteredTeiList = ({
 
       if(tei.teiId) rowObject.teiId = tei.teiId;
       else if(tei.eventId) rowObject.eventId = tei.eventId;
-debugger;
+      
       columns.forEach((column) => {
         const attribute = tei.values.find((attr) => {
           return attr.id === column.dataIndex;
@@ -107,7 +107,6 @@ debugger;
       onRow={(record, rowIndex) => {
         return {
           onClick: (event) => {
-            debugger
             onRowClick(record, rowIndex, event);
           },
         };

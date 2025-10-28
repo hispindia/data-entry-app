@@ -281,7 +281,8 @@ export const beforePersist = async (result) => {
   const objects = [];
   const ids = [];
 
-  const events = result?.events;
+  // const events = result?.events;
+  const events = result;
 
   if (!events || events.length === 0) {
     return objects;
@@ -455,6 +456,29 @@ const beforePersistAnalyticsData = async (result, program) => {
 export const findOne = async (event) => {
   return await db[TABLE_NAME].get(event);
 };
+
+export const find = async ({orgUnit, program}) => {
+
+  const res = await db[TABLE_NAME]
+  .where("orgUnit")
+  .equals(orgUnit)
+  .filter(event => event.program === program)
+  .toArray();
+  const events = {};
+  const eventList = {events: [], pagelist: {}};
+  res.forEach(event => {
+   if(!events[event.event]) events[event.event] = { dataValues: []};
+    events[event.event] = {...event, ...events[event.event]};
+    events[event.event].dataValues.push({
+      dataElement: event.dataElement,
+      value: event.value,
+      isProvidedElsewhere: event.isProvidedElsewhere
+    });
+  });
+  for(let event in events) eventList.events.push(events[event]);
+  debugger;
+  return eventList;
+}
 
 export const findAll = async () => {
   return await db[TABLE_NAME].toArray();

@@ -31,7 +31,7 @@ const useForm = (metadata, data, uiLocale, displayFields) => {
       .filter((md) => !md.hidden && !md.disabled)
       .filter((md) => displayFields.includes(md.code));
     const filableFieldCodes = filableFields.map((md) => md.code || md.id);
-debugger;
+    
     const currentValuesKeys = [];
     for (const key in formData) {
       if (formData[key]) {

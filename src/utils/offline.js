@@ -27,9 +27,9 @@ export const getMetadataSet = (isOfflineMode) => {
       metadataApi.getOrgUnitLevels(),
       metadataApi.getUserOrgUnits(),
       metadataApi.getPrograms(),
-      ...(savedProgram ? [metadataApi.getProgramMetadata(savedProgram)]: []),
-      metadataApi.getProgramRules(),
+      ...(savedProgram ? [metadataApi.getProgramMetadata(savedProgram)]: [{}]),
       metadataApi.getProgramRuleVariables(),
+      metadataApi.getProgramRules(),
     ];
   }
 };

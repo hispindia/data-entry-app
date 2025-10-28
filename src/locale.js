@@ -290,7 +290,7 @@ const locale = {
     // [tagalog]: "Mangyaring piliin ang barangay na gagamitin offline pagkatapos ay i-click ang pag-download.",
   },
   orgUnitRequired: {
-    [english]: "Please select barangay continue",
+    [english]: "Please select Orgunit to continue",
     // [cebuano]: "Palihug pilia ang Barangay para magpadayon",
     // [tagalog]: "Mangyaring piliin ang Barangay upang magpatuloy",
   },

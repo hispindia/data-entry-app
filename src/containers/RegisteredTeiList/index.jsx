@@ -30,7 +30,7 @@ const RegisteredTeiListContainer = () => {
   const dispatch = useDispatch();
   const onDeleteTei = (record) => dispatch(deleteTei(record.teiId));
   const { programMetadata, selectedOrgUnit } = useSelector((state) => state.metadata);
-  const trackedEntityAttributes = useSelector((state) => state.metadata.programMetadata.programTrackedEntityAttributes);
+  const trackedEntityAttributes = useSelector((state) => state.metadata.programMetadata.trackedEntityAttributes);
   const stageElements = useSelector(state => state.metadata.programMetadata.programStages);
   const {
     teis,
@@ -76,7 +76,7 @@ const RegisteredTeiListContainer = () => {
   const onFilter = (value, teiId) => {
     dispatch(tableFilter(value, teiId));
   };
-debugger;
+  
   return (
     <LoadingRegisteredTeiList
       errorMessage={error}

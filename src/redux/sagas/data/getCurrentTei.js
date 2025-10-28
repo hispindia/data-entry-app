@@ -23,7 +23,7 @@ function* handleGetTei({ tei: teiId }) {
           teiId,
         );
       }
-      debugger;
+      
       yield put(initData(data));
     } catch (e) {
       console.log(e);

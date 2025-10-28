@@ -23,12 +23,12 @@ const downloadMapping = [
 const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-  const { programMetadata, orgUnits } = useSelector((state) => state.metadata);
+  const {  programMetadata, orgUnits } = useSelector((state) => state.metadata);
 
-  const userOrgUnits = useMemo(
-    () => programMetadata?.organisationUnits?.filter(({ path }) => orgUnits.find(({ id }) => path.includes(id))),
-    [programMetadata],
-  );
+  // const userOrgUnits = useMemo(
+  //   () => programMetadata?.organisationUnits?.filter(({ path }) => orgUnits.find(({ id }) => path.includes(id))),
+  //   [programMetadata],
+  // );
 
   const [selectedOrgUnits, setSelectedOrgUnit] = useState({ selected: [] });
   const [selectedProgram, setSelectedProgram] = useState('');
@@ -37,8 +37,11 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
   const [ready, setReady] = useState(false);
 
   const handleSelectOrgUnit = (orgUnit) => {
-    const found = userOrgUnits.find(({ id }) => id === orgUnit.id);
-    if (found) setSelectedOrgUnit(orgUnit);
+    // const found = userOrgUnits.find(({ id }) => id === orgUnit.id);
+    // if (found) setSelectedOrgUnit(orgUnit);
+    const programs = orgUnits.find(ou => ou.id === orgUnit.id)?.programs;
+    const sel = {...orgUnit,programs}
+    setSelectedOrgUnit(sel);
   };
 
   const handleSelectedProgram = (program) => {
@@ -101,7 +104,7 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
         }}
       >
         <OrgUnitContainer limit={3} singleSelection={false} onChange={handleSelectOrgUnit} value={selectedOrgUnits} />
-        <ProgramSelectionContainer onChange={handleSelectedProgram} value={selectedProgram} />
+        <ProgramSelectionContainer onChange={handleSelectedProgram} value={selectedProgram} orgUnit={selectedOrgUnits} />
         <Button
           type="primary"
           disabled={!selectedOrgUnits.selected.length  || !selectedProgram || loading || ready}
