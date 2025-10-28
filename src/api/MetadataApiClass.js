@@ -29,7 +29,9 @@ export default class MetadataApiClass extends BaseApiClass {
     ]);
 
   getPrograms = async () => {
-    const resPrograms = await pull(this.baseUrl, this.username, this.password, "/api/programs", { paging: false }, []);
+    const resPrograms = await pull(this.baseUrl, this.username, this.password, "/api/programs", { paging: false }, [
+      "fields=id,displayName"
+    ]);
     return resPrograms.programs;
   }
 
