@@ -116,11 +116,11 @@ export default class MetadataApiClass extends BaseApiClass {
     ]);
   };
 
-  getProgramMetadata = async (program) => {
+  getProgramMetadata = async (program, raw = false) => {
     const p = await pull(this.baseUrl, this.username, this.password, `/api/programs/${program}`, { paging: false }, [
       "fields=programType,programSections[id,name,trackedEntityAttributes,displayName,displayFormName,translations],id,displayName,trackedEntityType,organisationUnits[id,displayName,code,path],programRuleVariables[name,programRuleVariableSourceType,dataElement,trackedEntityAttribute],programTrackedEntityAttributes[mandatory,displayInList,trackedEntityAttribute[description,fieldMask,attributeValues,id,displayName,displayFormName,translations,displayShortName,valueType,optionSet[id]]],programStages[programStageSections[id,dataElements,displayName,displayFormName,translations,],id,displayName,programStageDataElements[compulsory,displayInReports,dataElement[url,translations,attributeValues,id,displayName,displayFormName,displayShortName,description,valueType,optionSet[code,name,translations,options[code,name,translations,id,displayName,attributeValues],valueType,version,displayName,id,attributeValues]]",
     ]);
-
+    if(raw) return p; 
     return await this.convertProgramMetadata(p);
   };
 

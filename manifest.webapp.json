@@ -1,11 +1,11 @@
 {
-  "name": "Capture app",
-  "short_name": "Capture app",
-  "description": "Capture app",
+  "name": "Case Registry app",
+  "short_name": "Case Registry app",
+  "description": "Case Registry app",
   "background_color": "#f68e22",
   "theme_color": "#f68e22",
   "display": "standalone",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "icons": [
     {
       "src": "./assets/icon-maskable.png",

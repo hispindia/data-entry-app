@@ -13,11 +13,11 @@ import * as programManager from "@/indexDB/ProgramManager/ProgramManager";
 import * as trackedEntityManager from "@/indexDB/TrackedEntityManager/TrackedEntityManager";
 import * as enrollmentManager from "@/indexDB/EnrollmentManager/EnrollmentManager";
 import * as eventManager from "@/indexDB/EventManager/EventManager";
+import ProgramSelectionContainer from "./ProgramSelectionContainer";
 
 const downloadMapping = [
   { id: "metadata", label: "Download metadata" },
-  { id: "hh_program", label: "Download Household data" },
-  { id: "member_program", label: "Download Member data" },
+  { id: "event_program", label: "Download Program data" },
 ];
 
 const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
@@ -31,6 +31,7 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
   );
 
   const [selectedOrgUnits, setSelectedOrgUnit] = useState({ selected: [] });
+  const [selectedProgram, setSelectedProgram] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({});
   const [ready, setReady] = useState(false);
@@ -38,6 +39,10 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
   const handleSelectOrgUnit = (orgUnit) => {
     const found = userOrgUnits.find(({ id }) => id === orgUnit.id);
     if (found) setSelectedOrgUnit(orgUnit);
+  };
+
+  const handleSelectedProgram = (program) => {
+    setSelectedProgram(program)
   };
 
   const handleDispatchCurrentOfflineLoading = ({ id, percent }) => {
@@ -58,15 +63,15 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
     setLoadingProgress({ id: "metadata", percent: 30 });
     await organisationUnitManager.pull();
     setLoadingProgress({ id: "metadata", percent: 70 });
-    await programManager.pull(i18n.language);
+    await programManager.pull(selectedProgram, true);
     setLoadingProgress({ id: "metadata", percent: 100 });
     // pull data from server and save to indexedDB
-    await trackedEntityManager.pullNested({ handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits });
+    // await trackedEntityManager.pullNested({ handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits });
 
-    // const args = { handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits };
+    const args = { handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits, selectedProgram };
     // await trackedEntityManager.pull(args);
     // await enrollmentManager.pull(args);
-    // await eventManager.pull(args);
+    await eventManager.getEventsRawData(args);
     setLoading(false);
     setReady(true);
   };
@@ -85,6 +90,7 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
         window.location.reload();
       }}
       okButtonProps={{ disabled: !ready }}
+      width={700}
     >
       <div
         style={{
@@ -95,9 +101,10 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
         }}
       >
         <OrgUnitContainer limit={3} singleSelection={false} onChange={handleSelectOrgUnit} value={selectedOrgUnits} />
+        <ProgramSelectionContainer onChange={handleSelectedProgram} value={selectedProgram} />
         <Button
           type="primary"
-          disabled={!selectedOrgUnits.selected.length || loading || ready}
+          disabled={!selectedOrgUnits.selected.length  || !selectedProgram || loading || ready}
           onClick={handleDownload}
         >
           {t("download")}

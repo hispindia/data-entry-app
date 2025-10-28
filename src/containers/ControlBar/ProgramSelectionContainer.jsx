@@ -7,17 +7,18 @@ import { useLocation } from "react-router";
 import ProgramSelection from "@/components/ControlBar/ProgramSelection";
 import { getProgram } from "@/redux/actions/metadata";
 
-const ProgramSelectionContainer = () => {
+const ProgramSelectionContainer = ({onChange, value}) => {
   const dispatch = useDispatch();
   const { programsMetadata, programMetadata} = useSelector((state) => state.metadata);
+  const programId = value ?? programMetadata?.id;
   // const disabled = location.pathname === "/form" || !isAssignedToOrg;
   const programs = programsMetadata?.programs.map(program => ({label: program.displayName, value: program.id}))
-  const onChange = (program) => {
+  const handleProgram = (program) => {
     sessionStorage.setItem("program", program);
     dispatch(getProgram(program))
   };
   return (
-    <ProgramSelection  options={programs} onChange={onChange} value={programMetadata?.id} disabled={false} />
+    <ProgramSelection  options={programs} onChange={onChange || handleProgram} value={programId} disabled={false} />
   );
 };
 

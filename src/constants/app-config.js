@@ -33,7 +33,7 @@ export const MEMBER_LAST_NAME_ATTRIBUTE_ID = "IENWcinF8lM";
 export const MULTIPLE_SELECTION_ATTRIBUTE_ID = "C4JIkMYwJlX";
 export const SELECT_SEARCHABLE_ATTRIBUTE_ID = "QExndoSDDhD";
 
-export const PRIMARY_COLOR = "#f68e22";
+export const PRIMARY_COLOR = "#0B6693";
 
 export const LOCALE_CODES = { english: "en", tagalog: "tl_PH", cebuano: "ch_PH" };
 export const LOCALE_LABELS = { en: "English", tl_PH: "Tagalog", ch_PH: "Cebuano" };

@@ -95,10 +95,43 @@ const MainForm = ({onCloseClick}) => {
     dispatch(submitEvent(eventPayload));
   };
 
-    const editRowCallback = (data) => {
-    
-      // ruleEngine(data,programRules)
+    const editRowCallback = (metadata, previousData, data, code, value) => {
+       const d2 = {
+            hasValue: (value) => (value ? true : false),
+            ceil: (value) => (Math.ceil(value)),
+            floor: (value) => (Math.floor(value)),
+            round: (value) => (Math.round(value)),
+            daysBetween: (presentDate, pastDate) => ((pastDate - presentDate) / (1000 * 60 * 60 * 24)),
+        }
+        programRules.forEach(rule => {
+          if(rule.program.id == programMetadata.id) {
+            var value;
+            var condition = rule.condition;
+            if(rule.condition.includes('data')) {
+                if(condition.includes('d2:hasValue')) {
+                    condition = condition.replace(/^d2:hasValue\(\s*(.*?)\s*\)$/, "$1");
+                    // value = d2.hasValue(eval(condition));
+                } else value = true;
+                
+                if(value) {
+                    rule.programRuleActions.forEach(action => {
+                        if(action.programRuleActionType == "ASSIGN") {
+                            if(action.data.includes('d2:hasValue')) {
+                                let condition = action.data.replace(/^d2:hasValue\(\s*(.*?)\s*\)$/, "$1");
+                                if(d2.hasValue(eval(condition))) data[action.dataElement.id] = eval(condition);
 
+                            } else {
+                                if(action.data.includes('data')) data[action.dataElement.id] = eval(action.data);
+                                else data[action.dataElement.id] = action.data;
+                            }
+                        }
+                    })
+                }
+
+            }
+          }
+        })
+      
     } ;
 
     useEffect(() => {
@@ -153,7 +186,6 @@ const convertOriginMetadata = ({
 
   return [...trackedEntityAttributes, ...programStagesDataElements];
 };
-
 
 
 export default MainForm;

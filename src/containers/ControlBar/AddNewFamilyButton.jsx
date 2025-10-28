@@ -15,7 +15,7 @@ const AddNewFamilyButtonContainer = () => {
 
   const isAssignedToOrg = useMemo(() => {
     return programMetadata?.organisationUnits?.find((e) => e.id == selectedOrgUnit.id);
-  }, [selectedOrgUnit]);
+  }, [programMetadata]);
 
   const disabled = location.pathname === "/form" || !isAssignedToOrg;
   const onClick = () => {

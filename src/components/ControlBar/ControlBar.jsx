@@ -133,7 +133,7 @@ const ControlBar = () => {
                   style={{
                     width: "2px",
                     height: "20px",
-                    background: "#f68e22",
+                    // background: "#f68e22",
                     margin: "0 12px",
                   }}
                 />

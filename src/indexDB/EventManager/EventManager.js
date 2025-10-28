@@ -6,41 +6,75 @@ import { TABLE_NAME } from ".";
 import { toDhis2Events } from "../data/event";
 import db from "../db";
 
-export const getEventsRawData = async (pager, org, program) => {
-  return await dataApi.get(
-    "/api/events",
-    {
-      ...pager,
-    },
-    [
-      // `orgUnit=ia7PTbi01id`,
-      // `ouMode=SELECTED`,
+export const getEventsRawData = async ({handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits, selectedProgram}) => {
+try {
 
-      `orgUnit=${org.id}`,
-      `ouMode=DESCENDANTS`,
-      `program=${program.id}`,
-      `includeDeleted=true`,
-      // `lastUpdatedStartDate=${updatedAt}`, // Need to get all data
-      `fields=${[
-        "event",
-        "updatedAt",
-        "dueDate",
-        "occurredAt",
-        "orgUnit",
-        "trackedEntity",
-        "program",
-        "programStage",
-        "status",
-        "enrollment",
-        "enrollmentStatus",
-        "attributeCategoryOptions",
-        "attributeOptionCombo",
-        "deleted",
-        "followup",
-        "dataValues[dataElement,providedElsewhere,value]",
-      ].join(",")}`,
-    ],
-  );
+    if (offlineSelectedOrgUnits && !selectedProgram &&offlineSelectedOrgUnits.length > 0) {
+      console.log("clearing Events...");
+      await db[TABLE_NAME].clear();
+    }
+
+    let page = 1;
+    let pageSize = 20;
+
+    let pageCount = 0;
+    let resultEvents = [];
+    const getEvents = async() => {
+      const result = await dataApi.get(
+        "/api/events",
+        { paging: true, totalPages: true, pageSize, page },
+        [
+          // `orgUnit=ia7PTbi01id`,
+          // `ouMode=SELECTED`,
+
+          `orgUnit=${offlineSelectedOrgUnits.map((o) => o.id).join(";")}`,
+          `ouMode=DESCENDANTS`,
+          `program=${selectedProgram}`,
+          `includeDeleted=true`,
+          // `lastUpdatedStartDate=${updatedAt}`, // Need to get all data
+          `fields=${[
+            "event",
+            "updatedAt",
+            "dueDate",
+            "occurredAt",
+            "orgUnit",
+            "trackedEntity",
+            "program",
+            "programStage",
+            "status",
+            "enrollment",
+            "enrollmentStatus",
+            "attributeCategoryOptions",
+            "attributeOptionCombo",
+            "deleted",
+            "followup",
+            "dataValues[dataElement,providedElsewhere,value]",
+          ].join(",")}`,
+        ],
+      );
+
+      pageCount = result.pager.pageCount;
+      resultEvents.push(...result.events);
+  } 
+    console.log("pulling nested event by collector...");
+    handleDispatchCurrentOfflineLoading({ id: "event_program", percent: 0 });
+
+    await getEvents();
+    handleDispatchCurrentOfflineLoading({ id: "event_program", percent: Math.round((page / pageCount) * 100) });
+    while (page < pageCount) {
+      page++;
+      await getEvents();
+      handleDispatchCurrentOfflineLoading({ id: "event_program", percent: Math.round((page / pageCount) * 100) });
+    }
+
+    if (resultEvents.length === 0) {
+      handleDispatchCurrentOfflineLoading({ id: "event_program", percent: 100 });
+      return;
+    }
+    persist(beforePersist(resultEvents));
+ } catch (error) {
+    console.log("Events:pull", error);
+  }
 };
 
 export const getEventsAnalyticsTable = async (pager, org, program) => {
