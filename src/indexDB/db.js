@@ -10,10 +10,12 @@ import * as program from "./ProgramManager";
 import * as optionSet from "./OptionSetManager";
 import * as event from "./EventManager";
 import * as importFile from "./ImportFileManager";
+import * as programRule from "./ProgramRuleManager";
+import * as programRuleVariable from "./ProgramRuleVariable";
 
 export const db = new Dexie("FI_Offline");
 
-db.version(2).stores({
+db.version(1).stores({
   [me.TABLE_NAME]: me.TABLE_FIELDS,
   [organisationUnit.TABLE_NAME]: organisationUnit.TABLE_FIELDS,
   [organisationsUnitLevel.TABLE_NAME]: organisationsUnitLevel.TABLE_FIELDS,
@@ -23,6 +25,8 @@ db.version(2).stores({
   [optionSet.TABLE_NAME]: optionSet.TABLE_FIELDS,
   [event.TABLE_NAME]: event.TABLE_FIELDS,
   [importFile.TABLE_NAME]: importFile.TABLE_FIELDS,
+  [programRule.TABLE_NAME]: programRule.TABLE_FIELDS,
+  [programRuleVariable.TABLE_NAME]: programRuleVariable.TABLE_FIELDS,
 });
 
 export default db;

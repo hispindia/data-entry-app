@@ -4,6 +4,8 @@ import * as meManager from "@/indexDB/MeManager/MeManager";
 import * as organisationUnitLevelsManager from "@/indexDB/OrganisationUnitLevelManager/OrganisationUnitLevelManager";
 import * as organisationUnitManager from "@/indexDB/OrganisationUnitManager/OrganisationUnitManager";
 import * as programManager from "@/indexDB/ProgramManager/ProgramManager";
+import * as programRule from "@/indexDB/ProgramRuleManager/ProgramRuleManager";
+import * as programRuleVariable from "@/indexDB/ProgramRuleVariable/ProgramRuleVariable";
 import db from "@/indexDB/db";
 
 export const getMetadataSet = (isOfflineMode) => {
@@ -16,6 +18,8 @@ export const getMetadataSet = (isOfflineMode) => {
       organisationUnitManager.getUserOrgs(),
       programManager.getPrograms(),
       programManager.getProgramById(savedProgram),
+      programRuleVariable.get(),
+      programRule.get(),
     ];
   } else {
     

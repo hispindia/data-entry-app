@@ -65,17 +65,16 @@ const AppContainer = () => {
           dispatch(setSelectedOrgUnit(orgUnitJsonData));
           // history.push("/list");
         }
-debugger;
         dispatch(setOrgUnits(results[3].organisationUnits));
         dispatch(setProgramsMetadata(results[4]));
         dispatch(setProgramMetadata(results[5]));
-        if(results[7]?.programRules && results[6]?.programRuleVariables) {
+        if(results[7] && results[6]) {
           var rules = [];
           const ruleVariables = {};
-          results[6]?.programRuleVariables.forEach(de => {
+          results[6].forEach(de => {
                 if(de?.dataElement?.id) ruleVariables[de.name] = de.dataElement.id;
           });
-          results[7].programRules.forEach(rule => {
+          results[7].forEach(rule => {
                   var modifiedRule = JSON.parse(JSON.stringify(rule));
                   modifiedRule.programRuleActions.forEach(action => {
                     if(action.content)
@@ -86,7 +85,6 @@ debugger;
                 })
               modifiedRule['condition'] = modifiedRule.condition.replace(/(?:#|A)\{(.*?)\}/g, (_, key) => `data['${ruleVariables[key] || key}']`);
               rules.push(modifiedRule);
-            
           })
           dispatch(setProgramRules(rules));
         }

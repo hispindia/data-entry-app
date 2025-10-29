@@ -1,5 +1,5 @@
 import { FAMILY_UID_ATTRIBUTE_ID, MEMBER_PROGRAM_ID, MEMBER_TRACKED_ENTITY_TYPE_ID } from "@/constants/app-config";
-import * as trackedEntityManager from "@/indexDB/TrackedEntityManager/TrackedEntityManager";
+import * as eventManager from "@/indexDB/EventManager/EventManager";
 import { push } from "connected-react-router";
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { dataApi } from "../../../../api";
@@ -29,7 +29,7 @@ export const teiMapping = {
 
 function* handleGetTei() {
   yield put(loadTei(true));
-debugger;
+  
   try {
     const teiId = yield call(getTeiId);
     if (teiId) {
@@ -67,9 +67,12 @@ function* initExistedDataSaga() {
   // OFFLINE MODE
   if (offlineStatus) {
     // clone new data object
-    dataList = yield call(trackedEntityManager.getTrackedEntityInstanceById, {
-      trackedEntity: teiId,
-      program: programId,
+    // dataList = yield call(trackedEntityManager.getTrackedEntityInstanceById, {
+    //   trackedEntity: teiId,
+    //   program: programId,
+    // });
+    dataList = yield call(eventManager.getEventById, {
+      eventId
     });
   } else {
     // get Family TEI

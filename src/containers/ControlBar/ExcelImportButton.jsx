@@ -1,5 +1,4 @@
 import { useUser } from "@/hooks/useUser";
-import { gold } from "@ant-design/colors";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
@@ -31,7 +30,7 @@ const ExcelImportButton = () => {
         style={{
           marginRight: "10px",
           marginTop: "10px",
-          backgroundColor: gold[5],
+          backgroundColor: "#4682B4",
         }}
         shape="round"
         size="small"

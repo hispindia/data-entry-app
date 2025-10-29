@@ -20,7 +20,7 @@ const OrgUnitContainer = ({ singleSelection = true, onChange, limit, value }) =>
     if (singleSelection || !orgUnits || !currentSelectedOrgUnit?.selected?.length) {
       return currentSelectedOrgUnit?.displayName ? <b>{currentSelectedOrgUnit.displayName} </b> : t("select");
     }
-debugger;
+    
     return currentSelectedOrgUnit.selected
       .map((path) => orgUnits.find((ou) => ou.id === path.split("/").pop()))
       .map(({ displayName }) => displayName || "")

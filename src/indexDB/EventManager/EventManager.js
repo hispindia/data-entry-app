@@ -77,6 +77,26 @@ try {
   }
 };
 
+
+export const getEventById = async ({eventId}) => {
+  const res = await db[TABLE_NAME]
+  .where("event")
+  .equals(eventId)
+  .toArray();
+  var events = {
+    dataValues: []
+  };
+  res.forEach(event => {
+    events = {...events,...event};
+    events.dataValues.push({
+      dataElement: event.dataElement,
+      value: event.value,
+      isProvidedElsewhere: event.isProvidedElsewhere
+    })
+  });
+  return events;
+}
+
 export const getEventsAnalyticsTable = async (pager, org, program) => {
   const dataElementIds = program.programStages.reduce((acc, ps) => {
     const dataElements = ps.dataElements.map((de) => de.id);
@@ -476,7 +496,6 @@ export const find = async ({orgUnit, program}) => {
     });
   });
   for(let event in events) eventList.events.push(events[event]);
-  debugger;
   return eventList;
 }
 

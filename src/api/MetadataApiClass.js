@@ -35,13 +35,19 @@ export default class MetadataApiClass extends BaseApiClass {
     return resPrograms.programs;
   }
 
-  getProgramRules = () => pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
+  getProgramRules = async () => {
+    const resProgramRules = await pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
     "fields=id,name,displayName,program,programRuleActions[programRuleActionType,data,content,dataElement],condition"
   ]);
+  return resProgramRules.programRules;
+}
 
-  getProgramRuleVariables = () => pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [
+  getProgramRuleVariables = async () => {
+    const resProgramRule = await pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [
     "fields=id,name,valueType,program,dataElement"
-  ]);
+    ]);
+    return resProgramRule.programRuleVariables;
+  }
 
   getHeaderBarData = async () => {
     let headerBarData = {};

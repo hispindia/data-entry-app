@@ -13,6 +13,8 @@ import * as programManager from "@/indexDB/ProgramManager/ProgramManager";
 import * as trackedEntityManager from "@/indexDB/TrackedEntityManager/TrackedEntityManager";
 import * as enrollmentManager from "@/indexDB/EnrollmentManager/EnrollmentManager";
 import * as eventManager from "@/indexDB/EventManager/EventManager";
+import * as programRuleManager from "@/indexDB/ProgramRuleManager/ProgramRuleManager";
+import * as programRuleVariable from "@/indexDB/ProgramRuleVariable/ProgramRuleVariable";
 import ProgramSelectionContainer from "./ProgramSelectionContainer";
 
 const downloadMapping = [
@@ -65,8 +67,12 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
     await organisationUnitLevelsManager.pull();
     setLoadingProgress({ id: "metadata", percent: 30 });
     await organisationUnitManager.pull();
-    setLoadingProgress({ id: "metadata", percent: 70 });
+    setLoadingProgress({ id: "metadata", percent: 45 });
     await programManager.pull(selectedProgram, true);
+    setLoadingProgress({ id: "metadata", percent: 60 });
+    await programRuleManager.pull();
+    setLoadingProgress({ id: "metadata", percent: 75 });
+    await programRuleVariable.pull();
     setLoadingProgress({ id: "metadata", percent: 100 });
     // pull data from server and save to indexedDB
     // await trackedEntityManager.pullNested({ handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits });
