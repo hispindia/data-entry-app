@@ -3,6 +3,7 @@ import { getCascadeSuccess } from "../../../actions/data/tei";
 
 import _ from "lodash";
 import moment from "moment";
+import { format } from "date-fns";
 
 // construct data for family form Teis and Events
 function* initCascadeDataFromTEIsEvents(payload, eventIncluded = true) {
@@ -19,7 +20,7 @@ function* initCascadeDataFromTEIsEvents(payload, eventIncluded = true) {
     
     if(tei?.trackedEntity) theTEI['id'] = tei.trackedEntity;
     if(tei?.event) theTEI['id'] = tei.event;
-
+    if(tei?.occurredAt) theTEI['event_date'] = format(new Date(tei.occurredAt), "yyyy-MM-dd")
 
     tei?.attributes?.forEach((attr) => {
       theTEI[attr.attribute] = attr.value;

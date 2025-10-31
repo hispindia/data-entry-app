@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 /* REDUX */
 import { useDispatch, useSelector } from "react-redux";
 /*       */
@@ -39,14 +39,17 @@ const RegisteredTeiListContainer = () => {
     error,
     pager: { page, pageSize, total },
   } = useSelector((state) => state.teis);
+  const [header, setHeader] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
     if(programMetadata && selectedOrgUnit) {
       if(programMetadata.programType=="WITH_REGISTRATION") {
-      dispatch(getTeis());
+        setHeader(trackedEntityAttributes);
+        dispatch(getTeis());
       } else if(programMetadata.programType=="WITHOUT_REGISTRATION") {
-      dispatch(getEvents())
+        setHeader(stageElements[0].dataElements);
+        dispatch(getEvents())
       }
     }
     return () => {
@@ -88,7 +91,7 @@ const RegisteredTeiListContainer = () => {
       page={page}
       pageSize={pageSize}
       total={total}
-      trackedEntityAttributes={programMetadata?.programType ? programMetadata.programType=="WITH_REGISTRATION"?trackedEntityAttributes:stageElements[0].dataElements: []}
+      trackedEntityAttributes={header}
       onDeleteTei={onDeleteTei}
       onSort={onSort}
       onChangePage={onChangePage}

@@ -32,7 +32,7 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
   //   [programMetadata],
   // );
 
-  const [selectedOrgUnits, setSelectedOrgUnit] = useState({ selected: [] });
+  const [selectedOrgUnits, setSelectedOrgUnits] = useState({ selected: [] });
   const [selectedProgram, setSelectedProgram] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({});
@@ -40,10 +40,10 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
 
   const handleSelectOrgUnit = (orgUnit) => {
     // const found = userOrgUnits.find(({ id }) => id === orgUnit.id);
-    // if (found) setSelectedOrgUnit(orgUnit);
+    // if (found) setSelectedOrgUnits(orgUnit);
     const programs = orgUnits.find(ou => ou.id === orgUnit.id)?.programs;
-    const sel = {...orgUnit,programs}
-    setSelectedOrgUnit(sel);
+    const selected = {...orgUnit,programs}
+    setSelectedOrgUnits({...selected});
   };
 
   const handleSelectedProgram = (program) => {
@@ -110,7 +110,10 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
         }}
       >
         <OrgUnitContainer limit={3} singleSelection={false} onChange={handleSelectOrgUnit} value={selectedOrgUnits} />
-        <ProgramSelectionContainer onChange={handleSelectedProgram} value={selectedProgram} orgUnit={selectedOrgUnits} />
+        <ProgramSelectionContainer 
+        selectedOrgUnit={selectedOrgUnits} 
+        program={selectedProgram} 
+        onChange={handleSelectedProgram} />
         <Button
           type="primary"
           disabled={!selectedOrgUnits.selected.length  || !selectedProgram || loading || ready}

@@ -121,14 +121,14 @@ function CaptureForm(props) {
   //   };
   // }, []);
 
-  const editCall = (metadata, prevData, formData, code, value) => {
+  const editCall = (metadata, prevData, formData, code, value, label) => {
     let data = _.clone(formData);
     let cloneMetadata = _.clone(metadata).reduce((obj, md) => {
       obj[md.code] = md;
       return obj;
     }, {});
 
-    editRowCallback(cloneMetadata, prevData, data, code, value);
+    editRowCallback(cloneMetadata, prevData, data, code, value, label);
     checkFormFulfilled();
 
     setFormData({ ...data });
@@ -239,7 +239,10 @@ function CaptureForm(props) {
     return programStages.map((pStage) => {
       const programStageSections = pStage.programStageSections;
 
-      return programStageSections.map((pSection) => {
+      return [pStage.executionDateLabel ,...programStageSections].map((pSection) => {
+        if(pSection.id=="event_date") {
+          return  generateFields([pStage.executionDateLabel]);
+        }
         const dataElements = pSection.dataElements.map((tea) => tea.id);
         const programFormMetadata = formMetadata
           .filter((f) => dataElements.includes(f.id))
@@ -252,9 +255,9 @@ function CaptureForm(props) {
         return (
           <div className="row">
             <div class="card-body">
-              <h5 class="card-title" section-id={pSection.id}>
+              <span class="card-title h5 mb-2 font-weight-bold" section-id={pSection.id}>
                 {pickTranslation(pSection, locale)}
-              </h5>
+              </span>
               {pSection.description && <Alert type="info" message={pickTranslation(pSection, locale)} showIcon />}
               <p class="card-text">
                 <div className="row" style={{ alignItems: "flex-end" }}>

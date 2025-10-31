@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import _, { cond } from "lodash";
 import { CloseOutlined } from "@ant-design/icons";
-import { FORM_ACTION_TYPES } from "../constants";
+import { FORM_ACTION_TYPES, PROGRAM_RULE_TYPES } from "../constants";
 import { updateCascade } from "@/redux/actions/data/tei/currentCascade";
 import { transformEvent } from "@/utils/event";
 import { submitEvent } from "@/redux/actions/data";
+import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, format } from "date-fns";
 
 const MainForm = ({onCloseClick}) => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const MainForm = ({onCloseClick}) => {
     const currentEvents = useSelector((state) => state.data.tei.data.currentEvents);
     const tei = useSelector(state => state.data.tei.data.currentTei);
     const [data, setData] = useState(currentCascade || {});
+    const [saveDisabled, setSaveDisabled] = useState(true);
     const [formStatus, setFormStatus] = useState(FORM_ACTION_TYPES.NONE);
 
     const [metadata, setMetadata] = useState(_.cloneDeep(convertOriginMetadata({programMetadata})));
@@ -27,10 +29,8 @@ const MainForm = ({onCloseClick}) => {
     setData(newData);
     
     // submit new event
-    const { id: event, ...dataValues } = newData;
+    const { id: event, event_date: occurredAt, ...dataValues } = newData;
 
-    // init new event
-    const occurredAt = new Date();
 
     // const eventPayload = transformEvent({
     //   event,
@@ -57,7 +57,6 @@ const MainForm = ({onCloseClick}) => {
 
     // dispatch(submitAttributes({ ...attributes, [HH_STATUS_ATTR_ID]: hhStatus }));
     dispatch(submitEvent(eventPayload));
-    setFormDirty(false);
   };
 
 
@@ -79,10 +78,9 @@ const MainForm = ({onCloseClick}) => {
 
     // save event
     const currentEvent = currentEvents.find((e) => e.event === row.id);
-    const { id, disabled, key, ...dataValues } = row;
+    const { id, disabled, key, event_date: occurredAt, ...dataValues } = row;
 
     // const occurredAt = currentEvent.occurredAt;
-
     const eventPayload = transformEvent({
       ...currentEvent,
       _isDirty: true,
@@ -94,47 +92,65 @@ const MainForm = ({onCloseClick}) => {
     dispatch(submitEvent(eventPayload));
   };
 
-    const editRowCallback = (metadata, previousData, data, code, value) => {
-       const d2 = {
+    const editRowCallback = (metadata, previousData, data, code, value, label) => {
+      //Save on registration date
+      if(data.event_date) setSaveDisabled(false);
+
+      for(let data in metadata) metadata[data].hidden = false;
+      //Dyanimcally used inside eval
+       window.d2 = {
             hasValue: (value) => (value ? true : false),
             ceil: (value) => (Math.ceil(value)),
             floor: (value) => (Math.floor(value)),
             round: (value) => (Math.round(value)),
-            daysBetween: (presentDate, pastDate) => ((pastDate - presentDate) / (1000 * 60 * 60 * 24)),
+            daysBetween: (curr, eventDate) => differenceInDays(new Date(eventDate), new Date(curr)),
+            yearsBetween: (curr, eventDate) => differenceInYears(new Date(eventDate), new Date(curr)),
+            monthsBetween: (curr, eventDate) => differenceInMonths(new Date(eventDate), new Date(curr)),
+            weeksBetween: (curr, eventDate) => differenceInWeeks(new Date(eventDate), new Date(curr)),
+            concatenate: (...args) => args.join(''),
         }
         programRules.forEach(rule => {
           if(rule.program.id == programMetadata.id) {
-            var value;
-            var condition = rule.condition;
-            if(condition.includes('data')) {
-                if(condition.includes('d2:hasValue')) {
-                    condition = condition.replace(/^d2:hasValue\(\s*(.*?)\s*\)$/, "$1");
-                    // value = d2.hasValue(eval(condition));
-                } else value = true;
-                
-                if(value) {
-                    rule.programRuleActions.forEach(action => {
-                        if(action.programRuleActionType == "ASSIGN") {
-                            if(action.data.includes('d2:hasValue')) {
-                                let condition = action.data.replace(/^d2:hasValue\(\s*(.*?)\s*\)$/, "$1");
-                                if(d2.hasValue(eval(condition))) data[action.dataElement.id] = eval(condition);
-                            } else {
-                              if(eval(condition)) {
-                                if(action.data.includes('data')) data[action.dataElement.id] = eval(action.data);
-                                else data[action.dataElement.id] = action.data.replace(/^'|'$/g, ''); 
-                              }
-                            }
-                        } 
-                        else if(action.programRuleActionType == "HIDEFIELD") {
-                          if(eval(condition)) metadata[action.dataElement.id].hidden = true;
-                          else {
-                            metadata[action.dataElement.id].hidden = false;
-                            data[action.dataElement.id] = '';
-                          }
-                        }
+            if(rule.condition.includes('ruleData')) {
+              const regex = /ruleData\s*\[\s*['"]([^'"]+)['"]\s*\]/g;
+              const ids = [...rule.condition.matchAll(regex)].map(m => m[1]);
+              const ruleData = {...data}
+              ids.map(id => {
+                if(!ruleData[id]) ruleData[id] = "";
+              })
+              if(eval(rule.condition)) {
+                rule.programRuleActions.forEach(action => {
+                  const dataElements = action.useCodeForOptionSet.filter(de => action.data.includes(de));
+                  if(dataElements.length) {
+                    dataElements.forEach(de => {
+                      if(ruleData[de]) {
+                        const value = metadata[de].valueSet.find(option => option.value == ruleData[de]);
+                        ruleData[de] = value.label;
+                      }
                     })
-                }
-
+                  }  
+                  switch(action.programRuleActionType) {
+                    case PROGRAM_RULE_TYPES.ASSIGN:
+                      data[action.dataElement.id] = eval(action.data);
+                    break;
+                    case PROGRAM_RULE_TYPES.HIDEFIELD:
+                      if(!eval(rule.condition)) data[action.dataElement.id] = '';
+                      metadata[action.dataElement.id].hidden = eval(rule.condition);
+                    break;
+                    case PROGRAM_RULE_TYPES.HIDESECTION: 
+                      const dataElements = programMetadata.programStages
+                                      .flatMap(stage => stage.programStageSections || [])
+                                      .find(sec => sec.id === action.programStageSection.id)?.dataElements || [];
+                      if(dataElements.length) {
+                        dataElements.forEach(element => {
+                          if(data[element.id]) data[element.id] = '';
+                          metadata[element.id].hidden = true;
+                        })
+                      }
+                    break;
+                  }
+                })
+              }
             }
           }
         })
@@ -162,6 +178,7 @@ const MainForm = ({onCloseClick}) => {
         setData={setData}
         metadata={metadata} 
         setMetadata={setMetadata} 
+        saveDisabled={saveDisabled}
         onCancel={onCloseClick}
         formStatus={formStatus} 
         handleAddNewRow={handleAddNew}

@@ -332,7 +332,7 @@ const InputField = ({
   return (
     <div className="input-field-container" data-element-id={props["data-element-id"]}>
       {label && (
-        <div className="input-field-label">
+        <div className="input-field-label h6">
           {label}
           &nbsp;
           <HyperLink hyperlink={props.hyperlink} base64={props.base64} />

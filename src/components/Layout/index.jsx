@@ -1,7 +1,6 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 import styles from "../../components/App/App.module.css";
-import AppContextProvider from "../App/App.context";
 
 import antdThemeConfig from "@/antdTheme";
 import HeaderBar from "@/components/HeaderBar/HeaderBar.component";
@@ -16,7 +15,6 @@ const Layout = ({ children }) => {
 
   return (
     <SnackbarProvider maxSnack={3}>
-      <AppContextProvider>
         <ThemeProvider theme={muiTheme}>
           <ConfigProvider theme={antdThemeConfig}>
             <div className={app}>
@@ -29,7 +27,6 @@ const Layout = ({ children }) => {
             </div>
           </ConfigProvider>
         </ThemeProvider>
-      </AppContextProvider>
     </SnackbarProvider>
   );
 };

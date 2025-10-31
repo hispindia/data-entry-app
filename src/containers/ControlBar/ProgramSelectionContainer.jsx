@@ -7,27 +7,26 @@ import { useLocation } from "react-router";
 import ProgramSelection from "@/components/ControlBar/ProgramSelection";
 import { getProgram } from "@/redux/actions/metadata";
 
-const ProgramSelectionContainer = ({onChange, value, orgUnit}) => {
+const ProgramSelectionContainer = ({selectedOrgUnit, program, onChange}) => {
   const dispatch = useDispatch();
-  const { programsMetadata, programMetadata, selectedOrgUnit} = useSelector((state) => state.metadata);
-  const programId = value ?? programMetadata?.id;
+  const { programsMetadata } = useSelector((state) => state.metadata);
   const [programs, setPrograms] = useState([]);
 
   useEffect(() => {
-    const ou = orgUnit || selectedOrgUnit
-    var programs = programsMetadata.filter(program => ou?.programs?.some(p => program.id == p.id))
+    var programs = programsMetadata.filter(program => selectedOrgUnit?.programs?.some(p => program.id == p.id))
     .map(program => ({label: program.displayName, value: program.id}));
     setPrograms(programs);
-  }, [programMetadata, selectedOrgUnit, orgUnit])
-  // const disabled = location.pathname === "/form" || !isAssignedToOrg;
+  }, [programsMetadata, selectedOrgUnit])
   
   const handleProgram = (program) => {
     sessionStorage.setItem("program", program);
     dispatch(getProgram(program))
   };
+
+  if(!selectedOrgUnit) return;
   return (
-    <ProgramSelection  options={programs} onChange={onChange || handleProgram} value={programId} disabled={false} />
+    <ProgramSelection  options={programs} onChange={onChange || handleProgram} value={program?.id} disabled={false} />
   );
 };
 
-export default withOrgUnitRequired()(ProgramSelectionContainer);
+export default ProgramSelectionContainer;

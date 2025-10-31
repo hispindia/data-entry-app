@@ -35,19 +35,13 @@ export default class MetadataApiClass extends BaseApiClass {
     return resPrograms.programs;
   }
 
-  getProgramRules = async () => {
-    const resProgramRules = await pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
-    "fields=id,name,displayName,program,programRuleActions[programRuleActionType,data,content,dataElement],condition"
+  getProgramRules = () => pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
+    "fields=id,name,displayName,program,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement],condition"
   ]);
-  return resProgramRules.programRules;
-}
 
-  getProgramRuleVariables = async () => {
-    const resProgramRule = await pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [
-    "fields=id,name,valueType,program,dataElement"
-    ]);
-    return resProgramRule.programRuleVariables;
-  }
+  getProgramRuleVariables = () =>  pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [
+    "fields=id,name,valueType,program,dataElement,useCodeForOptionSet"
+  ]);
 
   getHeaderBarData = async () => {
     let headerBarData = {};
@@ -129,7 +123,7 @@ export default class MetadataApiClass extends BaseApiClass {
 
   getProgramMetadata = async (program, raw = false) => {
     const p = await pull(this.baseUrl, this.username, this.password, `/api/programs/${program}`, { paging: false }, [
-      "fields=programType,programSections[id,name,trackedEntityAttributes,displayName,displayFormName,translations],id,displayName,trackedEntityType,organisationUnits[id,displayName,code,path],programRuleVariables[name,programRuleVariableSourceType,dataElement,trackedEntityAttribute],programTrackedEntityAttributes[mandatory,displayInList,trackedEntityAttribute[description,fieldMask,attributeValues,id,displayName,displayFormName,translations,displayShortName,valueType,optionSet[id]]],programStages[programStageSections[id,dataElements,displayName,displayFormName,translations,],id,displayName,programStageDataElements[compulsory,displayInReports,dataElement[url,translations,attributeValues,id,displayName,displayFormName,displayShortName,description,valueType,optionSet[code,name,translations,options[code,name,translations,id,displayName,attributeValues],valueType,version,displayName,id,attributeValues]]",
+      "fields=programType,programSections[id,name,trackedEntityAttributes,displayName,displayFormName,translations],id,displayName,trackedEntityType,organisationUnits[id,displayName,code,path],programRuleVariables[name,programRuleVariableSourceType,dataElement,trackedEntityAttribute],programTrackedEntityAttributes[mandatory,displayInList,trackedEntityAttribute[description,fieldMask,attributeValues,id,displayName,displayFormName,translations,displayShortName,valueType,optionSet[id]]],programStages[executionDateLabel,programStageSections[id,dataElements,displayName,displayFormName,translations,],id,displayName,programStageDataElements[compulsory,displayInReports,dataElement[url,translations,attributeValues,id,displayName,displayFormName,displayShortName,description,valueType,optionSet[code,name,translations,options[code,name,translations,id,displayName,attributeValues],valueType,version,displayName,id,attributeValues]]",
     ]);
     return await this.convertProgramMetadata(p);
   };
@@ -167,7 +161,7 @@ export default class MetadataApiClass extends BaseApiClass {
   };
 
   convertProgramMetadata = async (p) => {
-    let optionSets = await this.getOptionSets();
+    // let optionSets = await this.getOptionSets();
 
     const programMetadata = {};
     programMetadata.id = p.id;
@@ -210,7 +204,7 @@ export default class MetadataApiClass extends BaseApiClass {
       }
 
       if (ptea.trackedEntityAttribute.optionSet) {
-        tea.valueSet = optionSets.optionSets
+        tea.valueSet = psde.dataElement.optionSet
           .find((os) => os.id === ptea.trackedEntityAttribute.optionSet.id)
           .options.map((o) => {
             return {
@@ -228,6 +222,13 @@ export default class MetadataApiClass extends BaseApiClass {
       const programStage = {
         id: ps.id,
         displayName: ps.displayName,
+        executionDateLabel: {
+          id: "event_date",
+          code: "event_date",
+          displayName: ps.executionDateLabel,
+          displayFormName: ps.executionDateLabel,
+          valueType: "DATE",
+        },
         dataElements: ps.programStageDataElements.map((psde) => {
           const dataElement = {
             compulsory: psde.compulsory,
@@ -261,8 +262,7 @@ export default class MetadataApiClass extends BaseApiClass {
           }
 
           if (psde.dataElement.optionSet) {
-            dataElement.valueSet = optionSets.optionSets
-              .find((os) => os.id === psde.dataElement.optionSet.id)
+            dataElement.valueSet = psde.dataElement.optionSet
               .options.map((o) => {
                 return {
                   value: o.code,

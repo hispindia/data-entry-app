@@ -7,7 +7,6 @@ import AppSkeleton from "../../skeletons/App";
 /* REDUX */
 import withSkeletonLoading from "@/hocs/withSkeletonLoading";
 import {
-  getProgram,
   setOrgUnitLevels,
   setOrgUnits,
   setProgramMetadata,
@@ -17,7 +16,6 @@ import {
 } from "@/redux/actions/metadata";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setReportId } from "@/redux/actions/common";
 import { setMe } from "@/redux/actions/me";
 import { getMetadataSet } from "@/utils/offline";
 
@@ -32,14 +30,45 @@ const AppContainer = () => {
   const metadata = useSelector((state) => state.metadata);
   const isOfflineMode = useSelector((state) => state.common.offlineStatus);
 
-  const findAttribute = (attributes, attributeId) => {
-    const found = attributes.find((attr) => attr.attribute.id === attributeId);
-    if (found) {
-      return found.value;
-    } else {
-      return null;
-    }
-  };
+  //ProgramRule configure
+  const configureRules = (ruleVariables, rules) => {
+ 
+    if(!rules || !ruleVariables) return [];
+    const modifiedRules = [];
+    const modifiedRuleVariables = {};
+    const useCodeForOptionSet = {};
+    const regex = /(?:#|A|V)\{(.*?)\}/g;
+    ruleVariables.forEach(de => { 
+      if(de?.dataElement?.id) {
+      if(!modifiedRuleVariables[de.program.id]) modifiedRuleVariables[de.program.id] = {};
+      if(!useCodeForOptionSet[de.program.id]) useCodeForOptionSet[de.program.id] = [];
+      modifiedRuleVariables[de.program.id][de.name] = de.dataElement.id;
+      useCodeForOptionSet[de.program.id].push({id:de.dataElement.id,value: de.useCodeForOptionSet});
+      }}
+    );
+    rules.forEach(rule => {
+        var modifiedRule = JSON.parse(JSON.stringify(rule));
+        modifiedRule.programRuleActions.forEach(action => {
+        action['useCodeForOptionSet'] = [];
+        if(action.content)
+          action['content'] = action.content.replace(regex, (_, key) => `ruleData[${modifiedRuleVariables[rule.program.id][key] || key}]`).replace(/d2:/g, 'd2.');
+        if(action.data) {
+          if(action.data.includes('d2')) {
+            action['data'] = action.data.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`).replace(/d2:/g, 'd2.');
+            if(useCodeForOptionSet[rule.program.id])  {
+              const optionList = useCodeForOptionSet[rule.program.id].filter( de => (!de.value && action.data.includes(de.id))).map(de => de.id)
+              if(optionList.length) {
+                action['useCodeForOptionSet'] = optionList;
+              }
+            }
+          }                                                                                       
+        }
+      })
+      modifiedRule['condition'] = modifiedRule.condition.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`).replace(/d2:/g, 'd2.');
+      modifiedRules.push(modifiedRule);
+    })
+    return modifiedRules;
+  }
 
   useEffect(() => {
     (async () => {
@@ -55,39 +84,20 @@ const AppContainer = () => {
         const savedSelectedOrgUnit = sessionStorage.getItem("selectedOrgUnit");
 
         if (savedSelectedOrgUnit) {
-          let orgUnitJsonData = null;
-          try {
-            orgUnitJsonData = JSON.parse(savedSelectedOrgUnit);
-          } catch (e) {
-            console.log(e);
-          }
+       let orgUnitJsonData = null;
+       try {
+         orgUnitJsonData = JSON.parse(savedSelectedOrgUnit);
+       } catch (e) {
+         console.log(e);
+       }
 
-          dispatch(setSelectedOrgUnit(orgUnitJsonData));
-          // history.push("/list");
+       dispatch(setSelectedOrgUnit(orgUnitJsonData));
+       // history.push("/list");
         }
         dispatch(setOrgUnits(results[3].organisationUnits));
         dispatch(setProgramsMetadata(results[4]));
         dispatch(setProgramMetadata(results[5]));
-        if(results[7] && results[6]) {
-          var rules = [];
-          const ruleVariables = {};
-          results[6].forEach(de => {
-                if(de?.dataElement?.id) ruleVariables[de.name] = de.dataElement.id;
-          });
-          results[7].forEach(rule => {
-                  var modifiedRule = JSON.parse(JSON.stringify(rule));
-                  modifiedRule.programRuleActions.forEach(action => {
-                    if(action.content)
-                    action['content'] = action.content.replace(/#\{(.*?)\}/g, (_, key) => `${ruleVariables[key] || key}`);
-                    if(action.data) {
-                      if(action.data.includes('d2')) action['data'] = modifiedRule.condition.replace(/(?:#|A)\{(.*?)\}/g, (_, key) => `data['${ruleVariables[key] || key}']`);
-                    }
-                })
-              modifiedRule['condition'] = modifiedRule.condition.replace(/(?:#|A)\{(.*?)\}/g, (_, key) => `data['${ruleVariables[key] || key}']`);
-              rules.push(modifiedRule);
-          })
-          dispatch(setProgramRules(rules));
-        }
+        dispatch(setProgramRules(configureRules(results[6].programRuleVariables, results[7].programRules)));
         setLoading(false);
         setLoaded(true);
       });

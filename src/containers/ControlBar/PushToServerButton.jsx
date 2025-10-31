@@ -98,6 +98,36 @@ const showingCurrentOfflineLoading = ({ dispatch, id, percent }) => {
   dispatch(setCurrentOfflineLoading({ id, percent }));
 };
 
+const eventPushToServer = async(dispatch, metadataMapping, setError, setSyncCompleted) => {
+  const allErrors = [];
+  const combinedErrorsByFile = {};
+
+  try {
+    // Check internet connection
+    if (!navigator.onLine) {
+      throw new Error("No internet connection!");
+    }
+    const eventPushRetuls = await eventManager.push((progress) =>
+        showingCurrentOfflineLoading({ dispatch, ...progress }),
+      );
+      const eventErrorsByFile = await handlePushResult(eventPushRetuls, metadataMapping);
+      if (Object.keys(eventErrorsByFile).length > 0) {
+        // Merge errors by file
+        Object.keys(eventErrorsByFile).forEach((fileName) => {
+          if (!combinedErrorsByFile[fileName]) {
+            combinedErrorsByFile[fileName] = [];
+          }
+          combinedErrorsByFile[fileName].push(...eventErrorsByFile[fileName]);
+        });
+      }
+  }
+  catch (error) {
+    allErrors.push(`Sync events failed: ${error.message}`);
+  }
+  
+
+}
+
 const handlePushToServer = async (dispatch, metadataMapping, setError, setSyncCompleted) => {
   const allErrors = [];
   const combinedErrorsByFile = {};
@@ -317,14 +347,17 @@ const PushToServerButton = () => {
             return;
           }
 
-          const enrs = toDhis2Enrollments(results[0]);
+          // const enrs = toDhis2Enrollments(results[0]);
           const events = toDhis2Events(results[1]);
-          const teis = toDhis2TrackedEntities(results[2]);
+          // const teis = toDhis2TrackedEntities(results[2]);
+          // setPushData({
+          //   enr: enrs.length,
+          //   event: events.length,
+          //   tei: teis.length,
+          // });
           setPushData({
-            enr: enrs.length,
-            event: events.length,
-            tei: teis.length,
-          });
+            event:events.length
+          })
 
           dispatch(resetCurrentOfflineLoading());
           setPushModalOpen(true);

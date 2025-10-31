@@ -7,6 +7,7 @@ import { getTei, getTeiError, loadTei } from "../../actions/data/tei";
 
 import * as eventManager from "@/indexDB/EventManager/EventManager";
 import { notification } from "antd";
+import { push } from "connected-react-router";
 
 function* handleSubmitEvent({ event, refreshTei = true }) {
   const { offlineStatus } = yield select((state) => state.common);
@@ -30,7 +31,7 @@ function* handleSubmitEvent({ event, refreshTei = true }) {
     const message = result.validationReport.errorReports.map((errorReport) => errorReport.message).join("\n");
     notification.error({
       message: i18n.t("Error"),
-      description: message || "Save event failed!",
+      description: message || "Save event faileds!",
       placement: "bottomRight",
       duration: 0,
     });
@@ -40,6 +41,7 @@ function* handleSubmitEvent({ event, refreshTei = true }) {
   } finally {
     // refresh TEI
     yield put(loadTei(false));
+    yield put(push("/list"));
     /**
      * this line should be placed after the loadTei(false) to keep the loading state
      *  */

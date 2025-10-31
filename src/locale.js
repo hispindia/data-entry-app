@@ -9,7 +9,7 @@ const locale = {
     // [tagalog]: "Pumili",
   },
   addNewFamily: {
-    [english]: "Add New Event",
+    [english]: "Add New",
     // [cebuano]: "Idugang ang Bag-ong panimalay",
     // [tagalog]: "Magdagdag ng Bagong sambahayan",
   },

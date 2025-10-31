@@ -14,7 +14,7 @@ import { useState } from "react";
 import OrgUnitContainer from "../../containers/ControlBar/OrgUnit";
 import ReportButtonContainer from "../../containers/ControlBar/ReportButton";
 import RightSideButtonsContainer from "../../containers/ControlBar/RightSideButtonsContainer";
-import { setSelectedOrgUnit } from "../../redux/actions/metadata";
+import { setProgramMetadata, setSelectedOrgUnit } from "../../redux/actions/metadata";
 import { useUser } from "@/hooks/useUser";
 import LanguageSelectionButton from "./LanguageSelectionButton";
 import manifest from "../../../manifest.webapp.json";
@@ -64,7 +64,7 @@ const items = [
 const ControlBar = () => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { selectedOrgUnit, orgUnits } = useSelector((state) => state.metadata);
+  const { selectedOrgUnit, orgUnits, programMetadata } = useSelector((state) => state.metadata);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const orgUnitLabel = selectedOrgUnit?.path
@@ -84,7 +84,7 @@ const ControlBar = () => {
             </div>
 
             <div className="mr-3">
-              <ProgramSelectionContainer />
+              <ProgramSelectionContainer selectedOrgUnit={selectedOrgUnit} program={programMetadata} />
             </div>
             
             <div className="d-lg-none">

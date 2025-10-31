@@ -17,12 +17,12 @@ export const getMetadataSet = (isOfflineMode) => {
       organisationUnitLevelsManager.getAllOrganisationUnitLevels(),
       organisationUnitManager.getUserOrgs(),
       programManager.getPrograms(),
-      programManager.getProgramById(savedProgram),
+      ...(savedProgram ? [programManager.getProgramById(savedProgram)]: [{}]),
       programRuleVariable.get(),
       programRule.get(),
     ];
   } else {
-    
+      
     return [
       metadataApi.get(`/api/organisationUnits`, {}, [
         "paging=false&fields=id,code,path,displayName,level,parent,translations&withinUserHierarchy=true",

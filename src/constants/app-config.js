@@ -35,7 +35,8 @@ export const SELECT_SEARCHABLE_ATTRIBUTE_ID = "QExndoSDDhD";
 
 export const PRIMARY_COLOR = "#0B6693";
 
-export const LOCALE_CODES = { english: "en", tagalog: "tl_PH", cebuano: "ch_PH" };
+// export const LOCALE_CODES = { english: "en", tagalog: "tl_PH", cebuano: "ch_PH" };
+export const LOCALE_CODES = { english: "en" };
 // export const LOCALE_LABELS = { en: "English", tl_PH: "Tagalog", ch_PH: "Cebuano" };
 export const LOCALE_LABELS = { en: "English"};
 

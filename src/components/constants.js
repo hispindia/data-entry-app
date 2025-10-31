@@ -10,6 +10,12 @@ const FORM_ACTION_TYPES = {
   NONE: "NONE",
 };
 
+const PROGRAM_RULE_TYPES = {
+  ASSIGN: 'ASSIGN',
+  HIDEFIELD: 'HIDEFIELD',
+  HIDESECTION: 'HIDESECTION',
+}
+
 // Valid languages to server-side render in production
 const LANGUAGES = ["en", "zh", "ru", "pt", "es", "fr", "de", "ja"];
 
@@ -474,6 +480,7 @@ const MIN_MAX_TEXT = {
 export {
   CODE_VARIANTS,
   FORM_ACTION_TYPES,
+  PROGRAM_RULE_TYPES,
   LANGUAGES,
   LANGUAGES_SSR,
   LANGUAGES_LABEL,
