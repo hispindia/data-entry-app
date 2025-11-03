@@ -110,43 +110,99 @@ function rgbToHex(rgb) {
 }
 
 
-async function downloadTablesAsPDF() {
+// async function downloadTablesAsPDF() {
   
-  const orgUnit = document.getElementById('headerOrgName')?.value;
-  const year = document.getElementById('year-update')?.value;
-  const periodicity = document.getElementById('reporting-periodicity')?.value;
+//   const orgUnit = document.getElementById('headerOrgName')?.value;
+//   const year = document.getElementById('year-update')?.value;
+//   const periodicity = document.getElementById('reporting-periodicity')?.value;
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4'); // Set orientation to 'landscape'
+//     const { jsPDF } = window.jspdf;
+//     const doc = new jsPDF('p', 'mm', 'a4'); // Set orientation to 'landscape'
     
-    const tables = document.querySelectorAll('table'); // Get all tables
+//     const tables = document.querySelectorAll('table'); // Get all tables
     
-for (let i = 0; i < tables.length; i++) {
-  const canvas = await html2canvas(tables[i]);
-  const imgData = canvas.toDataURL('image/png');
+// for (let i = 0; i < tables.length; i++) {
+//   const canvas = await html2canvas(tables[i]);
+//   const imgData = canvas.toDataURL('image/png');
 
-  if (i > 0) {
-    doc.addPage(); // Add a new page for each table after the first one
+//   if (i > 0) {
+//     doc.addPage(); // Add a new page for each table after the first one
+//   }
+
+//   // Get the dimensions of the page
+//   const pageWidth = doc.internal.pageSize.getWidth();
+//   const pageHeight = doc.internal.pageSize.getHeight();
+
+//   // Calculate the image dimensions to fit the page while maintaining aspect ratio
+//   let imgWidth = pageWidth - 20;  // Set width to fit the page, considering some margins
+//   let imgHeight = (canvas.height * imgWidth) / canvas.width;  // Maintain the aspect ratio
+
+//   // If the image height exceeds the page height, scale it down
+//   if (imgHeight > pageHeight - 20) {
+//     const scaleFactor = (pageHeight - 20) / imgHeight;
+//     imgWidth *= scaleFactor;
+//     imgHeight = pageHeight - 20;
+//   }
+
+//   doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);  // Add image to the PDF
+// }
+
+//     doc.save(`${orgUnit}-${year}-${periodicity ? periodicity: ''}.pdf`);
+    
+// }
+
+async function downloadTablesAsPDF() {
+  const orgUnit = document.getElementById('headerOrgName')?.value || 'Report';
+  const year = document.getElementById('year-update')?.value || '';
+  const periodicity = document.getElementById('reporting-periodicity')?.value || '';
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'mm', 'a4'); // Portrait A4
+
+  const tables = document.querySelectorAll('table');
+
+  let y = 20;
+
+  for (let i = 0; i < tables.length; i++) {
+    const table = tables[i];
+    const tableId = table.id || `Table ${i + 1}`;
+    const title = table.querySelector('th[colspan]') 
+      ? table.querySelector('th[colspan]').innerText.trim()
+      : tableId;
+
+    if (i > 0) {
+      doc.addPage();
+      y = 20;
+    }
+
+    // Add table title
+    doc.setFontSize(12);
+    doc.text(title, 14, y);
+    y += 5;
+
+    // Use AutoTable to convert HTML table to structured PDF table
+    await doc.autoTable({
+      html: `#${tableId}`,
+      startY: y + 5,
+      theme: 'grid',
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak',
+      },
+      headStyles: { fillColor: [240, 240, 240], textColor: 20, halign: 'center' },
+      columnStyles: { 0: { cellWidth: 'auto' } },
+      didDrawPage: (data) => {
+        // Footer on every page
+        const pageCount = doc.internal.getNumberOfPages();
+        doc.setFontSize(8);
+        doc.text(`Page ${pageCount}`, doc.internal.pageSize.getWidth() - 30, doc.internal.pageSize.getHeight() - 10);
+      },
+    });
+
+    y = doc.lastAutoTable.finalY + 10;
   }
 
-  // Get the dimensions of the page
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const pageHeight = doc.internal.pageSize.getHeight();
-
-  // Calculate the image dimensions to fit the page while maintaining aspect ratio
-  let imgWidth = pageWidth - 20;  // Set width to fit the page, considering some margins
-  let imgHeight = (canvas.height * imgWidth) / canvas.width;  // Maintain the aspect ratio
-
-  // If the image height exceeds the page height, scale it down
-  if (imgHeight > pageHeight - 20) {
-    const scaleFactor = (pageHeight - 20) / imgHeight;
-    imgWidth *= scaleFactor;
-    imgHeight = pageHeight - 20;
-  }
-
-  doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);  // Add image to the PDF
-}
-
-    doc.save(`${orgUnit}-${year}-${periodicity ? periodicity: ''}.pdf`);
-    
+  const filename = `${orgUnit}-${year}-${periodicity ? periodicity : ''}.pdf`;
+  doc.save(filename);
 }
