@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchEvents() {
     $("#kofax-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
+    tei.year.value = $('#year-update').val();
 
     var dataValuesOU = [];
     for (let headOU of level2OU) {
@@ -323,13 +324,15 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       {
         id: 'ippfUnrestricted',
-        code: 'IPPF Unrestricted Grant',
+        code: 'IPPF Core Grant',
+        type: 'unrestricted',
         name: `IPPF Unrestricted`,
         style: 'background:#f2cfee;'
       },
       {
         id: 'ippfRestricted',
-        code: 'IPPF Restricted Grant',
+        code: 'IPPF Core Grant',
+        type: 'restricted',
         name: `IPPF Restricted Funding`,
         style: 'background:#f2cfee;'
       },
@@ -521,7 +524,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var values = {};
 
       deList.forEach(de => {
-        values[de.id]= 0
+        if(de.id) values[de.id]= 0
       })
 
       values = {
@@ -541,15 +544,30 @@ document.addEventListener("DOMContentLoaded", function () {
       }))
       tableRow += `<tr>`;
 
+      var subCategoryName = [
+        "Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)",
+        "Client/Patient fees",
+        "Training, education, professional services and rentals",
+        "Local/national: government",
+        "Local/national: non-government",
+        "Membership fees",
+        "Non-operational income",
+        "Other national income",
+        "Multilateral Agencies and Organizations",
+        "Foreign Governments",
+        "International Trusts and Foundations / NGOs",
+        "Corporate / Business Sector",
+        "Other International Income",
+        "IPPF Core Grant",
+        "Other IPPF Grant"
+      ];
 
-      dataElements.projectTotalIncome.forEach(pti => {
+      dataElements.projectTotalIncome.forEach((pti,indexTI) => {
         deList.forEach((de) => {
-          if(de.code && item.dataValuesTI[year] && de.code==item.dataValuesTI[year][pti.subCategory]) {
-            if(de.code == "IPPF Unrestricted Grant") {
-              if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
-             
-            } else if(de.code == "IPPF Restricted Grant") {
-              if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
+          if(item.dataValuesTI[year] && de.code == subCategoryName[indexTI] ) {
+            if(indexTI == "13") {
+              if(item.dataValuesTI[year][pti.unrestricted] && de.type =="unrestricted") values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
+              if(item.dataValuesTI[year][pti.restricted] && de.type =="restricted") values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
              
             } else {
               if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
@@ -558,7 +576,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
         })
-        if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.category]) {
+
+        if(item.dataValuesTI[year]) {
           if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.restricted]) {
             values['totalIncome'] += Number(item.dataValuesTI[year][pti.restricted]);
           }
@@ -650,17 +669,3 @@ function colorCode(num) {
   if (Number(num) == 0) return ''
   else return 'red'
 }
-
-    //textarea word limit
-    function checkWords(event, id) {
-      const counter = document.getElementById('counter-' + (id));
-      const { value } = event;
-      const words = value.trim().split(/\s+/)
-
-      if (words.length >= maxWords) {
-        event.value = words.slice(0, maxWords).join(' ');
-        return
-      }
-      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-      else counter.textContent = `${maxWords} words remaining`;
-    }

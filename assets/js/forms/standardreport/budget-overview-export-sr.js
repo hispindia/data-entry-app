@@ -651,7 +651,7 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['International Trusts and Foundations / NGOs']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['International Trusts and Foundations / NGOs'])) : ''}</td>`
       tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Corporate / Business Sector']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Corporate / Business Sector'])) : ''}</td>`
       tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Other International Income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Other International Income'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['IPPF Unrestricted Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['IPPF Unrestricted Grant'])) : ''}</td>`
+      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['IPPF Core Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['IPPF Core Grant'])) : ''}</td>`
       tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['IPPF Restricted Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['IPPF Restricted Grant'])) : ''}</td>`
       // }
       tableBody += "</tr>"
@@ -957,7 +957,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const countrySubCategoryDissAgre = {};
     const year = document.getElementById('year-update').value;
     // const totalUnrestrictedIncome = {};
-    dataElements.projectTotalIncome.forEach(ti => {
+    dataElements.projectTotalIncome.forEach((ti, indexTI) => {
+      var category = "";
+      if(indexTI <= 7) category = "Locally generated income";
+      else if(indexTI <= 12) category = "International income (Non - IPPF)";
+      else if(indexTI <= 14) category = "IPPF income";
+
+      var subCategoryName = [
+        "Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)",
+        "Client/Patient fees",
+        "Training, education, professional services and rentals",
+        "Local/national: government",
+        "Local/national: non-government",
+        "Membership fees",
+        "Non-operational income",
+        "Other national income",
+        "Multilateral Agencies and Organizations",
+        "Foreign Governments",
+        "International Trusts and Foundations / NGOs",
+        "Corporate / Business Sector",
+        "Other International Income",
+        "IPPF Core Grant",
+        "Other IPPF Grant"
+      ]
+      
+
+      
       dataValuesOU.forEach(item => {
         if (!unrestrictedIncome[item.orgUnit]) unrestrictedIncome[item.orgUnit] = {}
         if (!ippfUnrestrictedIncome[item.orgUnit]) ippfUnrestrictedIncome[item.orgUnit] = {}
@@ -969,7 +994,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (!dvTotalIncomeYrs[year]) dvTotalIncomeYrs[year] = 0;
 
-          if (item.dataValuesTI[year] && item.dataValuesTI[year][ti.category]) {
+          if (item.dataValuesTI[year]) {
 
             if (item.dataValuesTI[year][ti.restricted]) {
               dvTotalIncomeYrs[year] += Number(item.dataValuesTI[year][ti.restricted]);
@@ -981,42 +1006,41 @@ document.addEventListener("DOMContentLoaded", function () {
               unrestrictedIncome[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
 
             }
-
-            if (!totalCategoryRevenue[item.dataValuesTI[year][ti.category]]) totalCategoryRevenue[item.dataValuesTI[year][ti.category]] = {};
-            if (!totalCategoryRevenue[item.dataValuesTI[year][ti.category]][year]) totalCategoryRevenue[item.dataValuesTI[year][ti.category]][year] = 0;
-            if (item.dataValuesTI[year][ti.restricted]) totalCategoryRevenue[item.dataValuesTI[year][ti.category]][year] += Number(item.dataValuesTI[year][ti.restricted]);
-            if (item.dataValuesTI[year][ti.unrestricted]) totalCategoryRevenue[item.dataValuesTI[year][ti.category]][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-          }
-
-          if (item.dataValuesTI[year] && item.dataValuesTI[year][ti.subCategory]) {
+            //Category
+            if (!totalCategoryRevenue[category]) totalCategoryRevenue[category] = {};
+            if (!totalCategoryRevenue[category][year]) totalCategoryRevenue[category][year] = 0;
+            if (item.dataValuesTI[year][ti.restricted]) totalCategoryRevenue[category][year] += Number(item.dataValuesTI[year][ti.restricted]);
+            if (item.dataValuesTI[year][ti.unrestricted]) totalCategoryRevenue[category][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+      
+            //Sub category
             if (!countrySubCategoryDissAgre[item.orgUnit]) countrySubCategoryDissAgre[item.orgUnit] = {};
             if (!countrySubCategoryDissAgre[item.orgUnit][year]) countrySubCategoryDissAgre[item.orgUnit][year] = {};
-            if (!countrySubCategoryDissAgre[item.orgUnit][year][item.dataValuesTI[year][ti.subCategory]]) countrySubCategoryDissAgre[item.orgUnit][year][item.dataValuesTI[year][ti.subCategory]] = 0;
+            if (!countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]) countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] = 0;
 
             if (!countrySubCategory[item.orgUnit]) countrySubCategory[item.orgUnit] = {};
             if (!countrySubCategory[item.orgUnit][year]) countrySubCategory[item.orgUnit][year] = 0;
 
 
-            if (!totalSubCategoryRevenue[item.dataValuesTI[year][ti.subCategory]]) totalSubCategoryRevenue[item.dataValuesTI[year][ti.subCategory]] = {};
-            if (!totalSubCategoryRevenue[item.dataValuesTI[year][ti.subCategory]][year]) totalSubCategoryRevenue[item.dataValuesTI[year][ti.subCategory]][year] = 0;
+            if (!totalSubCategoryRevenue[subCategoryName[indexTI]]) totalSubCategoryRevenue[subCategoryName[indexTI]] = {};
+            if (!totalSubCategoryRevenue[subCategoryName[indexTI]][year]) totalSubCategoryRevenue[subCategoryName[indexTI]][year] = 0;
             if (item.dataValuesTI[year][ti.restricted]) {
-              totalSubCategoryRevenue[item.dataValuesTI[year][ti.subCategory]][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              countrySubCategoryDissAgre[item.orgUnit][year][item.dataValuesTI[year][ti.subCategory]] += Number(item.dataValuesTI[year][ti.restricted]);
+              totalSubCategoryRevenue[subCategoryName[indexTI]][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] += Number(item.dataValuesTI[year][ti.restricted]);
 
-              if (item.dataValuesTI[year][ti.subCategory] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              if (subCategoryName[indexTI] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              if (subCategoryName[indexTI] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              if (subCategoryName[indexTI] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              if (subCategoryName[indexTI] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
             }
             if (item.dataValuesTI[year][ti.unrestricted]) {
-              totalSubCategoryRevenue[item.dataValuesTI[year][ti.subCategory]][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              countrySubCategoryDissAgre[item.orgUnit][year][item.dataValuesTI[year][ti.subCategory]] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              totalSubCategoryRevenue[subCategoryName[indexTI]][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] += Number(item.dataValuesTI[year][ti.unrestricted]);
 
-              if (item.dataValuesTI[year][ti.subCategory] == 'IPPF Unrestricted Grant') ippfUnrestrictedIncome[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (item.dataValuesTI[year][ti.subCategory] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              if (subCategoryName[indexTI] == 'IPPF Core Grant') ippfUnrestrictedIncome[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              if (subCategoryName[indexTI] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              if (subCategoryName[indexTI] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              if (subCategoryName[indexTI] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              if (subCategoryName[indexTI] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
             }
 
           }
@@ -1032,7 +1056,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataElements.valuesCoreFunding.donors.forEach(ti => {
       dataValuesOU.forEach(item => {
         if (!totalCoreFunding[item.orgUnit]) totalCoreFunding[item.orgUnit] = {};
-          if (item.dataValuesCF[year] && item.dataValuesCF[year][ti.amountLocked]) {
+          if (item.dataValuesCF[year] && item.dataValuesCF[year][ti.name] && item.dataValuesCF[year][ti.amountLocked]) {
             if (!totalCoreFunding[item.orgUnit][year]) totalCoreFunding[item.orgUnit][year] = 0;
             totalCoreFunding[item.orgUnit][year] += Number(item.dataValuesCF[year][ti.amountLocked]);
           }
