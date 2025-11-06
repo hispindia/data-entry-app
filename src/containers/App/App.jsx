@@ -46,25 +46,23 @@ const AppContainer = () => {
       useCodeForOptionSet[de.program.id].push({id:de.dataElement.id,value: de.useCodeForOptionSet});
       }}
     );
-    rules.forEach(rule => {
+    rules.sort((a, b) => (a.priority || 999) - (b.priority || 999)).forEach(rule => {
         var modifiedRule = JSON.parse(JSON.stringify(rule));
         modifiedRule.programRuleActions.forEach(action => {
         action['useCodeForOptionSet'] = [];
         if(action.content)
-          action['content'] = action.content.replace(regex, (_, key) => `ruleData[${modifiedRuleVariables[rule.program.id][key] || key}]`).replace(/d2:/g, 'd2.');
+          action['content'] = action.content.replace(regex, (_, key) => `ruleData[${modifiedRuleVariables[rule.program.id][key] || key}]`)?.replaceAll(/d2:/g, 'd2.');
         if(action.data) {
-          if(action.data.includes('d2')) {
-            action['data'] = action.data.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`).replace(/d2:/g, 'd2.');
+            action['data'] = action.data.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`)?.replaceAll(/d2:/g, 'd2.');
             if(useCodeForOptionSet[rule.program.id])  {
               const optionList = useCodeForOptionSet[rule.program.id].filter( de => (!de.value && action.data.includes(de.id))).map(de => de.id)
               if(optionList.length) {
                 action['useCodeForOptionSet'] = optionList;
               }
-            }
-          }                                                                                       
+            }                                                                                   
         }
       })
-      modifiedRule['condition'] = modifiedRule.condition.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`).replace(/d2:/g, 'd2.');
+      modifiedRule['condition'] = modifiedRule.condition?.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`)?.replaceAll(/d2:/g, 'd2.');
       modifiedRules.push(modifiedRule);
     })
     return modifiedRules;

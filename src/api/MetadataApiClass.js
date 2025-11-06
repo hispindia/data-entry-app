@@ -36,7 +36,7 @@ export default class MetadataApiClass extends BaseApiClass {
   }
 
   getProgramRules = () => pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
-    "fields=id,name,displayName,program,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement],condition"
+    "fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement],condition"
   ]);
 
   getProgramRuleVariables = () =>  pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [

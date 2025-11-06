@@ -5,29 +5,31 @@ import CaptureForm from "../CaptureForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import _, { cond } from "lodash";
+import i18n from "i18next";
 import { CloseOutlined } from "@ant-design/icons";
-import { FORM_ACTION_TYPES, PROGRAM_RULE_TYPES } from "../constants";
+import { DATAELEMENT_BIRTH_DATE, DATAELEMENT_DEATH_DATE, FORM_ACTION_TYPES, PROGRAM_RULE_TYPES } from "../constants";
 import { updateCascade } from "@/redux/actions/data/tei/currentCascade";
 import { transformEvent } from "@/utils/event";
 import { submitEvent } from "@/redux/actions/data";
 import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, format } from "date-fns";
+import { generateUid } from "@/utils";
 
 const MainForm = ({onCloseClick}) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const { programMetadata, selectedOrgUnit, programRules } = useSelector((state) => state.metadata);
-    const currentCascade = useSelector((state) => state.data.tei.data.currentCascade);
-    const currentEvents = useSelector((state) => state.data.tei.data.currentEvents);
-    const tei = useSelector(state => state.data.tei.data.currentTei);
-    const [data, setData] = useState(currentCascade || {});
-    const [saveDisabled, setSaveDisabled] = useState(true);
-    const [formStatus, setFormStatus] = useState(FORM_ACTION_TYPES.NONE);
+  const { programMetadata, selectedOrgUnit, programRules } = useSelector((state) => state.metadata);
+  const currentCascade = useSelector((state) => state.data.tei.data.currentCascade);
+  const currentEvents = useSelector((state) => state.data.tei.data.currentEvents);
+  const tei = useSelector(state => state.data.tei.data.currentTei);
+  const [data, setData] = useState(currentCascade || {});
+  const [saveDisabled, setSaveDisabled] = useState(true);
+  const [formStatus, setFormStatus] = useState(FORM_ACTION_TYPES.NONE);
 
-    const [metadata, setMetadata] = useState(_.cloneDeep(convertOriginMetadata({programMetadata})));
+  const [metadata, setMetadata] = useState(_.cloneDeep(convertOriginMetadata({programMetadata})));
 
   const handleAddNew = (e, newData, continueAdd) => {
+    newData['id'] = generateUid();
     setData(newData);
-    
     // submit new event
     const { id: event, event_date: occurredAt, ...dataValues } = newData;
 
@@ -84,7 +86,7 @@ const MainForm = ({onCloseClick}) => {
     const eventPayload = transformEvent({
       ...currentEvent,
       _isDirty: true,
-      // occurredAt,
+      occurredAt,
       // dueDate: occurredAt,
       dataValues,
     });
@@ -94,64 +96,81 @@ const MainForm = ({onCloseClick}) => {
 
     const editRowCallback = (metadata, previousData, data, code, value, label) => {
       //Save on registration date
-      if(data.event_date) setSaveDisabled(false);
+      //Custom Validation 
+      if(data.event_date) {
+        setSaveDisabled(false); 
+        metadata[DATAELEMENT_BIRTH_DATE].maxDate = data["event_date"];
+        metadata[DATAELEMENT_DEATH_DATE].maxDate = data["event_date"];
+      }
 
       for(let data in metadata) metadata[data].hidden = false;
+
+      //From Program rules
       //Dyanimcally used inside eval
        window.d2 = {
-            hasValue: (value) => (value ? true : false),
-            ceil: (value) => (Math.ceil(value)),
-            floor: (value) => (Math.floor(value)),
-            round: (value) => (Math.round(value)),
-            daysBetween: (curr, eventDate) => differenceInDays(new Date(eventDate), new Date(curr)),
-            yearsBetween: (curr, eventDate) => differenceInYears(new Date(eventDate), new Date(curr)),
-            monthsBetween: (curr, eventDate) => differenceInMonths(new Date(eventDate), new Date(curr)),
-            weeksBetween: (curr, eventDate) => differenceInWeeks(new Date(eventDate), new Date(curr)),
-            concatenate: (...args) => args.join(''),
+          hasValue: (value) => (value ? true : false),
+          ceil: (value) => (Math.ceil(value)),
+          floor: (value) => (Math.floor(value)),
+          round: (value) => (Math.round(value)),
+          daysBetween: (curr, eventDate) => differenceInDays(new Date(eventDate), new Date(curr)),
+          yearsBetween: (curr, eventDate) => differenceInYears(new Date(eventDate), new Date(curr)),
+          monthsBetween: (curr, eventDate) => differenceInMonths(new Date(eventDate), new Date(curr)),
+          weeksBetween: (curr, eventDate) => differenceInWeeks(new Date(eventDate), new Date(curr)),
+          concatenate: (...args) => args.join(''),
         }
+        
         programRules.forEach(rule => {
+          if(rule.id == "uwjof6I0ZGK") {
+            console.log('hi')
+          }
           if(rule.program.id == programMetadata.id) {
-            if(rule.condition.includes('ruleData')) {
-              const regex = /ruleData\s*\[\s*['"]([^'"]+)['"]\s*\]/g;
-              const ids = [...rule.condition.matchAll(regex)].map(m => m[1]);
-              const ruleData = {...data}
-              ids.map(id => {
-                if(!ruleData[id]) ruleData[id] = "";
-              })
-              if(eval(rule.condition)) {
-                rule.programRuleActions.forEach(action => {
-                  const dataElements = action.useCodeForOptionSet.filter(de => action.data.includes(de));
-                  if(dataElements.length) {
-                    dataElements.forEach(de => {
-                      if(ruleData[de]) {
-                        const value = metadata[de].valueSet.find(option => option.value == ruleData[de]);
-                        ruleData[de] = value.label;
-                      }
-                    })
-                  }  
-                  switch(action.programRuleActionType) {
-                    case PROGRAM_RULE_TYPES.ASSIGN:
-                      data[action.dataElement.id] = eval(action.data);
-                    break;
-                    case PROGRAM_RULE_TYPES.HIDEFIELD:
-                      if(!eval(rule.condition)) data[action.dataElement.id] = '';
-                      metadata[action.dataElement.id].hidden = eval(rule.condition);
-                    break;
-                    case PROGRAM_RULE_TYPES.HIDESECTION: 
-                      const dataElements = programMetadata.programStages
-                                      .flatMap(stage => stage.programStageSections || [])
-                                      .find(sec => sec.id === action.programStageSection.id)?.dataElements || [];
-                      if(dataElements.length) {
-                        dataElements.forEach(element => {
-                          if(data[element.id]) data[element.id] = '';
-                          metadata[element.id].hidden = true;
-                        })
-                      }
-                    break;
-                  }
+            try {
+              if(rule.condition.includes('ruleData')) {
+                const regex = /ruleData\s*\[\s*['"]([^'"]+)['"]\s*\]/g;
+                const ids = [...rule.condition.matchAll(regex)].map(m => m[1]);
+                const ruleData = {...data}
+                ids.map(id => {
+                  if(!ruleData[id]) ruleData[id] = "";
+                  else if(ruleData[id] == 'true' || ruleData[id] == 'false') ruleData[id] = JSON.parse(ruleData[id])
                 })
+                if(eval(rule.condition)) {
+                  rule.programRuleActions.forEach(action => {
+                    const dataElements = action.useCodeForOptionSet.filter(de => action.data.includes(de));
+                    if(dataElements.length) {
+                      dataElements.forEach(de => {
+                        if(ruleData[de]) {  
+                          const value = metadata[de].valueSet.find(option => option.value == ruleData[de]);
+                          ruleData[de] = value.label;
+                        }
+                      })
+                    }  
+                    switch(action.programRuleActionType) {
+                      case PROGRAM_RULE_TYPES.ASSIGN:
+                        data[action.dataElement.id] = `${eval(action.data)}`;
+                      break;
+                      case PROGRAM_RULE_TYPES.HIDEFIELD:
+                        if(!eval(rule.condition)) data[action.dataElement.id] = '';
+                        metadata[action.dataElement.id].hidden = eval(rule.condition);
+                      break;
+                      case PROGRAM_RULE_TYPES.HIDESECTION: 
+                        const dataElements = programMetadata.programStages
+                                        .flatMap(stage => stage.programStageSections || [])
+                                        .find(sec => sec.id === action.programStageSection.id)?.dataElements || [];
+                        if(dataElements.length) {
+                          dataElements.forEach(element => {
+                            if(data[element.id]) data[element.id] = '';
+                            metadata[element.id].hidden = true;
+                          })
+                        }
+                      break;
+                    }
+                  })
+                }
               }
-            }
+          }
+          catch(err) {
+            console.log('rule error', err)
+          }
           }
         })
       
@@ -178,6 +197,7 @@ const MainForm = ({onCloseClick}) => {
         setData={setData}
         metadata={metadata} 
         setMetadata={setMetadata} 
+        locale={i18n.language || "en"}
         saveDisabled={saveDisabled}
         onCancel={onCloseClick}
         formStatus={formStatus} 

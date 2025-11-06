@@ -67,6 +67,8 @@ const MOBILE_NUM_REGEX = {
   exp: /^[17]\d{7}$/,
   msg: "Contact number should be of 8 digits starting from 1 or 7;",
 };
+const DATAELEMENT_BIRTH_DATE = "zAetLzp3cT1";
+const DATAELEMENT_DEATH_DATE= "jGGNvNYhu47";
 
 const TYPE_OF_ACTION = {
   EQUAL_TO: "EQUAL_TO",
@@ -480,6 +482,8 @@ const MIN_MAX_TEXT = {
 export {
   CODE_VARIANTS,
   FORM_ACTION_TYPES,
+  DATAELEMENT_BIRTH_DATE,
+  DATAELEMENT_DEATH_DATE,
   PROGRAM_RULE_TYPES,
   LANGUAGES,
   LANGUAGES_SSR,

@@ -138,46 +138,46 @@ const handlePushToServer = async (dispatch, metadataMapping, setError, setSyncCo
       throw new Error("No internet connection!");
     }
 
-    /**
-     * push data to server by order
-     */
-    // push tracked entities
-    try {
-      const teiPushResults = await trackedEntityManager.push((progress) =>
-        showingCurrentOfflineLoading({ dispatch, ...progress }),
-      );
-      const teiErrorsByFile = await handlePushResult(teiPushResults, metadataMapping);
-      if (Object.keys(teiErrorsByFile).length > 0) {
-        // Merge errors by file
-        Object.keys(teiErrorsByFile).forEach((fileName) => {
-          if (!combinedErrorsByFile[fileName]) {
-            combinedErrorsByFile[fileName] = [];
-          }
-          combinedErrorsByFile[fileName].push(...teiErrorsByFile[fileName]);
-        });
-      }
-    } catch (error) {
-      allErrors.push(`Sync tracked entities failed: ${error.message}`);
-    }
+    // /**
+    //  * push data to server by order
+    //  */
+    // // push tracked entities
+    // try {
+    //   const teiPushResults = await trackedEntityManager.push((progress) =>
+    //     showingCurrentOfflineLoading({ dispatch, ...progress }),
+    //   );
+    //   const teiErrorsByFile = await handlePushResult(teiPushResults, metadataMapping);
+    //   if (Object.keys(teiErrorsByFile).length > 0) {
+    //     // Merge errors by file
+    //     Object.keys(teiErrorsByFile).forEach((fileName) => {
+    //       if (!combinedErrorsByFile[fileName]) {
+    //         combinedErrorsByFile[fileName] = [];
+    //       }
+    //       combinedErrorsByFile[fileName].push(...teiErrorsByFile[fileName]);
+    //     });
+    //   }
+    // } catch (error) {
+    //   allErrors.push(`Sync tracked entities failed: ${error.message}`);
+    // }
 
-    // push enrollments
-    try {
-      const enrPushResults = await enrollmentManager.push((progress) =>
-        showingCurrentOfflineLoading({ dispatch, ...progress }),
-      );
-      const enrErrorsByFile = await handlePushResult(enrPushResults, metadataMapping);
-      if (Object.keys(enrErrorsByFile).length > 0) {
-        // Merge errors by file
-        Object.keys(enrErrorsByFile).forEach((fileName) => {
-          if (!combinedErrorsByFile[fileName]) {
-            combinedErrorsByFile[fileName] = [];
-          }
-          combinedErrorsByFile[fileName].push(...enrErrorsByFile[fileName]);
-        });
-      }
-    } catch (error) {
-      allErrors.push(`Sync enrollments failed: ${error.message}`);
-    }
+    // // push enrollments
+    // try {
+    //   const enrPushResults = await enrollmentManager.push((progress) =>
+    //     showingCurrentOfflineLoading({ dispatch, ...progress }),
+    //   );
+    //   const enrErrorsByFile = await handlePushResult(enrPushResults, metadataMapping);
+    //   if (Object.keys(enrErrorsByFile).length > 0) {
+    //     // Merge errors by file
+    //     Object.keys(enrErrorsByFile).forEach((fileName) => {
+    //       if (!combinedErrorsByFile[fileName]) {
+    //         combinedErrorsByFile[fileName] = [];
+    //       }
+    //       combinedErrorsByFile[fileName].push(...enrErrorsByFile[fileName]);
+    //     });
+    //   }
+    // } catch (error) {
+    //   allErrors.push(`Sync enrollments failed: ${error.message}`);
+    // }
 
     // push events
     try {
@@ -346,9 +346,9 @@ const PushToServerButton = () => {
             });
             return;
           }
-
+debugger;
           // const enrs = toDhis2Enrollments(results[0]);
-          const events = toDhis2Events(results[1]);
+          const events = toDhis2Events(results[0]);
           // const teis = toDhis2TrackedEntities(results[2]);
           // setPushData({
           //   enr: enrs.length,

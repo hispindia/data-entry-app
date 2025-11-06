@@ -36,9 +36,9 @@ export const SELECT_SEARCHABLE_ATTRIBUTE_ID = "QExndoSDDhD";
 export const PRIMARY_COLOR = "#0B6693";
 
 // export const LOCALE_CODES = { english: "en", tagalog: "tl_PH", cebuano: "ch_PH" };
-export const LOCALE_CODES = { english: "en" };
+export const LOCALE_CODES = { english: "en", myanmar: "my" };
 // export const LOCALE_LABELS = { en: "English", tl_PH: "Tagalog", ch_PH: "Cebuano" };
-export const LOCALE_LABELS = { en: "English"};
+export const LOCALE_LABELS = { en: "English", "my": "Myanmar"};
 
 // DO NOT CLEAR THESE DATA
 export const SHOULD_NOT_CLEAR_LIST = [HOUSEHOLD_ID_ATTR_ID, FAMILY_UID_ATTRIBUTE_ID, MEMBER_FAMILY_UID_ATTRIBUTE_ID];

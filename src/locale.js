@@ -285,7 +285,7 @@ const locale = {
     // [tagalog]: "Ulat",
   },
   downloadOfflineHelper: {
-    [english]: "Please select barangay to use offline then click download.",
+    [english]: "Please select OrgUnit and program to use offline then click download.",
     // [cebuano]: "Palihog pilia ang barangay nga gamiton offline unya i-klik ang download.",
     // [tagalog]: "Mangyaring piliin ang barangay na gagamitin offline pagkatapos ay i-click ang pag-download.",
   },

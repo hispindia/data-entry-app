@@ -76,7 +76,7 @@ const InterviewDetailTable = ({ data, setData, metadata, originMetadata, setMeta
     // Add new data
     !continueAdd && setFormStatus(FORM_ACTION_TYPES.NONE);
     data.push(row);
-
+debugger;
     callbackFunction(metadata, data, data.length - 1, "add");
 
     setData([...data]);

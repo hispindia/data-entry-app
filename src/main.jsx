@@ -12,7 +12,7 @@ import "./index.css";
 import locale from "./locale";
 import { history, mainStore } from "./redux/store";
 
-const locales = [LOCALE_CODES.english, LOCALE_CODES.tagalog, LOCALE_CODES.cebuano];
+const locales = [LOCALE_CODES.english, LOCALE_CODES.myanmar];
 let resources = {};
 
 locales.forEach((l) => {

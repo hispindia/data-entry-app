@@ -44,9 +44,11 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
     const programs = orgUnits.find(ou => ou.id === orgUnit.id)?.programs;
     const selected = {...orgUnit,programs}
     setSelectedOrgUnits({...selected});
+    sessionStorage.setItem("selectedOrgUnit", JSON.stringify(selected));
   };
 
   const handleSelectedProgram = (program) => {
+    sessionStorage.setItem("program", program);
     setSelectedProgram(program)
   };
 

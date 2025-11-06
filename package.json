@@ -1,7 +1,7 @@
 {
   "name": "vite-pwa-fi",
   "private": true,
-  "version": "0.0.9",
+  "version": "0.0.17",
   "scripts": {
     "dev": "vite",
     "start": "vite",
@@ -27,6 +27,7 @@
     "@dhis2/app-runtime": "^2.2.2",
     "@dhis2/d2-i18n": "^1.0.6",
     "@dhis2/ui": "^5.6.1",
+    "@dhis2/ui-widgets": "^6.24.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",

@@ -21,7 +21,7 @@ try {
     let resultEvents = [];
     const getEvents = async() => {
       const result = await dataApi.get(
-        "/api/events",
+        "/api/tracker/events",
         { paging: true, totalPages: true, pageSize, page },
         [
           // `orgUnit=ia7PTbi01id`,
@@ -30,7 +30,7 @@ try {
           `orgUnit=${offlineSelectedOrgUnits.map((o) => o.id).join(";")}`,
           `ouMode=DESCENDANTS`,
           `program=${selectedProgram}`,
-          `includeDeleted=true`,
+          // `includeDeleted=true`,
           // `lastUpdatedStartDate=${updatedAt}`, // Need to get all data
           `fields=${[
             "event",

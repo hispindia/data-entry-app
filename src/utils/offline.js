@@ -42,5 +42,8 @@ export const getMetadataSet = (isOfflineMode) => {
 
 export const findOffline = (TABLE_NAME) => db[TABLE_NAME].where("isOnline").anyOf(0).toArray();
 
+// export const findChangedData = () =>
+//   Promise.all([findOffline("enrollment"), findOffline("event"), findOffline("trackedEntity")]);
+
 export const findChangedData = () =>
-  Promise.all([findOffline("enrollment"), findOffline("event"), findOffline("trackedEntity")]);
+  Promise.all([findOffline("event")]);

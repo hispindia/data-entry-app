@@ -168,12 +168,14 @@ function CaptureForm(props) {
               }}
               error={validation(f.code)}
               warning={validationWarning(f.code)}
+              maxDate={f.maxDate || props.maxDate}
               data-element-id={f.code}
               hyperlink={f.url}
               base64={base64Object}
               description={f.description}
               isMultipleTrueOnlyDes={f.isMultipleTrueOnlyDes}
-              isSelectSearchable={f.isSelectSearchable}
+              // isSelectSearchable={f.isSelectSearchable}
+              isSelectSearchable={true}
               displayOption={f.displayOption}
             />
           </div>

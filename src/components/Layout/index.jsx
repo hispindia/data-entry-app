@@ -12,7 +12,7 @@ const { app, headerBarContainer } = styles;
 const Layout = ({ children }) => {
   const isPwa = useIsPwa();
   // useDisableSwipeDownRefresh();
-
+debugger;
   return (
     <SnackbarProvider maxSnack={3}>
         <ThemeProvider theme={muiTheme}>
@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
             <div className={app}>
               {!isPwa && (
                 <div className={headerBarContainer}>
-                  <HeaderBar title="Scorecard Survey" />
+                  <HeaderBar title="Case Registry App" />
                 </div>
               )}
               {children}
