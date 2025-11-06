@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(textVal.id.split('-')[0] == "SHyd6eUE2Xj") someGapsB = dataValuesB[textVal.id.split('-')[0]];
         if(textVal.id.split('-')[0] == "Xco5HDgJyHd") significantGapsB = dataValuesB[textVal.id.split('-')[0]];
         if(textVal.id.split('-')[0] == "E1MmmTUtrZh") notAddressedB = dataValuesB[textVal.id.split('-')[0]];
-        
+        if(textVal.id.split('-')[0] == "x5QDTZetPOf") updateValue(dataValuesB[textVal.id.split('-')[0]]);
         textVal.value = dataValuesB[textVal.id.split('-')[0]];
         $(`#counter${index + 1}`).text(`${(maxWords - (textVal.value ? textVal.value.trim().split(/\s+/).length : 0))}`)
       }
@@ -413,7 +413,7 @@ async function updateValue(value) {
   var grantCut = 0;
   var finalGrant = 0;
   if(proposedGrant) {
-    grantCut = (proposedGrant && value && (proposedGrant/value)) ? (proposedGrant/value) : 0;
+    grantCut = (proposedGrant && value && (proposedGrant/100)) ? (proposedGrant/100)*value : 0;
     finalGrant = proposedGrant - grantCut;
   }
   $(`#grant-year`).text(formatNumberInput(finalGrant));

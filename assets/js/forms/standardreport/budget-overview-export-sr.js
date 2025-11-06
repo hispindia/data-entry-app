@@ -145,9 +145,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //Pillar Spending
     var tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;">Pillar</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-pillar-spending').html(tableHead);
 
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in currObj) {
       modifiedArr.push({
         name: name,
-        value: currObj[name][tei.year.end] ? displayValue(currObj[name][tei.year.end]) : ''
+        value: currObj[name][tei.year.value] ? displayValue(currObj[name][tei.year.value]) : ''
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -174,40 +174,40 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody = '<tr><td rowspan="2">1. Center Care on People</td>';
     var tableBodySecond = `<tr>`
     var total = 0
-    for (let ou in list.maPillars['1. Center Care on People'][tei.year.end]) {
+    for (let ou in list.maPillars['1. Center Care on People'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maPillars['1. Center Care on People'][tei.year.end][ou])}</td>`;
-      total += Number(list.maPillars['1. Center Care on People'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maPillars['1. Center Care on People'][tei.year.value][ou])}</td>`;
+      total += Number(list.maPillars['1. Center Care on People'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">2. Move the Sexuality Agenda</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maPillars['2. Move the Sexuality Agenda'][tei.year.end]) {
+    for (let ou in list.maPillars['2. Move the Sexuality Agenda'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maPillars['2. Move the Sexuality Agenda'][tei.year.end][ou])}</td>`;
-      total += Number(list.maPillars['2. Move the Sexuality Agenda'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maPillars['2. Move the Sexuality Agenda'][tei.year.value][ou])}</td>`;
+      total += Number(list.maPillars['2. Move the Sexuality Agenda'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">3. Solidarity for Change</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maPillars['3. Solidarity for Change'][tei.year.end]) {
+    for (let ou in list.maPillars['3. Solidarity for Change'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maPillars['3. Solidarity for Change'][tei.year.end][ou])}</td>`;
-      total += Number(list.maPillars['3. Solidarity for Change'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maPillars['3. Solidarity for Change'][tei.year.value][ou])}</td>`;
+      total += Number(list.maPillars['3. Solidarity for Change'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">4. Nurture Our Federation</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maPillars['4. Nurture Our Federation'][tei.year.end]) {
+    for (let ou in list.maPillars['4. Nurture Our Federation'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maPillars['4. Nurture Our Federation'][tei.year.end][ou])}</td>`;
-      total += Number(list.maPillars['4. Nurture Our Federation'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maPillars['4. Nurture Our Federation'][tei.year.value][ou])}</td>`;
+      total += Number(list.maPillars['4. Nurture Our Federation'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
@@ -216,9 +216,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //Pillar Project Spending
     tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;">Project Pillar</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-project-spending').html(tableHead);
 
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in list.assignedProjects) {
       modifiedArr.push({
         name: name,
-        value: (list.assignedProjects[name] && list.assignedProjects[name][tei.year.end] && list.totalProjects[tei.year.end]) ? displayValue((list.assignedProjects[name][tei.year.end] / list.totalProjects[tei.year.end]) * 100) : ""
+        value: (list.assignedProjects[name] && list.assignedProjects[name][tei.year.value] && list.totalProjects[tei.year.value]) ? displayValue((list.assignedProjects[name][tei.year.value] / list.totalProjects[tei.year.value]) * 100) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -239,9 +239,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //Project Pillar Spending
     tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;">Pillar Spending</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-projectPercent-spending').html(tableHead);
 
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in list.pillars) {
       modifiedArr.push({
         name: name,
-        value: (list.pillars[name] && list.pillars[name][tei.year.end] && list.totalBugetProject[tei.year.end]) ? displayValue((list.pillars[name][tei.year.end] / list.totalBugetProject[tei.year.end]) * 100) : ""
+        value: (list.pillars[name] && list.pillars[name][tei.year.value] && list.totalBugetProject[tei.year.value]) ? displayValue((list.pillars[name][tei.year.value] / list.totalBugetProject[tei.year.value]) * 100) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -263,27 +263,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Project region Spending
     var tableHead = `<tr>
-    <th style="background:#276696;color:white;text-align:center;">Region Spending ${tei.year.end}</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
+    <th style="background:#276696;color:white;text-align:center;">Region Spending ${tei.year.value}</th>`
+    
     tableHead += `
       <th style="background:#276696;color:white;text-align:center;">1. Center Care on People</th>
       <th style="background:#276696;color:white;text-align:center;">2. Move the Sexuality Agenda</th>
       <th style="background:#276696;color:white;text-align:center;">3. Solidarity for Change</th>
       <th style="background:#276696;color:white;text-align:center;">4. Nurture Our Federation</th>
       `
-    // }
+    
     tableHead += `</tr>`
     $('#th-regionPercent-spending').html(tableHead);
 
     var tableBody = '';
     for (let region in list.regionBudgetProject) {
       tableBody += `<tr><td>${region}</td>`;
-      // for(let year = tei.year.start; year <=tei.year.end; year++) {
-      tableBody += `<td>${(list.regionBudgetProject[region]['1. Center Care on People'] && list.regionBudgetProject[region]['1. Center Care on People'][tei.year.end] && list.regionBudgetTotal[region][tei.year.end]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['1. Center Care on People'][tei.year.end] / list.regionBudgetTotal[region][tei.year.end]) * 100)) : ""}</td>
-        <td>${(list.regionBudgetProject[region]['2. Move the Sexuality Agenda'] && list.regionBudgetProject[region]['2. Move the Sexuality Agenda'][tei.year.end] && list.regionBudgetTotal[region][tei.year.end]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['2. Move the Sexuality Agenda'][tei.year.end] / list.regionBudgetTotal[region][tei.year.end]) * 100)) : ""}</td>
-        <td>${(list.regionBudgetProject[region]['3. Solidarity for Change'] && list.regionBudgetProject[region]['3. Solidarity for Change'][tei.year.end] && list.regionBudgetTotal[region][tei.year.end]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['3. Solidarity for Change'][tei.year.end] / list.regionBudgetTotal[region][tei.year.end]) * 100)) : ""}</td>
-        <td>${(list.regionBudgetProject[region]['4. Nurture Our Federation'] && list.regionBudgetProject[region]['4. Nurture Our Federation'][tei.year.end] && list.regionBudgetTotal[region][tei.year.end]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['4. Nurture Our Federation'][tei.year.end] / list.regionBudgetTotal[region][tei.year.end]) * 100)) : ""}</td>`
-      // }
+      
+      tableBody += `<td>${(list.regionBudgetProject[region]['1. Center Care on People'] && list.regionBudgetProject[region]['1. Center Care on People'][tei.year.value] && list.regionBudgetTotal[region][tei.year.value]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['1. Center Care on People'][tei.year.value] / list.regionBudgetTotal[region][tei.year.value]) * 100)) : ""}</td>
+        <td>${(list.regionBudgetProject[region]['2. Move the Sexuality Agenda'] && list.regionBudgetProject[region]['2. Move the Sexuality Agenda'][tei.year.value] && list.regionBudgetTotal[region][tei.year.value]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['2. Move the Sexuality Agenda'][tei.year.value] / list.regionBudgetTotal[region][tei.year.value]) * 100)) : ""}</td>
+        <td>${(list.regionBudgetProject[region]['3. Solidarity for Change'] && list.regionBudgetProject[region]['3. Solidarity for Change'][tei.year.value] && list.regionBudgetTotal[region][tei.year.value]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['3. Solidarity for Change'][tei.year.value] / list.regionBudgetTotal[region][tei.year.value]) * 100)) : ""}</td>
+        <td>${(list.regionBudgetProject[region]['4. Nurture Our Federation'] && list.regionBudgetProject[region]['4. Nurture Our Federation'][tei.year.value] && list.regionBudgetTotal[region][tei.year.value]) ? formatNumberInput(displayValue((list.regionBudgetProject[region]['4. Nurture Our Federation'][tei.year.value] / list.regionBudgetTotal[region][tei.year.value]) * 100)) : ""}</td>`
+      
       tableBody += "</tr>"
     }
     $('#tb-regionPercent-spending').html(tableBody);
@@ -292,9 +292,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //FocusArea Spending
     tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;">FocusArea</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-focusArea-spending').html(tableHead);
 
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in list.fa) {
       modifiedArr.push({
         name: name,
-        value: (list.fa[name] && list.fa[name][tei.year.end]) ? formatNumberInput(displayValue(list.fa[name][tei.year.end])) : ""
+        value: (list.fa[name] && list.fa[name][tei.year.value]) ? formatNumberInput(displayValue(list.fa[name][tei.year.value])) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -314,9 +314,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Focus area Ma list
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">MA FocusArea</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-maFocusArea-spending').html(tableHead);
 
@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in list.maFA) {
       modifiedArr.push({
         name: name,
-        value: (list.maFA[name] && list.maFA[name][tei.year.end]) ? Object.keys(list.maFA[name][tei.year.end]).length : ""
+        value: (list.maFA[name] && list.maFA[name][tei.year.value]) ? Object.keys(list.maFA[name][tei.year.value]).length : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -342,70 +342,70 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody = '<tr><td rowspan="2">1. Care: Static Clinic</td>';
     var tableBodySecond = `<tr>`
     var total = 0
-    for (let ou in list.maFA['1. Care: Static Clinic'][tei.year.end]) {
+    for (let ou in list.maFA['1. Care: Static Clinic'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['1. Care: Static Clinic'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['1. Care: Static Clinic'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['1. Care: Static Clinic'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['1. Care: Static Clinic'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">2. Care: Outreach, mobile clinic, Community-based, delivery</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['2. Care: Outreach, mobile clinic, Community-based, delivery'][tei.year.end]) {
+    for (let ou in list.maFA['2. Care: Outreach, mobile clinic, Community-based, delivery'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['2. Care: Outreach, mobile clinic, Community-based, delivery'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['2. Care: Outreach, mobile clinic, Community-based, delivery'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['2. Care: Outreach, mobile clinic, Community-based, delivery'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['2. Care: Outreach, mobile clinic, Community-based, delivery'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">3. Care: Other Services, enabled or referred (associated clinics)</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['3. Care: Other Services, enabled or referred (associated clinics)'][tei.year.end]) {
+    for (let ou in list.maFA['3. Care: Other Services, enabled or referred (associated clinics)'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['3. Care: Other Services, enabled or referred (associated clinics)'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['3. Care: Other Services, enabled or referred (associated clinics)'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['3. Care: Other Services, enabled or referred (associated clinics)'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['3. Care: Other Services, enabled or referred (associated clinics)'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">4. Care: Social Marketing Services</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['4. Care: Social Marketing Services'][tei.year.end]) {
+    for (let ou in list.maFA['4. Care: Social Marketing Services'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['4. Care: Social Marketing Services'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['4. Care: Social Marketing Services'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['4. Care: Social Marketing Services'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['4. Care: Social Marketing Services'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">5. Care: Digital Health Intervention and Selfcare</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['5. Care: Digital Health Intervention and Selfcare'][tei.year.end]) {
+    for (let ou in list.maFA['5. Care: Digital Health Intervention and Selfcare'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['5. Care: Digital Health Intervention and Selfcare'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['5. Care: Digital Health Intervention and Selfcare'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['5. Care: Digital Health Intervention and Selfcare'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['5. Care: Digital Health Intervention and Selfcare'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">6. Advocacy</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['6. Advocacy'][tei.year.end]) {
+    for (let ou in list.maFA['6. Advocacy'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['6. Advocacy'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['6. Advocacy'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['6. Advocacy'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['6. Advocacy'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
     tableBody += '<tr><td rowspan="2">7. CSE</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['7. CSE'][tei.year.end]) {
+    for (let ou in list.maFA['7. CSE'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['7. CSE'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['7. CSE'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['7. CSE'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['7. CSE'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
@@ -413,10 +413,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody += '<tr><td rowspan="2">8. CSE Online, including social media</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['8. CSE Online, including social media'][tei.year.end]) {
+    for (let ou in list.maFA['8. CSE Online, including social media'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['8. CSE Online, including social media'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['8. CSE Online, including social media'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['8. CSE Online, including social media'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['8. CSE Online, including social media'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
@@ -424,10 +424,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody += '<tr><td rowspan="2">9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting'][tei.year.end]) {
+    for (let ou in list.maFA['9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
@@ -435,10 +435,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody += '<tr><td rowspan="2">10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles'][tei.year.end]) {
+    for (let ou in list.maFA['10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
@@ -447,10 +447,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tableBody += '<tr><td rowspan="2">11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures</td>';
     tableBodySecond = `<tr>`;
     total = 0;
-    for (let ou in list.maFA['11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures'][tei.year.end]) {
+    for (let ou in list.maFA['11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures'][tei.year.value]) {
       tableBody += `<td>${ou}</td>`;
-      tableBodySecond += `<td>${formatNumberInput(list.maFA['11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures'][tei.year.end][ou])}</td>`;
-      total += Number(list.maFA['11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures'][tei.year.end][ou]);
+      tableBodySecond += `<td>${formatNumberInput(list.maFA['11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures'][tei.year.value][ou])}</td>`;
+      total += Number(list.maFA['11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures'][tei.year.value][ou]);
     }
     tableBody += `<td>Total</td></tr>${tableBodySecond}<td>${formatNumberInput(total)}</tr>`
 
@@ -458,9 +458,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Focus area Ma list
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">Pillars</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
+    
     tableHead += `<th style="background:#276696;color:white;text-align:center;" colspan="10">Top Spenders</th>`
-    // }
+    
     tableHead += `</tr>`
     $('#th-maTopSpendors-spending').html(tableHead);
 
@@ -474,7 +474,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ouName in list.topSpendors[name]) {
         modifiedArr[counter]['ou'].push({
           name: ouName,
-          value: list.topSpendors[name][ouName][tei.year.end]
+          value: list.topSpendors[name][ouName][tei.year.value]
         })
         modifiedArr[counter]['ou'].sort((a, b) => b.value - a.value);
       }
@@ -491,28 +491,28 @@ document.addEventListener("DOMContentLoaded", function () {
     //Expense Category Spending
     tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;">Expense Category</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-expenseCategory-spending').html(tableHead);
 
     modifiedArr = [
       {
         name: "Direct Project Activities",
-        value: listEC.ec[tei.year.end]['activities'] ? displayValue(listEC.ec[tei.year.end]['activities']) : ''
+        value: listEC.ec[tei.year.value]['activities'] ? displayValue(listEC.ec[tei.year.value]['activities']) : ''
       },
       {
         name: 'Personnel',
-        value: listEC.ec[tei.year.end]['personnel'] ? displayValue(listEC.ec[tei.year.end]['personnel']) : ''
+        value: listEC.ec[tei.year.value]['personnel'] ? displayValue(listEC.ec[tei.year.value]['personnel']) : ''
       },
       {
         name: 'Commodities',
-        value: listEC.ec[tei.year.end]['commodities'] ? displayValue(listEC.ec[tei.year.end]['commodities']) : ''
+        value: listEC.ec[tei.year.value]['commodities'] ? displayValue(listEC.ec[tei.year.value]['commodities']) : ''
       },
       {
         name: 'Indirect/support costs',
-        value: listEC.ec[tei.year.end]['cost'] ? displayValue(listEC.ec[tei.year.end]['cost']) : ''
+        value: listEC.ec[tei.year.value]['cost'] ? displayValue(listEC.ec[tei.year.value]['cost']) : ''
       }
     ];
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -527,27 +527,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Project region Spending
     var tableHead = `<tr>
-    <th style="background:#276696;color:white;text-align:center;">Country Spending EC ${tei.year.end}</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
+    <th style="background:#276696;color:white;text-align:center;">Country Spending EC ${tei.year.value}</th>`
+    
     tableHead += `
       <th style="background:#276696;color:white;text-align:center;">Direct Project Activities</th>
       <th style="background:#276696;color:white;text-align:center;">Personnel</th>
       <th style="background:#276696;color:white;text-align:center;">Commodities</th>
       <th style="background:#276696;color:white;text-align:center;">Indirect/support costs</th>
       `
-    // }
+    
     tableHead += `</tr>`
     $('#th-countryExpenseCategory-spending').html(tableHead);
 
     var tableBody = '';
     for (let ou in listEC.ecCountry) {
       tableBody += `<tr><td>${ou}</td>`;
-      // for(let year = tei.year.start; year <=tei.year.end; year++) {
-      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.end] && listEC.ecCountry[ou][tei.year.end]['activities']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.end]['activities'])) : ''}</td>`
-      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.end] && listEC.ecCountry[ou][tei.year.end]['personnel']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.end]['personnel'])) : ''}</td>`
-      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.end] && listEC.ecCountry[ou][tei.year.end]['commodities']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.end]['commodities'])) : ''}</td>`
-      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.end] && listEC.ecCountry[ou][tei.year.end]['cost']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.end]['cost'])) : ''}</td>`
-      // }
+      
+      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.value] && listEC.ecCountry[ou][tei.year.value]['activities']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.value]['activities'])) : ''}</td>`
+      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.value] && listEC.ecCountry[ou][tei.year.value]['personnel']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.value]['personnel'])) : ''}</td>`
+      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.value] && listEC.ecCountry[ou][tei.year.value]['commodities']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.value]['commodities'])) : ''}</td>`
+      tableBody += `<td>${(listEC.ecCountry[ou][tei.year.value] && listEC.ecCountry[ou][tei.year.value]['cost']) ? formatNumberInput(displayValue(listEC.ecCountry[ou][tei.year.value]['cost'])) : ''}</td>`
+      
       tableBody += "</tr>"
     }
     $('#tb-countryExpenseCategory-spending').html(tableBody);
@@ -559,17 +559,17 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#th-maTotalIncome-revenue').html(tableHead);
 
     tableBody = '';
-    // for(let year = tei.year.start; year <=tei.year.end; year++) {
-    tableBody += `<tr><td>${tei.year.end}</td><td>${listTI.ti[tei.year.end] ? formatNumberInput(displayValue(listTI.ti[tei.year.end])) : ''}</td></tr>`;
-    // }
+    
+    tableBody += `<tr><td>${tei.year.value}</td><td>${listTI.ti[tei.year.value] ? formatNumberInput(displayValue(listTI.ti[tei.year.value])) : ''}</td></tr>`;
+    
 
     $('#tb-maTotalIncome-revenue').html(tableBody);
 
     //Focus area CW list
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">Category Wise</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-cwTotalIncome-revenue').html(tableHead);
 
@@ -577,7 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in listTI.cw) {
       modifiedArr.push({
         name: name,
-        value: (listTI.cw[name] && listTI.cw[name][tei.year.end]) ? formatNumberInput(displayValue(listTI.cw[name][tei.year.end])) : ""
+        value: (listTI.cw[name] && listTI.cw[name][tei.year.value]) ? formatNumberInput(displayValue(listTI.cw[name][tei.year.value])) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -589,9 +589,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Focus area SCW list
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">Sub-Category Wise</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-scwTotalIncome-revenue').html(tableHead);
 
@@ -599,7 +599,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in listTI.scw) {
       modifiedArr.push({
         name: name,
-        value: (listTI.scw[name] && listTI.scw[name][tei.year.end]) ? displayValue(listTI.scw[name][tei.year.end]) : ""
+        value: (listTI.scw[name] && listTI.scw[name][tei.year.value]) ? displayValue(listTI.scw[name][tei.year.value]) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -611,58 +611,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Project region Spending
     var tableHead = `<tr>
-    <th style="background:#276696;color:white;text-align:center;">Income Sub Category ${tei.year.end}</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `
-      <th style="background:#276696;color:white;text-align:center;">Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)</th>
-      <th style="background:#276696;color:white;text-align:center;">Client/Patient fees</th>
-      <th style="background:#276696;color:white;text-align:center;">Training, education, professional services and rentals</th>
-      <th style="background:#276696;color:white;text-align:center;">Local/national: government</th>
-      <th style="background:#276696;color:white;text-align:center;">Local/national: non-government</th>
-      <th style="background:#276696;color:white;text-align:center;">Membership fees</th>
-      <th style="background:#276696;color:white;text-align:center;">Non-operational income</th>
-      <th style="background:#276696;color:white;text-align:center;">Other national income</th>
-     <th style="background:#276696;color:white;text-align:center;"> Multilateral Agencies and Organizations</th>
-      <th style="background:#276696;color:white;text-align:center;">Foreign Governments</th>
-      <th style="background:#276696;color:white;text-align:center;">International Trusts and Foundations / NGOs</th>
-      <th style="background:#276696;color:white;text-align:center;">Corporate / Business Sector</th>
-      <th style="background:#276696;color:white;text-align:center;">Other International Income</th>
-      <th style="background:#276696;color:white;text-align:center;">IPPF Unrestricted Grant</th>
-      <th style="background:#276696;color:white;text-align:center;">IPPF Restricted Grant</th>
-      `
-    // }
-    tableHead += `</tr>`
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Income Sub Category ${tei.year.value}</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Client/Patient fees</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Training, education, professional services and rentals</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Local/national: government</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Local/national: non-government</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Membership fees</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Non-operational income</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Other national income</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2"> Multilateral Agencies and Organizations</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Foreign Governments</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">International Trusts and Foundations / NGOs</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Corporate / Business Sector</th>
+      <th style="background:#276696;color:white;text-align:center;" rowspan="2">Other International Income</th>
+      <th style="background:#276696;color:white;text-align:center;" colspan="2">IPPF Core Grant</th>
+      <th style="background:#276696;color:white;text-align:center;" colspan="2">Other IPPF Grant</th>
+      </tr>
+      <tr>
+      <th style="background:#276696;color:white;text-align:center;">Restricted</th>
+      <th style="background:#276696;color:white;text-align:center;">Unrestricted</th>
+      <th style="background:#276696;color:white;text-align:center;">Restricted</th>
+      <th style="background:#276696;color:white;text-align:center;">Unrestricted</th>
+      </tr>
+    `
     $('#th-incomeSubCategory-spending').html(tableHead);
 
     var tableBody = '';
     for (let ou in listTI.countrySCWise) {
-      tableBody += `<tr><td>${ou}</td>`;
-      // for(let year = tei.year.start; year <=tei.year.end; year++) {
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Client/Patient fees']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Client/Patient fees'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Training, education, professional services and rentals']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Training, education, professional services and rentals'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Local/national: government']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Local/national: government'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Local/national: non-government']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Local/national: non-government'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Membership fees']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Membership fees'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Non-operational income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Non-operational income'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Other national income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Other national income'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Multilateral Agencies and Organizations']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Multilateral Agencies and Organizations'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Foreign Governments']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Foreign Governments'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['International Trusts and Foundations / NGOs']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['International Trusts and Foundations / NGOs'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Corporate / Business Sector']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Corporate / Business Sector'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['Other International Income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['Other International Income'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['IPPF Core Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['IPPF Core Grant'])) : ''}</td>`
-      tableBody += `<td>${(listTI.countrySCWise[ou][tei.year.end] && listTI.countrySCWise[ou][tei.year.end]['IPPF Restricted Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.end]['IPPF Restricted Grant'])) : ''}</td>`
-      // }
-      tableBody += "</tr>"
+      tableBody += `<tr><td>${ou}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Client/Patient fees']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Client/Patient fees']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Training, education, professional services and rentals']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Training, education, professional services and rentals']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Local/national: government']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Local/national: government']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Local/national: non-government']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Local/national: non-government']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Membership fees']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Membership fees']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Non-operational income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Non-operational income']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Other national income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Other national income']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Multilateral Agencies and Organizations']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Multilateral Agencies and Organizations']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Foreign Governments']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Foreign Governments']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['International Trusts and Foundations / NGOs']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['International Trusts and Foundations / NGOs']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Corporate / Business Sector']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Corporate / Business Sector']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Other International Income']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Other International Income']['total'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['IPPF Core Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['IPPF Core Grant']['restricted'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['IPPF Core Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['IPPF Core Grant']['unrestricted'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Other IPPF Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Other IPPF Grant']['restricted'])) : ''}</td>
+      <td>${(listTI.countrySCWise[ou][tei.year.value] && listTI.countrySCWise[ou][tei.year.value]['Other IPPF Grant']) ? formatNumberInput(displayValue(listTI.countrySCWise[ou][tei.year.value]['Other IPPF Grant']['unrestricted'])) : ''}</td>
+      </tr>`
     }
     $('#tb-incomeSubCategory-spending').html(tableBody);
 
     //Focus area CSC list
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">Social enterprise income</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-cscTotalIncome-revenue').html(tableHead);
 
@@ -670,7 +673,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let name in listTI.csc) {
       modifiedArr.push({
         name: name,
-        value: (listTI.csc[name] && listTI.csc[name][tei.year.end]) ? formatNumberInput(displayValue(listTI.csc[name][tei.year.end])) : ""
+        value: (listTI.csc[name] && listTI.csc[name][tei.year.value]) ? formatNumberInput(displayValue(listTI.csc[name][tei.year.value])) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -683,9 +686,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //total MA Revenue
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">MA Unrestricted</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-maUnrestricted-income').html(tableHead);
 
@@ -701,9 +704,9 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let ou in listTI.ippfUI) {
       modifiedArr.push({
         name: ou,
-        num: listTI.ippfUI[ou][tei.year.end] ? displayValue(listTI.ippfUI[ou][tei.year.end]) : "",
-        deno: listTI.ouic[ou][tei.year.end] ? displayValue(listTI.ouic[ou][tei.year.end]) : "",
-        res: (listTI.ippfUI[ou][tei.year.end] && listTI.ouic[ou][tei.year.end]) ? displayValue((listTI.ippfUI[ou][tei.year.end] / listTI.ouic[ou][tei.year.end]) * 100) : ''
+        num: listTI.ippfUI[ou][tei.year.value] ? displayValue(listTI.ippfUI[ou][tei.year.value]) : "",
+        deno: listTI.ouic[ou][tei.year.value] ? displayValue(listTI.ouic[ou][tei.year.value]) : "",
+        res: (listTI.ippfUI[ou][tei.year.value] && listTI.ouic[ou][tei.year.value]) ? displayValue((listTI.ippfUI[ou][tei.year.value] / listTI.ouic[ou][tei.year.value]) * 100) : ''
       })
     }
     modifiedArr.forEach(arr => {
@@ -726,13 +729,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //total MA Revenue
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">MA Unrestricted</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
+    
     tableHead += `
       <th style="background:#276696;color:white;text-align:center;">num</th>
       <th style="background:#276696;color:white;text-align:center;">Deno</th>
       <th style="background:#276696;color:white;text-align:center;">result</th>
       `
-    // }
+    
     tableHead += `</tr>`
     $('#th-maOUUnrestricted-income').html(tableHead);
 
@@ -740,9 +743,9 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let ou in listTI.ippfUI) {
       modifiedArr.push({
         name: ou,
-        num: listTI.ippfUI[ou][tei.year.end] ? displayValue(listTI.ippfUI[ou][tei.year.end]) : "",
-        deno: listTI.ouic[ou][tei.year.end] ? displayValue(listTI.ouic[ou][tei.year.end]) : "",
-        res: (listTI.ippfUI[ou][tei.year.end] && listTI.ouic[ou][tei.year.end]) ? displayValue((listTI.ippfUI[ou][tei.year.end] / listTI.ouic[ou][tei.year.end]) * 100) : ''
+        num: listTI.ippfUI[ou][tei.year.value] ? displayValue(listTI.ippfUI[ou][tei.year.value]) : "",
+        deno: listTI.ouic[ou][tei.year.value] ? displayValue(listTI.ouic[ou][tei.year.value]) : "",
+        res: (listTI.ippfUI[ou][tei.year.value] && listTI.ouic[ou][tei.year.value]) ? displayValue((listTI.ippfUI[ou][tei.year.value] / listTI.ouic[ou][tei.year.value]) * 100) : ''
       })
     }
     tableBody = "";
@@ -754,9 +757,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Core grant Income details
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">Core grants Unlocked</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-country-income').html(tableHead);
 
@@ -764,7 +767,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let ou in listCF.id) {
       modifiedArr.push({
         name: ou,
-        value: listCF.id[ou][tei.year.end] ? displayValue(listCF.id[ou][tei.year.end]) : ""
+        value: listCF.id[ou][tei.year.value] ? displayValue(listCF.id[ou][tei.year.value]) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -776,9 +779,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Core grant Income details
     tableHead = `<tr><th style="background:#276696;color:white;text-align:center;">MA Project Budget</th>`
-    // for(let year = tei.year.start; year <=tei.year.end;year++) {
-    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.end}</th>`
-    // }
+    
+    tableHead += `<th style="background:#276696;color:white;text-align:center;">${tei.year.value}</th>`
+    
     tableHead += `</tr>`
     $('#th-project-budget').html(tableHead);
 
@@ -786,7 +789,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let ou in listPB.pbc) {
       modifiedArr.push({
         name: ou,
-        value: listPB.pbc[ou][tei.year.end] ? displayValue(listPB.pbc[ou][tei.year.end]) : ""
+        value: listPB.pbc[ou][tei.year.value] ? displayValue(listPB.pbc[ou][tei.year.value]) : ""
       })
     }
     modifiedArr.sort((a, b) => b.value - a.value);
@@ -1015,7 +1018,11 @@ document.addEventListener("DOMContentLoaded", function () {
             //Sub category
             if (!countrySubCategoryDissAgre[item.orgUnit]) countrySubCategoryDissAgre[item.orgUnit] = {};
             if (!countrySubCategoryDissAgre[item.orgUnit][year]) countrySubCategoryDissAgre[item.orgUnit][year] = {};
-            if (!countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]) countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] = 0;
+            if (!countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]) countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] = {
+              restricted: 0,
+              unrestricted: 0,
+              total: 0,
+            }
 
             if (!countrySubCategory[item.orgUnit]) countrySubCategory[item.orgUnit] = {};
             if (!countrySubCategory[item.orgUnit][year]) countrySubCategory[item.orgUnit][year] = 0;
@@ -1025,22 +1032,26 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!totalSubCategoryRevenue[subCategoryName[indexTI]][year]) totalSubCategoryRevenue[subCategoryName[indexTI]][year] = 0;
             if (item.dataValuesTI[year][ti.restricted]) {
               totalSubCategoryRevenue[subCategoryName[indexTI]][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] += Number(item.dataValuesTI[year][ti.restricted]);
+              if(indexTI == "13")  countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]['restricted'] += Number(item.dataValuesTI[year][ti.restricted]);
+              else if(indexTI == "14")  countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]['restricted'] += Number(item.dataValuesTI[year][ti.restricted]);
+              else countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]['total'] += Number(item.dataValuesTI[year][ti.restricted]);
 
               if (subCategoryName[indexTI] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              if (subCategoryName[indexTI] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              if (subCategoryName[indexTI] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
-              if (subCategoryName[indexTI] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              else if (subCategoryName[indexTI] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              else if (subCategoryName[indexTI] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
+              else if (subCategoryName[indexTI] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.restricted]);
             }
             if (item.dataValuesTI[year][ti.unrestricted]) {
               totalSubCategoryRevenue[subCategoryName[indexTI]][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              if(indexTI == "13")  countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]['unrestricted'] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              else if(indexTI == "14")  countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]['unrestricted'] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              else countrySubCategoryDissAgre[item.orgUnit][year][subCategoryName[indexTI]]['total'] += Number(item.dataValuesTI[year][ti.unrestricted]);
 
               if (subCategoryName[indexTI] == 'IPPF Core Grant') ippfUnrestrictedIncome[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (subCategoryName[indexTI] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (subCategoryName[indexTI] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (subCategoryName[indexTI] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
-              if (subCategoryName[indexTI] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              else if (subCategoryName[indexTI] == 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              else if (subCategoryName[indexTI] == 'Client/Patient fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              else if (subCategoryName[indexTI] == 'Training, education, professional services and rentals') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
+              else if (subCategoryName[indexTI] == 'Membership fees') countrySubCategory[item.orgUnit][year] += Number(item.dataValuesTI[year][ti.unrestricted]);
             }
 
           }
