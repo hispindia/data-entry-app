@@ -1,6 +1,7 @@
 import { eventApi } from '../../api/DataApi.js';
-import { getMeData, getOrganisationUnits, getProgramStageEvents } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { dataSet } from "../../api/dataSet.js";
+import { getMeData, getOrganisationUnits, getProgramEvents, getProgramStageEvents } from '../../api/func.js';
+import { tei, dataElements, program, programStage, dataSetQuantity, dataSetFunds } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -24,6 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("change", function (ev) {
       fetchEvents()
     });
+
+    async function fetchDataSet(dataSetId, orgunit, year) {
+      const values = {};
+      
+      const dataValuesQuantity = await dataSet.getValues(dataSetId, orgunit, year);
+      dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+  
+      return values;
+    }
 
   configurePage();
   async function configurePage() {
@@ -111,21 +121,21 @@ document.addEventListener("DOMContentLoaded", function () {
         || enroll.program == program.auProjectBudget
         || enroll.program == program.auProjectDescription
         || enroll.program == program.auOrganisationDetails
-        || enroll.program == program.reportFeedback
+        || enroll.program == program.roTRTFeedback
         || enroll.program == program.auIncomeDetails
         || enroll.program == program.auCommodities
       );
       
       let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget,{id: tei.year.id, value: tei.year.value}) //data values year wise
       let dataValuesFA = getProgramStageEvents(filteredPrograms, programStage.auProjectFocusArea, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value}) //data values year wise
-      let dataValuesRO = getProgramStageEvents(filteredPrograms, programStage.auROTRTFeedback, program.reportFeedback, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesRO = getProgramEvents(filteredPrograms, program.roTRTFeedback, {id: tei.year.id, value: tei.year.value}) //data values year wise
       let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
       let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
       let dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value}) //data values year wise
       let dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
       let dataValuesVC = getProgramStageEvents(filteredPrograms, programStage.auValueAddCoreFunding, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
-      let dataValuesOC = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesOrder, program.auCommodities, {id: tei.year.id, value: tei.year.value}) //data values year wise
-      let dataValuesCS = getProgramStageEvents(filteredPrograms, programStage.auCommoditiesSource, program.auCommodities, {id: tei.year.id, value: tei.year.value}) //data values year wise
+      let dataValuesCS = await fetchDataSet(dataSetQuantity, ou.id, tei.year.value);
+      let totalUnrestricted = await fetchDataSet(dataSetFunds, ou.id, tei.year.value);
       
 
       dataValuesOU.push({
@@ -140,8 +150,8 @@ document.addEventListener("DOMContentLoaded", function () {
         dataValuesRO,
         dataValuesTI,
         dataValuesVC,
-        dataValuesOC,
         dataValuesCS,
+        totalUnrestricted,
       })
         }
       }
@@ -716,7 +726,7 @@ document.addEventListener("DOMContentLoaded", function () {
       name: 'As percentage of total income',
       style: 'background:#7030a0;'
     },{
-      id: 'EEH1KdXxA68',
+      id: 'S9nfkHnDGr3',
       name: 'IPPF Unrestricted (Either procurred directly from IPPF or purchased locally using the Unrestricted grant) '
     },{
       id: 'internationalDonors',
@@ -771,23 +781,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
 
-    dataElements.projectTotalIncome.forEach(pti => {
-      deList.forEach((de) => {
-        if(de.code && item.dataValuesTI[year] && de.code==item.dataValuesTI[year][pti.subCategory]) {
-      if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
-      if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
+    dataElements.projectTotalIncome.forEach((pti,index) => {
       
+      var subCategoryName = [
+        "Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)",
+        "Client/Patient fees",
+        "Training, education, professional services and rentals",
+        "Local/national: government",
+        "Local/national: non-government",
+        "Membership fees",
+        "Non-operational income",
+        "Other national income",
+        "Multilateral Agencies and Organizations",
+        "Foreign Governments",
+        "International Trusts and Foundations / NGOs",
+        "Corporate / Business Sector",
+        "Other International Income",
+        "IPPF Core Grant",
+        "Other IPPF Grant"
+      ]
+
+      deList.forEach((de) => {
+        if(item.dataValuesTI[year]) {
+          if(de.code && de.code==subCategoryName[index]) {
+            if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
+            if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
+          }
+          else if(de.code == "IPPF Unrestricted Grant" && (subCategoryName[index] == "IPPF Core Grant" ||  subCategoryName[index] == "Other IPPF Grant")) {
+            if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
+          }
+          else if(de.code == "IPPF Restricted Grant" && (subCategoryName[index] == "IPPF Core Grant" ||  subCategoryName[index] == "Other IPPF Grant")) {
+            console.log(item.dataValuesTI[year][pti.restricted],pti.restricted)
+            if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
+          }
         }
       })
-      if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.category]) {
-        if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.restricted]) {
-      values['totalIncome'] += Number(item.dataValuesTI[year][pti.restricted]);
-        }
-        if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.unrestricted]) {
-      values['totalIncome'] += Number(item.dataValuesTI[year][pti.unrestricted]);
-      values['ippfCore'] += Number(item.dataValuesTI[year][pti.unrestricted]);
-        }
+
+      if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.restricted]) {
+        values['totalIncome'] += Number(item.dataValuesTI[year][pti.restricted]);
       }
+      if(item.dataValuesTI[year] && item.dataValuesTI[year][pti.unrestricted]) {
+        values['totalIncome'] += Number(item.dataValuesTI[year][pti.unrestricted]);
+        values['ippfCore'] += Number(item.dataValuesTI[year][pti.unrestricted]);
+      }
+      
     })
 
     values['ippfCorePer'] = values['ippfCore'] && values['totalIncome'] && (values['ippfCore']/values['totalIncome']) ? ((values['ippfCore']/values['totalIncome'])*100).toFixed(2)  : '';
@@ -812,20 +849,19 @@ document.addEventListener("DOMContentLoaded", function () {
     values['percentIppf'] = values['totalIppf'] && values['totalIncome'] && (values['totalIppf']/values['totalIncome']) ? ((values['totalIppf']/values['totalIncome'])*100).toFixed(2)  : '';
     values['totalIncomePer'] = values['totalIncome'] && values['totalIncomeControl'] && (values['totalIncomeControl']/values['totalIncome']) ? ((values['totalIncomeControl']/values['totalIncome'])*100).toFixed(2)  : '';
     
-  if(item.dataValuesOC[year] && item.dataValuesOC[year][dataElements.orderCommoditiesCV['totalCost']]) {
-    values['EEH1KdXxA68'] = Math.round(item.dataValuesOC[year][dataElements.orderCommoditiesCV['totalCost']]);
-  }
-  if(item.dataValuesCS[year]) {
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['international']]) values['internationalDonors'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['international']]);
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['local']]) values['localIncome'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['local']]);
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['inkind']]) values['inkindDonations'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['inkind']]);
-     if(item.dataValuesCS[year][dataElements.sourceCommodities['other']]) values['otherincome'] += Number(item.dataValuesCS[year][dataElements.sourceCommodities['other']]);
+  
+  if(item.dataValuesCS) {
+      if(item.dataValuesCS[dataElements.sourceCommodities['unrestricted']]) values['S9nfkHnDGr3'] = Math.round(item.dataValuesCS[dataElements.sourceCommodities['unrestricted']]);
+     if(item.dataValuesCS[dataElements.sourceCommodities['international']]) values['internationalDonors'] += Number(item.dataValuesCS[dataElements.sourceCommodities['international']]);
+     if(item.dataValuesCS[dataElements.sourceCommodities['local']]) values['localIncome'] += Number(item.dataValuesCS[dataElements.sourceCommodities['local']]);
+     if(item.dataValuesCS[dataElements.sourceCommodities['inkind']]) values['inkindDonations'] += Number(item.dataValuesCS[dataElements.sourceCommodities['inkind']]);
+     if(item.dataValuesCS[dataElements.sourceCommodities['other']]) values['otherincome'] += Number(item.dataValuesCS[dataElements.sourceCommodities['other']]);
     }
     values['totalCommodities'] = Number(values['internationalDonors']) + Number(values['localIncome']) + Number(values['inkindDonations']) + Number(values['otherincome']);
     if(values['totalCommodities'] && values['totalIncome']) values['percentTotalCommodities'] = (values['totalCommodities'] && values['totalIncome'] && values['totalCommodities']/values['totalIncome']) ? (( values['totalCommodities']/values['totalIncome'])*100).toFixed(2): '';
 
-    if(item.dataValuesOD[year] && item.dataValuesOD[year][dataElements.yearAmount]) {
-      values['totalUnrestricted'] = Number(item.dataValuesOD[year][dataElements.yearAmount]);
+    if(item.totalUnrestricted['QQngZ31YwUi']) {
+      values['totalUnrestricted'] = Number(item.totalUnrestricted['QQngZ31YwUi']);
       values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[year][dataElements.yearAmount]/values['totalIncome']) ? ((item.dataValuesOD[year][dataElements.yearAmount]/values['totalIncome'])*100).toFixed(2): ''
     }
 
@@ -867,6 +903,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tableRow
   }
   }
+
   function getOrganisationDetails(dataValuesOU, level2OU) {
 
     var tableRow = "";
@@ -1102,133 +1139,123 @@ document.addEventListener("DOMContentLoaded", function () {
         style:""
       },
       {
-        id: 'flagRating',
-        name: 'Flag rating (red or green)',
-        style:""
-      },
-      {
-        id: 'pfSeozgjfm6',
-        name: 'Is the plan submitted in the correct format',
+        id: 'oxL5NjKsg5s',
+        name: 'Country Context',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'Cinud8FN7XL',
-        name: 'Is the plan done to the required standard: e.g. all answers and budget fields are completed and are understandable',
+        id: 'vl55Hml6fyv',
+        name: 'Compelling & ambitious strategy',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'eGsNqkEprfp',
-        name: 'Is this BP substantially consistent with the plan that was approved by the TRT?',
+        id: 'DZiV13ZnM9s',
+        name: 'External coherence',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'G16AMDjPKzy',
-        name: 'Does the BP incorporate the correct amount of core funding from IPPF? (as either core grant or commodities).',
+        id: 'WD6eft8CJDN',
+        name: 'Project design',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'kbN3wLCczLX',
-        name: "In your review of the Strategic Alignment (Screen 4), does the plan remain aligned with IPPF's Strategy 2028?",
+        id: 'zR2WxSGUJ2E',
+        name: "Core Contributions",
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'RTdF2kjEgFk',
-        name: 'Does the plan demonstrate youth invovlement in its delivery?',
+        id: 'kjpC984CLeq',
+        name: 'Expense logic',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'BmVI6lpkoK9',
-        name: 'Does the plan deliver similar or greater number of projects than the approved plan? (compare with 3-year plan)',
+        id: 'ErJLSBpqibp',
+        name: 'Project results',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'Tk5Xp1Gogre',
-        name: 'On Screen 3.1. does the annual budget balance? If no, does the MA indicate how it will fund the plan?',
+        id: 'FSPkOobr7az',
+        name: 'Youth Leadership',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'CXmcgQFJtDu',
-        name: 'Has the overall budget for the year remained the same or increased compared to the original business plan?',
+        id: 'bmVTRUZzMLS',
+        name: 'Resource mobilization',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'Z6OVONwpGYD',
-        name: 'Is the total yearly budget for personnel the same or less compared to the original business plan?',
+        id: 'fHYf8a7wFWb',
+        name: 'Financial sustainability',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'gjVYCryVOGq',
-        name: 'Has the overall income for the budget planning cycle remained the same or increased compared to the original business plan?',
+        id: 'IUopqmlWn4K',
+        name: 'Operational sustainability',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'AO3vin9fPZ7',
-        name: 'Any Other Major Risk Identified',
+        id: 'y57oNCRc0F9',
+        name: 'Budgetary soundness',
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'er52foffbOy',
-        name: 'Other Comments',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'K6edbyuqMw9',
-        name: 'P1: Abortion Care ',
+        id: 'do0gmdBtniQ',
+        name: 'Abortion Care ',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'pyRER6QeMVt',
-        name: 'P1: Infertility Care',
+        id: 'xkhr503QaYL',
+        name: 'Infertility Care',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'FjW3G5cY04O',
-        name: 'P1: HIV Integration Care',
+        id: 'c4nX3T91PoJ',
+        name: 'HIV Integration',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'riXEdIudadq',
-        name: 'P1: Marginalised Populations Care',
+        id: 'MbTWBXFTeP3',
+        name: 'Marginalised Populations',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'doSEzDD0qR3',
-        name: 'P1: Humanitarian Crisis Care',
+        id: 'fpfvZO8OIVx',
+        name: 'Humanitarian Crisis',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'y1jp4VkL0EZ',
-        name: 'P1: Digital and Self-care Care',
+        id: 'G7PRorifrS5',
+        name: 'Digital and Self-care',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'K4Ftg10CPiu',
-        name: 'P2: Harmful Laws and Norms',
+        id: 'TQy2r6Owunf',
+        name: 'Intelligence sharing',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'GcChpH7vrQX',
-        name: 'P2: Youth Engagement and CSE Care',
+        id: 'qJ8a30xPe91',
+        name: 'Youth Engagement and CSE',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'aN3Z1bWBPLo',
-        name: 'P3: Partnerships Care',
+        id: 'AgXtmr3lTFq',
+        name: 'Partnerships to Fight back',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'lnJL9RHB6Fh',
-        name: 'P3: Research ',
+        id: 'ZiXBwGQfeHQ',
+        name: 'Counting the Costs ',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'LHptGGWfKnx',
-        name: 'P4: Sustainability ',
+        id: 'FUsVRA1K2rx',
+        name: 'Post ODA Preparations',
         style: 'background:#4ea72e;'
       },
       {
-        id: 'hYDnGFx92aU',
-        name: 'P4: Anti-discrimination and Inclusion',
+        id: 'y5US8jsLxAN',
+        name: 'Anti-discrimination and Inclusion',
         style: 'background:#4ea72e;'
       }
     ]
@@ -1240,8 +1267,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     dataValuesOU.forEach(item => {
 
-      item.dataValuesRO[year] = {
-        ...item.dataValuesRO[year],
+      item.dataValuesRO = {
+        ...item.dataValuesRO,
         ...item.attributes
       }
       var region = '';
@@ -1249,22 +1276,19 @@ document.addEventListener("DOMContentLoaded", function () {
         if (ou.name == item.orgUnit) region = parent.name
       }))
       tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-      deList.forEach((de,index) => {
-        var value='';
-        if(de.id=='flagRating') {
-         var color = '';
-         if(item.dataValuesRO[year]) color = selectedRatings(item.dataValuesRO[year]);
-         tableRow += `<td class="${color}"> </td>`
-        } else {
-      if(item.dataValuesRO[year] && item.dataValuesRO[year][de.id]) value=item.dataValuesRO[year][de.id];
-        
-      if(value=='true') tableRow += `<td >Yes</td>`;
-      else if(value=='false') tableRow += `<td >No</td>`;
+      deList.forEach((de) => {
+      var value = '';
+      if( item.dataValuesRO[de.id]) value=item.dataValuesRO[de.id];
+      
+      if(value=="Satisfactory") tableRow += `<td class="color-green">Satisfactory</td>`;
+      else if(value=="Significant Gaps") tableRow += `<td class="color-red">Significant Gaps</td>`;
+      else if(value=="Some Gaps") tableRow += `<td style="color: #FFA500;">Some Gaps</td>`;
+      else if(value=="Not Applicable") tableRow += `<td>Not Applicable</td>`;
       else if(value=="Addressed") tableRow += `<td class="color-green">Addressed</td>`;
       else if(value=="Not Addressed") tableRow += `<td class="color-red">Not Addressed</td>`;
-      else if(value=="Not Addressed but Justified") tableRow += `<td class="color-pink">Not Addressed but Justified</td>`;
+      else if(value=="Not Addressed but Justified") tableRow += `<td style="color: #FFA500;">Not Addressed but Justified</td>`;
       else tableRow += `<td>${value}</td>`
-        }
+        
       })
       tableRow += '</tr>'
 
@@ -1277,38 +1301,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function selectedRatings(dataValues) {
-  var color = '';
-  const ratings = {
-    yesCount: 0,
-    noCount: 0
-  };
-  var seriousRisk =false;
-  const generalAssessment = [ 'eGsNqkEprfp', 'kbN3wLCczLX'];
-  const overallAssessment = [ 'pfSeozgjfm6', 'Cinud8FN7XL', 'eGsNqkEprfp', 'G16AMDjPKzy','kbN3wLCczLX', 'RTdF2kjEgFk', 'BmVI6lpkoK9', 'Tk5Xp1Gogre', 'CXmcgQFJtDu', 'Z6OVONwpGYD', 'gjVYCryVOGq']
-  const seriousRiskId = ['AO3vin9fPZ7']
-
-  seriousRiskId.forEach((risk) => {
-    if(dataValues[risk]) seriousRisk = true;
-  })
-  if(seriousRisk) {
-    color = "bg-red";
-    return color
-  }
-
-  generalAssessment.forEach(requirement => {
-    if(dataValues[requirement] && dataValues[requirement]=="true") ratings['yesCount']++;
-  })
-  overallAssessment.forEach(requirement => {
-    if(dataValues[requirement] && dataValues[requirement]=="false") ratings['noCount']++;
-  })
-  if(ratings['yesCount']==2 && ratings['noCount'] < 4) {
-    color = "bg-green";
-  } else {
-    color = "bg-red";
-  }
-  return color;
-}
 
 function displayValue(input) {
   if (input === null || input === undefined || input === '') {
@@ -1327,23 +1319,3 @@ function displayValue(input) {
     return num.toFixed(2);
   }
 }
-
-function colorCode(num) {
-  if (Number(num) == 0) return ''
-  else return 'red'
-}
-
-
-    //textarea word limit
-    function checkWords(event, id) {
-      const counter = document.getElementById('counter-' + (id));
-      const { value } = event;
-      const words = value.trim().split(/\s+/)
-
-      if (words.length >= maxWords) {
-        event.value = words.slice(0, maxWords).join(' ');
-        return
-      }
-      if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
-      else counter.textContent = `${maxWords} words remaining`;
-    }

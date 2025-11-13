@@ -24,6 +24,33 @@ export function getEvents(programs, programId, year) {
   return events;
 }
 
+
+export function getProgramEvents(programs, programId, year) {
+  var events = {};
+
+  const eventList = programs.filter(
+    (enroll) => (enroll.program == programId)
+  );
+
+  // console.log('getEvents: year object:', year);
+  eventList.forEach(list =>
+    list.events.forEach((event) => {
+      const dataValues = {};
+      dataValues['event'] = event.event;
+      event.dataValues.forEach(dv => dataValues[dv.dataElement] = dv.value);
+      // console.log('getEvents: checking event dataValues:', dataValues);
+      if (dataValues[year.id] && dataValues[year.id]==year.value) {
+        events = {
+          ...dataValues,
+          ...events
+        }
+        // console.log('getEvents: matched year', year.value, 'event:', dataValues);
+      }
+    })
+  );
+  return events;
+}
+
 export function getEventsPeriodicity(programs, programId, year, periodicity) {
   var events = '';
 
