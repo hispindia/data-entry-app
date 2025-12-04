@@ -195,13 +195,13 @@ a{cursor:pointer;}
 }
 
 .dark-sidebar .main-sidebar {
-    background-color: #4472C4;
+    background-color: #000000;
 
 }
-.dark-sidebar.sidebar-mini .main-sidebar .sidebar-menu{background-color:#4472c4 !important}
+.dark-sidebar.sidebar-mini .main-sidebar .sidebar-menu{background-color: #000000 !important}
 .dark-sidebar.sidebar-mini .sidebar-menu{    margin: 0 0;}
 .dark-sidebar .main-sidebar .sidebar-brand {
-    background-color:#4472c4!important;
+    background-color: #000000!important;
     border-bottom: 1px solid #4d7ed7;
     height:75px;
 }
@@ -229,10 +229,10 @@ a{cursor:pointer;}
 .main-sidebar .sidebar-menu li a, .main-sidebar .sidebar-menu li ul.dropdown-menu li a, .sidebar-mini .main-sidebar .sidebar-menu>li ul.dropdown-menu li a{height: auto; padding:10px 10px;}
 .main-sidebar .sidebar-menu li a span{line-height: 16px; margin-top:0; }
 .dark-sidebar.sidebar-mini .main-sidebar:after, .dark-sidebar.sidebar-mini .main-sidebar .dropdown-title, .dark-sidebar.sidebar-mini .main-sidebar .sidebar-menu li ul.dropdown-menu li a {
-    background-color: #4472c4;
+    background-color: #000000;
 }
 .sidebar-mini .main-sidebar .sidebar-menu>li ul.dropdown-menu {
-    background-color: #4472c4;}
+    background-color: #000000;}
 .dark-sidebar .main-sidebar .sidebar-menu li ul.dropdown-menu li a, .dark-sidebar.sidebar-mini .main-sidebar .sidebar-menu li ul.dropdown-menu li a {
     background:rgb(255 255 255 / 8%)!important;
     font-size:13px;
@@ -449,7 +449,7 @@ input[type=date], input[type=datetime-local], input[type=month], input[type=time
 .card .card-type-3 .card-circle{border-radius: 20%;}
 .nav-link.logout-btn{background: #e2d5ff;
     border-radius: 5px;}
-.navbar{background:#e2e6fc}
+.navbar{background:#71C5E8}
 .switch-wrap.custom-switch{background: #fff;
     border-radius: 17px;
     padding: 0!important;}
@@ -839,21 +839,8 @@ body.tooltip-100 .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-toolt
 }
 
 .main-sidebar .sidebar-menu li.active ul.dropdown-menu li.active a {
-    background-color: #B468B0 !important;
+    background-color: rgba(235, 51, 0, 0.2) !important;
     color: #fff !important;
-}
-.main-sidebar .sidebar-menu>li.dropdown {
-    background-color: #EAAA00;}
-.main-sidebar .sidebar-menu>li.dropdown-au {
-    background-color: #00A9E0;
-}
-
-.main-sidebar .sidebar-menu>li.dropdown-ar {
-    background-color: #008C95;
-}
-
-.main-sidebar .sidebar-menu>li.dropdown-sr {
-    background-color: #84329B;
 }
 
 @media print {
