@@ -1,7 +1,7 @@
 const translation_mapping = [
    {
         id: "annual_report",
-        en: "2. Entity Update and Validation Module",
+        en: "2. Affiliate Information Updates",
         sp: "Presentación y aprobación del informe anual/semestral",
         fr: "Soumission et Approbation du Rapport annuel/semestriel ",
         ar: 'إرسال واعتماد التقرير السنوي/نصف السنوي',
