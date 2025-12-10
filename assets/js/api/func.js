@@ -1,5 +1,5 @@
 import { eventApi, dataElementApi, meApi, organisationUnitGroup, attributeApi } from './DataApi.js';
-import { tei } from "../constant.js";
+
 
 export function getEvents(programs, programId, year) {
   var events = {};
@@ -229,6 +229,15 @@ export async function getTEI(orgUnit) {
 
 export async function getOrganisationUnits(orgUnit) {
   return await organisationUnitGroup.get(orgUnit);
+}
+
+ 
+export function populateOptions(options) {
+  var optionSet = `<option value="">Select</option>`;
+  options.forEach(opt => {
+  optionSet += `<option value="${opt.code}">${opt.name}</option>`;
+})
+  return optionSet;
 }
 
 

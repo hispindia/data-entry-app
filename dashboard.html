@@ -139,40 +139,19 @@
                     <form>
                         <div class="form-group">
                             <label for="searchName">Name</label>
-                            <input type="text" class="form-control" id="searchName" placeholder="">
+                            <input type="text" class="form-control" id="UkQI1dWzZOv" placeholder="">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="searchRegion">Region <span class="text-danger">*</span></label>
-                                <select id="searchRegion" class="form-control">
-                                    <option selected>Select Region</option>
-                                    <option value="Africa Region">Africa Region</option>
-                                    <option value="Americas and the Caribbean Region">Americas and the Caribbean Region</option>
-                                    <option value="Arab World Region">Arab World Region</option>
-                                    <option value="European Network Region">European Network Region</option>
-                                    <option value="East & Southeast Asia and Oceania Region">East & Southeast Asia and Oceania Region</option>
-                                    <option value="South Asia Region">South Asia Region</option>
+                                <label for="region">Region <span class="text-danger">*</span></label>
+                                <select id="region" class="form-control">
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="searchCountry">Country</label>
-                                <select id="searchCountry" class="form-control">
-                                    <option selected>Select Country</option>
-                                    <option value="United States">United States</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="Germany">Germany</option>
-                                    <option value="France">France</option>
-                                    <option value="Spain">Spain</option>
-                                    <option value="Italy">Italy</option>
-                                    <option value="Japan">Japan</option>
-                                    <option value="China">China</option>
-                                    <option value="India">India</option>
-                                    <option value="">Australia</option>
-                                    <option value="Brazil">Brazil</option>
-                                    <option value="Mexico">Mexico</option>
-                                </select>
+                              <label for="country">Country <span class="text-danger">*</span></label>
+                              <select id="country" class="form-control">
+                              </select>
                             </div>
                         </div>
 
@@ -198,44 +177,56 @@
                                 <option value="Rejected">Rejected</option>
                             </select>
                         </div>
+                        <div class="col-md-12">
+                          <button type="button" class="btn btn-lg btn-block" id="searchButton" style="background-color: #030303; color: white;">Search</button>
+                        </div>
                     </form>
                 </div>
               </div>
             </div>
-        <div class="card shadow" style="border-radius: 0.5rem;">
-    <div class="table-responsive">
-        <table class="table table-striped table-hover mb-0" style="border-bottom: 1px solid #e3e6f0;">
-            <thead>
-                <tr style="background-color: #f7f7f9; color: #6c757d; font-size: 0.85rem; border-bottom: 1px solid #e3e6f0;">
-                    <th style="padding: 12px 15px; font-weight: 600;">UIN</th>
-                    <th style="padding: 12px 15px; font-weight: 600;">NAME</th>
-                    <th style="padding: 12px 15px; font-weight: 600;">ENTITY TYPE</th>
-                    <th style="padding: 12px 15px; font-weight: 600;">STATUS</th>
-                    <th style="padding: 12px 15px; font-weight: 600;">LAST UPDATED</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">
-                    <td style="padding: 15px; font-weight: 600; color: #444;">SAR-IND-0001</td>
-                    <td style="padding: 15px;">Family Planning Association of India</td>
-                    <td style="padding: 15px;">Full Member</td>
-                    <td style="padding: 10px 15px;">
-                        <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 0.25rem;">Approved</span>
-                    </td>
-                    <td style="padding: 15px; color: #6c757d;">2024-01-15</td>
-                </tr>
-                <tr style="background-color: #f7f7f9; border-bottom: 1px solid #f0f0f5;">
-                    <td style="padding: 15px; font-weight: 600; color: #444;">ARO-NAM-0001</td>
-                    <td style="padding: 15px;">Positive Vibes</td>
-                    <td style="padding: 15px;">Collaborative Partner</td>
-                    <td style="padding: 10px 15px;">
-                        <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 0.25rem;">Approved</span>
-                    </td>
-                    <td style="padding: 15px; color: #6c757d;">2024-01-14</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+          <div id="searchResults" style="display: none;" class="row mt-4">
+            <div class="col-12">
+              <div class="card shadow" style="border-radius: 0.5rem;">
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover mb-0"
+                    style="border-bottom: 1px solid #e3e6f0; width: 100%;">
+                    <thead>
+                      <tr
+                        style="background-color: #f7f7f9; color: #6c757d; font-size: 0.85rem; border-bottom: 1px solid #e3e6f0;">
+                        <th style="padding: 12px 15px; font-weight: 600;">UIN</th>
+                        <th style="padding: 12px 15px; font-weight: 600;">NAME</th>
+                        <th style="padding: 12px 15px; font-weight: 600;">ENTITY TYPE</th>
+                        <th style="padding: 12px 15px; font-weight: 600;">STATUS</th>
+                        <th style="padding: 12px 15px; font-weight: 600;">LAST UPDATED</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">
+                        <td style="padding: 15px; font-weight: 600; color: #444;">SAR-IND-0001</td>
+                        <td style="padding: 15px;">Family Planning Association of India</td>
+                        <td style="padding: 15px;">Full Member</td>
+                        <td style="padding: 10px 15px;">
+                          <span class="badge badge-success"
+                            style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 0.25rem;">Approved</span>
+                        </td>
+                        <td style="padding: 15px; color: #6c757d;">2024-01-15</td>
+                      </tr>
+                      <tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">
+                        <td style="padding: 15px; font-weight: 600; color: #444;">ARO-NAM-0001</td>
+                        <td style="padding: 15px;">Positive Vibes</td>
+                        <td style="padding: 15px;">Collaborative Partner</td>
+                        <td style="padding: 10px 15px;">
+                          <span class="badge badge-success"
+                          style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 0.25rem;">Approved</span>
+                        </td>
+                        <td style="padding: 15px; color: #6c757d;">2024-01-15</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 </div>
         </section>
       </div>
@@ -260,11 +251,7 @@
   <script>
 </script>
 <script>
-  function saveOrgUnit() {
-    var orgUnit = document.getElementById('organisationUnits').value;
-    window.localStorage.setItem("masterOU", orgUnit);
-    alert("Organsation Unit saved!")
-  }
+   
 </script>
 
 </body>
