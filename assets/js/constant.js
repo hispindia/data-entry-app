@@ -6,3 +6,18 @@ export const optionSet = {
 export const programStage = {
     affiliateKyc: "pHiRWkSg9Wx",
 }
+
+export const programs = {
+    affiliateKyc:"GJbgrJjzCrr",
+}
+
+export const orgUnit = {
+    name: "iR2btIxN87s"
+}
+
+export const tei = {
+    attributes: [],
+    programStage: [],
+}
+
+

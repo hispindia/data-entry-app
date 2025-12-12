@@ -202,7 +202,7 @@
           </div>
 
           <div id="addAffiliateForm" style="display: none;" class="row mt-2">
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="card col-12 mb-4" style="border-radius: 0.5rem; background-color: white;">
                 <div class="card-header d-flex justify-content-between align-items-center"
                   style="background-color: white; border-bottom: 1px solid #e3e6f0; cursor: pointer; padding: 1rem 1.25rem;"
@@ -300,9 +300,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- second card -->
-            <div class="col-12" id="contactDetialsContainer">
+            <!-- <div class="col-12" id="contactDetialsContainer">
               <div class="card mb-4" style="border-radius: 0.5rem; background-color: white;">
                 <div class="card-header d-flex justify-content-between align-items-center"
                   style="background-color: white; border-bottom: 1px solid #e3e6f0; cursor: pointer; padding: 1rem 1.25rem;"
@@ -365,9 +365,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- third card  -->
-            <div class="col-12" id="personContainer">
+            <!-- <div class="col-12" id="personContainer">
               <div class="card mb-4 person-card" style="border-radius:0.5rem;background-color:white;">
                 <div class="card-header d-flex justify-content-between align-items-center"
                   style="background-color:white;border-bottom:1px solid #e3e6f0;cursor:pointer;padding:1rem 1.25rem;"
@@ -442,9 +442,9 @@
                 <i class="fa fa-plus mr-2"></i>
                 Add Another Senior Management Person
               </div>
-            </div>
+            </div> -->
             <!-- fourth card  -->
-            <div class="col-12 mt-3" id="statusInformationContainer">
+            <!-- <div class="col-12 mt-3" id="statusInformationContainer">
               <div class="card mb-4" style="border-radius:0.5rem;background-color:white;">
                 <div class="card-header d-flex justify-content-between align-items-center"
                   style="background-color:white;border-bottom:1px solid #e3e6f0;cursor:pointer;padding:1rem 1.25rem;"
@@ -541,9 +541,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
          <!--  fifth card  -->
-            <div class="col-12" id="bankDetailsContainer">
+            <!-- <div class="col-12" id="bankDetailsContainer">
               <div class="card mb-4" style="border-radius:0.5rem;background-color:white;">
                 <div class="card-header d-flex justify-content-between align-items-center"
                   style="background-color:white;border-bottom:1px solid #e3e6f0;cursor:pointer;padding:1rem 1.25rem;"
@@ -602,9 +602,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- sixth card  -->
-            <div class="col-12" id="fileAttachmentContainer">
+            <!-- <div class="col-12" id="fileAttachmentContainer">
               <div class="card mb-4" style="border-radius:0.5rem;background-color:white;">
                 <div class="card-header d-flex justify-content-between align-items-center"
                   style="background-color:white;border-bottom:1px solid #e3e6f0;cursor:pointer;padding:1rem 1.25rem;"
@@ -638,8 +638,15 @@
                   </div>
                 </div>
               </div>
+            </div> -->
+
+            <div id="basicInformation" class="col-12">
+
             </div>
-            <div class="col-12">
+            <div id="addKycDetails" class="col-12">
+            </div>
+
+            <div class="col-12"> 
               <div class="card mb-3" style="border-radius: 0.5rem; background-color: white; border: 1px solid #e3e6f0;">
                 <div class="card-body d-flex align-items-start">
                   <div class="form-check mr-3">
@@ -666,15 +673,11 @@
                   style="background-color: transparent; color: #333; border: 1px solid #d0d0d0; font-weight: 500; transition: 0.2s;">
                   Save as Draft
                 </button>
-                <button type="button" class="btn"
-                  style="background-color: #b768a7; color: #fff; font-weight: 500; transition: 0.2s;">
+                <button type="button" class="btn" id="sendToAcutiyBtn" style="background-color: #b768a7; color: #fff; font-weight: 500; transition: 0.2s;">
                   Send to Acuity
                 </button>
               </div>
-            </div>
-
-            <div id="addKycDetails" class="col-12">
-            </div>
+            </div> 
           </div>
         </section>
       </div>
@@ -690,7 +693,7 @@
   <script src="assets/js/translation.js"></script>
 
   <!-- Page Specific JS File -->
-  <script type="module" src="assets/js/forms/affiliate-registration/newRegistration.js"></script>
+  <script type="module" src="assets/js/forms/affiliate-registration/newRegistration.js" defer></script>
   <!-- <script src="assets/js/saveDraft_projectFocusArea.js"></script> -->
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>

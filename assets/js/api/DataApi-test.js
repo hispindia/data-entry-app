@@ -48,3 +48,50 @@ export const eventApi = {
     }
   },
 };
+
+export const attributeApi = {
+  put: async (teiId, payload) => {
+    const url = `trackedEntityInstances/${teiId}`;
+    try {
+      const response = await BaseApi({url, method:"PUT", payload});
+      return response.json();
+    } catch (error) {
+      console.error("Error while updating attributes", error);
+    }
+  }
+}
+export const dataElementApi = {
+  put: async (event, id, payload) => {
+    const url = `events/${event}/${id}`;
+    try {
+      const response = await BaseApi({url, method:"PUT", payload});
+      return response.json();
+    } catch (error) {
+      console.error("Error Pusing dataElement", error);
+    }
+  },
+}
+
+export const meApi = {
+  get: async () => {
+    const url = `me.json?fields=id,username,userGroups[id,name],organisationUnits[id,name,path,code,level,children[id,name],parent[id,name]]`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error loading ME Api", error);
+    }
+  }
+}
+
+export const organisationUnitGroup =  {
+  get: async (group) => {
+    const url = `organisationUnitGroups/${group}.json?fields=id,name,description,organisationUnits[id,name,path,code,level,parent[id,name]]`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error loading Organisation Units", error);
+    }
+  }
+}

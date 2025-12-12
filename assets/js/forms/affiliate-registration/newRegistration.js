@@ -1,6 +1,7 @@
 import { populateOptions } from "../../api/func.js";
-import { optionSetApi, programStageApi } from "../../api/metaDataApi.js";
-import { optionSet, programStage } from "../../constant.js";
+import { optionSetApi, programsApi, programStageApi } from "../../api/metaDataApi.js";
+import { pushPayloadInDhis2 } from "../../api/payload.js";
+import { optionSet, orgUnit, programStage, programs, tei } from "../../constant.js";
 import { fetchValueType } from "./valueType.js";
 
 
@@ -23,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const addNewAffiliateButton = document.getElementById('addNewAffiliate');
     const searchResults = document.getElementById('searchResults');
     const addAffiliateForm = document.getElementById('addAffiliateForm');
+    const acuityBtn = document.getElementById("sendToAcutiyBtn");
+    acuityBtn.addEventListener("click", () => pushPayloadInDhis2 (tei, orgUnit, programs, programStage));
+    
 
     if (searchButton) {
         searchButton.addEventListener('click', function () {
@@ -38,16 +42,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+   
 
     fetchNewRegistration();
+    
 
    async function fetchNewRegistration() {
     const region = await optionSetApi.get(optionSet.region);
     const country = await optionSetApi.get(optionSet.country);
     const affilateStage = await programStageApi.get(programStage.affiliateKyc);
+    const trackedEntityAttributes = await programsApi.get(programs.affiliateKyc);
     document.getElementById("Region").innerHTML = populateOptions(region.options);
     document.getElementById("Countries").innerHTML = populateOptions(country.options);
     document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections);
+    document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(trackedEntityAttributes);
    }
 
   
@@ -72,13 +80,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 rowDiv.className = "form-row";
                 sectionDiv.appendChild(rowDiv);
             }
-
+            if(el?.id) tei.programStage.push(el?.id);
+            
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-md-6 mb-2";
 
             fieldWrapper.innerHTML = `
                 <label>${el.name}</label>
-                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options)}
+                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
             `;
 
             rowDiv.appendChild(fieldWrapper);
@@ -90,7 +99,44 @@ document.addEventListener("DOMContentLoaded", function () {
     return container;
 }
 
+function renderProgramTrackedAttributes(sections) {
+    let container = "";
 
+        console.log("sections =", sections);
+        const sectionDiv = document.createElement("div");
+        sectionDiv.className = "card mb-4 p-3";
+        sectionDiv.style.backgroundColor = "white";
+        sectionDiv.style.borderRadius = "8px";
+        sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${sections.name}</h5>`;
+        // console.log('section Div-------', sectionDiv);
+        
+        let rowDiv = null;
 
+        for (const [index, attrObj] of sections.programTrackedEntityAttributes.entries()) {
+            console.log(`-----index ${index} ---- ${attrObj}----------- `);
+            const el = attrObj.trackedEntityAttribute;
+            if(el?.id) tei.attributes.push(el?.id);
+            // improvement
+            if (index % 2 === 0) {
+                rowDiv = document.createElement("div");
+                rowDiv.className = "form-row";
+                sectionDiv.appendChild(rowDiv);
+            }
+
+            const fieldWrapper = document.createElement("div");
+            fieldWrapper.className = "form-group col-md-6 mb-2";
+
+            fieldWrapper.innerHTML = `
+                <label>${el.name}</label>
+                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+            `;
+               rowDiv.appendChild(fieldWrapper);
+        }
+        container += sectionDiv.outerHTML;
+        return container;
+    }
 
 });
+
+
+
