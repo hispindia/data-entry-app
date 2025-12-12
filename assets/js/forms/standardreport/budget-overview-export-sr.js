@@ -834,7 +834,6 @@ document.addEventListener("DOMContentLoaded", function () {
           level2OU.forEach(parent => parent.children.forEach(ou => {
             if (ou.name == item.orgUnit) region = parent.name
           }))
-
             if (item.dataValuesFA[year] && item.dataValuesFA[year][fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
               const val = JSON.parse(item.dataValuesFA[year][fa]);
               if (val.budget) {
@@ -884,10 +883,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!dvMAPillar[val.pillar][year]) dvMAPillar[val.pillar][year] = {};
                 if (!dvMAPillar[val.pillar][year][item.orgUnit]) dvMAPillar[val.pillar][year][item.orgUnit] = 0;
                 dvMAPillar[val.pillar][year][item.orgUnit] += Number(val.budget);
-
-                if (!dvMAPillar[val.pillar]) dvMAPillar[val.pillar] = {};
-                if (!dvMAPillar[val.pillar][year]) dvMAPillar[val.pillar][year] = {};
-                if (!dvMAPillar[val.pillar][year][item.orgUnit]) dvMAPillar[val.pillar][year][item.orgUnit] = 0;
               }
             }
         })
