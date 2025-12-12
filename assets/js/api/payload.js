@@ -1,13 +1,12 @@
 
-export const pushPayloadInDhis2 = async(tei, orgUnit, programs, programStage) => {
+export const pushPayloadInDhis2 = (tei, orgUnit, programs, programStage) => {
     const date = new Date();
     const formattedDate = date.toISOString().split("T")[0];
-
 
     const formattedAttributes = [];
     for(const attributesId of tei.attributes){
         formattedAttributes.push({
-            attrbutesId: attributesId,
+            attribute: attributesId,
             value: document.getElementById(attributesId)?.value || ""
         })
     }
@@ -15,19 +14,25 @@ export const pushPayloadInDhis2 = async(tei, orgUnit, programs, programStage) =>
     const formattedDataElements = [];
     for(const dataElementsId of tei.programStage){
         formattedDataElements.push({
-            dataElementsId: dataElementsId,
+            dataElement: dataElementsId,
             value: document.getElementById(dataElementsId)?.value || ""
         })
     }
 
- const trackedEntity = [
+ const trackedEntity = {
+    trackedEntities: [
     {
         orgUnit: orgUnit.name,
         trackedEntityType:"jmv5aktKbQh",
-        enrollment: [
+        enrollments: [
             {
                 attributes: formattedAttributes,
                 enrolledAt: formattedDate,
+                occurredAt: formattedDate,
+                orgUnit: orgUnit.name,
+                program: programs.affiliateKyc,
+                status: "ACTIVE",
+                trackedEntityType: "jmv5aktKbQh",
                 events: [
                     {
                         dataValues: formattedDataElements,
@@ -38,17 +43,12 @@ export const pushPayloadInDhis2 = async(tei, orgUnit, programs, programStage) =>
                         programStage: programStage.affiliateKyc,
                         status: "ACTIVE"
                     }
-                ],
-                    occurredAt: formattedDate,
-                    orgUnit: orgUnit.name,
-                    program: programs.affiliateKyc,
-                    status: "ACTIVE",
-                    trackedEntityType: "jmv5aktKbQh"    
+                ], 
             }
         ],
     },
-  ]
-  
-   console.log('---', trackedEntity); 
+  ]};
+
+  return trackedEntity;
 }
 

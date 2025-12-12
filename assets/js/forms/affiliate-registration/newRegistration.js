@@ -1,3 +1,4 @@
+import { dataApi } from "../../api/DataApi.js";
 import { populateOptions } from "../../api/func.js";
 import { optionSetApi, programsApi, programStageApi } from "../../api/metaDataApi.js";
 import { pushPayloadInDhis2 } from "../../api/payload.js";
@@ -25,7 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchResults = document.getElementById('searchResults');
     const addAffiliateForm = document.getElementById('addAffiliateForm');
     const acuityBtn = document.getElementById("sendToAcutiyBtn");
-    acuityBtn.addEventListener("click", () => pushPayloadInDhis2 (tei, orgUnit, programs, programStage));
+    acuityBtn.addEventListener("click", async () => {
+        const payload = pushPayloadInDhis2(tei, orgUnit, programs, programStage);
+        await dataApi.enroll(payload);
+    });
     
 
     if (searchButton) {
