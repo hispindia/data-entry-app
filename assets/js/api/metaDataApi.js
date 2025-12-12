@@ -26,7 +26,7 @@ export const programStageApi = {
 
 export const programsApi = {
   get: async (id) => {
-    const url = `programs/${id}.json?fields=id,name,programTrackedEntityAttributes[trackedEntityAttribute[id,name,valueType,optionSet[options[name,code]],optionSetValue]]`;
+    const url = `programs/${id}.json?fields=id,name,programTrackedEntityAttributes[displayInList,trackedEntityAttribute[id,name,valueType,optionSet[options[name,code]],optionSetValue]]`;
     try{
         const response = await BaseApi({url});
         return response.json();

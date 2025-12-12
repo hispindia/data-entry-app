@@ -12,7 +12,7 @@ export const programs = {
 }
 
 export const orgUnit = {
-    name: "iR2btIxN87s"
+    id: "iR2btIxN87s"
 }
 
 export const tei = {

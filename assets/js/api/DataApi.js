@@ -1,8 +1,8 @@
 import BaseApi from "./BaseApi.js";
 
 export const dataApi = {
-  get: async (orgUnit) => {
-    const url = `trackedEntityInstances.json?skipPaging=true&program=${program}&ou=${orgUnit}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+  get: async (orgUnit, program, otherParam = "") => {
+    const url = `tracker/trackedEntities.json?paging=false&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();

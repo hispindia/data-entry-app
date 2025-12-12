@@ -22,14 +22,14 @@ export const pushPayloadInDhis2 = (tei, orgUnit, programs, programStage) => {
  const trackedEntity = {
     trackedEntities: [
     {
-        orgUnit: orgUnit.name,
+        orgUnit: orgUnit.id,
         trackedEntityType:"jmv5aktKbQh",
         enrollments: [
             {
                 attributes: formattedAttributes,
                 enrolledAt: formattedDate,
                 occurredAt: formattedDate,
-                orgUnit: orgUnit.name,
+                orgUnit: orgUnit.id,
                 program: programs.affiliateKyc,
                 status: "ACTIVE",
                 trackedEntityType: "jmv5aktKbQh",
@@ -38,7 +38,7 @@ export const pushPayloadInDhis2 = (tei, orgUnit, programs, programStage) => {
                         dataValues: formattedDataElements,
                         enrollmentStatus: "ACTIVE",
                         occurredAt: formattedDate,
-                        orgUnit: orgUnit.name,
+                        orgUnit: orgUnit.id,
                         program: programs.affiliateKyc,
                         programStage: programStage.affiliateKyc,
                         status: "ACTIVE"

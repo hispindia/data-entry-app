@@ -5,7 +5,6 @@ import { pushPayloadInDhis2 } from "../../api/payload.js";
 import { optionSet, orgUnit, programStage, programs, tei } from "../../constant.js";
 import { fetchValueType } from "./valueType.js";
 
-
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".nav-link").forEach(function (element) {
         element.addEventListener("click", function (event) {
@@ -29,11 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
     acuityBtn.addEventListener("click", async () => {
         const payload = pushPayloadInDhis2(tei, orgUnit, programs, programStage);
         await dataApi.enroll(payload);
+        alert("Affiliate saved successfully")
     });
     
-
     if (searchButton) {
         searchButton.addEventListener('click', function () {
+            fetchAffiliateList();
             searchResults.style.display = 'block';
             addAffiliateForm.style.display = 'none';
         });
@@ -41,70 +41,103 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (addNewAffiliateButton) {
         addNewAffiliateButton.addEventListener('click', function () {
+            fetchNewRegistration();
             addAffiliateForm.style.display = 'block';
             searchResults.style.display = 'none';
         });
     }
 
-   
-
-    fetchNewRegistration();
+    addHeaderDetails();
+    async function addHeaderDetails() {
+        const region = await optionSetApi.get(optionSet.region);
+        const country = await optionSetApi.get(optionSet.country);
+        document.getElementById("Region").innerHTML = populateOptions(region.options);
+        document.getElementById("Countries").innerHTML = populateOptions(country.options);
+    }
     
+    async function fetchAffiliateList() {
+        const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
+        const regionValue = document.getElementById("Region").value;
+        const countryValue = document.getElementById("Countries").value;
+        if(regionValue && countryValue) {
+            const otherParam = `filter=SMdW6ZnGllA:EQ:${regionValue}&filter=LZacnHsQJRs:EQ:${countryValue}`
+            const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
 
-   async function fetchNewRegistration() {
-    const region = await optionSetApi.get(optionSet.region);
-    const country = await optionSetApi.get(optionSet.country);
-    const affilateStage = await programStageApi.get(programStage.affiliateKyc);
-    const trackedEntityAttributes = await programsApi.get(programs.affiliateKyc);
-    document.getElementById("Region").innerHTML = populateOptions(region.options);
-    document.getElementById("Countries").innerHTML = populateOptions(country.options);
-    document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections);
-    document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(trackedEntityAttributes);
-   }
+            const headerList = programAffiliateKyc.programTrackedEntityAttributes
+            .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
+            .map(attr => ({id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name}));
 
-  
- function renderSections(sections) {
-    let container = "";
+            const affilitateAttrList = affiliateList.trackedEntities.map(trackedEntity => {
+                const attributes = {};
+                trackedEntity.attributes.forEach(attr => attributes[attr.attribute] = attr.value);
+                return attributes;
+            });
 
-    for (const section of sections) {
+            var theadAffiliateRow = "";
+            headerList.forEach(item => theadAffiliateRow+= `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
+            document.getElementById('thead-affiliate').innerHTML = theadAffiliateRow;
 
-        const sectionDiv = document.createElement("div");
-        sectionDiv.className = "card mb-4 p-3";
-        sectionDiv.style.backgroundColor = "white";
-        sectionDiv.style.borderRadius = "8px";
-        sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
-
-        let rowDiv = null;
-
-        for (const [index, el] of section.dataElements.entries()) {
-
-            // improvement
-            if (index % 2 === 0) {
-                rowDiv = document.createElement("div");
-                rowDiv.className = "form-row";
-                sectionDiv.appendChild(rowDiv);
-            }
-            if(el?.id) tei.programStage.push(el?.id);
-            
-            const fieldWrapper = document.createElement("div");
-            fieldWrapper.className = "form-group col-md-6 mb-2";
-
-            fieldWrapper.innerHTML = `
-                <label>${el.name}</label>
-                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
-            `;
-
-            rowDiv.appendChild(fieldWrapper);
+            var tbodyAffiliateRow = "";
+            affilitateAttrList.forEach(affiliate => {
+                tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
+                headerList.forEach(attr => tbodyAffiliateRow += `<td style="padding: 15px;">${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`);
+                tbodyAffiliateRow += `</tr>`
+            })
+            document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
+        } else {
+            alert('Please select Region/Country!')
         }
-
-        container += sectionDiv.outerHTML;
     }
 
-    return container;
-}
+    async function fetchNewRegistration() {
+        const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
+        const affilateStage = await programStageApi.get(programStage.affiliateKyc);
+        document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections);
+        document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc);
+    }
+  
+    function renderSections(sections) {
+        let container = "";
 
-function renderProgramTrackedAttributes(sections) {
-    let container = "";
+        for (const section of sections) {
+
+            const sectionDiv = document.createElement("div");
+            sectionDiv.className = "card mb-4 p-3";
+            sectionDiv.style.backgroundColor = "white";
+            sectionDiv.style.borderRadius = "8px";
+            sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
+
+            let rowDiv = null;
+
+            for (const [index, el] of section.dataElements.entries()) {
+
+                // improvement
+                if (index % 2 === 0) {
+                    rowDiv = document.createElement("div");
+                    rowDiv.className = "form-row";
+                    sectionDiv.appendChild(rowDiv);
+                }
+                if(el?.id) tei.programStage.push(el?.id);
+                
+                const fieldWrapper = document.createElement("div");
+                fieldWrapper.className = "form-group col-md-6 mb-2";
+
+                fieldWrapper.innerHTML = `
+                    <label>${el.name}</label>
+                    ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+                `;
+
+                rowDiv.appendChild(fieldWrapper);
+            }
+
+            container += sectionDiv.outerHTML;
+        }
+
+        return container;
+    }   
+
+    function renderProgramTrackedAttributes(sections) {
+        let container = "";
 
         console.log("sections =", sections);
         const sectionDiv = document.createElement("div");
