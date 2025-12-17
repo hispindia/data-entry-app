@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap');
 
 body{background:#E2E6FC;
 
@@ -6,6 +6,9 @@ body{background:#E2E6FC;
   font-optical-sizing: auto;
   font-weight: <weight>;
   font-style: normal;*/
+}
+*{
+  font-family: 'Barlow';
 }
 a{cursor:pointer;}
 .card{background-color:rgb(255 255 255 / 60%);}
@@ -168,8 +171,8 @@ a{cursor:pointer;}
 .form-group>label {
  
     margin-bottom: 2px;
-    font-weight: 700;
-    color: #4a2d7d;
+    font-weight: 600;
+    color: #000000;
     font-size:1rem;
 }
 
@@ -575,6 +578,9 @@ ul.list-font li a {
 }
 ul.list-font li a:hover, ul.list-font li a.active{text-decoration:none;background:#6777ef; color:#fff;}
 .main-wrapper-1 .section .section-header{border:none;}
+.text-danger {
+  color: #dc3545 !important;
+}
 .top-detail-form{background:#4472c4; padding:20px 20px 0px 20px; border-radius:10px;}
 .top-detail-form label{color:#fff;}
 .top-detail-form input, .top-detail-form select{background:transparent;color:#fff;}

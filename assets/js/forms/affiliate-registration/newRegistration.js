@@ -95,46 +95,41 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections);
         document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc);
     }
-  
     function renderSections(sections) {
-        let container = "";
+    let container = "";
 
-        for (const section of sections) {
+    for (const section of sections) {
 
-            const sectionDiv = document.createElement("div");
-            sectionDiv.className = "card mb-4 p-3";
-            sectionDiv.style.backgroundColor = "white";
-            sectionDiv.style.borderRadius = "8px";
-            sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
+        const sectionDiv = document.createElement("div");
+        sectionDiv.className = "card mb-4 p-3";
+        sectionDiv.style.backgroundColor = "white";
+        sectionDiv.style.borderRadius = "8px";
+        sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
+   
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "row";
+        sectionDiv.appendChild(rowDiv);
 
-            let rowDiv = null;
+        for (const el of section.dataElements) {
 
-            for (const [index, el] of section.dataElements.entries()) {
+            if (el?.id) tei.programStage.push(el.id);
 
-                // improvement
-                if (index % 2 === 0) {
-                    rowDiv = document.createElement("div");
-                    rowDiv.className = "form-row";
-                    sectionDiv.appendChild(rowDiv);
-                }
-                if(el?.id) tei.programStage.push(el?.id);
-                
-                const fieldWrapper = document.createElement("div");
-                fieldWrapper.className = "form-group col-md-6 mb-2";
+            const fieldWrapper = document.createElement("div");
+            fieldWrapper.className = "form-group col-12 col-md-4 mb-2";
 
-                fieldWrapper.innerHTML = `
-                    <label>${el.name}</label>
-                    ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
-                `;
+            fieldWrapper.innerHTML = `
+                <label>${el.formName}</label>
+                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+            `;
 
-                rowDiv.appendChild(fieldWrapper);
-            }
-
-            container += sectionDiv.outerHTML;
+            rowDiv.appendChild(fieldWrapper);
         }
 
-        return container;
-    }   
+        container += sectionDiv.outerHTML;
+    }
+
+    return container;
+}
 
     function renderProgramTrackedAttributes(sections) {
         let container = "";
@@ -147,33 +142,27 @@ document.addEventListener("DOMContentLoaded", function () {
         sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${sections.name}</h5>`;
         // console.log('section Div-------', sectionDiv);
         
-        let rowDiv = null;
-
-        for (const [index, attrObj] of sections.programTrackedEntityAttributes.entries()) {
-            console.log(`-----index ${index} ---- ${attrObj}----------- `);
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "row";
+        sectionDiv.appendChild(rowDiv);
+        
+        for (const attrObj of sections.programTrackedEntityAttributes) {
             const el = attrObj.trackedEntityAttribute;
             if(el?.id) tei.attributes.push(el?.id);
-            // improvement
-            if (index % 2 === 0) {
-                rowDiv = document.createElement("div");
-                rowDiv.className = "form-row";
-                sectionDiv.appendChild(rowDiv);
-            }
-
+            
             const fieldWrapper = document.createElement("div");
-            fieldWrapper.className = "form-group col-md-6 mb-2";
+            fieldWrapper.className = "form-group col-md-4 mb-2";
+            
+            const mandatoryIndicator = attrObj.mandatory ? '<span class="text-danger">*</span>' : '';
 
             fieldWrapper.innerHTML = `
-                <label>${el.name}</label>
-                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
-            `;
-               rowDiv.appendChild(fieldWrapper);
+              <label>${el.name}${mandatoryIndicator}</label>
+              ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+          `;
+            rowDiv.appendChild(fieldWrapper);
         }
         container += sectionDiv.outerHTML;
         return container;
     }
 
 });
-
-
-
