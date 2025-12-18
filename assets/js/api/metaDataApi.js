@@ -33,6 +33,40 @@ export const programsApi = {
     } catch (error){
       console.error("Error occured while Loading option Set", error);
     }
+  },
+  postOU: async ({orgUnit, program}) => {
+    var url = `programs/${program}/organisationUnits/${orgUnit}`
+    const response = await BaseApi({url, method:"POST"});
+    return response.json();
   }
-  
+}
+
+export const meApi = {
+  get: async () => {
+    const url = `me.json?fields=id,name,username,dataViewOrganisationUnits[id,name],organisationUnits[id,name]`;
+    try{
+        const response = await BaseApi({url});
+        return response.json();
+    } catch (error){
+      console.error("Error occured while Loading option Set", error);
+    }
+  }
+}
+
+export const orgUnitsApi = {
+  get: async (level) => {
+    var url = `organisationUnits.json?paging=false&fields=id,name,code`;
+    url += level ? `&level=${level}` : '';
+    try{
+        const response = await BaseApi({url});
+        return response.json();
+    } catch (error){
+      console.error("Error occured while Loading option Set", error);
+    }
+  },
+  post: async (payload) => {
+    var url = `metadata?importReportMode=FULL`
+    const response = await BaseApi({url, payload, method:"POST"});
+    return response.json();
+  }
 }

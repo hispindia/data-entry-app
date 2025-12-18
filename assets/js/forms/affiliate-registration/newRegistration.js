@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addAffiliateForm = document.getElementById('addAffiliateForm');
     const acuityBtn = document.getElementById("sendToAcutiyBtn");
     acuityBtn.addEventListener("click", async () => {
-        const payload = pushPayloadInDhis2(tei, orgUnit, programs, programStage);
+        const payload = pushPayloadInDhis2(tei, orgUnit.id, programs.affiliateKyc, programStage.affiliateKyc);
         await dataApi.enroll(payload);
         alert("Affiliate saved successfully")
     });

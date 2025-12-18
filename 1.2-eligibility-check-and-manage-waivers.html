@@ -97,39 +97,14 @@
   <div class="card shadow-sm mb-4" style="border-radius: 0.75rem; background-color: #f3f4ff; border: none;">
     <div class="card-body" style="padding: 1.5rem;">
       <h5 class="mb-1" style="color: #3b71ca; font-weight: 600;">Entities in Progress for Acuity Check</h5>
-      <p class="text-muted mb-3" style="font-size: 0.9rem;">3 entities currently under review</p>
+      <p class="text-muted mb-3" style="font-size: 0.9rem;"><span id="inProgressCount"></span> entities currently under review</p>
 
       <div class="table-responsive">
         <table class="table mb-0" style="background-color: white; border-radius: 0.5rem; overflow: hidden;">
           <thead style="background-color: #eeedfa; color: #555; font-size: 0.9rem;">
-            <tr>
-              <th class="py-3 px-4 font-weight-bold border-0">NAME</th>
-              <th class="py-3 px-4 font-weight-bold border-0">ENTITY TYPE</th>
-              <th class="py-3 px-4 font-weight-bold border-0 text-center">STATUS</th>
-            </tr>
+            <tr id="thead-affiliate-inProgress"></tr>
           </thead>
-          <tbody style="font-size: 0.95rem; color: #222;">
-            <tr style="background-color: #f9f9ff;">
-              <td class="py-3 px-4 font-weight-bold">Global Health Initiative</td>
-              <td class="py-3 px-4">Full Member</td>
-              <td class="py-3 px-4 text-center">
-                <span class="badge" style="background-color: #dce6fd; color: #3366cc; font-weight: 500; padding: 6px 12px; border-radius: 6px;">Under Review</span>
-              </td>
-            </tr>
-            <tr style="background-color: #f9f9ff;">
-              <td class="py-3 px-4 font-weight-bold">Community Wellness Center</td>
-              <td class="py-3 px-4">Collaborative Partner</td>
-              <td class="py-3 px-4 text-center">
-                <span class="badge" style="background-color: #dce6fd; color: #3366cc; font-weight: 500; padding: 6px 12px; border-radius: 6px;">Under Review</span>
-              </td>
-            </tr>
-            <tr style="background-color: #f9f9ff;">
-              <td class="py-3 px-4 font-weight-bold">Youth Health Network</td>
-              <td class="py-3 px-4">Associate Member</td>
-              <td class="py-3 px-4 text-center">
-                <span class="badge" style="background-color: #dce6fd; color: #3366cc; font-weight: 500; padding: 6px 12px; border-radius: 6px;">Under Review</span>
-              </td>
-            </tr>
+          <tbody id="tbody-affiliate-inProgress" style="font-size: 0.95rem; color: #222;">
           </tbody>
         </table>
       </div>
@@ -139,76 +114,15 @@
   <div class="card-body" style="padding: 1.5rem;">
     <div  style="color: #15803d;">
       <h5 class="mb-1" style="color: #15803d; font-weight: 600;">Entities Approved by Acuity</h5>
-    <p class="text-muted mb-3" style="font-size: 0.9rem;"> 4 entities ready for UIN generation</p>
+      <p class="text-muted mb-3" style="font-size: 0.9rem;"> <span id="approvedCount"></span> entities ready for UIN generation</p>
     </div>
     <div class="table-responsive">
       <table class="table mb-0" style="background-color: #f7f7f9; border-radius: 0.5rem; overflow: hidden;">
         <thead style="background-color: #f2f2f7; color: rgb(74, 74, 74); font-size: 0.9rem;">
-          <tr>
-            <th class="py-3 px-4 font-weight-bold border-0">NAME</th>
-            <th class="py-3 px-4 font-weight-bold border-0">ENTITY TYPE</th>
-            <th class="py-3 px-4 font-weight-bold border-0 text-center">STATUS</th>
-            <th class="py-3 px-4 font-weight-bold border-0 text-center">ACTIONS</th>
-          </tr>
+          <tr id="thead-affiliate-approved"></tr>
         </thead>
-        <tbody style="font-size: 0.95rem; color: #222;">
-          <tr style="background-color: #f7f7f9; transition: background-color 0.2s ease-in-out;"onmouseover="this.style.backgroundColor='#ffffff'"
-            onmouseout="this.style.backgroundColor='#f7f7f9'">
-            <td class="py-3 px-4 font-weight-bold">Family Planning Association of India</td>
-            <td class="py-3 px-4">Full Member</td>
-            <td class="py-3 px-4 text-center">
-              <span style="background-color: #bbf7d0; color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">Approved</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="btn btn-sm" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-                onmouseover="this.style.backgroundColor='#265bbf' "onmouseout="this.style.backgroundColor='#3b71ca'">Process UIN Generation
-              </button>
-            </td>
-          </tr>
-
-          <tr style="background-color: #f7f7f9; transition: background-color 0.2s ease-in-out;"
-            onmouseover="this.style.backgroundColor='#ffffff'" onmouseout="this.style.backgroundColor='#f7f7f9'">
-            <td class="py-3 px-4 font-weight-bold">Positive Vibes</td>
-            <td class="py-3 px-4">Collaborative Partner</td>
-            <td class="py-3 px-4 text-center">
-              <span style="background-color: #bbf7d0; color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">
-                Approved
-              </span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="btn btn-sm" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-                onmouseover="this.style.backgroundColor='#265bbf'" onmouseout="this.style.backgroundColor='#3b71ca'">Process UIN Generation
-              </button>
-            </td>
-          </tr>
-
-          <tr style="background-color: #f7f7f9; transition: background-color 0.2s ease-in-out;"
-            onmouseover="this.style.backgroundColor='#ffffff'"onmouseout="this.style.backgroundColor='#f7f7f9'">
-            <td class="py-3 px-4 font-weight-bold">Women Health Alliance</td>
-            <td class="py-3 px-4">Full Member</td>
-            <td class="py-3 px-4 text-center">
-              <span style="background-color: #bbf7d0; color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">Approved</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="btn btn-sm" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-                onmouseover="this.style.backgroundColor='#265bbf'" onmouseout="this.style.backgroundColor='#3b71ca'">Process UIN Generation
-              </button>
-            </td>
-          </tr>
-
-          <tr style="background-color: #f7f7f9; transition: background-color 0.2s ease-in-out;"
-            onmouseover="this.style.backgroundColor='#ffffff'" onmouseout="this.style.backgroundColor='#f7f7f9'">
-            <td class="py-3 px-4 font-weight-bold">International Health Partners</td>
-            <td class="py-3 px-4">International Partner</td>
-            <td class="py-3 px-4 text-center">
-              <span style="background-color: #bbf7d0; color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">Approved</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="btn btn-sm" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-                onmouseover="this.style.backgroundColor='#265bbf'"onmouseout="this.style.backgroundColor='#3b71ca'">Process UIN Generation
-              </button>
-            </td>
-          </tr>
+        <tbody id="tbody-affiliate-approved" style="font-size: 0.95rem; color: #222;">
+       
         </tbody>
       </table>
     </div>
@@ -218,47 +132,14 @@
   <div class="card-body" style="padding: 1.5rem;">
     <div  style="color: #15803d;">
       <h5 class="mb-1" style="color: #15803d; font-weight: 600;">Entities Failed in Acuity Check</h5>
-      <p class="text-muted mb-3" style="font-size: 0.9rem;">2 entities requiring waiver or additional documentation</p>
+      <p class="text-muted mb-3" style="font-size: 0.9rem;"> <span id="failedCount"></span> entities requiring waiver or additional documentation</p>
     </div>
     <div class="table-responsive">
       <table class="table mb-0" style="background-color: #f7f7f9; border-radius: 0.5rem; overflow: hidden;">
         <thead style="background-color: #f2f2f7; color: rgb(74, 74, 74); font-size: 0.9rem;">
-          <tr>
-            <th class="py-3 px-4 font-weight-bold border-0">NAME</th>
-            <th class="py-3 px-4 font-weight-bold border-0">ENTITY TYPE</th>
-            <th class="py-3 px-4 font-weight-bold border-0 text-center">STATUS</th>
-            <th class="py-3 px-4 font-weight-bold border-0 text-center">ACTIONS</th>
-          </tr>
+          <tr id="thead-affiliate-failed"></tr>
         </thead>
-        <tbody style="font-size: 0.95rem; color: #222;">
-          <tr style="background-color: #f7f7f9; transition: background-color 0.2s ease-in-out;"
-            onmouseover="this.style.backgroundColor='#ffffff'" onmouseout="this.style.backgroundColor='#f7f7f9'">
-            <td class="py-3 px-4 font-weight-bold">Regional Health Services</td>
-            <td class="py-3 px-4">Associate Member</td>
-            <td class="py-3 px-4 text-center">
-              <span style="background-color: rgb(254, 202, 202); color: rgb(153, 27, 27); font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem;">Failed</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="btn px-3 text-white"
-                style="background-color: rgb(220, 38, 38); font-size: 0.75rem; font-weight: 500; border-radius: 0.375rem; padding-top: 0.375rem; padding-bottom: 0.375rem; transition: all .15s ease-in-out;"
-                onmouseover="this.style.backgroundColor='rgb(239, 68, 68)'"onmouseout="this.style.backgroundColor='rgb(220, 38, 38)'"spellcheck="false">Add Waiver
-              </button>
-            </td>
-          </tr>
-          <tr style="background-color: #f7f7f9; transition: background-color 0.2s ease-in-out;"
-            onmouseover="this.style.backgroundColor='#ffffff'" onmouseout="this.style.backgroundColor='#f7f7f9'">
-            <td class="py-3 px-4 font-weight-bold">Healthcare Solutions Ltd</td>
-            <td class="py-3 px-4">Collaborative Partner</td>
-            <td class="py-3 px-4 text-center">
-              <span style="background-color: rgb(254, 202, 202); color: rgb(153, 27, 27); font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem;">Failed</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="btn px-3 text-white"
-                style="background-color: rgb(220, 38, 38); font-size: 0.75rem; font-weight: 500; border-radius: 0.375rem; padding-top: 0.375rem; padding-bottom: 0.375rem; transition: all .15s ease-in-out;"
-                onmouseover="this.style.backgroundColor='rgb(239, 68, 68)'" onmouseout="this.style.backgroundColor='rgb(220, 38, 38)'" spellcheck="false">Add Waiver
-              </button>
-            </td>
-          </tr>
+        <tbody id="tbody-affiliate-failed" style="font-size: 0.95rem; color: #222;">
         </tbody>
       </table>
     </div>

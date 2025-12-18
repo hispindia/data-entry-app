@@ -2,7 +2,7 @@ import BaseApi from "./BaseApi.js";
 
 export const dataApi = {
   get: async (orgUnit, program, otherParam = "") => {
-    const url = `tracker/trackedEntities.json?paging=false&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `tracker/trackedEntities.json?paging=false&ouMode=DESCENDANTS&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntity,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();

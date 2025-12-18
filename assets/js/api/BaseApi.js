@@ -19,7 +19,7 @@ const BaseApi = async ({ url, method, payload, mode }) => {
     }
     else {
         REQUEST['headers']["Content-Type"] = "application/json"
-        REQUEST['body'] = JSON.stringify(payload)
+        if(payload) REQUEST['body'] = JSON.stringify(payload)
     }
     
     return await fetch(`${baseUrl}/${url}`, REQUEST)
