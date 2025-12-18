@@ -26,6 +26,12 @@ export function fetchValueType(valueType, optionSetValue, optionSet, id) {
     case "PHONE_NUMBER":
         return `<input id="${id}" type="number" class="form-control"/>`;        
 
+    case "FILE_RESOURCE":
+        return `<div>
+            <input type="file" id="${id}" name="${id}" class="form-control show-for-sr" />
+            <a id="${id}-download" style="display: none;" target="_blank"></a>
+        </div>`;
+
     case "BOOLEAN":
         return `
         <select id="${id}" class="form-control">

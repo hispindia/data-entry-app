@@ -133,6 +133,11 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
             rowDiv.appendChild(fieldWrapper);
+
+            if (el.valueType === 'FILE_RESOURCE') {
+                const fileInput = fieldWrapper.querySelector('input[type="file"]');
+                fileInput.addEventListener('change', handleFileUpload);
+            }
         }
 
         container += sectionDiv.outerHTML;
@@ -150,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
         sectionDiv.style.backgroundColor = "white";
         sectionDiv.style.borderRadius = "8px";
         sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${sections.name}</h5>`;
-        // console.log('section Div-------', sectionDiv);
         
         const rowDiv = document.createElement("div");
         rowDiv.className = "row";
@@ -170,9 +174,45 @@ document.addEventListener("DOMContentLoaded", function () {
               ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
           `;
             rowDiv.appendChild(fieldWrapper);
+
+            if (el.valueType === 'FILE_RESOURCE') {
+                const fileInput = fieldWrapper.querySelector('input[type="file"]');
+                fileInput.addEventListener('change', handleFileUpload);
+            }
         }
         container += sectionDiv.outerHTML;
         return container;
     }
 
+    async function handleFileUpload(ev) {
+        const fileInput = ev.target;
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        console.log('form Data', formData);
+        try {
+            const response = await fetch('../../fileResources', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("data", data);
+            const fileResource = data.response.fileResource;
+            
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    }
+
+    function updateFileLabel(elementId, fileName, resourceId) {
+        const downloadLink = document.getElementById(`${elementId}-download`);
+        downloadLink.href = `../../fileResources/${resourceId}`;
+        downloadLink.textContent = fileName;
+        downloadLink.setAttribute('download', fileName);
+        downloadLink.style.display = 'block';
+    }
 });
