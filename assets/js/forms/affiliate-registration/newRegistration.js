@@ -92,10 +92,19 @@ document.addEventListener("DOMContentLoaded", function () {
     async function fetchNewRegistration() {
         const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
         const affilateStage = await programStageApi.get(programStage.affiliateKyc);
-        document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections);
+
+        let cumplsoryDataElementObj = {};
+        if(affilateStage.programStageDataElements){
+            affilateStage.programStageDataElements.forEach(element => {
+                cumplsoryDataElementObj[element.dataElement.id] = element.compulsory;
+            })
+        }
+        
+        document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections, cumplsoryDataElementObj);
         document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc);
     }
-    function renderSections(sections) {
+
+    function renderSections(sections, cumplsoryDataElementObj) {
     let container = "";
 
     for (const section of sections) {
@@ -117,8 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-12 col-md-4 mb-2";
 
+            const mandatoryFields = cumplsoryDataElementObj[el.id] ? '<span class="text-danger">*</span>' : '';
             fieldWrapper.innerHTML = `
-                <label>${el.formName}</label>
+                <label>${el.formName}${mandatoryFields}</label>
                 ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
             `;
 
