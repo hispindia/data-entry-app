@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       tbodyAffiliateApprovedRow += `
       <td class="text-center">  
       <button 
-        data-trackedentity="${affiliate.id}" 
+        data-affiliate="${affiliate.id}" 
         class="btn btn-sm row-btn" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
         onmouseover="this.style.backgroundColor='#265bbf' "onmouseout="this.style.backgroundColor='#3b71ca'">Process UIN Generation
       </button>
@@ -79,20 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
     tbodyApproved.addEventListener('click', async (e)=> {
       const button = e.target.closest('.row-btn');
       if(!button) return;
-      const trackedEntity = button.dataset.trackedentity;
-      const availableAffiliate = tei.affiliates.find(affiliate => affiliate.trackedEntity == trackedEntity);
-      if(availableAffiliate) {
-
-        const payloadOrgUnit = createPayload.orgUnit(tei.orgUnits, availableAffiliate.attributes);
-        const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
-        if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
-          const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
-          await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster})
-          const payloadEvent =  createPayload.modifyEvent(availableAffiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
-          await dataApi.enroll(payloadEvent);
-          alert("Affiliate created successfully")
-        }
-      }
+      const affiliate = button.dataset.affiliate;
+      window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate}`;
     })
 
     tbodyAffiliateApprovedRow = "";

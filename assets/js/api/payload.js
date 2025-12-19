@@ -30,6 +30,21 @@ const trackedEntitPayload = ({orgUnit, program, programStage, formattedDate, for
   ]};
 }
 
+const  eventPayload = ({orgUnit, enrollment, program, programStage, formattedDate, trackedEntity, formattedDataElements}) => {
+    return { events: [{
+                dataValues: formattedDataElements,
+                occurredAt: formattedDate,
+                enrollment,
+                orgUnit,
+                program,
+                programStage,
+                trackedEntity,
+                status: "COMPLETED"
+
+            }]
+        }
+}
+
 export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
     const date = new Date();
     const formattedDate = date.toISOString().split("T")[0];
@@ -93,7 +108,7 @@ export const createPayload = {
     modifyEvent: (trackedEntity, orgUnit, program, programStage, affiliateKeyStage) => {
         const date = new Date();
         const formattedDate = date.toISOString().split("T")[0];
-debugger;
+
         const formattedAttributes = [];
         for(const attribute of trackedEntity.attributes){
             formattedAttributes.push({
@@ -108,6 +123,19 @@ debugger;
            formattedDataElements = requiredStage.events[0].dataValues
         }
         return trackedEntitPayload({orgUnit: orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements})
+    },
+    event: (tei, orgUnit, enrollment, trackedEntity, program, programStage) => {
+        const date = new Date();
+        const formattedDate = date.toISOString().split("T")[0];
+
+        const formattedDataElements = [];
+        for(const dataElementsId of tei.programStage){
+            formattedDataElements.push({
+                dataElement: dataElementsId,
+                value: document.getElementById(dataElementsId)?.value || ""
+            })
+        }
+        return eventPayload({orgUnit: orgUnit, program, programStage, formattedDate, trackedEntity, enrollment, formattedDataElements})
     }
 
 }

@@ -5,6 +5,7 @@ export const optionSet = {
 
 export const programStage = {
     affiliateKyc: "pHiRWkSg9Wx",
+    dueDiligence: "wXlXBPIThiD",
     UINControlMaster: "HsKUiY7RyeO",
 }
 
@@ -22,9 +23,10 @@ export const attributes = {
 };
 
 export const tei = {
+    affiliate: '',
+    affiliates: [],
     attributes: [],
     programStage: [],
-    affiliates: [],
     orgUnits: []
 }
 

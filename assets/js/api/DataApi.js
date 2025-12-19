@@ -10,6 +10,15 @@ export const dataApi = {
       console.error("Error fetching user data:", error);
     }
   },
+  getTrackedEntity: async (trackedEntity) => {
+    const url = `tracker/trackedEntities.json?paging=false&trackedEntity=${trackedEntity}&fields=trackedEntity,attributes[attribute,value],enrollments[enrollment,program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  },
   enroll: async (payload) => {
     const url = `tracker?async=false`;
     try {
