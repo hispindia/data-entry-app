@@ -42,6 +42,12 @@ export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
         })
     }
 
+    formattedAttributes.push({
+    attribute: "In Progress",   
+    value: "In Progress"
+    });
+
+
     const formattedDataElements = [];
     for(const dataElementsId of tei.programStage){
         formattedDataElements.push({

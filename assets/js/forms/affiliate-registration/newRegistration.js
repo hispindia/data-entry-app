@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return attributes;
             });
 
+               
             var theadAffiliateRow = "";
             headerList.forEach(item => theadAffiliateRow+= `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
             document.getElementById('thead-affiliate').innerHTML = theadAffiliateRow;
@@ -93,15 +94,24 @@ document.addEventListener("DOMContentLoaded", function () {
         const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
         const affilateStage = await programStageApi.get(programStage.affiliateKyc);
 
+        let mandatoryProgramTrackedEntityAttributes = {};
+        if(programAffiliateKyc.programTrackedEntityAttributes){
+            programAffiliateKyc.programTrackedEntityAttributes.forEach(element => {
+                if (element.trackedEntityAttribute) {
+                    mandatoryProgramTrackedEntityAttributes[element.trackedEntityAttribute.id] = element.mandatory;
+                }
+            });
+        }
+
         let cumplsoryDataElementObj = {};
         if(affilateStage.programStageDataElements){
             affilateStage.programStageDataElements.forEach(element => {
                 cumplsoryDataElementObj[element.dataElement.id] = element.compulsory;
             })
         }
-        
+    
         document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections, cumplsoryDataElementObj);
-        document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc);
+        document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc, mandatoryProgramTrackedEntityAttributes);
     }
 
     function renderSections(sections, cumplsoryDataElementObj) {
@@ -146,33 +156,35 @@ document.addEventListener("DOMContentLoaded", function () {
     return container;
 }
 
-    function renderProgramTrackedAttributes(sections) {
-        let container = "";
-
-        console.log("sections =", sections);
+    function renderProgramTrackedAttributes(sections, mandatoryProgramTrackedEntityAttributes) {
+    let container = "";
+    
+    for (const section of sections.programSections) {
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";
         sectionDiv.style.borderRadius = "8px";
-        sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${sections.name}</h5>`;
+        sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
         
         const rowDiv = document.createElement("div");
         rowDiv.className = "row";
         sectionDiv.appendChild(rowDiv);
-        
-        for (const attrObj of sections.programTrackedEntityAttributes) {
-            const el = attrObj.trackedEntityAttribute;
+
+        for (const el of section.trackedEntityAttributes) {
+            
             if(el?.id) tei.attributes.push(el?.id);
             
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-md-4 mb-2";
+        
+            const isMandatory = mandatoryProgramTrackedEntityAttributes[el.id] === true;
             
-            const mandatoryIndicator = attrObj.mandatory ? '<span class="text-danger">*</span>' : '';
+            const mandatoryFields = isMandatory ? '<span class="text-danger">*</span>' : '';
 
             fieldWrapper.innerHTML = `
-              <label>${el.name}${mandatoryIndicator}</label>
-              ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
-          `;
+                <label>${el.name}${mandatoryFields}</label>
+                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+            `;
             rowDiv.appendChild(fieldWrapper);
 
             if (el.valueType === 'FILE_RESOURCE') {
@@ -181,8 +193,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         container += sectionDiv.outerHTML;
-        return container;
     }
+    return container;
+}
 
     async function handleFileUpload(ev) {
         const fileInput = ev.target;
