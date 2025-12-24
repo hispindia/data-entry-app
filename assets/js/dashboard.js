@@ -36,8 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
           const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
           const regionValue = document.getElementById("Region").value;
           const countryValue = document.getElementById("Countries").value;
+          const name = document.getElementById("regName").value;
           if(regionValue && countryValue) {
-              const otherParam = `filter=SMdW6ZnGllA:EQ:${regionValue}&filter=LZacnHsQJRs:EQ:${countryValue}`
+              const otherParam = `filter=SMdW6ZnGllA:EQ:${regionValue}&filter=LZacnHsQJRs:EQ:${countryValue}||filter=UkQI1dWzZOv:EQ:${name}`
               const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
           
 

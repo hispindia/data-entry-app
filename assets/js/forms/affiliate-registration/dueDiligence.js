@@ -17,20 +17,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById('generateUIN').addEventListener('click', async function() { 
-    if(tei.mandatoryList) {
-      let empty = false;
-      for(const id of tei.mandatoryList) {
-        const value = document.getElementById(id).value;
-        if(!value) {
-          empty = true;
-          break;
+     if(tei.mandatoryList) {
+            let empty = false;
+            for(const id of tei.mandatoryList) {
+                const value = document.getElementById(id).value;
+                const mandatoryError = document.querySelector(`#error-${id}`);
+                if(!value) {
+                    empty = true;
+                    if(mandatoryError) {
+                        mandatoryError.innerHTML = "This field is required";
+                        mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+                        mandatoryError.focus({ preventScroll: true });
+                    }
+
+                } else {
+                    mandatoryError.innerHTML = "";
+               }
+            }
+            if(empty) {
+                alert('Please fill mandatory fields!');
+                return;
+            }
         }
-      }
-      if(empty) {
-        alert('Please fill mandatory fields!');
-        return;
-      }
-    }
     if(tei.affiliate) {
         const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
         const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
@@ -150,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fieldWrapper.innerHTML = `
                 <label>${el.formName}${mandatoryFields}</label>
                 ${fetchValueType({valueType: el.valueType,optionSetValue: el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id, value:(dataValues[el.id]?dataValues[el.id]:''), disabled: disabled})}
+                <div id="error-${el.id}" style="color: red"></div>
             `;
 
             rowDiv.appendChild(fieldWrapper);
