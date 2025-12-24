@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js";
-import { meApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
+import { meApi, optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload, pushPayloadInDhis2 } from "../../api/payload.js";
-import { attributes, dataElements, programStage, programs, tei } from "../../constant.js";
+import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
 import { getNextCode } from "../func.js";
 import { fetchValueType } from "./valueType.js";
 
@@ -88,7 +88,14 @@ document.addEventListener("DOMContentLoaded", function () {
       event.dataValues.forEach(dv =>dataValues[dv.dataElement]=dv.value);
     })
   });
-  document.getElementById('country').innerHTML = dataValues[attributes.countryRegistration] ? `(${dataValues[attributes.countryRegistration]})` : ''
+  const countryNameAndCodes = {};
+  const country = await optionSetApi.get(optionSet.country);
+  if(country.options){
+    country.options.forEach(opt => {
+      countryNameAndCodes[opt.code] = `(${opt.name})`;
+    })
+  }
+  document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? countryNameAndCodes[dataValues[attributes.countryRegistration]]  : ''
 
   const affilateStage = await programStageApi.get(programStage.affiliateKyc);
   const dueDiligence = await programStageApi.get(programStage.dueDiligence);

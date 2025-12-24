@@ -31,10 +31,18 @@ document.addEventListener("DOMContentLoaded", function () {
             let empty = false;
             for(const id of tei.mandatoryList) {
                 const value = document.getElementById(id).value;
+                const mandatoryError = document.querySelector(`#error-${id}`);
                 if(!value) {
                     empty = true;
-                    break;
-                }
+                    if(mandatoryError) {
+                        mandatoryError.innerHTML = "This field is required";
+                        mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+                        mandatoryError.focus({ preventScroll: true });
+                    }
+
+                } else {
+                    mandatoryError.innerHTML = "";
+               }
             }
             if(empty) {
                 alert('Please fill mandatory fields!');
@@ -169,6 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fieldWrapper.innerHTML = `
                 <label>${el.formName}${mandatoryFields}</label>
                 ${fetchValueType({valueType: el.valueType, optionSetValue:el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id})}
+                <div id="error-${el.id}" style="color: red"></div>
             `;
 
             rowDiv.appendChild(fieldWrapper);
@@ -213,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fieldWrapper.innerHTML = `
                 <label>${el.name}${mandatoryFields}</label>
                 ${fetchValueType({valueType: el.valueType, optionSetValue:el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id})}
+                <div id="error-${el.id}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);
 

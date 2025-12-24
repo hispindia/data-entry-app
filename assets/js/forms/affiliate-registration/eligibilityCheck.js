@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var theadAffiliateRow = "";
     headerList.forEach(item => theadAffiliateRow+= `<th class="py-3 px-4 font-weight-bold border-0 text-center">${item.name}</th>`);
     
-    document.getElementById('thead-affiliate-failed').innerHTML = theadAffiliateRow;
+    document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
     document.getElementById('thead-affiliate-inProgress').innerHTML = theadAffiliateRow;
     document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
 
@@ -95,7 +95,15 @@ document.addEventListener("DOMContentLoaded", function () {
         else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
       });
      
-      tbodyAffiliateApprovedRow += `</tr>`
+      tbodyAffiliateApprovedRow += `
+      <td class="text-center">  
+      <button 
+        data-affiliate="${affiliate.id}" 
+        class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
+        onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'">Add Waiver
+      </button>
+      </td>      
+      </tr>`
     })
     document.getElementById('tbody-affiliate-failed').innerHTML = tbodyAffiliateApprovedRow;
 
