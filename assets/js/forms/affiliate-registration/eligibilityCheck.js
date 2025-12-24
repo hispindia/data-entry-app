@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchAffiliateList();
   async function fetchAffiliateList() {
     const user = await meApi.get();
-    const level2OU = await orgUnitsApi.get(2);
+    const level2OU = await orgUnitsApi.get({level:2});
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
 
     const userOrgUnit = user.dataViewOrganisationUnits.map(ou => ou.id).join(';');
@@ -114,7 +114,5 @@ document.addEventListener("DOMContentLoaded", function () {
       tbodyAffiliateApprovedRow += `</tr>`
     })
     document.getElementById('tbody-affiliate-inProgress').innerHTML = tbodyAffiliateApprovedRow;
-
-
   }
 })

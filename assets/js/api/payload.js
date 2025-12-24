@@ -1,3 +1,5 @@
+import { attributes } from "../constant.js";
+
 const trackedEntitPayload = ({orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements}) => {
     return  {
     trackedEntities: [
@@ -58,7 +60,7 @@ export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
     }
 
     formattedAttributes.push({
-    attribute: "In Progress",   
+    attribute: attributes.acuityCheck,   
     value: "In Progress"
     });
 
@@ -74,19 +76,19 @@ export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
 }
 
 export const createPayload = {
-    orgUnit: (orgUnits, attributes) => {
+    orgUnit: (parentOU, attributes, code) => {
         const data = {};
         attributes.forEach(attr => data[attr.attribute] = attr.value);
-        const orgUnit = orgUnits.find(orgUnit => orgUnit.code == data['LZacnHsQJRs']);
         return {
             "organisationUnits": [
                 {
                 "name": `${data.UkQI1dWzZOv}`,
-                "shortName": `${data.UULMD0pa4wK}`,
+                "shortName": `${code}`,
+                "code": `${code}`,
                 "openingDate": new Date().toISOString().split('T')[0],
                 "level": `3`,
                 "parent": {
-                    "id": `${orgUnit.id}`
+                    "id": `${parentOU}`
                 }
                 }
             ]

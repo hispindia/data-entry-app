@@ -20,16 +20,38 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    const disclaimerCheck = document.getElementById('disclaimerCheck');
     const searchButton = document.getElementById('searchButton');
     const addNewAffiliateButton = document.getElementById('addNewAffiliate');
     const searchResults = document.getElementById('searchResults');
     const addAffiliateForm = document.getElementById('addAffiliateForm');
-    const acuityBtn = document.getElementById("sendToAcutiyBtn");
+    const acuityBtn = document.getElementById("sendToAcuityBtn");
     acuityBtn.addEventListener("click", async () => {
+        if(tei.mandatoryList) {
+            let empty = false;
+            for(const id of tei.mandatoryList) {
+                const value = document.getElementById(id).value;
+                if(!value) {
+                    empty = true;
+                    break;
+                }
+            }
+            if(empty) {
+                alert('Please fill mandatory fields!');
+                return;
+            }
+        }
         const payload = pushPayloadInDhis2(tei, orgUnit.id, programs.affiliateKyc, programStage.affiliateKyc);
         await dataApi.enroll(payload);
         alert("Affiliate saved successfully")
     });
+    disclaimerCheck.addEventListener('change', function(e) {
+        if (e.target.checked) {
+        document.getElementById('sendToAcuityBtn').disabled = false;
+        } else {
+        document.getElementById('sendToAcuityBtn').disabled = true;
+        }
+    })
     
     if (searchButton) {
         searchButton.addEventListener('click', function () {
@@ -56,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     async function fetchAffiliateList() {
+        tei.mandatoryList = [];
         const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
         const regionValue = document.getElementById("Region").value;
         const countryValue = document.getElementById("Countries").value;
@@ -103,18 +126,24 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        let cumplsoryDataElementObj = {};
+        let compulsoryDataElements = {};
         if(affilateStage.programStageDataElements){
             affilateStage.programStageDataElements.forEach(element => {
-                cumplsoryDataElementObj[element.dataElement.id] = element.compulsory;
+                compulsoryDataElements[element.dataElement.id] = element.compulsory;
             })
         }
+        for(let element in mandatoryProgramTrackedEntityAttributes)   {
+        if(mandatoryProgramTrackedEntityAttributes[element]) tei.mandatoryList.push(element);
+        }
+        for(let element in compulsoryDataElements)   {
+        if(compulsoryDataElements[element]) tei.mandatoryList.push(element);
+        }
     
-        document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections, cumplsoryDataElementObj);
+        document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections, compulsoryDataElements);
         document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc, mandatoryProgramTrackedEntityAttributes);
     }
 
-    function renderSections(sections, cumplsoryDataElementObj) {
+    function renderSections(sections, compulsoryDataElements) {
     let container = "";
 
     for (const section of sections) {
@@ -136,10 +165,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-12 col-md-4 mb-2";
 
-            const mandatoryFields = cumplsoryDataElementObj[el.id] ? '<span class="text-danger">*</span>' : '';
+            const mandatoryFields = compulsoryDataElements[el.id] ? '<span class="text-danger">*</span>' : '';
             fieldWrapper.innerHTML = `
                 <label>${el.formName}${mandatoryFields}</label>
-                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+                ${fetchValueType({valueType: el.valueType, optionSetValue:el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id})}
             `;
 
             rowDiv.appendChild(fieldWrapper);
@@ -183,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             fieldWrapper.innerHTML = `
                 <label>${el.name}${mandatoryFields}</label>
-                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+                ${fetchValueType({valueType: el.valueType, optionSetValue:el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id})}
             `;
             rowDiv.appendChild(fieldWrapper);
 

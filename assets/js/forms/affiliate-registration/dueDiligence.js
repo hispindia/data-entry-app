@@ -1,7 +1,8 @@
 import { dataApi } from "../../api/DataApi.js";
 import { meApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload, pushPayloadInDhis2 } from "../../api/payload.js";
-import { attributes, programStage, programs, tei } from "../../constant.js";
+import { attributes, dataElements, programStage, programs, tei } from "../../constant.js";
+import { getNextCode } from "../func.js";
 import { fetchValueType } from "./valueType.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -16,27 +17,49 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById('generateUIN').addEventListener('click', async function() { 
+    if(tei.mandatoryList) {
+      let empty = false;
+      for(const id of tei.mandatoryList) {
+        const value = document.getElementById(id).value;
+        if(!value) {
+          empty = true;
+          break;
+        }
+      }
+      if(empty) {
+        alert('Please fill mandatory fields!');
+        return;
+      }
+    }
     if(tei.affiliate) {
-        const orgUnit = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
+        const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
         const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
-        if(!orgUnit || !enrollment) return;
-        
-        const payloadDueDiligence = createPayload.event(tei, orgUnit, enrollment, tei.affiliate.trackedEntity, programs.affiliateKyc, programStage.dueDiligence);
+        const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
+        if(!orgUnitId || !enrollment) return;
+        // debugger;
+        // await dataApi.postAttribute({
+        // })
+        const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, tei.affiliate.trackedEntity, programs.affiliateKyc, programStage.dueDiligence);
         await dataApi.enroll(payloadDueDiligence);
-        // const payloadOrgUnit = createPayload.orgUnit(tei.orgUnits, availableAffiliate.attributes);
-        // const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
-        // if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
-        //   const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
-        //   await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster})
-        //   const payloadEvent =  createPayload.modifyEvent(availableAffiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
-        //   await dataApi.enroll(payloadEvent);
-        //   alert("Affiliate created successfully")
-        // }
+        const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
+        const nextNum = getNextCode(orgUnit.organisationUnits[0].children.filter(obj => obj.code !== undefined).map(obj => obj.code));
+        const nextOUCode = `${orgUnit.organisationUnits[0].parent.code}-${orgUnit.organisationUnits[0].code}-${nextNum}`;
+        const payloadOrgUnit = createPayload.orgUnit(orgUnit.organisationUnits[0].id, tei.affiliate.attributes, nextOUCode);
+        const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
+        if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
+          const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
+          await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster})
+          const payloadEvent =  createPayload.modifyEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
+          await dataApi.enroll(payloadEvent);
+          alert(`UIN Generated Successfully!\nUIN No: ${nextOUCode}`);
+          window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
+        }
     }
   })
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
+    tei.mandatoryList = []
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
   if(affiliate) {
@@ -58,6 +81,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  const dataValues = {};
+  tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute]=attr.value);
+  tei.affiliate.enrollments.forEach(enroll => {
+    enroll.events.forEach(event => {
+      event.dataValues.forEach(dv =>dataValues[dv.dataElement]=dv.value);
+    })
+  });
+  document.getElementById('country').innerHTML = dataValues[attributes.countryRegistration] ? `(${dataValues[attributes.countryRegistration]})` : ''
+
+  const affilateStage = await programStageApi.get(programStage.affiliateKyc);
   const dueDiligence = await programStageApi.get(programStage.dueDiligence);
 
     let compulsoryDataElements = {};
@@ -66,11 +99,27 @@ document.addEventListener("DOMContentLoaded", function () {
           compulsoryDataElements[element.dataElement.id] = element.compulsory;
         })
     }
-    document.getElementById("dueDiligence").innerHTML = renderSections(dueDiligence.programStageSections, compulsoryDataElements);
+    dataElements.affiliateKYCOther.forEach(section => {
+      section.dataElements.forEach(element => {
+          compulsoryDataElements[element.id] = element.compulsory;
+        })
+    })
+    for(let element in compulsoryDataElements)   {
+      if(compulsoryDataElements[element]) tei.mandatoryList.push(element);
+    }
+
+    tei.programStage = dueDiligence.programStageDataElements.flatMap(element => element.dataElement.id);
+    const dueDiligenceDiv = renderSections(dueDiligence.programStageSections, compulsoryDataElements, false);
+    const affiliateKYCDiv = renderSections(affilateStage.programStageSections, {}, dataValues, true);
+    const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther, compulsoryDataElements, false);
+    document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
+    <h4 class="mt-3" style="color: black;">Due Dilligence</h4>
+    ${dueDiligenceDiv}
+    ${affiliateOtherDiv}`
   }
 })
 
-  function renderSections(sections, compulsoryDataElements) {
+  function renderSections(sections, compulsoryDataElements, dataValues, disabled) {
     let container = "";
 
     for (const section of sections) {
@@ -87,15 +136,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (const el of section.dataElements) {
 
-            if (el?.id) tei.programStage.push(el.id);
-
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-12 col-md-4 mb-2";
 
             const mandatoryFields = compulsoryDataElements[el.id] ? '<span class="text-danger">*</span>' : '';
             fieldWrapper.innerHTML = `
                 <label>${el.formName}${mandatoryFields}</label>
-                ${fetchValueType(el.valueType, el.optionSetValue, el.optionSet?.options, el?.id)}
+                ${fetchValueType({valueType: el.valueType,optionSetValue: el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id, value:(dataValues[el.id]?dataValues[el.id]:''), disabled: disabled})}
             `;
 
             rowDiv.appendChild(fieldWrapper);

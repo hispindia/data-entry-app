@@ -232,10 +232,10 @@ export async function getOrganisationUnits(orgUnit) {
 }
 
  
-export function populateOptions(options) {
-  var optionSet = `<option value="">Select</option>`;
+export function populateOptions(options, value) {
+  var optionSet = `<option ${(value=="" ? 'selected' : '')} value="">Select</option>`;
   options.forEach(opt => {
-  optionSet += `<option value="${opt.code}">${opt.name}</option>`;
+  optionSet += `<option ${(value == opt.code ? 'selected' : '')} value="${opt.code}">${opt.name}</option>`;
 })
   return optionSet;
 }

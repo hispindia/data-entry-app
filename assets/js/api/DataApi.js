@@ -38,6 +38,16 @@ export const dataApi = {
       console.error("Error fetching user data:", error);
     }
   },
+  postAttribute: async (payload) => {
+    const url = `tracker?async=false`;
+    try {
+      const response = await BaseApi({url, method:"POST", payload});
+      const data = await response.json();
+      return data.response.importSummaries[0].reference;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
   post: async (payload) => {
     const url = `events`;
     try {

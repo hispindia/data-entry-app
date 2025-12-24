@@ -54,9 +54,10 @@ export const meApi = {
 }
 
 export const orgUnitsApi = {
-  get: async (level) => {
-    var url = `organisationUnits.json?paging=false&fields=id,name,code`;
+  get: async ({level, filter}) => {
+    var url = `organisationUnits.json?paging=false&fields=id,name,code,children[id,name,code],parent[id,name,code]`;
     url += level ? `&level=${level}` : '';
+    url += filter ? `&filter=code:eq:${filter}`: '';
     try{
         const response = await BaseApi({url});
         return response.json();

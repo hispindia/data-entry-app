@@ -81,3 +81,17 @@ export function enableAll() {
     // Enable all button elements
     // $('button').prop('disabled', false);
 }
+
+export function getNextCode(codes) {
+  let max = 0;
+
+  for (const code of codes) {
+    const match = code.match(/(\d+)$/);
+    if (match) {
+      max = Math.max(max, Number(match[1]));
+    }
+  }
+
+  const next = max + 1;
+  return String(next).padStart(3, '0');
+}
