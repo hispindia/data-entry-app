@@ -38,8 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
           const regionValue = document.getElementById("Region").value;
           const countryValue = document.getElementById("Countries").value;
           const name = document.getElementById("regName").value;
-          if(regionValue && countryValue) {
-              let otherParam = `filter=${attributes.region}:EQ:${regionValue}&filter=${attributes.countryRegistration}:EQ:${countryValue}` 
+          if(countryValue) {
+              let otherParam = `filter=${attributes.countryRegistration}:EQ:${countryValue}` 
+              if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
               if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
               const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
           
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
           } else {
-              alert('Please select Region/Country!')
+              alert('Please select Country!')
           }
     }
 

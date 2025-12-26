@@ -9,10 +9,6 @@
         "48": "assets/images/fav.png",
         "128": "assets/images/fav.png"
     },
-    "developer": {
-        "name": "HISP India",
-        "url": "https://github.com/i-sourabh"
-    },
     "default_locale": "en",
     "activities": {
         "dhis": {

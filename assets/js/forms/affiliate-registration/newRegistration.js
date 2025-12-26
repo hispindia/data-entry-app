@@ -85,10 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (input.matches("input, select, textarea")) {
             if(input.type == "file") {
             tei.values[input.id] = input.files[0];
+            document.getElementById(`error-${e.target.id}`).innerHTML = '';
             document.getElementById(`${input.id}-message`).textContent = input.files[0].name;
             return;
             }
             tei.values[input.id] = input.value;
+            document.getElementById(`error-${e.target.id}`).innerHTML = '';
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages);
         }
@@ -96,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("basicInformation").addEventListener('change', function(e) {
         if (e.target.matches("input, select, textarea")) {
             tei.values[e.target.id] = e.target.value;
+            document.getElementById(`error-${e.target.id}`).innerHTML = '';
             if(e.target.type == "file") return;
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("basicInformation").innerHTML = renderSections(tei.attributes);
@@ -131,8 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const regionValue = document.getElementById("Region").value;
         const countryValue = document.getElementById("Countries").value;
         const name = document.getElementById("regName").value;
-        if(regionValue && countryValue) {
-            let otherParam = `filter=${attributes.region}:EQ:${regionValue}&filter=${attributes.countryRegistration}:EQ:${countryValue}` 
+        if(countryValue) {
+            let otherParam = `filter=${attributes.countryRegistration}:EQ:${countryValue}` 
+            if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
             if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
             const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
 
@@ -159,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
         } else {
-            alert('Please select Region/Country!');
+            alert('Please select Country!');
         }
     }
 
@@ -212,8 +216,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], el.disabled)};
-                <div id="error-${el.id}" style="color: red"></div>
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], el.disabled)}
+                <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);
         }

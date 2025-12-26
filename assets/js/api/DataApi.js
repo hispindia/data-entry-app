@@ -58,32 +58,4 @@ export const dataApi = {
       console.error("Error while creating events", error);
     }
   },
-  post: async (payload) => {
-    const url = `events`;
-    try {
-      const response = await BaseApi({url, method:"POST", payload});
-      const data = await response.json();
-      return data.response.importSummaries[0].reference;
-    } catch (error) {
-      console.error("Error while creating events", error);
-    }
-  },
-  put: async (event, payload) => {
-    const url = `events/${event}`;
-    try {
-      const response = await BaseApi({url, method:"PUT", payload});
-      return response.json();
-    } catch (error) {
-      console.error("Error while creating events", error);
-    }
-  },
-  complete:async (payload) => {
-    const url = `events`;
-    try {
-      const response = await BaseApi({url, method:"POST", payload});
-      return await response.json();
-    } catch (error) {
-      console.error("Error while updating status", error);
-    }
-  },
 };

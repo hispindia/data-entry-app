@@ -130,18 +130,20 @@ export const createPayload = {
         }
         return trackedEntitPayload({orgUnit: orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements})
     },
-    event: (tei, orgUnit, enrollment, trackedEntity, program, programStage) => {
+    event: (tei, orgUnit, enrollment, program, programStage) => {
         const date = new Date();
         const formattedDate = date.toISOString().split("T")[0];
 
         const formattedDataElements = [];
-        for(const dataElementsId of tei.programStages){
-            formattedDataElements.push({
-                dataElement: dataElementsId,
-                value: document.getElementById(dataElementsId)?.value || ""
+        tei.programStages.forEach(section => {
+            section.items.forEach(element => {
+                formattedDataElements.push({
+                    dataElement: element.code,
+                    value: tei.values[element.code] || ""
+                })
             })
-        }
-        return eventPayload({orgUnit: orgUnit, program, programStage, formattedDate, trackedEntity, enrollment, formattedDataElements})
+        })
+        return eventPayload({orgUnit: orgUnit, program, programStage, formattedDate, trackedEntity:tei.affiliate.trackedEntity, enrollment, formattedDataElements})
     }
 
 }

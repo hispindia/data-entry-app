@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // debugger;
         // await dataApi.postAttribute({
         // })
-        const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, tei.affiliate.trackedEntity, programs.affiliateKyc, programStage.dueDiligence);
+        const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
         await dataApi.enroll(payloadDueDiligence);
         const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
         const nextNum = getNextCode(orgUnit.organisationUnits[0].children.filter(obj => obj.code !== undefined).map(obj => obj.code));
@@ -64,6 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
   })
+
+  document.getElementById("dueDiligence").addEventListener('change', function(e) {
+      if (e.target.matches("input, select, textarea")) {
+          tei.values[e.target.id] = e.target.value;
+          document.getElementById(`error-${e.target.id}`).innerHTML = '';
+        }
+  });
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
@@ -154,8 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || "") , el.disabled)};
-                <div id="error-${el.id}" style="color: red"></div>
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || "") , el.disabled)}
+                <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);
         }

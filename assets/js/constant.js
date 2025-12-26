@@ -59,8 +59,7 @@ export const dataElements = {
             disabled: false,
             optionSetValue: true,
             valueType: "TEXT",
-            optionSet: {
-                options: [
+            valueSet:[
                     {
                         label: "Full Member",
                         value: "Full Member",
@@ -82,7 +81,6 @@ export const dataElements = {
                         value: "Project Level Partner",
                     }
                 ]
-            }
         }, {
             code: 'qg4tyJoHEiS',
             name: 'Affiliation Status',
@@ -91,8 +89,7 @@ export const dataElements = {
             disabled: false,
             optionSetValue: true,
             valueType: "TEXT",
-            optionSet: {
-                options: [
+            valueSet: [
                     {
                         label: "Active",
                         value: "Active",
@@ -117,8 +114,7 @@ export const dataElements = {
                         label: "Dissoved/Closed",
                         value: "Dissoved/Closed",
                     }
-                ]
-            },  
+                ] 
         }]
     }]
 }
