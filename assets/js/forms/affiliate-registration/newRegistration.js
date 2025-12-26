@@ -1,9 +1,9 @@
 import { dataApi } from "../../api/DataApi.js";
-import { populateOptions } from "../../api/func.js";
+import { populateOptions, ruleCallback } from "../metadata.js";
 import { optionSetApi, programsApi, programStageApi } from "../../api/metaDataApi.js";
 import { pushPayloadInDhis2 } from "../../api/payload.js";
-import { optionSet, orgUnit, programStage, programs, tei } from "../../constant.js";
-import { fetchValueType } from "./valueType.js";
+import { attributes, optionSet, orgUnit, programStage, programs, tei } from "../../constant.js";
+import { configureRules, convert, fetchValueType } from "../metadata.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -49,9 +49,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
         }
+        const fileInputs = document.querySelectorAll(".file-upload");
+        for(const input of fileInputs) {
+            const file = tei.values[input.id];
+            if (!file) continue;
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                const res = await dataApi.uploadFile(formData);
+                if(res.status == 'OK') {
+                tei.values[input.id] = res.response.fileResource.id;
+                } else {
+                    throw('File generation error!')
+                }
+            } catch (error) {
+                console.error('Error uploading file:', error);
+                return;
+            }
+        }
         const payload = pushPayloadInDhis2(tei, orgUnit.id, programs.affiliateKyc, programStage.affiliateKyc);
         await dataApi.enroll(payload);
-        alert("Affiliate saved successfully")
+        alert("Affiliate saved successfully");
+        window.location.reload();
     });
     disclaimerCheck.addEventListener('change', function(e) {
         if (e.target.checked) {
@@ -59,8 +79,29 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
         document.getElementById('sendToAcuityBtn').disabled = true;
         }
-    })
-    
+    });
+    document.getElementById("addKycDetails").addEventListener('change', function(e) {
+        const input = e.target;
+        if (input.matches("input, select, textarea")) {
+            if(input.type == "file") {
+            tei.values[input.id] = input.files[0];
+            document.getElementById(`${input.id}-message`).textContent = input.files[0].name;
+            return;
+            }
+            tei.values[input.id] = input.value;
+            ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+            document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages);
+        }
+    });
+    document.getElementById("basicInformation").addEventListener('change', function(e) {
+        if (e.target.matches("input, select, textarea")) {
+            tei.values[e.target.id] = e.target.value;
+            if(e.target.type == "file") return;
+            ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+            document.getElementById("basicInformation").innerHTML = renderSections(tei.attributes);
+        }
+    });
+
     if (searchButton) {
         searchButton.addEventListener('click', function () {
             fetchAffiliateList();
@@ -86,13 +127,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     async function fetchAffiliateList() {
-        tei.mandatoryList = [];
         const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
         const regionValue = document.getElementById("Region").value;
         const countryValue = document.getElementById("Countries").value;
         const name = document.getElementById("regName").value;
         if(regionValue && countryValue) {
-            const otherParam = `filter=SMdW6ZnGllA:EQ:${regionValue}&filter=LZacnHsQJRs:EQ:${countryValue}||filter=UkQI1dWzZOv:EQ:${name}`
+            let otherParam = `filter=${attributes.region}:EQ:${regionValue}&filter=${attributes.countryRegistration}:EQ:${countryValue}` 
+            if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
             const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
 
             const headerList = programAffiliateKyc.programTrackedEntityAttributes
@@ -118,45 +159,39 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
         } else {
-            alert('Please select Region/Country!')
+            alert('Please select Region/Country!');
         }
     }
 
     async function fetchNewRegistration() {
         const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
         const affilateStage = await programStageApi.get(programStage.affiliateKyc);
+        
+        const resRules = await programsApi.rules(programs.affiliateKyc);
+        const resRuleVariables = await programsApi.ruleVariables(programs.affiliateKyc);
+        const resOptionGroups = await optionSetApi.getOptionGroups();
+        tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
 
-        let mandatoryProgramTrackedEntityAttributes = {};
-        if(programAffiliateKyc.programTrackedEntityAttributes){
-            programAffiliateKyc.programTrackedEntityAttributes.forEach(element => {
-                if (element.trackedEntityAttribute) {
-                    mandatoryProgramTrackedEntityAttributes[element.trackedEntityAttribute.id] = element.mandatory;
-                }
-            });
-        }
-
-        let compulsoryDataElements = {};
-        if(affilateStage.programStageDataElements){
-            affilateStage.programStageDataElements.forEach(element => {
-                compulsoryDataElements[element.dataElement.id] = element.compulsory;
-            })
-        }
-        for(let element in mandatoryProgramTrackedEntityAttributes)   {
-        if(mandatoryProgramTrackedEntityAttributes[element]) tei.mandatoryList.push(element);
-        }
-        for(let element in compulsoryDataElements)   {
-        if(compulsoryDataElements[element]) tei.mandatoryList.push(element);
-        }
-    
-        document.getElementById("addKycDetails").innerHTML = renderSections(affilateStage.programStageSections, compulsoryDataElements);
-        document.getElementById("basicInformation").innerHTML = renderProgramTrackedAttributes(programAffiliateKyc, mandatoryProgramTrackedEntityAttributes);
+        const programAttr = convert.attributes({ program: programAffiliateKyc });
+        const affiliateStage = convert.stage({ programStage: affilateStage });
+        
+        tei.attributes = programAttr.attributes;
+        tei.programStages = affiliateStage.sections;
+        tei.values = {...programAttr.values, ...affiliateStage.values};
+        tei.metadata = {...programAttr.metadata, ...affiliateStage.metadata};
+        tei.mandatoryList = [...programAttr.mandatoryList, ...affiliateStage.mandatoryList];
+        
+        ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList,  tei.metadata, tei.values);
+        
+        document.getElementById("basicInformation").innerHTML = renderSections(tei.attributes);
+        document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages);
     }
 
-    function renderSections(sections, compulsoryDataElements) {
+    function renderSections(sections) {
     let container = "";
 
     for (const section of sections) {
-
+        if(section.hidden) continue;
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";
@@ -167,105 +202,24 @@ document.addEventListener("DOMContentLoaded", function () {
         rowDiv.className = "row";
         sectionDiv.appendChild(rowDiv);
 
-        for (const el of section.dataElements) {
-
-            if (el?.id) tei.programStage.push(el.id);
-
-            const fieldWrapper = document.createElement("div");
-            fieldWrapper.className = "form-group col-12 col-md-4 mb-2";
-
-            const mandatoryFields = compulsoryDataElements[el.id] ? '<span class="text-danger">*</span>' : '';
-            fieldWrapper.innerHTML = `
-                <label>${el.formName}${mandatoryFields}</label>
-                ${fetchValueType({valueType: el.valueType, optionSetValue:el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id})}
-                <div id="error-${el.id}" style="color: red"></div>
-            `;
-
-            rowDiv.appendChild(fieldWrapper);
-
-            if (el.valueType === 'FILE_RESOURCE') {
-                const fileInput = fieldWrapper.querySelector('input[type="file"]');
-                fileInput.addEventListener('change', handleFileUpload);
-            }
-        }
-
-        container += sectionDiv.outerHTML;
-    }
-
-    return container;
-}
-
-    function renderProgramTrackedAttributes(sections, mandatoryProgramTrackedEntityAttributes) {
-    let container = "";
-    
-    for (const section of sections.programSections) {
-        const sectionDiv = document.createElement("div");
-        sectionDiv.className = "card mb-4 p-3";
-        sectionDiv.style.backgroundColor = "white";
-        sectionDiv.style.borderRadius = "8px";
-        sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
-        
-        const rowDiv = document.createElement("div");
-        rowDiv.className = "row";
-        sectionDiv.appendChild(rowDiv);
-
-        for (const el of section.trackedEntityAttributes) {
-            
-            if(el?.id) tei.attributes.push(el?.id);
-            
+        for (const el of section.items) {
+            if(el.hidden) continue;
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-md-4 mb-2";
-        
-            const isMandatory = mandatoryProgramTrackedEntityAttributes[el.id] === true;
-            
-            const mandatoryFields = isMandatory ? '<span class="text-danger">*</span>' : '';
 
             fieldWrapper.innerHTML = `
-                <label>${el.name}${mandatoryFields}</label>
-                ${fetchValueType({valueType: el.valueType, optionSetValue:el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id})}
+                <label>
+                    ${el.name}
+                    ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
+                </label>
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], el.disabled)};
                 <div id="error-${el.id}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);
-
-            if (el.valueType === 'FILE_RESOURCE') {
-                const fileInput = fieldWrapper.querySelector('input[type="file"]');
-                fileInput.addEventListener('change', handleFileUpload);
-            }
         }
         container += sectionDiv.outerHTML;
     }
     return container;
-}
-
-    async function handleFileUpload(ev) {
-        const fileInput = ev.target;
-        const file = fileInput.files[0];
-        const formData = new FormData();
-        formData.append('file', file);
-        console.log('form Data', formData);
-        try {
-            const response = await fetch('../../fileResources', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log("data", data);
-            const fileResource = data.response.fileResource;
-            
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
     }
 
-    function updateFileLabel(elementId, fileName, resourceId) {
-        const downloadLink = document.getElementById(`${elementId}-download`);
-        downloadLink.href = `../../fileResources/${resourceId}`;
-        downloadLink.textContent = fileName;
-        downloadLink.setAttribute('download', fileName);
-        downloadLink.style.display = 'block';
-    }
 });

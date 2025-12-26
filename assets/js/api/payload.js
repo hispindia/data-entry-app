@@ -52,13 +52,15 @@ export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
     const formattedDate = date.toISOString().split("T")[0];
 
     const formattedAttributes = [];
-    for(const attributesId of tei.attributes){
-        formattedAttributes.push({
-            attribute: attributesId,
-            value: document.getElementById(attributesId)?.value || ""
+    tei.attributes.forEach(section => {
+        section.items.forEach(attribute => {
+            formattedAttributes.push({
+                attribute: attribute.code,
+                value: tei.values[attribute.code] || ""
+            })
         })
-    }
-
+    })
+    
     formattedAttributes.push({
     attribute: attributes.acuityCheck,   
     value: "In Progress"
@@ -66,12 +68,14 @@ export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
 
 
     const formattedDataElements = [];
-    for(const dataElementsId of tei.programStage){
-        formattedDataElements.push({
-            dataElement: dataElementsId,
-            value: document.getElementById(dataElementsId)?.value || ""
+    tei.programStages.forEach(section => {
+        section.items.forEach(element => {
+            formattedDataElements.push({
+                dataElement: element.code,
+                value: tei.values[element.code] || ""
+            })
         })
-    }
+    })
   return trackedEntitPayload({orgUnit: orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements})
 }
 
@@ -131,7 +135,7 @@ export const createPayload = {
         const formattedDate = date.toISOString().split("T")[0];
 
         const formattedDataElements = [];
-        for(const dataElementsId of tei.programStage){
+        for(const dataElementsId of tei.programStages){
             formattedDataElements.push({
                 dataElement: dataElementsId,
                 value: document.getElementById(dataElementsId)?.value || ""

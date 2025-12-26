@@ -1,6 +1,7 @@
-import { dataApi } from "./api/DataApi.js";
-import { optionSetApi,programsApi } from "./api/metaDataApi.js";
-import { optionSet, orgUnit, programs } from "./constant.js";
+import { dataApi } from "../api/DataApi.js";
+import { populateOptions } from "./metadata.js";
+import { optionSetApi,programsApi } from "../api/metaDataApi.js";
+import { attributes, optionSet, orgUnit, programs } from "../constant.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to 
@@ -38,7 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
           const countryValue = document.getElementById("Countries").value;
           const name = document.getElementById("regName").value;
           if(regionValue && countryValue) {
-              const otherParam = `filter=SMdW6ZnGllA:EQ:${regionValue}&filter=LZacnHsQJRs:EQ:${countryValue}||filter=UkQI1dWzZOv:EQ:${name}`
+              let otherParam = `filter=${attributes.region}:EQ:${regionValue}&filter=${attributes.countryRegistration}:EQ:${countryValue}` 
+              if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
               const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
           
 
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
               });
   
               var theadAffiliateRow = "";
-              headerList.forEach(item => theadAffiliateRow+= `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
+              headerList.forEach(item => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
               document.getElementById('thead-affiliate').innerHTML = theadAffiliateRow;
   
               var tbodyAffiliateRow = "";
@@ -67,13 +69,5 @@ document.addEventListener("DOMContentLoaded", function () {
               alert('Please select Region/Country!')
           }
     }
-
-  function populateOptions(options) {
-    var optionSet = `<option value="">Select</option>`;
-    options.forEach(opt => {
-      optionSet += `<option value="${opt.code}">${opt.name}</option>`;
-    })
-    return optionSet;
-  }
 
 })

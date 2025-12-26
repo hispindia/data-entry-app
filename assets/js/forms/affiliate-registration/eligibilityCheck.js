@@ -17,14 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchAffiliateList();
   async function fetchAffiliateList() {
     const user = await meApi.get();
-    const level2OU = await orgUnitsApi.get({level:2});
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
 
     const userOrgUnit = user.dataViewOrganisationUnits.map(ou => ou.id).join(';');
     const resAffiliateList = await dataApi.get(userOrgUnit, programs.affiliateKyc);
 
-    tei.orgUnits = level2OU.organisationUnits;
-    tei.affiliates = resAffiliateList.trackedEntities;
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
         id: trackedEntity.trackedEntity

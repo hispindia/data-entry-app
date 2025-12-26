@@ -100,7 +100,7 @@ export async function pushAttribute(teiId, payload) {
 export async function createEvent(dataElements) {
   const payload = {
     program: tei.program,
-    programStage: tei.programStage,
+    programStage: tei.programStages,
     orgUnit: tei.orgUnit,
     trackedEntityInstance: tei.id,
     eventDate: formatDate(new Date()),
@@ -162,7 +162,7 @@ export async function pushDataElementYear(id, value) {
   if (year && tei.event[year]) {
     const payload = {
       program: tei.program,
-      programStage: tei.programStage,
+      programStage: tei.programStages,
       orgUnit: tei.orgUnit,
       event: tei.event[year],
       trackedEntityInstance: tei.id,
@@ -230,14 +230,3 @@ export async function getTEI(orgUnit) {
 export async function getOrganisationUnits(orgUnit) {
   return await organisationUnitGroup.get(orgUnit);
 }
-
- 
-export function populateOptions(options, value) {
-  var optionSet = `<option ${(value=="" ? 'selected' : '')} value="">Select</option>`;
-  options.forEach(opt => {
-  optionSet += `<option ${(value == opt.code ? 'selected' : '')} value="${opt.code}">${opt.name}</option>`;
-})
-  return optionSet;
-}
-
-

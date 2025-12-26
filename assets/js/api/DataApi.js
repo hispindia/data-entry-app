@@ -48,6 +48,16 @@ export const dataApi = {
       console.error("Error while creating events", error);
     }
   },
+  uploadFile: async (payload) => {
+    const url = `fileResources`;
+    try {
+      const response = await BaseApi({url, method:"POST", payload, mode: "file"});
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
   post: async (payload) => {
     const url = `events`;
     try {

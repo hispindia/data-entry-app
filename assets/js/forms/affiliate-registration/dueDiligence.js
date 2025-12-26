@@ -1,9 +1,9 @@
 import { dataApi } from "../../api/DataApi.js";
-import { meApi, optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
-import { createPayload, pushPayloadInDhis2 } from "../../api/payload.js";
+import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
+import { createPayload } from "../../api/payload.js";
 import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
 import { getNextCode } from "../func.js";
-import { fetchValueType } from "./valueType.js";
+import { convert, fetchValueType } from "../metadata.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -100,45 +100,40 @@ document.addEventListener("DOMContentLoaded", function () {
   const country = await optionSetApi.get(optionSet.country);
   if(country.options){
     country.options.forEach(opt => {
-      countryNameAndCodes[opt.code] = `(${opt.name})`;
+      countryNameAndCodes[opt.value] = opt.label;
     })
   }
-  document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? countryNameAndCodes[dataValues[attributes.countryRegistration]]  : ''
+  document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? `(${countryNameAndCodes[dataValues[attributes.countryRegistration]]})`  : ''
 
-  const affilateStage = await programStageApi.get(programStage.affiliateKyc);
-  const dueDiligence = await programStageApi.get(programStage.dueDiligence);
+  const resAffilateStage = await programStageApi.get(programStage.affiliateKyc);
+  const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
 
-    let compulsoryDataElements = {};
-    if(dueDiligence.programStageDataElements){
-        dueDiligence.programStageDataElements.forEach(element => {
-          compulsoryDataElements[element.dataElement.id] = element.compulsory;
-        })
-    }
-    dataElements.affiliateKYCOther.forEach(section => {
-      section.dataElements.forEach(element => {
-          compulsoryDataElements[element.id] = element.compulsory;
-        })
-    })
-    for(let element in compulsoryDataElements)   {
-      if(compulsoryDataElements[element]) tei.mandatoryList.push(element);
-    }
+  const affilateStage = convert.stage({ programStage: resAffilateStage, disabled: true });
+  const dueDiligence = convert.stage({ programStage: resDueDiligence });
+  
+  tei.programStages = dueDiligence.sections;
+  tei.values = {...dueDiligence.values, ...dataValues}
+  tei.metadata = dueDiligence.metadata;
+  tei.mandatoryList = dueDiligence.mandatoryList;
+  dataElements.affiliateKYCOther.forEach(section => section.items.forEach(el => {
+    if(el.mandatory) tei.mandatoryList.push(el.code);
+  }))
 
-    tei.programStage = dueDiligence.programStageDataElements.flatMap(element => element.dataElement.id);
-    const dueDiligenceDiv = renderSections(dueDiligence.programStageSections, compulsoryDataElements, false);
-    const affiliateKYCDiv = renderSections(affilateStage.programStageSections, {}, dataValues, true);
-    const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther, compulsoryDataElements, false);
+  const dueDiligenceDiv = renderSections(dueDiligence.sections);
+  const affiliateKYCDiv = renderSections(affilateStage.sections);
+  const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther);
+
     document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
     <h4 class="mt-3" style="color: black;">Due Dilligence</h4>
     ${dueDiligenceDiv}
     ${affiliateOtherDiv}`
   }
-})
 
-  function renderSections(sections, compulsoryDataElements, dataValues, disabled) {
+    function renderSections(sections) {
     let container = "";
 
     for (const section of sections) {
-
+        if(section.hidden) continue;
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";
@@ -149,23 +144,23 @@ document.addEventListener("DOMContentLoaded", function () {
         rowDiv.className = "row";
         sectionDiv.appendChild(rowDiv);
 
-        for (const el of section.dataElements) {
-
+        for (const el of section.items) {
+            if(el.hidden) continue;
             const fieldWrapper = document.createElement("div");
-            fieldWrapper.className = "form-group col-12 col-md-4 mb-2";
+            fieldWrapper.className = "form-group col-md-4 mb-2";
 
-            const mandatoryFields = compulsoryDataElements[el.id] ? '<span class="text-danger">*</span>' : '';
             fieldWrapper.innerHTML = `
-                <label>${el.formName}${mandatoryFields}</label>
-                ${fetchValueType({valueType: el.valueType,optionSetValue: el.optionSetValue, optionSet: el.optionSet?.options, id: el?.id, value:(dataValues[el.id]?dataValues[el.id]:''), disabled: disabled})}
+                <label>
+                    ${el.name}
+                    ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
+                </label>
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || "") , el.disabled)};
                 <div id="error-${el.id}" style="color: red"></div>
             `;
-
             rowDiv.appendChild(fieldWrapper);
         }
-
         container += sectionDiv.outerHTML;
     }
-
     return container;
-  }
+    }
+})

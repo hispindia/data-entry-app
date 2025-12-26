@@ -5,16 +5,31 @@ export const optionSetApi =  {
     const url = `optionSets/${id}.json?fields=id,name,options[name,code]`
     try {
       const response = await BaseApi({url});
-      return response.json();
+      const data =  await response.json();
+      data.options = data.options.map(option => ({
+        label: option.name,
+        value: option.code,
+      }))
+      return data;
     } catch (error) {
       console.error("Error occured while Loading option Set", error);
     }
-  }
+  },
+
+  getOptionGroups : async () => {
+    const url = `optionGroups.json?paging=false&fields=fields=id,displayName,options[id,name,code]`
+    try {
+      const response = await BaseApi({url});
+      return response.json();
+    } catch (error) {
+      console.error("Error occured while Loading option group", error);
+    }
+  },
 }
 
 export const programStageApi = {
   get: async (id) => {
-    const url = `programStages/${id}.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name]],programStageSections[name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]`;
+    const url = `programStages/${id}.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name]],programStageSections[id,name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]`;
     try{
         const response = await BaseApi({url});
         return response.json();
@@ -38,7 +53,25 @@ export const programsApi = {
     var url = `programs/${program}/organisationUnits/${orgUnit}`
     const response = await BaseApi({url, method:"POST"});
     return response.json();
-  }
+  },
+  rules: async (program) => {
+    const url = `programRules.json?paging=false&filter=program.id:eq:${program}&fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement,optionGroup],condition`;
+    try{
+        const response = await BaseApi({url});
+        return response.json();
+    } catch (error){
+      console.error("Error occured while Loading rules", error);
+    }
+  },
+  ruleVariables: async (program) => {
+    const url = `programRuleVariables.json?paging=false&filter=program.id:eq:${program}&fields=id,name,valueType,program,dataElement,useCodeForOptionSet`;
+    try{
+        const response = await BaseApi({url});
+        return response.json();
+    } catch (error){
+      console.error("Error occured while Loading rule variables", error);
+    }
+  },
 }
 
 export const meApi = {

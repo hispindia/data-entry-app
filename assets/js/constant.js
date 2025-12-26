@@ -21,81 +21,101 @@ export const orgUnit = {
 export const attributes = {
     acuityCheck: "IzbdGgEgQ3T",
     countryRegistration: "LZacnHsQJRs",
+    region: "SMdW6ZnGllA",
+    legalName: "UkQI1dWzZOv"
 };
 
 export const tei = {
     affiliate: '',
-    affiliates: [],
     attributes: [],
-    programStage: [],
-    orgUnits: [],
+    programStages: [],
     mandatoryList: [],
+    programRules: [],
+    metadata: {},
+    values: {},
 }
+
+export const PROGRAM_RULE_TYPES = {
+  ASSIGN: 'ASSIGN',
+  HIDEFIELD: 'HIDEFIELD',
+  HIDESECTION: 'HIDESECTION',
+  HIDEOPTIONGROUP: 'HIDEOPTIONGROUP',
+  SETMANDATORYFIELD: 'SETMANDATORYFIELD',
+  SHOWERROR: 'SHOWERROR',
+  SHOWWARNING: 'SHOWWARNING',
+}
+
 
 export const dataElements = {
     affiliateKYCOther: [{
+        id: 'AffiliationOther',
         name: 'Affiliation',
-        dataElements: [{
-            id: 'gDI26Sq88pk',
-            formName: 'Affiliation Type',
+        hidden: false,
+        items: [{
+            code: 'gDI26Sq88pk',
+            name: 'Affiliation Type',
+            hidden: false,
+            mandatory: true,
+            disabled: false,
             optionSetValue: true,
-            compulsory: true,
             valueType: "TEXT",
             optionSet: {
                 options: [
                     {
-                        code: "Full Member",
-                        name: "Full Member",
+                        label: "Full Member",
+                        value: "Full Member",
                     },
                     {
-                        code: "AM1/2",
-                        name: "Associate Member 1 / Associate Member 2",
+                        label: "AM1/2",
+                        value: "Associate Member 1 / Associate Member 2",
                     },
                     {
-                        code: "CP",
-                        name: "Collaborative Partner",
+                        label: "CP",
+                        value: "Collaborative Partner",
                     },
                     {
-                        code: "International CP",
-                        name: "International Collaborative Partner",
+                        label: "International CP",
+                        value: "International Collaborative Partner",
                     },
                     {
-                        code: "Project Level Partner",
-                        name: "Project Level Partner",
+                        label: "Project Level Partner",
+                        value: "Project Level Partner",
                     }
                 ]
             }
         }, {
-            id: 'qg4tyJoHEiS',
-            formName: 'Affiliation Status',
+            code: 'qg4tyJoHEiS',
+            name: 'Affiliation Status',
+            hidden: false,
+            mandatory: true,
+            disabled: false,
             optionSetValue: true,
-            compulsory: true,
             valueType: "TEXT",
             optionSet: {
                 options: [
                     {
-                        code: "Active",
-                        name: "Active",
+                        label: "Active",
+                        value: "Active",
                     },
                     {
-                        code: "Financial Suspension",
-                        name: "Financial Suspension",
+                        label: "Financial Suspension",
+                        value: "Financial Suspension",
                     },
                     {
-                        code: "Suspended",
-                        name: "Membership Suspension",
+                        label: "Suspended",
+                        value: "Membership Suspension",
                     },
                     {
-                        code: "Expelled",
-                        name: "Expelled",
+                        label: "Expelled",
+                        value: "Expelled",
                     },
                     {
-                        code: "Resigned/Left",
-                        name: "Resigned/Left",
+                        label: "Resigned/Left",
+                        value: "Resigned/Left",
                     },
                     {
-                        code: "Dissoved/Closed",
-                        name: "Dissoved/Closed",
+                        label: "Dissoved/Closed",
+                        value: "Dissoved/Closed",
                     }
                 ]
             },  

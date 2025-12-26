@@ -14,8 +14,11 @@ const BaseApi = async ({ url, method, payload, mode }) => {
     }
 
     if(mode) {
+        if(mode == 'file') REQUEST['body'] = payload;
+        else {
         REQUEST['headers']["Content-Type"] = "application/x-www-form-urlencoded",
         REQUEST['body'] = new URLSearchParams(payload);
+        }
     }
     else {
         REQUEST['headers']["Content-Type"] = "application/json"
