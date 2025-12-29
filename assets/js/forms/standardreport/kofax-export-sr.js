@@ -1,11 +1,16 @@
 import { eventApi } from '../../api/DataApi.js';
+import { dataSet } from '../../api/dataSet.js';
 import { getMeData, getOrganisationUnits, getProgramStageEvents, getProgramStagePeriodicity } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { tei, dataElements, program, programStage, dataSetFunds, dataSetPrice, dataSetQuantity } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
 var regionMA = {};
 var level2OU = [];
+
+var freightCostT1 = 1;
+var freightCostT2 =  0.4;
+var freightCostT3 = 0.25;
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -85,6 +90,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  async function fetchDataSet(orgUnit, year) {
+    const values = {};
+    const year2 = {};
+    const year3 = {};
+    const dataElementsPrice = await dataSet.getElements(dataSetPrice);
+    const dataElementsQuantity = await dataSet.getElements(dataSetQuantity);
+    const dataValuesFunds = await dataSet.getValues(dataSetFunds, orgUnit, year);
+    const dataValuesFunds2 = await dataSet.getValues(dataSetFunds, orgUnit, (Number(year)+1));
+    const dataValuesFunds3 = await dataSet.getValues(dataSetFunds, orgUnit, (Number(year)+2));
+    const dataValuesPrice = await dataSet.getValues(dataSetPrice, orgUnit, year);
+    const dataValuesQuantity = await dataSet.getValues(dataSetQuantity, orgUnit, year);
+    dataValuesFunds.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    dataValuesPrice.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+    dataValuesFunds2.dataValues.forEach(dv => year2[dv.dataElement] = dv.value);
+    dataValuesFunds3.dataValues.forEach(dv => year3[dv.dataElement] = dv.value);
+
+    var quantities = {};
+    dataElementsQuantity.sections.forEach(quantity => quantity.dataElements.forEach(de => quantities[de.code] = de.id));
+    dataElementsPrice.sections.forEach(price => {
+      price.dataElements.forEach(de => {
+        de['quantity'] = quantities[`${de.code}-quantity`] ? quantities[`${de.code}-quantity`]: ''
+        de['price'] = quantities[`${de.code}-price`] ? quantities[`${de.code}-price`]: ''
+      })
+    })
+
+    return {
+      dataElements: dataElementsPrice.sections,
+      values,
+      year2,
+      year3,
+    }
+  }
+
   async function fetchEvents() {
     $("#kofax-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
@@ -100,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
         const event = await eventApi.get(ou.id);
+        const dataSet = await fetchDataSet(ou.id, tei.year.value);
 
         var attributes = {};
         if (event.trackedEntityInstances.length && event.trackedEntityInstances[0].attributes) {
@@ -125,13 +165,14 @@ document.addEventListener("DOMContentLoaded", function () {
           dataValuesOU.push({
             orgUnit: ou.name,
             ouId: ou.id,
+            dataSet,
             attributes,
             dataValuesOD,
             dataValuesFA,
             dataValuesEC,
             dataValuesTI,
             dataValuesVC,
-            dataValuesPD
+            dataValuesPD, 
           })
         }
       }
@@ -243,17 +284,17 @@ document.addEventListener("DOMContentLoaded", function () {
         style: 'background:#f0ecec;'
       },
       {
-        id: '',
+        id: 'unrestricted-grant',
         name: `Total Unrestricted Grant`,
         style: 'background:#f0ecec;'
       },
       {
-        id: '',
+        id: 'estimated-core-grant',
         name: `Estimated Commodities Portion (incl. Estimated Freight Cost)`,
         style: 'background:#f0ecec;'
       },
       {
-        id: '',
+        id: 'cash-grant',
         name: `Cash Grant Portion`,
         style: 'background:#f0ecec;'
       },
@@ -273,28 +314,28 @@ document.addEventListener("DOMContentLoaded", function () {
         style: 'background:#f0ecec;'
       },
       {
-        id: '',
+        id: 't1-cashGrant',
         name: `1/3 of total of Column T (Cash Grant)`,
         style: 'background:#f0ecec;'
       },
       {
-        id: '',
+        id: 't2-cashGrant',
         name: `1/3 of total of Column T (Cash Grant)`,
         style: 'background:#f0ecec;'
       },
       {
-        id: '',
+        id: 't3-cashGrant',
         name: `1/3 of total of Column T (Cash Grant)`,
         style: 'background:#f0ecec;'
       },
       {
-        id: 'fkHkH5jcJV0',
-        name: `Year 1 Total Allocations`,
-        style: 'background:#f0ecec;'
-      },
-      {
-        id: 'dhaMzFTSGrd',
+        id: 'year-2',
         name: `Year 2 Total Allocations`,
+        style: 'background:#f0ecec;'
+      },
+      {
+        id: 'year-3',
+        name: `Year 3 Total Allocations`,
         style: 'background:#f0ecec;'
       },
       {
@@ -631,6 +672,35 @@ document.addEventListener("DOMContentLoaded", function () {
         values['totalPillar'] += Number(values[`pillar${i}`]);
       }
 
+      let funds = item.dataSet.values[dataElements.formulaGenerated] ? item.dataSet.values[dataElements.formulaGenerated] : '';
+      let finalAllocation = item.dataSet.values[dataElements.fullAllocation] ? item.dataSet.values[dataElements.fullAllocation]: '';
+      if(finalAllocation) values["unrestricted-grant"] = finalAllocation;
+      else if(funds) values["unrestricted-grant"] = funds;
+
+      var totalCost = 0;
+      item.dataSet.dataElements.forEach((section) => {
+        section.dataElements.forEach((dataElement) => {
+          var res = displayOrderprojectCommodities(dataElement, item.dataSet.values);
+          totalCost += res;
+        });
+      })
+      const estimatedCost = calculateFreightCost(totalCost, {
+        t1: item.dataSet.values[dataElements.freightCost1] || freightCostT1,
+        t2: item.dataSet.values[dataElements.freightCost2] || freightCostT2,
+        t3: item.dataSet.values[dataElements.freightCost3] || freightCostT3,
+      });
+
+      values['estimated-core-grant'] = Math.round(totalCost + estimatedCost);
+      let cashGrant = values["unrestricted-grant"] - values['estimated-core-grant'];
+      values['cash-grant'] = cashGrant;
+
+      values['t1-cashGrant'] = cashGrant / 3;
+      values['t2-cashGrant'] = cashGrant / 3;
+      values['t3-cashGrant'] = cashGrant / 3;
+
+      values['year-2'] = item.dataSet.year2[dataElements.formulaGenerated] ? item.dataSet.year2[dataElements.formulaGenerated] : '';
+      values['year-3'] = item.dataSet.year3[dataElements.formulaGenerated] ? item.dataSet.year3[dataElements.formulaGenerated] : '';
+
       deList.forEach((de, index) => {
         if(index<16) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
         else if(de.id=='yTOe8Cca7u1')  tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
@@ -665,7 +735,24 @@ function displayValue(input) {
   }
 }
 
-function colorCode(num) {
-  if (Number(num) == 0) return ''
-  else return 'red'
+function displayOrderprojectCommodities(dataElement, dataSetValues) {
+    if(!dataSetValues[dataElement.id] || !dataElement.quantity || !dataElement.price) return 0;
+    const rate = dataSetValues[dataElement.id] ? dataSetValues[dataElement.id]: '';
+    const quantity = dataSetValues[dataElement.quantity] ? dataSetValues[dataElement.quantity]: '';
+  return (rate && quantity ? Math.round(rate * quantity) : 0);
+}
+
+function calculateFreightCost(cost, freightCost) {
+  var value = 0;
+  if(cost) {
+    if(cost > 0 && cost <= 1000) {
+      value = freightCostT1 * cost
+    }
+    else if(cost > 1000 && cost <= 4999) {
+      value = freightCostT2 * cost;
+    } else {
+      value = freightCostT3 * cost;
+    }
+  }
+  return value;
 }

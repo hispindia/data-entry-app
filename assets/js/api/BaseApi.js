@@ -1,5 +1,5 @@
 const baseUrl = '../..';
-// const baseUrl = 'https://links.hispindia.org/ippf_co/api';
+// const baseUrl = 'https://bpr.ippf.org/api';
 
 const ApiToken = '';
 
