@@ -55,7 +55,7 @@ export const programsApi = {
     return response.json();
   },
   rules: async (program) => {
-    const url = `programRules.json?paging=false&filter=program.id:eq:${program}&fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement,optionGroup],condition`;
+    const url = `programRules.json?paging=false&filter=program.id:eq:${program}&fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement,optionGroup,trackedEntityAttribute],condition`;
     try{
         const response = await BaseApi({url});
         return response.json();
@@ -64,7 +64,7 @@ export const programsApi = {
     }
   },
   ruleVariables: async (program) => {
-    const url = `programRuleVariables.json?paging=false&filter=program.id:eq:${program}&fields=id,name,valueType,program,dataElement,useCodeForOptionSet`;
+    const url = `programRuleVariables.json?paging=false&filter=program.id:eq:${program}&fields=id,name,valueType,program,dataElement,trackedEntityAttribute,useCodeForOptionSet`;
     try{
         const response = await BaseApi({url});
         return response.json();

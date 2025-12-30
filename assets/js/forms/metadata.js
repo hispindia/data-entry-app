@@ -33,7 +33,7 @@ export const convert = {
                     label: option.name,
                     value: option.code,
                 }))
-                attr['valueSet'] = attr.optionSet.options;
+                attr['valueSet'] = {...attr.optionSet.options};
                 }
                 metadata[attr.id] = attr;
             })
@@ -81,7 +81,7 @@ export const convert = {
                     label: option.name,
                     value: option.code,
                 }))
-                element['valueSet'] = element.optionSet.options;
+                element['valueSet'] = {...element.optionSet.options};
                 }
                 metadata[element.id] = element;
             })
@@ -111,12 +111,15 @@ export const configureRules = (ruleVariables, rules, optionGroups) => {
     const useCodeForOptionSet = {};
     const regex = /(?:#|A|V)\{(.*?)\}/g;
     ruleVariables.forEach(de => { 
-      if(de?.dataElement?.id) {
+      var id = "";
+      if(de?.dataElement?.id) id = de.dataElement.id;
+      if(de?.trackedEntityAttribute?.id) id = de.trackedEntityAttribute.id;
       if(!modifiedRuleVariables[de.program.id]) modifiedRuleVariables[de.program.id] = {};
       if(!useCodeForOptionSet[de.program.id]) useCodeForOptionSet[de.program.id] = [];
-      modifiedRuleVariables[de.program.id][de.name] = de.dataElement.id;
-      useCodeForOptionSet[de.program.id].push({id:de.dataElement.id,value: de.useCodeForOptionSet});
-      }}
+      modifiedRuleVariables[de.program.id][de.name] = id;
+      modifiedRuleVariables[de.program.id][de.name] = id;
+      useCodeForOptionSet[de.program.id].push({id:id, value: de.useCodeForOptionSet});
+    }
     );
     rules.sort((a, b) => (a.priority || 999) - (b.priority || 999)).forEach(rule => {
 
@@ -221,7 +224,11 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
                         metadata[action.dataElement.id].error = action.content;
                       break;
                       case PROGRAM_RULE_TYPES.HIDEOPTIONGROUP:
-                        if(metadata[action.dataElement.id]) {
+                        if(metadata[action.trackedEntityAttribute.id]) {
+                          const valueSets = metadata[action.trackedEntityAttribute.id].valueSet.filter(option => !action.options[option.value]);
+                          metadata[action.trackedEntityAttribute.id].valueSet = valueSets;
+                        }
+                        else if(metadata[action.dataElement.id]) {
                           const valueSets = metadata[action.dataElement.id].valueSet.filter(option => !action.options[option.value]);
                           metadata[action.dataElement.id].valueSet = valueSets;
                         }
