@@ -274,8 +274,15 @@ export function fetchValueType({id, valueType, valueSet}, value, disabled) {
 
     case "FILE_RESOURCE":
         return `<div>
-                <input type="file" id="${id}" name="${id}" class="file-upload" hidden>
-                <label for="${id}" class="btn btn-secondary">Upload document</label>
+                <input type="file" id="${id}" name="${id}" class="file-upload" hidden accept=".pdf,.doc,.jpg,.jpeg">
+                <label for="${id}"
+                style="background-color: #000000;  
+                background-color: #000000;
+                color: #ffffff;
+                padding: 8px 14px;
+                border-radius: 4px;
+                cursor: pointer;
+                display: inline-block;">Upload document</label>
                 <span id="${id}-message">${value?.name || "No file selected"}</span>
               </div>`;
 

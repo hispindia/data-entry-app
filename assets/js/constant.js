@@ -22,7 +22,8 @@ export const attributes = {
     acuityCheck: "IzbdGgEgQ3T",
     countryRegistration: "LZacnHsQJRs",
     region: "SMdW6ZnGllA",
-    legalName: "UkQI1dWzZOv"
+    legalName: "UkQI1dWzZOv",
+    uinCode: "qZcVhl6kfpc" 
 };
 
 export const tei = {

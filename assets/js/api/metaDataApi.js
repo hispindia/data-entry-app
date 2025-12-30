@@ -17,7 +17,7 @@ export const optionSetApi =  {
   },
 
   getOptionGroups : async () => {
-    const url = `optionGroups.json?paging=false&fields=fields=id,displayName,options[id,name,code]`
+    const url = `optionGroups.json?paging=false&fields=id,displayName,options[id,name,code]`
     try {
       const response = await BaseApi({url});
       return response.json();

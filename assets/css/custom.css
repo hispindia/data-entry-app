@@ -450,8 +450,15 @@ input[type=date], input[type=datetime-local], input[type=month], input[type=time
     padding: 8px 30px;
     border-radius: 20px;}
 .card .card-type-3 .card-circle{border-radius: 20%;}
-.nav-link.logout-btn{background: #e2d5ff;
-    border-radius: 5px;}
+.logout-btn{
+  background-color: #000000;  
+  background-color: #000000;
+  color: #ffffff;
+  padding: 4px 27px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: inline-block;
+}
 .navbar{background:#E93300}
 .switch-wrap.custom-switch{background: #fff;
     border-radius: 17px;

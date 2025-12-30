@@ -43,8 +43,16 @@ document.addEventListener("DOMContentLoaded", function () {
               if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
               if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
               const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
-          
-
+              console.log("affiliate list:", affiliateList);
+              
+              if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
+                iziToast.info({
+                  message: "No affiliate found",
+                  timeout: 1500
+                });
+                document.getElementById("affiliate-table").style.display = "none";
+                return;
+            }
               const headerList = programAffiliateKyc.programTrackedEntityAttributes
               .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
               .map(attr => ({id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name}));
@@ -67,7 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
           } else {
-              alert('Please select Country!')
+                iziToast.info({
+                  message: "Please Select Country!",
+                  timeout: 1500
+                });
           }
     }
 
