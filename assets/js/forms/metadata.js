@@ -33,7 +33,7 @@ export const convert = {
                     label: option.name,
                     value: option.code,
                 }))
-                attr['valueSet'] = {...attr.optionSet.options};
+                attr['valueSet'] = [...attr.optionSet.options];
                 }
                 metadata[attr.id] = attr;
             })
@@ -80,7 +80,7 @@ export const convert = {
                     label: option.name,
                     value: option.code,
                 }))
-                element['valueSet'] = {...element.optionSet.options};
+                element['valueSet'] = [...element.optionSet.options];
                 }
                 metadata[element.id] = element;
             })
