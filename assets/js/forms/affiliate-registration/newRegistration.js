@@ -206,7 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let container = "";
 
     for (const section of sections) {
-        if(section.hidden) continue;
+        const elements = section.items.filter(item => !item.hidden)
+        if(!elements.length) continue;
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";

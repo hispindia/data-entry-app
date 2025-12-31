@@ -39,7 +39,6 @@ export const convert = {
             })
             attributes.push({
                 name: section.name,
-                hidden: false,
                 items: section.trackedEntityAttributes
             })
         })
@@ -88,7 +87,6 @@ export const convert = {
             sections.push({
                 id: section.id,
                 name: section.name,
-                hidden: false,
                 items: section.dataElements
             })
         })
@@ -212,7 +210,7 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
                         metadata[action.dataElement.id].hidden = eval(rule.condition);
                       break;
                       case PROGRAM_RULE_TYPES.HIDESECTION: 
-                        const dataElements = programMetadata.find(sec => sec.id === action.items.id)?.items || [];
+                        const dataElements = programMetadata.find(sec => sec.id === action.programStageSection.id)?.items || [];
                         if(dataElements.length) {
                           dataElements.forEach(element => {
                             if(data[element.id]) data[element.id] = '';
