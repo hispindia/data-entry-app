@@ -112,6 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? `(${countryNameAndCodes[dataValues[attributes.countryRegistration]]})`  : ''
 
+  const programMetadata = await programsApi.get(programs.affiliateKyc);
+  const programAttributes = convert.attributes({ program: programMetadata, disabled: true });
+  
   const resAffilateStage = await programStageApi.get(programStage.affiliateKyc);
   const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
 
@@ -119,17 +122,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const dueDiligence = convert.stage({ programStage: resDueDiligence });
   
   tei.programStages = dueDiligence.sections;
-  tei.values = {...dueDiligence.values, ...dataValues}
-  tei.metadata = dueDiligence.metadata;
-  tei.mandatoryList = dueDiligence.mandatoryList;
+  tei.values = {...programAttributes.values, ...affilateStage.values, ...dueDiligence.values, ...dataValues};
+  tei.metadata = {...programAttributes.metadata, ...affilateStage.metadata, ...dueDiligence.metadata};
+  tei.mandatoryList = [...programAttributes.mandatoryList, ...affilateStage.mandatoryList, ...dueDiligence.mandatoryList];
   dataElements.affiliateKYCOther.forEach(section => section.items.forEach(el => {
     if(el.mandatory) tei.mandatoryList.push(el.code);
   }))
 
+  document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.attributes);
   const dueDiligenceDiv = renderSections(dueDiligence.sections);
   const affiliateKYCDiv = renderSections(affilateStage.sections);
   const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther);
-
+  
     document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
     <h4 class="mt-3" style="color: black;">Due Dilligence</h4>
     ${dueDiligenceDiv}
