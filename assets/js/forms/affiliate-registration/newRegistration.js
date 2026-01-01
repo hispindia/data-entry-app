@@ -1,3 +1,4 @@
+
 import { dataApi } from "../../api/DataApi.js";
 import { populateOptions, ruleCallback } from "../metadata.js";
 import { optionSetApi, programsApi, programStageApi } from "../../api/metaDataApi.js";
@@ -45,7 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
                }
             }
             if(empty) {
-                alert('Please fill mandatory fields!');
+                iziToast.info({
+                    message: "Please fill mandatory fields!",
+                    timeout: 1500
+                })
                 return;
             }
         }
@@ -70,7 +74,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const payload = pushPayloadInDhis2(tei, orgUnit.id, programs.affiliateKyc, programStage.affiliateKyc);
         await dataApi.enroll(payload);
-        alert("Affiliate saved successfully");
+        iziToast.info({
+            message: "Affiliate saved successfully",
+            timeout: 1500
+        })
         window.location.reload();
     });
     disclaimerCheck.addEventListener('change', function(e) {
