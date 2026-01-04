@@ -8,7 +8,11 @@ export const programStage = {
     dueDiligence: "wXlXBPIThiD",
     UINControlMaster: "HsKUiY7RyeO",
 }
-
+export const userGroup = {
+    disabledAOCGroup : "jrCxIJzq4eE",
+    disabledIPPFAdmin : "rhii1gmT3vo",
+    disabledKyc: "CNG5iylPUoo"
+}
 export const programs = {
     affiliateKyc: "GJbgrJjzCrr",
     UINControlMaster: "w6sqrDv2VK8",

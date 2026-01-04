@@ -5,8 +5,10 @@ import { optionSetApi, programsApi, programStageApi } from "../../api/metaDataAp
 import { pushPayloadInDhis2 } from "../../api/payload.js";
 import { attributes, optionSet, orgUnit, programStage, programs, tei } from "../../constant.js";
 import { configureRules, convert, fetchValueType } from "../metadata.js";
+import { applyAccessControl } from "../accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+    applyAccessControl();
     document.querySelectorAll(".nav-link").forEach(function (element) {
         element.addEventListener("click", function (event) {
 

@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
         programs.UINControlMaster,
         otherParam
       );
-      console.log('affiliat List length:', affiliateList.trackedEntities.length);
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
         iziToast.info({

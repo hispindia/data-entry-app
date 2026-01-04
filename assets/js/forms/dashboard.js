@@ -2,8 +2,10 @@ import { dataApi } from "../api/DataApi.js";
 import { populateOptions } from "./metadata.js";
 import { optionSetApi,programsApi } from "../api/metaDataApi.js";
 import { attributes, optionSet, orgUnit, programs } from "../constant.js";
+import { applyAccessControl } from "./accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+  applyAccessControl();
   // Add event listener to 
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
               if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
               const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
-              console.log("affiliate list:", affiliateList);
+              
               
               if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
                 iziToast.info({

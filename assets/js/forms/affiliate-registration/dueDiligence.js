@@ -4,8 +4,10 @@ import { createPayload } from "../../api/payload.js";
 import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
 import { getNextCode } from "../func.js";
 import { convert, fetchValueType } from "../metadata.js";
+import { applyAccessControl } from "../accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+  applyAccessControl();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 

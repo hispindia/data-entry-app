@@ -76,7 +76,7 @@ export const programsApi = {
 
 export const meApi = {
   get: async () => {
-    const url = `me.json?fields=id,name,username,dataViewOrganisationUnits[id,name],organisationUnits[id,name]`;
+    const url = `me.json?fields=id,name,username,userGroups[id,name,code],dataViewOrganisationUnits[id,name],organisationUnits[id,name]`;
     try{
         const response = await BaseApi({url});
         return response.json();

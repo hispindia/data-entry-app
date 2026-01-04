@@ -2,8 +2,10 @@ import { dataApi } from "../../api/DataApi.js";
 import { meApi, orgUnitsApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
 import { attributes, programStage, programs, tei } from "../../constant.js";
+import { applyAccessControl, isWaiverBlocked } from "../accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+  applyAccessControl();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -16,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
+    const blockWaiver = await isWaiverBlocked();
     const user = await meApi.get();
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
-
-    const userOrgUnit = user.dataViewOrganisationUnits.map(ou => ou.id).join(';');
+    const userOrgUnit = user?.dataViewOrganisationUnits.map(ou => ou.id).join(';');
     const resAffiliateList = await dataApi.get(userOrgUnit, programs.affiliateKyc);
 
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
@@ -48,12 +50,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
     document.getElementById('thead-affiliate-inProgress').innerHTML = theadAffiliateRow;
     document.getElementById('thead-affiliate-approved').innerHTML = `<th class="py-3 px-4 font-weight-bold border-0 text-center">UIN</th>${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
-    console.log('approvedList', approvedList);
     
     var tbodyAffiliateApprovedRow = "";
     approvedList.forEach(affiliate => {
-      console.log('affiliate-------',affiliate);
-      
+          
       tbodyAffiliateApprovedRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
       tbodyAffiliateApprovedRow += `<td class="text-center">${affiliate[attributes.uinCode] || ''}</td>`
       headerList.forEach(attr => {
@@ -99,13 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
       });
      
       tbodyAffiliateApprovedRow += `
-      <td class="text-center">  
+      <td class="text-center">
       <button 
         data-affiliate="${affiliate.id}" 
         class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-        onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'">Add Waiver
+        onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
+        ${blockWaiver ? 'disabled' : ''}>Add Waiver
       </button>
-      </td>      
+      </td>
       </tr>`
     })
     document.getElementById('tbody-affiliate-failed').innerHTML = tbodyAffiliateApprovedRow;
