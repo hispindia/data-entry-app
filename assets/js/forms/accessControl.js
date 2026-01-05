@@ -3,7 +3,7 @@ import { getUserConfig } from './config.js';
 export async function applyAccessControl() {
     const userConfig = await getUserConfig();
 
-    if (userConfig && userConfig.hideSideBar) {
+    if (userConfig) {
         userConfig.hideSideBar.forEach(item => {
             const navLink = document.querySelector(`.nav-link[data-target="${item}"]`);
             if (navLink) {

@@ -21,6 +21,7 @@ export const userGroupConfig = (data) => {
                 'annual-report-menu'
             ],
             blockAddWaiver: true,
+            isAoc: true,
         };
     }
 
@@ -49,25 +50,11 @@ export const userGroupConfig = (data) => {
 }
 
 
-export const 
-getUserConfig = async() => {
-    try { 
-        
-        localStorage.removeItem('userConfig');
-        
+export const getUserConfig = async() => {
+    try {   
         const me = await meApi.get();
-        const config = userGroupConfig(me);
-        
-        const user = {
-            ...config,
-            organisationUnits: me.organisationUnits,
-            userGroups: me.userGroups,
-            name: me.name,
-            id: me.id
-        };
-        
-        localStorage.setItem('userConfig', JSON.stringify(user));
-        return user;
+        const config = userGroupConfig(me); 
+        return config;
     } catch (error) {
         console.error("Error fetching user config:", error);
         return {

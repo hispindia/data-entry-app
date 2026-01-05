@@ -1,7 +1,6 @@
 import { dataApi } from "../../api/DataApi.js";
-import { meApi, orgUnitsApi, programsApi } from "../../api/metaDataApi.js";
-import { createPayload } from "../../api/payload.js";
-import { attributes, programStage, programs, tei } from "../../constant.js";
+import { meApi, programsApi } from "../../api/metaDataApi.js";
+import { attributes, programs} from "../../constant.js";
 import { applyAccessControl, isWaiverBlocked } from "../accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {

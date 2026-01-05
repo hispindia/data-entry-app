@@ -2,9 +2,12 @@ import { attributes,optionSet, orgUnit, programs } from "../../constant.js";
 import { optionSetApi,orgUnitsApi,programsApi } from "../../api/metaDataApi.js";
 import { populateOptions } from "../metadata.js"
 import { dataApi } from "../../api/DataApi.js"
+import { applyAccessControl } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
 
 
 document.addEventListener("DOMContentLoaded", function () {
+  applyAccessControl();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault();
@@ -38,6 +41,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
   async function fetchAffiliateList() {
+    const userConfig = await getUserConfig();
+    if(!userConfig?.isAoc){
+      const generateUINBtn = document.getElementById('generateUIN');
+      if (generateUINBtn) generateUINBtn.style.display = 'none';
+    }
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
     const countryValue = document.getElementById("Countries").value;
