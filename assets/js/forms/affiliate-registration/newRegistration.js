@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // allow dropdown toggle
             if (element.classList.contains("has-dropdown")) return;
 
-            const targetPage = element.getAttribute("data-target");
+            const targetPage = element.getAttribute("data-target") || element.parentElement.getAttribute("data-target");
             if (targetPage) {
                 event.preventDefault();
                 window.location.href = targetPage;
@@ -89,13 +89,22 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('sendToAcuityBtn').disabled = true;
         }
     });
-    document.getElementById("addKycDetails").addEventListener('change', function(e) {
+        document.getElementById("addKycDetails").addEventListener('change', function(e) {
         const input = e.target;
         if (input.matches("input, select, textarea")) {
             if(input.type == "file") {
             tei.values[input.id] = input.files[0];
             document.getElementById(`error-${e.target.id}`).innerHTML = '';
-            document.getElementById(`${input.id}-message`).textContent = input.files[0].name;
+    
+            //file donwload- change
+            const blobUrl = URL.createObjectURL(input.files[0]);
+            const fileLink = document.getElementById(`${input.id}-link`);
+            if(fileLink){
+                fileLink.href = blobUrl;
+                fileLink.textContent = input.files[0].name;
+                fileLink.style.display = 'inline-block';
+                fileLink.target = '_blank';
+            }
             return;
             }
             tei.values[input.id] = input.value;

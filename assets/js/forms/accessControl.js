@@ -4,18 +4,25 @@ export async function applyAccessControl() {
     const userConfig = await getUserConfig();
 
     if (userConfig) {
-        userConfig.hideSideBar.forEach(item => {
-            const navLink = document.querySelector(`.nav-link[data-target="${item}"]`);
-            if (navLink) {
-                const listItem = navLink.closest('li');
-                if (listItem) {
-                    listItem.style.display = 'none';
-                }
+        // Hide sidebar items and buttons
+        [...userConfig.hideSideBar, ...(userConfig.hideButtons || [])].forEach(item => {
+            if (!item || typeof item !== 'string') return;
+            const cls = item.trim();
+            if (!cls) return;
+
+            try {
+                document.querySelectorAll(`.${cls}`).forEach(el => {
+                    el.style.display = 'none';
+                });
+            } catch (err) {
+                console.warn(`Skipping invalid selector: .${cls}`, err);
             }
 
-            const menuItem = document.getElementById(item);
-            if (menuItem) {
-                menuItem.style.display = 'none';
+            try {
+                const el = document.getElementById(cls);
+                if (el) el.style.display = 'none';
+            } catch (err) {
+                console.warn(`Error occured while hiding UIN button: ${cls}`, err);
             }
         });
     }

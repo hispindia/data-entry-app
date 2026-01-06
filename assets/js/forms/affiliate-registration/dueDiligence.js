@@ -5,14 +5,14 @@ import { attributes, dataElements, optionSet, programStage, programs, tei } from
 import { getNextCode } from "../func.js";
 import { convert, fetchValueType } from "../metadata.js";
 import { applyAccessControl } from "../accessControl.js";
-import { getUserConfig } from "../config.js";
+
 
 document.addEventListener("DOMContentLoaded", function () {
   applyAccessControl();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
-      var targetPage = event.currentTarget.getAttribute("data-target");
+      var targetPage = event.currentTarget.getAttribute("data-target") || event.currentTarget.parentElement.getAttribute("data-target");
       if (targetPage) {
         window.location.href = targetPage;
       }
@@ -58,11 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
-    const userConfig = await getUserConfig();
-    if (!userConfig?.isAoc) {
-      const generateUINBtn = document.getElementById('generateUIN');
-      if (generateUINBtn) generateUINBtn.style.display = 'none';
-    }
     tei.mandatoryList = []
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
@@ -122,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther);
 
     document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
-    <h4 class="mt-3" style="color: black;">Due Dilligence</h4>
     ${dueDiligenceDiv}
     ${affiliateOtherDiv}`
   }

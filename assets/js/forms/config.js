@@ -1,5 +1,5 @@
 import { meApi } from '../api/metaDataApi.js';
-import { userGroup} from '../constant.js';
+import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
     const userGroupIds = data.userGroups.map(ug => ug.id);
@@ -9,6 +9,7 @@ export const userGroupConfig = (data) => {
         return {
             hideSideBar: [],
             blockAddWaiver: false,
+            isAdmin: true,
         };
     }
 
@@ -16,12 +17,11 @@ export const userGroupConfig = (data) => {
     if (isAoc) {
         return {
             hideSideBar: [
-                '1.3-generate-and-manage-uins.html',
-                '1.4-approve-and-sync-uins.html',
-                'annual-report-menu'
+                'generate-and-approve',
+                'approve-change-renew'
             ],
             blockAddWaiver: true,
-            isAoc: true,
+           
         };
     }
 
@@ -29,11 +29,10 @@ export const userGroupConfig = (data) => {
     if (isKyc) {
         return {
             hideSideBar: [
-                '1.2-eligibility-check-and-manage-waivers.html',
-                '1.3-generate-and-manage-uins.html',
-                '1.4-approve-and-sync-uins.html',
-                'annual-report-menu',
-                'standard-reports-menu'
+                'eligibility-check-menu', //1.2
+                'generate-and-approve', //1.3,1.4
+                'annual-report-menu', //2
+                'standard-reports-menu' //3
             ],
             blockAddWaiver: false, 
         };

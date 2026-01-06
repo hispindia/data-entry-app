@@ -278,9 +278,9 @@ export function fetchValueType({id, valueType, valueSet}, value, disabled) {
         return `<input id="${id}" type="number" class="form-control" value="${value}" ${disabled ? 'disabled' : ''}/>`;        
 
     case "FILE_RESOURCE":
-        return `<div>
-                <input type="file" id="${id}" name="${id}" class="file-upload" hidden accept=".pdf,.doc,.jpg,.jpeg">
-                <label for="${id}"
+      return `<div>
+        <input type="file" id="${id}" name="${id}" class="file-upload" hidden accept=".pdf,.doc,image/jpeg,.jpg,.jpeg">
+          <label onclick="document.getElementById('${id}').click();"
                 style="background-color: #000000;  
                 background-color: #000000;
                 color: #ffffff;
@@ -288,7 +288,7 @@ export function fetchValueType({id, valueType, valueSet}, value, disabled) {
                 border-radius: 4px;
                 cursor: pointer;
                 display: inline-block;">Upload document</label>
-                <span id="${id}-message">${value?.name || "No file selected"}</span>
+                <a id="${id}-link" href="#" style="display:none; margin-left:10px; color:#3b71ca; text-decoration:underline;"></a>
               </div>`;
 
     case "BOOLEAN":
@@ -308,9 +308,11 @@ export function fetchValueType({id, valueType, valueSet}, value, disabled) {
 
 export function populateOptions(options, value) {
     var optionSet = `<option ${(value=="" ? 'selected' : '')} value="">Select</option>`;
-    options.forEach(opt => {
-        optionSet += `<option ${(value == opt.value ? 'selected' : '')} value="${opt.value}">${opt.label}</option>`;
-    })
+    if (options && Array.isArray(options)) {
+        options.forEach(opt => {
+            optionSet += `<option ${(value == opt.value ? 'selected' : '')} value="${opt.value}">${opt.label}</option>`;
+        })
+    }
     return optionSet;
 }
 

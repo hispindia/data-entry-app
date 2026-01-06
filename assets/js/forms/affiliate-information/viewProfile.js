@@ -3,7 +3,7 @@ import { optionSetApi,orgUnitsApi,programsApi } from "../../api/metaDataApi.js";
 import { populateOptions } from "../metadata.js"
 import { dataApi } from "../../api/DataApi.js"
 import { applyAccessControl } from "../accessControl.js";
-import { getUserConfig } from "../config.js";
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault();
-      var targetPage = event.currentTarget.getAttribute("data-target");
+      var targetPage = event.currentTarget.getAttribute("data-target") || event.currentTarget.parentElement.getAttribute("data-target");
       if (targetPage) {
         window.location.href = targetPage;
       }
@@ -41,11 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
   async function fetchAffiliateList() {
-    const userConfig = await getUserConfig();
-    if(!userConfig?.isAoc){
-      const generateUINBtn = document.getElementById('generateUIN');
-      if (generateUINBtn) generateUINBtn.style.display = 'none';
-    }
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
     const countryValue = document.getElementById("Countries").value;

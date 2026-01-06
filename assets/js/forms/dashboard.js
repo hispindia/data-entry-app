@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (element.classList.contains("has-dropdown")) {
           return; 
         }
-      var targetPage = event.currentTarget.getAttribute("data-target");
+      var targetPage = event.currentTarget.getAttribute("data-target") || event.currentTarget.parentElement.getAttribute("data-target");
       if (targetPage) {
         window.location.href = targetPage;
       }
