@@ -355,6 +355,13 @@ document.addEventListener("DOMContentLoaded", function () {
           calculateTotals(name)
         })
       })
+    $('#accordion .textlimit').toArray().forEach(el => {
+      el.addEventListener("input", (ev) => {
+        var { id, value, dataset } = ev.target;
+        pushDataElement(id,value);
+        checkWords(ev.target, dataset.count);
+      })
+    })
     } else {
       $("#accordion").append(
         `<h4 class="text-center text-warning my-4">No Existing Projects! Please add some project in the Project Description Section.</h4>`
@@ -582,8 +589,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           class="form-control-resize textlimit" 
                           ${tei.disabled ? 'disabled readonly': ''}
                           id="${dataElements.projectFocusAreaNew[index].comment}" 
-                          onchange="pushDataElementYear(this.id,this.value);checkWords(this, ${index})"
-                            >${dataValues[dataElements.projectFocusAreaNew[index].comment]
+                          >${dataValues[dataElements.projectFocusAreaNew[index].comment]
                               ? dataValues[dataElements.projectFocusAreaNew[index].comment]: ""}</textarea>
                               <div class="char-counter form-text text-muted">
                               <span id="counter${index}">

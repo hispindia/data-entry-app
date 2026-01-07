@@ -86,8 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
             enroll.program == program.auProjectDescription
             || enroll.program == program.auProjectBudget
+            || enroll.program == program.auOrganisationDetails
           );
           
+          let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, {id: tei.year.id, value: tei.year.value}) //data values year wise
 
@@ -95,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
             orgUnit: ou.name,
             ouId: ou.id,
             attributes,
+            dataValuesOD: dataValuesOD[tei.year.value],
             dataValuesPD,
             dataValuesPB,
           })
@@ -110,13 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(level2OU, dataValuesOU) {
     // const list = getPillarBudgetFA(dataValuesOU, level2OU);
 
-    // const listOD = getOrganisationDetails(dataValuesOU, level2OU);
-    // document.getElementById('th-project-organisationDetails').innerHTML = listOD.tableHead;
-    // document.getElementById('tb-project-organisationDetails').innerHTML = listOD.tableRow;
+    const listOD = getOrganisationDetails(dataValuesOU, level2OU);
+    document.getElementById('th-project-organisationDetails').innerHTML = listOD.tableHead;
+    document.getElementById('tb-project-organisationDetails').innerHTML = listOD.tableRow;
 
-    const listEB = getExpenseBudget(dataValuesOU, level2OU);
-    document.getElementById('th-project-expBudget').innerHTML = listEB.tableHead;
-    document.getElementById('tb-project-expBudget').innerHTML = listEB.tableRow;
+    // const listEB = getExpenseBudget(dataValuesOU, level2OU);
+    // document.getElementById('th-project-expBudget').innerHTML = listEB.tableHead;
+    // document.getElementById('tb-project-expBudget').innerHTML = listEB.tableRow;
 
     // const listTI = getTotalIncome(dataValuesOU, level2OU);
     // document.getElementById('th-project-totalIncome').innerHTML = listTI.tableHead;
@@ -465,6 +468,46 @@ document.addEventListener("DOMContentLoaded", function () {
          style: 'background:#276696;'
       },
       {
+        id: 'q4IYaNw0GPR',
+        name: 'IPPF (see 3.4)',
+         style: 'background:#276696;'
+      },
+      {
+        id: 'ZWZeFU8juUb',
+        name: 'Ministry of Health (upload MoU)',
+         style: 'background:#276696;'
+      },
+      {
+        id: 'vUoHHvkozqZ',
+        name: 'UNFPA Supplies (upload IP Agreement)',
+          style: 'background:#276696;'
+      },
+      {
+        id: 'sJriETukAZ4',
+        name: 'Local Procurement',
+          style: 'background:#276696;'
+      },
+      {
+        id: 'o2b0WWqz2fD',
+        name: 'IPPF (see 3.4)',
+          style: 'background:#276696;'
+      },
+      {
+        id: 'Bk9L40ChO5x',
+        name: 'Ministry of Health (upload MoU)',
+          style: 'background:#276696;'
+      },
+      {
+        id: 'PszXV7WFZU1',
+        name: 'UNFPA Supplies (upload IP Agreement)',
+          style: 'background:#276696;'
+      },
+      {
+        id: 'XjgWddDUj6c',
+        name: 'Local Procurement',
+          style: 'background:#276696;'
+      },
+      {
         id: 'rTDJjf4crQ8',
         name: 'Primary Contact person',
          style: 'background:#276696;'
@@ -649,13 +692,13 @@ document.addEventListener("DOMContentLoaded", function () {
       deList.forEach((de, index) => {
         if (index < (deList.length - 1)) tableRow += `<td>${item.dataValuesOD[de.id] ? item.dataValuesOD[de.id] : ''}</td>`;
       })
-        var pdcount = 0;
-        dataElements.projectDescription.forEach(pd => {
-          if (item.dataValuesPD[year] && item.dataValuesPD[year][pd['name']]) {
-            pdcount++;
-          }
-        })
-        tableRow += `<td>${pdcount}</td>`;
+        // var pdcount = 0;
+        // dataElements.projectDescription.forEach(pd => {
+        //   if (item.dataValuesPD[year] && item.dataValuesPD[year][pd['name']]) {
+        //     pdcount++;
+        //   }
+        // })
+        // tableRow += `<td>${pdcount}</td>`;
       })
     return {
       tableHead,
