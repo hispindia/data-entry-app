@@ -22,8 +22,9 @@ export const userGroupConfig = (data) => {
     if (isAoc) {
         configs.push({
             hideSideBar: [
-                'generate-and-approve',
-                'approve-change-renew'
+                // 'generate-and-approve',
+                // 'approve-change-renew'
+                'aoc-user'
             ],
             blockAddWaiver: true,
         });
@@ -33,10 +34,11 @@ export const userGroupConfig = (data) => {
     if (isKyc) {
         configs.push({
             hideSideBar: [
-                'eligibility-check-menu', //1.2
-                'generate-and-approve', //1.3,1.4
-                'annual-report-menu', //2
-                'standard-reports-menu' //3
+                // 'eligibility-check-menu', //1.2
+                // 'generate-and-approve', //1.3,1.4
+                // 'annual-report-menu', //2
+                // 'standard-reports-menu' //3 
+                'kyc-user'
             ],
             blockAddWaiver: true, 
         });

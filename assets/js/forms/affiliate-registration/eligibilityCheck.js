@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const button = e.target.closest('.row-btn');
       if(!button) return;
       const affiliate = button.dataset.affiliate;
-      window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate}`;
+      window.location.href = `./1.3-generate-and-manage-uins.html?affiliate=${affiliate}`;
     })
 
     tbodyAffiliateApprovedRow = "";
