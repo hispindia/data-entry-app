@@ -5,6 +5,7 @@ import { attributes, dataElements, optionSet, programStage, programs, tei } from
 import { applyAccessControl } from "../accessControl.js";
 import { getNextCode } from "../func.js";
 import { convert, fetchValueType } from "../metadata.js";
+import { getUserConfig } from "../config.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   applyAccessControl();
@@ -60,6 +61,13 @@ document.addEventListener("DOMContentLoaded", function () {
     tei.mandatoryList = []
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
+  const userConfig = await getUserConfig();
+  const hasWriteAccess = !userConfig?.hideSideBar?.includes('generate-and-approve');
+
+  if (!hasWriteAccess) {
+    document.querySelectorAll('.generate-and-approve').forEach(el => el.style.display = 'none');
+  }
+
   if(affiliate) {
     try {
     const resAffiliate = await dataApi.getTrackedEntity(affiliate);
@@ -70,7 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     tei.affiliate = resAffiliate.trackedEntities[0];
-    document.getElementById('generateUIN').disabled = false;
+    if(hasWriteAccess) {
+      document.getElementById('generateUIN').disabled = false;
+    } else {
+      document.getElementById('generateUIN').style.display = 'none';
+    }
     }
     catch(err) {
       iziToast.info({
@@ -104,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
 
   const affilateStage = convert.stage({ programStage: resAffilateStage, disabled: true });
-  const dueDiligence = convert.stage({ programStage: resDueDiligence });
+  const dueDiligence = convert.stage({ programStage: resDueDiligence, disabled: !hasWriteAccess });
   
   tei.programStages = dueDiligence.sections;
   tei.values = {...programAttributes.values, ...affilateStage.values, ...dueDiligence.values, ...dataValues};
@@ -119,10 +131,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const affiliateKYCDiv = renderSections(affilateStage.sections);
   const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther);
   
-    document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
-    <h4 class="mt-3" style="color: black;">Due Dilligence</h4>
-    ${dueDiligenceDiv}
-    ${affiliateOtherDiv}`
+    let dueDiligenceHtml = `${affiliateKYCDiv}`;
+    if(hasWriteAccess) {
+      dueDiligenceHtml += `<h4 class="mt-3" style="color: black;">Due Dilligence</h4>
+      ${dueDiligenceDiv}
+      ${affiliateOtherDiv}`
+    }
+    document.getElementById("dueDiligence").innerHTML = dueDiligenceHtml;
   }
 
     function renderSections(sections) {

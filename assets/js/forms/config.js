@@ -2,7 +2,10 @@ import { meApi } from '../api/metaDataApi.js';
 import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
+    console.log('userGroup Constant:', userGroup);
+    console.log('data.userGroups:', data.userGroups);
     const userGroupIds = data.userGroups.map(ug => ug.id);
+    console.log('userGroupIds:', userGroupIds);
 
     const isIppfAdmin = userGroupIds.includes(userGroup.disabledIPPFAdmin);
     if (isIppfAdmin) {

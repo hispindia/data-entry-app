@@ -19,7 +19,7 @@ export const programs = {
 }
 
 export const orgUnit = {
-    id: "iR2btIxN87s"
+    id: "Eo4s43hL1Vi"
 }
 
 export const attributes = {
@@ -123,7 +123,3 @@ export const dataElements = {
         }]
     }]
 }
-
-
-
-
