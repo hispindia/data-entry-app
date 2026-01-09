@@ -19,17 +19,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document.getElementById('submit').addEventListener('click', async function() { 
+    if(tei.affiliate) {
+      const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
+      const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
+       
+      if(!orgUnitId || !enrollment) return;
+      tei.values[dataElements.submitKYC] = true;
+      const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
+      await dataApi.enroll(payloadDueDiligence);
+      iziToast.info({
+            message: `Checklist submitted Successfully`,
+            timeout: 1500
+          })
+      window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
+    }
+  })
   document.getElementById('generateUIN').addEventListener('click', async function() { 
     if(tei.affiliate) {
-        const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
-        const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
-        const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
-        if(!orgUnitId || !enrollment) return;
-        // debugger;
-        // await dataApi.postAttribute({
-        // })
-        const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
-        await dataApi.enroll(payloadDueDiligence);
+         const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
         const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
         const nextNum = getNextCode(orgUnit.organisationUnits[0].children.filter(obj => obj.code !== undefined).map(obj => obj.code));
         const nextOUCode = `${orgUnit.organisationUnits[0].parent.code}-${orgUnit.organisationUnits[0].code}-${nextNum}`;

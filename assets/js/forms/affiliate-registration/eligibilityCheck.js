@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const blockWaiver = await isWaiverBlocked();
     const user = await meApi.get();
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
-    const userOrgUnit = user?.dataViewOrganisationUnits.map(ou => ou.id).join(';');
-    const resAffiliateList = await dataApi.get(userOrgUnit, programs.affiliateKyc);
+    const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
+    const userOUCode = user?.organisationUnits.map(ou => ou.code)?.filter(ou => ou);
+    const resAffiliateList = await dataApi.get(userOrgUnit.join(';'), programs.affiliateKyc, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}`);
 
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
@@ -82,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const button = e.target.closest('.row-btn');
       if(!button) return;
       const affiliate = button.dataset.affiliate;
-      window.location.href = `./1.3-generate-and-manage-uins.html?affiliate=${affiliate}`;
+      window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate}`;
     })
 
     tbodyAffiliateApprovedRow = "";

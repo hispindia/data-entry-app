@@ -52,6 +52,7 @@ export const PROGRAM_RULE_TYPES = {
 
 
 export const dataElements = {
+    submitKYC: 'twLRopHhF2Q',
     affiliateKYCOther: [{
         id: 'AffiliationOther',
         name: 'Affiliation',

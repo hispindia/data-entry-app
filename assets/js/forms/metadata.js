@@ -120,7 +120,6 @@ export const configureRules = (ruleVariables, rules, optionGroups) => {
     }
     );
     rules.sort((a, b) => (a.priority || 999) - (b.priority || 999)).forEach(rule => {
-
         var modifiedRule = JSON.parse(JSON.stringify(rule));
         modifiedRule.programRuleActions.forEach(action => {
         action['useCodeForOptionSet'] = [];
@@ -144,7 +143,7 @@ export const configureRules = (ruleVariables, rules, optionGroups) => {
           }
         }
       })
-      modifiedRule['condition'] = modifiedRule.condition?.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`)?.replaceAll(/d2:/g, 'd2.');
+      modifiedRule['condition'] = modifiedRule.condition?.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`).replace(/\(\s*['"]([^'"]+)['"]\s*\)/g,(_, key) => `(ruleData['${modifiedRuleVariables[rule.program.id][key] || key}'])`)?.replaceAll(/d2:/g, 'd2.');
       modifiedRules.push(modifiedRule);
     })
     return modifiedRules;

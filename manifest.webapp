@@ -1,5 +1,5 @@
 {
-    "version": "10.0",
+    "version": "1.0",
     "name": "IPPF UIN",
     "description": "UIN Data Entry",
     "launch_path": "/dashboard.html",

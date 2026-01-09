@@ -2,63 +2,27 @@ import { meApi } from '../api/metaDataApi.js';
 import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
-    console.log('userGroup Constant:', userGroup);
-    console.log('data.userGroups:', data.userGroups);
+    const pages={
+        hideSideBar: [],
+        blockAddWaiver: false,
+        isAdmin: false,
+    };
     const userGroupIds = data.userGroups.map(ug => ug.id);
-    console.log('userGroupIds:', userGroupIds);
-
     const isIppfAdmin = userGroupIds.includes(userGroup.disabledIPPFAdmin);
-    if (isIppfAdmin) {
-        return {
-            hideSideBar: [],
-            blockAddWaiver: false,
-            isAdmin: true,
-        };
-    }
-
-    const configs = [];
+    if (isIppfAdmin) pages['isAdmin'] = true;
 
     const isAoc = userGroupIds.includes(userGroup.disabledAOCGroup);
     if (isAoc) {
-        configs.push({
-            hideSideBar: [
-                // 'generate-and-approve',
-                // 'approve-change-renew'
-                'aoc-user'
-            ],
-            blockAddWaiver: true,
-        });
+        pages['hideSideBar'].push('aoc-user');
+        pages['blockAddWaiver'] = true;
     }
 
     const isKyc = userGroupIds.includes(userGroup.disabledKyc);
     if (isKyc) {
-        configs.push({
-            hideSideBar: [
-                // 'eligibility-check-menu', //1.2
-                // 'generate-and-approve', //1.3,1.4
-                // 'annual-report-menu', //2
-                // 'standard-reports-menu' //3 
-                'kyc-user'
-            ],
-            blockAddWaiver: true, 
-        });
+        pages['hideSideBar'].push('kyc-user');
+        pages['blockAddWaiver'] = true;
     }
-   
-    if (configs.length > 0) {
-        return {
-            hideSideBar: configs.reduce((acc, curr) => acc.filter(item => curr.hideSideBar.includes(item)), configs[0].hideSideBar),
-            blockAddWaiver: configs.every(c => c.blockAddWaiver),
-        };
-    }
-
-    return {
-        hideSideBar: [
-            'affiliate-registration-menu',
-            'annual-report-menu',
-            'standard-reports-menu'
-        ],
-        blockAddWaiver: true,
-    };
+    return pages;
 }
 
 
@@ -74,14 +38,5 @@ export const getUserConfig = async() => {
         return config;
     } catch (error) {
         console.error("Error fetching user config:", error);
-        return {
-            hideSideBar: [
-                'affiliate-registration-menu',
-                'annual-report-menu',
-                'standard-reports-menu'
-            ],
-            blockAddWaiver: true,
-        };
     }
-
 }
