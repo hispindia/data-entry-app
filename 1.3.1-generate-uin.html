@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="assets/css/select2.min.css">
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
-   <!-- toast -->
+  <!-- toast -->  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 </head>
 
@@ -69,23 +69,23 @@
                       <li id="dashboard" class="nav-item kyc" data-target="dashboard.html">
                         <a class="nav-link" href="#"><span data-i18n="intro.dashboard">Dashboard</span></a>
                       </li>
-                      <li>
+                      <li class="active">
                             <a class="nav-link has-dropdown" href="#">
                                 <span class="pr-2" data-i18n="intro.">1. Affiliate Registration</span>
                             </a>
                             <ul class="dropdown-menu">
                               <li class="nav-item" data-target="1.1-new-registration.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.1 New Registration</span></a></li>
-                              <li class="nav-item kyc" data-target="1.2-eligibility-check-and-manage-waivers.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.2 Eligibility Check & Manage Waivers</span></a></li>
+                              <li class="nav-item active kyc" data-target="1.2-eligibility-check-and-manage-waivers.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.2 Eligibility Check & Manage Waivers</span></a></li>
                               <li class="nav-item aoc kyc" data-target="1.3-generate-and-manage-uins.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.3 Generate & Manage UINs</span></a></li>
                               <li class="nav-item aoc kyc" data-target="1.4-approve-and-sync-uins.html"><a class="nav-link" href="#"><span  data-i18n="intro.">1.4 Approve & Sync UINs</span></a></li>
                             </ul>
                       </li>
-                      <li class="active kyc">
+                      <li class="kyc">
                               <a class="nav-link has-dropdown" href="#">
                                 <span class="pr-3" data-i18n="intro.annual_report">2. Affiliate Information Updates</span>
                               </a>    
                             <ul class="dropdown-menu">
-                              <li><a class="nav-link active" data-target="2.1-view-and-update-profile.html"><span data-i18n="intro.">2.1 View & Update Profile</span></a></li>
+                              <li><a class="nav-link" data-target="2.1-view-and-update-profile.html"><span data-i18n="intro.">2.1 View & Update Profile</span></a></li>
                               <li><a class="nav-link" data-target="2.2-request-changes-to-details.html"><span data-i18n="intro.">2.2 Request Changes to Details</span></a></li>
                               <li><a class="nav-link aoc" data-target="2.3-approve-change-requests.html"><span data-i18n="intro.">2.3 Approve Change Requests</span></a></li>
                               <li><a class="nav-link aoc" data-target="2.4-renew-eligibility-check.html"><span data-i18n="intro.">2.4 Renew Eligibility Check</span></a></li>
@@ -110,20 +110,18 @@
         <p class="text-muted small"></p>
         <section class="section">
           <div class="row">
-            <div id="basicInformation" class="col-12">
-            </div>
             <div class="col-12">
               <form id="dueDiligence"></form>
 
               <div class="row mt-4">
                 <div class="col-4 mb-2">
-                  <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="generateUIN" disabled
-                    style="background-color: rgb(235, 51, 0);; color: white;">Submit</button>
+                  <button type="button" class="btn btn-lg btn-block" id="generateUIN"
+                    style="background-color: rgb(235, 51, 0);; color: white;">Generate UIN</button>
                 </div>
                 <div class="col-4 mb-2">
                   <button type="button" class="btn btn-lg btn-block" id="searchButton" 
-                  onclick="window.location.href='./2.1-view-and-update-profile.html'"
-                    style="background-color: #6a6a6a; color: white;">Back to View and Update</button>
+                  onclick="window.location.href='./1.3-generate-and-manage-uins.html'"
+                    style="background-color: #6a6a6a; color: white;">Back to Generate and Manage UIN</button>
                 </div>
                 </div>
               </div>
@@ -140,11 +138,11 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
   <script src="assets/js/translation.js"></script>
-
+  
   <!-- toast notification -->
   <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
   <!-- Page Specific JS File -->
-  <script type="module" src="assets/js/forms/affiliate-information/profileView.js" defer></script>
+  <script type="module" src="assets/js/forms/affiliate-registration/generateUIN.js" defer></script>
   <!-- <script src="assets/js/saveDraft_projectFocusArea.js"></script> -->
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>

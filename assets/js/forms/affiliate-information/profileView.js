@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
           const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
           await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster})
-          const payloadEvent =  createPayload.modifyEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
+          const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
           await dataApi.enroll(payloadEvent);
           iziToast.success({
             message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`,

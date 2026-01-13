@@ -2,7 +2,7 @@ import BaseApi from "./BaseApi.js";
 
 export const dataApi = {
   get: async (orgUnit, program, otherParam = "") => {
-    const url = `tracker/trackedEntities.json?paging=false&ouMode=DESCENDANTS&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntity,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `tracker/trackedEntities.json?paging=false&ouMode=DESCENDANTS&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -11,7 +11,7 @@ export const dataApi = {
     }
   },
   getTrackedEntity: async (trackedEntity) => {
-    const url = `tracker/trackedEntities.json?paging=false&trackedEntity=${trackedEntity}&fields=trackedEntity,attributes[attribute,value],enrollments[enrollment,program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `tracker/trackedEntities.json?paging=false&trackedEntity=${trackedEntity}&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[enrollment,program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -44,6 +44,16 @@ export const dataApi = {
       const response = await BaseApi({url, method:"POST", payload});
       const data = await response.json();
       return data.response.importSummaries[0].reference;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
+  getFile: async (id) => {
+    const url = `fileResources/${id}.data`
+    try {
+      const response = await BaseApi({url});
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error("Error while creating events", error);
     }

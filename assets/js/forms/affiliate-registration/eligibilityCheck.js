@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return attributes;
     })
     //filter affiliate list based on the status:
-    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed");
+    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && !trackedEntity[attributes.submitted]);
     const failedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Failed");
     const inProgressList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="In Progress");
 
@@ -47,15 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var theadAffiliateRow = "";
     headerList.forEach(item => theadAffiliateRow+= `<th class="py-3 px-4 font-weight-bold border-0 text-center">${item.name}</th>`);
     
-    document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
     document.getElementById('thead-affiliate-inProgress').innerHTML = theadAffiliateRow;
-    document.getElementById('thead-affiliate-approved').innerHTML = `<th class="py-3 px-4 font-weight-bold border-0 text-center">UIN</th>${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
+    document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
+    document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
     
     var tbodyAffiliateApprovedRow = "";
     approvedList.forEach(affiliate => {
-          
       tbodyAffiliateApprovedRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
-      tbodyAffiliateApprovedRow += `<td class="text-center">${affiliate[attributes.uinCode] || ''}</td>`
       headerList.forEach(attr => {
         if(attr.id == attributes.acuityCheck) {
           tbodyAffiliateApprovedRow += `<td class="text-center" >
@@ -69,9 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
       <button 
         data-affiliate="${affiliate.id}" 
         class="btn btn-sm row-btn" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-        onmouseover="this.style.backgroundColor='#265bbf' "onmouseout="this.style.backgroundColor='#3b71ca'"
-        ${affiliate[attributes.uinCode] ? 'disabled': ""}>
-        ${affiliate[attributes.uinCode] ? 'UIN Generated' : 'Process UIN Generation'}
+        onmouseover="this.style.backgroundColor='#265bbf' "onmouseout="this.style.backgroundColor='#3b71ca'">
+        Process UIN Generation
       </button>
       </td>
       </tr>`

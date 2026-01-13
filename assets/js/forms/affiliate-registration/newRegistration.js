@@ -2,7 +2,7 @@
 import { dataApi } from "../../api/DataApi.js";
 import { populateOptions, ruleCallback } from "../metadata.js";
 import { optionSetApi, programsApi, programStageApi } from "../../api/metaDataApi.js";
-import { pushPayloadInDhis2 } from "../../api/payload.js";
+import { createPayload } from "../../api/payload.js";
 import { attributes, optionSet, orgUnit, programStage, programs, tei } from "../../constant.js";
 import { configureRules, convert, fetchValueType } from "../metadata.js";
 import { applyAccessControl } from "../accessControl.js";
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(tei.mandatoryList) {
             let empty = false;
             for(const id of tei.mandatoryList) {
-                const value = document.getElementById(id).value;
+                const value = tei.values[id] ? tei.values[id]: '';
                 const mandatoryError = document.querySelector(`#error-${id}`);
                 if(!value) {
                     empty = true;
@@ -74,8 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
         }
-        const payload = pushPayloadInDhis2(tei, orgUnit.id, programs.affiliateKyc, programStage.affiliateKyc);
-        await dataApi.enroll(payload);
+        const payload = createPayload.newEnroll(tei, orgUnit.affiliateKYC, programs.affiliateKyc, programStage.affiliateKyc);
+        try {
+            await dataApi.enroll(payload);
+        }
+        catch(e) {
+            alert("Error occurred", e);
+            return;
+        }
         iziToast.info({
             message: "Affiliate saved successfully",
             timeout: 1500
@@ -156,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let otherParam = `filter=${attributes.countryRegistration}:EQ:${countryValue}` 
             if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
             if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
-            const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
+            const affiliateList = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
 
             if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
                 iziToast.info({
@@ -209,14 +215,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const affiliateStage = convert.stage({ programStage: affilateStage });
         
         tei.attributes = programAttr.attributes;
+        tei.attributeSection = programAttr.sections;
+        tei.dataElements = affiliateStage.dataElements;
         tei.programStages = affiliateStage.sections;
         tei.values = {...programAttr.values, ...affiliateStage.values};
+        tei.values[attributes.acuityCheck] = "In Progress"
         tei.metadata = {...programAttr.metadata, ...affiliateStage.metadata};
         tei.mandatoryList = [...programAttr.mandatoryList, ...affiliateStage.mandatoryList];
         
         ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList,  tei.metadata, tei.values);
         
-        document.getElementById("basicInformation").innerHTML = renderSections(tei.attributes);
+        document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection);
         document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages);
     }
 

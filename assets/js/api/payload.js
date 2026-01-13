@@ -1,91 +1,11 @@
-import { attributes } from "../constant.js";
-
-const trackedEntitPayload = ({orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements}) => {
-    return  {
-    trackedEntities: [
-    {
-        orgUnit: orgUnit,
-        trackedEntityType:"jmv5aktKbQh",
-        enrollments: [
-            {
-                attributes: formattedAttributes,
-                enrolledAt: formattedDate,
-                occurredAt: formattedDate,
-                orgUnit: orgUnit,
-                program: program,
-                status: "ACTIVE",
-                trackedEntityType: "jmv5aktKbQh",
-                events: [
-                    {
-                        dataValues: formattedDataElements,
-                        enrollmentStatus: "ACTIVE",
-                        occurredAt: formattedDate,
-                        orgUnit: orgUnit,
-                        program: program,
-                        programStage: programStage,
-                        status: "ACTIVE"
-                    }
-                ], 
-            }
-        ],
-    },
-  ]};
-}
-
-const  eventPayload = ({orgUnit, enrollment, program, programStage, formattedDate, trackedEntity, formattedDataElements}) => {
-    return { events: [{
-                dataValues: formattedDataElements,
-                occurredAt: formattedDate,
-                enrollment,
-                orgUnit,
-                program,
-                programStage,
-                trackedEntity,
-                status: "COMPLETED"
-
-            }]
-        }
-}
-
-export const pushPayloadInDhis2 = (tei, orgUnit, program, programStage) => {
-    const date = new Date();
-    const formattedDate = date.toISOString().split("T")[0];
-
-    const formattedAttributes = [];
-    tei.attributes.forEach(section => {
-        section.items.forEach(attribute => {
-            formattedAttributes.push({
-                attribute: attribute.code,
-                value: tei.values[attribute.code] || ""
-            })
-        })
-    })
-    
-    formattedAttributes.push({
-    attribute: attributes.acuityCheck,   
-    value: "In Progress"
-    });
-
-
-    const formattedDataElements = [];
-    tei.programStages.forEach(section => {
-        section.items.forEach(element => {
-            formattedDataElements.push({
-                dataElement: element.code,
-                value: tei.values[element.code] || ""
-            })
-        })
-    })
-  return trackedEntitPayload({orgUnit: orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements})
-}
+import { stageMapping } from "../constant.js";
 
 export const createPayload = {
     orgUnit: (parentOU, attributes, code) => {
         const data = {};
         attributes.forEach(attr => data[attr.attribute] = attr.value);
         return {
-            "organisationUnits": [
-                {
+            "organisationUnits": [{
                 "name": `${data.UkQI1dWzZOv}`,
                 "shortName": `${code}`,
                 "code": `${code}`,
@@ -94,8 +14,7 @@ export const createPayload = {
                 "parent": {
                     "id": `${parentOU}`
                 }
-                }
-            ]
+            }]
         }
     },
     program: (orgUnit, program) => {
@@ -110,8 +29,79 @@ export const createPayload = {
             ]
         }
     },
+    newEnroll: (tei, orgUnit, program, programStage) => {
+            const date = new Date();
+            const formattedDate = date.toISOString().split("T")[0];
+
+            const formattedAttributes = [];
+            tei.attributes.forEach(attribute => {
+                formattedAttributes.push({
+                    attribute: attribute,
+                    value: tei.values[attribute] || ""
+                })
+            })
+
+            const formattedDataElements = [];
+            tei.dataElements.forEach(dataElement => {
+                formattedDataElements.push({
+                    dataElement: dataElement,
+                    value: tei.values[dataElement] || ""
+                })
+            })
+            const trackedEntity = {
+                orgUnit: orgUnit,
+                trackedEntityType:"jmv5aktKbQh",
+                enrollments: [
+                    {
+                        attributes: formattedAttributes,
+                        enrolledAt: formattedDate,
+                        occurredAt: formattedDate,
+                        orgUnit: orgUnit,
+                        program: program,
+                        status: 'ACTIVE',
+                        trackedEntityType: "jmv5aktKbQh",
+                        events: [
+                            {
+                                dataValues: formattedDataElements,
+                                enrollmentStatus: 'ACTIVE',
+                                occurredAt: formattedDate,
+                                orgUnit: orgUnit,
+                                program: program,
+                                programStage: programStage,
+                                status: 'ACTIVE'
+                            }
+                        ], 
+                    }
+                ],
+            }
     
-    modifyEvent: (trackedEntity, orgUnit, program, programStage, affiliateKeyStage) => {
+        return { trackedEntities: [trackedEntity]} 
+    },
+    event: (tei, orgUnit, enrollment, program, programStage) => {
+        const date = new Date();
+        const formattedDate = date.toISOString().split("T")[0];
+
+        const formattedDataElements = [];
+        tei.dataElements.forEach(dataElement => {
+            formattedDataElements.push({
+                dataElement: dataElement,
+                value: tei.values[dataElement] || ""
+            })
+        })
+        return {
+            events:[{
+                dataValues: formattedDataElements,
+                occurredAt: formattedDate,
+                enrollment,
+                orgUnit,
+                program,
+                programStage,
+                trackedEntity: tei.affiliate.trackedEntity,
+                status: "COMPLETED"
+            }]
+        }
+    },
+    exchangeEvent: (trackedEntity, orgUnit, program) => {
         const date = new Date();
         const formattedDate = date.toISOString().split("T")[0];
 
@@ -123,27 +113,45 @@ export const createPayload = {
             })
         }
 
-        var formattedDataElements = [];
-        const requiredStage = trackedEntity.enrollments.find(enrollment => enrollment.events.some(event=> event.programStage == affiliateKeyStage))
-        if(requiredStage) {
-           formattedDataElements = requiredStage.events[0].dataValues
-        }
-        return trackedEntitPayload({orgUnit: orgUnit, program, programStage, formattedDate, formattedAttributes, formattedDataElements})
-    },
-    event: (tei, orgUnit, enrollment, program, programStage) => {
-        const date = new Date();
-        const formattedDate = date.toISOString().split("T")[0];
-
-        const formattedDataElements = [];
-        tei.programStages.forEach(section => {
-            section.items.forEach(element => {
-                formattedDataElements.push({
-                    dataElement: element.code,
-                    value: tei.values[element.code] || ""
-                })
+        var stages = {};
+        trackedEntity.enrollments.forEach(enrollment => {
+            enrollment.events.forEach(event => {
+                stages[event.programStage] = {}
+                if(stageMapping[event.programStage]) {
+                    stages[event.programStage] = {
+                        dataValues: event.dataValues,
+                        enrollmentStatus: 'ACTIVE',
+                        occurredAt: formattedDate,
+                        orgUnit: orgUnit,
+                        program: program,
+                        programStage: stageMapping[event.programStage],
+                        status: 'ACTIVE'
+                        
+                    }
+                }
             })
         })
-        return eventPayload({orgUnit: orgUnit, program, programStage, formattedDate, trackedEntity:tei.affiliate.trackedEntity, enrollment, formattedDataElements})
-    }
-
+        var events = [];
+        for(let stage in stages) {
+            events.push(stages[stage]);
+        }
+          const tei = {
+                orgUnit: orgUnit,
+                trackedEntityType:"jmv5aktKbQh",
+                enrollments: [
+                    {
+                        attributes: formattedAttributes,
+                        enrolledAt: formattedDate,
+                        occurredAt: formattedDate,
+                        orgUnit: orgUnit,
+                        program: program,
+                        status: 'ACTIVE',
+                        trackedEntityType: "jmv5aktKbQh",
+                        events
+                    }
+                ],
+            }
+    
+        return { trackedEntities: [tei]} 
+    },
 }

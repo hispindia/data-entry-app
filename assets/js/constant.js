@@ -3,6 +3,11 @@ export const optionSet = {
     country: "mLGObVVt5ov",
 }
 
+export const stageMapping = {
+    pHiRWkSg9Wx: "HsKUiY7RyeO",
+    wXlXBPIThiD: "jKxGLMkHnHy",
+}
+
 export const programStage = {
     affiliateKyc: "pHiRWkSg9Wx",
     dueDiligence: "wXlXBPIThiD",
@@ -19,7 +24,8 @@ export const programs = {
 }
 
 export const orgUnit = {
-    id: "Eo4s43hL1Vi"
+    id: "Eo4s43hL1Vi",
+    affiliateKYC: "iR2btIxN87s"
 }
 
 export const attributes = {
@@ -27,16 +33,20 @@ export const attributes = {
     countryRegistration: "LZacnHsQJRs",
     region: "SMdW6ZnGllA",
     legalName: "UkQI1dWzZOv",
-    uinCode: "qZcVhl6kfpc" 
+    uinCode: "qZcVhl6kfpc",
+    submitted: "JHlOG80ijsg",
 };
 
 export const tei = {
     affiliate: '',
     attributes: [],
-    programStages: [],
+    attributeSection: [],
+    dataElements:[],
+    stageSection: [],
     mandatoryList: [],
     programRules: [],
     metadata: {},
+    fileType: [],
     values: {},
 }
 
@@ -52,75 +62,5 @@ export const PROGRAM_RULE_TYPES = {
 
 
 export const dataElements = {
-    submitKYC: 'twLRopHhF2Q',
-    affiliateKYCOther: [{
-        id: 'AffiliationOther',
-        name: 'Affiliation',
-        hidden: false,
-        items: [{
-            code: 'gDI26Sq88pk',
-            name: 'Affiliation Type',
-            hidden: false,
-            mandatory: true,
-            disabled: false,
-            optionSetValue: true,
-            valueType: "TEXT",
-            valueSet:[
-                    {
-                        label: "Full Member",
-                        value: "Full Member",
-                    },
-                    {
-                        label: "AM1/2",
-                        value: "Associate Member 1 / Associate Member 2",
-                    },
-                    {
-                        label: "CP",
-                        value: "Collaborative Partner",
-                    },
-                    {
-                        label: "International CP",
-                        value: "International Collaborative Partner",
-                    },
-                    {
-                        label: "Project Level Partner",
-                        value: "Project Level Partner",
-                    }
-                ]
-        }, {
-            code: 'qg4tyJoHEiS',
-            name: 'Affiliation Status',
-            hidden: false,
-            mandatory: true,
-            disabled: false,
-            optionSetValue: true,
-            valueType: "TEXT",
-            valueSet: [
-                    {
-                        label: "Active",
-                        value: "Active",
-                    },
-                    {
-                        label: "Financial Suspension",
-                        value: "Financial Suspension",
-                    },
-                    {
-                        label: "Suspended",
-                        value: "Membership Suspension",
-                    },
-                    {
-                        label: "Expelled",
-                        value: "Expelled",
-                    },
-                    {
-                        label: "Resigned/Left",
-                        value: "Resigned/Left",
-                    },
-                    {
-                        label: "Dissoved/Closed",
-                        value: "Dissoved/Closed",
-                    }
-                ] 
-        }]
-    }]
+    affiliationStatus: 'qg4tyJoHEiS',
 }

@@ -24,7 +24,7 @@ export async function applyAccessControl() {
         //     } catch (err) {
         //         console.warn(`Error occured while hiding UIN button: ${cls}`, err);
         //     }
-        userConfig.hideSideBar.forEach(user => {
+        userConfig.user.forEach(user => {
         $(`.${user}`).hide();
         // })
         });

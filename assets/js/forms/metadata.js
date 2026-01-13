@@ -3,6 +3,7 @@ import { PROGRAM_RULE_TYPES } from "../constant.js";
 export const convert = {
     attributes: ({program, disabled = false}) => {
         var attributes = [];
+        var sections = [];
         var values = {};
         var mandatory = {};
         var mandatoryList = [];
@@ -15,6 +16,7 @@ export const convert = {
                 if(element.mandatory) mandatoryList.push(element.trackedEntityAttribute.id);
                 mandatory[element.trackedEntityAttribute.id] = element.mandatory;
                 displayInList[element.trackedEntityAttribute.id] = element.displayInList;
+                attributes.push(element.trackedEntityAttribute.id);
             });
         }
 
@@ -37,7 +39,7 @@ export const convert = {
                 }
                 metadata[attr.id] = attr;
             })
-            attributes.push({
+            sections.push({
                 name: section.name,
                 items: section.trackedEntityAttributes
             })
@@ -46,6 +48,7 @@ export const convert = {
         return {
             name: program.name,
             attributes,
+            sections,
             values,
             mandatoryList,
             metadata,
@@ -53,16 +56,19 @@ export const convert = {
     },
     stage: ({programStage, disabled=false}) => {
         var sections = [];
+        var dataElements = [];
         var values = {};
         var mandatory = {};
         var mandatoryList = [];
         var metadata = {};
+        var fileType = [];
 
         //Mandatory
         if(programStage.programStageDataElements){
             programStage.programStageDataElements.forEach(element => {
                 if(element.compulsory) mandatoryList.push(element.dataElement.id);
                 mandatory[element.dataElement.id] = element.compulsory;
+                dataElements.push(element.dataElement.id);
             })
         }
 
@@ -75,6 +81,7 @@ export const convert = {
                 element['hidden'] = false;
                 element['disabled'] = disabled;
                 element['mandatory'] = mandatory[element.id];
+                if(element.valueType == 'FILE_RESOURCE') fileType.push(element.id);
                 if(element.optionSetValue) {
                 element.optionSet.options = element.optionSet.options.map(option => ({
                     label: option.name,
@@ -92,10 +99,12 @@ export const convert = {
         })
 
         return {
+            dataElements,
             sections,
             values,
             mandatoryList,
             metadata,
+            fileType,
         }
     },
 }
@@ -250,7 +259,7 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
 
 
 
-export function fetchValueType({id, valueType, valueSet}, value, disabled) {
+export function fetchValueType({id, valueType, valueSet}, value, href, disabled) {
 
     switch(valueType){
 
@@ -278,7 +287,7 @@ export function fetchValueType({id, valueType, valueSet}, value, disabled) {
 
     case "FILE_RESOURCE":
       return `<div>
-        <input type="file" id="${id}" name="${id}" class="file-upload" hidden accept=".pdf,.doc,image/jpeg,.jpg,.jpeg">
+        <input type="file"  ${disabled ? 'disabled' : ''} id="${id}" name="${id}" class="file-upload" hidden accept=".pdf,.doc,image/jpeg,.jpg,.jpeg">
           <label onclick="document.getElementById('${id}').click();"
                 style="background-color: #000000;  
                 background-color: #000000;
@@ -287,7 +296,7 @@ export function fetchValueType({id, valueType, valueSet}, value, disabled) {
                 border-radius: 4px;
                 cursor: pointer;
                 display: inline-block;">Upload document</label>
-                <a id="${id}-link" href="#" style="display:none; margin-left:10px; color:#3b71ca; text-decoration:underline;"></a>
+                <a id="${id}-link" href="${href}" style="margin-left:10px; color:#3b71ca; text-decoration:underline;">${value?.name || ""}</a>
               </div>`;
 
     case "BOOLEAN":

@@ -3,7 +3,7 @@ import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
     const pages={
-        hideSideBar: [],
+        user: [],
         blockAddWaiver: false,
         isAdmin: false,
     };
@@ -13,13 +13,13 @@ export const userGroupConfig = (data) => {
 
     const isAoc = userGroupIds.includes(userGroup.disabledAOCGroup);
     if (isAoc) {
-        pages['hideSideBar'].push('aoc-user');
+        pages['user'].push('aoc');
         pages['blockAddWaiver'] = true;
     }
 
     const isKyc = userGroupIds.includes(userGroup.disabledKyc);
     if (isKyc) {
-        pages['hideSideBar'].push('kyc-user');
+        pages['user'].push('kyc');
         pages['blockAddWaiver'] = true;
     }
     return pages;

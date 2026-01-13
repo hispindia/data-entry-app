@@ -1,8 +1,7 @@
 import { dataApi } from "../../api/DataApi.js";
-import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
+import { optionSetApi, programStageApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
 import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
-import { getNextCode } from "../func.js";
 import { convert, fetchValueType } from "../metadata.js";
 import { applyAccessControl } from "../accessControl.js";
 
@@ -26,34 +25,21 @@ document.addEventListener("DOMContentLoaded", function () {
        
       if(!orgUnitId || !enrollment) return;
       tei.values[dataElements.submitKYC] = true;
+      
       const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
+      await dataApi.postAttribute({trackedEntities: [{
+        trackedEntity: tei.affiliate.trackedEntity,
+        orgUnit: tei.affiliate.orgUnit,
+        trackedEntityType: 'jmv5aktKbQh',
+        attributes: [{attribute: attributes.submitted,value: true}]
+        }]
+      })
       await dataApi.enroll(payloadDueDiligence);
       iziToast.info({
             message: `Checklist submitted Successfully`,
             timeout: 1500
           })
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
-    }
-  })
-  document.getElementById('generateUIN').addEventListener('click', async function() { 
-    if(tei.affiliate) {
-         const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
-        const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
-        const nextNum = getNextCode(orgUnit.organisationUnits[0].children.filter(obj => obj.code !== undefined).map(obj => obj.code));
-        const nextOUCode = `${orgUnit.organisationUnits[0].parent.code}-${orgUnit.organisationUnits[0].code}-${nextNum}`;
-        const payloadOrgUnit = createPayload.orgUnit(orgUnit.organisationUnits[0].id, tei.affiliate.attributes, nextOUCode);
-        const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
-        if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
-          const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
-          await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster})
-          const payloadEvent =  createPayload.modifyEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
-          await dataApi.enroll(payloadEvent);
-          iziToast.info({
-            message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`,
-            timeout: 1500
-          })
-          window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
-        }
     }
   })
 
@@ -79,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     tei.affiliate = resAffiliate.trackedEntities[0];
-    document.getElementById('generateUIN').disabled = false;
     }
     catch(err) {
       iziToast.info({
@@ -90,13 +75,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  const resAffiliateStage = await programStageApi.get(programStage.affiliateKyc);
+  const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
+
+  const affiliateStage = convert.stage({ programStage: resAffiliateStage, disabled: true });
+  const dueDiligence = convert.stage({ programStage: resDueDiligence });
+
+  tei.fileType = new Set(affiliateStage.fileType);
+
   const dataValues = {};
   tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute]=attr.value);
   tei.affiliate.enrollments.forEach(enroll => {
     enroll.events.forEach(event => {
-      event.dataValues.forEach(dv =>dataValues[dv.dataElement]=dv.value);
+      event.dataValues.forEach(dv => {
+        if(tei.fileType.has(dv.dataElement)) dataValues[`${dv.dataElement}-event`] = event.event;
+        dataValues[dv.dataElement]=dv.value
+      });  
     })
   });
+
+  for(let id of tei.fileType) {
+    if(dataValues[id]) {
+      dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${dataValues[id]}`
+      dataValues[id] = await dataApi.getFile(dataValues[id]);
+    }
+  }
+
   const countryNameAndCodes = {};
   const country = await optionSetApi.get(optionSet.country);
   if(country.options){
@@ -105,28 +109,19 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   }
   document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? `(${countryNameAndCodes[dataValues[attributes.countryRegistration]]})`  : ''
-
-  const resAffilateStage = await programStageApi.get(programStage.affiliateKyc);
-  const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
-
-  const affilateStage = convert.stage({ programStage: resAffilateStage, disabled: true });
-  const dueDiligence = convert.stage({ programStage: resDueDiligence });
   
   tei.programStages = dueDiligence.sections;
-  tei.values = {...dueDiligence.values, ...dataValues}
+  tei.dataElements = dueDiligence.dataElements;
   tei.metadata = dueDiligence.metadata;
   tei.mandatoryList = dueDiligence.mandatoryList;
-  dataElements.affiliateKYCOther.forEach(section => section.items.forEach(el => {
-    if(el.mandatory) tei.mandatoryList.push(el.code);
-  }))
-
+  tei.values = {...dueDiligence.values, ...dataValues};
+  tei.values[dataElements.affiliationStatus] = 'Active';
+    
   const dueDiligenceDiv = renderSections(dueDiligence.sections);
-  const affiliateKYCDiv = renderSections(affilateStage.sections);
-  const affiliateOtherDiv = renderSections(dataElements.affiliateKYCOther);
+  const affiliateKYCDiv = renderSections(affiliateStage.sections);
 
-    document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
-    ${dueDiligenceDiv}
-    ${affiliateOtherDiv}`
+  document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
+  ${dueDiligenceDiv}`
   }
 
     function renderSections(sections) {
@@ -154,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || "") , el.disabled)}
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || ""), (tei?.values[`${el.code}-href`] || ""), el.disabled)}
                 <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);
