@@ -5,9 +5,16 @@ import { attributes, optionSet, programStage, programs, tei } from "../../consta
 import { getNextCode } from "../func.js";
 import { convert, fetchValueType } from "../metadata.js";
 import { applyAccessControl } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   applyAccessControl();
+  const userConfig = await getUserConfig();
+  iziToast.settings({
+    position: 'center'
+  });
+  console.log('userConfig', userConfig);
+  
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -17,8 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-
-  document.getElementById('generateUIN').addEventListener('click', async function() { 
+  
+    if(userConfig?.isAdmin){
+    document.getElementById('generateUINCol').style.display = 'block';
+    document.getElementById('generateUIN').addEventListener('click', async function() { 
     if(tei.affiliate) {
         const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
         const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
@@ -38,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
   })
+ }
 
   fetchAffiliateList();
   async function fetchAffiliateList() {

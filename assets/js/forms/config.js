@@ -31,9 +31,9 @@ export const getUserConfig = async() => {
         const me = await meApi.get();
         const config = userGroupConfig(me); 
         
-        if (config?.isAdmin) {
-            $('.maintenance').removeClass('d-none');
-        }
+        // if (config?.isAdmin) {
+        //     $('.maintenance').removeClass('d-none');
+        // }
 
         return config;
     } catch (error) {

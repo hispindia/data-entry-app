@@ -9,6 +9,9 @@ import { applyAccessControl } from "../accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     applyAccessControl();
+    iziToast.settings({
+    position: 'center'
+    });
     document.querySelectorAll(".nav-link").forEach(function (element) {
         element.addEventListener("click", function (event) {
 
@@ -84,7 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         iziToast.info({
             message: "Affiliate saved successfully",
-            timeout: 1500
+            timeout: 1500,
+            position: 'topRight'
         })
         window.location.reload();
     });
@@ -167,7 +171,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
                 iziToast.info({
                     message: "No affiliate found",
-                    timeout: 1500
+                    timeout: 1500,
+                    position: 'center'
                 });
                 document.getElementById("affiliate-table").style.display = "none";
                 return;

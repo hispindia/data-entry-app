@@ -3,9 +3,15 @@ import { populateOptions } from "./metadata.js";
 import { optionSetApi,programsApi } from "../api/metaDataApi.js";
 import { attributes, optionSet, orgUnit, programs } from "../constant.js";
 import { applyAccessControl } from "./accessControl.js";
+import { getUserConfig } from "./config.js";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   applyAccessControl();
+  const userConfig = await getUserConfig();
+  if(userConfig?.isAdmin)  $('.maintenance').removeClass('d-none');
+  iziToast.settings({
+    position: 'center'
+  });
   // Add event listener to 
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {

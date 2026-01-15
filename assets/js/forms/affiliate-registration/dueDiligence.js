@@ -4,10 +4,15 @@ import { createPayload } from "../../api/payload.js";
 import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
 import { convert, fetchValueType } from "../metadata.js";
 import { applyAccessControl } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   applyAccessControl();
+  iziToast.settings({
+    position: 'center'
+  });
+  const userConfig = await getUserConfig();  
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -17,8 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-
-  document.getElementById('submit').addEventListener('click', async function() { 
+  
+    
+  if(userConfig?.user?.includes('aoc')){
+    document.getElementById("submitBtn").classList.remove('d-none');
+    document.getElementById('submit').addEventListener('click', async function() { 
     if(tei.affiliate) {
       const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
       const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
@@ -42,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
     }
   })
+  }
 
   document.getElementById("dueDiligence").addEventListener('change', function(e) {
       if (e.target.matches("input, select, textarea")) {

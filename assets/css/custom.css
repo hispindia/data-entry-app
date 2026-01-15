@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap');
 
-body{background:#E2E6FC;
+body{background:#fff;
 
 /*  font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
@@ -685,9 +685,6 @@ p.subheading{font-size:16px; line-height:20px;}
 .selectgroup.selectgroup-radius label.selectgroup-item:last-child , .selectgroup.selectgroup-radius label.selectgroup-item:last-child .selectgroup-button{
     border-radius:  0 8px 8px 0!important;
     overflow: hidden;
-}
-.selectgroup-input+.selectgroup-button{
-     
 }
 .selectgroup-input:focus+.selectgroup-button, .selectgroup-input:checked+.selectgroup-button, .select2-container--default .select2-selection--multiple .select2-selection__choice, .select2-container--default .select2-results__option[aria-selected=true], .select2-container--default .select2-results__option--highlighted[aria-selected] {
     background-color: #4472C4;

@@ -5,6 +5,9 @@ import { applyAccessControl } from "../accessControl.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   applyAccessControl();
+  iziToast.settings({
+    position: 'center'
+  });
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
