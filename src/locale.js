@@ -154,7 +154,7 @@ const locale = {
     // [tagalog]: "Mga Detalye ng Miyembro ng Pamilya",
   },
   deleteDialogTitle: {
-    [english]: "Are you sure you want to delete this Family?",
+    [english]: "Are you sure you want to delete?",
     // [cebuano]: "Sigurado ka ba nga gusto nimong papason kini nga Pamilya?",
     // [tagalog]: "Sigurado ka bang gusto mong tanggalin ang Pamilyang ito?",
   },

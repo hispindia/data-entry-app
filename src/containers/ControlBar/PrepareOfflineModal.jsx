@@ -14,6 +14,7 @@ import * as trackedEntityManager from "@/indexDB/TrackedEntityManager/TrackedEnt
 import * as enrollmentManager from "@/indexDB/EnrollmentManager/EnrollmentManager";
 import * as eventManager from "@/indexDB/EventManager/EventManager";
 import * as programRuleManager from "@/indexDB/ProgramRuleManager/ProgramRuleManager";
+import * as optionGroupManager from "@/indexDB/optionGroupManager/OptionGroupManager";
 import * as programRuleVariable from "@/indexDB/ProgramRuleVariable/ProgramRuleVariable";
 import ProgramSelectionContainer from "./ProgramSelectionContainer";
 
@@ -73,8 +74,10 @@ const PrepareOfflineModal = ({ open, onCancel, onClose }) => {
     await programManager.pull(selectedProgram, true);
     setLoadingProgress({ id: "metadata", percent: 60 });
     await programRuleManager.pull();
-    setLoadingProgress({ id: "metadata", percent: 75 });
+    setLoadingProgress({ id: "metadata", percent: 70 });
     await programRuleVariable.pull();
+    setLoadingProgress({ id: "metadata", percent: 80 });
+    await optionGroupManager.pull();
     setLoadingProgress({ id: "metadata", percent: 100 });
     // pull data from server and save to indexedDB
     // await trackedEntityManager.pullNested({ handleDispatchCurrentOfflineLoading, offlineSelectedOrgUnits });

@@ -31,8 +31,8 @@ const AppContainer = () => {
   const isOfflineMode = useSelector((state) => state.common.offlineStatus);
 
   //ProgramRule configure
-  const configureRules = (ruleVariables, rules) => {
- 
+  const configureRules = (ruleVariables, rules, optionGroups) => {
+
     if(!rules || !ruleVariables) return [];
     const modifiedRules = [];
     const modifiedRuleVariables = {};
@@ -47,6 +47,7 @@ const AppContainer = () => {
       }}
     );
     rules.sort((a, b) => (a.priority || 999) - (b.priority || 999)).forEach(rule => {
+
         var modifiedRule = JSON.parse(JSON.stringify(rule));
         modifiedRule.programRuleActions.forEach(action => {
         action['useCodeForOptionSet'] = [];
@@ -60,6 +61,14 @@ const AppContainer = () => {
                 action['useCodeForOptionSet'] = optionList;
               }
             }                                                                                   
+        } else if(action.optionGroup) {
+          const optionGroup = optionGroups.find(group => group.id == action.optionGroup.id);
+          if(optionGroup.id) {
+            action.options ={};
+            optionGroup.options.forEach(option => {
+              action.options[option.code] = option.name;
+            }) 
+          }
         }
       })
       modifiedRule['condition'] = modifiedRule.condition?.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`)?.replaceAll(/d2:/g, 'd2.');
@@ -95,7 +104,7 @@ const AppContainer = () => {
         dispatch(setOrgUnits(results[3].organisationUnits));
         dispatch(setProgramsMetadata(results[4]));
         dispatch(setProgramMetadata(results[5]));
-        dispatch(setProgramRules(configureRules(results[6].programRuleVariables, results[7].programRules)));
+        dispatch(setProgramRules(configureRules(results[6].programRuleVariables, results[7].programRules, results[8].optionGroups)));
         setLoading(false);
         setLoaded(true);
       });

@@ -2,6 +2,7 @@ import { put, takeEvery, call, all, select } from "redux-saga/effects";
 import { DELETE_TEI } from "../../types/data/tei";
 import { dataApi } from "../../../api";
 import {
+  getEvents,
   getTeis,
   getTeisErrorMessage,
   getTeisSuccessMessage,
@@ -13,22 +14,23 @@ export default function* deleteTeiSaga() {
 }
 
 function* handleDeleteTei({ teiId }) {
+  debugger;
   const { offlineStatus } = yield select((state) => state.common);
 
   try {
-    const payload = teiIdToDeletePayload(teiId);
+    const payload = eventIdToDeletePayload(teiId);
 
     if (offlineStatus) {
-      yield call(trackedEntityManager.deleteTrackedEntityInstances, {
-        trackedEntities: payload.trackedEntities,
-      });
+      // yield call(trackedEntityManager.deleteTrackedEntityInstances, {
+      //   trackedEntities: payload.trackedEntities,
+      // });
     } else {
       yield call(dataApi.deleteTei, payload);
     }
 
     yield all([
       put(getTeisSuccessMessage(`Delete ${teiId} successfully`)),
-      put(getTeis()),
+      put(getEvents()),
     ]);
   } catch (e) {
     console.error("handleDeleteTei error", e);
@@ -36,11 +38,11 @@ function* handleDeleteTei({ teiId }) {
   }
 }
 
-const teiIdToDeletePayload = (teiId) => {
+const eventIdToDeletePayload = (eventId) => {
   return {
-    trackedEntities: [
+    events: [
       {
-        trackedEntity: teiId,
+        event: eventId,
       },
     ],
   };

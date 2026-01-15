@@ -98,13 +98,23 @@ const MainForm = ({onCloseClick}) => {
       //Save on registration date
       //Custom Validation 
       if(data.event_date) {
-        setSaveDisabled(false); 
-        metadata[DATAELEMENT_BIRTH_DATE].maxDate = data["event_date"];
-        metadata[DATAELEMENT_DEATH_DATE].maxDate = data["event_date"];
+        setSaveDisabled(false);
+        const eventDate = data["event_date"].split('-');
+        if(metadata[DATAELEMENT_BIRTH_DATE]) {
+         metadata[DATAELEMENT_BIRTH_DATE].minDate = `${eventDate[0]-10}-${eventDate[1]}-${eventDate[2]}`;
+        }
       }
 
-      for(let data in metadata) metadata[data].hidden = false;
-
+      for(let data in metadata) {
+        metadata[data].hidden = false;
+        metadata[data].compulsory = false;
+        metadata[data].error = '';
+        metadata[data].warning = '';
+        if(metadata[data].optionSet) {
+          metadata[data].valueSet = metadata[data].optionSet;
+        }
+      }
+debugger;
       //From Program rules
       //Dyanimcally used inside eval
        window.d2 = {
@@ -117,12 +127,10 @@ const MainForm = ({onCloseClick}) => {
           monthsBetween: (curr, eventDate) => differenceInMonths(new Date(eventDate), new Date(curr)),
           weeksBetween: (curr, eventDate) => differenceInWeeks(new Date(eventDate), new Date(curr)),
           concatenate: (...args) => args.join(''),
+          length: (value) => value.length,
         }
         
         programRules.forEach(rule => {
-          if(rule.id == "uwjof6I0ZGK") {
-            console.log('hi')
-          }
           if(rule.program.id == programMetadata.id) {
             try {
               if(rule.condition.includes('ruleData')) {
@@ -163,6 +171,20 @@ const MainForm = ({onCloseClick}) => {
                           })
                         }
                       break;
+                      case PROGRAM_RULE_TYPES.SHOWERROR: 
+                        metadata[action.dataElement.id].error = action.content;
+                      break;
+                      case PROGRAM_RULE_TYPES.HIDEOPTIONGROUP:
+                        if(metadata[action.dataElement.id]) {
+                          const valueSets = metadata[action.dataElement.id].valueSet.filter(option => !action.options[option.value]);
+                          metadata[action.dataElement.id].valueSet = valueSets;
+                        }
+                      break;
+                      case PROGRAM_RULE_TYPES.SETMANDATORYFIELD:
+                        metadata[action.dataElement.id].compulsory = true;
+                      break;
+                      case PROGRAM_RULE_TYPES.SHOWWARNING:
+                        metadata[action.dataElement.id].warning = action.content;
                     }
                   })
                 }
@@ -224,6 +246,8 @@ const convertOriginMetadata = ({
       stage.dataElements.forEach((de) => {
         de.code = de.id;
         de.hidden = false;
+        de.error = '';
+        de.warning = '';
       });
       return [...acc, ...stage.dataElements];
     }, []);

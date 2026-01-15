@@ -76,7 +76,8 @@ export default class DataApiClass extends BaseApiClass {
         {
           paging: true,
           page:page,
-          pageSize:pageSize
+          pageSize:pageSize,  
+          totalPages: true,
         },
         [
           `program=${program}`,

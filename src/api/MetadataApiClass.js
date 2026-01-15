@@ -6,6 +6,7 @@ import {
 import { MULTIPLE_SELECTION_ATTRIBUTE_ID, SELECT_SEARCHABLE_ATTRIBUTE_ID } from "@/constants/app-config";
 import BaseApiClass from "./BaseApiClass";
 import { pull } from "./Fetch";
+import { te } from "date-fns/locale";
 export default class MetadataApiClass extends BaseApiClass {
   getReportId = async () => {
     const res = await pull(
@@ -36,7 +37,7 @@ export default class MetadataApiClass extends BaseApiClass {
   }
 
   getProgramRules = () => pull(this.baseUrl, this.username, this.password, "/api/programRules", { paging: false }, [
-    "fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement],condition"
+    "fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement,optionGroup],condition"
   ]);
 
   getProgramRuleVariables = () =>  pull(this.baseUrl, this.username, this.password, "/api/programRuleVariables", { paging: false }, [
@@ -154,6 +155,10 @@ export default class MetadataApiClass extends BaseApiClass {
     return convertedData;
   };
 
+  getOptionGroups = () => pull(this.baseUrl, this.username, this.password, `/api/optionGroups`, { paging: false }, [
+      "fields=id,displayName,options[id,name,code]",
+  ]);
+
   getOptionSets = async () => {
     return await pull(this.baseUrl, this.username, this.password, `/api/optionSets`, { paging: false }, [
       "fields=id,displayName,options[id,displayName,displayFormName,translations,code,sortOrder,style]",
@@ -161,7 +166,7 @@ export default class MetadataApiClass extends BaseApiClass {
   };
 
   convertProgramMetadata = async (p) => {
-    // let optionSets = await this.getOptionSets();
+    let optionSets = await this.getOptionSets();
 
     const programMetadata = {};
     programMetadata.id = p.id;
@@ -180,6 +185,7 @@ export default class MetadataApiClass extends BaseApiClass {
           ? ptea.trackedEntityAttribute.displayFormName
           : ptea.trackedEntityAttribute.displayShortName,
         valueType: ptea.trackedEntityAttribute.valueType,
+        optionSet: null,
         valueSet: null,
         displayInList: ptea.displayInList,
         disabled: defaultProgramTrackedEntityAttributeDisable.includes(ptea.trackedEntityAttribute.id),
@@ -204,7 +210,7 @@ export default class MetadataApiClass extends BaseApiClass {
       }
 
       if (ptea.trackedEntityAttribute.optionSet) {
-        tea.valueSet = psde.dataElement.optionSet
+        tea.optionSet = optionSets.optionSets
           .find((os) => os.id === ptea.trackedEntityAttribute.optionSet.id)
           .options.map((o) => {
             return {
@@ -214,6 +220,7 @@ export default class MetadataApiClass extends BaseApiClass {
               translations: o.translations,
             };
           });
+        tea.valueSet = tea.optionSet;
       }
       return tea;
     });
@@ -227,6 +234,10 @@ export default class MetadataApiClass extends BaseApiClass {
           code: "event_date",
           displayName: ps.executionDateLabel,
           displayFormName: ps.executionDateLabel,
+          translations: [{
+            locale: "my",
+            value: "မှတ်ပုံတင်သည့်ရက်စွဲ"
+          }],
           valueType: "DATE",
         },
         dataElements: ps.programStageDataElements.map((psde) => {
@@ -238,6 +249,7 @@ export default class MetadataApiClass extends BaseApiClass {
               ? psde.dataElement.displayFormName
               : psde.dataElement.displayShortName,
             description: psde.dataElement.description,
+            optionSet: null,
             valueSet: null,
             url: psde.dataElement.url,
             valueType: psde.dataElement.valueType,
@@ -262,7 +274,7 @@ export default class MetadataApiClass extends BaseApiClass {
           }
 
           if (psde.dataElement.optionSet) {
-            dataElement.valueSet = psde.dataElement.optionSet
+            dataElement.optionSet = psde.dataElement.optionSet
               .options.map((o) => {
                 return {
                   value: o.code,
@@ -271,6 +283,7 @@ export default class MetadataApiClass extends BaseApiClass {
                   translations: o.translations,
                 };
               });
+              dataElement.valueSet = dataElement.optionSet;
           }
           return dataElement;
         }),

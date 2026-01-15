@@ -1,4 +1,3 @@
-import { CHILD_VACCINES, FAMILY_MEMBER_METADATA_CUSTOMUPDATE, MIN_MAX_TEXT, MOBILE_NUM_REGEX } from "@/components/constants";
 import _ from "lodash";
 import { useRef, useState } from "react";
 
@@ -71,8 +70,12 @@ const useForm = (metadata, data, uiLocale, displayFields) => {
     }
   };
 
-  const validationWarning = (code) => {
+  const validationWarning = (code, otherError) => {
+    if (otherError) {
+      return otherError;
+    } else {
     return warningText[code] ? warningText[code].text : null;
+    }
   };
 
   const onSubmit = (external) => {

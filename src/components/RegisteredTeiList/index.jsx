@@ -22,8 +22,37 @@ const RegisteredTeiList = ({
   onRowClick,
 }) => {
   const { t, i18n } = useTranslation();
-  const { immutableYear } = useSelector((state) => state.metadata);
-  const reportId = useSelector((state) => state.common.reportId);
+  const { offlineStatus } = useSelector((state) => state.common);
+
+  const additionalColumns = {
+    width: 56,
+    key: "deleteKey",
+    render: (text, record, index) => (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: "20px",
+          height: "20px",
+        }}
+      >
+        <Popconfirm
+          placement="bottomLeft"
+          title={t("deleteDialogTitle")}
+          onConfirm={() => onDeleteTei(record)}
+          okText={t("yes")}
+          cancelText={t("no")}
+        >
+          <Button
+            icon={<DeleteTwoTone twoToneColor="#cf1322" />}
+            type="text"
+            size="small"
+            danger
+            disabled={offlineStatus}
+          />
+        </Popconfirm>
+      </div>
+    ),
+  };
 
   const createColumns = () => {
     
@@ -71,7 +100,7 @@ const RegisteredTeiList = ({
         return <TableColumn metadata={null} external={{ name: "updatedAt", type: "DATE" }} value={value} />;
       },
     };
-    columns.unshift(lastUpdatedObject);
+    columns.unshift(...[additionalColumns, lastUpdatedObject]);
 
     return columns;
   };
@@ -96,6 +125,8 @@ const RegisteredTeiList = ({
       });
 
       rowObject.updatedAt = tei.updatedAt;
+      rowObject.eventId = tei.eventId;
+
       return rowObject;
     });
 

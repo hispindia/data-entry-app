@@ -12,10 +12,11 @@ import * as event from "./EventManager";
 import * as importFile from "./ImportFileManager";
 import * as programRule from "./ProgramRuleManager";
 import * as programRuleVariable from "./ProgramRuleVariable";
+import * as optionGroups from "./optionGroupManager"
 
 export const db = new Dexie("FI_Offline");
 
-db.version(1).stores({
+db.version(2).stores({
   [me.TABLE_NAME]: me.TABLE_FIELDS,
   [organisationUnit.TABLE_NAME]: organisationUnit.TABLE_FIELDS,
   [organisationsUnitLevel.TABLE_NAME]: organisationsUnitLevel.TABLE_FIELDS,
@@ -23,6 +24,7 @@ db.version(1).stores({
   [trackedEntity.TABLE_NAME]: trackedEntity.TABLE_FIELDS,
   [program.TABLE_NAME]: program.TABLE_FIELDS,
   [optionSet.TABLE_NAME]: optionSet.TABLE_FIELDS,
+  [optionGroups.TABLE_NAME]: optionGroups.TABLE_FIELDS,
   [event.TABLE_NAME]: event.TABLE_FIELDS,
   [importFile.TABLE_NAME]: importFile.TABLE_FIELDS,
   [programRule.TABLE_NAME]: programRule.TABLE_FIELDS,

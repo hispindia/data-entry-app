@@ -96,7 +96,7 @@ export default function* getTeisSaga() {
   yield takeLatest(GET_TEIS, getTeis);
   yield takeLatest(TABLE_FILTER, handleTableFilter);
   yield takeLatest(TABLE_SORT, handleTableSort);
-  yield takeLatest(TABLE_CHANGE_PAGE, handleChangePage);
+  // yield takeLatest(TABLE_CHANGE_PAGE, handleChangePage);
 }
 
 function* handleTableFilter({ value, teiId }) {

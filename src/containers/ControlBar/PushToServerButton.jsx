@@ -1,7 +1,7 @@
 import { toDhis2Enrollments } from "@/indexDB/data/enrollment";
 import { toDhis2Events } from "@/indexDB/data/event";
 import { toDhis2TrackedEntities } from "@/indexDB/data/trackedEntity"; // Import the color from Ant Design
-import { resetCurrentOfflineLoading, setCurrentOfflineLoading } from "@/redux/actions/common";
+import { resetCurrentOfflineLoading, setCurrentOfflineLoading, setOfflineStatus } from "@/redux/actions/common";
 import { findChangedData } from "@/utils/offline";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, notification } from "antd";
@@ -221,7 +221,7 @@ const handlePushToServer = async (dispatch, metadataMapping, setError, setSyncCo
       setError(finalErrorMessage);
     }
 
-    // dispatch(setOfflineStatus(false));
+    dispatch(setOfflineStatus(false));
   } catch (error) {
     // Only catch critical errors like network connection
     setError(error ? error.message : "Sync data to server failed!");
@@ -346,7 +346,7 @@ const PushToServerButton = () => {
             });
             return;
           }
-debugger;
+                    
           // const enrs = toDhis2Enrollments(results[0]);
           const events = toDhis2Events(results[0]);
           // const teis = toDhis2TrackedEntities(results[2]);

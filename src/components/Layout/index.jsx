@@ -12,17 +12,17 @@ const { app, headerBarContainer } = styles;
 const Layout = ({ children }) => {
   const isPwa = useIsPwa();
   // useDisableSwipeDownRefresh();
-debugger;
+
   return (
     <SnackbarProvider maxSnack={3}>
         <ThemeProvider theme={muiTheme}>
           <ConfigProvider theme={antdThemeConfig}>
             <div className={app}>
-              {!isPwa && (
+              {/* {!isPwa && (
                 <div className={headerBarContainer}>
                   <HeaderBar title="Case Registry App" />
                 </div>
-              )}
+              )} */}
               {children}
             </div>
           </ConfigProvider>

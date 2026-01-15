@@ -25,6 +25,9 @@ function* handleSubmitEvent({ event, refreshTei = true }) {
     }
 
     if (refreshTei) yield put(getTei(currentTei.trackedEntity));
+
+    yield put(loadTei(false));
+    yield put(push("/list"));
   } catch (e) {
     console.error("handleSubmitEvent", e);
     const result = yield e.json();
@@ -36,12 +39,11 @@ function* handleSubmitEvent({ event, refreshTei = true }) {
       duration: 0,
     });
 
+    yield put(loadTei(false));
     // comment because cannot refresh tei
     // yield put(getTeiError("save event failed!"));
   } finally {
     // refresh TEI
-    yield put(loadTei(false));
-    yield put(push("/list"));
     /**
      * this line should be placed after the loadTei(false) to keep the loading state
      *  */

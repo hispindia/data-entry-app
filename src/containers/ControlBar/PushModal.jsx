@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 import ExportExcelButton from "./ExportExcelButton";
 
 export const pushMapping = [
-  { id: "tei", label: "Sync tracked entities" },
-  { id: "enr", label: "Sync enrollments" },
+  // { id: "tei", label: "Sync tracked entities" },
+  // { id: "enr", label: "Sync enrollments" },
   { id: "event", label: "Sync events" },
 ];
 
@@ -194,17 +194,22 @@ const PushModal = ({ pushData, open, onCancel, onOk, onClose, syncError, syncCom
 
         return (
           Boolean(pushData[id]) && (
-            <div key={label}>
-              <Typography>
-                {label} ({pushData[id]})
-              </Typography>
-              <Progress percent={percent} />
-            </div>
+            <>
+              <div key={label}>
+                <Typography>
+                  {label} ({pushData[id]})
+                </Typography>
+                <Progress percent={percent} />
+              </div>
+              <div>
+               {percent == 100 ? "Sync is successfully Completed!": ''}
+              </div>
+            </>
           )
         );
       })}
 
-      {syncCompleted && <ExportExcelButton />}
+      {/* {syncCompleted && <ExportExcelButton />} */}
 
       {syncError ? (
         <div style={{ marginTop: 16, marginBottom: 16 }}>

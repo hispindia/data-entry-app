@@ -6,6 +6,8 @@ import * as organisationUnitManager from "@/indexDB/OrganisationUnitManager/Orga
 import * as programManager from "@/indexDB/ProgramManager/ProgramManager";
 import * as programRule from "@/indexDB/ProgramRuleManager/ProgramRuleManager";
 import * as programRuleVariable from "@/indexDB/ProgramRuleVariable/ProgramRuleVariable";
+import * as optionGroups from "@/indexDB/optionGroupManager/OptionGroupManager";
+
 import db from "@/indexDB/db";
 
 export const getMetadataSet = (isOfflineMode) => {
@@ -20,6 +22,7 @@ export const getMetadataSet = (isOfflineMode) => {
       ...(savedProgram ? [programManager.getProgramById(savedProgram)]: [{}]),
       programRuleVariable.get(),
       programRule.get(),
+      optionGroups.get(),
     ];
   } else {
       
@@ -34,6 +37,7 @@ export const getMetadataSet = (isOfflineMode) => {
       ...(savedProgram ? [metadataApi.getProgramMetadata(savedProgram)]: [{}]),
       metadataApi.getProgramRuleVariables(),
       metadataApi.getProgramRules(),
+      metadataApi.getOptionGroups(),
     ];
   }
 };

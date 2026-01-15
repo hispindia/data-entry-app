@@ -11,7 +11,6 @@ import { Alert, Button, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import InputField from "../InputFieldCore/InputField.component.jsx";
 import { useState } from "react";
-import ChildHealthCustomForm from "./ChildHealthCustomForm.component";
 import { pickTranslation } from "@/utils";
 import { getTranslationDisplayName } from "@/utils/translation";
 
@@ -166,9 +165,10 @@ function CaptureForm(props) {
               InputProps={{
                 startAdornment: <InputAdornment position="start">{f.prefix}</InputAdornment>,
               }}
-              error={validation(f.code)}
-              warning={validationWarning(f.code)}
+              error={validation(f.code, f.error)}
+              warning={validationWarning(f.code, f.warning)}
               maxDate={f.maxDate || props.maxDate}
+              minDate={f.minDate || props.minDate}
               data-element-id={f.code}
               hyperlink={f.url}
               base64={base64Object}

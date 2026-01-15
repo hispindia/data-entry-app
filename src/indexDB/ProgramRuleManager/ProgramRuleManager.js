@@ -9,7 +9,7 @@ export const pull = async () => {
       "/api/programRules", 
       { paging: false }, 
       [
-        "fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement],condition"
+        "fields=id,name,displayName,program,priority,programRuleActions[programRuleActionType,programStageSection,data,content,dataElement,optionGroup],condition"
       ]);
     await persist(result.programRules);
   } catch (error) {

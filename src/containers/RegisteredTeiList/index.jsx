@@ -28,7 +28,7 @@ const LoadingRegisteredTeiList = compose(withFeedback(), withSkeletonLoading(Tei
 
 const RegisteredTeiListContainer = () => {
   const dispatch = useDispatch();
-  const onDeleteTei = (record) => dispatch(deleteTei(record.teiId));
+  const onDeleteTei = (record) => dispatch(deleteTei(record.eventId));
   const { programMetadata, selectedOrgUnit } = useSelector((state) => state.metadata);
   const trackedEntityAttributes = useSelector((state) => state.metadata.programMetadata.trackedEntityAttributes);
   const stageElements = useSelector(state => state.metadata.programMetadata.programStages);
