@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       {
         id: 'ippfRestricted',
-        code: 'IPPF Core Grant',
+        code: 'Other IPPF Grant',
         type: 'restricted',
         name: `IPPF Restricted Funding`,
         style: 'background:#f2cfee;'
@@ -608,8 +608,8 @@ document.addEventListener("DOMContentLoaded", function () {
           if(item.dataValuesTI[year] && de.code == subCategoryName[indexTI] ) {
             if(indexTI == "13") {
               if(item.dataValuesTI[year][pti.unrestricted] && de.type =="unrestricted") values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
+            } else if(indexTI == "14") {
               if(item.dataValuesTI[year][pti.restricted] && de.type =="restricted") values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
-             
             } else {
               if(item.dataValuesTI[year][pti.restricted]) values[de.id] += Number(item.dataValuesTI[year][pti.restricted]);
               if(item.dataValuesTI[year][pti.unrestricted]) values[de.id] += Number(item.dataValuesTI[year][pti.unrestricted]);
