@@ -3,6 +3,7 @@ import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
     const pages={
+        username: data.username,
         user: [],
         blockAddWaiver: false,
         isAdmin: false,
@@ -31,10 +32,6 @@ export const getUserConfig = async() => {
         const me = await meApi.get();
         const config = userGroupConfig(me); 
         
-        // if (config?.isAdmin) {
-        //     $('.maintenance').removeClass('d-none');
-        // }
-
         return config;
     } catch (error) {
         console.error("Error fetching user config:", error);

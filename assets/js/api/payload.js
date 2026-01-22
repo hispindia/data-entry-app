@@ -1,4 +1,4 @@
-import { stageMapping } from "../constant.js";
+import { stageMapping, trackedEntityType } from "../constant.js";
 
 export const createPayload = {
     orgUnit: (parentOU, attributes, code) => {
@@ -29,7 +29,7 @@ export const createPayload = {
             ]
         }
     },
-    newEnroll: (tei, orgUnit, program, programStage) => {
+    newEnroll: ({tei, orgUnit, program, programStage, trackedEntity, enrollment, event, eventStatus}) => {
             const date = new Date();
             const formattedDate = date.toISOString().split("T")[0];
 
@@ -48,34 +48,37 @@ export const createPayload = {
                     value: tei.values[dataElement] || ""
                 })
             })
-            const trackedEntity = {
+            const trackedEntityInstance = {
+                ...(trackedEntity && { trackedEntity }),
                 orgUnit: orgUnit,
-                trackedEntityType:"jmv5aktKbQh",
+                trackedEntityType:trackedEntityType,
                 enrollments: [
                     {
+                        ...(enrollment && { enrollment }),
                         attributes: formattedAttributes,
                         enrolledAt: formattedDate,
                         occurredAt: formattedDate,
                         orgUnit: orgUnit,
                         program: program,
                         status: 'ACTIVE',
-                        trackedEntityType: "jmv5aktKbQh",
+                        trackedEntityType: trackedEntityType,
                         events: [
                             {
+                                ...(event && { event }),
                                 dataValues: formattedDataElements,
                                 enrollmentStatus: 'ACTIVE',
                                 occurredAt: formattedDate,
                                 orgUnit: orgUnit,
                                 program: program,
                                 programStage: programStage,
-                                status: 'ACTIVE'
+                                status: eventStatus ? eventStatus: 'ACTIVE'
                             }
                         ], 
                     }
                 ],
             }
     
-        return { trackedEntities: [trackedEntity]} 
+        return { trackedEntities: [trackedEntityInstance]} 
     },
     event: (tei, orgUnit, enrollment, program, programStage) => {
         const date = new Date();
@@ -97,7 +100,7 @@ export const createPayload = {
                 program,
                 programStage,
                 trackedEntity: tei.affiliate.trackedEntity,
-                status: "COMPLETED"
+                status: "ACTIVE"
             }]
         }
     },
@@ -137,7 +140,7 @@ export const createPayload = {
         }
           const tei = {
                 orgUnit: orgUnit,
-                trackedEntityType:"jmv5aktKbQh",
+                trackedEntityType:trackedEntityType,
                 enrollments: [
                     {
                         attributes: formattedAttributes,
@@ -146,7 +149,7 @@ export const createPayload = {
                         orgUnit: orgUnit,
                         program: program,
                         status: 'ACTIVE',
-                        trackedEntityType: "jmv5aktKbQh",
+                        trackedEntityType: trackedEntityType,
                         events
                     }
                 ],

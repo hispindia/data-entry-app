@@ -2343,7 +2343,8 @@ select.form-control:focus::-ms-value {
 }
 
 .btn.disabled, .btn:disabled {
-    opacity: .65
+    opacity: .65;
+    cursor: not-allowed;
 }
 
 .btn:not([disabled]):not(.disabled).active, .btn:not([disabled]):not(.disabled):active {

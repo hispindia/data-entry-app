@@ -1,18 +1,18 @@
 import { dataApi } from "../../api/DataApi.js";
 import { optionSetApi, programStageApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
+import { attributes, dataElements, optionSet, programStage, programs, tei, trackedEntityType } from "../../constant.js";
 import { convert, fetchValueType } from "../metadata.js";
-import { applyAccessControl } from "../accessControl.js";
 import { getUserConfig } from "../config.js";
-
+import { toast } from "../utils.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  applyAccessControl();
-  iziToast.settings({
-    position: 'center'
-  });
-  const userConfig = await getUserConfig();  
+  const userConfig = await getUserConfig();
+  if (userConfig) {
+      userConfig.user.forEach(user => {
+      $(`.${user}`).hide();
+      });
+  }
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
   
-    
   if(userConfig?.user?.includes('aoc')){
     document.getElementById("submitBtn").classList.remove('d-none');
     document.getElementById('submit').addEventListener('click', async function() { 
@@ -38,15 +37,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       await dataApi.postAttribute({trackedEntities: [{
         trackedEntity: tei.affiliate.trackedEntity,
         orgUnit: tei.affiliate.orgUnit,
-        trackedEntityType: 'jmv5aktKbQh',
-        attributes: [{attribute: attributes.submitted,value: true}]
+        trackedEntityType: trackedEntityType,
+        attributes: [{attribute: attributes.submitted, value: true}]
         }]
       })
       await dataApi.enroll(payloadDueDiligence);
-      iziToast.info({
-            message: `Checklist submitted Successfully`,
-            timeout: 1500
-          })
+      toast({status: 'SUCCESS', message: 'Checklist submitted Successfully.'});
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
     }
   })
@@ -76,10 +72,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     tei.affiliate = resAffiliate.trackedEntities[0];
     }
     catch(err) {
-      iziToast.info({
-        message: "Affiliate Not found",
-        timeout: 1500,
-      })
+      toast({status: 'INFO', message: 'Affiliate Not found'});
       return;
     }
   }
@@ -98,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     enroll.events.forEach(event => {
       event.dataValues.forEach(dv => {
         if(tei.fileType.has(dv.dataElement)) dataValues[`${dv.dataElement}-event`] = event.event;
-        dataValues[dv.dataElement]=dv.value
+        dataValues[dv.dataElement] = dv.value
       });  
     })
   });

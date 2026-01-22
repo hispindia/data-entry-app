@@ -95,3 +95,30 @@ export function getNextCode(codes) {
   const next = max + 1;
   return String(next).padStart(3, '0');
 }
+
+
+export function toast({status, message}) {
+      // settings関数で初期設定 全体に適応させたい場合
+    iziToast.settings({
+      timeout: 1500, 
+      transitionIn: 'flipInX',
+      transitionOut: 'flipOutX',
+      position: 'center', 
+    });
+
+    switch(status) {
+        case "SUCCESS":
+            iziToast.success({message});
+        break;
+        case "INFO":
+            iziToast.info({message});
+        break;
+        case "WARNING":
+            iziToast.warning({message});
+        break;
+        case "ERROR":
+            iziToast.error({message});
+        break;
+    }
+}
+

@@ -2,15 +2,16 @@ import { attributes,optionSet, orgUnit, programs } from "../../constant.js";
 import { optionSetApi,orgUnitsApi,programsApi } from "../../api/metaDataApi.js";
 import { populateOptions } from "../metadata.js"
 import { dataApi } from "../../api/DataApi.js"
-import { applyAccessControl } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
+import { toast } from "../utils.js";
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  applyAccessControl();
-  iziToast.settings({
-    position: 'center'
-  });
+document.addEventListener("DOMContentLoaded", async function () {
+  const userConfig = await getUserConfig();
+  if (userConfig) {
+      userConfig.user.forEach(user => {
+      $(`.${user}`).hide();
+      });
+  }
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault();
@@ -68,11 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        iziToast.info({
-          message: "No affiliate found",
-          timeout: 1500,
-        });
-        // document.getElementById("affiliate-table").style.display = "none";
+        toast({status: 'INFO', message: 'No affiliate found'});
         return;
       }
       const headerList = programAffiliateKyc.programTrackedEntityAttributes
@@ -116,10 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
       });
     } else {
-      iziToast.info({
-        message: "Please Select Country!",
-        timeout: 1500,
-      });
+      toast({status: 'INFO', message: 'Please Select Country!'});
     }
   }
 });

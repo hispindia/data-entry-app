@@ -2,16 +2,18 @@ import { dataApi } from "../api/DataApi.js";
 import { populateOptions } from "./metadata.js";
 import { optionSetApi,programsApi } from "../api/metaDataApi.js";
 import { attributes, optionSet, orgUnit, programs } from "../constant.js";
-import { applyAccessControl } from "./accessControl.js";
 import { getUserConfig } from "./config.js";
+import { toast } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  applyAccessControl();
   const userConfig = await getUserConfig();
+  if (userConfig) {
+      userConfig.user.forEach(user => {
+      $(`.${user}`).hide();
+      });
+  }
   if(userConfig?.isAdmin)  $('.maintenance').removeClass('d-none');
-  iziToast.settings({
-    position: 'center'
-  });
+
   // Add event listener to 
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
@@ -54,10 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               
               
               if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-                iziToast.info({
-                  message: "No affiliate found",
-                  timeout: 1500
-                });
+                toast({status:'INFO', message: 'No affiliate found'});
                 document.getElementById("affiliate-table").style.display = "none";
                 return;
             }
@@ -83,10 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               })
               document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
           } else {
-                iziToast.info({
-                  message: "Please Select Country!",
-                  timeout: 1500
-                });
+                toast({status: 'INFO', message: 'Please Select Country!'});
           }
     }
 

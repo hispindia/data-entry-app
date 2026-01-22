@@ -1,13 +1,15 @@
 import { dataApi } from "../../api/DataApi.js";
 import { meApi, programsApi } from "../../api/metaDataApi.js";
 import { attributes, programs} from "../../constant.js";
-import { applyAccessControl, isWaiverBlocked } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
 
-document.addEventListener("DOMContentLoaded", function () {
-  applyAccessControl();
-  iziToast.settings({
-    position: 'center'
-  });
+document.addEventListener("DOMContentLoaded", async function () {
+  const userConfig = await getUserConfig();
+  if (userConfig) {
+      userConfig.user.forEach(user => {
+      $(`.${user}`).hide();
+      });
+  }
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -20,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
-    const blockWaiver = await isWaiverBlocked();
     const user = await meApi.get();
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
     const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
@@ -104,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data-affiliate="${affiliate.id}" 
         class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
         onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
-        ${blockWaiver ? 'disabled' : ''}>Add Waiver
+        ${userConfig.blockWaiver ? 'disabled' : ''}>Add Waiver
       </button>
       </td>
       </tr>`

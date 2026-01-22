@@ -1,13 +1,15 @@
 import { dataApi } from "../../api/DataApi.js";
 import { meApi, programsApi } from "../../api/metaDataApi.js";
 import { attributes, programs} from "../../constant.js";
-import { applyAccessControl } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
 
-document.addEventListener("DOMContentLoaded", function () {
-  applyAccessControl();
-  iziToast.settings({
-    position: 'center'
-  });
+document.addEventListener("DOMContentLoaded", async function () {
+  const userConfig = await getUserConfig();
+  if (userConfig) {
+      userConfig.user.forEach(user => {
+      $(`.${user}`).hide();
+      });
+  }
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return attributes;
     })
     //filter affiliate list based on the status:
-    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted]);
+    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted] && !trackedEntity[attributes.uinCode]);
 
     document.getElementById('approvedCount').innerHTML = approvedList.length;
   

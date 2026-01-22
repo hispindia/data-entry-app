@@ -107,6 +107,19 @@ export const convert = {
             fileType,
         }
     },
+    trackedEntity: (tei, fileType) => {
+      const values = {};
+      tei.attributes.forEach(attr => values[attr.attribute] = attr.value);
+      tei.enrollments.forEach(enroll => {
+        enroll.events.forEach(event => {
+          event.dataValues.forEach(dv => {
+            if(fileType.has(dv.dataElement)) values[`${dv.dataElement}-event`] = event.event;
+            values[dv.dataElement] = dv.value;
+          })
+        })
+      })
+      return values;
+    }
 }
 
 //ProgramRule configure
@@ -156,8 +169,7 @@ export const configureRules = (ruleVariables, rules, optionGroups) => {
       modifiedRules.push(modifiedRule);
     })
     return modifiedRules;
-  }
-
+}
 
 export const ruleCallback = (programRules, programMetadata, mandatoryList, metadata, data) => {
       //Save on registration date
@@ -255,9 +267,7 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
           }
         })
       
-    } ;
-
-
+} ;
 
 export function fetchValueType({id, valueType, valueSet}, value, href, disabled) {
 
@@ -323,5 +333,3 @@ export function populateOptions(options, value) {
     }
     return optionSet;
 }
-
-

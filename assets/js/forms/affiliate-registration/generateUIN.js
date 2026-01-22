@@ -2,17 +2,17 @@ import { dataApi } from "../../api/DataApi.js";
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
 import { attributes, optionSet, programStage, programs, tei } from "../../constant.js";
-import { getNextCode } from "../func.js";
+import { getNextCode, toast } from "../utils.js";
 import { convert, fetchValueType } from "../metadata.js";
-import { applyAccessControl } from "../accessControl.js";
 import { getUserConfig } from "../config.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  applyAccessControl();
   const userConfig = await getUserConfig();
-  iziToast.settings({
-    position: 'center'
-  });
+  if (userConfig) {
+      userConfig.user.forEach(user => {
+      $(`.${user}`).hide();
+      });
+  }
   console.log('userConfig', userConfig);
   
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -40,10 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster});
           const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster);
           await dataApi.enroll(payloadEvent);
-          iziToast.info({
-            message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`,
-            timeout: 1500
-          })
+          toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
         }
     }
   })
@@ -66,10 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     tei.affiliate = resAffiliate.trackedEntities[0];
     }
     catch(err) {
-      iziToast.info({
-        message: "Affiliate Not found",
-        timeout: 1500,
-      })
+      toast({status: 'INFO', message: 'Affiliate Not found!'});
       return;
     }
   }

@@ -3,6 +3,8 @@ export const optionSet = {
     country: "mLGObVVt5ov",
 }
 
+export const trackedEntityType = "jmv5aktKbQh";
+
 export const stageMapping = {
     pHiRWkSg9Wx: "HsKUiY7RyeO",
     wXlXBPIThiD: "jKxGLMkHnHy",
@@ -31,16 +33,18 @@ export const orgUnit = {
 export const attributes = {
     acuityCheck: "IzbdGgEgQ3T",
     countryRegistration: "LZacnHsQJRs",
-    region: "SMdW6ZnGllA",
     legalName: "UkQI1dWzZOv",
-    uinCode: "qZcVhl6kfpc",
+    region: "SMdW6ZnGllA",
     submitted: "JHlOG80ijsg",
+    user: "x1rcjWtOtI5",
+    uinCode: "qZcVhl6kfpc",
 };
 
 export const tei = {
     affiliate: '',
     attributes: [],
     attributeSection: [],
+    disabled: false,
     dataElements:[],
     stageSection: [],
     mandatoryList: [],

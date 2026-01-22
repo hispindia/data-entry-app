@@ -1,7 +1,12 @@
-import { applyAccessControl } from "../accessControl.js";
+import { getUserConfig } from "../config.js";
 
-document.addEventListener("DOMContentLoaded", function () {
-  applyAccessControl();
+document.addEventListener("DOMContentLoaded", async function () {
+    const userConfig = await getUserConfig();
+    if (userConfig) {
+        userConfig.user.forEach(user => {
+        $(`.${user}`).hide();
+        });
+    }
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
