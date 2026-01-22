@@ -2,7 +2,7 @@
     "version": "1.0",
     "name": "IPPF UIN",
     "description": "UIN Data Entry",
-    "launch_path": "/dashboard.html",
+    "launch_path": "/index.html",
     "appType": "APP",
     "icons": {
         "16": "assets/images/fav.png",
