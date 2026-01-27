@@ -257,7 +257,7 @@ const newRegistration = async (userConfig) => {
         const dataValues = convert.trackedEntity(tei.affiliate, tei.fileType);
         for(let id of tei.fileType) {
             if(dataValues[id]) {
-            dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${dataValues[id]}`
+            dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
             dataValues[id] = await dataApi.getFile(dataValues[id]);
             }
         }

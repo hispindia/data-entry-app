@@ -6,11 +6,10 @@ export const userGroupConfig = (data) => {
         username: data.username,
         user: [],
         blockAddWaiver: false,
-        isAdmin: false,
     };
     const userGroupIds = data.userGroups.map(ug => ug.id);
     const isIppfAdmin = userGroupIds.includes(userGroup.disabledIPPFAdmin);
-    if (isIppfAdmin) pages['isAdmin'] = true;
+    if (isIppfAdmin) pages['user'].push('admin');
 
     const isAoc = userGroupIds.includes(userGroup.disabledAOCGroup);
     if (isAoc) {

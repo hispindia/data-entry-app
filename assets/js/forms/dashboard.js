@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       $(`.${user}`).hide();
       });
   }
-  if(userConfig?.isAdmin)  $('.maintenance').removeClass('d-none');
+  if(!userConfig.user.includes('kyc'))  $('.maintenance').removeClass('d-none');
 
   // Add event listener to 
   document.querySelectorAll(".nav-link").forEach(function (element) {

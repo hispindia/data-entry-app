@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
   
-    if(userConfig?.isAdmin){
+    if(userConfig.user.includes('admin')){
     document.getElementById('generateUINCol').style.display = 'block';
     document.getElementById('generateUIN').addEventListener('click', async function() { 
     if(tei.affiliate) {
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   for(let id of tei.fileType) {
     if(dataValues[id]) {
-      dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${dataValues[id]}`
+      dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
       dataValues[id] = await dataApi.getFile(dataValues[id]);
     }
   }
