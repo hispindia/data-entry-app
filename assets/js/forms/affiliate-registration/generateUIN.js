@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   
     if(userConfig.user.includes('admin')){
-    document.getElementById('generateUINCol').style.display = 'block';
+    $('#generateUINCol').removeClass('d-none');
     document.getElementById('generateUIN').addEventListener('click', async function() { 
     if(tei.affiliate) {
         const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
