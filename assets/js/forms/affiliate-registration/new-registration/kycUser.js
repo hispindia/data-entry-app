@@ -95,7 +95,7 @@ const newRegistration = async (userConfig) => {
         const fileInputs = document.querySelectorAll(".file-upload");
         for(const input of fileInputs) {
             const file = tei.values[input.id];
-            if (!file || tei.values[`${input.id}-file`]) continue;
+            if (!file || typeof file === "string")  continue;
             try {
                 const formData = new FormData();
                 formData.append('file', file);
@@ -160,7 +160,7 @@ const newRegistration = async (userConfig) => {
         const fileInputs = document.querySelectorAll(".file-upload");
         for(const input of fileInputs) {
             const file = tei.values[input.id];
-            if (!file || tei.values[`${input.id}-file`]) continue;
+            if (!file || typeof file === "string")  continue;
             try {
                 const formData = new FormData();
                 formData.append('file', file);

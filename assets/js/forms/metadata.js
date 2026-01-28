@@ -306,7 +306,7 @@ export function fetchValueType({id, valueType, valueSet}, value, {href, file}, d
                 border-radius: 4px;
                 cursor: pointer;
                 display: inline-block;">Upload document</label>
-                <a id="${id}-link" href="${href}" target="_blank" style="margin-left:10px; color:#3b71ca; text-decoration:underline;">${file?.name || ""}</a>
+                <a id="${id}-link" href="${href}" target="_blank" style="margin-left:10px; color:#3b71ca; text-decoration:underline;">${value?.name || file?.name || ""}</a>
               </div>`;
 
     case "BOOLEAN":
