@@ -269,7 +269,7 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
       
 } ;
 
-export function fetchValueType({id, valueType, valueSet}, value, href, disabled) {
+export function fetchValueType({id, valueType, valueSet}, value, {href, file}, disabled) {
 
     switch(valueType){
 
@@ -306,7 +306,7 @@ export function fetchValueType({id, valueType, valueSet}, value, href, disabled)
                 border-radius: 4px;
                 cursor: pointer;
                 display: inline-block;">Upload document</label>
-                <a id="${id}-link" href="${href}" style="margin-left:10px; color:#3b71ca; text-decoration:underline;">${value?.name || ""}</a>
+                <a id="${id}-link" href="${href}" target="_blank" style="margin-left:10px; color:#3b71ca; text-decoration:underline;">${file?.name || ""}</a>
               </div>`;
 
     case "BOOLEAN":

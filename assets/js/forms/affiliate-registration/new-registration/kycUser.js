@@ -95,7 +95,7 @@ const newRegistration = async (userConfig) => {
         const fileInputs = document.querySelectorAll(".file-upload");
         for(const input of fileInputs) {
             const file = tei.values[input.id];
-            if (!file) continue;
+            if (!file || tei.values[`${input.id}-file`]) continue;
             try {
                 const formData = new FormData();
                 formData.append('file', file);
@@ -160,7 +160,7 @@ const newRegistration = async (userConfig) => {
         const fileInputs = document.querySelectorAll(".file-upload");
         for(const input of fileInputs) {
             const file = tei.values[input.id];
-            if (!file || !file.name) continue;
+            if (!file || tei.values[`${input.id}-file`]) continue;
             try {
                 const formData = new FormData();
                 formData.append('file', file);
@@ -258,7 +258,7 @@ const newRegistration = async (userConfig) => {
         for(let id of tei.fileType) {
             if(dataValues[id]) {
             dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
-            dataValues[id] = await dataApi.getFile(dataValues[id]);
+            dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
             }
         }
         tei.values = {...tei.values, ...dataValues};
@@ -296,7 +296,7 @@ const newRegistration = async (userConfig) => {
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code],  (tei?.values[`${el.code}-href`] || ""), (disabled || el.disabled))}
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, (disabled || el.disabled))}
                 <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);

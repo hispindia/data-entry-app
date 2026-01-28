@@ -31,5 +31,5 @@ async function runPage() {
     });
     
     if(userConfig.user.includes('kyc')) newRegistration(userConfig);
-    if(userConfig.user.includes('aoc')) handleRegistration(userConfig);
+    else handleRegistration(userConfig);
 }

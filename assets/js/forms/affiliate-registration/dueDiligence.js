@@ -27,13 +27,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("submitBtn").classList.remove('d-none');
     document.getElementById('submit').addEventListener('click', async function() { 
     if(tei.affiliate) {
+      if(tei.mandatoryList) {
+        let empty = false;
+        for(const id of tei.mandatoryList) {
+          const mandatoryError = document.querySelector(`#error-${id}`);
+          if(!tei.values[id]) {
+            empty = true;
+            mandatoryError.innerHTML = "This field is required";
+            mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+            mandatoryError.focus({ preventScroll: true });
+            } else mandatoryError.innerHTML = "";
+          }
+          if(empty) {
+            toast({status: 'INFO', message: 'Please fill mandatory fields!'});
+            return;
+          }
+      }
       const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
       const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
        
       if(!orgUnitId || !enrollment) return;
       tei.values[dataElements.submitKYC] = true;
+
+      const fileInputs = document.querySelectorAll(".file-upload");
+      for(const input of fileInputs) {
+        const file = tei.values[input.id];
+        if (!file || tei.values[`${input.id}-file`]) continue;
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+          const res = await dataApi.uploadFile(formData);
+          if(res.status == 'OK') {
+          tei.values[input.id] = res.response.fileResource.id;
+          } else {
+          toast({status: 'ERROR', message: `File generation error`});
+          }
+        } catch (error) {
+          toast({status: 'ERROR', message: `Error uploading file: ${error}`});
+          return;
+        }
+      }
       
-      const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
       await dataApi.postAttribute({trackedEntities: [{
         trackedEntity: tei.affiliate.trackedEntity,
         orgUnit: tei.affiliate.orgUnit,
@@ -41,6 +75,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         attributes: [{attribute: attributes.submitted, value: true}]
         }]
       })
+
+      const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
       await dataApi.enroll(payloadDueDiligence);
       toast({status: 'SUCCESS', message: 'Checklist submitted Successfully.'});
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
@@ -49,15 +85,15 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   document.getElementById("dueDiligence").addEventListener('change', function(e) {
-      if (e.target.matches("input, select, textarea")) {
-          tei.values[e.target.id] = e.target.value;
-          document.getElementById(`error-${e.target.id}`).innerHTML = '';
-        }
+    if (e.target.matches("input, select, textarea")) {
+      tei.values[e.target.id] = e.target.value;
+      document.getElementById(`error-${e.target.id}`).innerHTML = '';
+    }
   });
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
-    tei.mandatoryList = []
+  tei.mandatoryList = []
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
   if(affiliate) {
@@ -99,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   for(let id of tei.fileType) {
     if(dataValues[id]) {
       dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
-      dataValues[id] = await dataApi.getFile(dataValues[id]);
+      dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
     }
   }
 
@@ -151,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || ""), (tei?.values[`${el.code}-href`] || ""), el.disabled)}
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || ""), {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, el.disabled)}
                 <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);

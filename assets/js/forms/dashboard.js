@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               let otherParam = `filter=${attributes.countryRegistration}:EQ:${countryValue}` 
               if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
               if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
-              const affiliateList = await dataApi.get(orgUnit.id, programs.affiliateKyc, otherParam);
+              const affiliateList = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
               
               
               if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
