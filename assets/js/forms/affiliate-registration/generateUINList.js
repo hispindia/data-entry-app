@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var theadAffiliateRow = "";
     headerList.forEach(item => theadAffiliateRow+= `<th class="py-3 px-4 font-weight-bold border-0 text-center">${item.name}</th>`);
     
-    document.getElementById('thead-affiliate-approved').innerHTML = `<th class="py-3 px-4 font-weight-bold border-0 text-center">UIN</th>${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
+    document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center" colspan="3">Actions</th>`;
     
     var tbodyAffiliateApprovedRow = "";
     approvedList.forEach(affiliate => {
@@ -62,6 +62,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
       });
       tbodyAffiliateApprovedRow += `
+      <td class="text-center">  
+      <button 
+        data-affiliate="${affiliate.id}" 
+        class="btn btn-sm row-btn" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
+        onmouseover="this.style.backgroundColor='#265bbf' "onmouseout="this.style.backgroundColor='#3b71ca'">
+        View Details
+      </button>
+      </td>
       <td class="text-center">  
       <button 
         data-affiliate="${affiliate.id}" 

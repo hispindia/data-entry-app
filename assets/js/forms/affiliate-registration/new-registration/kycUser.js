@@ -3,7 +3,7 @@ import { optionSetApi, programStageApi, programsApi } from "../../../api/metaDat
 import { configureRules, convert, fetchValueType, ruleCallback } from "../../metadata.js";
 import { attributes, orgUnit, programStage, programs, tei, trackedEntityType } from "../../../constant.js";
 import { dataApi } from "../../../api/DataApi.js";
-import { toast } from "../../utils.js";
+import { toast, isGmailOrYahoo } from "../../utils.js";
 
 const newRegistration = async (userConfig) => {
     const url = new URL(window.location.href);
@@ -76,15 +76,21 @@ const newRegistration = async (userConfig) => {
     document.getElementById("saveAsDraft").addEventListener('click', async () => {
         var isEmpty = false;
         tei.attributes.forEach(attr => {
-            const hasAttr = tei.mandatoryList.includes(attr);
-            if(hasAttr) {
-                const value = document.getElementById(attr).value;
+            if(tei.mandatoryList.includes(attr)) {
+                const mandatoryError = document.getElementById(`error-${attr}`);
+                const value = tei.values[attr];
                 if(!value) {
                     isEmpty = true;
-                    const mandatoryError = document.getElementById(`error-${attr}`)
                     mandatoryError.innerHTML = "This field is required";
                     mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
                     mandatoryError.focus({ preventScroll: true });
+                } else if(tei.metadata[attr].valueType === 'EMAIL' && !isGmailOrYahoo(value)){
+                  isEmpty = true;
+                  mandatoryError.innerHTML = "Only valid email addresses are allowed.";
+                  mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+                  mandatoryError.focus({ preventScroll: true });
+                } else {
+                    mandatoryError.innerHTML = "";
                 }
             }
         })
@@ -148,8 +154,14 @@ const newRegistration = async (userConfig) => {
                     mandatoryError.innerHTML = "This field is required";
                     mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
                     mandatoryError.focus({ preventScroll: true });
-
-                } else mandatoryError.innerHTML = "";
+                } else if(tei.metadata[id].valueType === 'EMAIL' && !isGmailOrYahoo(tei.values[id])){
+                    empty = true;
+                    mandatoryError.innerHTML = "Only valid email addresses are allowed.";
+                    mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+                    mandatoryError.focus({ preventScroll: true });
+                } else {
+                    mandatoryError.innerHTML = "";
+                }
             }
             if(empty) {
                 toast({status: 'INFO', message: 'Please fill mandatory fields!'});

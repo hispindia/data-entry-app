@@ -96,9 +96,7 @@ export function getNextCode(codes) {
   return String(next).padStart(3, '0');
 }
 
-
 export function toast({status, message}) {
-      // settings関数で初期設定 全体に適応させたい場合
     iziToast.settings({
       timeout: 1500, 
       transitionIn: 'flipInX',
@@ -122,3 +120,7 @@ export function toast({status, message}) {
     }
 }
 
+export function isGmailOrYahoo(email) {
+    const regex = /^[^\s@]+@(gmail\.com|yahoo\.com)$/i;
+    return regex.test(email);
+}

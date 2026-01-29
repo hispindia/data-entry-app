@@ -36,13 +36,33 @@ document.addEventListener("DOMContentLoaded", async function () {
             mandatoryError.innerHTML = "This field is required";
             mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
             mandatoryError.focus({ preventScroll: true });
-            } else mandatoryError.innerHTML = "";
+            }
+            if(tei.metadata[id].valueType === 'EMAIL' && !isGmailOrYahoo(tei.values[id])){
+              empty = true;
+              mandatoryError.innerHTML = "Only valid email addresses are allowed.";
+              mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+              mandatoryError.focus({ preventScroll: true });
+            }
+            else mandatoryError.innerHTML = "";
           }
           if(empty) {
             toast({status: 'INFO', message: 'Please fill mandatory fields!'});
             return;
           }
       }
+
+      const completionChecklistSection = tei.programStages.find(s => s.name === 'Completion Checklist');
+      if (completionChecklistSection) {
+        for (const item of completionChecklistSection.items) {
+          if (item.valueType === 'BOOLEAN') {
+            if (tei.values[item.code] !== 'true') {
+              toast({ status: 'INFO', message: 'Please ensure all items in the Completion Checklist are "Yes" to submit.' });
+              return;
+            }
+          }
+        }
+      }
+      
       const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
       const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
        
