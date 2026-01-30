@@ -1,4 +1,4 @@
-import { attributes,optionSet, orgUnit, programs } from "../../constant.js";
+import { attributes,optionSet, orgUnit, programRules, programs } from "../../constant.js";
 import { optionSetApi,orgUnitsApi,programsApi } from "../../api/metaDataApi.js";
 import { populateOptions } from "../metadata.js"
 import { dataApi } from "../../api/DataApi.js"
@@ -30,19 +30,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     }
 
-  addHeaderDetails();
-  async function addHeaderDetails() {
-    const region = await optionSetApi.get(optionSet.region);
-    const country = await optionSetApi.get(optionSet.country);
-    console.log('country:', country.options);
+    const resRegion = await optionSetApi.get(optionSet.region);
+    const resOptionGroups = await optionSetApi.getOptionGroups();
+
+    document.getElementById("Region").innerHTML = populateOptions(resRegion.options);
     
-    document.getElementById("Region").innerHTML = populateOptions(
-      region.options
-    );
-    document.getElementById("Countries").innerHTML = populateOptions(
-      country.options
-    );
-  }
+    document.getElementById('Region').addEventListener('change', function (e) {
+        const { value } = e.target;
+        const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
+        if(optionGroup) {
+            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
+            document.getElementById("Countries").innerHTML = populateOptions(region);
+        }
+    })
   
   async function fetchAffiliateList() {
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);

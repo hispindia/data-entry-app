@@ -3,6 +3,17 @@ export const optionSet = {
     country: "mLGObVVt5ov",
 }
 
+export const programRules = {
+    hideCountry: {
+        AR: "WON4mqPhGFG",
+        ACR: "p9U78W1Hxi6",
+        AWR: "QRgl825LhWc",
+        EN: "wz9YiB0MhhR",
+        ESEAOR: "fFQ9bQeowpb",
+        SAR: "kSkOdweNyI2",
+    }
+}
+
 export const trackedEntityType = "jmv5aktKbQh";
 
 export const stageMapping = {
