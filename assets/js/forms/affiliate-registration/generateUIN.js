@@ -24,27 +24,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   });
-  
-    if(userConfig.user.includes('admin')){
-    $('#generateUINCol').removeClass('d-none');
-    document.getElementById('generateUIN').addEventListener('click', async function() { 
-    if(tei.affiliate) {
-        const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
-        const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
-        const nextNum = getNextCode(orgUnit.organisationUnits[0].children.filter(obj => obj.code !== undefined).map(obj => obj.code));
-        const nextOUCode = `${orgUnit.organisationUnits[0].parent.code}-${orgUnit.organisationUnits[0].code}-${nextNum}`;
-        const payloadOrgUnit = createPayload.orgUnit(orgUnit.organisationUnits[0].id, tei.affiliate.attributes, nextOUCode);
-        const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
-        if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
-          const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
-          await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster});
-          const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster);
-          await dataApi.enroll(payloadEvent);
-          toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
-        }
-    }
-  })
- }
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
@@ -91,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   for(let id of tei.fileType) {
     if(dataValues[id]) {
       dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
-      dataValues[id] = await dataApi.getFile(dataValues[id]);
+      dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
     }
   }
 
@@ -137,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || ""), (tei?.values[`${el.code}-href`] || ""), el.disabled)}
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || ""), {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, el.disabled)}
                 <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);

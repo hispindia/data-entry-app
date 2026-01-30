@@ -30,9 +30,16 @@ const handleRegistration = async(userConfig) => {
     const regName = url.searchParams.get('name');
     const country = url.searchParams.get('country');
     const region = url.searchParams.get('region');
+    if(region) {
+        document.getElementById("Region").value = region;
+        const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[region]);
+        if(optionGroup) {
+            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
+            document.getElementById("Countries").innerHTML = populateOptions(region);
+        }
+    }
     if(regName) document.getElementById("regName").value = regName;
     if(country) document.getElementById("Countries").value = country;
-    if(region) document.getElementById("Region").value = region;
 
     if(affiliate) {
         newRegistration(userConfig);
