@@ -1,12 +1,14 @@
 import { dataApi } from "../api/DataApi.js";
-import { populateOptions } from "./metadata.js";
-import { optionSetApi,programsApi } from "../api/metaDataApi.js";
-import { attributes, optionSet, orgUnit, programRules, programs } from "../constant.js";
+import { populateOptions, convert, fetchValueType, ruleCallback, configureRules } from "./metadata.js";
+import { optionSetApi, programsApi, programStageApi } from "../api/metaDataApi.js";
+import { attributes, optionSet, orgUnit, programRules, programs,tei, programStage } from "../constant.js";
 import { getUserConfig } from "./config.js";
-import { toast } from "./utils.js";
+import { toast } from "./utils.js"
 
 document.addEventListener("DOMContentLoaded", async function () {
   const userConfig = await getUserConfig();
+  const url = new URL(window.location.href);
+  let affiliate = url.searchParams.get('affiliate');
   if (userConfig) {
       userConfig.user.forEach(user => {
       $(`.${user}`).hide();
@@ -28,6 +30,45 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   const searchButton = document.getElementById('searchButton');
   const searchResults = document.getElementById('searchResults');
+  const addAffiliateForm = document.getElementById('addAffiliateForm');
+
+  const regName = url.searchParams.get('name');
+  const country = url.searchParams.get('country');
+  const region = url.searchParams.get('region');
+  if(region) {
+        document.getElementById("Region").value = region;
+        const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[region]);
+        if(optionGroup) {
+            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
+            document.getElementById("Countries").innerHTML = populateOptions(region);
+        }
+    }
+    if(regName) document.getElementById("regName").value = regName;
+    if(country) document.getElementById("Countries").value = country;
+
+    if(affiliate) {
+        addAffiliateForm.style.display = 'block';
+        searchResults.style.display = 'none';
+    } else {
+        addAffiliateForm.style.display = 'none';
+        searchResults.style.display = 'none';
+    }
+
+  searchResults.addEventListener('click', async function(e) {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    const tracked = btn.dataset.trackedentity;
+    affiliate = tracked;
+    const url = new URL(window.location.href);
+    url.searchParams.delete('country')
+    url.searchParams.delete('region')
+    url.searchParams.set('affiliate', tracked);
+    window.history.pushState({}, "", url);
+    addAffiliateForm.style.display = 'block';
+    await viewForm(tracked);
+            
+    searchResults.style.display = 'none';
+  });
     if (searchButton) {
       searchButton.addEventListener('click', function () {
         fetchAffiliateList();
@@ -71,20 +112,20 @@ document.addEventListener("DOMContentLoaded", async function () {
               .map(attr => ({id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name}));
   
               const affilitateAttrList = affiliateList.trackedEntities.map(trackedEntity => {
-                  const attributes = {};
+                  const attributes = { trackedEntity: trackedEntity.trackedEntity };
                   trackedEntity.attributes.forEach(attr => attributes[attr.attribute] = attr.value);
                   return attributes;
               });
   
               var theadAffiliateRow = "";
               headerList.forEach(item => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
-              document.getElementById('thead-affiliate').innerHTML = theadAffiliateRow;
+              document.getElementById('thead-affiliate').innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600;">Action</th>`;
   
               var tbodyAffiliateRow = "";
               affilitateAttrList.forEach(affiliate => {
                   tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
                   headerList.forEach(attr => tbodyAffiliateRow += `<td style="padding: 15px;">${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`);
-                  tbodyAffiliateRow += `</tr>`
+                  tbodyAffiliateRow += `<td style="padding: 15px;"><button class="btn btn-primary" data-trackedentity="${affiliate.trackedEntity}">View</button></td></tr>`
               })
               document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
           } else {
@@ -92,4 +133,82 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
     }
 
+    async function viewForm(affiliateId) {
+        const id = affiliateId || affiliate;
+        if (!id) return;
+
+        const resAffiliate = await dataApi.getTrackedEntity(id);
+        if (resAffiliate.trackedEntities.length) {
+            tei.affiliate = resAffiliate.trackedEntities[0];
+            tei.disabled = true;
+        }
+
+        const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
+        const affilateStage = await programStageApi.get(programStage.affiliateKyc);
+    
+        const programAttr = convert.attributes({ program: programAffiliateKyc, disabled: true });
+        const affiliateStageData = convert.stage({ programStage: affilateStage, disabled: true });
+        
+        tei.fileType = new Set(affiliateStageData.fileType);
+        tei.attributes = programAttr.attributes;
+        tei.attributeSection = programAttr.sections;
+        tei.dataElements = affiliateStageData.dataElements;
+        tei.programStages = affiliateStageData.sections;
+        tei.metadata = {...programAttr.metadata, ...affiliateStageData.metadata};
+        tei.mandatoryList = [...programAttr.mandatoryList, ...affiliateStageData.mandatoryList];
+        tei.values = {...programAttr.values, ...affiliateStageData.values};
+
+        if(tei.affiliate) {
+            const dataValues = convert.trackedEntity(tei.affiliate, tei.fileType);
+            for(let id of tei.fileType) {
+                if(dataValues[id]) {
+                dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
+                dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
+                }
+            }
+            tei.values = {...tei.values, ...dataValues};
+        }
+        
+        const basicInfo = document.getElementById("basicInformation");
+        const kycDetails = document.getElementById("addKycDetails");
+        
+        if(basicInfo) basicInfo.innerHTML = renderSections(tei.attributeSection, true);
+        if(kycDetails) kycDetails.innerHTML = renderSections(tei.programStages, true);
+    }
+
+    function renderSections(sections, disabled) {
+        let container = "";
+    
+        for (const section of sections) {
+            const elements = section.items.filter(item => !item.hidden)
+            if(!elements.length) continue;
+            const sectionDiv = document.createElement("div");
+            sectionDiv.className = "card mb-4 p-3";
+            sectionDiv.style.backgroundColor = "white";
+            sectionDiv.style.borderRadius = "8px";
+            sectionDiv.innerHTML = `<h5 style="color:#3b71ca;font-weight:bold;">${section.name}</h5>`;
+       
+            const rowDiv = document.createElement("div");
+            rowDiv.className = "row";
+            sectionDiv.appendChild(rowDiv);
+    
+            for (const el of section.items) {
+                if(el.hidden) continue;
+                const fieldWrapper = document.createElement("div");
+                fieldWrapper.className = "form-group col-md-4 mb-2";
+    
+                fieldWrapper.innerHTML = `
+                    <label>
+                        ${el.name}
+                        ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
+                    </label>
+                    ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, (disabled || el.disabled))}
+                    <div id="error-${el.code}" style="color: red"></div>
+                `;
+                rowDiv.appendChild(fieldWrapper);
+            }
+            container += sectionDiv.outerHTML;
+        }
+        return container;
+    }
 })
