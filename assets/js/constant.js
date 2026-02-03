@@ -24,6 +24,7 @@ export const stageMapping = {
 export const programStage = {
     affiliateKyc: "pHiRWkSg9Wx",
     dueDiligence: "wXlXBPIThiD",
+    completionCheckList: "jKxGLMkHnHy",
     UINControlMaster: "HsKUiY7RyeO",
 }
 export const userGroup = {
