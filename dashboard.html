@@ -70,7 +70,7 @@
                         <img alt="image" src="assets/images/ippf.svg" width="300" height="200" class="header-logo" />
                         </a>
                     </div>
-                    <ul class="sidebar-menu">
+                    <ul class="sidebar-menu" style="display: none;">
                             <li id="dashboard" class="nav-item kyc" data-target="dashboard.html">
                               <a class="nav-link" href="#"><span data-i18n="intro.dashboard">Dashboard</span></a>
                             </li>
@@ -173,11 +173,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="fromDate">Date</label>
-                                <input type="text" class="form-control" id="fromDate" placeholder="dd-mm-yyyy">
+                                <input type="text" class="form-control" id="fromDate" placeholder="YYYY-MM-DD">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="toDate">To</label>
-                                <input type="text" class="form-control" id="toDate" placeholder="dd-mm-yyyy">
+                                <input type="text" class="form-control" id="toDate" placeholder="YYYY-MM-DD">
                             </div>
                         </div>
                         
@@ -231,6 +231,8 @@
   
   <!-- toast notification -->
   <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+  <!-- flatpickr -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Page Specific JS File -->
   <script type="module" src="assets/js/forms/dashboard.js" defer></script>
   <!-- Template JS File -->

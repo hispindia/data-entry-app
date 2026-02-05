@@ -29,7 +29,7 @@ async function runPage() {
     userConfig.user.forEach(user => {
         $(`.${user}`).hide();
     });
-    
+    $('.sidebar-menu').show();
     if(userConfig.user.includes('kyc')) newRegistration(userConfig);
     else handleRegistration(userConfig);
 }

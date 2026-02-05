@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       $(`.${user}`).hide();
       });
   }
+  $('.sidebar-menu').show();
   if(!userConfig.user.includes('kyc'))  $('.maintenance').removeClass('d-none');
 
   // Add event listener to 
@@ -89,6 +90,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById("Countries").innerHTML = populateOptions(region);
         }
     })
+
+    flatpickr("#fromDate", { dateFormat: "Y-m-d"});
+    flatpickr("#toDate", { dateFormat: "Y-m-d"});
 
    async function fetchAffiliateList() {
           const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
@@ -174,6 +178,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         
         if(basicInfo) basicInfo.innerHTML = renderSections(tei.attributeSection, true);
         if(kycDetails) kycDetails.innerHTML = renderSections(tei.programStages, true);
+        flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+        flatpickr("#addAffiliateForm .flatpickr-date-input", { dateFormat: "Y-m-d" });
     }
 
     function renderSections(sections, disabled) {

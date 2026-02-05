@@ -287,7 +287,7 @@ export function fetchValueType({id, valueType, valueSet}, value, {href, file}, d
         return `<input id="${id}" type="email" class="form-control" value="${value}" ${disabled ? 'disabled' : ''}/>`;
 
     case "DATE":
-        return `<input id="${id}" type="date" class="form-control" value="${value}" ${disabled ? 'disabled' : ''}/>`;
+        return `<input id="${id}" type="text" class="form-control flatpickr-date-input" value="${value}" ${disabled ? 'disabled' : ''} style="background-color: #ffffff;"/>`;
 
     case "NUMBER":
         return `<input id="${id}" type="number" class="form-control" value="${value}" ${disabled ? 'disabled' : ''}/>`;

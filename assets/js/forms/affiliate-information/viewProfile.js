@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       $(`.${user}`).hide();
       });
   }
+  $('.sidebar-menu').show();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault();
@@ -93,21 +94,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       headerList.forEach(
         (item) => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`
       );
-      document.getElementById("thead-affiliate").innerHTML = theadAffiliateRow;
+      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600;">Action</th>`;
 
       var tbodyAffiliateRow = "";
       affilitateAttrList.forEach((affiliate, index) => {
         const trackedEntityId = affiliateList.trackedEntities[index].trackedEntity
-        tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5; cursor:pointer;" class="affiliate-row" data-affiliate="${trackedEntityId}">`;
+        tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
         headerList.forEach(
           (attr) => tbodyAffiliateRow += `<td style="padding: 15px;">${affiliate[attr.id] ? affiliate[attr.id] : ""}</td>`
         );
-        tbodyAffiliateRow += `</tr>`;
+        tbodyAffiliateRow += `<td style="padding: 15px;"><button class="btn btn-primary view-btn" data-affiliate="${trackedEntityId}">View</button></td></tr>`;
       });
       document.getElementById("tbody-affiliate").innerHTML = tbodyAffiliateRow;
 
-      document.querySelectorAll(".affiliate-row").forEach(row => {
-        row.addEventListener("click", function()  {
+      document.querySelectorAll(".view-btn").forEach(btn => {
+        btn.addEventListener("click", function()  {
           const affiliateId = this.getAttribute("data-affiliate");
           window.location.href = `./2.1-1-view-profile.html?affiliate=${affiliateId}`;
         })

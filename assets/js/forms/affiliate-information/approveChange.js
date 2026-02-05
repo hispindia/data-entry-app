@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         $(`.${user}`).hide();
         });
     }
+  $('.sidebar-menu').show();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 

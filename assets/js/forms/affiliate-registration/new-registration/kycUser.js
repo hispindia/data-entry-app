@@ -233,6 +233,7 @@ const newRegistration = async (userConfig) => {
             document.getElementById(`error-${e.target.id}`).innerHTML = '';
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
+            flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
         }
     });
 
@@ -243,6 +244,7 @@ const newRegistration = async (userConfig) => {
             if(e.target.type == "file") return;
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
+            flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
         }
     });
 
@@ -280,6 +282,7 @@ const newRegistration = async (userConfig) => {
         
     document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
     document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
+    flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
     document.getElementById('addAffiliateForm').style.display = 'block';
 
     function renderSections(sections, disabled) {

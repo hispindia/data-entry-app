@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       $(`.${user}`).hide();
       });
   }
+  $('.sidebar-menu').show();
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); 
@@ -27,30 +28,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     if(tei.affiliate) {
         const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
         const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.enrollment;
-        const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
         if(!orgUnitId || !enrollment) return;
         
         tei.dataElements = tei.completionCheckListDEs;
         const payloadCompletionCheckList = createPayload.event(tei, orgUnitId, enrollment, programs.UINControlMaster, programStage.completionCheckList);
         await dataApi.enroll(payloadCompletionCheckList);
-        const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
-        const nextNum = getNextCode(orgUnit.organisationUnits[0].children.filter(obj => obj.code !== undefined).map(obj => obj.code));
-        const nextOUCode = `${orgUnit.organisationUnits[0].parent.code}-${orgUnit.organisationUnits[0].code}-${nextNum}`;
-        const payloadOrgUnit = createPayload.orgUnit(orgUnit.organisationUnits[0].id, tei.affiliate.attributes, nextOUCode);
-        const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
-        if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
-          const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
-          await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster})
-          const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, programStage.UINControlMaster, programStage.affiliateKyc);
-          await dataApi.enroll(payloadEvent);
-          iziToast.success({
-            message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`,
-            timeout: 1500,
-          });
-          window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
+        iziToast.success({
+            message: "Details Submitted Successfully",
+            timeout: 2000,
+        });
+          window.location.href = './2.1-view-and-update-profile.html';
         }
-    }
-  })
+    });
 
   document.getElementById("dueDiligence").addEventListener('change', function(e) {
       if (e.target.matches("input, select, textarea")) {
@@ -144,6 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       dueDiligenceHtml += `${completionCheckListDiv}`
     }
     document.getElementById("dueDiligence").innerHTML = dueDiligenceHtml;
+    flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
   }
 
     function renderSections(sections) {
