@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     })
   
   async function fetchAffiliateList() {
-    const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
+    const programUINControl = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
     const countryValue = document.getElementById("Countries").value;
     const ouRes = await orgUnitsApi.get({level: 2, filter: countryValue});
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         toast({status: 'INFO', message: 'No affiliate found'});
         return;
       }
-      const headerList = programAffiliateKyc.programTrackedEntityAttributes
+      const headerList = programUINControl.programTrackedEntityAttributes
         .filter((trackedEntityAttr) => trackedEntityAttr.displayInList)
         .map((attr) => ({
           id: attr.trackedEntityAttribute.id,

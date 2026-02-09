@@ -91,9 +91,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     })
 
-    flatpickr("#fromDate", { dateFormat: "Y-m-d"});
-    flatpickr("#toDate", { dateFormat: "Y-m-d"});
-
    async function fetchAffiliateList() {
           const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
           const regionValue = document.getElementById("Region").value;
@@ -179,7 +176,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         if(basicInfo) basicInfo.innerHTML = renderSections(tei.attributeSection, true);
         if(kycDetails) kycDetails.innerHTML = renderSections(tei.programStages, true);
         flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
-        flatpickr("#addAffiliateForm .flatpickr-date-input", { dateFormat: "Y-m-d" });
     }
 
     function renderSections(sections, disabled) {
