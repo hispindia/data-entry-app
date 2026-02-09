@@ -1,338 +1,209 @@
-import { attributes,optionSet, orgUnit, programRules, programs, programStage, dataElements } from "../../constant.js";
-import { optionSetApi,orgUnitsApi,programsApi, programStageApi } from "../../api/metaDataApi.js";
-import { populateOptions, convert, fetchValueType } from "../metadata.js"
-import { dataApi, } from "../../api/DataApi.js"
+import {
+  programs,
+  programStage,
+  dataElements,
+  tei,
+  optionSet,
+  orgUnit,
+  programRules,
+  attributes
+} from "../../constant.js";
+
+import {
+  optionSetApi,
+  orgUnitsApi,
+  programsApi,
+  programStageApi
+} from "../../api/metaDataApi.js";
+
+import { populateOptions, convert, fetchValueType } from "../metadata.js";
+import { dataApi } from "../../api/DataApi.js";
 import { getUserConfig } from "../config.js";
 import { toast } from "../utils.js";
+import { createPayload } from "../../api/payload.js";
 
-document.addEventListener("DOMContentLoaded", async function () {
+const ROLE_DISPLAY_FIELDS = {
+  chairperson: {
+    label: "Chairperson",
+    fields: [
+      dataElements.chairPersonName,
+      dataElements.chairPersonEmail,
+      dataElements.chairPersonPhone,
+      dataElements.chairPersonNationality,
+      dataElements.chairPersonDob,
+      dataElements.chairPersonIdNumber
+    ]
+  },
+  viceChairperson: {
+    label: "Vice Chairperson",
+    fields: [
+      dataElements.viceChairPersonName,
+      dataElements.viceChairPersonEmail,
+      dataElements.viceChairPersonPhone,
+      dataElements.viceChairPersonNationality,
+      dataElements.viceChairPersonDob,
+      dataElements.viceChairPersonIdNumber
+    ]
+  },
+  secretary: {
+    label: "Secretary",
+    fields: [
+      dataElements.secretaryName,
+      dataElements.secretaryEmail,
+      dataElements.secretaryPhone,
+      dataElements.secretaryNationality,
+      dataElements.secretaryDob,
+      dataElements.secretaryIdNumber
+    ]
+  },
+  treasurer: {
+    label: "Treasurer",
+    fields: [
+      dataElements.treasurerName,
+      dataElements.treasurerEmail,
+      dataElements.treasurerPhone,
+      dataElements.tressurerNationality,
+      dataElements.treasurerDob,
+      dataElements.treasurerIdNumber
+    ]
+  },
+  youth: {
+    label: "Youth",
+    fields: [
+      dataElements.youthName,
+      dataElements.youthEmail,
+      dataElements.youthPhone,
+      dataElements.youthNationality,
+      dataElements.youthDob,
+      dataElements.youthIdNumber
+    ]
+  },
+  seniorManagementCEO: {
+    label: "Chief Executive Officer",
+    fields: [
+      dataElements.seniorManagementCEOName,
+      dataElements.seniorManagementCEOEmail,
+      dataElements.seniorManagementCEOPhone,
+      dataElements.seniorManagementCEONationality,
+      dataElements.seniorManagementCEODob,
+      dataElements.seniorManagementCEOIdNumber
+    ]
+  },
+  seniorManagementFinance: {
+    label: "Director of Finance",
+    fields: [
+      dataElements.seniorManagementDirectorFinanceName,
+      dataElements.seniorManagementDirectorFinanceEmail,
+      dataElements.seniorManagementDirectorFinancePhone,
+      dataElements.seniorManagementDirectorFinanceNationality,
+      dataElements.seniorManagementDirectorFinanceDob,
+      dataElements.seniorManagementDirectorFinanceIdNumber
+    ]
+  },
+  seniorManagementPrograms: {
+    label: "Director of Programs",
+    fields: [
+      dataElements.SeniorManagementDirectorProgramsName,
+      dataElements.SeniorManagementDirectorProgramsEmail,
+      dataElements.SeniorManagementDirectorProgramsPhone,
+      dataElements.SeniorManagementDirectorProgramsNationality,
+      dataElements.SeniorManagementDirectorProgramsDob,
+      dataElements.SeniorManagementDirectorProgramsIdNumber
+    ]
+  },
+  bank: {
+    label: "Bank Details",
+    fields: [
+      dataElements.bankName,
+      dataElements.bankAddress,
+      dataElements.bankAccountNumber,
+      dataElements.bankAccountCurrency,
+      dataElements.bankSwift,
+      dataElements.bankIBAN
+    ]
+  }
+};
+
+const STAGE_LABELS = {
+  [programStage.ChairPerson]: "Chairperson",
+  [programStage.viceChairperson]: "Vice Chairperson",
+  [programStage.Secretary]: "Secretary",
+  [programStage.Treasurer]: "Treasurer",
+  [programStage.Youth]: "Youth",
+  [programStage.seniorManagement]: "Chief Executive Officer",
+  [programStage.seniorManagementFinance]: "Director of Finance",
+  [programStage.seniorManagementPrograms]: "Director of Programs",
+  [programStage.bank]: "Bank Details"
+};
+
+const STAGE_MAPPING = {
+  chairperson: programStage.ChairPerson,
+  viceChairperson: programStage.viceChairperson,
+  secretary: programStage.Secretary,
+  treasurer: programStage.Treasurer,
+  youth: programStage.Youth,
+  seniorManagementCEO: programStage.seniorManagement,
+  seniorManagementFinance: programStage.seniorManagementFinance,
+  seniorManagementPrograms: programStage.seniorManagementPrograms,
+  bank: programStage.bank
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
   const userConfig = await getUserConfig();
-  if (userConfig) {
-      userConfig.user.forEach(user => {
-      $(`.${user}`).hide();
-      });
+
+  if (userConfig?.user) {
+    userConfig.user.forEach(u => $(`.${u}`).hide());
   }
 
-  // modals are hidden on page reload
-  ['affiliateModal', 'detailModal', 'approveModal'].forEach(id => {
+  $(".sidebar-menu").show();
+
+  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
+    if (el) el.style.display = "none";
   });
 
-  $('.sidebar-menu').show();
-  document.querySelectorAll(".nav-link").forEach(function (element) {
-    element.addEventListener("click", function (event) {
-      event.preventDefault();
-      var targetPage = event.currentTarget.getAttribute("data-target") || event.currentTarget.parentElement.getAttribute("data-target");
-      if (targetPage) {
-        window.location.href = targetPage;
-      }
+  document.querySelectorAll(".nav-link").forEach(el => {
+    el.addEventListener("click", e => {
+      e.preventDefault();
+      const target =
+        el.getAttribute("data-target") ||
+        el.parentElement.getAttribute("data-target");
+      if (target) window.location.href = target;
     });
   });
 
-  // Map openDetailModal to openAffiliateModal so it loads data correctly
-  function openDetailModal(affiliateId) {
-    openAffiliateModal('view', affiliateId);
-  }
+  const regionSelect = document.getElementById("Region");
+  const countrySelect = document.getElementById("Countries");
 
-  function closeDetailModal() {
-    document.getElementById('detailModal').style.display = 'none';
-  }
+  const resRegion = await optionSetApi.get(optionSet.region);
+  const resOptionGroups = await optionSetApi.getOptionGroups();
 
-  function openApproveModal(affiliateId) {
-    document.getElementById('approveModal').style.display = 'flex';
-  }
+  regionSelect.innerHTML = populateOptions(resRegion.options);
 
-  // Making functions global to be accessible from inline onclick
-  window.openDetailModal = openDetailModal;
-  window.closeDetailModal = closeDetailModal;
-  window.openApproveModal = openApproveModal;
-  window.closeApproveModal = function() { 
-    document.getElementById('approveModal').style.display = 'none';
-  };
+  regionSelect.addEventListener("change", e => {
+    const regionCode = e.target.value;
+    countrySelect.innerHTML = `<option value="">Select Country</option>`;
+    if (!regionCode) return;
 
-  // Affiliate modal (static UI) functions
-  function openAffiliateModal(mode = 'view', affiliateId = '') {
-    const overlay = document.getElementById('affiliateModal');
-    if (!overlay) return;
-    overlay.style.display = 'flex';
-    overlay.dataset.mode = mode;
-    overlay.dataset.affiliateId = affiliateId;
-    document.getElementById('affiliateModalTitle').textContent = mode === 'view' ? 'Affiliate Details (View)' : 'Affiliate Details (Edit)';
-    document.getElementById('affiliateModalSub').textContent = `UIN - ${affiliateId || 'placeholder'}`;
-    const showAdds = mode === 'edit';
-    ['add-board','add-senior','add-bank'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        if (showAdds) {
-          el.classList.add('visible');
-        } else {
-          el.classList.remove('visible');
-        }
-      }
-    });
-    
-    
-    if (affiliateId) {
-      loadAffiliateData(affiliateId);
-    }
-  }
+    const optionGroupId = programRules.hideCountry[regionCode];
+    const optionGroup = resOptionGroups.optionGroups.find(
+      g => g.id === optionGroupId
+    );
 
-  function closeAffiliateModal() {
-    const overlay = document.getElementById('affiliateModal');
-    if (!overlay) return;
-    overlay.style.display = 'none';
-    
-   //reset content on load
-    ['tbody-board', 'tbody-senior', 'tbody-bank'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = '';
-    });
-  }
+    if (!optionGroup) return;
 
-  // attach modal close buttons and overlay click
-  (function attachAffiliateModalHandlers(){
-    const overlay = document.getElementById('affiliateModal');
-    if (!overlay) return;
-    const closeBtn = document.getElementById('affiliateModalClose');
-    const closeFooter = document.getElementById('affiliateModalCloseFooter');
-    if (closeBtn) closeBtn.addEventListener('click', closeAffiliateModal);
-    if (closeFooter) closeFooter.addEventListener('click', closeAffiliateModal);
-   
-    // Tab switching
-    const tabButtons = Array.from(overlay.querySelectorAll('.tab-btn'));
-    const panels = Array.from(overlay.querySelectorAll('.tab-panel'));
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', function(){
-        const tab = btn.getAttribute('data-tab');
-        tabButtons.forEach(b => b.classList.remove('active'));
-        panels.forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        const target = document.getElementById('tab-' + tab);
-        if (target) target.classList.add('active');
-      });
-    });
-  })();
+    const countries = optionGroup.options.map(o => ({
+      label: o.name,
+      value: o.code
+    }));
 
-  async function loadAffiliateData(affiliateId) {
-    // show loading state
-    ['tbody-board', 'tbody-senior', 'tbody-bank'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = '<tr><td colspan="100%" class="text-center">Loading...</td></tr>';
-    });
+    countrySelect.innerHTML = populateOptions(countries);
+  });
 
-    try {
-      const response = await dataApi.getTrackedEntity(affiliateId);
-      if (!response || !response.trackedEntities || response.trackedEntities.length === 0) return;
+  document
+    .getElementById("searchButton")
+    .addEventListener("click", fetchAffiliateList);
 
-      const tei = response.trackedEntities[0];
-
-      if (tei.enrollments) {
-        tei.enrollments.forEach(enroll => {
-          if (enroll.events) {
-            enroll.events.sort((a, b) => new Date(a.occurredAt) - new Date(b.occurredAt));
-          }
-        });
-      }
-
-
-      const resUINControlStage = await programStageApi.get(programStage.UINControlMaster);
-      const uinStage = convert.stage({ programStage: resUINControlStage });
-      const teiValues = convert.trackedEntity(tei, new Set(uinStage.fileType));
-      const val = (id) => teiValues[id] || '';
-
-      const attrs = {};
-      if (tei.attributes) tei.attributes.forEach(a => attrs[a.attribute] = a.value);
-      
-      document.getElementById('aff-name').textContent = attrs[attributes.legalName] || 'not found';
-      document.getElementById('aff-uin').textContent = attrs[attributes.uinCode] || 'not found';
-      document.getElementById('aff-country').textContent = attrs[attributes.countryRegistration] || 'not found';
-      document.getElementById('aff-region').textContent = attrs[attributes.region] || 'not found';
-
-      const boardTbody = document.getElementById('tbody-board');
-      const seniorTbody = document.getElementById('tbody-senior');
-      const bankTbody = document.getElementById('tbody-bank');
-      
-      boardTbody.innerHTML = '';
-      seniorTbody.innerHTML = '';
-      bankTbody.innerHTML = '';
-
-      const addRow = (tbody, label, fields, hasAction = false, valFunc = val) => {
-          const tr = document.createElement('tr');
-          let html = `<td class="font-weight-bold">${label}</td>`;
-          fields.forEach(id => html += `<td>${valFunc(id)}</td>`);
-          tr.innerHTML = html;
-          
-          if (hasAction) {
-            const td = document.createElement('td');
-            const btn = document.createElement('button');
-            btn.className = 'btn btn-primary btn-sm';
-            btn.textContent = 'Action';
-            btn.onclick = () => openChangeRequestForm(label, fields);
-            td.appendChild(btn);
-            tr.appendChild(td);
-          }
-          tbody.appendChild(tr);
-      };
-
-      function openChangeRequestForm(label, fields) {
-        let modal = document.getElementById('changeRequestModal');
-        if (!modal) {
-            modal = document.createElement('div');
-            modal.id = 'changeRequestModal';
-            modal.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;";
-            modal.innerHTML = `
-                <div style="background:white;padding:20px;border-radius:5px;width:60%;max-height:90%;overflow-y:auto;">
-                    <h4 id="crTitle"></h4>
-                    <div id="crBody" class="row"></div>
-                    <div class="mt-3 text-right">
-                        <button class="btn btn-secondary mr-2" id="crCancel">Cancel</button>
-                        <button class="btn btn-primary" id="crRequest">Request changes</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            document.getElementById('crCancel').onclick = () => modal.style.display = 'none';
-        }
-        
-        document.getElementById('crTitle').textContent = `Request Changes - ${label}`;
-        const body = document.getElementById('crBody');
-        body.innerHTML = '';
-        
-        let formFields = fields;
-        if (uinStage && uinStage.sections) {
-            const section = uinStage.sections.find(s => s.name === label);
-            if (section) {
-                formFields = section.items.filter(i => !i.hidden).map(item => item.code);
-            }
-        }
-        
-        formFields.forEach(id => {
-            const meta = uinStage.metadata[id];
-            if(!meta) return;
-            
-            const div = document.createElement('div');
-            div.className = 'col-md-6 form-group';
-            div.innerHTML = `
-                <label>${meta.name} ${meta.mandatory ? '<span class="text-danger">*</span>' : ''}</label>
-                ${fetchValueType({id: id, valueType: meta.valueType, valueSet: meta.optionSet}, val(id), {}, false)}
-            `;
-            body.appendChild(div);
-        });
-        
-        if(window.flatpickr) window.flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
-
-        document.getElementById('crRequest').onclick = () => {
-            let valid = true;
-            formFields.forEach(id => {
-                const meta = uinStage.metadata[id];
-                if(meta && meta.mandatory) {
-                    const el = document.getElementById(id);
-                    if(el && !el.value) {
-                        valid = false;
-                        el.style.borderColor = 'red';
-                    } else if(el) {
-                        el.style.borderColor = '';
-                    }
-                }
-            });
-            
-            if(valid) {
-                toast({status: 'SUCCESS', message: 'Request submitted successfully'});
-                modal.style.display = 'none';
-            } else {
-                toast({status: 'WARNING', message: 'Please fill all mandatory fields'});
-            }
-        };
-        
-        modal.style.display = 'flex';
-      }
-  
-      
-      // Board Members
-      addRow(boardTbody, 'Chairperson', [
-        dataElements.chairPersonName, dataElements.chairPersonEmail, dataElements.chairPersonPhone, 
-        dataElements.chairPersonNationality, dataElements.chairPersonDob, dataElements.chairPersonIdNumber
-      ], true);
-
-      addRow(boardTbody, 'Vice-Chairperson', [
-        dataElements.viceChairPersonName, dataElements.viceChairPersonEmail, dataElements.viceChairPersonPhone, 
-        dataElements.viceChairPersonNationality, dataElements.viceChairPersonDob, dataElements.viceChairPersonIdNumber
-      ], true);
-
-      addRow(boardTbody, 'Secretary', [
-        dataElements.secretaryName, dataElements.secretaryEmail, dataElements.secretaryPhone, 
-        dataElements.secretaryNationality, dataElements.secretaryDob, dataElements.secretaryIdNumber
-      ], true);
-
-      addRow(boardTbody, 'Treasurer', [
-        dataElements.treasurerName, dataElements.treasurerEmail, dataElements.treasurerPhone, 
-        dataElements.tressurerNationality, dataElements.treasurerDob, dataElements.treasurerIdNumber
-      ], true);
-
-      addRow(boardTbody, 'Youth', [
-        dataElements.youthName, dataElements.youthEmail, dataElements.youthPhone, 
-        dataElements.youthNationality, dataElements.youthDob, dataElements.youthIdNumber
-      ], true);
-
-      // Senior Management - using val() from the same stage
-      addRow(seniorTbody, 'Chief Executive Officer', [
-        dataElements.seniorManagementCEOName, dataElements.seniorManagementCEOEmail, dataElements.seniorManagementCEOPhone,
-        dataElements.seniorManagementCEONationality, dataElements.seniorManagementCEODob, dataElements.seniorManagementCEOIdNumber
-      ], true, val);
-
-      addRow(seniorTbody, 'Director of Finance', [
-        dataElements.seniorManagementDirectorFinanceName, dataElements.seniorManagementDirectorFinanceEmail, dataElements.seniorManagementDirectorFinancePhone,
-        dataElements.seniorManagementDirectorFinanceNationality, dataElements.seniorManagementDirectorFinanceDob, dataElements.seniorManagementDirectorFinanceIdNumber
-      ], true, val);
-
-      addRow(seniorTbody, 'Director of Programs', [
-        dataElements.SeniorManagementDirectorProgramsName, dataElements.SeniorManagementDirectorProgramsEmail, dataElements.SeniorManagementDirectorProgramsPhone,
-        dataElements.SeniorManagementDirectorProgramsNationality, dataElements.SeniorManagementDirectorProgramsDob, dataElements.SeniorManagementDirectorProgramsIdNumber
-      ], true, val);
-
-      // Bank Accounts - using val() from the same stage
-      const trBank = document.createElement('tr');
-      trBank.innerHTML = `
-        <td>${val(dataElements.bankName)}</td>
-        <td>${val(dataElements.bankAddress)}</td>
-        <td>${val(dataElements.bankAccountNumber)}</td>
-        <td>${val(dataElements.bankAccountCurrency)}</td>
-        <td>${val(dataElements.bankSwift)}</td>
-        <td>${val(dataElements.bankIBAN)}</td>
-        <td></td>
-      `;
-      bankTbody.appendChild(trBank);
-
-    } catch (err) {
-      console.error("Failed to load affiliate data", err);
-      toast({status: 'ERROR', message: 'Error loading details'});
-    }
-  }
-
-  const searchButton = document.getElementById('searchButton');
-  const searchResults = document.getElementById('searchResults');
-    if (searchButton) {
-      searchButton.addEventListener('click', function () {
-        fetchAffiliateList();
-        searchResults.style.display = 'block';
-      });
-    }
-
-    const resRegion = await optionSetApi.get(optionSet.region);
-    const resOptionGroups = await optionSetApi.getOptionGroups();
-
-    document.getElementById("Region").innerHTML = populateOptions(resRegion.options);
-    
-    document.getElementById('Region').addEventListener('change', function (e) {
-        const { value } = e.target;
-        const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
-        if(optionGroup) {
-            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
-            document.getElementById("Countries").innerHTML = populateOptions(region);
-        }
-    })
-  
   async function fetchAffiliateList() {
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
@@ -395,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         tbodyAffiliateRow += `
           <td style="padding: 15px;">
             <div class="actions">
-              <button class="btn-icon blue" title="View Details" onclick="openDetailModal('${trackedEntityId}')">
+              <button class="btn-icon blue" style="cursor: pointer;" title="View Details" onclick="openAffiliateModal(null, '${trackedEntityId}')">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
@@ -410,8 +281,184 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+  // Modal and Tabs Logic
+  const affiliateModal = document.getElementById('affiliateModal');
+  if (affiliateModal) {
+    const closeButtons = affiliateModal.querySelectorAll('#affiliateModalClose, #affiliateModalCloseFooter');
+    closeButtons.forEach(btn => btn.addEventListener('click', () => {
+        affiliateModal.style.display = 'none';
+    }));
 
-  window.openAffiliateModal = openAffiliateModal;
-  window.closeAffiliateModal = closeAffiliateModal;
-  window.loadAffiliateData = loadAffiliateData;
+    const tabButtons = affiliateModal.querySelectorAll('.tab-btn');
+    const tabPanels = affiliateModal.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.getAttribute('data-tab');
+            
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+
+            button.classList.add('active');
+            const activePanel = affiliateModal.querySelector(`#tab-${tabName}`);
+            if (activePanel) activePanel.classList.add('active');
+        });
+    });
+  }
+
+  window.openAffiliateModal = async (mode, teiId) => {
+    const modal = document.getElementById("affiliateModal");
+    modal.style.display = "flex";
+
+    const res = await dataApi.getTrackedEntity(teiId);
+    tei.affiliate = res.trackedEntities[0];
+
+    const attrs = {};
+    tei.affiliate.attributes.forEach(a => (attrs[a.attribute] = a.value));
+    document.getElementById('affiliateModalSub').textContent = `UIN - ${attrs[attributes.uinCode] || ' '}`;
+    document.getElementById('aff-name').textContent = attrs[attributes.legalName] || '';
+    document.getElementById('aff-uin').textContent = attrs[attributes.uinCode] || '';
+    document.getElementById('aff-country').textContent = attrs[attributes.countryRegistration] || '';
+    document.getElementById('aff-region').textContent = attrs[attributes.region] || '';
+
+    const stageRes = await programStageApi.get(programStage.UINControlMaster);
+    const stage = convert.stage({ programStage: stageRes });
+
+    tei.programStages = stage.sections;
+    tei.dataElements = stage.dataElements;
+    tei.metadata = stage.metadata;
+    tei.values = convert.trackedEntity(
+      tei.affiliate,
+      new Set(stage.fileType)
+    );
+
+    renderRoleTables();
+  };
+
+  function renderRoleTables() {
+    const board = document.getElementById("tbody-board");
+    const senior = document.getElementById("tbody-senior");
+    const bank = document.getElementById("tbody-bank");
+
+    board.innerHTML = senior.innerHTML = bank.innerHTML = "";
+
+    const addRow = (tbody, rolekey) => {
+      const roleConfig = ROLE_DISPLAY_FIELDS[rolekey];
+      if (!roleConfig) return;
+
+      const { label, fields } = roleConfig;
+      tbody.innerHTML += `
+        <tr>
+          <td>${label}</td>
+          ${fields
+            .map(fieldCode => `<td>${tei.values[fieldCode] || ""}</td>`)
+            .join("")}
+          <td>
+            <div class="actions">
+              <button class="btn-icon blue" style="cursor: pointer;" title="Request Change" onclick="openRequestChangeModal('${rolekey}')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>`;
+    };
+
+    addRow(board, "chairperson");
+    addRow(board, "viceChairperson");
+    addRow(board, "secretary");
+    addRow(board, "treasurer");
+    addRow(board, "youth");
+
+    addRow(senior, "seniorManagementCEO");
+    addRow(senior, "seniorManagementFinance");
+    addRow(senior, "seniorManagementPrograms");
+
+    addRow(bank, "bank");
+  }
+
+  window.openRequestChangeModal = async roleKey => {
+    const modal = ensureChangeModal();
+    const body = modal.querySelector("#requestChangeModalBody");
+    body.innerHTML = "";
+
+    const stageId = STAGE_MAPPING[roleKey];
+
+    const matchingSection = tei.programStages.find(section => section.id === stageId)
+
+    const fieldsToRender = matchingSection.items;
+   
+    const row = document.createElement("div");
+    row.className = "row";
+
+    let fieldsHtml = "";
+    fieldsToRender.forEach(meta => {
+      const metaWithId = { ...meta, id: meta.code };
+      fieldsHtml += `
+        <div class="col-md-6 mb-2">
+          <label>${meta.name} ${meta.mandatory ? '<span class="text-danger">*</span>' : ''}</label>
+          ${fetchValueType(metaWithId, tei.values[meta.code] || "", {}, false)}
+        </div>`;
+    });
+    row.innerHTML = fieldsHtml;
+
+    body.appendChild(row);
+    
+    if (window.flatpickr) {
+        flatpickr(modal.querySelectorAll(".flatpickr-date-input"), { dateFormat: "Y-m-d" });
+    }
+
+    $(modal).modal("show");
+
+    modal.querySelector("#requestChangeSubmit").onclick = async () => {
+      fieldsToRender.forEach(meta => {
+        const code = meta.code;
+        const el = document.getElementById(code);
+        if (el) tei.values[code] = el.value;
+      });
+
+      const enrollment = tei.affiliate.enrollments.find(
+        e => e.program === programs.UINControlMaster
+      );
+
+      const payload = createPayload.event(
+        tei,
+        enrollment.orgUnit,
+        enrollment.enrollment,
+        programs.UINControlMaster,
+        programStage.UINControlMaster
+      );
+
+      await dataApi.enroll(payload);
+      toast({status: 'SUCCESS', message: "Request Submitted Successfully"});
+      $(modal).modal("hide");
+    };
+  };
+
+  function ensureChangeModal() {
+    let modal = document.getElementById("requestChangeModal");
+    if (modal) return modal;
+
+    modal = document.createElement("div");
+    modal.id = "requestChangeModal";
+    modal.className = "modal";
+    modal.style.zIndex = "1060"; // Ensure this modal appears on top of the other
+    modal.innerHTML = `
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Request Change</h5>
+            <button class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body" id="requestChangeModalBody"></div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" id="requestChangeSubmit">Submit</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    return modal;
+  }
 });

@@ -11,7 +11,7 @@ export const dataApi = {
     }
   },
   getTrackedEntity: async (trackedEntity) => {
-    const url = `tracker/trackedEntities.json?paging=false&trackedEntity=${trackedEntity}&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[enrollment,program,orgUnit,events[trackedEntityInstance,program,event,occuredAt,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `tracker/trackedEntities.json?paging=false&trackedEntity=${trackedEntity}&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[enrollment,program,orgUnit,events[trackedEntityInstance,program,event,occurredAt,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
