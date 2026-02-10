@@ -108,12 +108,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         const dataValues = {};
         tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute]=attr.value);
         tei.affiliate.enrollments.forEach(enroll => {
+          enroll.events.sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt));
           enroll.events.forEach(event => {
             event.dataValues.forEach(dv => {
-              if(tei.fileType.has(dv.dataElement)) dataValues[`${dv.dataElement}-event`] = event.event;
-              dataValues[dv.dataElement]=dv.value
+              if (tei.fileType.has(dv.dataElement) && !dataValues.hasOwnProperty(`${dv.dataElement}-event`)) {
+                dataValues[`${dv.dataElement}-event`] = event.event;
+              }
+              if (!dataValues.hasOwnProperty(dv.dataElement)) {
+                dataValues[dv.dataElement] = dv.value;
+              }
             });
-          })
+          });
         });
 
         for(let id of tei.fileType) {

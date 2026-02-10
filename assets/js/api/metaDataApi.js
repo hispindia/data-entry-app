@@ -29,7 +29,7 @@ export const optionSetApi =  {
 
 export const programStageApi = {
   get: async (id) => {
-    const url = `programStages/${id}.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name]],programStageSections[id,name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]`;
+    const url = `programStages/${id}.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]],programStageSections[id,name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]]`;
     try{
         const response = await BaseApi({url});
         return response.json();

@@ -88,9 +88,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   const dataValues = {};
   tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute]=attr.value);
   tei.affiliate.enrollments.forEach(enroll => {
+    enroll.events.sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt));
     enroll.events.forEach(event => {
-      event.dataValues.forEach(dv =>dataValues[dv.dataElement]=dv.value);
-    })
+      event.dataValues.forEach(dv => {
+        if (!dataValues.hasOwnProperty(dv.dataElement)) {
+          dataValues[dv.dataElement] = dv.value;
+        }
+      });
+    });
   });
   const countryNameAndCodes = {};
   const country = await optionSetApi.get(optionSet.country);

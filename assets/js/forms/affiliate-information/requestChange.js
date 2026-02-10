@@ -327,10 +327,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     tei.programStages = stage.sections;
     tei.dataElements = stage.dataElements;
     tei.metadata = stage.metadata;
-    tei.values = convert.trackedEntity(
-      tei.affiliate,
-      new Set(stage.fileType)
-    );
+    const dataValues = {};
+    tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute] = attr.value);
+    tei.affiliate.enrollments.forEach(enroll => {
+      enroll.events.sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt));
+      enroll.events.forEach(event => {
+        event.dataValues.forEach(dv => {
+          if (!dataValues.hasOwnProperty(dv.dataElement)) {
+            dataValues[dv.dataElement] = dv.value;
+          }
+        });
+      });
+    });
+    tei.values = dataValues;
 
     renderRoleTables();
   };
@@ -381,14 +390,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.openRequestChangeModal = async roleKey => {
     const modal = ensureChangeModal();
     const body = modal.querySelector("#requestChangeModalBody");
-    body.innerHTML = "";
+    body.innerHTML = `
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 150px;">
+        <div class="section-loader"></div>
+      </div>
+    `;
+    $(modal).modal("show");
 
-    const stageId = STAGE_MAPPING[roleKey];
+    const stageId = programStage.UINControlMaster;
+    let fieldsToRender = [];
 
-    const matchingSection = tei.programStages.find(section => section.id === stageId)
-
-    const fieldsToRender = matchingSection.items;
+    if (stageId) {
+      try {
+        const stageRes = await programStageApi.get(stageId);
+        if (stageRes) {
+          const stage = convert.stage({ programStage: stageRes });
+          const roleStageId = STAGE_MAPPING[roleKey];
+          const section = stage.sections.find(s => s.id === roleStageId);
+          if (section) {
+            fieldsToRender = section.items;
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load stage details for Request Change", e);
+        body.innerHTML = `<p class="text-danger">Could not load form details. Please try again later.</p>`;
+        return;
+      }
+    }
    
+    body.innerHTML = "";
+    if (fieldsToRender.length === 0) {
+      body.innerHTML = `<div class="alert alert-warning">No fields found for this role.</div>`;
+      return;
+    }
+
     const row = document.createElement("div");
     row.className = "row";
 
@@ -408,8 +443,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (window.flatpickr) {
         flatpickr(modal.querySelectorAll(".flatpickr-date-input"), { dateFormat: "Y-m-d" });
     }
-
-    $(modal).modal("show");
 
     modal.querySelector("#requestChangeSubmit").onclick = async () => {
       fieldsToRender.forEach(meta => {

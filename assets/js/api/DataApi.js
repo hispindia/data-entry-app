@@ -2,7 +2,7 @@ import BaseApi from "./BaseApi.js";
 
 export const dataApi = {
   get: async (orgUnit, program, otherParam = "") => {
-    const url = `tracker/trackedEntities.json?paging=false&ouMode=DESCENDANTS&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[program,enrollment,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `tracker/trackedEntities.json?paging=false&ouMode=DESCENDANTS&${otherParam}&program=${program}&orgUnit=${orgUnit}&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[program,enrollment,orgUnit,events[trackedEntityInstance,program,event,occurredAt,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
@@ -39,7 +39,7 @@ export const dataApi = {
     }
   },
   fromStage: async (orgunit, program, programStage) => {
-    const url = `trackedEntityInstances.json?skipPaging=true&ou=${orgunit}&program=${program}&programStage=${programStage}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
+    const url = `trackedEntityInstances.json?skipPaging=true&ou=${orgunit}&program=${program}&programStage=${programStage}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,occurredAt,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
