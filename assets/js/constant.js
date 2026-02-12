@@ -163,3 +163,9 @@ export const dataElements = {
     bankIBAN: "z7sYWdtwtZo"
 
 }
+
+export const STATUS_CODES = {
+  IN_PROGRESS: "In Progress",
+  PASSED: "Passed",
+  FAILED: "Failed"
+};

@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         
         if(basicInfo) basicInfo.innerHTML = renderSections(tei.attributeSection, true);
         if(kycDetails) kycDetails.innerHTML = renderSections(tei.programStages, true);
-        flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
     }
 
     function renderSections(sections, disabled) {

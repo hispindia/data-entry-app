@@ -99,11 +99,158 @@
       </div>
       <!-- Main Content -->
       <div class="main-content">
-            <div id="mainHeading">
-              <h4 class="mt-3" style="color: black;">2.3 Approve Change Requests</h4>
-              <p>Review and approve affiliate modification requests</p>
-            </div>
-          <h2 class="text-center">This feature is currently being developed and will be available soon.</h2>
+        <div class="card">
+        <div class="card-header">
+          <h2 class="card-title" style="color: black; font-weight: 600; ">Pending Requests</h2>
+        </br>
+          <span class="card-subtitle"><span>
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Organization</th>
+                <th>Members Selected</th>
+                <th>Requested By</th>
+                <th>Request Date</th>
+                <th>Status</th>
+                <th style="text-align: center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-requests">
+              <!-- <tr>
+                <td class="font-medium text-gray-900">RFC-001</td>
+                <td>
+                  <div class="org-info">
+                    <span class="org-name">GESTOS Initiative</span>
+                    <span class="org-details">UIN-2024-002 • Nigeria</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="member-count">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>1 member(s)</span>
+                  </div>
+                </td>
+                <td class="text-gray-600">Admin User</td>
+                <td class="text-gray-600">2024-01-25</td>
+                <td>
+                  <span class="badge badge-pending">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Pending
+                  </span>
+                </td>
+                <td>
+                  <div class="actions">
+                    <button class="btn-icon blue" title="View Details" onclick="openDetailModal()">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                      </svg>
+                    </button>
+                    <button class="btn-icon green" title="Approve" onclick="openApproveModal()">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-medium text-gray-900">RFC-002</td>
+                <td>
+                  <div class="org-info">
+                    <span class="org-name">GESTOS Trust</span>
+                    <span class="org-details">UIN-2024-003 • Kenya</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="member-count">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>2 member(s)</span>
+                  </div>
+                </td>
+                <td class="text-gray-600">Regional Manager</td>
+                <td class="text-gray-600">2024-01-24</td>
+                <td>
+                  <span class="badge badge-pending">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Pending
+                  </span>
+                </td>
+                <td>
+                  <div class="actions">
+                    <button class="btn-icon blue" title="View Details">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                      </svg>
+                    </button>
+                    <button class="btn-icon green" title="Approve">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-medium text-gray-900">RFC-003</td>
+                <td>
+                  <div class="org-info">
+                    <span class="org-name">GESTOS Development Society</span>
+                    <span class="org-details">UIN-2024-004 • India</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="member-count">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>1 member(s)</span>
+                  </div>
+                </td>
+                <td class="text-gray-600">Admin User</td>
+                <td class="text-gray-600">2024-01-23</td>
+                <td>
+                  <span class="badge badge-pending">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Pending
+                  </span>
+                </td>
+                <td>
+                  <div class="actions">
+                    <button class="btn-icon blue" title="View Details">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                      </svg>
+                    </button>
+                    <button class="btn-icon green" title="Approve">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr> -->
+              
+           
+            </tbody>
+          </table>
+        </div>
+      </div>
       </div>
       </div>
     </div>

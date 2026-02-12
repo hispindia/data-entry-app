@@ -6,7 +6,9 @@ import {
   optionSet,
   orgUnit,
   programRules,
-  attributes
+  attributes,
+  CHANGE_REQUEST_STATUS,
+  STATUS_CODES
 } from "../../constant.js";
 
 import {
@@ -451,6 +453,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (el) tei.values[code] = el.value;
       });
 
+      tei.values[dataElements.changeRequestStatus] = 'In Progress';
+
       const enrollment = tei.affiliate.enrollments.find(
         e => e.program === programs.UINControlMaster
       );
@@ -466,6 +470,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       await dataApi.enroll(payload);
       toast({status: 'SUCCESS', message: "Request Submitted Successfully"});
       $(modal).modal("hide");
+      openAffiliateModal(null, tei.affiliate.trackedEntity);
     };
   };
 
