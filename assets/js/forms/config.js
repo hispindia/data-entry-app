@@ -5,7 +5,7 @@ export const userGroupConfig = (data) => {
     const pages={
         username: data.username,
         user: [],
-        blockAddWaiver: false,
+        blockWaiver: false,
     };
     const userGroupIds = data.userGroups.map(ug => ug.id);
     const isIppfAdmin = userGroupIds.includes(userGroup.disabledIPPFAdmin);
@@ -14,13 +14,13 @@ export const userGroupConfig = (data) => {
     const isAoc = userGroupIds.includes(userGroup.disabledAOCGroup);
     if (isAoc) {
         pages['user'].push('aoc');
-        pages['blockAddWaiver'] = true;
+        pages['blockWaiver'] = true;
     }
 
     const isKyc = userGroupIds.includes(userGroup.disabledKyc);
     if (isKyc) {
         pages['user'].push('kyc');
-        pages['blockAddWaiver'] = true;
+        pages['blockWaiver'] = true;
     }
     return pages;
 }

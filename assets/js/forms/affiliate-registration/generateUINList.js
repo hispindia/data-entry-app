@@ -122,12 +122,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         for(let id of tei.fileType) {
           if(dataValues[id]) {
-            dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
-            dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
-            const file = dataValues[`${id}-file`];
             try {
+              dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
+              dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
+              const file =  await dataApi.getFileResources(dataValues[`${id}-event`], id);
               const formData = new FormData();
-              formData.append('file', file);
+              formData.append('file', file,  dataValues[`${id}-file`].name)
               const res = await dataApi.uploadFile(formData);
               if(res.status == 'OK') {
               dataValues[id] = res.response.fileResource.id;
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
             const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
             await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster});
-            const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster);
+            const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, tei.values);
             await dataApi.enroll(payloadEvent);
             toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
           }

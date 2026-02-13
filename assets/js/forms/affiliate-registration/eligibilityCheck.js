@@ -56,18 +56,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
     document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
     
-    var tbodyAffiliateApprovedRow = "";
+    var tbodyAffiliateRow = "";
     approvedList.forEach(affiliate => {
-      tbodyAffiliateApprovedRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
+      tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
       headerList.forEach(attr => {
         if(attr.id == attributes.acuityCheck) {
-          tbodyAffiliateApprovedRow += `<td class="text-center" >
+          tbodyAffiliateRow += `<td class="text-center" >
           ${(affiliate[attr.id] ? `<span style="background-color: #bbf7d0; color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">Approved</span>`: '')}
           </td>`
         }
-        else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
+        else tbodyAffiliateRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
       });
-      tbodyAffiliateApprovedRow += `
+      tbodyAffiliateRow += `
       <td class="text-center">  
       <button 
         data-affiliate="${affiliate.id}" 
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     })
     
     const tbodyApproved = document.getElementById('tbody-affiliate-approved')
-    tbodyApproved.innerHTML = tbodyAffiliateApprovedRow;
+    tbodyApproved.innerHTML = tbodyAffiliateRow;
     tbodyApproved.addEventListener('click', async (e)=> {
       const button = e.target.closest('.row-btn');
       if(!button) return;
@@ -87,19 +87,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate}`;
     })
 
-    tbodyAffiliateApprovedRow = "";
+    tbodyAffiliateRow = "";
     failedList.forEach(affiliate => {
-      tbodyAffiliateApprovedRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
+      tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
       headerList.forEach(attr => {
         if(attr.id == attributes.acuityCheck) {
-          tbodyAffiliateApprovedRow += `<td class="text-center" >
+          tbodyAffiliateRow += `<td class="text-center" >
           ${(affiliate[attr.id] ? `<span style="background-color: rgb(254, 202, 202); color: rgb(153, 27, 27); font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem;">Failed</span>`: '')}
           </td>`
         }
-        else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
+        else tbodyAffiliateRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
       });
      
-      tbodyAffiliateApprovedRow += `
+      tbodyAffiliateRow += `
       <td class="text-center">
       <button 
         data-affiliate="${affiliate.id}" 
@@ -110,22 +110,30 @@ document.addEventListener("DOMContentLoaded", async function () {
       </td>
       </tr>`
     })
-    document.getElementById('tbody-affiliate-failed').innerHTML = tbodyAffiliateApprovedRow;
+    const tbodyFailed = document.getElementById('tbody-affiliate-failed')
+    tbodyFailed.innerHTML = tbodyAffiliateRow;
+    tbodyFailed.addEventListener('click', async (e)=> {
+      const button = e.target.closest('.row-btn');
+      if(!button) return;
+      const affiliate = button.dataset.affiliate;
+      window.location.href = `./1.2-1-waiver-form.html?affiliate=${affiliate}`;
+    })
 
 
-    tbodyAffiliateApprovedRow = "";
+
+    tbodyAffiliateRow = "";
     inProgressList.forEach(affiliate => {
-      tbodyAffiliateApprovedRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
+      tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
        headerList.forEach(attr => {
         if(attr.id == attributes.acuityCheck) {
-          tbodyAffiliateApprovedRow += `<td class="text-center" >
+          tbodyAffiliateRow += `<td class="text-center" >
           ${(affiliate[attr.id] ? `<span class="badge" style="background-color: #dce6fd; color: #3366cc; font-weight: 500; padding: 6px 12px; border-radius: 6px;">Under Review</span>`: '')}
           </td>`
         }
-        else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
+        else tbodyAffiliateRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
       });
-      tbodyAffiliateApprovedRow += `</tr>`
+      tbodyAffiliateRow += `</tr>`
     })
-    document.getElementById('tbody-affiliate-inProgress').innerHTML = tbodyAffiliateApprovedRow;
+    document.getElementById('tbody-affiliate-inProgress').innerHTML = tbodyAffiliateRow;
   }
 })

@@ -104,7 +104,7 @@ export const createPayload = {
             }]
         }
     },
-    exchangeEvent: (trackedEntity, orgUnit, program) => {
+    exchangeEvent: (trackedEntity, orgUnit, program, values) => {
         const date = new Date();
         const formattedDate = date.toISOString().split("T")[0];
 
@@ -119,17 +119,15 @@ export const createPayload = {
         var stages = {};
         trackedEntity.enrollments.forEach(enrollment => {
             enrollment.events.forEach(event => {
-                stages[event.programStage] = {}
                 if(stageMapping[event.programStage]) {
                     stages[event.programStage] = {
-                        dataValues: event.dataValues,
+                        dataValues: event.dataValues.map(dv => ({dataElement: dv.dataElement, value: values[dv.dataElement] || ""})),
                         enrollmentStatus: 'ACTIVE',
                         occurredAt: formattedDate,
                         orgUnit: orgUnit,
                         program: program,
                         programStage: stageMapping[event.programStage],
                         status: 'ACTIVE'
-                        
                     }
                 }
             })
