@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     .map(attr => ({id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name}));
 
     var theadAffiliateRow = "";
-    headerList.forEach(item => theadAffiliateRow+= `<th class="py-3 px-4 font-weight-bold border-0 text-center">${item.name}</th>`);
+    headerList.forEach(item => theadAffiliateRow+= `<th class="py-3 px-4 font-weight-bold border-0 text-center" style="color: rgb(0, 49, 60)">${item.name}</th>`);
     
     document.getElementById('thead-affiliate-inProgress').innerHTML = theadAffiliateRow;
     document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
@@ -71,8 +71,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       <td class="text-center">  
       <button 
         data-affiliate="${affiliate.id}" 
-        class="btn btn-sm row-btn" style="background-color: #3b71ca; color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-        onmouseover="this.style.backgroundColor='#265bbf' "onmouseout="this.style.backgroundColor='#3b71ca'">
+        class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;">
         Process UIN Generation
       </button>
       </td>
