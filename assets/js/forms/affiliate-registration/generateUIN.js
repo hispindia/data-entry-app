@@ -3,7 +3,7 @@ import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../a
 import { createPayload } from "../../api/payload.js";
 import { attributes, optionSet, programStage, programs, tei } from "../../constant.js";
 import { getNextCode, toast } from "../utils.js";
-import { convert, fetchValueType } from "../metadata.js";
+import { configureRules, convert, fetchValueType, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -46,6 +46,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+  const resRules = await programsApi.rules(programs.affiliateKyc);
+  const resRuleVariables = await programsApi.ruleVariables(programs.affiliateKyc);
+  const resOptionGroups = await optionSetApi.getOptionGroups();
+  tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
+
   const resAffiliateStage = await programStageApi.get(programStage.affiliateKyc);
   const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
 
@@ -78,6 +83,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   tei.values = dataValues;
+  tei.metadata = {...affiliateStage.metadata, ...dueDiligence.metadata};
+  tei.programStages = [...affiliateStage.sections, ...dueDiligence.sections];
+
+  ruleCallback(tei.programRules, tei.programStages, [], tei.metadata, tei.values);
 
   const countryNameAndCodes = {};
   const country = await optionSetApi.get(optionSet.country);
@@ -99,7 +108,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     let container = "";
 
     for (const section of sections) {
-        if(section.hidden) continue;
+        const elements = section.items.filter(item => !item.hidden)
+        if(!elements.length) continue;
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";

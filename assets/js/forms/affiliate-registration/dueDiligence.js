@@ -1,8 +1,8 @@
 import { dataApi } from "../../api/DataApi.js";
-import { optionSetApi, programStageApi } from "../../api/metaDataApi.js";
+import { optionSetApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
 import { attributes, dataElements, optionSet, programStage, programs, tei, trackedEntityType } from "../../constant.js";
-import { convert, fetchValueType } from "../metadata.js";
+import { configureRules, convert, fetchValueType, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 import { toast } from "../utils.js";
 
@@ -134,6 +134,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+  const resRules = await programsApi.rules(programs.affiliateKyc);
+  const resRuleVariables = await programsApi.ruleVariables(programs.affiliateKyc);
+  const resOptionGroups = await optionSetApi.getOptionGroups();
+  tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
+
   const resAffiliateStage = await programStageApi.get(programStage.affiliateKyc);
   const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
 
@@ -174,12 +179,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? `(${countryNameAndCodes[dataValues[attributes.countryRegistration]]})`  : ''
   
-  tei.programStages = dueDiligence.sections;
+  tei.programStages = [...dueDiligence.sections, ...affiliateStage.sections];
   tei.dataElements = dueDiligence.dataElements;
-  tei.metadata = dueDiligence.metadata;
+  tei.metadata = {...dueDiligence.metadata, ...affiliateStage.metadata};
   tei.mandatoryList = dueDiligence.mandatoryList;
   tei.values = {...dueDiligence.values, ...dataValues};
   tei.values[dataElements.affiliationStatus] = 'Active';
+
+  ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
     
   const dueDiligenceDiv = renderSections(dueDiligence.sections);
   const affiliateKYCDiv = renderSections(affiliateStage.sections);
@@ -193,7 +200,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     let container = "";
 
     for (const section of sections) {
-        if(section.hidden) continue;
+        const elements = section.items.filter(item => !item.hidden)
+        if(!elements.length) continue;
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";
