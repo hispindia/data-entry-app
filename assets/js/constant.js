@@ -33,8 +33,8 @@ export const programStage = {
     Youth: "X49FNxQxAhQ",
     seniorManagement: "gg4cEgWHPvz", 
     seniorManagementFinance: "dkybztKm1Kr",
-    seniorManagementPrograms: "Vww9954RV4Z",
-    bank: "cvI0Tq2uPjC", 
+    seniorManagementPrograms: "Vww9954RV4Z", 
+    bank: "L0jPilLQIns", 
 }
 export const userGroup = {
     disabledAOCGroup : "jrCxIJzq4eE",
@@ -160,12 +160,28 @@ export const dataElements = {
     bankAccountNumber: 'zB27tS5QtT0', 
     bankAccountCurrency: "TbN2rRfJxGs",
     bankSwift: "ACstTNRg27W",
-    bankIBAN: "z7sYWdtwtZo"
+    bankIBAN: "z7sYWdtwtZo",
+    
+    presidentAcuityStatus: "wDAC1CBloZz",
+    viceChairPersonAcuityStatus: "jAM5Uh3AmLc",
+    secretaryAcuityStatus: "MfucTwTQdL6",
+    treasurerAcuityStatus: "c4H6jRfajui",
+    youthAcuityStatus: "CXbQSkU2175",
+    seniorManagementCEOAcuityStatus: "Y50Blcjw8r0",
+    seniorManagementFinanceAcuityStatus: "PIIp2bOIoit",
+    seniorManagementProgramsAcuityStatus: "EGNNQjCgf4m",
+    bankAcuityStatus: "Mm19QhgeESl"
 
 }
 
-export const STATUS_CODES = {
-  IN_PROGRESS: "In Progress",
-  PASSED: "Passed",
-  FAILED: "Failed"
-};
+export const ROLE_ACUITY_DE = {
+  chairperson: dataElements.presidentAcuityStatus,
+  viceChairperson: dataElements.viceChairPersonAcuityStatus,
+  secretary: dataElements.secretaryAcuityStatus,
+  treasurer: dataElements.treasurerAcuityStatus,
+  youth: dataElements.youthAcuityStatus,
+  seniorManagementCEO: dataElements.seniorManagementCEOAcuityStatus,
+  seniorManagementFinance: dataElements.seniorManagementFinanceAcuityStatus,
+  seniorManagementPrograms: dataElements.seniorManagementProgramsAcuityStatus,
+  bank: dataElements.bankAcuityStatus
+}

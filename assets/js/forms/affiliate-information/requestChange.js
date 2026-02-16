@@ -7,8 +7,7 @@ import {
   orgUnit,
   programRules,
   attributes,
-  CHANGE_REQUEST_STATUS,
-  STATUS_CODES
+  ROLE_ACUITY_DE,
 } from "../../constant.js";
 
 import {
@@ -126,17 +125,6 @@ const ROLE_DISPLAY_FIELDS = {
   }
 };
 
-const STAGE_LABELS = {
-  [programStage.ChairPerson]: "Chairperson",
-  [programStage.viceChairperson]: "Vice Chairperson",
-  [programStage.Secretary]: "Secretary",
-  [programStage.Treasurer]: "Treasurer",
-  [programStage.Youth]: "Youth",
-  [programStage.seniorManagement]: "Chief Executive Officer",
-  [programStage.seniorManagementFinance]: "Director of Finance",
-  [programStage.seniorManagementPrograms]: "Director of Programs",
-  [programStage.bank]: "Bank Details"
-};
 
 const STAGE_MAPPING = {
   chairperson: programStage.ChairPerson,
@@ -329,18 +317,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     tei.programStages = stage.sections;
     tei.dataElements = stage.dataElements;
     tei.metadata = stage.metadata;
+    tei.fileType = new Set(stage.fileType);
     const dataValues = {};
     tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute] = attr.value);
     tei.affiliate.enrollments.forEach(enroll => {
-      enroll.events.sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt));
-      enroll.events.forEach(event => {
-        event.dataValues.forEach(dv => {
-          if (!dataValues.hasOwnProperty(dv.dataElement)) {
-            dataValues[dv.dataElement] = dv.value;
-          }
-        });
-      });
-    });
+
+    const sortedEvents = [...enroll.events]
+    .sort((a, b) => new Date(a.occurredAt) - new Date(b.occurredAt));
+
+    sortedEvents.forEach(event => {
+      event.dataValues?.forEach(dv => {
+        dataValues[dv.dataElement] = dv.value;
+        
+        if (tei.fileType.has(dv.dataElement)) {
+          dataValues[`${dv.dataElement}-event`] = event.event;
+        }
+      })
+    })
+  });
     tei.values = dataValues;
 
     renderRoleTables();
@@ -451,13 +445,54 @@ document.addEventListener("DOMContentLoaded", async () => {
         const code = meta.code;
         const el = document.getElementById(code);
         if (el) tei.values[code] = el.value;
+        if (el) {
+          if (el.type === 'file') {
+            if (el.files.length > 0) tei.values[code] = el.files[0];
+          } else {
+            tei.values[code] = el.value;
+          }
+        }
       });
 
-      tei.values[dataElements.changeRequestStatus] = 'In Progress';
+      if (tei.fileType) {
+        for (const id of tei.fileType) {
+          const value = tei.values[id];
+          if (value) {
+            try {
+              let newId = null;
+              if (value instanceof File) {
+                const formData = new FormData();
+                formData.append('file', value);
+                const res = await dataApi.uploadFile(formData);
+                if (res.status === 'OK') newId = res.response.fileResource.id;
+              } else if (typeof value === 'string') {
+                const eventId = tei.values[`${id}-event`];
+                if (eventId) {
+                  const fileMeta = await dataApi.getFile(value);
+                  const blob = await dataApi.getFileResources(eventId, id);
+                  const formData = new FormData();
+                  formData.append('file', blob, fileMeta.name);
+                  const res = await dataApi.uploadFile(formData);
+                  if (res.status === 'OK') newId = res.response.fileResource.id;
+                }
+              }
+              if (newId) tei.values[id] = newId;
+            } catch (e) {
+              console.error("File processing error", e);
+              toast({ status: 'ERROR', message: "Error processing files" });
+              return;
+            }
+          }
+        }
+      }
+
+      const acuityDataElementId = ROLE_ACUITY_DE[roleKey];
+      tei.values[acuityDataElementId] = 'In-Progress';
 
       const enrollment = tei.affiliate.enrollments.find(
         e => e.program === programs.UINControlMaster
       );
+
 
       const payload = createPayload.event(
         tei,
@@ -481,7 +516,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal = document.createElement("div");
     modal.id = "requestChangeModal";
     modal.className = "modal";
-    modal.style.zIndex = "1060"; // Ensure this modal appears on top of the other
+    modal.style.zIndex = "1060"; 
     modal.innerHTML = `
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -491,8 +526,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
           <div class="modal-body" id="requestChangeModalBody"></div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button class="btn btn-primary" id="requestChangeSubmit">Submit</button>
+            <button class="btn bg-transparent border rounded-xl" data-dismiss="modal">Cancel</button>
+            <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff" id="requestChangeSubmit">Request Change</button>
           </div>
         </div>
       </div>`;

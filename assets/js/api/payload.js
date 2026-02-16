@@ -82,7 +82,7 @@ export const createPayload = {
     },
     event: (tei, orgUnit, enrollment, program, programStage) => {
         const date = new Date();
-        const formattedDate = date.toISOString().split("T")[0];
+        const formattedDate = date.toISOString();
 
         const formattedDataElements = [];
         tei.dataElements.forEach(dataElement => {
