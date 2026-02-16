@@ -99,6 +99,7 @@ export const convert = {
         })
 
         return {
+            id: programStage.id,
             dataElements,
             sections,
             values,

@@ -22,6 +22,11 @@ export const userGroupConfig = (data) => {
         pages['user'].push('kyc');
         pages['blockWaiver'] = true;
     }
+
+    const isWaiver = userGroupIds.includes(userGroup.waiver);
+    if (isWaiver) {
+        pages['user'].push('waiver');
+    }
     return pages;
 }
 

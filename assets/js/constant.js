@@ -39,7 +39,8 @@ export const programStage = {
 export const userGroup = {
     disabledAOCGroup : "jrCxIJzq4eE",
     disabledIPPFAdmin : "rhii1gmT3vo",
-    disabledKyc: "CNG5iylPUoo"
+    disabledKyc: "CNG5iylPUoo",
+    waiver: "qh0ixp80Gim"
 }
 export const programs = {
     affiliateKyc: "GJbgrJjzCrr",
@@ -59,6 +60,7 @@ export const attributes = {
     submitted: "JHlOG80ijsg",
     user: "x1rcjWtOtI5",
     uinCode: "qZcVhl6kfpc",
+    uinCodeAffiliate: "pkLdNynZWat",
 };
 
 export const tei = {
