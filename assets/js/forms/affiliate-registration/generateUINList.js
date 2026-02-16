@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js";
 import { meApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, programStage, programs, tei} from "../../constant.js";
+import { attributes, programStage, programs, tei, trackedEntityType} from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { convert } from "../metadata.js";
 import { getNextCode, toast } from "../utils.js";
@@ -27,10 +27,25 @@ document.addEventListener("DOMContentLoaded", async function () {
   fetchAffiliateList();
   async function fetchAffiliateList() {
     const user = await meApi.get();
-    const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
     const userOrgUnit = user?.organisationUnits.map(ou => ou.id).join(';');
     const resAffiliateList = await dataApi.get(userOrgUnit, programs.affiliateKyc);
 
+    const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
+    const programUINControl = await programsApi.get(programs.UINControlMaster);
+    const resUINControl = await programStageApi.get(programStage.UINControlMaster);
+    const resCompletionChecklist = await programStageApi.get(programStage.completionCheckList);
+    const resAffiliateStage = await programStageApi.get(programStage.affiliateKyc);
+    const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
+
+    const affiliateStage = convert.stage({ programStage: resAffiliateStage});
+    const dueDiligence = convert.stage({ programStage: resDueDiligence});    
+    const UINControlMaster = convert.stage({ programStage: resUINControl});    
+    const completionCheckList = convert.stage({ programStage: resCompletionChecklist});   
+    const programAttr = convert.attributes({ program: programUINControl });
+    tei.attributes = programAttr.attributes; 
+    tei.fileType = new Set([...affiliateStage.fileType, ...dueDiligence.fileType]);
+    const UINStages = [UINControlMaster, completionCheckList];
+debugger;
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
         id: trackedEntity.trackedEntity
@@ -39,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return attributes;
     })
     //filter affiliate list based on the status:
-    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted] && !trackedEntity[attributes.uinCode]);
+    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted] && !trackedEntity[attributes.uinCodeAffiliate]);
 
     document.getElementById('approvedCount').innerHTML = approvedList.length;
   
@@ -95,15 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       else if(id == "generate-uin") {
         const resAffiliate = await dataApi.getTrackedEntity(affiliate);
         tei.affiliate = resAffiliate.trackedEntities[0];
-
-        const resAffiliateStage = await programStageApi.get(programStage.affiliateKyc);
-        const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
-
-        const affiliateStage = convert.stage({ programStage: resAffiliateStage});
-        const dueDiligence = convert.stage({ programStage: resDueDiligence});    
-
-        tei.fileType = new Set([...affiliateStage.fileType, ...dueDiligence.fileType]);
-
+    
         const dataValues = {};
         tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute]=attr.value);
         tei.affiliate.enrollments.forEach(enroll => {
@@ -149,11 +156,28 @@ document.addEventListener("DOMContentLoaded", async function () {
           const nextOUCode = `${orgUnit.organisationUnits[0].parent.code}-${orgUnit.organisationUnits[0].code}-${nextNum}`;
           const payloadOrgUnit = createPayload.orgUnit(orgUnit.organisationUnits[0].id, tei.affiliate.attributes, nextOUCode);
           const neworgUnit = await orgUnitsApi.post(payloadOrgUnit);
+          tei.values[attributes.uinCode] = nextOUCode;  
           if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
             const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
             await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster});
-            const payloadEvent =  createPayload.exchangeEvent(tei.affiliate, orgUnitId, programs.UINControlMaster, tei.values);
+            const payloadEvent = createPayload.exchangeEvent(tei.values, orgUnitId, programs.UINControlMaster, tei.attributes, UINStages);
             await dataApi.enroll(payloadEvent);
+            await dataApi.postAttribute({
+              "trackedEntities": [
+                {
+                  trackedEntity: tei.affiliate.trackedEntity,
+                  program: programAffiliateKyc,
+                  orgUnit: tei.affiliate.orgUnit,
+                  trackedEntityType: trackedEntityType,
+                  "attributes": [
+                    {
+                      "attribute": attributes.uinCodeAffiliate,
+                      "value": nextOUCode
+                    }
+                  ]
+                }
+              ]
+            })
             toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
           }
         }

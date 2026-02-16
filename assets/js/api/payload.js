@@ -104,34 +104,32 @@ export const createPayload = {
             }]
         }
     },
-    exchangeEvent: (trackedEntity, orgUnit, program, values) => {
+    exchangeEvent: (dataValues, orgUnit, program, attributes, UINStages) => {
         const date = new Date();
         const formattedDate = date.toISOString().split("T")[0];
 
         const formattedAttributes = [];
-        for(const attribute of trackedEntity.attributes){
-            formattedAttributes.push({
-                attribute: attribute.attribute,
-                value: attribute.value,
-            })
-        }
-
-        var stages = {};
-        trackedEntity.enrollments.forEach(enrollment => {
-            enrollment.events.forEach(event => {
-                if(stageMapping[event.programStage]) {
-                    stages[event.programStage] = {
-                        dataValues: event.dataValues.map(dv => ({dataElement: dv.dataElement, value: values[dv.dataElement] || ""})),
-                        enrollmentStatus: 'ACTIVE',
-                        occurredAt: formattedDate,
-                        orgUnit: orgUnit,
-                        program: program,
-                        programStage: stageMapping[event.programStage],
-                        status: 'ACTIVE'
-                    }
-                }
-            })
+        attributes.forEach(attribute => {
+            if(dataValues[attribute]) {
+                formattedAttributes.push({
+                    attribute: attribute,
+                    value: dataValues[attribute],
+                })
+            }
         })
+        var stages = {};
+        UINStages.forEach(stage => {
+            stages[stage.id] = {
+                dataValues: stage.dataElements.map(element => ({dataElement: element, value: dataValues[element] || ""})),
+                enrollmentStatus: 'ACTIVE',
+                occurredAt: formattedDate,
+                orgUnit: orgUnit,
+                program: program,
+                programStage: stage.id,
+                status: 'ACTIVE'
+            }
+        })
+
         var events = [];
         for(let stage in stages) {
             events.push(stages[stage]);
