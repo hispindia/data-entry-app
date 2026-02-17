@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             dataMap[dv.dataElement] = dv.value;
         });
 
-        // 🔥 Verify President status again (optional safety)
+      
         if (dataMap[dataElements.presidentAcuityStatus] !== "In-Progress") {
             throw new Error("Not a valid President change request");
         }
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             throw new Error("President section not found");
         }
 
-        // Render all fields from President section
+      
         const fieldsHtml = presidentSection.items.map(item => {
             const value = dataMap[item.code] || "-";
             return `
@@ -214,14 +214,16 @@ document.addEventListener("DOMContentLoaded", async function () {
                             </div>
                             <div class="col-md-6">
                                 <small class="text-muted">Requested By</small>
-                                <div class="h6">${reqData.requestedBy}</div>
+                                <div class="h6">${reqData.requestDate}</div>
                             </div>
                             <div class="col-md-6">
-                                <small class="text-muted">Requested By</small>
-                                <div class="h6">${reqData.requestedBy}</div>
+                                <small class="text-muted">Request Date</small>
+                                <div class="h6">${reqData.requestDate.split('T')[0]}</div>
                             </div>
-                              <td>${req.requestDate.split('T')[0]}</td>
-                  <td><span class="badge badge-warning">${req.status}</span></td>
+                            <div class="col-md-6">
+                                <small class="text-muted">Status</small>
+                                <div><span class="badge badge-warning">${reqData.status}</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>

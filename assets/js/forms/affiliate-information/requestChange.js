@@ -14,7 +14,7 @@ import {
   optionSetApi,
   orgUnitsApi,
   programsApi,
-  programStageApi
+  programStageApi,
 } from "../../api/metaDataApi.js";
 
 import { populateOptions, convert, fetchValueType } from "../metadata.js";
@@ -204,14 +204,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const name = document.getElementById("regName").value;
     const uin = document.getElementById("uin").value;
-    if (countryValue) {
-      let otherParam = `filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      if (regionValue)
-        otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-      if (name)
-        otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`;
-      if (uin)
+    let otherParam = "";
+      if (uin) {
         otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`;
+        if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+      } else if (name) {
+        otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+      } else if (regionValue && !countryValue) {
+        toast({ status: 'Info', message: 'Please Select Country!' });
+        return;
+      } else if (regionValue && countryValue) {
+        otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+        otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+      } else {
+        toast({ status: 'Info', message: 'No affiliate found' });
+        return;
+      }
+
       const affiliateList = await dataApi.get(
         orgUnit.id,
         programs.UINControlMaster,
@@ -219,7 +232,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({status: 'INFO', message: 'No affiliate found'});
+        toast({status: 'Info', message: 'No affiliate found'});
         return;
       }
       const headerList = programAffiliateKyc.programTrackedEntityAttributes
@@ -266,9 +279,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         </tr>`;
       });
       document.getElementById("tbody-affiliate").innerHTML = tbodyAffiliateRow;
-    } else {
-      toast({status: 'INFO', message: 'Please Select Country!'});
-    }
   }
 
   // Modal and Tabs Logic
@@ -301,6 +311,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "flex";
 
     const res = await dataApi.getTrackedEntity(teiId);
+    console.log('---res--', res);
+    
     tei.affiliate = res.trackedEntities[0];
 
     const attrs = {};
@@ -335,6 +347,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
     })
   });
+      for(let id of tei.fileType) {
+          if(dataValues[id]) {
+            try {
+              dataValues[`${id}-href`] = `../../events/files?eventUid=${dataValues[`${id}-event`]}&dataElementUid=${id}`
+              dataValues[`${id}-file`] = await dataApi.getFile(dataValues[id]);
+              const file =  await dataApi.getFileResources(dataValues[`${id}-event`], id);
+              const formData = new FormData();
+              formData.append('file', file,  dataValues[`${id}-file`].name)
+              const res = await dataApi.uploadFile(formData);
+              if(res.status == 'OK') {
+              dataValues[id] = res.response.fileResource.id;
+              } else {
+              toast({status: 'ERROR', message: `File generation error`});
+              }
+            } catch (error) {
+              toast({status: 'ERROR', message: `Error uploading file: ${error}`});
+              return;
+            }
+          }
+        }
+    
+
     tei.values = dataValues;
 
     renderRoleTables();
@@ -440,74 +474,66 @@ document.addEventListener("DOMContentLoaded", async () => {
         flatpickr(modal.querySelectorAll(".flatpickr-date-input"), { dateFormat: "Y-m-d" });
     }
 
-    modal.querySelector("#requestChangeSubmit").onclick = async () => {
-      fieldsToRender.forEach(meta => {
-        const code = meta.code;
-        const el = document.getElementById(code);
-        if (el) tei.values[code] = el.value;
-        if (el) {
-          if (el.type === 'file') {
-            if (el.files.length > 0) tei.values[code] = el.files[0];
-          } else {
-            tei.values[code] = el.value;
-          }
-        }
-      });
+  modal.querySelector("#requestChangeSubmit").onclick = async () => {
+  try {
 
-      if (tei.fileType) {
-        for (const id of tei.fileType) {
-          const value = tei.values[id];
-          if (value) {
-            try {
-              let newId = null;
-              if (value instanceof File) {
-                const formData = new FormData();
-                formData.append('file', value);
-                const res = await dataApi.uploadFile(formData);
-                if (res.status === 'OK') newId = res.response.fileResource.id;
-              } else if (typeof value === 'string') {
-                const eventId = tei.values[`${id}-event`];
-                if (eventId) {
-                  const fileMeta = await dataApi.getFile(value);
-                  const blob = await dataApi.getFileResources(eventId, id);
-                  const formData = new FormData();
-                  formData.append('file', blob, fileMeta.name);
-                  const res = await dataApi.uploadFile(formData);
-                  if (res.status === 'OK') newId = res.response.fileResource.id;
-                }
-              }
-              if (newId) tei.values[id] = newId;
-            } catch (e) {
-              console.error("File processing error", e);
-              toast({ status: 'ERROR', message: "Error processing files" });
-              return;
-            }
-          }
+    fieldsToRender.forEach(meta => {
+      const code = meta.code;
+      const el = document.getElementById(code);
+
+      if (!el) return;
+
+      if (el.type === "file") {
+        if (el.files.length > 0) {
+          tei.values[code] = el.files[0];   
         }
+      } else {
+        tei.values[code] = el.value;
       }
+    });
 
-      const acuityDataElementId = ROLE_ACUITY_DE[roleKey];
-      tei.values[acuityDataElementId] = 'In-Progress';
+     
+    const acuityDeId = ROLE_ACUITY_DE[roleKey];
 
-      const enrollment = tei.affiliate.enrollments.find(
-        e => e.program === programs.UINControlMaster
-      );
+    if (!acuityDeId) {
+      throw new Error("Acuity data element not mapped for role: " + roleKey);
+    }
+
+    tei.values[acuityDeId] = "In-Progress";
+
+    const enrollment = tei.affiliate.enrollments.find(
+      e => e.program === programs.UINControlMaster
+    );
+
+    const payload = createPayload.event(
+      tei,
+      enrollment.orgUnit,
+      enrollment.enrollment,
+      programs.UINControlMaster,
+      programStage.UINControlMaster
+    );
 
 
-      const payload = createPayload.event(
-        tei,
-        enrollment.orgUnit,
-        enrollment.enrollment,
-        programs.UINControlMaster,
-        programStage.UINControlMaster
-      );
+    await dataApi.enroll(payload);
 
-      await dataApi.enroll(payload);
-      toast({status: 'SUCCESS', message: "Request Submitted Successfully"});
-      $(modal).modal("hide");
-      openAffiliateModal(null, tei.affiliate.trackedEntity);
-    };
+    toast({
+      status: "SUCCESS",
+      message: "Request Submitted Successfully"
+    });
+
+    $(modal).modal("hide");
+
+    openAffiliateModal(null, tei.affiliate.trackedEntity);
+
+  } catch (err) {
+    console.error("Submit error:", err);
+    toast({
+      status: "ERROR",
+      message: err.message || "Something went wrong"
+    });
+  }
   };
+};
 
   function ensureChangeModal() {
     let modal = document.getElementById("requestChangeModal");

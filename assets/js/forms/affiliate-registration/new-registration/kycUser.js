@@ -121,6 +121,7 @@ const newRegistration = async (userConfig) => {
             if(!tei.affiliate) {
                 const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc});
                 await dataApi.enroll(payload);
+                toast({status: 'SUCCESS', message: 'Details saved successfully!'});
             } else {
                 let eventId = '', enrollmentId = '';
                 let trackedEntity = tei.affiliate.trackedEntity;
@@ -164,7 +165,7 @@ const newRegistration = async (userConfig) => {
                 }
             }
             if(empty) {
-                toast({status: 'INFO', message: 'Please fill mandatory fields!'});
+                toast({status: 'Info', message: 'Please fill mandatory fields!'});
                 return;
             }
         }

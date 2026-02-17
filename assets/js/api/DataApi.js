@@ -24,7 +24,8 @@ export const dataApi = {
     try {
       const response = await BaseApi({url, method:"POST", payload});
       const data = await response.json();
-      return data.response.importSummaries[0].reference;
+      if(!response.ok) throw new Error(data?.message || "Enrollment failed");
+      if(data?.response?.importSummaries?.length) return data.response.importSummaries[0].reference;
     } catch (error) {
       console.error("Error while creating events", error);
     }

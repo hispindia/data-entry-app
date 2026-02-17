@@ -101,7 +101,7 @@ export function toast({status, message}) {
       timeout: 1500, 
       transitionIn: 'flipInX',
       transitionOut: 'flipOutX',
-      position: 'center', 
+      position: 'topRight', 
     });
 
     switch(status) {

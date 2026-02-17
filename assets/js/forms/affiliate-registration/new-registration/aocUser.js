@@ -95,48 +95,83 @@ const handleRegistration = async(userConfig) => {
     });
     
     async function fetchAffiliateList() {
-        const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
-        const regionValue = document.getElementById("Region").value;
-        const countryValue = document.getElementById("Countries").value;
-        const name = document.getElementById("regName").value;
-        if(countryValue) {
-            let otherParam = `filter=${attributes.countryRegistration}:EQ:${countryValue}` 
-            if(regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`
-            if(name) otherParam += `&filter=${attributes.legalName}:EQ:${name.trim()}`
-            const affiliateList = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
 
-            if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {               
-                toast({status: 'INFO', message: 'No affiliate found!'})
-                document.getElementById("affiliate-table").style.display = "none";
-                return;
-            }
+    const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
+    const regionValue = document.getElementById("Region").value;
+    const countryValue = document.getElementById("Countries").value;
+    const name = document.getElementById("regName").value;
 
-            const headerList = programAffiliateKyc.programTrackedEntityAttributes
-            .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
-            .map(attr => ({id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name}));
-
-            const affilitateAttrList = affiliateList.trackedEntities.map(trackedEntity => {
-                const attributes = { trackedEntity: trackedEntity.trackedEntity };
-                trackedEntity.attributes.forEach(attr => attributes[attr.attribute] = attr.value);
-                return attributes;
-            });
-
-            var theadAffiliateRow = "";
-            headerList.forEach(item => theadAffiliateRow+= `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
-            document.getElementById('thead-affiliate').innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600;">Action</th>`;
-
-            var tbodyAffiliateRow = "";
-            affilitateAttrList.forEach(affiliate => {
-                tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`
-                headerList.forEach(attr => tbodyAffiliateRow += `<td style="padding: 15px;">${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`);
-                tbodyAffiliateRow += `<td style="padding: 15px;"><button class="btn btn-primary" data-trackedentity="${affiliate.trackedEntity}">View</button></td></tr>`
-            })
-            document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
-
-        } else {
-            toast({status: 'INFO', message: 'Please Select Country!'})
-        }
+    let otherParam = "";
+    if (name) {
+        otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
     }
+    else if (regionValue && !countryValue) {
+        toast({ status: 'Info', message: 'Please Select Country!' });
+        return;
+    }
+    else if (regionValue && countryValue) {
+
+        otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+        otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+    }
+    else {
+        toast({ status: 'Info', message: 'No affiliate found' });
+        return;
+    }
+
+    const affiliateList = await dataApi.get(
+        orgUnit.affiliateKYC,
+        programs.affiliateKyc,
+        otherParam
+    );
+
+    if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
+        toast({ status: 'Info', message: 'No affiliate found' });
+        return;
+    }
+
+    const headerList = programAffiliateKyc.programTrackedEntityAttributes
+        .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
+        .map(attr => ({
+            id: attr.trackedEntityAttribute.id,
+            name: attr.trackedEntityAttribute.name
+        }));
+
+    const affilitateAttrList = affiliateList.trackedEntities.map(trackedEntity => {
+        const attributesObj = { trackedEntity: trackedEntity.trackedEntity };
+        trackedEntity.attributes.forEach(attr => attributesObj[attr.attribute] = attr.value);
+        return attributesObj;
+    });
+
+    let theadAffiliateRow = "";
+    headerList.forEach(item =>
+        theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`
+    );
+
+    document.getElementById('thead-affiliate').innerHTML =
+        `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600;">Action</th>`;
+
+    let tbodyAffiliateRow = "";
+
+    affilitateAttrList.forEach(affiliate => {
+        tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
+
+        headerList.forEach(attr =>
+            tbodyAffiliateRow += `<td style="padding: 15px;">${affiliate[attr.id] ?? ''}</td>`
+        );
+
+        tbodyAffiliateRow +=
+            `<td style="padding: 15px;">
+                <button class="btn btn-primary" data-trackedentity="${affiliate.trackedEntity}">
+                    View
+                </button>
+            </td></tr>`;
+    });
+
+    document.getElementById('tbody-affiliate').innerHTML = tbodyAffiliateRow;
+   }
 
 }
 
