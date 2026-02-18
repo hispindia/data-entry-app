@@ -58,25 +58,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let otherParam = "";
 
-      if (uin) {
-        otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`;
-        if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
-        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      } else if (name) {
-        otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
-        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      } else if (regionValue && !countryValue) {
-        toast({ status: 'Info', message: 'Please Select Country!' });
-        return;
-      } else if (regionValue && countryValue) {
-        otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      } else {
-        toast({ status: 'Info', message: 'No affiliate found' });
-        return;
-      }
+    if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+    if (regionValue && !countryValue) {
+      toast({ status: 'INFO', message: 'Please Select Country!' });
+      return;
+    }
+    if (uin) otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`; 
+    if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+    if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+     
 
       const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, otherParam);
 

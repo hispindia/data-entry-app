@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="assets/css/select2.min.css">
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+    <!-- toast -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 </head>
 
 <body>
@@ -254,11 +256,6 @@
       </div>
     </div>
   </div>
-  <div class="modal-overlay" id="detailModal" style="display: none;">
-  <div class="modal-content-wrapper">
-    <div id="detailModalContent"></div>
-  </div>
-</div>
 
 
   <!-- General JS Scripts -->
@@ -269,6 +266,8 @@
   <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
   <script src="assets/js/translation.js"></script>
   
+    <!-- toast -->
+  <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
   <!-- Page Specific JS File -->
   <script type="module" src="assets/js/forms/affiliate-information/approveChange.js"></script>
   <!-- <script src="assets/js/saveDraft_projectFocusArea.js"></script> -->
@@ -286,60 +285,63 @@
       $(`#${id}`).collapse('toggle');
     }
   </script>
-  <style>
-    .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
+    <style>
+      .custom-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+     }
 
-  .modal-box {
-    background: #ffffff;
-    width: 90%;
-    max-width: 850px;
-    border-radius: 10px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    animation: modalFade 0.2s ease-out;
-  }
+      .custom-modal.show {
+        display: flex;
+      }
 
-  .modal-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid #eee;
-    font-weight: 600;
-  }
+      .custom-modal-card {
+        width: 92%;
+        max-width: 850px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        max-height: 85vh;
+        overflow-y: auto;
+      }
 
-  .modal-body {
-    padding: 20px;
-    overflow-y: auto;
-    flex: 1;
-  }
+      .custom-modal-card.sm {
+        max-width: 420px;
+      }
 
-  .modal-footer {
-    padding: 14px 20px;
-    border-top: 1px solid #eee;
-    text-align: right;
-  }
-
-  @keyframes modalFade {
-    from {
-      transform: translateY(-10px);
-      opacity: 0;
+    .custom-modal-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid #eee;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
 
-</style>
+    .custom-modal-header button {
+      background: none;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .custom-modal-body {
+      padding: 22px;
+    }
+
+    .custom-modal-footer {
+      padding: 16px 22px;
+      border-top: 1px solid #eee;
+      text-align: right;
+    }
+
+  </style>
 
 </body>
 

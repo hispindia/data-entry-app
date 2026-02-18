@@ -102,24 +102,13 @@ const handleRegistration = async(userConfig) => {
     const name = document.getElementById("regName").value;
 
     let otherParam = "";
-    if (name) {
-        otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
-        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+    if (regionValue && !countryValue) {
+      toast({ status: 'INFO', message: 'Please Select Country!' });
+      return;
     }
-    else if (regionValue && !countryValue) {
-        toast({ status: 'Info', message: 'Please Select Country!' });
-        return;
-    }
-    else if (regionValue && countryValue) {
-
-        otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-    }
-    else {
-        toast({ status: 'Info', message: 'No affiliate found' });
-        return;
-    }
+    if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+    if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+    if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
 
     const affiliateList = await dataApi.get(
         orgUnit.affiliateKYC,
@@ -128,7 +117,7 @@ const handleRegistration = async(userConfig) => {
     );
 
     if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({ status: 'Info', message: 'No affiliate found' });
+        toast({ status: 'INFO', message: 'No affiliate found' });
         return;
     }
 

@@ -161,6 +161,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (target) window.location.href = target;
     });
   });
+  const stageRes = await programStageApi.get(programStage.UINControlMaster);
+  const stage = convert.stage({ programStage: stageRes });
+
+  tei.programStages = stage.sections;
+  tei.dataElements = stage.dataElements;
+  tei.metadata = stage.metadata;
+  tei.fileType = new Set(stage.fileType);
 
   const regionSelect = document.getElementById("Region");
   const countrySelect = document.getElementById("Countries");
@@ -205,26 +212,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const name = document.getElementById("regName").value;
     const uin = document.getElementById("uin").value;
     let otherParam = "";
-      if (uin) {
-        otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`;
-        if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
-        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      } else if (name) {
-        otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
-        if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      } else if (regionValue && !countryValue) {
-        toast({ status: 'Info', message: 'Please Select Country!' });
-        return;
-      } else if (regionValue && countryValue) {
-        otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-        otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-      } else {
-        toast({ status: 'Info', message: 'No affiliate found' });
-        return;
-      }
-
+    if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+    if (regionValue && !countryValue) {
+      toast({ status: 'INFO', message: 'Please Select Country!' });
+      return;
+    }
+    if (uin) otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`; 
+    if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
+    if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
+     
       const affiliateList = await dataApi.get(
         orgUnit.id,
         programs.UINControlMaster,
@@ -232,7 +228,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({status: 'Info', message: 'No affiliate found'});
+        toast({status: 'INFO', message: 'No affiliate found'});
         return;
       }
       const headerList = programAffiliateKyc.programTrackedEntityAttributes
@@ -323,13 +319,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById('aff-country').textContent = attrs[attributes.countryRegistration] || '';
     document.getElementById('aff-region').textContent = attrs[attributes.region] || '';
 
-    const stageRes = await programStageApi.get(programStage.UINControlMaster);
-    const stage = convert.stage({ programStage: stageRes });
-
-    tei.programStages = stage.sections;
-    tei.dataElements = stage.dataElements;
-    tei.metadata = stage.metadata;
-    tei.fileType = new Set(stage.fileType);
     const dataValues = {};
     tei.affiliate.attributes.forEach(attr => dataValues[attr.attribute] = attr.value);
     tei.affiliate.enrollments.forEach(enroll => {

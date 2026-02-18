@@ -1,8 +1,10 @@
 import { getUserConfig } from "../config.js";
 import { dataApi } from "../../api/DataApi.js";
-import { programs, programStage, dataElements, attributes, orgUnit, tei, } from "../../constant.js";
+import { programs, programStage, dataElements, attributes, orgUnit, tei, ROLE_ACUITY_DE, } from "../../constant.js";
 import { programStageApi } from "../../api/metaDataApi.js";
 import { convert } from "../metadata.js";
+import { toast } from "../utils.js";
+import { createPayload } from "../../api/payload.js";
 
 const STAGE_MAPPING = {
   chairperson: programStage.ChairPerson,
@@ -49,34 +51,46 @@ document.addEventListener("DOMContentLoaded", async function () {
         const requests = [];
         cachedRequests = [];
         
-        if (response && response.trackedEntities) {
-            response.trackedEntities.forEach(tei => {
-                const legalNameAttr = tei.attributes.find(a => a.attribute === attributes.legalName);
-                const legalName = legalNameAttr ? legalNameAttr.value : "N/A";
-                
-                tei.enrollments.forEach(enrollment => {
-                    enrollment.events?.forEach(event => {
-                        const statusDv = event.dataValues.find(dv => dv.dataElement === dataElements.presidentAcuityStatus);
-                        console.log("Actual stored value:", statusDv?.value);
-                        if(!statusDv || statusDv.value != "In-Progress") return;
+       if (response && response.trackedEntities) {
+        response.trackedEntities.forEach(tei => {
 
-                        const createdBy = event.createdBy ? event.createdBy.username : 'System';
-                        requests.push({
-                            legalName,
-                            memberSelected: createdBy,
-                            requestedBy: createdBy,
-                            requestDate: event.occurredAt,
-                            status: "Pending",
-                            teiId: tei.trackedEntity, 
-                            eventId: event.event,
-                            dataValues: event.dataValues
-                        });
-                    })
-                })
+        const legalNameAttr = tei.attributes.find(
+        a => a.attribute === attributes.legalName
+        );
+        const legalName = legalNameAttr ? legalNameAttr.value : " ";
 
-                
+        tei.enrollments?.forEach(enrollment => {
+
+            const sortedEvents = [...enrollment.events].sort(
+                (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
+            );
+            
+            sortedEvents.forEach(event => {
+                const isPending = Object.values(ROLE_ACUITY_DE).some(deId =>
+                event.dataValues?.some(
+                    dv => dv.dataElement === deId && dv.value === "In-Progress"
+                )
+                );
+
+             if (!isPending) return;
+
+            const createdBy = event.createdBy?.username || "System";
+
+            requests.push({
+            legalName,
+            memberSelected: createdBy,
+            requestedBy: createdBy,
+            requestDate: event.occurredAt,
+            status: "Pending",
+            teiId: tei.trackedEntity,
+            eventId: event.event,
+            dataValues: event.dataValues
             });
-        }
+      });
+    });
+  });
+}
+
         cachedRequests = requests;
         
         populateTable(requests);    
@@ -148,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <p class="mt-2">Loading...</p>
         </div>
     `;
-    modal.style.display = "flex";
+    modal.classList.add("show");
 
     try {
         const reqData = cachedRequests.find(
@@ -156,6 +170,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
 
         if (!reqData) throw new Error("Request not found");
+        console.log("Request data:", reqData);
+
 
         // Convert event dataValues → map
         const dataMap = {};
@@ -192,15 +208,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         }).join("");
 
         contentDiv.innerHTML = `
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title text-white">President Change Request</h5>
-                <button type="button" class="close text-white"
-                    onclick="document.getElementById('detailModal').style.display='none'">
+            <div class="custom-modal-header">
+                <h5 class="modal-title">President Change Request</h5>
+                <button type="button" class="close"
+                    onclick="document.getElementById('detailModal').classList.remove('show')">
                     &times;
                 </button>
             </div>
 
-            <div class="modal-body bg-light">
+            <div class="custom-modal-body">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <div class="row">
@@ -211,10 +227,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <div class="col-md-6">
                                 <small class="text-muted">Requested By</small>
                                 <div class="h6">${reqData.requestedBy}</div>
-                            </div>
-                            <div class="col-md-6">
-                                <small class="text-muted">Requested By</small>
-                                <div class="h6">${reqData.requestDate}</div>
                             </div>
                             <div class="col-md-6">
                                 <small class="text-muted">Request Date</small>
@@ -240,9 +252,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-secondary"
-                    onclick="document.getElementById('detailModal').style.display='none'">
+            <div class="custom-modal-footer">
+                <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff"
+                    onclick="document.getElementById('detailModal').classList.remove('show')">
                     Close
                 </button>
             </div>
@@ -264,92 +276,140 @@ document.addEventListener("DOMContentLoaded", async function () {
     const contentDiv = document.getElementById("approveModalContent");
     
     contentDiv.innerHTML = `
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title text-white">Approve Request</h5>
-        <button type="button" class="close text-white" onclick="document.getElementById('approveModal').style.display='none'">&times;</button>
+      <div class="modal-header">
+        <h5 class="modal-title">Approve Request</h5>
+        <button type="button" class="close text-white" onclick="document.getElementById('approveModal').classList.remove('show')">&times;</button>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to approve this change request?</p>
       </div>
       <div class="modal-footer">
-          <button class="btn btn-secondary" onclick="document.getElementById('approveModal').style.display='none'">Cancel</button>
-          <button class="btn btn-success" id="confirmApproveBtn">Approve</button>
+          <button class="btn bg-transparent border rounded-xl" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
+          <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff" id="confirmApproveBtn">Approve</button>
       </div>
     `;
 
     document.getElementById("confirmApproveBtn").onclick = async function() {
         try {
-            document.getElementById('approveModal').style.display='none';
-            fetchChangeRequests();
+            const reqData = cachedRequests.find(
+                r => r.teiId === teiId && r.eventId === eventId
+            
+            );
+
+            if(!reqData) throw new Error("Request Not found");
+
+            //detecting id 
+            let acuityDEID = null;
+            for(const deId of Object.values(ROLE_ACUITY_DE)) {
+                const match = reqData.dataValues.find(
+                    dv => dv.dataElement === deId && dv.value === "In-Progress"
+                );
+
+                if(match) {
+                    acuityDEID = deId;
+                    break;
+                }
+            }
+
+            if(!acuityDEID) throw new Error("No In-progress Data Found");
+            
+            const res = await dataApi.getTrackedEntity(teiId);
+            const affiliate = await res.trackedEntities[0];
+
+            if(!affiliate) throw new Error("Tracked Entity not found");
+            tei.affiliate = affiliate;
+
+            const latestValues = {};
+
+            affiliate?.attributes?.forEach(attr => {
+                latestValues[attr.attribute] = attr.value;
+            });
+
+            affiliate.enrollments?.forEach(enroll => {
+                const sortedEvents = [...enroll.events].sort(
+                    (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
+                );
+                sortedEvents.forEach(event => {
+                    event.dataValues?.forEach(dv => {
+                        latestValues[dv.dataElement] = dv.value;
+                    });
+                });
+            });
+
+            tei.values = latestValues;
+            
+            tei.values[acuityDEID] = "Approved";
+
+            //creating a new event 
+            const enrollment = affiliate.enrollments.find(e => 
+                 e.program === programs.UINControlMaster 
+            )
+
+            if(!enrollment) throw new Error("Enrollment not found");
+
+            const payload = createPayload.event(
+                tei,
+                enrollment.orgUnit,
+                enrollment.enrollment,
+                programs.UINControlMaster,
+                programStage.UINControlMaster
+            )
+
+            await dataApi.enroll(payload);
+
+            document.getElementById('approveModal').classList.remove('show');
+            await fetchChangeRequests();
+            toast({status: 'SUCCESS', message: 'Request Approved Successfully!'});
             
         } catch (e) {
             console.error(e);
-            alert("Error approving request");
         }
     };
 
-    modal.style.display = "flex";
+    modal.classList.add("show");
   };
 
   function ensureDetailModal() {
-    let modal = document.getElementById("detailModal");
-    if (!modal) {
-        modal = document.createElement("div");
-        modal.id = "detailModal";
-        modal.className = "modal";
-        modal.style.backgroundColor = "rgba(0,0,0,0.5)";
-        modal.style.position = "fixed";
-        modal.style.top = "0";
-        modal.style.left = "0";
-        modal.style.width = "100%";
-        modal.style.height = "100%";
-        modal.style.zIndex = "1050";
-        modal.style.display = "none";
-        modal.style.justifyContent = "center";
-        modal.style.alignItems = "center";
-        document.body.appendChild(modal);
-    }
-
-    // Ensure the inner structure exists (fix for "modal not opening" if content div is missing)
-    if (!document.getElementById("detailModalContent")) {
-        modal.innerHTML = `
-          <div class="modal-dialog modal-lg" style="max-width: 800px; width: 90%; margin: 20px;">
-              <div class="modal-content" id="detailModalContent" style="background: #fff; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; overflow-y: auto;">
-              </div>
-          </div>
-        `;
-    }
-    return modal;
+  let modal = document.getElementById("detailModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "detailModal";
+    modal.className = "custom-modal";
+    document.body.appendChild(modal);
   }
 
-  function ensureApproveModal() {
+  if (!document.getElementById("detailModalContent")) {
+    modal.innerHTML = `
+      <div class="custom-modal-card">
+        <div id="detailModalContent"></div>
+      </div>
+    `;
+  }
+
+  return modal;
+}
+
+
+    function ensureApproveModal() {
     let modal = document.getElementById("approveModal");
     if (!modal) {
         modal = document.createElement("div");
         modal.id = "approveModal";
-        modal.className = "modal";
-        modal.style.backgroundColor = "rgba(0,0,0,0.5)";
-        modal.style.position = "fixed";
-        modal.style.top = "0";
-        modal.style.left = "0";
-        modal.style.width = "100%";
-        modal.style.height = "100%";
-        modal.style.zIndex = "1050";
-        modal.style.display = "none";
-        modal.style.justifyContent = "center";
-        modal.style.alignItems = "center";
+        modal.className = "custom-modal";
         document.body.appendChild(modal);
     }
 
     if (!document.getElementById("approveModalContent")) {
         modal.innerHTML = `
-          <div class="modal-dialog" style="max-width: 500px; width: 90%; margin: 20px;">
-              <div class="modal-content" id="approveModalContent" style="background: #fff; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
-              </div>
-          </div>
+        <div class="custom-modal-card sm">
+            <div id="approveModalContent"></div>
+        </div>
         `;
     }
+
     return modal;
-  }
+    }
+
+
   
 })
