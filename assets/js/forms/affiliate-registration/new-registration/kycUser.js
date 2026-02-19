@@ -118,10 +118,11 @@ const newRegistration = async (userConfig) => {
         }
         try {
             tei['values'][attributes.user] = userConfig.username;
+            
             if(!tei.affiliate) {
                 const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc});
-                await dataApi.enroll(payload);
-                toast({status: 'SUCCESS', message: 'Details saved successfully!'});
+                const affiliate = await dataApi.enroll(payload);
+                toast({status: 'SUCCESS', message: 'Details saved successfully!', affiliate});
             } else {
                 let eventId = '', enrollmentId = '';
                 let trackedEntity = tei.affiliate.trackedEntity;
@@ -136,7 +137,6 @@ const newRegistration = async (userConfig) => {
                 const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId});
                 await dataApi.enroll(payload);
                 toast({status: 'SUCCESS', message: 'Affiliate saved successfully!'});
-                window.location.reload();
             }
         }
         catch(e) {
@@ -190,21 +190,27 @@ const newRegistration = async (userConfig) => {
         }
 
         try {
-            let eventId = '', enrollmentId = '';
-            let trackedEntity = tei.affiliate.trackedEntity;
-            tei.affiliate.enrollments.forEach(enroll => {
-                enroll.events.forEach(event => {
-                    if(event.programStage == programStage.affiliateKyc) {
-                        eventId = event.event;
-                        if(enroll.enrollment) enrollmentId = enroll.enrollment;
-                    }
-                })
-            })
 
-            const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId, eventStatus: 'COMPLETED'});
-            await dataApi.enroll(payload);
-            toast({status: 'SUCCESS', message: 'Affiliate saved successfully'});
-            window.location.reload();
+            if(!tei.affiliate) {
+                const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc});
+                const affiliate = await dataApi.enroll(payload);
+                toast({status: 'SUCCESS', message: 'Affiliate saved successfully!', affiliate});
+            } else {
+                let eventId = '', enrollmentId = '';
+                let trackedEntity = tei.affiliate.trackedEntity;
+                tei.affiliate.enrollments.forEach(enroll => {
+                    enroll.events.forEach(event => {
+                        if(event.programStage == programStage.affiliateKyc) {
+                            eventId = event.event;
+                            if(enroll.enrollment) enrollmentId = enroll.enrollment;
+                        }
+                    })
+                })
+
+                const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId, eventStatus: 'COMPLETED'});
+                await dataApi.enroll(payload);
+                toast({status: 'SUCCESS', message: 'Affiliate saved successfully'});
+            }
         }
         catch(e) {
             toast({status: 'ERROR', message: `Error Occurred: ${e}`});

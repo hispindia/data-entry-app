@@ -34,7 +34,7 @@ export const dataApi = {
       const response = await BaseApi({url, method:"POST", payload});
       const data = await response.json();
       if(!response.ok) throw new Error(data?.message || "Enrollment failed");
-      if(data?.bundleReport?.typeReportMap?.TRACKED_ENTITY?.objectReports[0]?.length) return data?.bundleReport?.typeReportMap?.TRACKED_ENTITY?.objectReports[0]?.uid;
+      return data?.bundleReport?.typeReportMap?.TRACKED_ENTITY?.objectReports[0]?.uid;
     } catch (error) {
       console.error("Error while creating events", error);
     }

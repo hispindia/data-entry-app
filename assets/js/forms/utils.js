@@ -96,17 +96,22 @@ export function getNextCode(codes) {
   return String(next).padStart(3, '0');
 }
 
-export function toast({status, message, position}) {
+export function toast({status, message, position, affiliate}) {
     iziToast.settings({
       timeout: 1500, 
       transitionIn: 'flipInX',
       transitionOut: 'flipOutX',
       position: position || 'topRight', 
     });
-
+    
     switch(status) {
         case "SUCCESS":
-            iziToast.success({message});
+            iziToast.success({
+                message, 
+                onClosed: function () {
+                    if(affiliate) window.location.href = window.location.pathname + `?affiliate=${affiliate}`;;
+                }
+            });
         break;
         case "INFO":
             iziToast.info({message});
