@@ -103,7 +103,11 @@ const handleRegistration = async(userConfig) => {
 
     let otherParam = "";
     if (regionValue && !countryValue) {
-      toast({ status: 'INFO', message: 'Please Select Country!' });
+      toast({ status: 'INFO', message: 'Please Select Country!', position: 'Center'});
+      return;
+    }
+    if (!name && !regionValue) {
+      toast({ status: 'INFO', message: 'Please enter Name or select Region and Country to search.', position: 'Center' });
       return;
     }
     if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
@@ -117,7 +121,7 @@ const handleRegistration = async(userConfig) => {
     );
 
     if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({ status: 'INFO', message: 'No affiliate found' });
+        toast({ status: 'INFO', message: 'No affiliate found', position: 'Center' });
         return;
     }
 

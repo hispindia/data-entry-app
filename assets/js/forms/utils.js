@@ -96,12 +96,12 @@ export function getNextCode(codes) {
   return String(next).padStart(3, '0');
 }
 
-export function toast({status, message}) {
+export function toast({status, message, position}) {
     iziToast.settings({
       timeout: 1500, 
       transitionIn: 'flipInX',
       transitionOut: 'flipOutX',
-      position: 'topRight', 
+      position: position || 'topRight', 
     });
 
     switch(status) {
@@ -121,6 +121,6 @@ export function toast({status, message}) {
 }
 
 export function isGmailOrYahoo(email) {
-    const regex = /^[^\s@]+@(gmail\.com|yahoo\.com)$/i;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }

@@ -59,6 +59,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     let otherParam = "";
 
     if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+    if (!uin && !name && !regionValue) {
+      toast({ status: 'INFO', message: 'Please Enter UIN or Name or select Region and Country to search.', position: 'center' });
+      return;
+    }
     if (regionValue && !countryValue) {
       toast({ status: 'INFO', message: 'Please Select Country!' });
       return;

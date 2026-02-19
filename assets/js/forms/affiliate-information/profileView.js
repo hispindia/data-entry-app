@@ -34,8 +34,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         const payloadCompletionCheckList = createPayload.event(tei, orgUnitId, enrollment, programs.UINControlMaster, programStage.completionCheckList);
         await dataApi.enroll(payloadCompletionCheckList);
         iziToast.success({
+            status: 'SUCCESS',
             message: "Details Submitted Successfully",
-            timeout: 2000,
+            position: "center",
         });
           window.location.href = './2.1-view-and-update-profile.html';
         }

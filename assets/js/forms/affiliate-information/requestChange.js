@@ -213,6 +213,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const uin = document.getElementById("uin").value;
     let otherParam = "";
     if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
+    if (!uin && !name && !regionValue) {
+      toast({ status: 'INFO', message: 'Please Enter UIN or Name or select Region and Country to Search.', position: 'center' });
+      return;
+    }
     if (regionValue && !countryValue) {
       toast({ status: 'INFO', message: 'Please Select Country!' });
       return;
@@ -507,7 +511,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     toast({
       status: "SUCCESS",
-      message: "Request Submitted Successfully"
+      message: "Request Submitted Successfully",
+      position: "bottomCenter"
     });
 
     $(modal).modal("hide");

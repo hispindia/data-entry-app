@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         const response = await dataApi.get(
             orgUnit.id,
             programs.UINControlMaster,
-            ""
         );
         
         const requests = [];
@@ -148,6 +147,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
   }
 
+  function getRoleDisplayName(roleKey) {
+    const result = roleKey.replace(/([A-Z])/g, " $1");
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
+
 //   Show Full Section (Even If Only 1 Field Changed)
 
   window.viewRequest = async function(teiId, eventId) {
@@ -172,32 +176,39 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!reqData) throw new Error("Request not found");
         console.log("Request data:", reqData);
 
-
-        // Convert event dataValues → map
         const dataMap = {};
         reqData.dataValues.forEach(dv => {
             dataMap[dv.dataElement] = dv.value;
         });
 
-      
-        if (dataMap[dataElements.presidentAcuityStatus] !== "In-Progress") {
-            throw new Error("Not a valid President change request");
+        let roleKey = null;
+        for (const [key, deId] of Object.entries(ROLE_ACUITY_DE)) {
+            if (dataMap[deId] === "In-Progress") {
+                roleKey = key;
+                break;
+            }
         }
 
-        // Get metadata for President section
+        if (!roleKey) {
+            throw new Error("Not a valid change request or status is not 'In-Progress'.");
+        }
+
+        const stageId = STAGE_MAPPING[roleKey];
+        if (!stageId) {
+            throw new Error(`No stage mapping found for role: ${roleKey}`);
+        }
+
+        const roleDisplayName = getRoleDisplayName(roleKey);
+
+        // Get metadata for the section
         const stageRes = await programStageApi.get(programStage.UINControlMaster);
         const stage = convert.stage({ programStage: stageRes });
 
-        const presidentSection = stage.sections.find(
-            s => s.id === programStage.ChairPerson
+        const roleSection = stage.sections.find(
+            s => s.id === stageId
         );
 
-        if (!presidentSection) {
-            throw new Error("President section not found");
-        }
-
-      
-        const fieldsHtml = presidentSection.items.map(item => {
+        const fieldsHtml = roleSection.items.map(item => {
             const value = dataMap[item.code] || "-";
             return `
                 <div class="col-md-6 mb-3">
@@ -209,7 +220,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         contentDiv.innerHTML = `
             <div class="custom-modal-header">
-                <h5 class="modal-title">President Change Request</h5>
+                <h5 class="modal-title">${roleDisplayName} Change Request</h5>
                 <button type="button" class="close"
                     onclick="document.getElementById('detailModal').classList.remove('show')">
                     &times;
@@ -242,7 +253,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 <div class="card border">
                     <div class="card-header bg-white">
-                        <h6 class="mb-0 text-primary">President Details</h6>
+                        <h6 class="mb-0 text-primary">${roleDisplayName} Details</h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -359,7 +370,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             document.getElementById('approveModal').classList.remove('show');
             await fetchChangeRequests();
-            toast({status: 'SUCCESS', message: 'Request Approved Successfully!'});
+            toast({status: 'SUCCESS', message: 'Request Approved Successfully!', position: 'topRight'});
             
         } catch (e) {
             console.error(e);

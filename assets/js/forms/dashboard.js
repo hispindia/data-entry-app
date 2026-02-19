@@ -100,7 +100,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let otherParam = "";
     if (regionValue && !countryValue) {
-      toast({ status: 'INFO', message: 'Please Select Country!' });
+      toast({ status: 'INFO', message: 'Please Select Country!', position: 'center' });
+      return;
+    }
+    if (!name && !regionValue) {
+      toast({ status: 'INFO', message: 'Please Enter Name or select Region and Country to search.', position: 'center' });
       return;
     }
     if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
@@ -114,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     );
 
     if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({ status: 'INFO', message: 'No affiliate found' });
+        toast({ status: 'INFO', message: 'No affiliate found', position: 'center'});
         return;
     }
 
