@@ -19,6 +19,15 @@ export const dataApi = {
       console.error("Error fetching user data:", error);
     }
   },
+  dataStore: async (payload) => {
+    const url = `dataStore/${payload}`;
+    try {
+      const response = await(await BaseApi({url, method:"GET"})).json();
+      return response;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
   enroll: async (payload) => {
     const url = `tracker?async=false`;
     try {

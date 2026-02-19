@@ -26,6 +26,7 @@ export const programStage = {
     dueDiligence: "wXlXBPIThiD",
     completionCheckList: "jKxGLMkHnHy",
     UINControlMaster: "HsKUiY7RyeO",
+    acuityWaiver: "BpE6W2xgKXn",
     ChairPerson: "lCt44LGWvKj",
     viceChairperson: "l7hrKT6IQjN",
     Secretary: "d1GO05tFP5I",
@@ -57,6 +58,7 @@ export const attributes = {
     countryRegistration: "LZacnHsQJRs",
     legalName: "UkQI1dWzZOv",
     region: "SMdW6ZnGllA",
+    registrationNum: "qsASQ0NRTVA",
     submitted: "JHlOG80ijsg",
     user: "x1rcjWtOtI5",
     uinCode: "qZcVhl6kfpc",
@@ -75,6 +77,7 @@ export const tei = {
     metadata: {},
     fileType: [],
     values: {},
+    acuityList: [],
 }
 
 export const PROGRAM_RULE_TYPES = {
