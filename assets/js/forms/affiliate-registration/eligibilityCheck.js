@@ -1,5 +1,5 @@
 import { dataApi } from "../../api/DataApi.js";
-import { meApi, programsApi } from "../../api/metaDataApi.js";
+import { dataElementsApi, meApi, programsApi } from "../../api/metaDataApi.js";
 import { attributes, programs} from "../../constant.js";
 import { getUserConfig } from "../config.js";
 
@@ -25,10 +25,24 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function fetchAffiliateList() {
     const user = await meApi.get();
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
+    const resDataElement =  await dataElementsApi.get({
+      param: ['filter=code:!null', 'fields=id,name,code']
+    })
+    const dataElements ={
+      "UkQI1dWzZOv_qsASQ0NRTVA": false
+    }; 
+
+    resDataElement.dataElements.forEach(de => {
+      if(de.code.includes('::')) {
+        dataElements[de.code.split('::').join('_')] = false;
+      }
+    });
+
     const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
     const userOUCode = user?.organisationUnits.map(ou => ou.code)?.filter(ou => ou);
     const resAffiliateList = await dataApi.get(userOrgUnit.join(';'), programs.affiliateKyc, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}`);
-
+    const resDataStore = await dataApi.dataStore(`accuityResponse`);
+    
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
         id: trackedEntity.trackedEntity
@@ -36,6 +50,53 @@ document.addEventListener("DOMContentLoaded", async function () {
       trackedEntity.attributes.forEach(attr => attributes[attr.attribute] = attr.value);
       return attributes;
     })
+
+    const availableAcuityData = affilitateAttrList.filter(list => resDataStore.includes(list.id)).map(list => dataApi.dataStore(`accuityResponse/${list.id}`).then(data => ({
+      ...list,
+      status: "", // '', 'Passed', 'Failed
+      data,
+    })));
+    var affiliates = ""
+    try {
+      affiliates = await Promise.all(availableAcuityData);
+      affiliates.forEach(affiliate => {
+        const checkAffiliate = {...dataElements};
+        for(let data of affiliate.data) {
+          if(data.id) {
+            if(data[data.id] == "No Records Found") checkAffiliate[data.id] = true;
+            else if(data[data.id] == "") {
+              affiliate.status = "";
+              break;
+            }
+            else affiliate.status == "Failed";
+          }
+          if(affiliate.staus !='Failed') {
+            const hasPassed = Object.values(checkAffiliate).every(val => val === true);
+            if(hasPassed) affiliate.status == "Passed";
+          }
+        }
+        affiliates.forEach(affiliate => {
+          if(affiliate.status == "Passed") affiliate[attributes.acuityCheck] = "Passed";
+          if(affiliate.status == "Failed") affiliate[attributes.acuityCheck] = "Failed";
+        });
+      })
+
+      const affiliatePayload = affiliates.filter(affiliate => affiliate.status).map(affiliate => ({
+        trackedEntity: affiliate.id,
+        orgUnit: affiliate.orgUnit,
+        trackedEntityType: trackedEntityType,
+        attributes: [{
+          attribute:attributes.acuityCheck,
+          value:affiliate.status
+        }]
+      }))
+      
+      if(affiliatePayload.length) await dataApi.update(affiliatePayload);
+    }
+    catch(e) {
+        console.log(e);
+    }
+
     //filter affiliate list based on the status:
     const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && !trackedEntity[attributes.submitted]);
     const failedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Failed");

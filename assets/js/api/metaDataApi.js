@@ -104,3 +104,11 @@ export const orgUnitsApi = {
     return response.json();
   }
 }
+
+export const dataElementsApi = {
+  get: async ({param}) => {
+    var url = `dataElements.json?paging=false&${param.join('&')}`
+    const response = await BaseApi({url, method:"GET"});
+    return response.json();
+  }
+}
