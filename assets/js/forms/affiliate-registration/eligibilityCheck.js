@@ -1,6 +1,6 @@
 import { dataApi } from "../../api/DataApi.js";
 import { dataElementsApi, meApi, programsApi } from "../../api/metaDataApi.js";
-import { attributes, programs} from "../../constant.js";
+import { attributes, orgUnit, programs, trackedEntityType} from "../../constant.js";
 import { getUserConfig } from "../config.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -68,12 +68,12 @@ document.addEventListener("DOMContentLoaded", async function () {
               affiliate.status = "";
               break;
             }
-            else affiliate.status == "Failed";
+            else affiliate.status = "Failed";
           }
-          if(affiliate.staus !='Failed') {
-            const hasPassed = Object.values(checkAffiliate).every(val => val === true);
-            if(hasPassed) affiliate.status == "Passed";
-          }
+        }
+        if(affiliate.status !='Failed') {
+          const hasPassed = Object.values(checkAffiliate).every(val => val === true);
+          if(hasPassed) affiliate.status == "Passed";
         }
         affiliates.forEach(affiliate => {
           if(affiliate.status == "Passed") affiliate[attributes.acuityCheck] = "Passed";
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const affiliatePayload = affiliates.filter(affiliate => affiliate.status).map(affiliate => ({
         trackedEntity: affiliate.id,
-        orgUnit: affiliate.orgUnit,
+        orgUnit: orgUnit.affiliateKYC,
         trackedEntityType: trackedEntityType,
         attributes: [{
           attribute:attributes.acuityCheck,
@@ -91,16 +91,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         }]
       }))
       
-      if(affiliatePayload.length) await dataApi.update(affiliatePayload);
+      if(affiliatePayload.length) await dataApi.update({trackedEntities: affiliatePayload});
     }
     catch(e) {
         console.log(e);
     }
 
     //filter affiliate list based on the status:
-    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && !trackedEntity[attributes.submitted]);
-    const failedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Failed");
-    const inProgressList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="In Progress");
+    const approvedList = affiliates.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && !trackedEntity[attributes.submitted]);
+    const failedList = affiliates.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Failed");
+    const inProgressList = affiliates.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="In Progress");
 
     document.getElementById('approvedCount').innerHTML = approvedList.length;
     document.getElementById('failedCount').innerHTML = failedList.length;

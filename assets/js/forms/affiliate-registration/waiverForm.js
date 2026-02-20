@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const riskValues = [{name: 'Arms Trafficking & WMD', code: "AT", involved: false, status: "", description: "", justification: ""}, {name: 'PEP', code: "PEP", involved: false, status: "", description: "", justification: ""}, {name: 'Terrorism', code: "TWIf", involved: false, status: "", description: "", justification: ""}, {name: 'Money Laundering', code: "ML", involved: false, status: "", description: "", justification: ""}, {name: 'Drug Trafficking', code: "DT", involved: false, status: "", description: "", justification: ""}, {name: 'Fraud', code: "FR", involved: false, status: "", description: "", justification: ""}, {name: 'Wanted Individuals / Global Sanction List', code: "GSL", involved: false, status: "", description: "", justification: ""},  {name: 'Enforcement', code: "EN", involved: false, status: "", description: "", justification: ""}];
 
        riskValues.forEach(risk => {
-        if(data.includes(risk)) {
+        if(data.includes(risk.name)) {
           acuityStatus = 'Failed'
           risk.involved = true;
           risk.description = data;
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       <td>${dataValues[`${id[0]}-designation`]?`${id[0]}-designation`:"NA"}</td>`;
       riskValues.forEach(val => {
         if(val.involved){
-          tableBody += `<td  class="text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></td>`;
+          tableBody += `<td  class="text-center" style="cursor: pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></td>`;
         }
         else {
           tableBody += `<td  class="text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-success" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></td>`
