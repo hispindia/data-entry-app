@@ -173,6 +173,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             tei.disabled = true;
         }
 
+        const resRules = await programsApi.rules(programs.affiliateKyc);
+        const resRuleVariables = await programsApi.ruleVariables(programs.affiliateKyc);
+        const resOptionGroups = await optionSetApi.getOptionGroups();
+        tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
+
         const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
         const affilateStage = await programStageApi.get(programStage.affiliateKyc);
     
@@ -187,6 +192,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         tei.metadata = {...programAttr.metadata, ...affiliateStageData.metadata};
         tei.mandatoryList = [...programAttr.mandatoryList, ...affiliateStageData.mandatoryList];
         tei.values = {...programAttr.values, ...affiliateStageData.values};
+        
+        ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList,  tei.metadata, tei.values);
 
         if(tei.affiliate) {
             const dataValues = convert.trackedEntity(tei.affiliate, tei.fileType);

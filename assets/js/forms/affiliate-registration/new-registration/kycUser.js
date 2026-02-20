@@ -192,7 +192,7 @@ const newRegistration = async (userConfig) => {
         try {
 
             if(!tei.affiliate) {
-                const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc});
+                const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, eventStatus: 'COMPLETED'});
                 const affiliate = await dataApi.enroll(payload);
                 toast({status: 'SUCCESS', message: 'Affiliate saved successfully!', affiliate});
             } else {
