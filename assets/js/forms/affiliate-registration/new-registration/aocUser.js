@@ -107,7 +107,7 @@ const handleRegistration = async(userConfig) => {
       return;
     }
     if (!name && !regionValue) {
-      toast({ status: 'INFO', message: 'Please enter Name or select Region and Country to search.', position: 'Center' });
+      toast({ status: 'INFO', message: 'Please enter Name or select Region and Country to search.', position: 'center' });
       return;
     }
     if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;

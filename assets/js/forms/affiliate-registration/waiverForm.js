@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       <td>${dataValues[`${id[0]}-designation`]?`${id[0]}-designation`:"NA"}</td>`;
       riskValues.forEach(val => {
         if(val.involved){
-          tableBody += `<td  class="text-center" style="cursor: pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></td>`;
+          tableBody += `<td  class="text-center" style="cursor: pointer" onClick="openRiskModal('${val.code}', '${id[0]}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></td>`;
         }
         else {
           tableBody += `<td  class="text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-success" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></td>`
@@ -102,4 +102,91 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById(`tbody-affiliate`).innerHTML = tableBody;
   
   }
+
+  function ensureRiskModal() {
+  let modal = document.getElementById("riskModal");
+
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "riskModal";
+      modal.className = "custom-modal";
+
+      modal.innerHTML = `
+        <div class="custom-modal-card md">
+          <div id="riskModalContent"></div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    return modal;
+  }
+
+  window.openRiskModal = (riskCode, memberId, description = "") => {
+  const modal = ensureRiskModal();
+  const content = modal.querySelector('#riskModalContent');
+
+  content.innerHTML = `
+    <div class="custom-modal-header">
+      <div>
+        <h4 class="mb-0">Risk Decision</h4>
+        <small class="text-muted">Flagged For Review</small>
+      </div>
+      <button class="close"
+        onclick="document.getElementById('riskModal').classList.remove('show')">
+        &times;
+      </button>
+    </div>
+
+    <div class="custom-modal-body">
+
+      <h6 class="font-weight-bold mb-2">Flag Details:</h6>
+      <div class="alert alert-danger mb-4">
+        ${description}
+      </div>
+
+      <h6 class="font-weight-bold mb-2">Decision:</h6>
+
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="radio" name="riskDecision" id="approveRisk" value="Approve">
+        <label class="form-check-label" for="approveRisk">
+        Approve
+        </label>
+      </div>
+
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="radio" name="riskDecision" id="rejectRisk" value="Reject">
+        <label class="form-check-label" for="rejectRisk">
+          Reject
+        </label>
+      </div>
+
+      <div class="mb-3">
+        <label class="font-weight-bold">Comments:</label>
+        <textarea id="riskComment" class="form-control" rows="4"></textarea>
+      </div>
+
+    </div>
+
+    <div class="custom-modal-footer">
+      <button class="btn bg-transparent border"
+        onclick="document.getElementById('riskModal').classList.remove('show')">
+        Cancel
+      </button>
+
+      <button class="btn"
+        style="background:#E93300;color:#fff"
+        onclick="submitRiskDecision('${riskCode}', '${memberId}')">
+        Submit Decision
+      </button>
+    </div>
+  `;
+
+  modal.classList.add('show');
+};
+
+
+
+
 })
