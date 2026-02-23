@@ -25,6 +25,37 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   if(userConfig.user.includes('waiver')) $('#submitBtn').removeClass('d-none')
+  document.getElementById('submitBtn').addEventListener('click', async() => {
+
+    tei.acuityList.forEach(acuity => {
+      acuity.riskValues.forEach(risk => {
+        if(risk.involved) {
+          const de = tei.dataElementcode[`${risk.code}-${acuity.memberId}`];
+          const deJustification = tei.dataElementcode[`${risk.code}-Justification-${acuity.memberId}`];
+          const deStatus = tei.dataElementcode[`${risk.code}-Status-${acuity.memberId}`];
+          const deDescription = tei.dataElementcode[`${risk.code}-Description-${acuity.memberId}`];
+          if(de) tei.values[de] = risk.involved;
+          if(deJustification) tei.values[deJustification] = risk.justification;
+          if(deStatus) tei.values[deStatus] = risk.status;
+          if(deDescription) tei.values[deDescription] = risk.description;
+        }
+      })
+    })
+      await dataApi.postAttribute({trackedEntities: [{
+        trackedEntity: tei.affiliate.trackedEntity,
+        orgUnit: tei.affiliate.orgUnit,
+        trackedEntityType: trackedEntityType,
+        attributes: [{ attribute:attributes.acuityCheck, value: "Passed"}]
+        }]
+      })
+      const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
+      const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
+       
+      const payloadWaiver = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.acuityWaiver);
+      await dataApi.enroll(payloadWaiver);
+      toast({status: 'SUCCESS', message: 'Waiver added Successfully.', move: true});
+
+})
   
   fetchAffiliate();
   async function fetchAffiliate() {
@@ -38,8 +69,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           dataApi.getTrackedEntity(affiliate),
           dataApi.dataStore(`accuityResponse/${affiliate}`)
         ]);
-        tei.dataElements = response[0].dataElements;
-        const acuityWaiver = convert.stage({ programStage: response[1]});    
+        response[0].dataElements.forEach(de => tei.dataElementcode[de.code] = de.id);
+
+        const acuityWaiver = convert.stage({ programStage: response[1]}); 
+        
+        tei.programStages = [...acuityWaiver.sections];
+        tei.dataElements = acuityWaiver.dataElements;
+        tei.metadata = {...acuityWaiver.metadata};   
+        
         tei.affiliate = response[2].trackedEntities[0];
         tei.acuityList = response[3].sort((a, b) => +a.sl_no - +b.sl_no);
       }
@@ -54,6 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     tei.affiliate.enrollments.forEach(enroll => {
       enroll.events.sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt));
       enroll.events.forEach(event => {
+        dataValues[event.programStage] = event.event;
         event.dataValues.forEach(dv => {
           if (!dataValues.hasOwnProperty(dv.dataElement)) {
             dataValues[dv.dataElement] = dv.value;
@@ -61,19 +99,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
       });
     });
+    tei.values = dataValues;
     
     var acuityStatus = "";
-    document.getElementById('region').innerHTML = dataValues[attributes.region] ||  '';
-    document.getElementById('country').innerHTML = dataValues[attributes.countryRegistration] ||  '';
-    document.getElementById('name').innerHTML = dataValues[attributes.legalName] ||  '';
-    document.getElementById('reg-num').innerHTML = dataValues[attributes.registrationNum] ||  '';
+    document.getElementById('region').innerHTML = tei.values[attributes.region] ||  '';
+    document.getElementById('country').innerHTML = tei.values[attributes.countryRegistration] ||  '';
+    document.getElementById('name').innerHTML = tei.values[attributes.legalName] ||  '';
+    document.getElementById('reg-num').innerHTML = tei.values[attributes.registrationNum] ||  '';
 
     var tableBody = ""
-    const elements = {};
-    tei.dataElements.forEach(de => elements[de.code] = de.id);
 
-    tei.acuityList.forEach(list => {
-      const id = list.id.split('_')
+    tei.acuityList.forEach((list,index) => {
+      const id = list.id.split('_');
+      const memberId = id[0];
       const data = list[list.id];
       const riskValues = [{name: 'Arms Trafficking & WMD', code: "AT", involved: false, status: "", description: "", justification: ""}, {name: 'PEP', code: "PEP", involved: false, status: "", description: "", justification: ""}, {name: 'Terrorism', code: "TWIf", involved: false, status: "", description: "", justification: ""}, {name: 'Money Laundering', code: "ML", involved: false, status: "", description: "", justification: ""}, {name: 'Drug Trafficking', code: "DT", involved: false, status: "", description: "", justification: ""}, {name: 'Fraud', code: "FR", involved: false, status: "", description: "", justification: ""}, {name: 'Wanted Individuals / Global Sanction List', code: "GSL", involved: false, status: "", description: "", justification: ""},  {name: 'Enforcement', code: "EN", involved: false, status: "", description: "", justification: ""}];
 
@@ -83,110 +121,117 @@ document.addEventListener("DOMContentLoaded", async function () {
           risk.involved = true;
           risk.description = data;
         }
+      list.memberId = memberId;
+      list.name = tei.values[memberId]?tei.values[memberId]:"";
+      list.designation = tei.values[`${memberId}-designation`]?tei.values[`${memberId}-designation`]:"NA";
+      list.description = tei.values[dataElements[`${risk.code}-Description-${memberId}`]] ? tei.values[dataElements[`${risk.code}-Description-${memberId}`]] : risk.description;
+      list.justification = tei.values[dataElements[`${risk.code}-Justification-${memberId}`]] ? tei.values[dataElements[`${risk.code}-Justification-${memberId}`]] : '';
+      list.status = tei.values[dataElements[`${risk.code}-Status-${memberId}`]] ? tei.values[dataElements[`${risk.code}-Status-${memberId}`]] : '';
+      list.riskValues = riskValues;
        })
-
+       
+    })
+    console.log(tei.acuityList)
+    tei.acuityList.forEach((acuity, index) => {
       tableBody += `<tr>
-      <td>${dataValues[id[0]]?dataValues[id[0]]:""}</td>
-      <td>${dataValues[`${id[0]}-designation`]?`${id[0]}-designation`:"NA"}</td>`;
-      riskValues.forEach(val => {
-        if(val.involved){
-          tableBody += `<td  class="text-center" style="cursor: pointer" onClick="openRiskModal('${val.code}', '${id[0]}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></td>`;
+      <td>${acuity.name}</td>
+      <td>${acuity.designation}</td>`;
+      acuity.riskValues.forEach(risk => {
+        if(risk.involved){
+          tableBody += `<td  class="text-center" style="cursor: pointer;background-color: rgb(254, 242, 242);border-color: rgb(252, 165, 165);" data-risk="${index}-${risk.code}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+          </td>`;
         }
         else {
-          tableBody += `<td  class="text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-success" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></td>`
+          tableBody += `<td  class="text-center" style="background-color: rgb(240, 253, 244);border-color: rgb(134, 239, 172);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-success" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></td>`
         }
       })
       tableBody += '</tr>'
     })
     document.getElementById('acuity-status').innerHTML =  acuityStatus; 
     document.getElementById(`tbody-affiliate`).innerHTML = tableBody;
-  
-  }
+    document.getElementById(`tbody-affiliate`).addEventListener('click', (ev) => {
 
-  function ensureRiskModal() {
-  let modal = document.getElementById("riskModal");
+      const td = ev.target.closest("td");
 
-    if (!modal) {
-      modal = document.createElement("div");
-      modal.id = "riskModal";
-      modal.className = "custom-modal";
+      if (!td) return;
 
-      modal.innerHTML = `
-        <div class="custom-modal-card md">
-          <div id="riskModalContent"></div>
-        </div>
-      `;
+      const {risk} = td.dataset;
+      if(risk) {
+        const index = risk.split('-')[0];
+        const code = risk.split('-')[1];
+        const acuity = tei.acuityList[index];
+        const riskValue = acuity.riskValues.find(risk => risk.code ==code);
+        const content = document.querySelector('#body-modal');
+        const memberId = acuity['memberId'];
+        const description = riskValue['description'].match(/,\s*(.*?)\./)[1];
+        const status = riskValue['status'];
+        const justification = riskValue['justification'];
+        debugger;
+        content.innerHTML = `
+                  <h6 class="font-weight-bold mb-2">Flag Details:</h6>
+                  <p class="alert alert-danger mb-4" id="${code}-Description-${memberId}">
+                  ${description};
+                  </p>
 
-      document.body.appendChild(modal);
+                  <h6 class="font-weight-bold mb-2">Decision:</h6>
+                  <select class="status form-control" id="${code}-status-${memberId}">
+                  <option ${status=="" ? "selected": ""} value="">Select</option>
+                  <option ${status=="Approve" ? "selected": ""} value="Approve">Approve</option>
+                  <option ${status=="Reject" ? "selected": ""} value="Reject">Reject</option>
+                  </select>
+                 
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="font-weight-bold">Comments:</label>
+                    <textarea  id="${code}-Justification-${memberId}" class=" justification form-control" >
+                    ${justification}</textarea>
+                  </div>
+
+                <div class="custom-modal-footer">
+                  <button class="btn bg-transparent border modalAction" style="cursor: pointer;"
+                  id="close-modal">
+                    Cancel
+                  </button>
+
+                  <button class="btn modalAction"
+                    style="background:#E93300;color:#fff"
+                    data-acuityindex="${risk}"
+                    id="submit-modal">
+                    Submit Decision
+                  </button>
+                </div>
+                  `
+      document.getElementById("risk-modal").classList.add('show');
+      }
+    })
+
+    document.getElementById('riskModalContent').addEventListener('click', (ev)=> {
+
+  const button = ev.target.closest('.modalAction');
+  if(button.id == "close-modal") {
+    document.getElementById("risk-modal").classList.remove('show');
+  } 
+  if(button.id == "submit-modal") {
+    const risk = button.dataset.acuityindex;
+    if(risk) {
+
+        const index = risk.split('-')[0];
+        const code = risk.split('-')[1];
+      
+        const acuity = tei.acuityList[index];
+        const riskValue = acuity.riskValues.find(risk => risk.code ==code);
+        const justification = document.getElementsByClassName('justification')[0].value;
+        const status = document.getElementsByClassName('status')[0].value;
+        
+        riskValue.justification = justification;
+        riskValue.status = status;
     }
+    document.getElementById("risk-modal").classList.remove('show');
 
-    return modal;
   }
-
-  window.openRiskModal = (riskCode, memberId, description = "") => {
-  const modal = ensureRiskModal();
-  const content = modal.querySelector('#riskModalContent');
-
-  content.innerHTML = `
-    <div class="custom-modal-header">
-      <div>
-        <h4 class="mb-0">Risk Decision</h4>
-        <small class="text-muted">Flagged For Review</small>
-      </div>
-      <button class="close"
-        onclick="document.getElementById('riskModal').classList.remove('show')">
-        &times;
-      </button>
-    </div>
-
-    <div class="custom-modal-body">
-
-      <h6 class="font-weight-bold mb-2">Flag Details:</h6>
-      <div class="alert alert-danger mb-4">
-        ${description}
-      </div>
-
-      <h6 class="font-weight-bold mb-2">Decision:</h6>
-
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="riskDecision" id="approveRisk" value="Approve">
-        <label class="form-check-label" for="approveRisk">
-        Approve
-        </label>
-      </div>
-
-      <div class="form-check mb-3">
-        <input class="form-check-input" type="radio" name="riskDecision" id="rejectRisk" value="Reject">
-        <label class="form-check-label" for="rejectRisk">
-          Reject
-        </label>
-      </div>
-
-      <div class="mb-3">
-        <label class="font-weight-bold">Comments:</label>
-        <textarea id="riskComment" class="form-control" rows="4"></textarea>
-      </div>
-
-    </div>
-
-    <div class="custom-modal-footer">
-      <button class="btn bg-transparent border"
-        onclick="document.getElementById('riskModal').classList.remove('show')">
-        Cancel
-      </button>
-
-      <button class="btn"
-        style="background:#E93300;color:#fff"
-        onclick="submitRiskDecision('${riskCode}', '${memberId}')">
-        Submit Decision
-      </button>
-    </div>
-  `;
-
-  modal.classList.add('show');
-};
-
-
-
+    })
+  }
 
 })

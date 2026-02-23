@@ -74,7 +74,7 @@ debugger;
       headerList.forEach(attr => {
         if(attr.id == attributes.acuityCheck) {
           tbodyAffiliateApprovedRow += `<td class="text-center" >
-          ${(affiliate[attr.id] ? `<span style="background-color: #bbf7d0; color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">Approved</span>`: '')}
+          ${(affiliate[attr.id] ? `<span style="background-color: #bbf7d0color: #15803d; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem;">Approved</span>`: '')}
           </td>`
         }
         else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
@@ -178,7 +178,7 @@ debugger;
                 }
               ]
             })
-            toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
+            toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`, nextOUCode});
           }
         }
       }

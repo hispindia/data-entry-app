@@ -78,6 +78,7 @@ export const tei = {
     fileType: [],
     values: {},
     acuityList: [],
+    dataElementcode:[],
 }
 
 export const PROGRAM_RULE_TYPES = {
