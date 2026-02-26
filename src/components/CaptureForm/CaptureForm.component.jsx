@@ -107,11 +107,11 @@ function CaptureForm(props) {
     }, {});
 
     if (data) {
-      editRowCallback(cloneMetadata, null, data, null, null);
+      editRowCallback(cloneMetadata, null, data, null, null, null, formStatus);
     }
 
     changeMetadata([...Object.values(cloneMetadata)]);
-  }, [data.id]);
+  }, [data.id, formStatus]);
 
   // useEffect(() => {
   //   checkFormFulfilled();
@@ -127,7 +127,7 @@ function CaptureForm(props) {
       return obj;
     }, {});
 
-    editRowCallback(cloneMetadata, prevData, data, code, value, label);
+    editRowCallback(cloneMetadata, prevData, data, code, value, label, formStatus);
     checkFormFulfilled();
 
     setFormData({ ...data });
@@ -243,6 +243,7 @@ function CaptureForm(props) {
 
       return [pStage.executionDateLabel ,...programStageSections].map((pSection) => {
         if(pSection.id=="event_date") {
+          if(formStatus == FORM_ACTION_TYPES.EDIT) pStage.executionDateLabel.disabled = true;
           return  generateFields([pStage.executionDateLabel]);
         }
         const dataElements = pSection.dataElements.map((tea) => tea.id);

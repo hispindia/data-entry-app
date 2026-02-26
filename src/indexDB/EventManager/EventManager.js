@@ -485,7 +485,7 @@ export const find = async ({orgUnit, program}) => {
   .filter(event => event.program === program)
   .toArray();
   const events = {};
-  const eventList = {events: [], pagelist: {}};
+  const eventList = {events: [], pager: {}};
   res.forEach(event => {
    if(!events[event.event]) events[event.event] = { dataValues: []};
     events[event.event] = {...event, ...events[event.event]};

@@ -244,14 +244,15 @@ const InputField = ({
       case "NUMBER":
         return (
           <TextField
-            type="number"
+            type="text"
             value={value}
             handleChange={onChange}
             handleBlur={onBlur}
             disabled={disabled}
-            inputProps={{ min: "0", step: "1" }}
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', }}
             // maxLength={attribute && attribute.maxLength}
             onInput={(e) => {
+              e.target.value = e.target.value.replace(/[^0-9]/g, '');
               if (attribute && attribute.maxLength) {
                 e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, attribute.maxLength);
               }

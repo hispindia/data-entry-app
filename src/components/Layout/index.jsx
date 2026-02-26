@@ -18,11 +18,11 @@ const Layout = ({ children }) => {
         <ThemeProvider theme={muiTheme}>
           <ConfigProvider theme={antdThemeConfig}>
             <div className={app}>
-              {/* {!isPwa && (
+              {!isPwa && (
                 <div className={headerBarContainer}>
                   <HeaderBar title="Case Registry App" />
                 </div>
-              )} */}
+              )}
               {children}
             </div>
           </ConfigProvider>

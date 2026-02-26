@@ -36,15 +36,15 @@ i18n.use(initReactI18next).init({
 // export const store = configureStore();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={mainStore}>
       <ConnectedRouter history={history}>
         <Layout>
           <AppContainer />
         </Layout>
       </ConnectedRouter>
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
+  {/* </React.StrictMode> */}
 );
 
 if ("serviceWorker" in navigator) {

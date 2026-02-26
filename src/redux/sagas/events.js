@@ -52,25 +52,25 @@ function* getEvents(newPayload = {}) {
         nextPayload.pageSize,
       );
     }
-    var { events, ...pagelist } = instanceList;
-    if(events.length) {
-      events = events.map(event => ({
+    var events = [];
+    if(instanceList.events.length) {
+      events = instanceList.events.map(event => ({
         eventId: event.event, 
         updatedAt: event.updatedAt,
         values: event.dataValues.map(dv => ({ id: dv.dataElement, value: dv.value }))
       }))
     }
 
-    yield put(getTeisSucceed({ ...pagelist, trackedEntities:events }));
+    yield put(getTeisSucceed({ ...instanceList.pager, trackedEntities:events }));
     yield all([
       put(filter(nextPayload.filters)),
       put(sort(nextPayload.orderString)),
       put(
         changePager({
-          page: instanceList.page,
-          pageSize: instanceList.pageSize,
-          total: instanceList.total,
-          pageCount: instanceList.pageCount,
+          page: instanceList.pager.page,
+          pageSize: instanceList.pager.pageSize,
+          total: instanceList.pager.total,
+          pageCount: instanceList.pager.pageCount,
         })
       ),
     ]);

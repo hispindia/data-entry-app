@@ -14,7 +14,6 @@ export default function* deleteTeiSaga() {
 }
 
 function* handleDeleteTei({ teiId }) {
-  debugger;
   const { offlineStatus } = yield select((state) => state.common);
 
   try {

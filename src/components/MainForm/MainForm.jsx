@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import _, { cond } from "lodash";
 import i18n from "i18next";
 import { CloseOutlined } from "@ant-design/icons";
-import { DATAELEMENT_BIRTH_DATE, DATAELEMENT_DEATH_DATE, FORM_ACTION_TYPES, PROGRAM_RULE_TYPES } from "../constants";
+import { BIRTH_PROGRAM, DATAELEMENT_BIRTH_DATE, DATAELEMENT_DEATH_DATE, DATAELEMENT_FATHER_NRC, DATAELEMENT_INFANT_NAME, DATAELEMENT_MOTHER_NRC, DATAELEMENT_NRC, FORM_ACTION_TYPES, PROGRAM_RULE_TYPES, USER_GROUPS } from "../constants";
 import { updateCascade } from "@/redux/actions/data/tei/currentCascade";
 import { transformEvent } from "@/utils/event";
 import { submitEvent } from "@/redux/actions/data";
@@ -17,6 +17,7 @@ import { generateUid } from "@/utils";
 const MainForm = ({onCloseClick}) => {
   const dispatch = useDispatch();
 
+  const { userGroups } =useSelector(state => state.me);
   const { programMetadata, selectedOrgUnit, programRules } = useSelector((state) => state.metadata);
   const currentCascade = useSelector((state) => state.data.tei.data.currentCascade);
   const currentEvents = useSelector((state) => state.data.tei.data.currentEvents);
@@ -94,9 +95,12 @@ const MainForm = ({onCloseClick}) => {
     dispatch(submitEvent(eventPayload));
   };
 
-    const editRowCallback = (metadata, previousData, data, code, value, label) => {
-      //Save on registration date
+    const editRowCallback = (metadata, previousData, data, code, value, label, formStatus) => {
       //Custom Validation 
+      if(code == DATAELEMENT_FATHER_NRC || code == DATAELEMENT_MOTHER_NRC || code == DATAELEMENT_NRC)  {
+        data[code] = data[code].replace(/[^0-9]/g, '');
+      }
+
       if(data.event_date) {
         setSaveDisabled(false);
         const eventDate = data["event_date"].split('-');
@@ -104,8 +108,12 @@ const MainForm = ({onCloseClick}) => {
          metadata[DATAELEMENT_BIRTH_DATE].minDate = `${eventDate[0]-10}-${eventDate[1]}-${eventDate[2]}`;
         }
       }
-
+      
       for(let data in metadata) {
+        if(userGroups.some(user => user.id == USER_GROUPS.FACILITY) && formStatus == FORM_ACTION_TYPES.EDIT) {
+          if(data == DATAELEMENT_INFANT_NAME) metadata[data].disabled = false;
+          else metadata[data].disabled = true;
+        }
         metadata[data].hidden = false;
         metadata[data].compulsory = false;
         metadata[data].error = '';
@@ -114,7 +122,6 @@ const MainForm = ({onCloseClick}) => {
           metadata[data].valueSet = metadata[data].optionSet;
         }
       }
-debugger;
       //From Program rules
       //Dyanimcally used inside eval
        window.d2 = {
@@ -128,9 +135,10 @@ debugger;
           weeksBetween: (curr, eventDate) => differenceInWeeks(new Date(eventDate), new Date(curr)),
           concatenate: (...args) => args.join(''),
           length: (value) => value.length,
+          left: (value, length) => value.toString().substring(0, length),
         }
         
-        programRules.forEach(rule => {
+        programRules.forEach(rule => {  
           if(rule.program.id == programMetadata.id) {
             try {
               if(rule.condition.includes('ruleData')) {
@@ -148,7 +156,7 @@ debugger;
                       dataElements.forEach(de => {
                         if(ruleData[de]) {  
                           const value = metadata[de].valueSet.find(option => option.value == ruleData[de]);
-                          ruleData[de] = value.label;
+                          ruleData[de] = value.value;
                         }
                       })
                     }  
@@ -203,7 +211,13 @@ debugger;
         setFormStatus(FORM_ACTION_TYPES.ADD_NEW)
       } 
       else if(tei.isNew === false) {
-        setFormStatus(FORM_ACTION_TYPES.EDIT)
+        if(userGroups.some( user => user.id == USER_GROUPS.STATE_REGION)) {
+          setFormStatus(FORM_ACTION_TYPES.EDIT);
+        } else if(userGroups.some( user => user.id == USER_GROUPS.TOWNSHIP || user.id == USER_GROUPS.FACILITY) && programMetadata.id == BIRTH_PROGRAM) {
+          setFormStatus(FORM_ACTION_TYPES.EDIT);
+        } else {
+          setFormStatus(FORM_ACTION_TYPES.VIEW);
+        } 
       }
     }, [tei])
 
@@ -246,6 +260,7 @@ const convertOriginMetadata = ({
       stage.dataElements.forEach((de) => {
         de.code = de.id;
         de.hidden = false;
+        de.disabled = false;
         de.error = '';
         de.warning = '';
       });

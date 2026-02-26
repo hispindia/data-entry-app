@@ -46,9 +46,10 @@ table tr td {
 }
 
 table tbody tr:hover {
-  background: linear-gradient(to right,#79BAEC, #95B9C7) !important;
+  /* background: linear-gradient(to right,#79BAEC, #95B9C7) !important; */
+  background: transparent !important;
 }
 
 table tbody tr:hover td {
-  color: #fff;
+  color: #000;
 }

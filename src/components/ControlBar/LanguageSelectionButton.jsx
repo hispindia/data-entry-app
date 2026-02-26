@@ -18,7 +18,8 @@ const LanguageSelectionButton = () => {
         setLoading(true);
         await baseApi.purePush("/api/userSettings/keyDbLocale", value);
         localStorage.removeItem("optionSets");
-        window.location.reload();
+        // window.location.reload();
+        i18n.changeLanguage(value);
       }}
     >
       {Object.values(LOCALE_CODES).map((code) => (

@@ -166,8 +166,9 @@ export default class MetadataApiClass extends BaseApiClass {
   };
 
   convertProgramMetadata = async (p) => {
-    let optionSets = await this.getOptionSets();
-
+    // let optionSets = await this.getOptionSets();
+    let optionSets = {};
+    
     const programMetadata = {};
     programMetadata.id = p.id;
     programMetadata.displayName = p.displayName;
@@ -239,6 +240,7 @@ export default class MetadataApiClass extends BaseApiClass {
             value: "မှတ်ပုံတင်သည့်ရက်စွဲ"
           }],
           valueType: "DATE",
+          disabled: false,
         },
         dataElements: ps.programStageDataElements.map((psde) => {
           const dataElement = {

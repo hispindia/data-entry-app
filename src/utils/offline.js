@@ -9,12 +9,11 @@ import * as programRuleVariable from "@/indexDB/ProgramRuleVariable/ProgramRuleV
 import * as optionGroups from "@/indexDB/optionGroupManager/OptionGroupManager";
 
 import db from "@/indexDB/db";
-
 export const getMetadataSet = (isOfflineMode) => {
   const savedProgram = sessionStorage.getItem("program");
   if (isOfflineMode) {
     return [
-      organisationUnitManager.getAllOrganisationUnits(),
+      // organisationUnitManager.getAllOrganisationUnits(),
       meManager.getMe(),
       organisationUnitLevelsManager.getAllOrganisationUnitLevels(),
       organisationUnitManager.getUserOrgs(),
@@ -27,9 +26,9 @@ export const getMetadataSet = (isOfflineMode) => {
   } else {
       
     return [
-      metadataApi.get(`/api/organisationUnits`, {}, [
-        "paging=false&fields=id,code,path,displayName,level,parent,translations&withinUserHierarchy=true",
-      ]),
+      // metadataApi.get(`/api/organisationUnits`, {}, [
+      //   "paging=false&fields=id,code,path,displayName,level,parent,translations&withinUserHierarchy=true",
+      // ]),
       metadataApi.getMe(),
       metadataApi.getOrgUnitLevels(),
       metadataApi.getUserOrgUnits(),

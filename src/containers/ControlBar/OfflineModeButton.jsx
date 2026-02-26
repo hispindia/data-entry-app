@@ -62,7 +62,10 @@ const OfflineModeButton = () => {
           const results = await findChangedData();
 
           const found = results.find((r) => r.length > 0);
-          if (!found) return dispatch(setOfflineStatus(false));
+          if (!found) {
+            dispatch(setOfflineStatus(false));
+            window.location.reload();
+          }
 
           notification.warning({
             message: t("warning"),

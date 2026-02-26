@@ -29,7 +29,7 @@ export const teiMapping = {
 
 function* handleGetTei() {
   yield put(loadTei(true));
-  
+
   try {
     const teiId = yield call(getTeiId);
     if (teiId) {

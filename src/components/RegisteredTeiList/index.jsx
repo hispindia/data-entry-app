@@ -100,7 +100,27 @@ const RegisteredTeiList = ({
         return <TableColumn metadata={null} external={{ name: "updatedAt", type: "DATE" }} value={value} />;
       },
     };
+    var viewButton = {
+      title: "Action",
+      key: "action",
+      render: (_, record, rowIndex) => (
+        <Button
+          style={{
+            borderColor: "#1677ff",
+            color: "#1677ff",
+          }}
+          type="link"
+          onClick={(event) => {
+            event.stopPropagation(); // important
+            onRowClick(record, rowIndex, event);
+          }}
+        >
+          View
+        </Button>
+      ),
+    };
     columns.unshift(...[additionalColumns, lastUpdatedObject]);
+    columns.push(viewButton);
 
     return columns;
   };
@@ -135,13 +155,6 @@ const RegisteredTeiList = ({
 
   return (
     <Table
-      onRow={(record, rowIndex) => {
-        return {
-          onClick: (event) => {
-            onRowClick(record, rowIndex, event);
-          },
-        };
-      }}
       rowHoverable={false}
       columns={createColumns()}
       dataSource={createDataSource()}

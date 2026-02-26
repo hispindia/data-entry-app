@@ -47,7 +47,6 @@ const AppContainer = () => {
       }}
     );
     rules.sort((a, b) => (a.priority || 999) - (b.priority || 999)).forEach(rule => {
-
         var modifiedRule = JSON.parse(JSON.stringify(rule));
         modifiedRule.programRuleActions.forEach(action => {
         action['useCodeForOptionSet'] = [];
@@ -56,7 +55,7 @@ const AppContainer = () => {
         if(action.data) {
             action['data'] = action.data.replace(regex, (_, key) => `ruleData['${modifiedRuleVariables[rule.program.id][key] || key}']`)?.replaceAll(/d2:/g, 'd2.');
             if(useCodeForOptionSet[rule.program.id])  {
-              const optionList = useCodeForOptionSet[rule.program.id].filter( de => (!de.value && action.data.includes(de.id))).map(de => de.id)
+              const optionList = useCodeForOptionSet[rule.program.id].filter( de => (de.value && action.data.includes(de.id))).map(de => de.id)
               if(optionList.length) {
                 action['useCodeForOptionSet'] = optionList;
               }
@@ -86,8 +85,8 @@ const AppContainer = () => {
       i18n.changeLanguage(currentLocale);
 
       Promise.all(getMetadataSet(isOfflineMode)).then(async (results) => {
-        dispatch(setMe(results[1]));
-        dispatch(setOrgUnitLevels(results[2].organisationUnitLevels));
+        dispatch(setMe(results[0]));
+        dispatch(setOrgUnitLevels(results[1].organisationUnitLevels));
         const savedSelectedOrgUnit = sessionStorage.getItem("selectedOrgUnit");
 
         if (savedSelectedOrgUnit) {
@@ -101,10 +100,10 @@ const AppContainer = () => {
        dispatch(setSelectedOrgUnit(orgUnitJsonData));
        // history.push("/list");
         }
-        dispatch(setOrgUnits(results[3].organisationUnits));
-        dispatch(setProgramsMetadata(results[4]));
-        dispatch(setProgramMetadata(results[5]));
-        dispatch(setProgramRules(configureRules(results[6].programRuleVariables, results[7].programRules, results[8].optionGroups)));
+        dispatch(setOrgUnits(results[2].organisationUnits));
+        dispatch(setProgramsMetadata(results[3]));
+        dispatch(setProgramMetadata(results[4]));
+        dispatch(setProgramRules(configureRules(results[5].programRuleVariables, results[6].programRules, results[7].optionGroups)));
         setLoading(false);
         setLoaded(true);
       });
