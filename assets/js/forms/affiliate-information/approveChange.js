@@ -301,74 +301,52 @@ document.addEventListener("DOMContentLoaded", async function () {
     `;
 
     document.getElementById("confirmApproveBtn").onclick = async function() {
+         const containerDiv = document.getElementById("approveModalContent");
+        containerDiv.innerHTML = `
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Result</h5>
+            </div>
+            <div class="modal-body" style="text-align:center; padding:40px;">
+                <h6>Please wait while we process your request...</h6>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff"  onClick=" document.getElementById('approveModal').classList.remove('show')"> Close </button>
+            </div>
+            
+            `;
         try {
-            const reqData = cachedRequests.find(
-                r => r.teiId === teiId && r.eventId === eventId
-            
-            );
-
-            if(!reqData) throw new Error("Request Not found");
-
-            //detecting id 
-            let acuityDEID = null;
-            for(const deId of Object.values(ROLE_ACUITY_DE)) {
-                const match = reqData.dataValues.find(
-                    dv => dv.dataElement === deId && dv.value === "In-Progress"
-                );
-
-                if(match) {
-                    acuityDEID = deId;
-                    break;
-                }
-            }
-
-            if(!acuityDEID) throw new Error("No In-progress Data Found");
-            
-            const res = await dataApi.getTrackedEntity(teiId);
-            const affiliate = await res.trackedEntities[0];
-
-            if(!affiliate) throw new Error("Tracked Entity not found");
-            tei.affiliate = affiliate;
-
-            const latestValues = {};
-
-            affiliate?.attributes?.forEach(attr => {
-                latestValues[attr.attribute] = attr.value;
+          
+            //flow api call 
+            const flowResponse = await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                   "eventUid": "abc123",
+                    "action": "complete",
+                    "orgUnit": "OU_01",
+                    "program": "Prog_01",
+                    "PresidentName": "sonu singh AXWPS8419G"
+                })
             });
+           
+            const flowResult = await flowResponse.json();
+            containerDiv.innerHTML = `
+              <div class="modal-header">
+                <h5 class="modal-title">Approve Result</h5>
+              </div>
+             <div class="modal-body">
+                <pre style="white-space: pre-wrap;">
+                ${JSON.stringify(flowResult, null, 2)}
+                </pre>
+             </div>
 
-            affiliate.enrollments?.forEach(enroll => {
-                const sortedEvents = [...enroll.events].sort(
-                    (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
-                );
-                sortedEvents.forEach(event => {
-                    event.dataValues?.forEach(dv => {
-                        latestValues[dv.dataElement] = dv.value;
-                    });
-                });
-            });
+             <div class="modal-footer">
+                <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff"  onClick=" document.getElementById('approveModal').classList.remove('show')"> Close </button>
+             </div>
 
-            tei.values = latestValues;
-            
-            tei.values[acuityDEID] = "Approved";
-
-            //creating a new event 
-            const enrollment = affiliate.enrollments.find(e => 
-                 e.program === programs.UINControlMaster 
-            )
-
-            if(!enrollment) throw new Error("Enrollment not found");
-
-            const payload = createPayload.event(
-                tei,
-                enrollment.orgUnit,
-                enrollment.enrollment,
-                programs.UINControlMaster,
-                programStage.UINControlMaster
-            )
-
-            await dataApi.enroll(payload);
-
-            document.getElementById('approveModal').classList.remove('show');
+            `;
             await fetchChangeRequests();
             toast({status: 'SUCCESS', message: 'Request Approved Successfully!', position: 'topRight'});
             

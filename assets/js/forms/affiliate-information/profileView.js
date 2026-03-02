@@ -2,7 +2,7 @@ import { dataApi } from "../../api/DataApi.js"
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
 import { attributes, optionSet, programStage, programs, tei } from "../../constant.js";
-import { convert, fetchValueType } from "../metadata.js";
+import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 import { getNextCode } from "../utils.js";
 
@@ -41,13 +41,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           window.location.href = './2.1-view-and-update-profile.html';
         }
     });
-
-  document.getElementById("dueDiligence").addEventListener('change', function(e) {
-      if (e.target.matches("input, select, textarea")) {
-          tei.values[e.target.id] = e.target.value;
-          document.getElementById(`error-${e.target.id}`).innerHTML = '';
-        }
-  });
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
@@ -107,6 +100,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? `(${countryNameAndCodes[dataValues[attributes.countryRegistration]]})`  : ''
 
+  const resRules = await programsApi.rules(programs.UINControlMaster);
+  const resRuleVariables = await programsApi.ruleVariables(programs.UINControlMaster);
+  const resOptionGroups = await optionSetApi.getOptionGroups();
+  tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
+
   const programMetadata = await programsApi.get(programs.UINControlMaster);
   const programAttributes = convert.attributes({ program: programMetadata, disabled: true });
   
@@ -125,21 +123,35 @@ document.addEventListener("DOMContentLoaded", async function () {
     })
   })
   
-  tei.programStages = completionCheckList.sections;
+  tei.programStages = [...programAttributes.sections, ...uinStage.sections, ...completionCheckList.sections];
   tei.values = {...programAttributes.values, ...uinStage.values, ...completionCheckList.values, ...dataValues};
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
   tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
 
+  ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+
   document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
-  const completionCheckListDiv = renderSections(completionCheckList.sections);
-  const uinStageDiv = renderSections(uinStage.sections);
   
-    let dueDiligenceHtml = `${uinStageDiv}`;
-    if(hasWriteAccess) {
-      dueDiligenceHtml += `${completionCheckListDiv}`
-    }
-    document.getElementById("dueDiligence").innerHTML = dueDiligenceHtml;
-    flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+  const renderDueDiligence = () => {
+      const completionCheckListDiv = renderSections(completionCheckList.sections);
+      const uinStageDiv = renderSections(uinStage.sections);
+      let dueDiligenceHtml = `${uinStageDiv}`;
+      if(hasWriteAccess) {
+        dueDiligenceHtml += `${completionCheckListDiv}`
+      }
+      document.getElementById("dueDiligence").innerHTML = dueDiligenceHtml;
+      flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+  }
+  renderDueDiligence();
+
+  document.getElementById("dueDiligence").addEventListener('change', function(e) {
+      if (e.target.matches("input, select, textarea")) {
+          tei.values[e.target.id] = e.target.value;
+          document.getElementById(`error-${e.target.id}`).innerHTML = '';
+          ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+          renderDueDiligence();
+        }
+  });
   }
 
     function renderSections(sections) {
