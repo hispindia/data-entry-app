@@ -50,10 +50,22 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
       const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
       const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
-       
+      
+      console.log("tei.values before payload:", tei.values);
       const payloadWaiver = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.acuityWaiver);
-      await dataApi.enroll(payloadWaiver);
-      toast({status: 'SUCCESS', message: 'Waiver added Successfully.', move: true});
+      const existingEventId = tei.values[programStage.acuityWaiver];
+
+      if(existingEventId) {
+        const eventPayload = payloadWaiver.events ? payloadWaiver.events[0] : payloadWaiver;
+        eventPayload.event = existingEventId;
+        await dataApi.update({ events: [eventPayload]});
+       
+      }
+      else {
+        const createdEventId = await dataApi.enroll(payloadWaiver);
+        tei.values[programStage.acuityWaiver] = createdEventId;
+      }
+      toast({status: 'SUCCESS', message: 'Waiver added Successfully.'});
 
 })
   
@@ -124,14 +136,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       list.memberId = memberId;
       list.name = tei.values[memberId]?tei.values[memberId]:"";
       list.designation = tei.values[`${memberId}-designation`]?tei.values[`${memberId}-designation`]:"NA";
-      list.description = tei.values[dataElements[`${risk.code}-Description-${memberId}`]] ? tei.values[dataElements[`${risk.code}-Description-${memberId}`]] : risk.description;
-      list.justification = tei.values[dataElements[`${risk.code}-Justification-${memberId}`]] ? tei.values[dataElements[`${risk.code}-Justification-${memberId}`]] : '';
-      list.status = tei.values[dataElements[`${risk.code}-Status-${memberId}`]] ? tei.values[dataElements[`${risk.code}-Status-${memberId}`]] : '';
+      list.description = tei.values[tei.dataElementcode[`${risk.code}-Description-${memberId}`]] ? tei.values[tei.dataElementcode[`${risk.code}-Description-${memberId}`]] : risk.description;
+      list.justification = tei.values[tei.dataElementcode[`${risk.code}-Justification-${memberId}`]] ? tei.values[tei.dataElementcode[`${risk.code}-Justification-${memberId}`]] : '';
+      list.status = tei.values[tei.dataElementcode[`${risk.code}-Status-${memberId}`]] ? tei.values[tei.dataElementcode[`${risk.code}-Status-${memberId}`]] : '';
       list.riskValues = riskValues;
        })
        
     })
-    console.log(tei.acuityList)
     tei.acuityList.forEach((acuity, index) => {
       tableBody += `<tr>
       <td>${acuity.name}</td>
@@ -139,11 +150,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       acuity.riskValues.forEach(risk => {
         if(risk.involved){
           tableBody += `<td  class="text-center" style="cursor: pointer;background-color: rgb(254, 242, 242);border-color: rgb(252, 165, 165);" data-risk="${index}-${risk.code}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-danger" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-danger" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
           </td>`;
         }
         else {
-          tableBody += `<td  class="text-center" style="background-color: rgb(240, 253, 244);border-color: rgb(134, 239, 172);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-success" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></td>`
+          tableBody += `<td  class="text-center" style="background-color: rgb(240, 253, 244);border-color: rgb(134, 239, 172);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-success" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+          </td>`
         }
       })
       tableBody += '</tr>'
@@ -165,8 +178,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const content = document.querySelector('#body-modal');
         const memberId = acuity['memberId'];
         const description = riskValue['description'].match(/,\s*(.*?)\./)[1];
-        const status = riskValue['status'];
-        const justification = riskValue['justification'];
+        // const status = riskValue['status'];
+        const status = tei.values[tei.dataElementcode[`${code}-Status-${memberId}`]] || riskValue.status || '';
+        // const justification = riskValue['justification'];
+        const justification = tei.values[tei.dataElementcode[`${code}-Justification-${memberId}`]] || riskValue.justification || '';
         debugger;
         content.innerHTML = `
                   <h6 class="font-weight-bold mb-2">Flag Details:</h6>
@@ -185,8 +200,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                   <div class="mb-3">
                     <label class="font-weight-bold">Comments:</label>
-                    <textarea  id="${code}-Justification-${memberId}" class=" justification form-control" >
-                    ${justification}</textarea>
+                    <textarea  id="${code}-Justification-${memberId}" class=" justification form-control" >${justification}</textarea>
                   </div>
 
                 <div class="custom-modal-footer">
@@ -210,6 +224,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById('riskModalContent').addEventListener('click', (ev)=> {
 
   const button = ev.target.closest('.modalAction');
+  if(!button) return;
   if(button.id == "close-modal") {
     document.getElementById("risk-modal").classList.remove('show');
   } 

@@ -332,22 +332,40 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
            
             const flowResult = await flowResponse.json();
+            const { rawPageText } = flowResult;
             containerDiv.innerHTML = `
               <div class="modal-header">
                 <h5 class="modal-title">Approve Result</h5>
               </div>
-             <div class="modal-body">
-                <pre style="white-space: pre-wrap;">
-                ${JSON.stringify(flowResult, null, 2)}
-                </pre>
-             </div>
+              <div class="modal-body" style="text-align:center;">
+                 <p>${rawPageText.split(",")[1]?.trim() || "No! Record Found"}</p>
+            </div>
 
              <div class="modal-footer">
                 <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff"  onClick=" document.getElementById('approveModal').classList.remove('show')"> Close </button>
              </div>
 
             `;
+            const isClean = rawPageText.toLowerCase().includes("No Record Found");
+            const deId = ROLE_ACUITY_DE[roleKey];
+            if(!deId) {
+                console.log("Invalid Row", roleKey);
+                return;
+            }
+            
+            if (isClean) {
+                await dataApi.update(eventId, {
+                    eventId,
+                    dataValues: [
+                       {
+                        dataElement: deId,
+                        value: "Approved"
+                       }
+                    ]
+                });
+            }
             await fetchChangeRequests();
+           
             toast({status: 'SUCCESS', message: 'Request Approved Successfully!', position: 'topRight'});
             
         } catch (e) {
