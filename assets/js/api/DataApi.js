@@ -62,7 +62,7 @@ export const dataApi = {
     try {
       const response = await BaseApi({url, method:"POST", payload});
       const data = await response.json();
-      return data.response.importSummaries[0].reference;
+      return data;
     } catch (error) {
       console.error("Error while creating events", error);
     }

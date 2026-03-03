@@ -27,20 +27,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   if(userConfig.user.includes('waiver')) $('#submitBtn').removeClass('d-none')
   document.getElementById('submitBtn').addEventListener('click', async() => {
 
-    tei.acuityList.forEach(acuity => {
-      acuity.riskValues.forEach(risk => {
-        if(risk.involved) {
-          const de = tei.dataElementcode[`${risk.code}-${acuity.memberId}`];
-          const deJustification = tei.dataElementcode[`${risk.code}-Justification-${acuity.memberId}`];
-          const deStatus = tei.dataElementcode[`${risk.code}-Status-${acuity.memberId}`];
-          const deDescription = tei.dataElementcode[`${risk.code}-Description-${acuity.memberId}`];
-          if(de) tei.values[de] = risk.involved;
-          if(deJustification) tei.values[deJustification] = risk.justification;
-          if(deStatus) tei.values[deStatus] = risk.status;
-          if(deDescription) tei.values[deDescription] = risk.description;
-        }
-      })
-    })
+      const orgUnitId = tei.affiliate.enrollments.find(e => e.program == programs.affiliateKyc)?.orgUnit;
+      const enrollment = tei.affiliate.enrollments.find(e => e.program == programs.affiliateKyc)?.enrollment;
+      const payloadWaiver = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.acuityWaiver);
+      const existingEventId = tei.values[programStage.acuityWaiver];
+
+      if(existingEventId) {
+        const eventPayload = payloadWaiver.events ? payloadWaiver.events[0] : payloadWaiver;
+        eventPayload.event = existingEventId;
+        await dataApi.update({ events: [eventPayload] });
+      } else {
+          const createdEventId = await dataApi.enroll(payloadWaiver);
+          tei.values[programStage.acuityWaiver] = createdEventId;
+      }
+
+    
       await dataApi.postAttribute({trackedEntities: [{
         trackedEntity: tei.affiliate.trackedEntity,
         orgUnit: tei.affiliate.orgUnit,
@@ -48,24 +49,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         attributes: [{ attribute:attributes.acuityCheck, value: "Passed"}]
         }]
       })
-      const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
-      const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
       
-      console.log("tei.values before payload:", tei.values);
-      const payloadWaiver = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.acuityWaiver);
-      const existingEventId = tei.values[programStage.acuityWaiver];
-
-      if(existingEventId) {
-        const eventPayload = payloadWaiver.events ? payloadWaiver.events[0] : payloadWaiver;
-        eventPayload.event = existingEventId;
-        await dataApi.update({ events: [eventPayload]});
-       
-      }
-      else {
-        const createdEventId = await dataApi.enroll(payloadWaiver);
-        tei.values[programStage.acuityWaiver] = createdEventId;
-      }
-      toast({status: 'SUCCESS', message: 'Waiver added Successfully.'});
+      toast({status: 'SUCCESS', message: 'Waiver added Successfully.', move: true});
 
 })
   
@@ -87,6 +72,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         
         tei.programStages = [...acuityWaiver.sections];
         tei.dataElements = acuityWaiver.dataElements;
+        const matched = tei.dataElements.filter(de => tei.values[de]);
+        // console.log("matched DEs with values:", matched);
+        // console.log("matched values:", matched.map(de => ({ de, value: tei.values[de] })));
         tei.metadata = {...acuityWaiver.metadata};   
         
         tei.affiliate = response[2].trackedEntities[0];
@@ -112,6 +100,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
     tei.values = dataValues;
+  //   tei.affiliate.enrollments.forEach(enroll => {
+  //   enroll.events.forEach(event => {
+  //     console.log("full event:", JSON.stringify(event, null, 2));
+  //   });
+  // });
     
     var acuityStatus = "";
     document.getElementById('region').innerHTML = tei.values[attributes.region] ||  '';
@@ -182,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const status = tei.values[tei.dataElementcode[`${code}-Status-${memberId}`]] || riskValue.status || '';
         // const justification = riskValue['justification'];
         const justification = tei.values[tei.dataElementcode[`${code}-Justification-${memberId}`]] || riskValue.justification || '';
-        debugger;
+        // debugger;
         content.innerHTML = `
                   <h6 class="font-weight-bold mb-2">Flag Details:</h6>
                   <p class="alert alert-danger mb-4" id="${code}-Description-${memberId}">
@@ -221,9 +214,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     })
 
-    document.getElementById('riskModalContent').addEventListener('click', (ev)=> {
+    document.getElementById('riskModalContent').addEventListener('click', async(ev)=> {
 
   const button = ev.target.closest('.modalAction');
+  // console.log("programStage.acuityWaiver:", programStage.acuityWaiver);
+  // console.log("existingEventId:", tei.values[programStage.acuityWaiver]);
   if(!button) return;
   if(button.id == "close-modal") {
     document.getElementById("risk-modal").classList.remove('show');
@@ -242,6 +237,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         
         riskValue.justification = justification;
         riskValue.status = status;
+
+        const memberId = acuity.memberId;
+        const de = tei.dataElementcode[`${code}-${memberId}`];
+        const deJustification = tei.dataElementcode[`${code}-Justification-${memberId}`];
+        const deStatus = tei.dataElementcode[`${code}-Status-${memberId}`];
+        const deDescription = tei.dataElementcode[`${code}-Description-${memberId}`];
+
+        if(de) tei.values[de] = riskValue.involved;
+        if(deJustification) tei.values[deJustification] = justification;
+        if(deStatus) tei.values[deStatus] = status;
+        if(deDescription) tei.values[deDescription] = riskValue.description;
+
+        toast({ status: 'SUCCESS', message: 'Decision saved.'});
+
     }
     document.getElementById("risk-modal").classList.remove('show');
 
