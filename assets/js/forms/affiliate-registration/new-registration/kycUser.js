@@ -12,7 +12,11 @@ const newRegistration = async (userConfig) => {
     if(userConfig.user.includes('aoc')) document.getElementById('sendToAcuityBtn').style.display = 'block';
     
     if(userConfig.user.includes('kyc')) {
-        const resAffiliate = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc,  `filter=${attributes.user}:EQ:${userConfig.username}`);
+        var resAffiliate = { trackedEntities: [] };
+
+        if(affiliate) resAffiliate = await dataApi.getTrackedEntity(affiliate);
+        else resAffiliate = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc,  `filter=${attributes.user}:EQ:${userConfig.username}`);
+       
         if(resAffiliate.trackedEntities.length) {
             tei.affiliate = resAffiliate.trackedEntities[0];
             tei.affiliate.enrollments.forEach(enroll => {
@@ -22,22 +26,6 @@ const newRegistration = async (userConfig) => {
                     }
                 })
             })
-        }
-    }
-    else {
-        
-        if(affiliate) {
-            const resAffiliate = await dataApi.getTrackedEntity(affiliate);
-            if(resAffiliate.trackedEntities.length) {
-                tei.affiliate = resAffiliate.trackedEntities[0];
-                tei.affiliate.enrollments.forEach(enroll => {
-                    enroll.events.forEach(event => {
-                        if(event.programStage == programStage.affiliateKyc && event.status == "COMPLETED") {
-                            tei.disabled = true;
-                        }
-                    })
-                })
-            }
         }
     }
 
