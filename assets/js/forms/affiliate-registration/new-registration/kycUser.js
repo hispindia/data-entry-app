@@ -41,7 +41,11 @@ const newRegistration = async (userConfig) => {
         }
     }
 
-    if(tei.disabled) document.getElementById('disclaimerCheck').checked = true;
+    if(tei.disabled) {
+        document.getElementById('disclaimerCheck').checked = true;
+        document.getElementById('saveAsDraft').disabled = true;
+        document.getElementById('submitBtn').disabled = true;
+    }
     
     const disclaimerCheck = document.getElementById('disclaimerCheck');
     disclaimerCheck.addEventListener('change', function(e) {
@@ -146,6 +150,9 @@ const newRegistration = async (userConfig) => {
     });
 
     document.getElementById("submitBtn").addEventListener("click", async () => {
+        for(let el in tei.metadata) {
+            if(!tei.mandatoryList.includes(el) && tei.metadata[el].mandatory) tei.mandatoryList.push(el);
+        }
         if(tei.mandatoryList) {
             let empty = false;
             for(const id of tei.mandatoryList) {
@@ -284,6 +291,8 @@ const newRegistration = async (userConfig) => {
         }
         tei.values = {...tei.values, ...dataValues};
     }
+
+    if(tei.values[attributes.acuityCheck]) document.getElementById("sendToAcuityBtn").disabled = true;
     
     ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList,  tei.metadata, tei.values);
         

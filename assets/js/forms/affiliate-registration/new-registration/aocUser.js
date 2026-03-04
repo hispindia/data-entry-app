@@ -103,7 +103,7 @@ const handleRegistration = async(userConfig) => {
 
     let otherParam = "";
     if (regionValue && !countryValue) {
-      toast({ status: 'INFO', message: 'Please Select Country!', position: 'Center'});
+      toast({ status: 'INFO', message: 'Please Select Country!', position: 'center'});
       return;
     }
     if (!name && !regionValue) {
@@ -121,7 +121,7 @@ const handleRegistration = async(userConfig) => {
     );
 
     if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({ status: 'INFO', message: 'No affiliate found', position: 'Center' });
+        toast({ status: 'INFO', message: 'No affiliate found', position: 'center'});
         return;
     }
 
