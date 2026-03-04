@@ -80,7 +80,7 @@ export const createPayload = {
     
         return { trackedEntities: [trackedEntityInstance]} 
     },
-    event: (tei, orgUnit, enrollment, program, programStage) => {
+    event: (tei, orgUnit, enrollment, program, programStage, status) => {
         const date = new Date();
         const formattedDate = date.toISOString();
 
@@ -100,7 +100,7 @@ export const createPayload = {
                 program,
                 programStage,
                 trackedEntity: tei.affiliate.trackedEntity,
-                status: "ACTIVE"
+                status: status || "ACTIVE"
             }]
         }
     },

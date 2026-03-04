@@ -37,19 +37,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             mandatoryError.innerHTML = "This field is required";
             mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
             mandatoryError.focus({ preventScroll: true });
-            }
-            if(tei.metadata[id].valueType === 'EMAIL' && !isGmailOrYahoo(tei.values[id])){
+          }
+          else if(tei.metadata[id].valueType === 'EMAIL' && !isGmailOrYahoo(tei.values[id])){
               empty = true;
               mandatoryError.innerHTML = "Only valid email addresses are allowed.";
               mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
               mandatoryError.focus({ preventScroll: true });
-            }
-            else mandatoryError.innerHTML = "";
           }
-          if(empty) {
-            toast({status: 'INFO', message: 'Please fill mandatory fields!'});
-            return;
-          }
+          else mandatoryError.innerHTML = "";
+
+        }
+        if(empty) {
+          toast({status: 'INFO', message: 'Please fill mandatory fields!', position: 'center'});
+          return;
+        }
       }
 
       const completionChecklistSection = tei.programStages.find(s => s.name === 'Completion Checklist');
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }]
       })
 
-      const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence);
+      const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence, "COMPLETED");
       await dataApi.enroll(payloadDueDiligence);
       toast({status: 'SUCCESS', message: 'Checklist submitted Successfully.'});
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html'
@@ -114,7 +115,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
-  tei.mandatoryList = []
+  tei.mandatoryList = [];
+  tei.disabled = false;
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
   if(affiliate) {
@@ -134,6 +136,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+  if(tei.affiliate) {
+    tei.affiliate.enrollments.forEach(enroll => {
+      enroll.events.forEach(event => {
+        if(event.programStage == programStage.dueDiligence && event.status == "COMPLETED") {
+          tei.disabled = true;
+        }
+      })
+    })
+  }
+
+  if(tei.disabled) document.getElementById('submit').disabled = true;
+
   const resRules = await programsApi.rules(programs.affiliateKyc);
   const resRuleVariables = await programsApi.ruleVariables(programs.affiliateKyc);
   const resOptionGroups = await optionSetApi.getOptionGroups();
@@ -143,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const resDueDiligence = await programStageApi.get(programStage.dueDiligence);
 
   const affiliateStage = convert.stage({ programStage: resAffiliateStage, disabled: true });
-  const dueDiligence = convert.stage({ programStage: resDueDiligence });
+  const dueDiligence = convert.stage({ programStage: resDueDiligence, disabled: tei.disabled});
 
   tei.fileType = new Set(affiliateStage.fileType);
 

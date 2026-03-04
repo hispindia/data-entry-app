@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const resDataElement =  await dataElementsApi.get({
       param: ['filter=code:!null', 'fields=id,name,code']
     })
-    const dataElements ={
-      "UkQI1dWzZOv_qsASQ0NRTVA": false
+    const dataElements = {
+      "UkQI1dWzZOv_qsASQ0NRTVA": false //attributes organisation check
     }; 
 
     resDataElement.dataElements.forEach(de => {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return attributes;
     })
     try {
-      const availableAcuityData = affilitateAttrList.filter(list => list.store).map(list => dataApi.dataStore(`accuityResponse/${list.id}`).then(data => ({ ...list, status: "", data })));
+      const availableAcuityData = affilitateAttrList.filter(list => list.store && list[attributes.acuityCheck]== "In Progress").map(list => dataApi.dataStore(`accuityResponse/${list.id}`).then(data => ({ ...list, status: "", data })));
 
       const affiliates = await Promise.all(availableAcuityData);
       
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     //filter affiliate list based on the status:
-    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted]=="true");
+    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && !trackedEntity[attributes.submitted]);
     const failedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Failed");
     const inProgressList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="In Progress");
 
@@ -139,7 +139,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       <td class="text-center">  
       <button 
         data-affiliate="${affiliate.id}" 
-        class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;">
+        class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;"
+        >
         Process UIN Generation
       </button>
       </td>
