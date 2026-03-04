@@ -497,13 +497,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const enrollment = tei.affiliate.enrollments.find(
       e => e.program === programs.UINControlMaster
     );
-
-    const payload = createPayload.event(
+    const payload = createPayload.event({
       tei,
-      enrollment.orgUnit,
-      enrollment.enrollment,
-      programs.UINControlMaster,
-      programStage.UINControlMaster
+      orgUnit: enrollment.orgUnit,
+      enrollment: enrollment.enrollment,
+      program: programs.UINControlMaster,
+      programStage: programStage.UINControlMaster
+    }
     );
 
 

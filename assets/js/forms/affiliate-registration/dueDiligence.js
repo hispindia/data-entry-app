@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }]
       })
 
-      const payloadDueDiligence = createPayload.event(tei, orgUnitId, enrollment, programs.affiliateKyc, programStage.dueDiligence, "COMPLETED");
+      const payloadDueDiligence = createPayload.event({tei, orgUnit: orgUnitId, enrollment, program: programs.affiliateKyc, programStage: programStage.dueDiligence, status: "COMPLETED"});
       await dataApi.enroll(payloadDueDiligence);
       toast({status: 'SUCCESS', message: 'Checklist submitted Successfully.'});
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html'

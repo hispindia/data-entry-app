@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     tei.attributes = programAttr.attributes; 
     tei.fileType = new Set([...affiliateStage.fileType, ...dueDiligence.fileType]);
     const UINStages = [UINControlMaster, completionCheckList];
-debugger;
+
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
         id: trackedEntity.trackedEntity

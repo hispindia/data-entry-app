@@ -78,11 +78,11 @@
                             <ul class="dropdown-menu">
                               <li class="nav-item" data-target="1.1-new-registration.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.1 New Registration & Search</span></a></li>
                               <li class="nav-item active kyc" data-target="1.2-eligibility-check-and-manage-waivers.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.2 Eligibility Check & Manage Waivers</span></a></li>
-                              <li class="nav-item aoc kyc" data-target="1.3-generate-and-manage-uins.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.3 Generate & Manage UINs</span></a></li>
-                             <!--  <li class="nav-item aoc kyc" data-target="1.4-approve-and-sync-uins.html"><a class="nav-link" href="#"><span  data-i18n="intro.">1.4 Approve & Sync UINs</span></a></li> -->
+                              <li class="nav-item aoc kyc waiver" data-target="1.3-generate-and-manage-uins.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.3 Generate & Manage UINs</span></a></li>
+                             <!--  <li class="nav-item aoc kyc waiver" data-target="1.4-approve-and-sync-uins.html"><a class="nav-link" href="#"><span  data-i18n="intro.">1.4 Approve & Sync UINs</span></a></li> -->
                             </ul>
                       </li>
-                      <li class="kyc">
+                      <li class="kyc waiver">
                               <a class="nav-link has-dropdown" href="#">
                                 <span class="pr-3" data-i18n="intro.annual_report">2. Affiliate Information Updates</span>
                               </a>    
@@ -93,7 +93,7 @@
                               <!--  <li><a class="nav-link aoc" data-target="2.4-renew-eligibility-check.html"><span data-i18n="intro.">2.4 Renew Eligibility Check</span></a></li> -->
                             </ul>
                       </li>
-                      <li class="kyc">
+                      <li class="kyc waiver">
                             <a class="nav-link has-dropdown" href="#">
                             <span data-i18n="intro.">3. Standard Reports</span>
                             </a>
@@ -134,7 +134,7 @@
                 <div >Registration Number</div>
                 <p id="reg-num" class="text-bold"></p>
               </div>
-              <div class="col-1">
+              <div class="col-4">
                 <div >Acuity Status</div>
                 <p id="acuity-status" class="inline-block px-3 py-1 text-xs font-semibold rounded"></p>
               </div>
@@ -143,17 +143,30 @@
 
           <div class="card" style="border-radius: 0.5rem; background-color: white;margin-top: 15px;">
             <div class="card-body">
-              <p class="mb-1"><strong>Legend:</strong> </p>
-              <div class="d-flex align-items-center mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-success  mr-1" aria-hidden="true">
+              <strong class="mb-1">Legend:</strong>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-success" aria-hidden="true">
                   <path d="M20 6 9 17l-5-5"></path>
                 </svg>
-
-                <span>Not Flagged</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-danger mr-1 ml-2" aria-hidden="true">
+                <span>No flag found by Acuity</span>
+              </div>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-danger" aria-hidden="true">
                   <path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
                 </svg>
-                <span>Flagged / Failed</span>
+                <span>Flag has been found by Acuity</span>
+              </div>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-orange" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+                <span>Waiver has been approved</span>
+              </div>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-orange" aria-hidden="true">
+                  <path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+                </svg>
+                <span>Waiver has been rejected</span>
               </div>
               
               
@@ -175,7 +188,7 @@
                     <td class="text-center">Money Laundering</td>
                     <td class="text-center">Drug Trafficking</td>
                     <td class="text-center">Fraud</td>
-                    <td class="text-center">Global Sanction</td>
+                    <td class="text-center">Wanted Individuals / Global Sanction</td>
                     <td class="text-center">Enforcement</td>			
                 </tr>
               </thead>
@@ -184,14 +197,14 @@
             </table>
           </div>
           <div class="row mt-4">
+            <div class="col-2 mb-2 d-none" id="submitBtn">
+              <button type="button" class="btn btn-lg btn-block" id="submit"
+                style="background-color: rgb(235, 51, 0); cursor:pointer; color: white;">Submit</button>
+            </div>
             <div class="col-2 mb-2">
               <button type="button" class="btn btn-lg btn-block" id="searchButton"
                 onclick="window.location.href='./1.2-eligibility-check-and-manage-waivers.html'"
                 style="background-color: #6a6a6a; color: white;">Cancel</button>
-            </div>
-            <div class="col-2 mb-2" id="submitBtn">
-              <button type="button" class="btn btn-lg btn-block" id="submit"
-                style="background-color: rgb(235, 51, 0); cursor:pointer; color: white;">Submit</button>
             </div>
           </div>
           <div id="risk-modal" class="custom-modal">

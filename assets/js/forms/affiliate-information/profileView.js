@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if(!orgUnitId || !enrollment) return;
         
         tei.dataElements = tei.completionCheckListDEs;
-        const payloadCompletionCheckList = createPayload.event(tei, orgUnitId, enrollment, programs.UINControlMaster, programStage.completionCheckList);
+        const payloadCompletionCheckList = createPayload.event({tei, orgUnit: orgUnitId, enrollment, program: programs.UINControlMaster, programStage: programStage.completionCheckList});
         await dataApi.enroll(payloadCompletionCheckList);
         iziToast.success({
             status: 'SUCCESS',

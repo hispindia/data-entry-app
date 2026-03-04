@@ -9,7 +9,10 @@ export const userGroupConfig = (data) => {
     };
     const userGroupIds = data.userGroups.map(ug => ug.id);
     const isIppfAdmin = userGroupIds.includes(userGroup.disabledIPPFAdmin);
-    if (isIppfAdmin) pages['user'].push('admin');
+    if (isIppfAdmin) {
+        pages['user'].push('admin');
+        pages['blockWaiver'] = true;
+    }
 
     const isAoc = userGroupIds.includes(userGroup.disabledAOCGroup);
     if (isAoc) {

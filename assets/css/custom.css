@@ -588,6 +588,9 @@ ul.list-font li a:hover, ul.list-font li a.active{text-decoration:none;backgroun
 .text-danger {
   color: #dc3545 !important;
 }
+.text-orange {
+    color: orange !important;
+}
 .top-detail-form{background:#4472c4; padding:20px 20px 0px 20px; border-radius:10px;}
 .top-detail-form label{color:#fff;}
 .top-detail-form input, .top-detail-form select{background:transparent;color:#fff;}

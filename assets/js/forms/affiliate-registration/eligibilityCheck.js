@@ -60,13 +60,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       affiliates.forEach(affiliate => {
         const checkAffiliate = {...dataElements};
         for(let data of affiliate.data) {
-          if(data.id) {
-            if(data[data.id] == "No Records Found") checkAffiliate[data.id] = true;
-            else if(data[data.id] == "") {
-              affiliate.status = "";
-              break;
+          if(data[data.id]) {
+            if(data[data.id] == "No Records Found") {
+              checkAffiliate[data.id] = true;
+              continue;
             }
-            else affiliate.status = "Failed";
+            const riskNames = ['Arms Trafficking & WMD', 'Terrorism', 'Money Laundering', 'Drug Trafficking', 'Fraud', 'Wanted Individuals', 'Global Sanction List'];
+            const hasRisk = riskNames.some(name => data[data.id].includes(name));
+            if(hasRisk) {
+              affiliate.status = "Failed";
+              break;
+            } else checkAffiliate[data.id] = true;
+          }
+          else {
+            affiliate.status = "";
+            break;
           }
         }
         if(affiliate.status !='Failed') {
@@ -140,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       <button 
         data-affiliate="${affiliate.id}" 
         class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;"
-        >
+        ${userConfig.blockWaiver ? '' : 'disabled'}>
         Process UIN Generation
       </button>
       </td>
@@ -169,6 +177,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
      
       tbodyAffiliateRow += `
+      <td class="text-center">  
+      <button 
+        data-affiliate="${affiliate.id}" 
+        class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
+        onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
+        >
+        View
+      </button>
+      </td>
       <td class="text-center">
       <button 
         data-affiliate="${affiliate.id}" 
