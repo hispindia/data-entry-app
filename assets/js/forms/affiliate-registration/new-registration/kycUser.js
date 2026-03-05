@@ -201,8 +201,8 @@ const newRegistration = async (userConfig) => {
                 })
 
                 const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId, eventStatus: 'COMPLETED'});
-                const affiliate = dataApi.enroll(payload);
-                toast({status: 'SUCCESS', message: 'Affiliate saved successfully', affiliate});
+                dataApi.enroll(payload);
+                toast({status: 'SUCCESS', message: 'Affiliate saved successfully', affiliate: trackedEntity});
             }
         }
         catch(e) {
