@@ -11,22 +11,20 @@ const newRegistration = async (userConfig) => {
     tei.affiliate = ''
     if(userConfig.user.includes('aoc')) document.getElementById('sendToAcuityBtn').style.display = 'block';
     
-    if(userConfig.user.includes('kyc')) {
-        var resAffiliate = { trackedEntities: [] };
+    var resAffiliate = { trackedEntities: [] };
 
-        if(affiliate) resAffiliate = await dataApi.getTrackedEntity(affiliate);
-        else resAffiliate = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc,  `filter=${attributes.user}:EQ:${userConfig.username}`);
+    if(affiliate) resAffiliate = await dataApi.getTrackedEntity(affiliate);
+    else resAffiliate = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc,  `filter=${attributes.user}:EQ:${userConfig.username}`);
        
-        if(resAffiliate.trackedEntities.length) {
-            tei.affiliate = resAffiliate.trackedEntities[0];
-            tei.affiliate.enrollments.forEach(enroll => {
-                enroll.events.forEach(event => {
-                    if(event.programStage == programStage.affiliateKyc && event.status == "COMPLETED") {
-                        tei.disabled = true;
-                    }
-                })
+    if(resAffiliate.trackedEntities.length) {
+        tei.affiliate = resAffiliate.trackedEntities[0];
+        tei.affiliate.enrollments.forEach(enroll => {
+            enroll.events.forEach(event => {
+                if(event.programStage == programStage.affiliateKyc && event.status == "COMPLETED") {
+                    tei.disabled = true;
+                }
             })
-        }
+        })
     }
 
     if(tei.disabled) {
@@ -58,7 +56,7 @@ const newRegistration = async (userConfig) => {
             }
         try {
             await dataApi.update(payload);
-            toast({status: 'ERROR', message: 'Affiliate sent to acuity!'});
+            toast({status: 'SUCCESS', message: 'Affiliate sent to acuity!'});
         }
         catch(e) {
         toast({status: 'ERROR', message: 'Error occurred'});
@@ -203,8 +201,8 @@ const newRegistration = async (userConfig) => {
                 })
 
                 const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId, eventStatus: 'COMPLETED'});
-                await dataApi.enroll(payload);
-                toast({status: 'SUCCESS', message: 'Affiliate saved successfully'});
+                const affiliate = dataApi.enroll(payload);
+                toast({status: 'SUCCESS', message: 'Affiliate saved successfully', affiliate});
             }
         }
         catch(e) {
