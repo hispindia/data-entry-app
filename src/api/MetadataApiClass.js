@@ -245,6 +245,7 @@ export default class MetadataApiClass extends BaseApiClass {
         dataElements: ps.programStageDataElements.map((psde) => {
           const dataElement = {
             compulsory: psde.compulsory,
+            mandatory: psde.compulsory,
             id: psde.dataElement.id,
             displayName: psde.dataElement.displayName,
             displayFormName: psde.dataElement.displayFormName

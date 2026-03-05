@@ -115,7 +115,7 @@ const MainForm = ({onCloseClick}) => {
           else metadata[data].disabled = true;
         }
         metadata[data].hidden = false;
-        metadata[data].compulsory = false;
+        metadata[data].compulsory = metadata[data].mandatory || false;
         metadata[data].error = '';
         metadata[data].warning = '';
         if(metadata[data].optionSet) {
