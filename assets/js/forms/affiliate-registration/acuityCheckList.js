@@ -28,12 +28,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   loadAffiliates();
   async function loadAffiliates() {
+    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'b3AcWIjwXv4');
+    const url = new URL(window.location.href);
+    const affiliate = url.searchParams.get('affiliate');
+
     const user = await meApi.get();
     const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
     const userOUCode = user?.organisationUnits.map(ou => ou.code)?.filter(ou => ou);
     document.getElementById('process-first').innerHTML = "1) Fetching Affiliate's.";
-    const resAffiliateList = await dataApi.get(userOrgUnit.join(';'), programs.affiliateKyc, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}&filter=${attributes.acuityCheck}:eq:In Progress`);
+    var resAffiliateList = [];
+    if(affiliate) resAffiliateList = await dataApi.getTrackedEntity(affiliate);
+    else resAffiliateList = await dataApi.get(userOrgUnit.join(';'), programs.affiliateKyc, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}&filter=${attributes.acuityCheck}:eq:In Progress`);
     document.getElementById('process-second').innerHTML = "2) Validating Affiliate's from Datastore.";
+    if(resAffiliateList.status == "ERROR") document.getElementById('process-third').innerHTML = "Error fetching Affiliate's!";
     const resDataStore = await dataApi.dataStore(`accuityResponse`);
     const searchableAffiliates = resAffiliateList.trackedEntities.filter(affiliate => !resDataStore.includes(affiliate.trackedEntity));
     if(searchableAffiliates.length) document.getElementById('process-third').innerHTML = `3) Total ${searchableAffiliates.length} affiliate's found`;
@@ -42,6 +49,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
     fetchAffiliateList(searchableAffiliates);
+    document.getElementById('process-fifth').innerHTML = "5) AFffilaite's check Completed!";
   }
 
   async function fetchAffiliateList(searchableAffiliates) {
@@ -62,12 +70,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             {id: "YjmSPK8DMOZ_nY0g2hnfnUB", status: ""},
             {id: "TfCXfVv6j2O_WY7Aao5rT82", status: ""},
         ];
-        const dataValues = convert.trackedEntity(affiliate, new Set([]));
-        var tableBody =  [`<tr><td colspan="4" style="text-align:center;font-weight:bold">Affiliate Name: ${dataValues['UkQI1dWzZOv'] || ''}</td></tr><tr><td style="font-weight:bold">S.No.</td><td style="font-weight:bold">Name</td><td style="font-weight:bold">Reg. No.</td><td style="font-weight:bold">Record</td></tr>`];
-        
+        const dataValues = convert.trackedEntity(affiliate, new Set([]));  
+        var teiAcuityCheck = []; 
         var index = 0;
+        var tableBody =  [`<tr><td colspan="4" style="text-align:center;font-weight:bold">Affiliate Name: ${dataValues['UkQI1dWzZOv'] || ''}</td></tr><tr><td style="font-weight:bold">S.No.</td><td style="font-weight:bold">Name</td><td style="font-weight:bold">Reg. No.</td><td style="font-weight:bold">Record</td></tr>`];
         for(let element of dataElements) {
             index++;
+            const date = new Date();
+            const newDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
             const id = element.id.split('_');
             const name = dataValues[id[0]]?dataValues[id[0]]:'';
             const regNo = dataValues[id[1]]?dataValues[id[1]]:'';
@@ -75,18 +85,42 @@ document.addEventListener("DOMContentLoaded", async function () {
             var body = `<tr><td>${index}</td><td>${name}</td><td>${regNo}</td><td>${status}</td></tr>`;
             tableBody.push(body);
             document.getElementById('table').innerHTML = tableBody.join('');
-            await runAcuity(2000);
-            status = "No Records Found";
+            if(name && regNo) {
+              const response = await runAcuity({name, regNo});
+              status = response.rawPageText;
+              teiAcuityCheck.push({
+                "id": `${element.id}`,
+                "date": newDate,
+                "sl_no": index,
+                "tei_uid": affiliate.trackedEntity,
+                [id[0]]: name,
+                [id[1]]: regNo,
+                [element.id]: response.rawPageText,
+              });
+            }
             tableBody.pop();
             body = `<tr><td>${(index)}</td><td>${name}</td><td>${regNo}</td><td>${status}</td></tr>`;
             tableBody.push(body);
             document.getElementById('table').innerHTML = tableBody.join('');
         }
+        await dataApi.dataStoreNew('accuityResponse', affiliate.trackedEntity, teiAcuityCheck);
     }
   }
 
-  function runAcuity(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+ async function runAcuity({name, regNo}) {
+    return await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "eventUid": "abc123",
+        "action": "complete",
+        "orgUnit": "OU_01",
+        "program": "Prog_01",
+        "PresidentName": `${name} ${regNo}`
+      })
+    })).json();
   }
 
 })

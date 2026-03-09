@@ -28,6 +28,33 @@ export const dataApi = {
       console.error("Error while creating events", error);
     }
   },
+  dataStoreNew: async (namespace, key, payload) => {
+    const url = `dataStore/${namespace}/${key}`;
+    try {
+      const response = await(await BaseApi({url, method:"PUT", payload})).json();
+      return response;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
+  dataStoreUpdate: async (namespace, key, payload) => {
+    const url = `dataStore/${namespace}/${key}`;
+    try {
+      const response = await(await BaseApi({url, method:"POST", payload})).json();
+      return response;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
+  dataStoreDelete: async (namespace, key, payload) => {
+    const url = `dataStore/${namespace}/${key}`;
+    try {
+      const response = await(await BaseApi({url, method:"DELETE"})).json();
+      return response;
+    } catch (error) {
+      console.error("Error while creating events", error);
+    }
+  },
   enroll: async (payload) => {
     const url = `tracker?async=false`;
     try {
