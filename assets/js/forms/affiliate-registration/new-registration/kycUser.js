@@ -56,6 +56,7 @@ const newRegistration = async (userConfig) => {
             }
         try {
             await dataApi.update(payload);
+            window.location.href = `../../apps/IPPF-UIN/1.1-1-acuity-check-list.html?affiliate=${tei.affiliate.trackedEntity}`;
             toast({status: 'SUCCESS', message: 'Affiliate sent to acuity!'});
         }
         catch(e) {
