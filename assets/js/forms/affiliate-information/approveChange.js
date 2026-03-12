@@ -1,7 +1,7 @@
 import { getUserConfig } from "../config.js";
 import { dataApi } from "../../api/DataApi.js";
 import { programs, programStage, dataElements, attributes, orgUnit, tei, ROLE_ACUITY_DE, } from "../../constant.js";
-import { programStageApi } from "../../api/metaDataApi.js";
+import { programStageApi, dataElementsApi} from "../../api/metaDataApi.js";
 import { convert } from "../metadata.js";
 import { toast } from "../utils.js";
 import { createPayload } from "../../api/payload.js";
@@ -16,6 +16,31 @@ const STAGE_MAPPING = {
   seniorManagementFinance: programStage.seniorManagementFinance,
   seniorManagementPrograms: programStage.seniorManagementPrograms,
   bank: programStage.bank
+};
+
+// Risk configuration - matching waiverForm.js pattern
+const RISK_COLUMNS = [
+  { name: 'Arms Trafficking', code: "AT"},
+  { name: 'PEP', code: "PEP"},
+  { name: 'Terrorism', code: "TWIf"},
+  { name: 'Money Laundering', code: "ML"},
+  { name: 'Drug Trafficking', code: "DT"},
+  { name: 'Fraud', code: "FR"},
+  { name: 'Wanted Individuals / Global Sanction', code: "GSL"},
+  { name: 'Sanction List', code: "SL"},
+  { name: 'Enforcement', code: "EN"}
+];
+
+const RISK_CODE_MAP = {
+  'Arms Trafficking': 'AT',
+  'PEP': 'PEP',
+  'Terrorism': 'TWIf',
+  'Money Laundering': 'ML',
+  'Drug Trafficking': 'DT',
+  'Fraud': 'FR',
+  'Wanted Individuals / Global Sanction': 'GSL',
+  'Sanction List': 'SL',    
+  'Enforcement': 'EN'
 };
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -42,6 +67,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function fetchChangeRequests() {
     try {
+        const deResponse = await dataElementsApi.get({param: ['filter=code:!null', 'fields=id,name,code']});
+        deResponse.dataElements.forEach(de => {
+            tei.dataElementcode[de.code] = de.id;
+            tei.dataElementcode[de.id] = de.code;
+        });
+
         const response = await dataApi.get(
             orgUnit.id,
             programs.UINControlMaster,
@@ -51,14 +82,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         cachedRequests = [];
         
        if (response && response.trackedEntities) {
-        response.trackedEntities.forEach(tei => {
+        response.trackedEntities.forEach(entity => {
 
-        const legalNameAttr = tei.attributes.find(
+        const legalNameAttr = entity.attributes.find(
         a => a.attribute === attributes.legalName
         );
         const legalName = legalNameAttr ? legalNameAttr.value : " ";
 
-        tei.enrollments?.forEach(enrollment => {
+        entity.enrollments?.forEach(enrollment => {
 
             const sortedEvents = [...enrollment.events].sort(
                 (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
@@ -81,8 +112,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             requestedBy: createdBy,
             requestDate: event.occurredAt,
             status: "Pending",
-            teiId: tei.trackedEntity,
+            teiId: entity.trackedEntity,
             eventId: event.event,
+            orgUnit: enrollment.orgUnit,
+            programStage: event.programStage,
+            enrollment: enrollment.enrollment,
             dataValues: event.dataValues
             });
       });
@@ -91,7 +125,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 }
 
         cachedRequests = requests;
-        
         populateTable(requests);    
     } catch (error) {
         console.error("Error fetching change requests:", error);
@@ -151,8 +184,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const result = roleKey.replace(/([A-Z])/g, " $1");
     return result.charAt(0).toUpperCase() + result.slice(1);
   }
-
-//   Show Full Section (Even If Only 1 Field Changed)
 
   window.viewRequest = async function(teiId, eventId) {
     console.log("viewRequest called with:", teiId, eventId);
@@ -281,7 +312,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 };
 
-
   window.openApproveModal = function(teiId, eventId) {
     const modal = ensureApproveModal();
     const contentDiv = document.getElementById("approveModalContent");
@@ -296,127 +326,443 @@ document.addEventListener("DOMContentLoaded", async function () {
       </div>
       <div class="modal-footer">
           <button class="btn bg-transparent border rounded-xl" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
-          <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff" id="confirmApproveBtn">Approve</button>
+          <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #fff" id="confirmApproveBtn">Approve</button>
       </div>
     `;
 
     document.getElementById("confirmApproveBtn").onclick = async function() {
-         const containerDiv = document.getElementById("approveModalContent");
-        containerDiv.innerHTML = `
-            <div class="modal-header">
-                <h5 class="modal-title">Approve Result</h5>
-            </div>
-            <div class="modal-body" style="text-align:center; padding:40px;">
-                <h6>Please wait while we process your request...</h6>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff"  onClick=" document.getElementById('approveModal').classList.remove('show')"> Close </button>
-            </div>
-            
-            `;
-        try {
-          
-            //flow api call 
-            const flowResponse = await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                   "eventUid": "abc123",
-                    "action": "complete",
-                    "orgUnit": "OU_01",
-                    "program": "Prog_01",
-                    "PresidentName": "sonu singh AXWPS8419G"
-                })
-            });
-           
-            const flowResult = await flowResponse.json();
-            const { rawPageText } = flowResult;
-            containerDiv.innerHTML = `
-              <div class="modal-header">
-                <h5 class="modal-title">Approve Result</h5>
-              </div>
-              <div class="modal-body" style="text-align:center;">
-                 <p>${rawPageText.split(",")[1]?.trim() || "No! Record Found"}</p>
-            </div>
-
-             <div class="modal-footer">
-                <button class="btn" style="background-color:#E93300; border-color:#E93300; color: #ffff"  onClick=" document.getElementById('approveModal').classList.remove('show')"> Close </button>
-             </div>
-
-            `;
-            const isClean = rawPageText.toLowerCase().includes("No Record Found");
-            const deId = ROLE_ACUITY_DE[roleKey];
-            if(!deId) {
-                console.log("Invalid Row", roleKey);
-                return;
-            }
-            
-            if (isClean) {
-                await dataApi.update(eventId, {
-                    eventId,
-                    dataValues: [
-                       {
-                        dataElement: deId,
-                        value: "Approved"
-                       }
-                    ]
-                });
-            }
-            await fetchChangeRequests();
-           
-            toast({status: 'SUCCESS', message: 'Request Approved Successfully!', position: 'topRight'});
-            
-        } catch (e) {
-            console.error(e);
-        }
+      await performApprovalFlow(teiId, eventId, contentDiv);
     };
 
     modal.classList.add("show");
   };
 
-  function ensureDetailModal() {
-  let modal = document.getElementById("detailModal");
-  if (!modal) {
-    modal = document.createElement("div");
-    modal.id = "detailModal";
-    modal.className = "custom-modal";
-    document.body.appendChild(modal);
-  }
-
-  if (!document.getElementById("detailModalContent")) {
-    modal.innerHTML = `
-      <div class="custom-modal-card">
-        <div id="detailModalContent"></div>
+  async function performApprovalFlow(teiId, eventId, contentDiv) {
+    contentDiv.innerHTML = `
+      <div class="modal-header">
+          <h5 class="modal-title">Verify Request</h5>
+      </div>
+      <div class="modal-body" style="padding:40px; text-align:center;">
+          <div class="progress mb-3" style="height: 6px;">
+              <div class="progress-bar progress-bar-striped progress-bar-animated w-100" 
+                  style="background-color:#E93300;">
+              </div>
+          </div>
+          <p class="text-muted" id="loadingMsg">Connecting to verification service...</p>
+      </div>
+      <div class="modal-footer">
+          <button class="btn" style="background-color:#E93300;color:#fff" 
+              onClick="document.getElementById('approveModal').classList.remove('show')">Close</button>
       </div>
     `;
+
+    const messages = [
+        "Connecting to verification service...",
+        "Fetching records from sanctions list...",
+        "Cross-checking PEP database...",
+        "Analysing risk data...",
+        "Verifying enforcement records...",
+        "Almost there..."
+    ];
+    
+    let msgIndex = 0;
+    const msgInterval = setInterval(() => {
+        msgIndex = (msgIndex + 1) % messages.length;
+        const el = document.getElementById('loadingMsg');
+        if(el) el.innerText = messages[msgIndex];
+    }, 3000);
+
+    try {
+        const flowResponse = await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                "eventUid": eventId,
+                "action": "complete",
+                "orgUnit": "OU_01",
+                "program": "Prog_01",
+                // "PresidentName": "Aivars Lembergs" 
+                "PresidentName": "sonu singh AXWPS8419G"
+            })
+        });
+
+        const flowResult = await flowResponse.json();
+        clearInterval(msgInterval);
+        const { rawPageText } = flowResult;
+        console.log("API Response:", rawPageText);
+
+        const reqData = cachedRequests.find(r => r.teiId === teiId && r.eventId === eventId);
+        const dataMap = {};
+        reqData.dataValues.forEach(dv => { dataMap[dv.dataElement] = dv.value; });
+
+        let roleKey = null;
+        for(const [key, deId] of Object.entries(ROLE_ACUITY_DE)) {
+            if(dataMap[deId] == "In-Progress") {
+                roleKey = key;
+                break;
+            }
+        }
+        const deId = ROLE_ACUITY_DE[roleKey];
+
+        // Check if response is clean (no records found)
+        const isEmpty = !rawPageText || rawPageText.trim() === '' || rawPageText.toLowerCase().includes("no records found");
+
+        if(isEmpty) {
+          // No risks found - auto approve
+          if(deId) {
+              await dataApi.update({
+                  events: [{
+                      event: eventId,
+                      orgUnit: reqData.orgUnit,
+                      program: programs.UINControlMaster,
+                      programStage: reqData.programStage,
+                      enrollment: reqData.enrollment,
+                      occurredAt: reqData.requestDate,
+                      dataValues: [{ dataElement: deId, value: "Approved" }]
+                  }]
+              });
+          }
+          await fetchChangeRequests();
+          document.getElementById('approveModal').classList.remove('show');
+          toast({ status: 'SUCCESS', message: 'Request Approved Successfully!' });
+        } else {
+          // Risks found - show risk table for decision
+          showRiskTable(teiId, eventId, contentDiv, rawPageText, reqData, deId);
+        }
+
+    } catch(e) {
+        console.error(e);
+        clearInterval(msgInterval);
+        contentDiv.innerHTML = `
+            <div class="modal-header">
+                <h5 class="modal-title">Error</h5>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">${e.message}</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn bg-transparent border" onclick="document.getElementById('approveModal').classList.remove('show')">Close</button>
+            </div>
+        `;
+    }
   }
 
-  return modal;
+ function showRiskTable(teiId, eventId, contentDiv, rawPageText, reqData, deId) {
+
+    // ✅ Step 1 — initialize decisions first
+    const riskDecisions = {};
+
+    // ✅ Step 2 — build flaggedRisks
+    const flaggedRisks = RISK_COLUMNS.filter(risk =>
+        rawPageText.split(/\r\n/).some(row => row.trim().endsWith(risk.name))
+    );
+    const decidedCount = 0;
+
+    // ✅ Step 3 — build riskCells
+    const riskCells = RISK_COLUMNS.map(risk => {
+        const isFlagged = rawPageText.split(/\r\n/).some(row => row.trim().endsWith(risk.name));
+
+        if(!isFlagged) {
+            return `<td class="text-center" style="background-color:rgb(240,253,244);border-color:rgb(134,239,172);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
+            </td>`;
+        }
+
+        return `<td class="text-center" style="cursor:pointer;background-color:rgb(254,242,242);border-color:rgb(252,165,165);"
+            data-risk="${risk.code}"
+            id="risk-td-${risk.code}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </td>`;
+    }).join('');
+
+    // ✅ Step 4 — now set innerHTML (riskCells is ready)
+    contentDiv.innerHTML = `
+        <div class="modal-header">
+            <h5 class="modal-title">Risk Assessment</h5>
+            <button type="button" class="close text-white" onclick="document.getElementById('approveModal').classList.remove('show')">&times;</button>
+        </div>
+        <div class="modal-body" style="overflow-x:auto;">
+            <div class="mb-3">
+                <strong>Legend:</strong>
+                <div class="d-flex align-items-center mt-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
+                    <span class="ml-2">No flag found by Acuity</span>
+                </div>
+                <div class="d-flex align-items-center mt-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                    <span class="ml-2">Flag has been found by Acuity</span>
+                </div>
+                <div class="d-flex align-items-center mt-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
+                    <span class="ml-2">Waiver has been approved</span>
+                </div>
+                <div class="d-flex align-items-center mt-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                    <span class="ml-2">Waiver has been rejected</span>
+                </div>
+                <small class="text-muted mt-2 d-block">Click on each "X" to review details, decide on waiver (if applicable), and provide justification before submission.</small>
+            </div>
+
+            <table class="table table-striped table-hover table-bordered" style="font-size:0.85rem; width:100%;">
+                <thead>
+                    <tr style="background-color:rgba(68,114,196,0.15);">
+                        <td>Organization</td>
+                        <td>Designation</td>
+                        ${RISK_COLUMNS.map(r => `<td class="text-center">${r.name}</td>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${reqData.legalName}</td>
+                        <td>NA</td>
+                        ${riskCells}
+                    </tr>
+                </tbody>
+            </table>
+            <div id="risk-modal-content" style="display:none; margin-top:20px;"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn bg-transparent border" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
+            <button class="btn" id="submitAllRisksBtn" style="background:#28a745;color:#fff;">
+                Submit (${decidedCount}/${flaggedRisks.length})
+            </button>
+        </div>
+    `;
+
+    // ✅ Step 5 — add click listeners after innerHTML is set
+    contentDiv.querySelectorAll('td[data-risk]').forEach(td => {
+    td.addEventListener('click', () => {
+        const riskCode = td.getAttribute('data-risk');
+        const risk = RISK_COLUMNS.find(r => r.code === riskCode);
+        const modalContent = document.getElementById('risk-modal-content');
+        if(modalContent) {
+            modalContent.style.display = 'block';
+            modalContent.scrollIntoView({ behavior: 'smooth' });
+        }
+        // ✅ pass flaggedRisks
+        showRiskDecisionModal(risk, riskDecisions, rawPageText, reqData, teiId, flaggedRisks);
+    });
+});
+
+    // ✅ Step 6 — submit handler
+    document.getElementById('submitAllRisksBtn').addEventListener('click', async () => {
+        if(!flaggedRisks.every(r => riskDecisions[r.name])) {
+            toast({ status: 'ERROR', message: `Please make decisions for all ${flaggedRisks.length} flagged risks!` });
+            return;
+        }
+
+        const allApproved = Object.values(riskDecisions).every(d => d.decision === 'Approve');
+        await saveRiskDecisions(teiId, eventId, reqData, riskDecisions, allApproved, deId);
+        await fetchChangeRequests();
+        document.getElementById('approveModal').classList.remove('show');
+
+        if(allApproved) {
+            toast({ status: 'SUCCESS', message: 'All risks approved! Request updated.' });
+        } else {
+            toast({ status: 'INFO', message: 'Risk decisions saved. Request rejected.' });
+        }
+    });
 }
 
+ function showRiskDecisionModal(risk, riskDecisions, rawPageText, reqData, teiId, flaggedRisks) {
+    const riskModalContent = document.getElementById('risk-modal-content');
 
-    function ensureApproveModal() {
-    let modal = document.getElementById("approveModal");
+    const riskDesc = rawPageText.split(/\r\n/)
+        .filter(row => row.trim().endsWith(risk.name))
+        .map(row => row
+            .replace(new RegExp(`\\.?${risk.name}$`, "i"), "")
+            .replace(/^\d+KM/, "")
+            .trim()
+        ).join('\n');
+
+    const existing = riskDecisions[risk.name] || {};
+    // ✅ PEP and EN are view-only
+    const isReadOnly = risk.code === 'PEP' || risk.code === 'EN';
+    const currentDecision = isReadOnly ? 'Approve' : existing.decision || '';
+
+
+    riskModalContent.innerHTML = `
+        <div class="card border-danger">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">${risk.name} - Risk Details</h6>
+            </div>
+            <div class="card-body">
+                <h6 class="font-weight-bold mb-2">Flag Details:</h6>
+                <p class="alert alert-danger mb-4">${riskDesc || 'No description available'}</p>
+
+                <h6 class="font-weight-bold mb-2">Decision:</h6>
+                <select class="form-control mb-3" id="risk-decision-select" ${isReadOnly ? 'disabled' : ''}>
+                    <option value="" ${currentDecision === '' ? 'selected' : ''}>Select</option>
+                    <option value="Approve" ${currentDecision === 'Approve' ? 'selected' : ''}>Approve</option>
+                    <option value="Reject" ${currentDecision === 'Reject' ? 'selected' : ''}>Reject</option>
+                </select>
+
+                <label class="font-weight-bold mb-2">Comments:</label>
+                <textarea class="form-control mb-3" id="risk-comments-textarea" rows="3" ${isReadOnly ? 'disabled' : ''}>${existing.comments || ''}</textarea>
+
+            </div>
+        </div>
+    `;
+
+    if(isReadOnly) return; // ✅ Don't attach listener for PEP/EN
+
+    document.getElementById('save-risk-decision-btn').addEventListener('click', () => {
+        const decision = document.getElementById('risk-decision-select').value;
+        const comments = document.getElementById('risk-comments-textarea').value;
+
+        if(!decision) {
+            toast({ status: 'ERROR', message: 'Please select a decision!' });
+            return;
+        }
+
+        riskDecisions[risk.name] = { decision, comments };
+
+        // ✅ Update cell using risk.code
+        const td = document.getElementById(`risk-td-${risk.code}`);
+        if(td) {
+            if(decision === 'Approve') {
+                td.style.backgroundColor = 'rgb(255,251,235)';
+                td.style.borderColor = 'rgb(252,211,77)';
+                td.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>`;
+            } else {
+                td.style.backgroundColor = 'rgb(255,251,235)';
+                td.style.borderColor = 'rgb(252,211,77)';
+                td.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`;
+            }
+        }
+
+        // ✅ Update counter using passed flaggedRisks
+        const decidedCount = Object.keys(riskDecisions).length;
+        document.getElementById('submitAllRisksBtn').innerText = `Submit (${decidedCount}/${flaggedRisks.length})`;
+
+        riskModalContent.style.display = 'none';
+        riskModalContent.innerHTML = '';
+        toast({ status: 'SUCCESS', message: 'Decision saved.' });
+    });
+}
+
+  async function saveRiskDecisions(teiId, eventId, reqData, riskDecisions, allApproved, deId) {
+    try {
+      const teData = await dataApi.getTrackedEntity(teiId);
+      const teInfo = teData.trackedEntities[0];
+      const ucmEnrollment = teInfo.enrollments.find(e => e.program === programs.UINControlMaster);
+      const existingEvent = ucmEnrollment?.events?.find(e => e.programStage === "Dfxzc7dflN8");
+      const existingEventId = existingEvent?.event || null;
+
+      // Build data values for acuity waiver event
+      const dataValues = [];
+      Object.entries(riskDecisions).forEach(([riskName, { decision, comments }]) => {
+        const code = RISK_CODE_MAP[riskName];
+        if(!code) return;
+
+        const memberId = teiId;
+        const deStatus = tei.dataElementcode[`${code}-Status-${memberId}`];
+        const deJustification = tei.dataElementcode[`${code}-Justification-${memberId}`];
+
+        if(deStatus) dataValues.push({ dataElement: deStatus, value: decision });
+        if(deJustification) dataValues.push({ dataElement: deJustification, value: comments });
+      });
+
+      // Save to acuity waiver event
+      if(existingEventId) {
+        await dataApi.update({
+          events: [{
+            event: existingEventId,
+            orgUnit: reqData.orgUnit,
+            program: programs.UINControlMaster,
+            programStage: "Dfxzc7dflN8",
+            enrollment: reqData.enrollment,
+            trackedEntity: teiId,
+            occurredAt: new Date().toISOString(),
+            status: "ACTIVE",
+            dataValues
+          }]
+        });
+      } else {
+        await dataApi.enroll({
+          events: [{
+            orgUnit: reqData.orgUnit,
+            program: programs.UINControlMaster,
+            programStage: "Dfxzc7dflN8",
+            enrollment: reqData.enrollment,
+            trackedEntity: teiId,
+            occurredAt: new Date().toISOString(),
+            status: "ACTIVE",
+            dataValues
+          }]
+        });
+      }
+
+      // Update main request status
+      if(allApproved && deId) {
+        await dataApi.update({
+          events: [{
+            event: eventId,
+            orgUnit: reqData.orgUnit,
+            program: programs.UINControlMaster,
+            programStage: reqData.programStage,
+            enrollment: reqData.enrollment,
+            occurredAt: new Date().toISOString(),
+            dataValues: [{ dataElement: deId, value: "Approved" }]
+          }]
+        });
+      } else if(deId) {
+        await dataApi.update({
+          events: [{
+            event: eventId,
+            orgUnit: reqData.orgUnit,
+            program: programs.UINControlMaster,
+            programStage: reqData.programStage,
+            enrollment: reqData.enrollment,
+            occurredAt: new Date().toISOString(),
+            dataValues: [{ dataElement: deId, value: "Failed" }]
+          }]
+        });
+      }
+
+    } catch(err) {
+      console.error('Error saving risk decisions:', err);
+      throw err;
+    }
+  }
+
+  function ensureDetailModal() {
+    let modal = document.getElementById("detailModal");
     if (!modal) {
-        modal = document.createElement("div");
-        modal.id = "approveModal";
-        modal.className = "custom-modal";
-        document.body.appendChild(modal);
+      modal = document.createElement("div");
+      modal.id = "detailModal";
+      modal.className = "custom-modal";
+      document.body.appendChild(modal);
     }
 
-    if (!document.getElementById("approveModalContent")) {
-        modal.innerHTML = `
-        <div class="custom-modal-card sm">
-            <div id="approveModalContent"></div>
+    if (!document.getElementById("detailModalContent")) {
+      modal.innerHTML = `
+        <div class="custom-modal-card">
+          <div id="detailModalContent"></div>
         </div>
-        `;
+      `;
     }
 
     return modal;
+  }
+
+  function ensureApproveModal() {
+    let modal = document.getElementById("approveModal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "approveModal";
+      modal.className = "custom-modal";
+      document.body.appendChild(modal);
     }
 
+    if (!document.getElementById("approveModalContent")) {
+      modal.innerHTML = `
+        <div class="custom-modal-card" style="width: 90vw; max-width: 900px; max-height: 90vh; overflow-y: auto;">
+          <div id="approveModalContent"></div>
+        </div>
+      `;
+    }
 
-  
-})
+    return modal;
+  }
+});
