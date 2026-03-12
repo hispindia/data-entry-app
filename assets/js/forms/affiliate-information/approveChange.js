@@ -381,8 +381,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "action": "complete",
                 "orgUnit": "OU_01",
                 "program": "Prog_01",
-                // "PresidentName": "Aivars Lembergs" 
-                "PresidentName": "sonu singh AXWPS8419G"
+                "PresidentName": "Aivars Lembergs" 
+                // "PresidentName": "sonu singh AXWPS8419G"
             })
         });
 
@@ -449,16 +449,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
  function showRiskTable(teiId, eventId, contentDiv, rawPageText, reqData, deId) {
 
-    // ✅ Step 1 — initialize decisions first
     const riskDecisions = {};
 
-    // ✅ Step 2 — build flaggedRisks
     const flaggedRisks = RISK_COLUMNS.filter(risk =>
         rawPageText.split(/\r\n/).some(row => row.trim().endsWith(risk.name))
     );
-    const decidedCount = 0;
 
-    // ✅ Step 3 — build riskCells
     const riskCells = RISK_COLUMNS.map(risk => {
         const isFlagged = rawPageText.split(/\r\n/).some(row => row.trim().endsWith(risk.name));
 
@@ -467,15 +463,26 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
             </td>`;
         }
-
-        return `<td class="text-center" style="cursor:pointer;background-color:rgb(254,242,242);border-color:rgb(252,165,165);"
+        if(risk.code === 'PEP' || risk.code === 'EN') {
+        riskDecisions[risk.name] = { decision: 'Approve', comments: '' };
+        return `<td class="text-center" style="cursor:pointer;background-color:rgb(255,251,235);border-color:rgb(252,211,77);"
             data-risk="${risk.code}"
             id="risk-td-${risk.code}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
         </td>`;
+    }
+
+      return `<td class="text-center" style="cursor:pointer;background-color:rgb(254,242,242);border-color:rgb(252,165,165);"
+      data-risk="${risk.code}"
+      id="risk-td-${risk.code}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    </td>`;
+
     }).join('');
 
-    // ✅ Step 4 — now set innerHTML (riskCells is ready)
+    const manualRisks = flaggedRisks.filter(r => r.code !== 'PEP' && r.code !== 'EN');
+    const decidedCount = 0;
+
     contentDiv.innerHTML = `
         <div class="modal-header">
             <h5 class="modal-title">Risk Assessment</h5>
@@ -524,7 +531,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <div class="modal-footer">
             <button class="btn bg-transparent border" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
             <button class="btn" id="submitAllRisksBtn" style="background:#28a745;color:#fff;">
-                Submit (${decidedCount}/${flaggedRisks.length})
+                Submit (${decidedCount}/${manualRisks.length})
             </button>
         </div>
     `;
@@ -539,15 +546,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             modalContent.style.display = 'block';
             modalContent.scrollIntoView({ behavior: 'smooth' });
         }
-        // ✅ pass flaggedRisks
         showRiskDecisionModal(risk, riskDecisions, rawPageText, reqData, teiId, flaggedRisks);
     });
 });
 
-    // ✅ Step 6 — submit handler
     document.getElementById('submitAllRisksBtn').addEventListener('click', async () => {
-        if(!flaggedRisks.every(r => riskDecisions[r.name])) {
-            toast({ status: 'ERROR', message: `Please make decisions for all ${flaggedRisks.length} flagged risks!` });
+        if(!manualRisks.every(r => riskDecisions[r.name])) {
+            toast({ status: 'ERROR', message: `Please make decisions for all ${manualRisks.length} flagged risks!` });
             return;
         }
 
@@ -576,7 +581,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         ).join('\n');
 
     const existing = riskDecisions[risk.name] || {};
-    // ✅ PEP and EN are view-only
     const isReadOnly = risk.code === 'PEP' || risk.code === 'EN';
     const currentDecision = isReadOnly ? 'Approve' : existing.decision || '';
 
@@ -601,10 +605,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <textarea class="form-control mb-3" id="risk-comments-textarea" rows="3" ${isReadOnly ? 'disabled' : ''}>${existing.comments || ''}</textarea>
 
             </div>
+            <button class="btn" style="background:#E93300;color:#fff;" id="save-risk-decision-btn">
+              Save Decision
+          </button>
         </div>
     `;
 
-    if(isReadOnly) return; // ✅ Don't attach listener for PEP/EN
+    if(isReadOnly) return; 
 
     document.getElementById('save-risk-decision-btn').addEventListener('click', () => {
         const decision = document.getElementById('risk-decision-select').value;
@@ -617,7 +624,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         riskDecisions[risk.name] = { decision, comments };
 
-        // ✅ Update cell using risk.code
         const td = document.getElementById(`risk-td-${risk.code}`);
         if(td) {
             if(decision === 'Approve') {
@@ -631,7 +637,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
 
-        // ✅ Update counter using passed flaggedRisks
         const decidedCount = Object.keys(riskDecisions).length;
         document.getElementById('submitAllRisksBtn').innerText = `Submit (${decidedCount}/${flaggedRisks.length})`;
 
