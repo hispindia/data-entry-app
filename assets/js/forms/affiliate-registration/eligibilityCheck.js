@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const checkAffiliate = {...dataElements};
         for(let data of affiliate.data) {
           if(data[data.id]) {
-            if(data[data.id] == "No Records Found") {
+            if(data[data.id] == "No Records Found" || data[data.id] == "No Data Found in Source") {
               checkAffiliate[data.id] = true;
               continue;
             }

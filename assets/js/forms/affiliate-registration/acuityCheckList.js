@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   loadAffiliates();
   async function loadAffiliates() {
-    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'b3AcWIjwXv4');
+    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'tiKIKTnNOnn');
     const url = new URL(window.location.href);
     const affiliate = url.searchParams.get('affiliate');
 
@@ -69,6 +69,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             {id: "U4OSVfrlPxQ_A46ZGJLezyc", status: ""},
             {id: "YjmSPK8DMOZ_nY0g2hnfnUB", status: ""},
             {id: "TfCXfVv6j2O_WY7Aao5rT82", status: ""},
+            {id: "cvI0Tq2uPjC_no-de", status: ""},
+            {id: "CkulnRpyanv_no-de", status: ""},
+            {id: "OHPBCB8PgSo_no-de", status: ""},
         ];
         const dataValues = convert.trackedEntity(affiliate, new Set([]));  
         var teiAcuityCheck = []; 
@@ -85,18 +88,57 @@ document.addEventListener("DOMContentLoaded", async function () {
             var body = `<tr><td>${index}</td><td>${name}</td><td>${regNo}</td><td>${status}</td></tr>`;
             tableBody.push(body);
             document.getElementById('table').innerHTML = tableBody.join('');
-            if(name && regNo) {
-              const response = await runAcuity({name, regNo});
-              status = response.rawPageText;
-              teiAcuityCheck.push({
-                "id": `${element.id}`,
-                "date": newDate,
-                "sl_no": index,
-                "tei_uid": affiliate.trackedEntity,
-                [id[0]]: name,
-                [id[1]]: regNo,
-                [element.id]: response.rawPageText,
-              });
+            if(index >= 12) {
+              if(name) {
+                const response = await runAcuityBank({name});
+                status = response.rawPageText;
+                teiAcuityCheck.push({
+                  "id": `${element.id}`,
+                  "date": newDate,
+                  "sl_no": index,
+                  "tei_uid": affiliate.trackedEntity,
+                  [id[0]]: name,
+                  [id[1]]: regNo,
+                  [element.id]: response.rawPageText ? response.rawPageText: "No Records Found",
+                });
+              } else {
+                status = response.rawPageText;
+                teiAcuityCheck.push({
+                  "id": `${element.id}`,
+                  "date": newDate,
+                  "sl_no": index,
+                  "tei_uid": affiliate.trackedEntity,
+                  [id[0]]: name,
+                  [id[1]]: regNo,
+                  [element.id]: "No Data Found in Source",
+                });
+              }
+
+            } else {
+              if(name && regNo) {
+                const response = await runAcuity({name, regNo});
+                status = response.rawPageText;
+                teiAcuityCheck.push({
+                  "id": `${element.id}`,
+                  "date": newDate,
+                  "sl_no": index,
+                  "tei_uid": affiliate.trackedEntity,
+                  [id[0]]: name,
+                  [id[1]]: regNo,
+                  [element.id]: response.rawPageText ? response.rawPageText: "No Records Found",
+                });
+              } else {
+                status = response.rawPageText;
+                teiAcuityCheck.push({
+                  "id": `${element.id}`,
+                  "date": newDate,
+                  "sl_no": index,
+                  "tei_uid": affiliate.trackedEntity,
+                  [id[0]]: name,
+                  [id[1]]: regNo,
+                  [element.id]: "No Data Found in Source",
+                });
+              }
             }
             tableBody.pop();
             body = `<tr><td>${(index)}</td><td>${name}</td><td>${regNo}</td><td>${status}</td></tr>`;
@@ -108,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
  async function runAcuity({name, regNo}) {
-    return await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+    const response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -121,6 +163,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         "PresidentName": `${name} ${regNo}`
       })
     })).json();
+
+    if(response.error) {
+      runAcuity({name, regNo})
+    }
+    return response;
   }
 
+ async function runAcuityBank({name}) {
+    const response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "eventUid": "abc123",
+        "action": "complete",
+        "orgUnit": "OU_01",
+        "program": "Prog_01",
+        "EntityType":"Organization",
+        "OrganizationName": `${name}`
+      })
+    })).json();
+
+    if(response.error) {
+      runAcuity({name})
+    }
+    return response;
+  }
 })
