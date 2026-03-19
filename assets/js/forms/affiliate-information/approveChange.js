@@ -141,8 +141,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                             personUIN = roleDE ? (eventDataMap[roleDE.uin] || "") : "";
                         }
 
-                        console.log("Role:", roleKey, "| Name:", personName, "| UIN:", personUIN);
-
                         requests.push({
                             legalName,
                             memberSelected: createdBy,
@@ -165,7 +163,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         cachedRequests = requests;
-        console.log("Cached requests:", cachedRequests);
         populateTable(requests);
     } catch (error) {
         console.error("Error fetching change requests:", error);
@@ -227,8 +224,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   window.viewRequest = async function(teiId, eventId) {
-    console.log("viewRequest called with:", teiId, eventId);
-
     const modal = ensureDetailModal();
     const contentDiv = document.getElementById("detailModalContent");
 
@@ -246,7 +241,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
 
         if (!reqData) throw new Error("Request not found");
-        console.log("Request data:", reqData);
 
         const dataMap = {};
         reqData.dataValues.forEach(dv => {
@@ -438,9 +432,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "PresidentName": `${personName} ${personUIN}`.trim()
             };
 
-        console.log("API URL:", apiUrl);
-        console.log("Payload:", JSON.stringify(payload));
-
         const flowResponse = await fetch(apiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -450,7 +441,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         const flowResult = await flowResponse.json();
         clearInterval(msgInterval);
         const { rawPageText } = flowResult;
-        console.log("API Response:", rawPageText);
 
         const deId = ROLE_ACUITY_DE[roleKey];
 
@@ -514,7 +504,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             </td>`;
         }
         if(risk.code === 'PEP' || risk.code === 'EN') {
-            riskDecisions[risk.name] = { decision: 'Approve', comments: '' };
+            //regex for extracting resp
+            const riskDesc = rawPageText.split(/\r\n/)
+                        filter(row => row.trim().endsWith(risk.name))
+                        .map(row =>  row 
+                        .replace(new RegExp(`\\.?${risk.name}$`, "i"), "")
+                        .replace(/^\d+KM/, "")
+                        .trim()
+                        ).join('\n');
+            riskDecisions[risk.name] = { decision: 'Approve', comments: '', description: riskDesc};
             return `<td class="text-center" style="cursor:pointer;background-color:rgb(255,251,235);border-color:rgb(252,211,77);"
                 data-risk="${risk.code}"
                 id="risk-td-${risk.code}">
@@ -674,7 +672,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        riskDecisions[risk.name] = { decision, comments };
+        riskDecisions[risk.name] = { decision, comments, riskDesc };
 
         const td = document.getElementById(`risk-td-${risk.code}`);
         if(td) {
@@ -718,18 +716,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const statusCode = `${code}-Status-${nameDeId}`;
             const justificationCode = `${code}-Justification-${nameDeId}`;
+            const descriptionCode = `${code}-Description-${nameDeId}`;
 
             const statusDeId = deCodeMap[statusCode];          
             const justificationDeId = deCodeMap[justificationCode]; 
-
-            console.log(`Risk: ${riskName} | StatusCode: ${statusCode} | StatusDeId: ${statusDeId}`);
-            console.log(`Risk: ${riskName} | JustCode: ${justificationCode} | JustDeId: ${justificationDeId}`);
-
-if (statusDeId) dataValues.push({ dataElement: statusDeId, value: decision });
-if (justificationDeId) dataValues.push({ dataElement: justificationDeId, value: comments });
+            const descriptionDeId = deCodeMap[descriptionCode];
+ 
+            if (statusDeId) dataValues.push({ dataElement: statusDeId, value: decision });
+            if (justificationDeId && comments) dataValues.push({ dataElement: justificationDeId, value: comments });
+            if(descriptionDeId && description) dataValues.push({ dataElement: descriptionDeId, value: description });
         });
 
-        console.log("Data values to save:", dataValues);
 
         // Save to acuity waiver event
         if (existingEventId) {
