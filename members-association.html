@@ -17,127 +17,103 @@
 </head>
 
 <body>
+   <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+    </symbol>
+    <symbol id="icon-clipboard-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>
+    </symbol>
+    <symbol id="icon-file-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/>
+    </symbol>
+    <symbol id="icon-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 3v18h18"/><path d="M13 17V9"/><path d="M18 17V5"/><path d="M8 17v-3"/>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>
+    </symbol>
+    <symbol id="icon-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
+    </symbol>
+    <symbol id="icon-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+    </symbol>
+   </svg>
   <div class="loader"></div>
-  <div id="app">
-    <div class="main-wrapper main-wrapper-1">
-      <div class="navbar-bg"></div>
-      <nav class="navbar navbar-expand-lg main-navbar">
-        <div class="form-inline">
-          <ul class="navbar-nav mr-3">
-            <li>
-              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
-                <i class="fas"></i>
-                <img src="assets/images/toggle.png" />
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                <i class="fas fa-expand"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <ul class="navbar-nav navbar-right align-items-center ml-auto">
-          <li>
-            <a href="../../../dhis-web-maintenance/index.html" class="mr-1 p-2 bg-white text-dark border border-info rounded d-none maintenance">
-              <span class="font-weight-bold">Maintenance</span>
-            </a>
-          </li>
-          <li>
-            <div class="languag-wrap btn mr-1">
-              <span>
-                <i class="fa fa-globe" aria-hidden="true"></i>
-              </span>
-              <select id="languageSwitcher"></select>
-            </div>
-          </li>
-          <li>
-            <a class="btn btn-secondary d-flex align-items-center ml-1" href="../../../dhis-web-commons-security/logout.action">
-              <i aria-hidden="true"></i>
-              <div>LOG OUT</div>
-            </a>
-          </li>
-        </ul>
-      </nav>
-            <div class="main-sidebar sidebar-style-2">
-                <aside id="sidebar-wrapper">
-                    <div class="sidebar-brand">
-                        <a href="#">
-                        <img alt="image" src="assets/images/logo.png" class="header-logo" />
-                        </a>
-                    </div>
-                    <ul class="sidebar-menu">
-                        <li id="member-association">
-                            <a class="nav-link" href="#" data-target="members-association.html"><span data-i18n="intro.select_ma">Select MA / CP</span></a>
-                        </li>
-                        <li class="dropdown-au active">
-                            <a class="nav-link has-dropdown" href="#">
-                                <span class="pr-2" data-i18n="intro.annual_update">Annual Business Plan </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="#" data-target="1.1-organization-details-au.html"><span data-i18n="intro.organization_details">1.1 Organization Details</span></a></li>
-                                <li><a class="nav-link" href="#" data-target="1.2-narrative-plan-au.html"><span data-i18n="intro.narrative_plan">1.2 Narrative Plan</span></a></li>
-                                <li><a class="nav-link" data-target="2.1-project-description-au.html"><span data-i18n="intro.project_description">2.1 Project Description</span></a></li>
-                                <li><a class="nav-link" data-target="2.2-project-budget-au.html"><span  data-i18n="intro.project_budget">2.2 Project Expense Budget</span></a></li>
-                                <li><a class="nav-link" data-target="2.3-breakdown-by-focus-area-au.html"><span data-i18n="intro.project_focusarea">2.3 Expense Budget by Focus Area</span></a></li>
-                                <li><a class="nav-link" data-target="2.4-breakdown-by-expense-category-au.html"><span data-i18n="intro.project_expense"> 2.4 Budget by Expense Category </span> </a></li>
-                                <li><a class="nav-link" href="#" data-target="3.1-total-income-au.html"><span data-i18n="intro.total_income">3.1 Total Income</span></a></li>
-                                <li><a class="nav-link" href="#" data-target="3.2-income-by-donor-au.html"><span data-i18n="intro.income_donor">3.2 Income by Donor</span></a></li>
-                                <li><a class="nav-link" href="#" data-target="3.3-value-add-of-core-funding-au.html"><span data-i18n="intro.value_corefunding">3.3 Value Add of Core Funding</span></a></li>
-                                <li><a class="nav-link" href="#" data-target="3.4-order-commodities-from-ippf-au.html"><span data-i18n="intro.order_commodities">3.4 Order Commodities from IPPF</span></a></li>
-                                <li><a class="nav-link" href="#"  data-target="3.5-commodities-by-funding-source-au.html"><span data-i18n="intro.commodities_funding">3.5 Commodities by Source of Funding</span></a></li>
-                                <li><a class="nav-link aoc-users trt-users aoc-users" href="#" data-target="5.1-trt-review-quality-of-business-plan.html"><span data-i18n="">5.1 TRT Review - Quality of Business Plan</span></a></li>
-                                <li><a class="nav-link aoc-users trt-users aoc-users" href="#" data-target="5.2-trt-review-strategic-alignment.html"><span data-i18n="">5.2 TRT Review - Strategic Alignment</span></a></li>
-                                <li><a class="nav-link aoc-users trt-users aoc-users" href="#" data-target="5.3-trt-review-score-summary.html"><span data-i18n=""> 5.3 TRT Review - Score Summary</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-ar">
-                            <a class="nav-link has-dropdown" href="#">
-                                <span class="pr-3" data-i18n="intro.annual_report">Annual / Semi-Annual Report Submission & Approval</span>
-                            </a>    
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" data-target="1-ma-info-ar.html"><span data-i18n="intro.organization_report">1. Organization Details</span></a></li>
-                                <li><a class="nav-link" data-target="2-narrative-report-ar.html"><span data-i18n="intro.narrative_report">2. Narrative Report</span></a></li>
-                                <li><a class="nav-link" data-target="3-add-new-project.html"><span data-i18n="intro.add_project">3. Add New Project</span></a> </li>
-                                <li><a class="nav-link" data-target="4-budget-vs-actual-focus-area-wise.html"><span data-i18n="intro.budget_vs_focusarea">4. Budget vs Actuals by Focus Area</span></a></li>
-                                <li><a class="nav-link" data-target="5-budget-vs-actual-expense-wise.html"><span data-i18n="intro.budget_vs_expense">5. Budget vs Actuals by Expense Category</span></a></li>
-                                <li><a class="nav-link" data-target="6-actual-income-ar.html"><span data-i18n="intro.actual_income">6. Actual Income</span></a></li>
-                                <li><a class="nav-link aoc-users" data-target="7-reporting-review-ar.html"><span  data-i18n="intro.reporting_review">7. AOC Review Form</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-sr">
-                            <a class="nav-link has-dropdown" href="#">
-                            <span data-i18n="intro.standard_reports">Standard Report Generation from the BP Portal </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link ma-users aoc-users trt-users core-users" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
-                                <li><a class="nav-link ma-users aoc-users trt-users core-users" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="6.1-ippf-bpr-secretariat-export-annual-report-sr.html"><span>6.1 IPPF BPR Secretariat Export - Annual Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="9-ma-dashboard-annual-report-export.html"><span>9. MA dashbaord Annual Report Export</span></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </aside>
-            </div>
+  <div id="app" class="dashboard-page">
+
+  <nav class="navbar navbar-expand-lg main-navbar">
+
+  <div class="form-inline">
+    <ul class="navbar-nav mr-3">
+      <li>
+        <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+          <i class="fas fa-expand"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <ul class="navbar-nav navbar-right align-items-center ml-auto">
+        <li class="nav-item">
+          <a href="../../../dhis-web-maintenance/index.html"
+            class="hdr-btn btn-outline maintenance d-none">
+            Maintenance
+          </a>
+        </li>
+
+        <li class="nav-item ml-3">
+          <div class="languag-wrap lang-select-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10
+                      15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <select id="languageSwitcher"></select>
+            <span class="lang-chevron">▾</span>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a href="../../../dhis-web-commons-security/logout.action"
+            class="hdr-btn btn-ghost">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            LOG OUT
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+                
       <!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
+        <section class="section dashboard-section mt-5">
+          <div class="card card--border-left-primary mt-5">
+          <div class="welcome-banner">
+          <svg class="icon icon--md"><use href="#icon-info"/></svg>
+          <p>
+            Welcome to the <strong>IPPF Business Planning and Reporting Portal</strong>.
+            The portal is your one-stop-shop for uploading your annual business plans, submitting annual
+            and half-year reports, or for downloading reports and relevant documents.
+          </p>
+        </div>
+      </div>
+
           <div class="section-body">
 
             <div class="form-wizard mt-3">
               <div class="myContainer">
                 <div class="d-flex justify-content-between mb-2">
                   <h6 class="title-main mb-2">
-                     <span data-i18n="intro.select_ma">Select MA / CP</span>
-                    <i class="fas fa-info-circle" data-toggle="collapse" data-target="#collapseExample1"
-                      aria-expanded="false" aria-controls="collapseExample"></i>
+                     <svg class="icon icon--md"><use href="#icon-info"/></svg>
+                     <span data-i18n="intro.select_ma" class="ma-section-title">Select MA / CP</span>
                   </h6>
                   </div>
                 </div>
@@ -148,46 +124,128 @@
                 </div>
                 <div class="cont-wrapper mt-2">
                   <form>
-                    <div class="cont-wrap-inner">
+                    <div class="row align-items-end">
 
-                      <div class="row">
-                    <div class="col-md-6 font-weight-bold py-2">
-                      
-                      <label for="region" data-i18n="intro.region">Region</label>
-                      </div>
-                      <div class="col-md-6">
-                      <select class="form-control" id="region">
-                      </select>
-                      </div>
-                    </div>
-                      <div class="row">
-                    <div class="col-md-6 font-weight-bold py-2">
-                      
-                      <label for="organisationUnits">Member Associations</label>
-                      </div>
-                      <div class="col-md-6">
-                      <select class="form-control" id="organisationUnits">
-                      </select>
-                      </div>
-                    </div>
+                      <div class="col-md-5">
+                        <label class="font-weight-bold" for="region" data-i18n="intro.region">Region</label>
+                        <select class="form-control" id="region"></select>
                       </div>
 
-                      <div class="form-row">
-                    <div class="col-sm-12 text-right">
-                      <div class="form-group text-end mar-b-0">
-                    <input type="button" value="Submit" data-i18n="[value]intro.submit" class="btn btn-primary" onclick="saveOrgUnit()" />
+                      <div class="col-md-5">
+                        <label class="font-weight-bold" for="organisationUnits">Member Association</label>
+                        <select class="form-control" id="organisationUnits"></select>
                       </div>
-                    </div>
+
+                      <div class="col-md-2">
+                        <input
+                          type="button"
+                          value="Submit"
+                          data-i18n="[value]intro.submit"
+                          class="btn btn-primary btn-block"
+                          onclick="saveOrgUnit()"
+                        />
                       </div>
+
                     </div>
                   </form>
                 </div>
+                  
+                </div>
+                   
+          </div>
+          <section class="nav-cards-grid mt-4">
+                    <a href="1.1-organization-details-au.html" class="nav-card nav-card--blue nav-card--disabled">
+                      <div class="nav-card__icon">
+                        <svg class="icon icon--lg"><use href="#icon-clipboard-list"/></svg>
+                      </div>
+                      <h2 class="nav-card__title">Annual Business Plan</h2>
+                    </a>
+                    <a href="1-ma-info-ar.html" class="nav-card nav-card--teal nav-card--disabled">
+                      <div class="nav-card__icon">
+                        <svg class="icon icon--lg"><use href="#icon-file-check"/></svg>
+                      </div>
+                      <h2 class="nav-card__title">Annual / Semi-Annual Report Submission &amp; Approval</h2>
+                    </a>
+                    <a href="project-export-sr.html" class="nav-card nav-card--teal-light nav-card--disabled">
+                      <div class="nav-card__icon">
+                        <svg class="icon icon--lg"><use href="#icon-bar-chart"/></svg>
+                      </div>
+                      <h2 class="nav-card__title">Standard Report Generation from the BP Portal</h2>
+                    </a>
+          </section>
+            
+        <section class="info-cards-grid mt-4">
+        <!-- Deadlines -->
+        <div class="card">
+          <div class="card-content">
+            <div class="info-card-header">
+              <svg class="icon icon--md"><use href="#icon-calendar"/></svg>
+              <h3 class="info-card-title">Deadlines</h3>
+            </div>
+            <ul class="deadline-list">
+              <li><span class="deadline-label">Annual Report</span><span class="deadline-date">June 10</span></li>
+              <li><span class="deadline-label">HYR</span><span class="deadline-date">October 1</span></li>
+              <li><span class="deadline-label">BP</span><span class="deadline-date">October 1</span></li>
+              <li><span class="deadline-label">TRT Review</span><span class="deadline-date">November 1</span></li>
+              <li><span class="deadline-label">AR/HYR Review</span><span class="deadline-date">June 20</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Now Active -->
+        <div class="card card--border-left-primary">
+          <div class="card-content">
+            <div class="info-card-header">
+              <svg class="icon icon--md"><use href="#icon-activity"/></svg>
+              <h3 class="info-card-title">Now Active</h3>
+            </div>
+            <p style="font-size:0.875rem;font-weight:500;margin-bottom:1rem">Annual Reporting</p>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span class="progress-item-label">MAs Commenced</span>
+                <span class="progress-item-value">50%</span>
               </div>
+              <div class="progress"><div class="progress-bar" style="width:50%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span class="progress-item-label">Finalized Reporting</span>
+                <span class="progress-item-value">5%</span>
+              </div>
+              <div class="progress"><div class="progress-bar" style="width:5%"></div></div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+
+        <!-- Notice Board -->
+        <div class="card">
+          <div class="card-content">
+            <div class="info-card-header">
+              <svg class="icon icon--md"><use href="#icon-bell"/></svg>
+              <h3 class="info-card-title">Notice Board</h3>
+            </div>
+            <div class="space-y-3">
+              <div class="notice-item">
+                <p>The BP Portal has been updated with new features for the 2026 reporting cycle.</p>
+                <p class="notice-item__date">Feb 15, 2026</p>
+              </div>
+              <div class="notice-item">
+                <p>Reminder: Annual Report submissions are due by June 10, 2026.</p>
+                <p class="notice-item__date">Feb 1, 2026</p>
+              </div>
+            </div>
+            <!-- FAQ now inside card-content -->
+            <!-- <a href="#" class="faq-link">
+              <svg class="icon"><use href="#icon-help-circle"/></svg> FAQs
+            </a> -->
+          </div>
+        </div>
+      </section>
+
+      </section>
+    <div class="mt-5"></div>
     </div>
+        
   </div>
   <!-- General JS Scripts -->
   <script src="assets/js/app.min.js"></script>
@@ -208,11 +266,37 @@
   <script>
 </script>
 <script>
-  function saveOrgUnit() {
-    var orgUnit = document.getElementById('organisationUnits').value;
-    window.localStorage.setItem("masterOU", orgUnit);
-    alert("Organsation Unit saved!")
+  function showToast(message, type) {
+   var toast = document.createElement('div');
+  toast.className = 'toast-msg ' + (type || 'success');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(function() { toast.classList.add('show'); }, 10);
+  setTimeout(function() { 
+    toast.classList.remove('show');
+    setTimeout(function() { toast.remove(); }, 300);
+  }, 3000);
+}
+
+function saveOrgUnit() {
+  var selectElement = document.getElementById('organisationUnits');
+  var orgUnit = selectElement.value;
+  var orgUnitName = selectElement.options[selectElement.selectedIndex].text;
+  
+  if (!orgUnit) {
+    showToast('Please select a Member Association!', 'error');
+    return;
   }
+
+  window.localStorage.setItem("masterOU", orgUnit);
+  
+  document.querySelectorAll('.nav-card').forEach(function(card) {
+    card.classList.remove('nav-card--disabled');
+  });
+
+  showToast(`Member Association ${orgUnitName} saved!`, 'success');
+}
 </script>
 
 </body>

@@ -13,6 +13,18 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".nav-link").forEach(function (element) {
     element.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent default action
+      var sidebarToggle = document.getElementById('sidebarToggle');
+      var sidebarOpenIcon = document.getElementById('sidebarOpenIcon');
+      var sidebarCloseIcon = document.getElementById('sidebarCloseIcon');
+
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', function () {
+      sidebar.classList.toggle('bp-sidebar--hidden');
+      var isHidden = sidebar.classList.contains('bp-sidebar--hidden');
+      if (sidebarOpenIcon) sidebarOpenIcon.style.display = isHidden ? 'block' : 'none';
+      if (sidebarCloseIcon) sidebarCloseIcon.style.display = isHidden ? 'none' : 'block';
+    });
+  }
       var targetPage = event.currentTarget.getAttribute("data-target");
       if (targetPage) {
         window.location.href = targetPage;
