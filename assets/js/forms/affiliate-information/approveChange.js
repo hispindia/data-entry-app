@@ -506,7 +506,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if(risk.code === 'PEP' || risk.code === 'EN') {
             //regex for extracting resp
             const riskDesc = rawPageText.split(/\r\n/)
-                        filter(row => row.trim().endsWith(risk.name))
+                        .filter(row => row.trim().endsWith(risk.name))
                         .map(row =>  row 
                         .replace(new RegExp(`\\.?${risk.name}$`, "i"), "")
                         .replace(/^\d+KM/, "")
@@ -710,7 +710,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             : ROLE_PERSON_DE[roleKey]?.name;
 
         const dataValues = [];
-        Object.entries(riskDecisions).forEach(([riskName, { decision, comments }]) => {
+        Object.entries(riskDecisions).forEach(([riskName, { decision, comments, description }]) => {
             const code = RISK_CODE_MAP[riskName];
             if (!code) return;
 
