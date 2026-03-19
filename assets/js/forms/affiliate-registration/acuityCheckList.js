@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   loadAffiliates();
   async function loadAffiliates() {
-    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'tiKIKTnNOnn');
+    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'KKW9E5sqqPN');
     const url = new URL(window.location.href);
     const affiliate = url.searchParams.get('affiliate');
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById('process-third').innerHTML = `No Affiliate's found!`;
         return;
     }
-    fetchAffiliateList(searchableAffiliates);
+    await fetchAffiliateList(searchableAffiliates);
     document.getElementById('process-fifth').innerHTML = "5) AFffilaite's check Completed!";
   }
 
@@ -99,10 +99,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                   "tei_uid": affiliate.trackedEntity,
                   [id[0]]: name,
                   [id[1]]: regNo,
-                  [element.id]: response.rawPageText ? response.rawPageText: "No Records Found",
+                  [element.id]: response.rawPageText,
                 });
               } else {
-                status = response.rawPageText;
+                status = "No Data Found in Source";
                 teiAcuityCheck.push({
                   "id": `${element.id}`,
                   "date": newDate,
@@ -125,10 +125,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                   "tei_uid": affiliate.trackedEntity,
                   [id[0]]: name,
                   [id[1]]: regNo,
-                  [element.id]: response.rawPageText ? response.rawPageText: "No Records Found",
+                  [element.id]: response.rawPageText,
                 });
               } else {
-                status = response.rawPageText;
+                status = "No Data Found in Source";
                 teiAcuityCheck.push({
                   "id": `${element.id}`,
                   "date": newDate,
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
  async function runAcuity({name, regNo}) {
-    const response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+    var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -163,15 +163,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         "PresidentName": `${name} ${regNo}`
       })
     })).json();
-
-    if(response.error) {
-      runAcuity({name, regNo})
+    if(response?.rawPageText=="Risk Coverage\r\nProfiles\r\nTotal\r\nLast 30 Days\r\nArms Trafficking & WMD2103899\r\nDrug Trafficking5762012157\r\nEnforcement438009711317\r\nFraud3384601732\r\nGlobal Sanction List1751595825\r\nMoney Laundering134937968\r\nPEP288930213172\r\nTerrorism104380896\r\nWanted Individuals3786459\r\n") response.rawPageText = "No Records Found"
+    if(!response.rawPageText) {
+      response = await runAcuity({name, regNo})
     }
     return response;
   }
-
+  
  async function runAcuityBank({name}) {
-    const response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
+    var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -185,9 +185,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         "OrganizationName": `${name}`
       })
     })).json();
-
-    if(response.error) {
-      runAcuity({name})
+    if(response?.rawPageText=="Risk Coverage\r\nProfiles\r\nTotal\r\nLast 30 Days\r\nArms Trafficking & WMD2103899\r\nDrug Trafficking5762012157\r\nEnforcement438009711317\r\nFraud3384601732\r\nGlobal Sanction List1751595825\r\nMoney Laundering134937968\r\nPEP288930213172\r\nTerrorism104380896\r\nWanted Individuals3786459\r\n") response.rawPageText = "No Records Found"
+    if(!response.rawPageText) {
+      response = await runAcuityBank({name})
     }
     return response;
   }
