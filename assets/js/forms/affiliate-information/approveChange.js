@@ -4,8 +4,9 @@ import { programs, programStage, dataElements, attributes, orgUnit, tei, ROLE_AC
 import { programStageApi, dataElementsApi} from "../../api/metaDataApi.js";
 import { convert } from "../metadata.js";
 import { toast } from "../utils.js";
-import { createPayload } from "../../api/payload.js";
-
+const PERSON_API_URL = "https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ";
+const BANK_API_URL = "https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI";
+let deCodeMap = {}; 
 const STAGE_MAPPING = {
   chairperson: programStage.ChairPerson,
   viceChairperson: programStage.viceChairperson,
@@ -17,7 +18,16 @@ const STAGE_MAPPING = {
   seniorManagementPrograms: programStage.seniorManagementPrograms,
   bank: programStage.bank
 };
-
+const ROLE_PERSON_DE = {
+    chairperson:              { name: dataElements.chairPersonName,                      uin: dataElements.chairPersonIdNumber },
+    viceChairperson:          { name: dataElements.viceChairPersonName,                  uin: dataElements.viceChairPersonIdNumber },
+    secretary:                { name: dataElements.secretaryName,                        uin: dataElements.secretaryIdNumber },
+    treasurer:                { name: dataElements.treasurerName,                        uin: dataElements.treasurerIdNumber },
+    youth:                    { name: dataElements.youthName,                            uin: dataElements.youthIdNumber },
+    seniorManagementCEO:      { name: dataElements.seniorManagementCEOName,              uin: dataElements.seniorManagementCEOIdNumber },
+    seniorManagementFinance:  { name: dataElements.seniorManagementDirectorFinanceName,  uin: dataElements.seniorManagementDirectorFinanceIdNumber },
+    seniorManagementPrograms: { name: dataElements.SeniorManagementDirectorProgramsName, uin: dataElements.SeniorManagementDirectorProgramsIdNumber },
+};
 // Risk configuration - matching waiverForm.js pattern
 const RISK_COLUMNS = [
   { name: 'Arms Trafficking', code: "AT"},
@@ -30,6 +40,7 @@ const RISK_COLUMNS = [
   { name: 'Sanction List', code: "SL"},
   { name: 'Enforcement', code: "EN"}
 ];
+
 
 const RISK_CODE_MAP = {
   'Arms Trafficking': 'AT',
@@ -65,71 +76,101 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   fetchChangeRequests();
 
-  async function fetchChangeRequests() {
+ async function fetchChangeRequests() {
     try {
+        
         const deResponse = await dataElementsApi.get({param: ['filter=code:!null', 'fields=id,name,code']});
         deResponse.dataElements.forEach(de => {
-            tei.dataElementcode[de.code] = de.id;
+            tei.dataElementcode[de.code] = de.id;  
             tei.dataElementcode[de.id] = de.code;
+            deCodeMap[de.code] = de.id;  
+            deCodeMap[de.id] = de.code;
         });
 
         const response = await dataApi.get(
             orgUnit.id,
             programs.UINControlMaster,
         );
-        
+
         const requests = [];
         cachedRequests = [];
-        
-       if (response && response.trackedEntities) {
-        response.trackedEntities.forEach(entity => {
 
-        const legalNameAttr = entity.attributes.find(
-        a => a.attribute === attributes.legalName
-        );
-        const legalName = legalNameAttr ? legalNameAttr.value : " ";
+        if (response && response.trackedEntities) {
+            response.trackedEntities.forEach(entity => {
 
-        entity.enrollments?.forEach(enrollment => {
-
-            const sortedEvents = [...enrollment.events].sort(
-                (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
-            );
-            
-            sortedEvents.forEach(event => {
-                const isPending = Object.values(ROLE_ACUITY_DE).some(deId =>
-                event.dataValues?.some(
-                    dv => dv.dataElement === deId && dv.value === "In-Progress"
-                )
+                const legalNameAttr = entity.attributes.find(
+                    a => a.attribute === attributes.legalName
                 );
+                const legalName = legalNameAttr ? legalNameAttr.value : " ";
 
-             if (!isPending) return;
+                entity.enrollments?.forEach(enrollment => {
 
-            const createdBy = event.createdBy?.username || "System";
+                    const sortedEvents = [...enrollment.events].sort(
+                        (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
+                    );
 
-            requests.push({
-            legalName,
-            memberSelected: createdBy,
-            requestedBy: createdBy,
-            requestDate: event.occurredAt,
-            status: "Pending",
-            teiId: entity.trackedEntity,
-            eventId: event.event,
-            orgUnit: enrollment.orgUnit,
-            programStage: event.programStage,
-            enrollment: enrollment.enrollment,
-            dataValues: event.dataValues
+                    sortedEvents.forEach(event => {
+                        const isPending = Object.values(ROLE_ACUITY_DE).some(deId =>
+                            event.dataValues?.some(
+                                dv => dv.dataElement === deId && dv.value === "In-Progress"
+                            )
+                        );
+
+                        if (!isPending) return;
+
+                        const createdBy = event.createdBy?.username || "System";
+
+                        const eventDataMap = {};
+                        event.dataValues?.forEach(dv => { eventDataMap[dv.dataElement] = dv.value; });
+
+                        let roleKey = null;
+                        for (const [key, deId] of Object.entries(ROLE_ACUITY_DE)) {
+                            if (eventDataMap[deId] === "In-Progress") { roleKey = key; break; }
+                        }
+
+                        if (!roleKey) return;
+
+                        let personName = "";
+                        let personUIN = "";
+
+                        if (roleKey === 'bank') {
+                            personName = eventDataMap[dataElements.bankName] || "";
+                        } else {
+                            const roleDE = ROLE_PERSON_DE[roleKey];
+                            personName = roleDE ? (eventDataMap[roleDE.name] || "") : "";
+                            personUIN = roleDE ? (eventDataMap[roleDE.uin] || "") : "";
+                        }
+
+                        console.log("Role:", roleKey, "| Name:", personName, "| UIN:", personUIN);
+
+                        requests.push({
+                            legalName,
+                            memberSelected: createdBy,
+                            requestedBy: createdBy,
+                            requestDate: event.occurredAt,
+                            status: "Pending",
+                            teiId: entity.trackedEntity,
+                            eventId: event.event,
+                            orgUnit: enrollment.orgUnit,
+                            programStage: event.programStage,
+                            enrollment: enrollment.enrollment,
+                            dataValues: event.dataValues,
+                            personName,
+                            personUIN,
+                            roleKey
+                        });
+                    });
+                });
             });
-      });
-    });
-  });
-}
+        }
 
         cachedRequests = requests;
-        populateTable(requests);    
+        console.log("Cached requests:", cachedRequests);
+        populateTable(requests);
     } catch (error) {
         console.error("Error fetching change requests:", error);
     }
-  }
+}
 
   function populateTable(requests) {
       const tableBody = document.getElementById("tbody-requests");
@@ -337,7 +378,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     modal.classList.add("show");
   };
 
-  async function performApprovalFlow(teiId, eventId, contentDiv) {
+ async function performApprovalFlow(teiId, eventId, contentDiv) {
     contentDiv.innerHTML = `
       <div class="modal-header">
           <h5 class="modal-title">Verify Request</h5>
@@ -364,26 +405,46 @@ document.addEventListener("DOMContentLoaded", async function () {
         "Verifying enforcement records...",
         "Almost there..."
     ];
-    
+
     let msgIndex = 0;
     const msgInterval = setInterval(() => {
         msgIndex = (msgIndex + 1) % messages.length;
         const el = document.getElementById('loadingMsg');
-        if(el) el.innerText = messages[msgIndex];
+        if (el) el.innerText = messages[msgIndex];
     }, 3000);
 
     try {
-        const flowResponse = await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+        const reqData = cachedRequests.find(r => r.teiId === teiId && r.eventId === eventId);
+        if (!reqData) throw new Error("Request data not found.");
+
+        const { personName, personUIN, roleKey } = reqData;
+        const isBank = roleKey === 'bank';
+
+        const apiUrl = isBank ? BANK_API_URL : PERSON_API_URL;
+        const payload = isBank
+            ? {
                 "eventUid": eventId,
                 "action": "complete",
                 "orgUnit": "OU_01",
                 "program": "Prog_01",
-                "PresidentName": "Aivars Lembergs" 
-                // "PresidentName": "sonu singh AXWPS8419G"
-            })
+                "EntityType": "Organization",
+                "OrganizationName": personName
+            }
+            : {
+                "eventUid": eventId,
+                "action": "complete",
+                "orgUnit": "OU_01",
+                "program": "Prog_01",
+                "PresidentName": `${personName} ${personUIN}`.trim()
+            };
+
+        console.log("API URL:", apiUrl);
+        console.log("Payload:", JSON.stringify(payload));
+
+        const flowResponse = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
         });
 
         const flowResult = await flowResponse.json();
@@ -391,46 +452,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         const { rawPageText } = flowResult;
         console.log("API Response:", rawPageText);
 
-        const reqData = cachedRequests.find(r => r.teiId === teiId && r.eventId === eventId);
-        const dataMap = {};
-        reqData.dataValues.forEach(dv => { dataMap[dv.dataElement] = dv.value; });
-
-        let roleKey = null;
-        for(const [key, deId] of Object.entries(ROLE_ACUITY_DE)) {
-            if(dataMap[deId] == "In-Progress") {
-                roleKey = key;
-                break;
-            }
-        }
         const deId = ROLE_ACUITY_DE[roleKey];
 
-        // Check if response is clean (no records found)
         const isEmpty = !rawPageText || rawPageText.trim() === '' || rawPageText.toLowerCase().includes("no records found");
 
-        if(isEmpty) {
-          // No risks found - auto approve
-          if(deId) {
-              await dataApi.update({
-                  events: [{
-                      event: eventId,
-                      orgUnit: reqData.orgUnit,
-                      program: programs.UINControlMaster,
-                      programStage: reqData.programStage,
-                      enrollment: reqData.enrollment,
-                      occurredAt: reqData.requestDate,
-                      dataValues: [{ dataElement: deId, value: "Approved" }]
-                  }]
-              });
-          }
-          await fetchChangeRequests();
-          document.getElementById('approveModal').classList.remove('show');
-          toast({ status: 'SUCCESS', message: 'Request Approved Successfully!' });
+        if (isEmpty) {
+            if (deId) {
+                await dataApi.update({
+                    events: [{
+                        event: eventId,
+                        orgUnit: reqData.orgUnit,
+                        program: programs.UINControlMaster,
+                        programStage: reqData.programStage,
+                        enrollment: reqData.enrollment,
+                        occurredAt: reqData.requestDate,
+                        dataValues: [{ dataElement: deId, value: "Approved" }]
+                    }]
+                });
+            }
+            await fetchChangeRequests();
+            document.getElementById('approveModal').classList.remove('show');
+            toast({ status: 'SUCCESS', message: 'Request Approved Successfully!' });
         } else {
-          // Risks found - show risk table for decision
-          showRiskTable(teiId, eventId, contentDiv, rawPageText, reqData, deId);
+            showRiskTable(teiId, eventId, contentDiv, rawPageText, reqData, deId);
         }
 
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         clearInterval(msgInterval);
         contentDiv.innerHTML = `
@@ -441,11 +488,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <p class="text-danger">${e.message}</p>
             </div>
             <div class="modal-footer">
-                <button class="btn bg-transparent border" onclick="document.getElementById('approveModal').classList.remove('show')">Close</button>
+                <button class="btn bg-transparent border" 
+                    onclick="document.getElementById('approveModal').classList.remove('show')">
+                    Close
+                </button>
             </div>
         `;
     }
-  }
+}
 
  function showRiskTable(teiId, eventId, contentDiv, rawPageText, reqData, deId) {
 
@@ -464,24 +514,27 @@ document.addEventListener("DOMContentLoaded", async function () {
             </td>`;
         }
         if(risk.code === 'PEP' || risk.code === 'EN') {
-        riskDecisions[risk.name] = { decision: 'Approve', comments: '' };
-        return `<td class="text-center" style="cursor:pointer;background-color:rgb(255,251,235);border-color:rgb(252,211,77);"
+            riskDecisions[risk.name] = { decision: 'Approve', comments: '' };
+            return `<td class="text-center" style="cursor:pointer;background-color:rgb(255,251,235);border-color:rgb(252,211,77);"
+                data-risk="${risk.code}"
+                id="risk-td-${risk.code}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
+            </td>`;
+        }
+
+        return `<td class="text-center" style="cursor:pointer;background-color:rgb(254,242,242);border-color:rgb(252,165,165);"
             data-risk="${risk.code}"
             id="risk-td-${risk.code}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
         </td>`;
-    }
-
-      return `<td class="text-center" style="cursor:pointer;background-color:rgb(254,242,242);border-color:rgb(252,165,165);"
-      data-risk="${risk.code}"
-      id="risk-td-${risk.code}">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-    </td>`;
-
     }).join('');
 
     const manualRisks = flaggedRisks.filter(r => r.code !== 'PEP' && r.code !== 'EN');
-    const decidedCount = 0;
+    const manualDecidedCount = Object.keys(riskDecisions)
+        .filter(name => {
+            const r = RISK_COLUMNS.find(r => r.name === name);
+            return r && r.code !== 'PEP' && r.code !== 'EN';
+        }).length;
 
     contentDiv.innerHTML = `
         <div class="modal-header">
@@ -531,24 +584,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         <div class="modal-footer">
             <button class="btn bg-transparent border" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
             <button class="btn" id="submitAllRisksBtn" style="background:#28a745;color:#fff;">
-                Submit (${decidedCount}/${manualRisks.length})
+                Submit (${manualDecidedCount}/${manualRisks.length})
             </button>
         </div>
     `;
 
-    // ✅ Step 5 — add click listeners after innerHTML is set
     contentDiv.querySelectorAll('td[data-risk]').forEach(td => {
-    td.addEventListener('click', () => {
-        const riskCode = td.getAttribute('data-risk');
-        const risk = RISK_COLUMNS.find(r => r.code === riskCode);
-        const modalContent = document.getElementById('risk-modal-content');
-        if(modalContent) {
-            modalContent.style.display = 'block';
-            modalContent.scrollIntoView({ behavior: 'smooth' });
-        }
-        showRiskDecisionModal(risk, riskDecisions, rawPageText, reqData, teiId, flaggedRisks);
+        td.addEventListener('click', () => {
+            const riskCode = td.getAttribute('data-risk');
+            const risk = RISK_COLUMNS.find(r => r.code === riskCode);
+            const modalContent = document.getElementById('risk-modal-content');
+            if(modalContent) {
+                modalContent.style.display = 'block';
+                modalContent.scrollIntoView({ behavior: 'smooth' });
+            }
+            showRiskDecisionModal(risk, riskDecisions, rawPageText, reqData, teiId, flaggedRisks);
+        });
     });
-});
 
     document.getElementById('submitAllRisksBtn').addEventListener('click', async () => {
         if(!manualRisks.every(r => riskDecisions[r.name])) {
@@ -648,88 +700,99 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function saveRiskDecisions(teiId, eventId, reqData, riskDecisions, allApproved, deId) {
     try {
-      const teData = await dataApi.getTrackedEntity(teiId);
-      const teInfo = teData.trackedEntities[0];
-      const ucmEnrollment = teInfo.enrollments.find(e => e.program === programs.UINControlMaster);
-      const existingEvent = ucmEnrollment?.events?.find(e => e.programStage === "Dfxzc7dflN8");
-      const existingEventId = existingEvent?.event || null;
+        const teData = await dataApi.getTrackedEntity(teiId);
+        const teInfo = teData.trackedEntities[0];
+        const ucmEnrollment = teInfo.enrollments.find(e => e.program === programs.UINControlMaster);
+        const existingEvent = ucmEnrollment?.events?.find(e => e.programStage === "Dfxzc7dflN8");
+        const existingEventId = existingEvent?.event || null;
 
-      // Build data values for acuity waiver event
-      const dataValues = [];
-      Object.entries(riskDecisions).forEach(([riskName, { decision, comments }]) => {
-        const code = RISK_CODE_MAP[riskName];
-        if(!code) return;
+        const { roleKey } = reqData;
+        const nameDeId = roleKey === 'bank' 
+            ? dataElements.bankName 
+            : ROLE_PERSON_DE[roleKey]?.name;
 
-        const memberId = teiId;
-        const deStatus = tei.dataElementcode[`${code}-Status-${memberId}`];
-        const deJustification = tei.dataElementcode[`${code}-Justification-${memberId}`];
+        const dataValues = [];
+        Object.entries(riskDecisions).forEach(([riskName, { decision, comments }]) => {
+            const code = RISK_CODE_MAP[riskName];
+            if (!code) return;
 
-        if(deStatus) dataValues.push({ dataElement: deStatus, value: decision });
-        if(deJustification) dataValues.push({ dataElement: deJustification, value: comments });
-      });
+            const statusCode = `${code}-Status-${nameDeId}`;
+            const justificationCode = `${code}-Justification-${nameDeId}`;
 
-      // Save to acuity waiver event
-      if(existingEventId) {
-        await dataApi.update({
-          events: [{
-            event: existingEventId,
-            orgUnit: reqData.orgUnit,
-            program: programs.UINControlMaster,
-            programStage: "Dfxzc7dflN8",
-            enrollment: reqData.enrollment,
-            trackedEntity: teiId,
-            occurredAt: new Date().toISOString(),
-            status: "ACTIVE",
-            dataValues
-          }]
+            const statusDeId = deCodeMap[statusCode];          
+            const justificationDeId = deCodeMap[justificationCode]; 
+
+            console.log(`Risk: ${riskName} | StatusCode: ${statusCode} | StatusDeId: ${statusDeId}`);
+            console.log(`Risk: ${riskName} | JustCode: ${justificationCode} | JustDeId: ${justificationDeId}`);
+
+if (statusDeId) dataValues.push({ dataElement: statusDeId, value: decision });
+if (justificationDeId) dataValues.push({ dataElement: justificationDeId, value: comments });
         });
-      } else {
-        await dataApi.enroll({
-          events: [{
-            orgUnit: reqData.orgUnit,
-            program: programs.UINControlMaster,
-            programStage: "Dfxzc7dflN8",
-            enrollment: reqData.enrollment,
-            trackedEntity: teiId,
-            occurredAt: new Date().toISOString(),
-            status: "ACTIVE",
-            dataValues
-          }]
-        });
-      }
 
-      // Update main request status
-      if(allApproved && deId) {
-        await dataApi.update({
-          events: [{
-            event: eventId,
-            orgUnit: reqData.orgUnit,
-            program: programs.UINControlMaster,
-            programStage: reqData.programStage,
-            enrollment: reqData.enrollment,
-            occurredAt: new Date().toISOString(),
-            dataValues: [{ dataElement: deId, value: "Approved" }]
-          }]
-        });
-      } else if(deId) {
-        await dataApi.update({
-          events: [{
-            event: eventId,
-            orgUnit: reqData.orgUnit,
-            program: programs.UINControlMaster,
-            programStage: reqData.programStage,
-            enrollment: reqData.enrollment,
-            occurredAt: new Date().toISOString(),
-            dataValues: [{ dataElement: deId, value: "Failed" }]
-          }]
-        });
-      }
+        console.log("Data values to save:", dataValues);
 
-    } catch(err) {
-      console.error('Error saving risk decisions:', err);
-      throw err;
+        // Save to acuity waiver event
+        if (existingEventId) {
+            await dataApi.update({
+                events: [{
+                    event: existingEventId,
+                    orgUnit: reqData.orgUnit,
+                    program: programs.UINControlMaster,
+                    programStage: "Dfxzc7dflN8",
+                    enrollment: reqData.enrollment,
+                    trackedEntity: teiId,
+                    occurredAt: new Date().toISOString(),
+                    status: "ACTIVE",
+                    dataValues
+                }]
+            });
+        } else {
+            await dataApi.enroll({
+                events: [{
+                    orgUnit: reqData.orgUnit,
+                    program: programs.UINControlMaster,
+                    programStage: "Dfxzc7dflN8",
+                    enrollment: reqData.enrollment,
+                    trackedEntity: teiId,
+                    occurredAt: new Date().toISOString(),
+                    status: "ACTIVE",
+                    dataValues
+                }]
+            });
+        }
+
+        // Update main request status
+        if (allApproved && deId) {
+            await dataApi.update({
+                events: [{
+                    event: eventId,
+                    orgUnit: reqData.orgUnit,
+                    program: programs.UINControlMaster,
+                    programStage: reqData.programStage,
+                    enrollment: reqData.enrollment,
+                    occurredAt: new Date().toISOString(),
+                    dataValues: [{ dataElement: deId, value: "Approved" }]
+                }]
+            });
+        } else if (deId) {
+            await dataApi.update({
+                events: [{
+                    event: eventId,
+                    orgUnit: reqData.orgUnit,
+                    program: programs.UINControlMaster,
+                    programStage: reqData.programStage,
+                    enrollment: reqData.enrollment,
+                    occurredAt: new Date().toISOString(),
+                    dataValues: [{ dataElement: deId, value: "Failed" }]
+                }]
+            });
+        }
+
+    } catch (err) {
+        console.error('Error saving risk decisions:', err);
+        throw err;
     }
-  }
+}
 
   function ensureDetailModal() {
     let modal = document.getElementById("detailModal");
