@@ -163,7 +163,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         "PresidentName": `${name} ${regNo}`
       })
     })).json();
-    if(response?.rawPageText=="Risk Coverage\r\nProfiles\r\nTotal\r\nLast 30 Days\r\nArms Trafficking & WMD2103899\r\nDrug Trafficking5762012157\r\nEnforcement438009711317\r\nFraud3384601732\r\nGlobal Sanction List1751595825\r\nMoney Laundering134937968\r\nPEP288930213172\r\nTerrorism104380896\r\nWanted Individuals3786459\r\n") response.rawPageText = "No Records Found"
+    if(response?.rawPageText) {
+      const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
+      if(!pageText) response.rawPageText = "No Records Found";
+    }
     if(!response.rawPageText) {
       response = await runAcuity({name, regNo})
     }
@@ -185,10 +188,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         "OrganizationName": `${name}`
       })
     })).json();
-    if(response?.rawPageText=="Risk Coverage\r\nProfiles\r\nTotal\r\nLast 30 Days\r\nArms Trafficking & WMD2103899\r\nDrug Trafficking5762012157\r\nEnforcement438009711317\r\nFraud3384601732\r\nGlobal Sanction List1751595825\r\nMoney Laundering134937968\r\nPEP288930213172\r\nTerrorism104380896\r\nWanted Individuals3786459\r\n") response.rawPageText = "No Records Found"
+
+    if(response?.rawPageText) {
+      const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
+      if(!pageText) response.rawPageText = "No Records Found";
+    }
     if(!response.rawPageText) {
       response = await runAcuityBank({name})
     }
-    return response;
+    return response;  
   }
 })
