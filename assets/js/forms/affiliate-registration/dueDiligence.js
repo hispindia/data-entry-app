@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (e.target.matches("input, select, textarea")) {
       tei.values[e.target.id] = e.target.value;
       document.getElementById(`error-${e.target.id}`).innerHTML = '';
+      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      document.getElementById("dueDiligence").innerHTML = renderSections(tei.programStages, tei.disabled);
     }
   });
 
@@ -197,20 +199,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   document.getElementById('country').innerHTML = countryNameAndCodes[dataValues[attributes.countryRegistration]] ? `(${countryNameAndCodes[dataValues[attributes.countryRegistration]]})`  : ''
   
-  tei.programStages = [...dueDiligence.sections, ...affiliateStage.sections];
+  tei.programStages = dueDiligence.sections;
   tei.dataElements = dueDiligence.dataElements;
   tei.metadata = {...dueDiligence.metadata, ...affiliateStage.metadata};
   tei.mandatoryList = dueDiligence.mandatoryList;
   tei.values = {...dueDiligence.values, ...dataValues};
   tei.values[dataElements.affiliationStatus] = 'Active';
 
-  ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+  ruleCallback(tei.programRules, [...dueDiligence.sections, ...affiliateStage.sections], tei.mandatoryList, tei.metadata, tei.values);
     
   const dueDiligenceDiv = renderSections(dueDiligence.sections);
   const affiliateKYCDiv = renderSections(affiliateStage.sections);
-
-  document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv} 
-  ${dueDiligenceDiv}`
+  debugger;
+  document.getElementById("affiliateKYC").innerHTML = affiliateKYCDiv;
+  document.getElementById("dueDiligence").innerHTML = dueDiligenceDiv;
   flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
   }
 

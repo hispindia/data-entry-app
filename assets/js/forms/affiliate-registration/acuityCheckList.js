@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
     await fetchAffiliateList(searchableAffiliates);
-    document.getElementById('process-fifth').innerHTML = "5) AFffilaite's check Completed!";
+    document.getElementById('process-fifth').innerHTML = "5) Afffilaite's check Completed!";
   }
 
   async function fetchAffiliateList(searchableAffiliates) {

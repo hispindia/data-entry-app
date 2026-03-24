@@ -129,8 +129,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     headerList.forEach(item => theadAffiliateRow+= `<th class="py-3 px-4 font-weight-bold border-0 text-center" style="color: rgb(0, 49, 60)">${item.name}</th>`);
     
     document.getElementById('thead-affiliate-inProgress').innerHTML = theadAffiliateRow;
-    document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
-    document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center">Actions</th>`;
+    document.getElementById('thead-affiliate-approved').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center" colspan="2">Actions</th>`;
+    document.getElementById('thead-affiliate-failed').innerHTML = `${theadAffiliateRow}<th class="py-3 px-4 font-weight-bold border-0 text-center" colspan="2">Actions</th>`;
     
     var tbodyAffiliateRow = "";
     approvedList.forEach(affiliate => {
@@ -146,7 +146,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       tbodyAffiliateRow += `
       <td class="text-center">  
       <button 
-        data-affiliate="${affiliate.id}" 
+        data-affiliate="${affiliate.id}-waiver" 
+        class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
+        onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
+        > Generate Report
+      </button>
+      </td>
+      <td class="text-center">  
+      <button 
+        data-affiliate="${affiliate.id}-dueDiligence" 
         class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;"
         ${userConfig.blockWaiver ? '' : 'disabled'}>
         Process UIN Generation
@@ -160,8 +168,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     tbodyApproved.addEventListener('click', async (e)=> {
       const button = e.target.closest('.row-btn');
       if(!button) return;
-      const affiliate = button.dataset.affiliate;
-      window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate}`;
+      const affiliate = button.dataset.affiliate.split("-");
+      if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/ooPAejK2C54?afffiliate=${affiliate[0]}`;
+      else if(affiliate[1]=="dueDiligence") window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate[0]}`;
     })
 
     tbodyAffiliateRow = "";
@@ -179,16 +188,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       tbodyAffiliateRow += `
       <td class="text-center">  
       <button 
-        data-affiliate="${affiliate.id}" 
+        data-affiliate="${affiliate.id}-waiver" 
         class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
         onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
         >
-        View
+        Generate Report
       </button>
       </td>
       <td class="text-center">
       <button 
-        data-affiliate="${affiliate.id}" 
+        data-affiliate="${affiliate.id}-form" 
         class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
         onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
         ${userConfig.blockWaiver ? 'disabled' : ''}>Add Waiver
@@ -201,8 +210,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     tbodyFailed.addEventListener('click', async (e)=> {
       const button = e.target.closest('.row-btn');
       if(!button) return;
-      const affiliate = button.dataset.affiliate;
-      window.location.href = `./1.2-1-waiver-form.html?affiliate=${affiliate}`;
+      const affiliate = button.dataset.affiliate.split("-");
+      if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/ooPAejK2C54?afffiliate=${affiliate[0]}`;
+      else if(affiliate[1]=="form") elsewindow.location.href = `./1.2-1-waiver-form.html?affiliate=${affiliate[0]}`;
     })
 
 
