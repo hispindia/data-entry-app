@@ -59,6 +59,29 @@ $(function () {
   }
   sidebar_dropdown();
 
+  
+  var sidebarSectionFilter = function () {
+    var sections = ['.dropdown-au', '.dropdown-ar', '.dropdown-sr'];
+    var activeSection = null;
+
+
+    sections.forEach(function (selector) {
+      if ($(selector).hasClass('active')) {
+        activeSection = selector;
+      }
+    });
+
+  
+    if (activeSection) {
+      sections.forEach(function (selector) {
+        if (selector !== activeSection) {
+          $(selector).hide();
+        }
+      });
+    }
+  };
+  sidebarSectionFilter();
+
   if ($("#top-5-scroll").length) {
     $("#top-5-scroll").css({
       height: 315

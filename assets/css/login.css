@@ -1,20 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap');
-html{font-family: 'Be Vietnam', sans-serif!important;}
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
+html{font-family: 'Barlow', sans-serif!important;}
 body {
-    font-family: 'Be Vietnam', sans-serif!important;
-    color: #000;
-    background:#3d0f57;
+    font-family: 'Barlow', sans-serif!important;
+    color: #333333;
+    background: #E53E2E;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 15px;
     overflow-x:hidden;
     background:url(../images/bg-login2.jpg) bottom;
     position:relative;
     background-size:cover;
-
-
 }
 body:after{
-background-image:llinear-gradient(1deg, rgb(52 27 96 / 68%) 15%, #93a9ff03 67%);
+background-image: linear-gradient(1deg, rgb(229 62 46 / 68%) 15%, rgba(0, 95, 106, 0.03) 67%);
 position:absolute;
 left:0;
 right:0;
@@ -56,7 +54,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .loader_div {
     border: 6px solid #ffebea;
     border-radius: 50%;
-    border-top: 6px solid #ef6f4d;
+    border-top: 6px solid #E53E2E;
     width: 60px;
     height: 60px;
     -webkit-animation: spin 1.5s linear infinite;
@@ -89,7 +87,7 @@ a.logo_text {
     margin: 0 auto 0px;
 }
 a.logo_text span {
-    background: #ef6f4d;
+    background: #E53E2E;
     line-height: 1;
     display: inline-block;
     padding: 3px 5px 3px;
@@ -262,14 +260,14 @@ a.cardlink:hover {
     border-radius: 10px;
     -webkit-border-radius: 10px;
     overflow: hidden;
-    background-image:linear-gradient(3deg, rgb(20 0 54 / 63%) 15%, #93a9ff03 67%);
+    background-image: linear-gradient(3deg, rgb(229 62 46 / 63%) 15%, rgba(0, 95, 106, 0.03) 67%);
     border: 1px solid rgb(235 234 255 / 32%); 
     box-shadow: 0 2px 9px rgb(255 255 255 / 25%);
 }
 .login_wrapper .btn-outline {
     border-radius: 3px;
     padding: 6px 30px 6px 30px;
-    color: #ef6f4d;
+    color: #E53E2E;
     background: #fff;
     letter-spacing: 1px;
     font-size: 14px;
@@ -297,7 +295,7 @@ a.cardlink:hover {
 }
 
 .login_wrapper .login_form h3 span {
-    color: #ef6f4d;
+    color: #E53E2E;
 }
 
 .login_wrapper .login_form .form-group {
@@ -338,7 +336,7 @@ a.cardlink:hover {
 .login_wrapper .login_form .input-text::placeholder {
   color: rgb(255 255 255 / 58%);
 }
-.password_icon svg.active{ color:#ef6f4d;}
+.password_icon svg.active{ color:#E53E2E;}
 select.form-control:not([size]):not([multiple]) {
     height: 53px;
 }
@@ -404,17 +402,19 @@ select.form-control:not([size]):not([multiple]) {
     box-shadow: none;
 }
 .login_wrapper .login_form .btn-theme {
-    background-image: linear-gradient( 489deg, #410c78 37%, #4f5ece 100%)!important;
+    background: #E53E2E !important;
+    background-image: none !important;
     border: none;
     color: #fff;
-    border-radius: 7px;
+    border-radius: 6px;
     box-shadow: none;
     height: auto;
     padding: 15px 10px;
-
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
 }
 .login_wrapper .login_form .btn-theme:hover {
-    background:  linear-gradient( 280deg, #410c78 37%, #4f5ece 100%)!important;
+    background: #c9342a !important;
     box-shadow: 0 0 35px rgba(0, 0, 0, 0.1);
     text-decoration:none;
 }
@@ -459,8 +459,8 @@ select.form-control:not([size]):not([multiple]) {
 
 }
 .login_wrapper .login_form input[type="checkbox"]:checked + label::before {
-background-color: #4b45b4;
-    border-color: #4e58c8;
+background-color: #E53E2E;
+    border-color: #E53E2E;
 }
 .login_wrapper .login_form input[type=checkbox]:checked + label:before {
     font-weight: normal;
@@ -512,8 +512,8 @@ background-color: #4b45b4;
     justify-content: center;
     text-align: left;
 
-    background:#ef6f4d;
-    background-image: linear-gradient(to left top, #1a3660, #583b77, #a44753, #dc4f38, #e1552f);
+    background:#E53E2E;
+    background-image: linear-gradient(to left top, #005F6A, #007A8A, #c9342a, #E53E2E, #E53E2E);
     border-radius:20px;
 }
 .login_wrapper >.row{
@@ -607,15 +607,15 @@ font-size: 0.8rem;
     align-items: center;
     justify-content: space-between;  font-size: 2rem;}
 .head_reset h2{color:#fff; font-weight: 600;}
-.text-right{color:#ef6f4d; font-weight: 600; }
-.btn-md.btn-back{color:#ef6f4d; background:none!important; box-shadow:none;  margin-top:10px;}
+.text-right{color:#E53E2E; font-weight: 600; }
+.btn-md.btn-back{color:#E53E2E; background:none!important; box-shadow:none;  margin-top:10px;}
 .btn-md.btn-back:hover{background:rgba(173, 146, 108, 0.08)!important;}
 
 
 .hgt-foot{padding-bottom:100px;}
 .wrapper{min-height: calc(100vh - 50px);}
 .footer-text{ padding:10px; transition:all ease 1s;}
-.footer-text a {color:#ef6f4d; }
+.footer-text a {color:#E53E2E; }
 .footer-text span {color: #006895;}
 .footer-text:hover{transform: scale(1.1);}
 
@@ -631,7 +631,7 @@ footer.innerone {
 
     .login-one .login_left_img{opacity:0}
     .login-one .login_img_caption{background:url(../images/bg.gif); background-size:cover; position:relative; background-position:center;}
-    .login-one .login_img_caption:after{background:linear-gradient( 326deg, #0b1f74ad 6%, #001981 56%);
+    .login-one .login_img_caption:after{background:linear-gradient( 326deg, rgba(229, 62, 46, 0.68) 6%, rgba(0, 95, 106, 0.9) 56%);
     content: "";
     position: absolute;
     left: 0;

@@ -75,6 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var masterOU = window.localStorage.getItem("masterOU");
       masterOU = JSON.parse(masterOU);
+      if(masterOU && masterOU.id) {
+        document.querySelectorAll('.nav-card').forEach(function(card) {
+          card.classList.remove('nav-card--disabled');
+        });
+      };
     
       var selectedParentOU = "";
       var regionOptions = '';
