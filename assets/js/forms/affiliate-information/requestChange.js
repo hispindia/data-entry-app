@@ -8,6 +8,7 @@ import {
   programRules,
   attributes,
   ROLE_ACUITY_DE,
+  programSection,
 } from "../../constant.js";
 
 import {
@@ -125,17 +126,16 @@ const ROLE_DISPLAY_FIELDS = {
   }
 };
 
-
 const STAGE_MAPPING = {
-  chairperson: programStage.ChairPerson,
-  viceChairperson: programStage.viceChairperson,
-  secretary: programStage.Secretary,
-  treasurer: programStage.Treasurer,
-  youth: programStage.Youth,
-  seniorManagementCEO: programStage.seniorManagement,
-  seniorManagementFinance: programStage.seniorManagementFinance,
-  seniorManagementPrograms: programStage.seniorManagementPrograms,
-  bank: programStage.bank
+  chairperson: programSection.ChairPerson,
+  viceChairperson: programSection.viceChairperson,
+  secretary: programSection.Secretary,
+  treasurer: programSection.Treasurer,
+  youth: programSection.Youth,
+  seniorManagementCEO: programSection.seniorManagement,
+  seniorManagementFinance: programSection.seniorManagementFinance,
+  seniorManagementPrograms: programSection.seniorManagementPrograms,
+  bank: programSection.bank
 };
 
 document.addEventListener("DOMContentLoaded", async () => {

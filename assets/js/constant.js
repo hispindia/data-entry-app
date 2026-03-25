@@ -27,6 +27,8 @@ export const programStage = {
     completionCheckList: "jKxGLMkHnHy",
     UINControlMaster: "HsKUiY7RyeO",
     acuityWaiver: "BpE6W2xgKXn",
+}
+export const programSection = {
     ChairPerson: "lCt44LGWvKj",
     viceChairperson: "l7hrKT6IQjN",
     Secretary: "d1GO05tFP5I",

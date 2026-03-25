@@ -1,6 +1,6 @@
 import { getUserConfig } from "../config.js";
 import { dataApi } from "../../api/DataApi.js";
-import { programs, programStage, dataElements, attributes, orgUnit, tei, ROLE_ACUITY_DE, } from "../../constant.js";
+import { programs, programStage, dataElements, attributes, orgUnit, tei, ROLE_ACUITY_DE, programSection, } from "../../constant.js";
 import { programStageApi, dataElementsApi} from "../../api/metaDataApi.js";
 import { convert } from "../metadata.js";
 import { toast } from "../utils.js";
@@ -8,15 +8,15 @@ const PERSON_API_URL = "https://default56af9532501a404c995d80633a35c0.ac.environ
 const BANK_API_URL = "https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI";
 let deCodeMap = {}; 
 const STAGE_MAPPING = {
-  chairperson: programStage.ChairPerson,
-  viceChairperson: programStage.viceChairperson,
-  secretary: programStage.Secretary,
-  treasurer: programStage.Treasurer,
-  youth: programStage.Youth,
-  seniorManagementCEO: programStage.seniorManagement,
-  seniorManagementFinance: programStage.seniorManagementFinance,
-  seniorManagementPrograms: programStage.seniorManagementPrograms,
-  bank: programStage.bank
+  chairperson: programSection.ChairPerson,
+  viceChairperson: programSection.viceChairperson,
+  secretary: programSection.Secretary,
+  treasurer: programSection.Treasurer,
+  youth: programSection.Youth,
+  seniorManagementCEO: programSection.seniorManagement,
+  seniorManagementFinance: programSection.seniorManagementFinance,
+  seniorManagementPrograms: programSection.seniorManagementPrograms,
+  bank: programSection.bank
 };
 const ROLE_PERSON_DE = {
     chairperson:              { name: dataElements.chairPersonName,                      uin: dataElements.chairPersonIdNumber },
@@ -108,7 +108,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                     const sortedEvents = [...enrollment.events].sort(
                         (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
                     );
-
+                    
+                    const processedEvents = new Set();
                     sortedEvents.forEach(event => {
                         const isPending = Object.values(ROLE_ACUITY_DE).some(deId =>
                             event.dataValues?.some(
@@ -129,6 +130,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                         }
 
                         if (!roleKey) return;
+                        if (processedEvents.has(roleKey)) return;
+                        processedEvents.add(roleKey);
+
 
                         let personName = "";
                         let personUIN = "";
@@ -372,6 +376,69 @@ document.addEventListener("DOMContentLoaded", async function () {
     modal.classList.add("show");
   };
 
+  async function runAcuityPerson( {personName, personUIN}) {
+    try {
+            const payload = {
+                "eventUid": "abc123",
+                "action": "complete",
+                "orgUnit": "OU_01",
+                "program": "Prog_01",
+                "PresidentName": "Aivars Lembergs",
+                // "PresidentName": `${personName} ${personUIN}`.trim()
+            }
+            
+            const response = await (await fetch(PERSON_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })).json();
+
+            if(response?.rawPageText) {
+                const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
+                if(!pageText) response.rawPageText = "No Records Found";
+            }
+            if(!response.rawPageText) {
+                return await runAcuityPerson({ personName, personUIN});
+            }
+           return response;
+
+        } catch(error) {
+        console.error("Error running Acuity Person:", error);
+    }
+
+  }
+
+  async function runAcuityBank( {bankName}) {
+    try {
+            const payload = {
+            "eventUid": "abc123",
+            "action": "complete",
+            "orgUnit": "OU_01",
+            "program": "Prog_01",
+            "EntityType": "Organization",
+            "OrganizationName": bankName
+        };
+            
+            const response = await (await fetch(BANK_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })).json();
+
+            if(response?.rawPageText) {
+                const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
+                if(!pageText) response.rawPageText = "No Records Found";
+            }
+            if(!response.rawPageText) {
+                return await runAcuityBank({ bankName });
+            }
+           return response;
+
+        } catch(error) {
+        console.error("Error running Acuity bank:", error);
+    }
+
+  }
  async function performApprovalFlow(teiId, eventId, contentDiv) {
     contentDiv.innerHTML = `
       <div class="modal-header">
@@ -414,31 +481,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         const { personName, personUIN, roleKey } = reqData;
         const isBank = roleKey === 'bank';
 
-        const apiUrl = isBank ? BANK_API_URL : PERSON_API_URL;
-        const payload = isBank
-            ? {
-                "eventUid": eventId,
-                "action": "complete",
-                "orgUnit": "OU_01",
-                "program": "Prog_01",
-                "EntityType": "Organization",
-                "OrganizationName": personName
-            }
-            : {
-                "eventUid": eventId,
-                "action": "complete",
-                "orgUnit": "OU_01",
-                "program": "Prog_01",
-                "PresidentName": `${personName} ${personUIN}`.trim()
-            };
+        let flowResult;
+        if (isBank) {
+            flowResult = await runAcuityBank({ bankName: personName });
+        } else {
+            flowResult = await runAcuityPerson({ personName, personUIN });
+        }
 
-        const flowResponse = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-
-        const flowResult = await flowResponse.json();
         clearInterval(msgInterval);
         const { rawPageText } = flowResult;
 
