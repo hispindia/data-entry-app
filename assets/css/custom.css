@@ -1639,3 +1639,59 @@ select.form-control {
 .main-navbar, .main-navbar * {
   font-family: 'Barlow', sans-serif;
 }
+
+/* SMART Outcomes Table (Ques 5 - Narrative Plan) */
+.smart-outcomes-table {
+  margin-top: 12px;
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'Barlow', sans-serif;
+}
+.smart-outcomes-table thead th {
+  background: #005F6A;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  padding: 10px 12px;
+  border: 1px solid #004a52;
+  vertical-align: middle;
+}
+.smart-outcomes-table tbody td {
+  padding: 8px 10px;
+  border: 1px solid #dee2e6;
+  vertical-align: top;
+}
+.smart-outcomes-table .smart-row-num {
+  text-align: center;
+  font-weight: 600;
+  color: #005F6A;
+  vertical-align: middle;
+  width: 40px;
+}
+.smart-outcomes-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+.smart-outcomes-table tbody tr:hover {
+  background-color: #eef6f7;
+}
+textarea.smart-cell-textarea {
+  width: 100%;
+  min-height: 60px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: 'Barlow', sans-serif;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+textarea.smart-cell-textarea:focus {
+  border-color: #005F6A;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 95, 106, 0.15);
+}
+.smart-outcomes-table .char-counter {
+  font-size: 11px;
+  margin-top: 4px;
+}

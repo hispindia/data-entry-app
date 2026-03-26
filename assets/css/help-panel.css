@@ -1,0 +1,524 @@
+/* ============================================
+   IPPF Help & Guidance Panel — IPPF Brand
+   ============================================ */
+
+/* Help Toggle Button (question mark icon) — inline with section title */
+.help-toggle-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: #005F6A;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Barlow', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: all 0.2s;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.help-toggle-btn:hover {
+  background: #007A8A;
+  transform: scale(1.08);
+}
+.help-toggle-btn.active {
+  background: #E53E2E;
+  border-color: #fff;
+}
+
+/* Title row wrapper — makes title and ? icon sit on the same line */
+.help-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+/* Fallback: fixed-position for pages without a section title */
+.help-toggle-btn--fixed {
+  position: fixed;
+  top: 72px;
+  right: 16px;
+  z-index: 1020;
+}
+
+/* ============================================
+   FIELD-LEVEL HELP — ? icon + tooltip + Define link
+   ============================================ */
+
+/* Wrapper to hold label text + ? icon inline */
+.help-label-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Small ? icon next to field labels */
+.help-field-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  background: #005F6A;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Barlow', sans-serif;
+  cursor: pointer;
+  border: none;
+  line-height: 1;
+  transition: all 0.15s;
+  position: relative;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.help-field-icon:hover {
+  background: #007A8A;
+  transform: scale(1.1);
+}
+
+/* Tooltip that appears on hover of ? icon — appended to body for no clipping */
+.help-field-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  width: 300px;
+  max-width: 90vw;
+  background: #1A1A2E;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  padding: 12px 14px;
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.30);
+  pointer-events: none;
+  font-family: 'Barlow', -apple-system, sans-serif;
+  /* Smooth entrance */
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.help-field-tooltip.visible {
+  display: block;
+  opacity: 1;
+}
+.help-field-tooltip .tooltip-term {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+  display: block;
+}
+.help-field-tooltip .tooltip-def {
+  display: block;
+  color: rgba(255,255,255,0.88);
+}
+/* Arrow pointing down (tooltip above the icon) */
+.help-field-tooltip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+}
+.help-field-tooltip.arrow-down::after {
+  top: 100%;
+  border-top-color: #1A1A2E;
+}
+/* Arrow pointing up (tooltip below the icon) */
+.help-field-tooltip.arrow-up::after {
+  bottom: 100%;
+  border-bottom-color: #1A1A2E;
+}
+
+
+/* ============================================
+   Help Panel Overlay (slide-in from right)
+   ============================================ */
+.help-panel-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  z-index: 1040;
+  background: #FFFFFF;
+  border-left: 1px solid #E0E0E0;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Barlow', sans-serif;
+}
+.help-panel-overlay.open {
+  transform: translateX(0);
+}
+
+/* Help Panel Header */
+.help-panel-head {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid #E0E0E0;
+  flex-shrink: 0;
+  background: #FFFFFF;
+}
+.help-panel-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.help-panel-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333333;
+}
+.help-panel-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: #F5F5F5;
+  color: #666666;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.help-panel-close:hover {
+  background: #E0E0E0;
+  color: #333333;
+}
+.help-panel-ctx {
+  font-size: 12px;
+  color: #666666;
+  margin-bottom: 10px;
+  min-height: 16px;
+}
+
+/* Tabs */
+.help-tabs {
+  display: flex;
+  gap: 4px;
+}
+.help-tab {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #E0E0E0;
+  background: #F5F5F5;
+  color: #666666;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Barlow', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.help-tab:hover {
+  background: #E0E0E0;
+}
+.help-tab.active {
+  background: #005F6A;
+  color: #fff;
+  border-color: #005F6A;
+}
+
+/* Help Body */
+.help-panel-body {
+  flex: 1;
+  overflow-y: auto;
+}
+.help-pane {
+  display: none;
+  padding: 16px 18px;
+}
+.help-pane.active {
+  display: block;
+  animation: helpFadeIn 0.2s ease;
+}
+@keyframes helpFadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Instructions Pane — Idle state */
+.help-idle {
+  text-align: center;
+  padding: 32px 16px;
+}
+.help-idle-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+.help-idle h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 6px;
+}
+.help-idle p {
+  font-size: 12px;
+  color: #666666;
+  line-height: 1.6;
+}
+
+/* Field help content */
+.h-field-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 4px;
+}
+.h-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgb(229 62 46 / 10%);
+  color: #E53E2E;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.h-desc {
+  font-size: 13px;
+  color: #666666;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.h-example {
+  background: rgb(0 95 106 / 8%);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.h-ex-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #005F6A;
+  margin-bottom: 4px;
+}
+.h-ex-text {
+  font-size: 12px;
+  color: #333333;
+  font-style: italic;
+  line-height: 1.55;
+}
+.h-avoid {
+  margin-bottom: 6px;
+}
+.h-avoid-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #E53E2E;
+  margin-bottom: 6px;
+}
+.h-avoid-item {
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+  color: #666666;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.h-avoid-item::before {
+  content: '\2715';
+  color: #E53E2E;
+  font-size: 10px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Walkthrough Pane */
+.wstep {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.wnum {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wnum.done {
+  background: #00b050;
+  color: #fff;
+}
+.wnum.now {
+  background: #E53E2E;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgb(229 62 46 / 18%);
+}
+.wnum.todo {
+  background: #F5F5F5;
+  border: 1.5px solid #E0E0E0;
+  color: #999999;
+}
+.wcontent h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 3px;
+}
+.wcontent p {
+  font-size: 12px;
+  color: #666666;
+  line-height: 1.5;
+}
+.wdivider {
+  height: 1px;
+  background: #E0E0E0;
+  margin: 14px 0;
+}
+.w-note {
+  background: rgb(245 166 35 / 10%);
+  border: 1px solid rgb(245 166 35 / 20%);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+.w-note-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #F5A623;
+  margin-bottom: 4px;
+}
+.w-note-text {
+  font-size: 12px;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* Glossary Pane */
+.g-search {
+  margin-bottom: 12px;
+}
+.g-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid #CCCCCC;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'Barlow', sans-serif;
+  outline: none;
+  color: #333333;
+}
+.g-search input:focus {
+  border-color: #005F6A;
+}
+.g-search input::placeholder {
+  color: #999999;
+}
+.g-filter {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.g-filter-tag {
+  padding: 3px 9px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid #E0E0E0;
+  background: #F5F5F5;
+  color: #666666;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  transition: all 0.15s;
+}
+.g-filter-tag:hover {
+  background: #E0E0E0;
+}
+.g-filter-tag.active {
+  background: #005F6A;
+  color: #fff;
+  border-color: #005F6A;
+}
+.g-term {
+  border-bottom: 1px solid #E0E0E0;
+  padding: 12px 0;
+}
+.g-term:last-child {
+  border-bottom: none;
+}
+.g-term-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 3px;
+}
+.g-term-def {
+  font-size: 12px;
+  color: #666666;
+  line-height: 1.6;
+}
+.g-term-tag {
+  display: inline-block;
+  font-size: 9px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  background: #F5F5F5;
+  color: #999999;
+  border: 1px solid #E0E0E0;
+  margin-top: 5px;
+}
+
+/* Backdrop for mobile */
+.help-panel-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1035;
+}
+.help-panel-backdrop.open {
+  display: block;
+}
+
+/* Help panel scrollbar */
+.help-panel-body::-webkit-scrollbar {
+  width: 4px;
+}
+.help-panel-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.help-panel-body::-webkit-scrollbar-thumb {
+  background: #E0E0E0;
+  border-radius: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .help-panel-overlay {
+    width: 100%;
+  }
+  .help-field-tooltip {
+    width: 220px;
+  }
+}

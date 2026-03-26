@@ -1343,10 +1343,10 @@ const translation_mapping = [
     //Sidebar
     {
         id: "select_ma",
-        en: "Select MA / CP",
-        sp: "Seleccione MA/CP",
-        fr: "Sélectionnez MA/CP",
-        ar: "اختر الجمعية العضو/ الشريك المتعاون",
+        en: "Back to Dashboard",
+        sp: "Volver al Panel",
+        fr: "Retour au Tableau de Bord",
+        ar: "العودة إلى لوحة المعلومات",
     },
     {
         id: "annual_update",
