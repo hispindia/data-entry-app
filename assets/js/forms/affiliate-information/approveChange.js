@@ -383,8 +383,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "action": "complete",
                 "orgUnit": "OU_01",
                 "program": "Prog_01",
-                "PresidentName": "Aivars Lembergs",
-                // "PresidentName": `${personName} ${personUIN}`.trim()
+                "PresidentName": `${personName} ${personUIN}`.trim(),
+                // "PresidentName": "Aivars Lembergs",
             }
             
             const response = await (await fetch(PERSON_API_URL, {
