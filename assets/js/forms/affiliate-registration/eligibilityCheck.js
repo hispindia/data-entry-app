@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if(!button) return;
       const affiliate = button.dataset.affiliate.split("-");
       if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/ooPAejK2C54?affiliate=${affiliate[0]}`;
-      else if(affiliate[1]=="form") elsewindow.location.href = `./1.2-1-waiver-form.html?affiliate=${affiliate[0]}`;
+      else if(affiliate[1]=="form") window.location.href = `./1.2-1-waiver-form.html?affiliate=${affiliate[0]}`;
     })
 
 
