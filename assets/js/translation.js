@@ -937,10 +937,10 @@ const translation_mapping = [
     },
     {
         id: "challenges",
-        en: "Challenges",
-        sp: "Desafíos",
-        fr: "Problèmes",
-        ar: 'التحديات'
+        en: "3. Challenges",
+        sp: "3. Desafíos",
+        fr: "3. Problèmes",
+        ar: '3. التحديات'
     },
     {
         id: "opportunities",
@@ -1533,10 +1533,10 @@ const translation_mapping = [
     },
     {
         id: "reporting_periodicity",
-        en: "Reporting Periodicity",
-        sp: "Periodicidad de los informes",
-        fr: "Périodicité des rapports",
-        ar: 'دورية التقارير'
+        en: "Reporting Period",
+        sp: "Período de presentación de informes",
+        fr: "Période de rapport",
+        ar: 'فترة التقارير'
     },
 
     //Organization Details
@@ -3162,10 +3162,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "most_effective",
-        en: "4. Most effective strategies / approache",
-        sp: "4. Estrategias / métodos más efectivos",
-        fr: "4. Stratégies / approches les plus efficaces",
-        ar: '4. الاستراتيجيات / النُهج الأكثر فعالية'
+        en: "5. Most effective strategies / approaches",
+        sp: "5. Estrategias / métodos más efectivos",
+        fr: "5. Stratégies / approches les plus efficaces",
+        ar: '5. الاستراتيجيات / النُهج الأكثر فعالية'
     },
     {
         id: "most_effective_info",
@@ -3176,10 +3176,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "organisational_update",
-        en: "5. Organisational update",
-        sp: "5. Cambios en la organización",
-        fr: "5. Mise à jour de l'organisation",
-        ar: '5. التحديث التنظيمي'
+        en: "6. Organisational update",
+        sp: "6. Cambios en la organización",
+        fr: "6. Mise à jour de l'organisation",
+        ar: '6. التحديث التنظيمي'
     },
     {
         id: "organisational_info",
@@ -3190,10 +3190,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "learning",
-        en: "6. Learning",
-        sp: "6. Aprendizaje",
-        fr: "6. Apprentissage",
-        ar: '6. التعلم.'
+        en: "7. Learning",
+        sp: "7. Aprendizaje",
+        fr: "7. Apprentissage",
+        ar: '7. التعلم.'
     },
     {
         id: "learning_info",
@@ -3337,10 +3337,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "actual_income_details",
-        en: "5 - Actual Income Details",
-        sp: "5 - Detalles de ingresos reales",
-        fr: "5 - Détails du revenu réel",
-        ar: "5- تفاصيل الدخل الفعلي     "
+        en: "6 - Actual Income Details",
+        sp: "6 - Detalles de ingresos reales",
+        fr: "6 - Détails du revenu réel",
+        ar: "6- تفاصيل الدخل الفعلي     "
     },
     {
         id: "actual_income_details_info",

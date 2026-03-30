@@ -284,6 +284,9 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#totals").empty();
     $("#totals").html(totalsRow);
 
+    // Build pivot summary table by focus area
+    buildPivotSummary(dataValues);
+
     $('.loader-container').addClass('d-none').removeClass('d-flex');
     $('.myContainer').show();
 
@@ -387,10 +390,11 @@ document.addEventListener("DOMContentLoaded", function () {
       <!--- sect ${index + 1}--->
       <div class="accordion">
       <div
-        class="accordion-header active"
+        class="accordion-header"
         role="button"
         data-toggle="collapse"
         data-target="#panel-body-${index + 1}"
+        aria-expanded="false"
       >
         <h4 class="d-flex align-items-center">
         <span class="">${index + 1}. </span>
@@ -859,6 +863,73 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     return projectRows;
+  }
+
+  function buildPivotSummary(dataValues) {
+    // Aggregate budget, expense, variation across all projects for each focus area
+    var pivotData = {};
+    focusAreaNames.forEach(function(name) {
+      pivotData[name] = { budget: 0, expense: 0 };
+    });
+
+    tei.projects.forEach(function(project, index) {
+      dataElements.projectFocusAreaNew[index].focusAreas.forEach(function(focusAreaId) {
+        if (dataValues && dataValues[focusAreaId]) {
+          try {
+            var val = JSON.parse(dataValues[focusAreaId]);
+            if (val.area && pivotData[val.area] !== undefined) {
+              pivotData[val.area].budget += val.assignedBudget ? Number(val.assignedBudget) : 0;
+              pivotData[val.area].expense += val.expense ? Number(val.expense) : 0;
+            }
+          } catch(e) {}
+        }
+      });
+    });
+
+    var rows = '';
+    var grandBudget = 0, grandExpense = 0;
+
+    focusAreaNames.forEach(function(name) {
+      var d = pivotData[name];
+      var variation = d.budget - d.expense;
+      var percent = d.budget && d.expense / d.budget && (d.expense / d.budget) !== Infinity ? (d.expense / d.budget) * 100 : 0;
+      grandBudget += d.budget;
+      grandExpense += d.expense;
+      var variationBg = variation >= 0 ? '#C1E1C1' : '#FAA0A0';
+      var translationKey = focusAreaTranslation[name] || '';
+
+      rows += '<tr>' +
+        '<td class="pivot-focus-area-name" data-i18n="intro.' + translationKey + '">' + name + '</td>' +
+        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>' +
+          '<input type="text" value="' + formatNumberInput(d.budget) + '" class="form-control currency" disabled readonly></div></td>' +
+        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>' +
+          '<input type="text" value="' + formatNumberInput(d.expense) + '" class="form-control currency" disabled readonly></div></td>' +
+        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>' +
+          '<input type="text" value="' + formatNumberInput(variation) + '" style="background:' + variationBg + ' !important" class="form-control currency" disabled readonly></div></td>' +
+        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">%</div></div>' +
+          '<input type="text" value="' + formatNumberInput(percent) + '" class="form-control currency" disabled readonly></div></td>' +
+      '</tr>';
+    });
+
+    // Grand total row
+    var grandVariation = grandBudget - grandExpense;
+    var grandPercent = grandBudget && grandExpense / grandBudget && (grandExpense / grandBudget) !== Infinity ? (grandExpense / grandBudget) * 100 : 0;
+    var grandVarBg = grandVariation >= 0 ? '#C1E1C1' : '#FAA0A0';
+
+    rows += '<tr class="pivot-grand-total">' +
+      '<td><strong>Grand Total</strong></td>' +
+      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>' +
+        '<input type="text" value="' + formatNumberInput(grandBudget) + '" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
+      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>' +
+        '<input type="text" value="' + formatNumberInput(grandExpense) + '" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
+      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>' +
+        '<input type="text" value="' + formatNumberInput(grandVariation) + '" style="background:' + grandVarBg + ' !important" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
+      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">%</div></div>' +
+        '<input type="text" value="' + formatNumberInput(grandPercent) + '" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
+    '</tr>';
+
+    $('#pivot-summary').html(rows);
+    $('#pivot-summary-wrap').show();
   }
 });
 

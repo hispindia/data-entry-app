@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <table class="table table-striped table-md mb-0 " width="100%">
       <tbody>`
       categoryIncome.forEach(category=> {
-        projectRows+= `<tr><td class="text-center font-weight-bold" colspan="4" data-i18n="intro.${category.format}">${category.name}</td></tr>
+        projectRows+= `<tr><td class="text-center income-category-header" colspan="4" data-i18n="intro.${category.format}">${category.name}</td></tr>
         <tr>
         <th data-i18n="intro.incomeSubCategories">Income Sub-Categories </th>
         <th data-i18n="intro.restricted" class="text-center">Restricted</th>

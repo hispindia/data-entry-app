@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById('region').addEventListener("change", function (ev) {
     const {value} = ev.target
     setMembersAssociation([{id: value}])
+    // Auto-save the first MA when region changes
+    if (typeof saveOrgUnit === 'function') saveOrgUnit(false);
   })
 
   async function fetchOrganizationUnitUid() {
@@ -97,7 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('organisationUnits').innerHTML = orgUnitOptions;
       }
       else setMembersAssociation(level2OU, selectedParentOU);
-      
+
+      // Auto-enable cards after dropdowns are populated (silent — no toast on page load)
+      if (typeof saveOrgUnit === 'function') saveOrgUnit(true);
+
     } catch (error) {
       console.error("Error fetching organization unit:", error);
     }

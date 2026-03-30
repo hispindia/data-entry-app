@@ -71,22 +71,22 @@
     { name:'Funding Type', def:'The classification of funds as either restricted or unrestricted (core). Restricted funds have clear restrictions for their use; Unrestricted funds may be allocated flexibly.', sec:'sec3', tag:'3.1 General Info' },
     { name:'Restricted', def:'Funding that has been received from a donor with clear restrictions for its use. Restricted funds may only be used in accordance with the donor\'s conditions and cannot be redirected without donor approval.', sec:'sec3', tag:'3.1 General Info' },
     { name:'Unrestricted', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities and operational needs.', sec:'sec3', tag:'3.1 General Info' },
-    { name:'Total Contract Value', def:'The full monetary value of the project contract or grant agreement with the donor, covering the entire project period. Expressed in United States Dollar (USD).', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Total Contract Value', def:'The full monetary value of the project contract or grant agreement with the donor, covering the entire project period. Expressed in USD.', sec:'sec3', tag:'3.1 General Info' },
     { name:'Annual Project Income', def:'The portion of the total project funding that was received (or recognised as income) during the specific reporting year. This may differ from the total contract value if the project spans multiple years.', sec:'sec3', tag:'3.1 General Info' },
     { name:'Description of Project', def:'A summary of the project\'s purpose, target population, geographic scope, and key activities. Should provide enough context for the IPPF Secretariat to understand what the project entails and who it benefits.', sec:'sec3', tag:'3.1 General Info' },
     // 3.2 Project Focus Area
     { name:'Project Focus Area', def:'A breakdown of how the project budget is allocated across standardised programmatic categories. Each focus area represents a distinct type of service delivery, programmatic activity, or organisational function.', sec:'sec3', tag:'3.2 Focus Area' },
     { name:'Expense Budget (per Focus Area)', def:'The amount of project funding allocated to each specific focus area, expressed in the reporting currency. The sum of all focus area budgets should correspond to the total project budget.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. Includes all SRHR services provided on-site at a designated location.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'Care: Outreach, Mobile Clinic', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'Care: Other Services', def:'SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'Care: Social Marketing', def:'Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'Care: Digital Health & Selfcare', def:'SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Outreach, Mobile Clinic, Community-based Delivery', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Other Services, Enabled or Referred', def:'SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Social Marketing Services', def:'Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Digital Health Intervention and Selfcare', def:'SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider, using tools or commodities independently.', sec:'sec3', tag:'3.2 Focus Area' },
     { name:'Advocacy', def:'Activities aimed at influencing policies, laws, social norms, or public opinion in support of SRHR. Advocacy work may target government bodies, decision-makers, communities, or the wider public.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'CSE (Comprehensive Sexuality Education)', def:'A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'CSE Online / Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'CSE (Comprehensive Sexuality Education)', def:'A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based, equipping young people with the knowledge and skills to make informed decisions about their health and relationships.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'CSE Online, including Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.', sec:'sec3', tag:'3.2 Focus Area' },
     { name:'Partnerships and Movements', def:'Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.', sec:'sec3', tag:'3.2 Focus Area' },
-    { name:'Knowledge, Research, Evidence', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Knowledge, Research, Evidence, Innovation', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.', sec:'sec3', tag:'3.2 Focus Area' },
     { name:'Internal MA Infrastructure', def:'Resources and activities directed towards strengthening the Affiliate\'s own organisational capacity, systems, governance, workforce development, and institutional culture, rather than direct programme delivery.', sec:'sec3', tag:'3.2 Focus Area' },
     // 3.3 Project by Expense Category
     { name:'Project by Expense Category', def:'A financial breakdown of project expenditure classified into standardised cost categories. Provides the IPPF Secretariat with insight into how project funds were spent across different types of costs.', sec:'sec3', tag:'3.3 Expense' },
@@ -376,6 +376,9 @@
     renderGlossary(GLOSSARY);
     renderWalkthrough();
 
+    // Configure which tabs are visible based on current section
+    configureSectionTabs();
+
     // Inject field-level help icons (after a short delay to let forms render)
     injectFieldHelpIcons();
     // Also observe for dynamic content (forms that load after API calls)
@@ -397,7 +400,65 @@
       panel.classList.add('open');
       backdrop.classList.add('open');
       btn.classList.add('active');
+      // Auto-select the glossary section filter matching the current page
+      autoSelectGlossarySection();
     }
+  }
+
+  function autoSelectGlossarySection() {
+    var pageSection = detectCurrentSection();
+    if (!pageSection || pageSection === 'default') return;
+    // Extract the major section number (e.g. "1.2" -> "1", "3" -> "3")
+    var majorSec = pageSection.split('.')[0];
+    var secFilterValue = 'sec' + majorSec;
+    // Find the matching filter tag and click it
+    var tags = document.querySelectorAll('.g-filter-tag');
+    tags.forEach(function(tag) {
+      var onclick = tag.getAttribute('onclick') || '';
+      if (onclick.indexOf("'" + secFilterValue + "'") !== -1) {
+        filterBySection(secFilterValue, tag);
+      }
+    });
+  }
+
+  // ═══════════════════════════════
+  //  SECTION-SPECIFIC TAB CONFIGURATION
+  //  Section 1: Only "Instructions" (which shows walkthrough content)
+  //  Section 2: Only "Instructions" + "Glossary" (no walkthrough)
+  //  Other sections: All three tabs as normal
+  // ═══════════════════════════════
+  function configureSectionTabs() {
+    var pageSection = detectCurrentSection();
+    if (!pageSection || pageSection === 'default') return;
+    var majorSec = pageSection.split('.')[0];
+
+    var tabInstructions = document.querySelector('.help-tab[data-tab="instructions"]');
+    var tabWalkthrough = document.querySelector('.help-tab[data-tab="walkthrough"]');
+    var tabGlossary = document.querySelector('.help-tab[data-tab="glossary"]');
+    var paneInstructions = document.getElementById('hp-instructions');
+    var paneWalkthrough = document.getElementById('hp-walkthrough');
+    var paneGlossary = document.getElementById('hp-glossary');
+
+    if (majorSec === '1') {
+      // Section 1: Hide Instructions & Glossary tabs; rename Walkthrough to "Instructions"
+      if (tabInstructions) tabInstructions.style.display = 'none';
+      if (paneInstructions) { paneInstructions.style.display = 'none'; paneInstructions.classList.remove('active'); }
+      if (tabGlossary) tabGlossary.style.display = 'none';
+      if (paneGlossary) paneGlossary.style.display = 'none';
+      if (tabWalkthrough) {
+        tabWalkthrough.textContent = 'Instructions';
+        tabWalkthrough.classList.add('active');
+      }
+      if (paneWalkthrough) paneWalkthrough.classList.add('active');
+    } else if (majorSec === '2') {
+      // Section 2: Hide Walkthrough tab; keep Instructions + Glossary
+      if (tabWalkthrough) tabWalkthrough.style.display = 'none';
+      if (paneWalkthrough) paneWalkthrough.style.display = 'none';
+      // Ensure Instructions is the active default tab
+      if (tabInstructions) tabInstructions.classList.add('active');
+      if (paneInstructions) paneInstructions.classList.add('active');
+    }
+    // Sections 3–6: all three tabs remain visible (default)
   }
 
   function closeHelpPanel() {
@@ -623,6 +684,36 @@
       'total contract value': 'Total Contract Value',
       'annual project income': 'Annual Project Income',
       'description of project': 'Description of Project',
+      // Section 3.2 Focus Area labels (as they appear in the dynamic tables)
+      'care: static clinic': 'Care: Static Clinic',
+      '1. care: static clinic': 'Care: Static Clinic',
+      'care: outreach, mobile clinic, community-based, delivery': 'Care: Outreach, Mobile Clinic, Community-based Delivery',
+      '2. care: outreach, mobile clinic, community-based, delivery': 'Care: Outreach, Mobile Clinic, Community-based Delivery',
+      'care: outreach, mobile clinic': 'Care: Outreach, Mobile Clinic, Community-based Delivery',
+      'care: other services, enabled or referred (associated clinics)': 'Care: Other Services, Enabled or Referred',
+      '3. care: other services, enabled or referred (associated clinics)': 'Care: Other Services, Enabled or Referred',
+      'care: other services': 'Care: Other Services, Enabled or Referred',
+      'care: social marketing services': 'Care: Social Marketing Services',
+      '4. care: social marketing services': 'Care: Social Marketing Services',
+      'care: social marketing': 'Care: Social Marketing Services',
+      'care: digital health intervention and selfcare': 'Care: Digital Health Intervention and Selfcare',
+      '5. care: digital health intervention and selfcare': 'Care: Digital Health Intervention and Selfcare',
+      'care: digital health & selfcare': 'Care: Digital Health Intervention and Selfcare',
+      '6. advocacy': 'Advocacy',
+      'advocacy': 'Advocacy',
+      '7. cse': 'CSE (Comprehensive Sexuality Education)',
+      'cse': 'CSE (Comprehensive Sexuality Education)',
+      '8. cse online, including social media': 'CSE Online, including Social Media',
+      'cse online, including social media': 'CSE Online, including Social Media',
+      'cse online / social media': 'CSE Online, including Social Media',
+      '9. partnerships and movements: capacity-sharing, amplifying messages, and sub-granting': 'Partnerships and Movements',
+      'partnerships and movements': 'Partnerships and Movements',
+      '10. knowledge, research, evidence, innovation, and publishing, including peer-review articles': 'Knowledge, Research, Evidence, Innovation',
+      'knowledge, research, evidence': 'Knowledge, Research, Evidence, Innovation',
+      '11. internal ma infrastructure, organisational development, capacity development, values, processes, and procedures': 'Internal MA Infrastructure',
+      'internal ma infrastructure': 'Internal MA Infrastructure',
+      'project focus area': 'Project Focus Area',
+      'expense budget (per focus area)': 'Expense Budget (per Focus Area)',
       // Section 4 & 5
       'budget': 'Budget (Focus Area)',
       'actual expenses': 'Actual Expenses (Focus Area)',
@@ -773,8 +864,8 @@
   var processedLabels = new WeakSet();
 
   function injectFieldHelpIcons() {
-    // Process all labels and h3/h4 section headers in form areas
-    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label';
+    // Process all labels, h3/h4 section headers, and focus area spans in tables
+    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"]';
     var labels = document.querySelectorAll(selectors);
 
     labels.forEach(function(label) {
@@ -813,11 +904,10 @@
       qIcon.setAttribute('data-help-term', match.name);
       qIcon.setAttribute('data-help-def', match.def);
 
-      // Click → open glossary sidebar to this term
+      // Click → no action (glossary only opens via main green icon)
       qIcon.onclick = function(e) {
         e.preventDefault();
         e.stopPropagation();
-        openGlossaryTerm(match.name);
       };
 
       // Hover → show body-appended tooltip (no sidebar)
@@ -849,6 +939,8 @@
   function fixNarrativeCollapses() {
     var collapseEls = document.querySelectorAll('.cont-wrap-inner .collapse, .cont-wrapper .collapse');
     collapseEls.forEach(function(el) {
+      // Skip accordion bodies — those should remain collapsible
+      if (el.classList.contains('accordion-body')) return;
       // Ensure always shown
       if (!el.classList.contains('show')) {
         el.classList.add('show');

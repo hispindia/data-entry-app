@@ -49,7 +49,7 @@
     <ul class="navbar-nav mr-3">
       <li>
         <a href="#" class="nav-link nav-link-lg fullscreen-btn">
-          <i class="fas fa-expand"></i>
+          <svg class="icon icon--md" id="fullscreenIcon"><use href="#icon-expand"/></svg>
         </a>
       </li>
     </ul>
@@ -126,24 +126,14 @@
                   <form>
                     <div class="row align-items-end">
 
-                      <div class="col-md-5">
+                      <div class="col-md-6">
                         <label class="font-weight-bold" for="region" data-i18n="intro.region">Region</label>
                         <select class="form-control" id="region"></select>
                       </div>
 
-                      <div class="col-md-5">
+                      <div class="col-md-6">
                         <label class="font-weight-bold" for="organisationUnits">Member Association</label>
                         <select class="form-control" id="organisationUnits"></select>
-                      </div>
-
-                      <div class="col-md-2">
-                        <input
-                          type="button"
-                          value="Submit"
-                          data-i18n="[value]intro.submit"
-                          class="btn btn-primary btn-block"
-                          onclick="saveOrgUnit()"
-                        />
                       </div>
 
                     </div>
@@ -175,20 +165,51 @@
           </section>
             
         <section class="info-cards-grid mt-4">
-        <!-- Deadlines -->
+        <!-- Important Dates -->
         <div class="card">
           <div class="card-content">
             <div class="info-card-header">
               <svg class="icon icon--md"><use href="#icon-calendar"/></svg>
-              <h3 class="info-card-title">Deadlines</h3>
+              <h3 class="info-card-title">Important Dates</h3>
             </div>
-            <ul class="deadline-list">
-              <li><span class="deadline-label">Annual Report</span><span class="deadline-date">June 10</span></li>
-              <li><span class="deadline-label">HYR</span><span class="deadline-date">October 1</span></li>
-              <li><span class="deadline-label">BP</span><span class="deadline-date">October 1</span></li>
-              <li><span class="deadline-label">TRT Review</span><span class="deadline-date">November 1</span></li>
-              <li><span class="deadline-label">AR/HYR Review</span><span class="deadline-date">June 20</span></li>
-            </ul>
+            <div class="dates-timeline">
+              <div class="date-item">
+                <div class="date-badge">
+                  <span class="date-badge__day">10</span>
+                  <span class="date-badge__month">Jun</span>
+                </div>
+                <div class="date-info">
+                  <span class="date-info__title">Annual Report</span>
+                </div>
+              </div>
+              <div class="date-item">
+                <div class="date-badge">
+                  <span class="date-badge__day">20</span>
+                  <span class="date-badge__month">Jun</span>
+                </div>
+                <div class="date-info">
+                  <span class="date-info__title">AR/HYR Review</span>
+                </div>
+              </div>
+              <div class="date-item">
+                <div class="date-badge">
+                  <span class="date-badge__day">1</span>
+                  <span class="date-badge__month">Oct</span>
+                </div>
+                <div class="date-info">
+                  <span class="date-info__title">HYR &amp; Business Plan</span>
+                </div>
+              </div>
+              <div class="date-item">
+                <div class="date-badge">
+                  <span class="date-badge__day">1</span>
+                  <span class="date-badge__month">Nov</span>
+                </div>
+                <div class="date-info">
+                  <span class="date-info__title">TRT Review</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -279,24 +300,43 @@
   }, 3000);
 }
 
-function saveOrgUnit() {
+function saveOrgUnit(silent) {
   var selectElement = document.getElementById('organisationUnits');
   var orgUnit = selectElement.value;
   var orgUnitName = selectElement.options[selectElement.selectedIndex].text;
-  
+
   if (!orgUnit) {
-    showToast('Please select a Member Association!', 'error');
     return;
   }
 
   window.localStorage.setItem("masterOU", orgUnit);
-  
+
   document.querySelectorAll('.nav-card').forEach(function(card) {
     card.classList.remove('nav-card--disabled');
   });
 
-  showToast(`Member Association ${orgUnitName} saved!`, 'success');
+  if (!silent) {
+    showToast('Member Association ' + orgUnitName + ' selected!', 'success');
+  }
 }
+
+// Auto-trigger saveOrgUnit when Member Association dropdown changes
+document.addEventListener('DOMContentLoaded', function() {
+  var orgSelect = document.getElementById('organisationUnits');
+  if (orgSelect) {
+    orgSelect.addEventListener('change', function() {
+      saveOrgUnit();
+    });
+  }
+
+  // Auto-enable cards on page load if a selection already exists in localStorage
+  var existingOU = window.localStorage.getItem('masterOU');
+  if (existingOU) {
+    document.querySelectorAll('.nav-card').forEach(function(card) {
+      card.classList.remove('nav-card--disabled');
+    });
+  }
+});
 </script>
 
 </body>

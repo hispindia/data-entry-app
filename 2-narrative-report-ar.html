@@ -21,6 +21,8 @@
     <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
     <symbol id="icon-log-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></symbol>
     <symbol id="icon-panel-left-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></symbol>
     <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
     <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
   </svg>
@@ -31,14 +33,19 @@
             <nav class="navbar navbar-expand-lg main-navbar">
                     <div class="form-inline">
                       <ul class="navbar-nav mr-3">
-                      <li id="sidebarToggle">
+                      <li>
+                              <a href="#" class="nav-link nav-link-lg" data-target="members-association.html" onclick="window.location.href=this.getAttribute('data-target'); return false;" title="Back to Dashboard">
+                                <svg class="icon icon--md" id="homeIcon"><use href="#icon-home"/></svg>
+                              </a>
+                            </li>
+                            <li id="sidebarToggle">
                         <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
                           <svg class="icon icon--md" id="sidebarCloseIcon"><use href="#icon-panel-left-close"/></svg>
                         </a>
                       </li>
                       <li>
                         <a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                          <i class="fas fa-expand"></i>
+                          <svg class="icon icon--md" id="fullscreenIcon"><use href="#icon-expand"/></svg>
                         </a>
                       </li>
                       </ul>
@@ -90,7 +97,7 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu">
-                        <li id="member-association">
+                        <li id="member-association" style="display:none;">
                             <a class="nav-link" href="#" data-target="members-association.html"><span data-i18n="intro.select_ma">Back to Dashboard</span></a>
                         </li>
                         <li class="dropdown-au">
@@ -216,12 +223,8 @@
                                         <div class="form-group col-md-12 textbox-wrap">
                                         <label for="" ><span data-i18n="intro.context_events">1. Context Events</span>
                                         </label>
-                                        <div id="collapseExample1">
-                                            <p><span data-i18n="intro.context_info">Please describe any major events that shaped your
-                                                context. Please consider SRHR and political
-                                                context/legal changes, oppostion in your country.</span>
-                                            </p>
-                                        </div>
+
+
                                         <textarea class="form-control-resize textlimit textValue" id="PwmY3gSO3eU"
                                             rows="5" 
                                             cols="100"></textarea>
@@ -244,14 +247,8 @@
                                         <div class="form-group col-md-12 textbox-wrap">
                                         <label for=""><span data-i18n="intro.results_achivements">2. Results & Achievements</span>
                                         </label>
-                                        <div id="collapseExample2">
-                                            <p><span data-i18n="intro.results_achivement_info">Please describe your main achievements/results (by
-                                                strategic pillar) in the reporting period. Please
-                                                indicate whether and how these are different to your
-                                                expectations/assumptions. Pleae emphasise your work with
-                                                youth and marginalised populations.</span>
-                                            </p>
-                                        </div>
+
+
 
                                         <label class="d-flex mt-1" for=""><small data-i18n="intro.center_people"> Center Care on
                                                 People:</small>
@@ -327,11 +324,8 @@
                                         <div class="form-group col-md-12 textbox-wrap">
                                         <label for=""><span data-i18n="intro.challenges">3. Challenges</span>
                                         </label>
-                                        <div id="collapseExample3">
-                                            <p><span data-i18n="intro.challenges_info">Please describe the main challenges you faced in the
-                                                reporting period</span>
-                                            </p>
-                                        </div>
+
+
                                         <textarea class="form-control-resize textlimit textValue" id="W0mTxYf8Bmz"
                                             rows="5" 
                                             cols="100"></textarea>
@@ -353,15 +347,100 @@
 
                                         <div class="form-row">
                                         <div class="form-group col-md-12 textbox-wrap">
-                                        <label for=""><span data-i18n="intro.most_effective">4. Most effective strategies / approaches</span>
+                                        <label for=""><span data-i18n="intro.smart_outcomes_report">4. SMART Outcomes Achievements</span>
                                         </label>
-                                        <div id="collapseExample4">
-                                            <p><span data-i18n="intro.most_effective_info">Please describe the strategies or approaches that helped
-                                                you achieve your biggest successes. Do you have examples
-                                                of good practice or important learnings that you would
-                                                like to share?</span>
-                                            </p>
+
+
+
+                                        <table class="table table-bordered smart-outcomes-table">
+                                          <thead>
+                                            <tr>
+                                              <th style="width:5%;">#</th>
+                                              <th style="width:47.5%;" data-i18n="intro.smart_outcomes_planned">SMART Outcomes Planned</th>
+                                              <th style="width:47.5%;" data-i18n="intro.smart_outcomes_achieved">SMART Outcomes Achieved</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td class="smart-row-num">1</td>
+                                              <td>
+                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_1" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_1" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa1">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">2</td>
+                                              <td>
+                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_2" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_2" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa2">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">3</td>
+                                              <td>
+                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_3" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_3" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa3">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">4</td>
+                                              <td>
+                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_4" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_4" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa4">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">5</td>
+                                              <td>
+                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_5" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_5" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa5">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+
+                                        <div class="invalid-feedback"> Error here
                                         </div>
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                    <!---- quest ends here --->
+
+                                    <!---- quest start here --->
+                                    <div class="box-from-inner">
+
+                                        <div class="form-row">
+                                        <div class="form-group col-md-12 textbox-wrap">
+                                        <label for=""><span data-i18n="intro.most_effective">5. Most effective strategies / approaches</span>
+                                        </label>
+
+
                                         <textarea class="form-control-resize textlimit textValue" id="tK2jLF0CJOY"
                                             rows="5" 
                                             cols="100"></textarea>
@@ -383,15 +462,10 @@
 
                                         <div class="form-row">
                                         <div class="form-group col-md-12 textbox-wrap">
-                                        <label for=""><span data-i18n="intro.organisational_update">5. Organisational update</span>
+                                        <label for=""><span data-i18n="intro.organisational_update">6. Organisational update</span>
                                         </label>
-                                        <div id="collapseExample5">
-                                            <p><span data-i18n="intro.organisational_info">Briefly highlight any major changes related to your
-                                                organization: structure, governance (board) , staff or
-                                                internal procedures and policies such as Safeguarding,
-                                                gender equality.</span>
-                                            </p>
-                                        </div>
+
+
                                         <textarea class="form-control-resize textlimit textValue" id="dCgCuUsIJUi"
                                             rows="5" 
                                             cols="100"></textarea>
@@ -413,13 +487,10 @@
 
                                         <div class="form-row">
                                         <div class="form-group col-md-12 textbox-wrap">
-                                        <label for=""><span data-i18n="intro.learning">6. Learning</span>
+                                        <label for=""><span data-i18n="intro.learning">7. Learning</span>
                                         </label>
-                                        <div id="collapseExample6">
-                                            <p><span data-i18n="intro.learning_info">Please share your main learnings in the reporting
-                                                period</span>
-                                            </p>
-                                        </div>
+
+
                                         <textarea class="form-control-resize textlimit textValue" id="GEgUf6cksOr"
                                             rows="5" 
                                             cols="100"></textarea>

@@ -425,19 +425,89 @@ a{cursor:pointer;}
   .info-cards-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-.deadline-list li {
+/* Important Dates timeline */
+.dates-timeline {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.date-item {
+  display: flex;
   align-items: center;
-  padding: 0.625rem 0;
+  gap: 0.875rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 8px;
+  transition: background 0.15s;
 }
-.deadline-list li:not(:last-child) {
-  border-bottom: 1px solid hsl(var(--border));
+.date-item:hover {
+  background: hsl(var(--muted));
 }
-.deadline-label { font-size: 0.875rem; font-weight: 500; color: hsl(var(--foreground)); }
-.deadline-date { font-size: 0.875rem; color: hsl(var(--muted-foreground)); }
+.date-badge {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+  background: hsl(5 78% 54% / 0.08);
+  border: 1px solid hsl(5 78% 54% / 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.date-badge__day {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+}
+.date-badge__month {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: hsl(var(--primary));
+}
+.date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.date-info__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.date-info__date {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+.date-info__sub {
+  font-size: 0.6875rem;
+  color: hsl(var(--muted-foreground));
+}
 
 .card-content { padding: 1.25rem; }
+
+/* Pivot summary table - Focus Area names */
+.pivot-focus-area-name {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  max-width: 280px;
+}
+.pivot-grand-total td {
+  border-top: 2px solid hsl(var(--foreground)) !important;
+}
+
+/* Income category section headers in Actual Income table */
+.income-category-header {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: hsl(var(--foreground)) !important;
+  background: hsl(var(--muted)) !important;
+  padding: 0.75rem 0.5rem !important;
+  letter-spacing: 0.01em;
+}
 .progress-item { margin-bottom: 0.75rem; }
 .progress-item-header {
   display: flex;
