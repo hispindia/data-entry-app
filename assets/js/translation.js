@@ -3162,10 +3162,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "most_effective",
-        en: "5. Most effective strategies / approaches",
-        sp: "5. Estrategias / métodos más efectivos",
-        fr: "5. Stratégies / approches les plus efficaces",
-        ar: '5. الاستراتيجيات / النُهج الأكثر فعالية'
+        en: "4. Most effective strategies / approaches",
+        sp: "4. Estrategias / métodos más efectivos",
+        fr: "4. Stratégies / approches les plus efficaces",
+        ar: '4. الاستراتيجيات / النُهج الأكثر فعالية'
     },
     {
         id: "most_effective_info",
@@ -3176,10 +3176,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "organisational_update",
-        en: "6. Organisational update",
-        sp: "6. Cambios en la organización",
-        fr: "6. Mise à jour de l'organisation",
-        ar: '6. التحديث التنظيمي'
+        en: "5. Organisational update",
+        sp: "5. Cambios en la organización",
+        fr: "5. Mise à jour de l'organisation",
+        ar: '5. التحديث التنظيمي'
     },
     {
         id: "organisational_info",
@@ -3190,10 +3190,10 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "learning",
-        en: "7. Learning",
-        sp: "7. Aprendizaje",
-        fr: "7. Apprentissage",
-        ar: '7. التعلم.'
+        en: "6. Learning",
+        sp: "6. Aprendizaje",
+        fr: "6. Apprentissage",
+        ar: '6. التعلم.'
     },
     {
         id: "learning_info",

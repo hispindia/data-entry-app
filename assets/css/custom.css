@@ -44,7 +44,7 @@
   --color-blue-accent: #00AEEF;
   --color-fire-red: #E53E2E;
   --color-warm-orange: #F5A623;
-  --color-context-bg: #F8F9EB;
+  --color-context-bg: #0e3242;
   --color-green-light: #dcfce7;
   --color-dark-charcoal: #333333;
   --color-medium-grey: #666666;
@@ -503,11 +503,193 @@ a{cursor:pointer;}
 .income-category-header {
   font-size: 1.125rem !important;
   font-weight: 700 !important;
-  color: hsl(var(--foreground)) !important;
-  background: hsl(var(--muted)) !important;
   padding: 0.75rem 0.5rem !important;
   letter-spacing: 0.01em;
 }
+
+/* ── Actual Income: distinct background tints per category ── */
+/* Table 1: Locally generated income — teal */
+tr.income-section-locally-generated .income-category-header {
+  background: #20666e !important;
+  color: #fff !important;
+}
+tr.income-section-locally-generated th {
+  background: rgba(162, 228, 244, 0.25) !important;
+  color: #0e3242 !important;
+}
+tr.income-section-locally-generated td {
+  background: rgba(162, 228, 244, 0.12) !important;
+}
+
+/* Table 2: International income (Non-IPPF) — purple */
+tr.income-section-international-income .income-category-header {
+  background: #64527a !important;
+  color: #fff !important;
+}
+tr.income-section-international-income th {
+  background: rgba(100, 82, 122, 0.15) !important;
+  color: #2e1348 !important;
+}
+tr.income-section-international-income td {
+  background: rgba(100, 82, 122, 0.06) !important;
+}
+
+/* Table 3: IPPF income — warm gold */
+tr.income-section-ippf-income .income-category-header {
+  background: #0e3242 !important;
+  color: #fff !important;
+}
+tr.income-section-ippf-income th {
+  background: rgba(240, 242, 195, 0.4) !important;
+  color: #0e3242 !important;
+}
+tr.income-section-ippf-income td {
+  background: rgba(240, 242, 195, 0.2) !important;
+}
+
+/* ══════════════════════════════════════════
+   MA BPR Timeline: 2026
+   ══════════════════════════════════════════ */
+.bpr-timeline-section { width: 100%; }
+.bpr-timeline-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 28px 32px 36px;
+  overflow: hidden;
+}
+.bpr-timeline-heading {
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0e3242;
+  margin: 0 0 20px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Phase arrows ── */
+.bpr-phases {
+  display: flex;
+  margin-bottom: 32px;
+}
+.bpr-phase {
+  flex: 1;
+  text-align: center;
+  padding: 12px 18px;
+  color: #fff;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%, 18px 50%);
+}
+.bpr-phase:first-child {
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
+  border-radius: 6px 0 0 6px;
+}
+.bpr-phase:last-child {
+  border-radius: 0 6px 6px 0;
+}
+.bpr-phase--reporting { background: #8a9bae; }
+.bpr-phase--planning  { background: #4a5568; }
+.bpr-phase--review    { background: #8a9bae; }
+.bpr-phase__label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+}
+.bpr-phase__period {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* ── Milestone track ── */
+.bpr-track {
+  position: relative;
+  height: 200px;
+  margin: 0 24px;
+}
+.bpr-track__line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #8a9bae 0%, #8a9bae 33%, #4a5568 33%, #4a5568 66%, #8a9bae 66%, #8a9bae 100%);
+  transform: translateY(-50%);
+}
+
+/* ── Milestone dots ── */
+.bpr-milestone {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.bpr-milestone__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px currentColor, 0 1px 4px rgba(0,0,0,0.15);
+  margin: 0 auto;
+}
+.bpr-dot--reporting { color: #8a9bae; background: #8a9bae; }
+.bpr-dot--planning  { color: #4a5568; background: #4a5568; }
+.bpr-dot--review    { color: #8a9bae; background: #8a9bae; }
+
+/* ── Milestone content ── */
+.bpr-milestone__content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.35;
+}
+.bpr-milestone__content--above {
+  bottom: calc(100% + 14px);
+}
+.bpr-milestone__content--below {
+  top: calc(100% + 14px);
+}
+.bpr-milestone__date {
+  display: block;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #0e3242;
+}
+.bpr-milestone__title {
+  display: block;
+  font-size: 0.72rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+.bpr-milestone__sub {
+  display: block;
+  font-size: 0.68rem;
+  color: #4a5568;
+  margin-top: 2px;
+}
+.bpr-milestone__tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.bpr-tag--open    { color: #eb3301; }
+.bpr-tag--close   { color: #eb3301; }
+.bpr-tag--done    { color: #eb3301; }
+.bpr-tag--funding { color: #eb3301; }
+.bpr-tag--confirm { color: #eb3301; }
+
+/* ── Responsive: scroll on small screens ── */
+@media (max-width: 992px) {
+  .bpr-timeline-card { padding: 20px 16px 28px; overflow-x: auto; }
+  .bpr-track { min-width: 700px; }
+  .bpr-phases { min-width: 700px; }
+}
+
 .progress-item { margin-bottom: 0.75rem; }
 .progress-item-header {
   display: flex;
@@ -1210,7 +1392,7 @@ ul.list-font li a:hover, ul.list-font li a.active{text-decoration:none;backgroun
    background-color: var(--color-context-bg);
    padding:20px 20px 0px 20px; border-radius:10px;}
 .top-detail-form label {
-  color: hsl(var(--foreground)) !important; 
+  color: #fff !important;
 }
 .bp-sidebar--hidden { display: none; }
   
@@ -1221,9 +1403,9 @@ ul.list-font li a:hover, ul.list-font li a.active{text-decoration:none;backgroun
   /* appearance: auto !important; */
   /* -webkit-appearance: auto !important;  */
   /* -moz-appearance: auto !important; */
-  background:transparent;
-  color: hsl(var(--foreground)) !important;
-  border: 1px solid hsl(var(--border)) !important;
+  background: rgba(255,255,255,0.1);
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
 }
 
 .top-detail-form select option {
@@ -1313,10 +1495,13 @@ hr{margin-top:0}
 a.btn.btn-secondary.d-flex.align-items-center.ml-1 {
     color: #fff;
 }
-.top-detail-form input, rgb(52, 60, 72) 53, 64)tail-form select, .top-detail-form select:focus, .top-detail-form input[type="text"]:disabled {
-  background:transparent!important;
-  /* border:1px solid #fff!important; */
-  /* color:#fff!important; */
+.top-detail-form input,
+.top-detail-form select,
+.top-detail-form select:focus,
+.top-detail-form input[type="text"]:disabled {
+  background: rgba(255,255,255,0.1) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  color: #fff !important;
 }
 .sidebar-menu li:first-child{border-radius: 0 0;
     overflow: hidden;}

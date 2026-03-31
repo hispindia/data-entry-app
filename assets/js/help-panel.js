@@ -425,7 +425,7 @@
   //  SECTION-SPECIFIC TAB CONFIGURATION
   //  Section 1: Only "Instructions" (which shows walkthrough content)
   //  Section 2: Only "Instructions" + "Glossary" (no walkthrough)
-  //  Other sections: All three tabs as normal
+  //  Sections 3–6: "Instructions" (walkthrough content) + "Glossary"
   // ═══════════════════════════════
   function configureSectionTabs() {
     var pageSection = detectCurrentSection();
@@ -457,8 +457,16 @@
       // Ensure Instructions is the active default tab
       if (tabInstructions) tabInstructions.classList.add('active');
       if (paneInstructions) paneInstructions.classList.add('active');
+    } else if (majorSec === '3' || majorSec === '4' || majorSec === '5' || majorSec === '6') {
+      // Sections 3–6: Hide Instructions tab; rename Walkthrough to "Instructions"; keep Glossary
+      if (tabInstructions) tabInstructions.style.display = 'none';
+      if (paneInstructions) { paneInstructions.style.display = 'none'; paneInstructions.classList.remove('active'); }
+      if (tabWalkthrough) {
+        tabWalkthrough.textContent = 'Instructions';
+        tabWalkthrough.classList.add('active');
+      }
+      if (paneWalkthrough) paneWalkthrough.classList.add('active');
     }
-    // Sections 3–6: all three tabs remain visible (default)
   }
 
   function closeHelpPanel() {

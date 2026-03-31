@@ -433,8 +433,8 @@ document.addEventListener("DOMContentLoaded", function () {
       <table class="table table-striped table-md mb-0 " width="100%">
       <tbody>`
       categoryIncome.forEach(category=> {
-        projectRows+= `<tr><td class="text-center income-category-header" colspan="4" data-i18n="intro.${category.format}">${category.name}</td></tr>
-        <tr>
+        projectRows+= `<tr class="income-section-${category.format}"><td class="text-center income-category-header" colspan="4" data-i18n="intro.${category.format}">${category.name}</td></tr>
+        <tr class="income-section-${category.format}">
         <th data-i18n="intro.incomeSubCategories">Income Sub-Categories </th>
         <th data-i18n="intro.restricted" class="text-center">Restricted</th>
         <th data-i18n="intro.unrestricted" class="text-center">Unrestricted</th>
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const restricted = dataValues && dataValues[restrictedId]  ? dataValues[restrictedId] : "";
           const unrestricted = dataValues && dataValues[unrestrictedId] ? dataValues[unrestrictedId] : "";
           const totalIncome = Number(restricted) + Number(unrestricted);
-          projectRows += `<tr>
+          projectRows += `<tr class="income-section-${category.format}">
           <td class="font-weight-bold" data-i18n="intro.${option.format}" >${option.name}</td>
           <td>
             <div class="input-group">
