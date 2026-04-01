@@ -12,10 +12,11 @@ const newRegistration = async (userConfig) => {
     if(userConfig.user.includes('aoc')) document.getElementById('sendToAcuityBtn').style.display = 'block';
     
     var resAffiliate = { trackedEntities: [] };
-
+    
     if(affiliate) resAffiliate = await dataApi.getTrackedEntity(affiliate);
+    else if(userConfig.user.includes('aoc')) resAffiliate = { trackedEntities: [] }
     else resAffiliate = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc,  `filter=${attributes.user}:EQ:${userConfig.username}`);
-       
+
     if(resAffiliate.trackedEntities.length) {
         tei.affiliate = resAffiliate.trackedEntities[0];
         tei.affiliate.enrollments.forEach(enroll => {
