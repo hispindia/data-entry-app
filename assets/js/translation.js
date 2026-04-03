@@ -218,6 +218,55 @@ const translation_mapping = [
         ar: 'قيادة الشؤون المالية'
     },
     {
+        id: "vice_chair",
+        en: "Vice-Chair / Vice - President (or equivalent)",
+        sp: "Vicepresidente/a (o equivalente)",
+        fr: "Vice-président·e (ou équivalent)",
+        ar: 'نائب الرئيس (أو ما يعادله)'
+    },
+    {
+        id: "secretary_equivalent",
+        en: "Secretary (or equivalent)",
+        sp: "Secretario/a (o equivalente)",
+        fr: "Secrétaire (ou équivalent)",
+        ar: 'السكرتير (أو ما يعادله)'
+    },
+    {
+        id: "treasurer_equivalent",
+        en: "Treasurer (or equivalent)",
+        sp: "Trésorier·ère (o equivalente)",
+        fr: "Trésorier·ère (ou équivalent)",
+        ar: 'أمين الصندوق (أو ما يعادله)'
+    },
+    {
+        id: "director_programmes",
+        en: "Director of Programmes (or equivalent)",
+        sp: "Director/a de Programas (o equivalente)",
+        fr: "Directeur·rice des programmes (ou équivalent)",
+        ar: 'مدير البرامج (أو ما يعادله)'
+    },
+    {
+        id: "director_resource_mobilisation",
+        en: "Director of Resource Mobilisation (or equivalent)",
+        sp: "Director/a de Movilización de Recursos (o equivalente)",
+        fr: "Directeur·rice de la mobilisation des ressources (ou équivalent)",
+        ar: 'مدير تعبئة الموارد (أو ما يعادله)'
+    },
+    {
+        id: "director_finance",
+        en: "Director of Finance (or equivalent)",
+        sp: "Director/a de Finanzas (o equivalente)",
+        fr: "Directeur·rice des finances (ou équivalent)",
+        ar: 'مدير الشؤون المالية (أو ما يعادله)'
+    },
+    {
+        id: "director_me",
+        en: "Director of M&E (or equivalent)",
+        sp: "Director/a de M&E (o equivalente)",
+        fr: "Directeur·rice du S&E (ou équivalent)",
+        ar: 'مدير المتابعة والتقييم (أو ما يعادله)'
+    },
+    {
         id: "current_board_term",
         en: "Current board term",
         sp: "Período de la junta actual",
@@ -750,7 +799,7 @@ const translation_mapping = [
     },
     {
         id: "key_annual",
-        en: "Please upload key annual report documents",
+        en: "Please upload the current audit report in PDF",
         sp: "Cargue los documentos clave del informe anual",
         fr: "Veuillez télécharger les principaux documents du rapport annuel",
         ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
@@ -3099,7 +3148,7 @@ de productos (como se indica en la parte de abajo del formulario)
     //Narrative Report
     {
         id: "context_events",
-        en: "1. Context Events",
+        en: "1. Context Shifts and Operational Environment",
         sp: "1. Hechos del contexto",
         fr: "1. Événements contextuels",
         ar: 'سياق الاحداث '

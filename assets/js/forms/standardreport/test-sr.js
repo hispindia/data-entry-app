@@ -797,23 +797,23 @@ document.addEventListener("DOMContentLoaded", function () {
         style: 'background:#0f9ed5;'
       },
       {
-        id: 'vacCAltV8Pp',
-        name: '8. Financial: in Section 6 “Actual Income”, is the overall financial status indicating a surplus or balanced budget (income minus expenses). In other words, it is showing green?',
-        style: 'background:#0f9ed5;'
-      },
-      {
-        id: 'RIltL5QmDEP',
-        name: '8. Financial: in Section 6 “Actual Income”, is the overall financial status indicating a surplus or balanced budget (income minus expenses). In other words, it is showing green? (Comments)',
-        style: 'background:#0f9ed5;'
-      },
-      {
         id: 'aXjINT5ttfR',
-        name: '9. In Section 5 “Budget vs Actuals by expense category”, are negative variances (in red) sufficiently explained for all of the individual projects? ',
+        name: '8. In Section 5 “Budget vs Actuals by expense category”, are negative variances (in red) sufficiently explained for all of the individual projects? ',
         style: 'background:#0f9ed5;'
       },
       {
         id: 'rrYJ6v2uI7X',
-        name: '9. In Section 5 “Budget vs Actuals by expense category”, are negative variances (in red) sufficiently explained for all of the individual projects? (Comments)',
+        name: '8. In Section 5 “Budget vs Actuals by expense category”, are negative variances (in red) sufficiently explained for all of the individual projects? (Comments)',
+        style: 'background:#0f9ed5;'
+      },
+      {
+        id: 'vacCAltV8Pp',
+        name: '9. Financial: in Section 6 “Actual Income”, is the overall financial status indicating a surplus or balanced budget (income minus expenses)?',
+        style: 'background:#0f9ed5;'
+      },
+      {
+        id: 'RIltL5QmDEP',
+        name: '9. Financial: in Section 6 “Actual Income”, is the overall financial status indicating a surplus or balanced budget (income minus expenses)? (Comments)',
         style: 'background:#0f9ed5;'
       },
       {

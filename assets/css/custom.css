@@ -422,7 +422,7 @@ a{cursor:pointer;}
   margin-top: auto;
 }
 @media (min-width: 768px) {
-  .info-cards-grid { grid-template-columns: repeat(3, 1fr); }
+  .info-cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Important Dates timeline */

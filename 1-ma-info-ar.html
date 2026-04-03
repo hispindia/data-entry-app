@@ -358,8 +358,8 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.executive_director">Executive
-                                                    Director / CEO (or equivalent)</h4>
+                                                <h4><span data-i18n="intro.executive_director">Executive
+                                                    Director / CEO (or equivalent)</span> <span style="color:red">*</span></h4>
                                             </div>
 
                                         </div>
@@ -402,8 +402,8 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.board_chair">Board chair /
-                                                    President (or equivalent)</h4>
+                                                <h4><span data-i18n="intro.board_chair">Board chair /
+                                                    President (or equivalent)</span> <span style="color:red">*</span></h4>
                                             </div>
 
                                         </div>
@@ -446,9 +446,7 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.officer_of_the_board1">Officer of
-                                                    the board #1 (e.g., vice president,
-                                                    secretary, treasurer)</h4>
+                                                <h4 data-i18n="intro.vice_chair">Vice-Chair / Vice - President (or equivalent)</h4>
                                             </div>
 
                                         </div>
@@ -489,9 +487,7 @@
                                         <hr>
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.officer_of_the_board2">Officer of
-                                                    the board #2 (e.g., vice president,
-                                                    secretary, treasurer)</h4>
+                                                <h4 data-i18n="intro.secretary_equivalent">Secretary (or equivalent)</h4>
                                             </div>
 
                                         </div>
@@ -534,9 +530,7 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.officer_of_the_board3">Officer of
-                                                    the board #3 (e.g., vice president,
-                                                    secretary, treasurer)</h4>
+                                                <h4><span data-i18n="intro.treasurer_equivalent">Treasurer (or equivalent)</span> <span style="color:red">*</span></h4>
                                             </div>
 
                                         </div>
@@ -579,8 +573,8 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.youth_board_member">Youth board
-                                                    member</h4>
+                                                <h4><span data-i18n="intro.youth_board_member">Youth board
+                                                    member</span> <span style="color:red">*</span></h4>
                                             </div>
                                         </div>
 
@@ -622,8 +616,7 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.programmatic_lead">Programmatic
-                                                    lead(s)</h4>
+                                                <h4 data-i18n="intro.director_programmes">Director of Programmes (or equivalent)</h4>
                                             </div>
 
                                         </div>
@@ -666,8 +659,7 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.programmatic_lead">Programmatic
-                                                    lead(s)</h4>
+                                                <h4 data-i18n="intro.director_resource_mobilisation">Director of Resource Mobilisation (or equivalent)</h4>
                                             </div>
                                         </div>
 
@@ -709,7 +701,7 @@
 
                                         <div class="form-row">
                                             <div class="col-sm-12">
-                                                <h4 data-i18n="intro.finance_lead">Finance lead</h4>
+                                                <h4><span data-i18n="intro.director_finance">Director of Finance (or equivalent)</span> <span style="color:red">*</span></h4>
                                             </div>
 
                                         </div>
@@ -739,6 +731,48 @@
                                                 <label for="PZswZ4XFTku"
                                                     data-i18n="intro.number">Contact phone</label>
                                                 <input type="mobile" value="" id="PZswZ4XFTku"
+                                                    class="form-control textValue currency"
+                                                    />
+                                                <div class="invalid-feedback">
+                                                    Error here
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="form-row">
+                                            <div class="col-sm-12">
+                                                <h4 data-i18n="intro.director_me">Director of M&amp;E (or equivalent)</h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="directorMeName"
+                                                    data-i18n="intro.name">Name</label>
+                                                <input type="text" value="" id="directorMeName"
+                                                    class="form-control textValue currency"
+                                                    />
+                                                <div class="invalid-feedback">
+                                                    Error here
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="directorMeEmail"
+                                                    data-i18n="intro.contact_email"> Contact
+                                                    email</label>
+                                                <input type="email" value="" id="directorMeEmail"
+                                                    class="form-control textValue currency"
+                                                    />
+                                                <div class="invalid-feedback">
+                                                    Error here
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="directorMePhone"
+                                                    data-i18n="intro.number">Contact phone</label>
+                                                <input type="mobile" value="" id="directorMePhone"
                                                     class="form-control textValue currency"
                                                     />
                                                 <div class="invalid-feedback">
@@ -903,9 +937,60 @@
         }
     </script>
     <script>
-        function submitProjects() {
-            alert("Data Saved Successfully!")
+        // Mandatory field validation for Key Contacts
+        const mandatoryFields = [
+            { id: 'Ctp6kmhwq86', label: 'Executive Director / CEO (or equivalent)' },
+            { id: 'IuyGw22tqYj', label: 'Board chair / President (or equivalent)' },
+            { id: 'QgqjdnD1a24', label: 'Treasurer (or equivalent)' },
+            { id: 'aA5UkYBNvbl', label: 'Youth board member' },
+            { id: 'ptHCVnzUXQl', label: 'Director of Finance (or equivalent)' }
+        ];
+
+        function validateMandatoryFields() {
+            let missingFields = [];
+            // Clear previous error highlights
+            mandatoryFields.forEach(field => {
+                const el = document.getElementById(field.id);
+                if (el) el.style.border = '';
+            });
+            // Check each mandatory field
+            mandatoryFields.forEach(field => {
+                const el = document.getElementById(field.id);
+                if (el && !el.value.trim()) {
+                    missingFields.push(field.label);
+                    el.style.border = '2px solid red';
+                }
+            });
+            if (missingFields.length > 0) {
+                alert('Please fill in the following mandatory fields (Name):\n\n- ' + missingFields.join('\n- '));
+                // Scroll to the first empty mandatory field
+                const firstEmpty = document.getElementById(
+                    mandatoryFields.find(f => !document.getElementById(f.id).value.trim()).id
+                );
+                if (firstEmpty) firstEmpty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return false;
+            }
+            return true;
         }
+
+        function submitProjects() {
+            if (!validateMandatoryFields()) return;
+            alert("Data Saved Successfully!");
+        }
+
+        // Add validation to the final "Next: 2. Narrative Report" button
+        document.addEventListener('DOMContentLoaded', function() {
+            const nextBtn = document.querySelector('button[onclick*="2-narrative-report-ar.html"]');
+            if (nextBtn) {
+                nextBtn.setAttribute('onclick', '');
+                nextBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    if (validateMandatoryFields()) {
+                        window.location.href = '../../apps/IPPF-BPR-App/2-narrative-report-ar.html';
+                    }
+                });
+            }
+        });
     </script>
     <script src="assets/js/help-panel.js"></script>
 </body>

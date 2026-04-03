@@ -39,8 +39,8 @@
     { name:'Management Letter (Audit Report)', def:'A formal letter issued by the external auditor to the management of the Affiliate, alongside the audit report. It typically contains findings, observations, and recommendations on internal controls, financial management, and compliance noted during the audit.', sec:'sec1', tag:'1.3 Key Documents' },
 
     // ── Section 2: Narrative Report ──
-    // 2.1 Context Events
-    { name:'Context Events', def:'A narrative description of significant external events or developments during the reporting year that influenced the Affiliate\'s operating environment. This includes changes in the political or legal landscape, shifts in public opinion, opposition movements, or other country-level developments relevant to Sexual and Reproductive Health and Rights (SRHR).', sec:'sec2', tag:'2.1 Context' },
+    // 2.1 Context Shifts and Operational Environment
+    { name:'Context Shifts and Operational Environment', def:'A narrative description of significant external events or developments during the reporting year that influenced the Affiliate\'s operating environment. This includes changes in the political or legal landscape, shifts in public opinion, opposition movements, or other country-level developments relevant to Sexual and Reproductive Health and Rights (SRHR).', sec:'sec2', tag:'2.1 Context' },
     // 2.2 Results & Achievements
     { name:'Results & Achievements', def:'A summary of the main outcomes and accomplishments of the Affiliate during the reporting period, organised by IPPF Strategic Pillar. Affiliates are requested to highlight how actual results compare with planned expectations and to emphasise work with youth and marginalised populations.', sec:'sec2', tag:'2.2 Results' },
     { name:'Strategic Pillar', def:'One of the core thematic areas of IPPF\'s organisational strategy. Current pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.', sec:'sec2', tag:'2.2 Results' },
@@ -178,7 +178,7 @@
       { label:'Key Documents', desc:'Upload the Management Letter (Audit Report) from your external auditor for the reporting year.' },
     ]},
     '2': { title:'Section 2 \u2014 Narrative Report', subtitle:'Context, results, challenges, strategies, and learning', steps:[
-      { label:'Context Events', desc:'Describe significant external events or developments during the reporting year that influenced your operating environment.' },
+      { label:'Context Shifts and Operational Environment', desc:'Describe significant external events or developments during the reporting year that influenced your operating environment.' },
       { label:'Results & Achievements', desc:'Summarise the main outcomes organised by IPPF Strategic Pillar. Highlight work with youth and marginalised populations.' },
       { label:'Challenges', desc:'Describe main difficulties or constraints that affected programme delivery or achievement of planned results.' },
       { label:'Most Effective Strategies', desc:'Reflect on methods or approaches that proved most successful. Share examples of good practice.' },
@@ -663,8 +663,8 @@
       'ma (member association)': 'Affiliate',
       'ma-id': 'Affiliate Code',
       // Section 2
-      'context events': 'Context Events',
-      '1. context events': 'Context Events',
+      'context shifts and operational environment': 'Context Shifts and Operational Environment',
+      '1. context shifts and operational environment': 'Context Shifts and Operational Environment',
       'results & achievements': 'Results & Achievements',
       '2. results & achievements': 'Results & Achievements',
       'challenges': 'Challenges',
