@@ -44,6 +44,12 @@ const categoryIncome = [
         format: "services-rental"
       },
       {
+        "name": "Membership fees",
+        "code": "Membership fees",
+        "id": "QhSUed8nt0j",
+        format: "membership-fees"
+      },
+      {
         "name": "Local/national: government",
         "code": "Local/national: government",
         "id": "RGp6uJXqNOk",
@@ -54,12 +60,6 @@ const categoryIncome = [
         "code": "Local/national: non-government",
         "id": "aE0fJm2QDgh",
         format: "local-nongovernment"
-      },
-      {
-        "name": "Membership fees",
-        "code": "Membership fees",
-        "id": "QhSUed8nt0j",
-        format: "membership-fees"
       },
       {
         "name": "Non-operational income",
@@ -440,7 +440,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <th data-i18n="intro.unrestricted" class="text-center">Unrestricted</th>
         <th data-i18n="intro.total" class="text-center">Total</th>
         </tr>`
-        category.options.forEach(option => {
+        category.options.forEach((option) => {
+          var selected = categoryIndex <= 4 ? true : false;
+          if(option.format == "ippf-unrestricted") selected = true;
           const restrictedId = dataElements.projectTotalIncome[categoryIndex].restricted;
           const unrestrictedId = dataElements.projectTotalIncome[categoryIndex].unrestricted;
           const restricted = dataValues && dataValues[restrictedId]  ? dataValues[restrictedId] : "";
@@ -455,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
               <input 
               type="text" 
-              ${tei.disabled ? 'disabled readonly': ''} 
+              ${(tei.disabled ||  selected) ? 'disabled readonly': ''} 
               id="${restrictedId}" 
               name="${option.id}-restricted-${category.shortName}" 
               value="${formatNumberInput(restricted)}" 

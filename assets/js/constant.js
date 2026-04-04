@@ -168,20 +168,26 @@ export const dataElements = {
     {
       category: "qrdiDKqQotg",
       subCategory: "HpQbJhYuPM2",
-      restricted: "L8F8NMleQ74",
+      restricted: "", //L8F8NMleQ74
       unrestricted: "tZ4fnmYUZrb",
     },
     {
       category: "L89RPS2xzNl",
       subCategory: "kuoG8PGLFuZ",
-      restricted: "Rx60jU8qcHK",
+      restricted: "", //Rx60jU8qcHK
       unrestricted: "VbMRlHYnXZe",
     },
     {
       category: "mHacTCqp5St",
       subCategory: "hnXbOHg5bro",
-      restricted: "Yvv5RdaSe8Y",
+      restricted: "", //Yvv5RdaSe8Y
       unrestricted: "anMZcNcHl9v",
+    },
+    {
+      category: "IOf1cgEwUVt",
+      subCategory: "l29xg2NekFC",
+      restricted: "", //c9uYmp6rphe
+      unrestricted: "TNDxPT1BpdM",
     },
     {
       category: "tK20oVQDvjE",
@@ -194,12 +200,6 @@ export const dataElements = {
       subCategory: "PMD1hE8SfTu",
       restricted: "GkI0EQPqj68",
       unrestricted: "oobsMxv6tVj",
-    },
-    {
-      category: "IOf1cgEwUVt",
-      subCategory: "l29xg2NekFC",
-      restricted: "c9uYmp6rphe",
-      unrestricted: "TNDxPT1BpdM",
     },
     {
       category: "eF1Du2rscoA",
@@ -246,7 +246,7 @@ export const dataElements = {
     {
       category: "HrH4reost9F",
       subCategory: "XN3gKUfTbfN",
-      restricted: "lsdeQnuiFDT",
+      restricted: "", //lsdeQnuiFDT
       unrestricted: "tGS8X8B4BtK",
     },
     {

@@ -175,7 +175,7 @@ const maxWords = 200;
     $('#totals').append(totalsRow);
 
     // Build pivot summary table by expense category
-    buildPivotSummary(dataValues);
+    buildPivotSummary();
 
     $('.loader-container').addClass('d-none').removeClass('d-flex');
     $('.myContainer').show();
@@ -281,7 +281,7 @@ const maxWords = 200;
             <tr>
               <th></th>
               <th data-i18n="intro.budget_including_ippf">Budget (including IPPF Core)</th>
-              <th data-i18n="intro.actual_including_ippf">Actual (including IPPF Core)</th>
+              <th data-i18n="intro.actual_including_ippf"> (including IPPF Core)</th>
               <th><span data-i18n="intro.variation">Variation </span> ($)</th>
               <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
             </tr>
@@ -310,7 +310,7 @@ const maxWords = 200;
                                     id="${id}"
                                     data-index="${index}"
                                     value="${formatNumberInput(expense)}" 
-                                    class="form-control textValue currency">
+                                    class="form-control textValue input-budget-${rowIndex} currency">
                                 </div>
                             </td>`
         rowIndex++;
@@ -338,7 +338,7 @@ const maxWords = 200;
                                   data-index="${index}"
                                   id="${id}"
                                   value="${formatNumberInput(expense)}" 
-                                  class="form-control textValue currency">
+                                  class="form-control textValue input-expense-${rowIndex} currency">
                               </div>
                           </td>`
         rowIndex++;
@@ -466,7 +466,7 @@ const maxWords = 200;
                           ${(length - 1 == index) ? `                          
                           <button ${tei.disabled ? 'disabled readonly' : ''}  class="btn btn-primary" onclick="event.preventDefault(); window.location.href='../../apps/IPPF-BPR-App/6-actual-income-ar.html'">
                             <span data-i18n="intro.next">Next</span>:  
-                            <span data-i18n="intro.actual_income">6. Actual Income</span>
+                            <span data-i18n="intro.actual_income">6.  Income</span>
                           </button>`: `<input
                           type="button"
                           value="NEXT"
@@ -483,87 +483,6 @@ const maxWords = 200;
     })
 
     return projectRows;
-  }
-
-  function buildPivotSummary(dataValues) {
-    var categoryNames = [
-      { name: 'Personnel', i18n: 'intro.personnel' },
-      { name: 'Direct project activities', i18n: 'intro.activities' },
-      { name: 'Commodities', i18n: 'intro.commodities' },
-      { name: 'Indirect/ support costs', i18n: 'intro.indirect' }
-    ];
-
-    // Initialize totals for each of the 4 expense categories
-    var pivotData = [
-      { budget: 0, expense: 0 },
-      { budget: 0, expense: 0 },
-      { budget: 0, expense: 0 },
-      { budget: 0, expense: 0 }
-    ];
-
-    // Iterate through all projects and aggregate by expense category index
-    tei.projects.forEach(function(project, index) {
-      var catIdx = 0;
-      for (var key in dataElements.arProjectExpenseCategory[index]['budgetExpense']) {
-        var id = dataElements.arProjectExpenseCategory[index]['budgetExpense'][key];
-        if (dataValues && dataValues[id]) {
-          pivotData[catIdx].budget += Number(dataValues[id]);
-        }
-        catIdx++;
-      }
-      catIdx = 0;
-      for (var key in dataElements.arProjectExpenseCategory[index]['actualExpense']) {
-        var id = dataElements.arProjectExpenseCategory[index]['actualExpense'][key];
-        if (dataValues && dataValues[id]) {
-          pivotData[catIdx].expense += Number(dataValues[id]);
-        }
-        catIdx++;
-      }
-    });
-
-    var rows = '';
-    var grandBudget = 0, grandExpense = 0;
-
-    categoryNames.forEach(function(cat, i) {
-      var d = pivotData[i];
-      var variation = d.budget - d.expense;
-      var percent = d.budget && d.expense / d.budget && (d.expense / d.budget) !== Infinity ? (d.expense / d.budget) * 100 : 0;
-      grandBudget += d.budget;
-      grandExpense += d.expense;
-      var variationBg = variation >= 0 ? '#C1E1C1' : '#FAA0A0';
-
-      rows += '<tr>' +
-        '<td class="pivot-focus-area-name"><strong data-i18n="' + cat.i18n + '">' + cat.name + '</strong></td>' +
-        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>' +
-          '<input type="text" value="' + formatNumberInput(d.budget) + '" class="form-control currency" disabled readonly></div></td>' +
-        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>' +
-          '<input type="text" value="' + formatNumberInput(d.expense) + '" class="form-control currency" disabled readonly></div></td>' +
-        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>' +
-          '<input type="text" value="' + formatNumberInput(variation) + '" style="background:' + variationBg + ' !important" class="form-control currency" disabled readonly></div></td>' +
-        '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">%</div></div>' +
-          '<input type="text" value="' + formatNumberInput(percent) + '" class="form-control currency" disabled readonly></div></td>' +
-      '</tr>';
-    });
-
-    // Grand total row
-    var grandVariation = grandBudget - grandExpense;
-    var grandPercent = grandBudget && grandExpense / grandBudget && (grandExpense / grandBudget) !== Infinity ? (grandExpense / grandBudget) * 100 : 0;
-    var grandVarBg = grandVariation >= 0 ? '#C1E1C1' : '#FAA0A0';
-
-    rows += '<tr class="pivot-grand-total">' +
-      '<td><strong>Grand Total</strong></td>' +
-      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>' +
-        '<input type="text" value="' + formatNumberInput(grandBudget) + '" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
-      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>' +
-        '<input type="text" value="' + formatNumberInput(grandExpense) + '" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
-      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>' +
-        '<input type="text" value="' + formatNumberInput(grandVariation) + '" style="background:' + grandVarBg + ' !important" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
-      '<td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">%</div></div>' +
-        '<input type="text" value="' + formatNumberInput(grandPercent) + '" class="form-control font-weight-bold currency" disabled readonly></div></td>' +
-    '</tr>';
-
-    $('#pivot-summary').html(rows);
-    $('#pivot-summary-wrap').show();
   }
 
   document
@@ -732,8 +651,76 @@ function calculateTotals(idx, expenseId) {
   pushDataElement($('.totalBudget')[0].id, totalBudget);
   pushDataElement($('.totalExpenses')[0].id, totalExpenses);
   pushDataElement($('.totalDifference')[0].id, totalDifference);
+  buildPivotSummary();
 
 }
+
+
+  function buildPivotSummary() {
+    var globalBudget = 0, globalExpense = 0;
+
+    var categoryNames = [
+      { name: 'Personnel', i18n: 'intro.personnel' },
+      { name: 'Direct project activities', i18n: 'intro.activities' },
+      { name: 'Commodities', i18n: 'intro.commodities' },
+      { name: 'Indirect/ support costs', i18n: 'intro.indirect' }
+    ];
+
+    var rows = '';
+
+    categoryNames.forEach(function(cat, index) {
+      var totalBudget = 0;
+      var totalExpense = 0;
+      var variance = 0;
+      var totalPercent = 0;
+
+      $(`.input-budget-${index}`).each(function () {
+          const value = unformatNumber($(this).val()) || 0;
+          totalBudget += value;
+      });
+
+      $(`.input-expense-${index}`).each(function () {
+          const value = unformatNumber($(this).val()) || 0;
+          totalExpense += value;
+      });
+      globalBudget += totalBudget;
+      globalExpense += totalExpense;
+
+      var variance = totalBudget - totalExpense;
+      totalPercent = totalBudget && totalExpense/totalBudget && totalExpense/totalBudget!="Infinity" ? (totalExpense/totalBudget)*100:''
+
+
+      rows += `<tr>
+        <td class="pivot-focus-area-name"><strong data-i18n="${cat.i18n}">${cat.name}</strong></td>
+        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+          <input type="text" value="${formatNumberInput(totalBudget)}" class="form-control currency" disabled readonly></div></td>
+        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+          <input type="text" value="${formatNumberInput(totalExpense)}" class="form-control currency" disabled readonly></div></td>
+        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+          <input type="text" value="${formatNumberInput(variance)}" style="background:${variance >= 0 ? "#C1E1C1 !important" : "#FAA0A0 !important"} !important" class="form-control currency" disabled readonly></div></td>
+        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">%</div></div>
+          <input type="text" value="${formatNumberInput(totalPercent)}" class="form-control currency" disabled readonly></div></td>
+      </tr>`;
+    });
+
+    const globalVariance = globalBudget - globalExpense;
+    const globalPercent = globalBudget && globalExpense/globalBudget && globalExpense/globalBudget!="Infinity" ? (globalExpense/globalBudget)*100:''
+
+    rows += `<tr class="pivot-grand-total">
+      <td><strong>Grand Total</strong></td>
+      <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>
+        <input type="text" value="${formatNumberInput(globalBudget)}" class="form-control font-weight-bold currency" disabled readonly></div></td>
+      <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>
+        <input type="text" value="${formatNumberInput(globalExpense)}" class="form-control font-weight-bold currency" disabled readonly></div></td>
+      <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">$</div></div>
+        <input type="text" value="${formatNumberInput(globalVariance)}" style="background:${globalVariance >= 0 ? "#C1E1C1 !important" : "#FAA0A0 !important"} !important" class="form-control font-weight-bold currency" disabled readonly></div></td>
+      <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text font-weight-bold">%</div></div>
+        <input type="text" value="${formatNumberInput(globalPercent)}" class="form-control font-weight-bold currency" disabled readonly></div></td>
+    </tr>`;
+
+    $('#pivot-summary').html(rows);
+    $('#pivot-summary-wrap').show();
+  }
 
 function submitProjects() {
   alert("Data Saved Successfully!")
