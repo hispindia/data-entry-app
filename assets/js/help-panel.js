@@ -160,6 +160,32 @@
     // 6.5 Largest Contributor
     { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.', sec:'sec6', tag:'6.5 Contributor' },
     { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.', sec:'sec6', tag:'6.5 Contributor' },
+
+    // ── Section 7: AOC Review Form ──
+    // 7.0 AOC Review — General
+    { name:'Review Outcome', def:'The overall rating on completion of the review. This rating is used by AOCs to inform follow-up actions.', sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'Flag Colour', def:'A visual indicator of the review outcome. A red \'flag\' indicates significant concerns requiring follow-up with the affiliate. A green flag indicates the report is approved with no follow-up actions required.', sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'Comments', def:'A free-text field of up to 200 words available for each criterion, allowing the AOC to provide context, observations, or recommended actions, e.g. to raise concerns, point out partial compliance, or highlight areas requiring follow-up.', sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'AOC Comments / Remedial Actions', def:'A dedicated field where the AOC records their overall observations on the affiliate\'s Annual Report and specifies any concrete remedial actions that the affiliate is required to take following the review. Remedial actions should be clearly stated, time-bound where possible, and directly linked to the specific deficiencies or risks identified during the review. This field forms part of the official AOC review record and is visible to the IPPF Secretariat.', sec:'sec7', tag:'7.0 AOC Review' },
+    // 7.1 General Requirements
+    { name:'General Requirements', def:'The first section of the AOC Review Form, covering quality criteria. AOCs must assess each criterion independently and provide comments where a "No" response is given or where additional context is needed. More than a certain number of "NOs" will give a Red Flag outcome of the review.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 1. Was the report submitted on time?', def:'An assessment of whether the affiliate submitted its Annual Report by the official deadline set by IPPF for the reporting year. A "Yes" response confirms timely submission. A "No" response should be accompanied by a comment explaining the delay and any prior communication with the affiliate regarding the late submission.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 2. Has the affiliate consulted with the AOC?', def:'An assessment of whether the affiliate engaged with the AOC during the preparation of the Annual Report, for example, by seeking guidance on data entry, narrative content, or financial reporting. A "Yes" response indicates active consultation. A "No" response signifies that there was no support requested or given before the reporting deadline.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 3. Is the report done to the required standard?', def:'An assessment of whether the Annual Report meets the minimum quality standards, e.g. whether all required fields are completed, narrative responses are substantive and understandable, and financial data is coherent and consistent. A "No" response should specify which sections or fields fall below the required standard, or have been left blank.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 4. Tangible results in at least two Strategic Pillars?', def:'An assessment of whether the affiliate has reported clear results under at least two of the four IPPF Strategic Pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 5. Meaningful reflection on challenges and learnings?', def:'An assessment of whether the affiliate has provided substantive, reflective responses in the Challenges, Most Effective Strategies, Organisational Update, and Learning sub-sections of the Narrative Report. Responses should demonstrate genuine reflection. A "No" response should indicate which sub-sections lack sufficient depth.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 6. Total expense Section 4 equals Section 5?', def:'A financial consistency check confirming that the total expenditure reported in Section 4 (Budget vs Actuals by Focus Area) matches the total reported in Section 5 (Budget vs Actuals by Expense Category). These two figures must be equal as they represent the same expenditure from different analytical dimensions. A "No" response indicates a discrepancy that requires the affiliate to review and correct its financial data before final submission.', sec:'sec7', tag:'7.1 General Req.' },
+    // 7.2 Critical Requirements
+    { name:'Critical Requirements', def:'The second section of the AOC Review Form, covering financial criteria that are considered essential for the integrity and validity of the Annual Report. Unlike General Requirements, the criteria in this section relate specifically to audit status, financial position, and budget variance explanations. Any negative answer in this section will raise a red flag in the final review.', sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Question 7. Status of the audit report?', def:'An assessment of whether the affiliate\'s external audit report for the reporting year carries an unqualified or qualified opinion. This field uses "Unqualified / Qualified" rather than "Yes / No". This question applies only to Annual Reports; half-year reports do not have this requirement.', sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Unqualified (Audit Opinion)', def:'An audit opinion issued by an external auditor indicating that the affiliate\'s financial statements are presented fairly and in accordance with the applicable accounting standards, with no material misstatements or scope limitations. An unqualified opinion is the expected and preferred outcome for a financially compliant affiliate.', sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Qualified (Audit Opinion)', def:'An audit opinion issued by an external auditor indicating that the auditor has found material concerns such as limitations in scope, disagreements on accounting treatment, or significant internal control weaknesses that prevent a fully clean opinion. Affiliates with qualified audits require AOC follow-up and may be subject to additional IPPF oversight.', sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Question 8. Negative variances sufficiently explained?', def:'An assessment of whether project-level negative variance (where actual expenditure exceeded the budgeted amount for a given expense category) is accompanied by a sufficient explanation. Negative variances are highlighted in red in the portal. A "Yes" response confirms that all red variances across all projects have been adequately explained. A "No" response should identify which specific projects or expense categories have unexplained overspends. This question applies only to Annual Reports.', sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Question 9. Surplus or balanced budget?', def:'An assessment of whether the affiliate\'s Deficit / Surplus figure in Section 6 is positive or neutral \u2014 meaning total income is equal to or greater than total actual expenses. A "Yes" response (shown in green in the portal) confirms a financially healthy position. A "No" response indicates a deficit where expenditure has exceeded income, which is a critical finding requiring a comment explaining the cause and the affiliate\'s plan to address the shortfall. This question applies only to Annual Reports.', sec:'sec7', tag:'7.2 Critical Req.' },
+    // 7.3 Serious Risks Identified
+    { name:'Serious Risks Identified', def:'A free-text section at the end of the AOC Review Form where the AOC formally documents any significant risks identified during the review of the affiliate\'s Annual Report that require IPPF Secretariat\'s attention. This section is distinct from the criteria-based sections above. It allows the AOC to flag concerns that may not be captured by the Yes/No criteria, such as governance failures, safeguarding concerns, financial sustainability issues, or programme delivery risks.', sec:'sec7', tag:'7.3 Serious Risks' },
+    { name:'Identified Risk', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
+    { name:'Comment (Serious Risks)', def:'A free-text field of up to 200 words paired with each Identified Risk, where the AOC provides a detailed description of the risk, its potential impact on the affiliate\'s operations and any recommended follow-up actions or support measures. This comment forms part of the formal AOC review record and may be used by IPPF Secretariat to determine next steps, including escalation, capacity support, or compliance review.', sec:'sec7', tag:'7.3 Serious Risks' },
   ];
 
   // ── WALKTHROUGH DATA ──
@@ -209,6 +235,13 @@
       { label:'International Income (Non-IPPF)', desc:'Enter income from multilateral agencies, foreign governments, international trusts/NGOs, and corporate sources.' },
       { label:'IPPF Income', desc:'Verify IPPF Core Grant (auto-populated) and enter any other IPPF grants received.' },
       { label:'Largest Contributor', desc:'Identify the single organisation that provided the greatest amount of income and specify the amount.' },
+    ]},
+    '7': { title:'Section 7 \u2014 AOC Review Form', subtitle:'Review and assess the affiliate\'s Annual Report submission', steps:[
+      { label:'Final AOC Rating', desc:'View the overall review outcome and flag colour indicator. A red flag indicates significant concerns; a green flag indicates the report is approved.' },
+      { label:'General Requirements (Questions 1\u20136)', desc:'Assess six quality criteria covering timeliness, AOC consultation, report quality, strategic pillar results, meaningful reflection, and financial consistency between Sections 4 and 5.' },
+      { label:'Critical Requirements (Questions 7\u20139)', desc:'Assess three financial criteria covering audit report status (unqualified/qualified), variance explanations for overspends, and overall surplus/deficit position.' },
+      { label:'AOC Comments / Remedial Actions', desc:'Record overall observations and specify any concrete remedial actions the affiliate must take, linked to deficiencies identified during the review.' },
+      { label:'Serious Risks Identified', desc:'Document any significant risks requiring IPPF Secretariat attention, such as governance failures, safeguarding concerns, or financial sustainability issues. Each risk has a title and detailed comment.' },
     ]},
     '1.2': { title:'Section 1.2 \u2014 Narrative Plan', subtitle:'Country context, organisational status, and technical assistance', steps:[
       { label:'Country Context & Theory of Change', desc:'Describe the operating environment, political/legal context, opposition, and how your theory of change addresses the country context.' },
@@ -457,7 +490,7 @@
       // Ensure Instructions is the active default tab
       if (tabInstructions) tabInstructions.classList.add('active');
       if (paneInstructions) paneInstructions.classList.add('active');
-    } else if (majorSec === '3' || majorSec === '4' || majorSec === '5' || majorSec === '6') {
+    } else if (majorSec === '3' || majorSec === '4' || majorSec === '5' || majorSec === '6' || majorSec === '7') {
       // Sections 3–6: Hide Instructions tab; rename Walkthrough to "Instructions"; keep Glossary
       if (tabInstructions) tabInstructions.style.display = 'none';
       if (paneInstructions) { paneInstructions.style.display = 'none'; paneInstructions.classList.remove('active'); }
@@ -576,8 +609,8 @@
   function buildGlossaryFilters() {
     var container = document.getElementById('helpGFilter');
     if (!container) return;
-    var sections = ['All', 'Sec 1', 'Sec 2', 'Sec 3', 'Sec 4', 'Sec 5', 'Sec 6'];
-    var secVals = ['', 'sec1', 'sec2', 'sec3', 'sec4', 'sec5', 'sec6'];
+    var sections = ['All', 'Sec 1', 'Sec 2', 'Sec 3', 'Sec 4', 'Sec 5', 'Sec 6', 'Sec 7'];
+    var secVals = ['', 'sec1', 'sec2', 'sec3', 'sec4', 'sec5', 'sec6', 'sec7'];
     container.innerHTML = sections.map(function(s, i) {
       return '<div class="g-filter-tag' + (i === 0 ? ' active' : '') + '" onclick="window.IPPFHelp.filterBySection(\'' + secVals[i] + '\',this)">' + s + '</div>';
     }).join('');
@@ -753,6 +786,36 @@
       'other ippf grant': 'Other IPPF Grant',
       'income details': 'Actual Income Details',
       'actual income details': 'Actual Income Details',
+      // Section 7 — AOC Review Form
+      'final aoc rating': 'Review Outcome',
+      'review outcome': 'Review Outcome',
+      'flag colour': 'Flag Colour',
+      'flag color': 'Flag Colour',
+      'comments': 'Comments',
+      'aoc comment/agreed remedial actions.': 'AOC Comments / Remedial Actions',
+      'aoc comment/agreed remedial actions': 'AOC Comments / Remedial Actions',
+      'aoc comments / remedial actions': 'AOC Comments / Remedial Actions',
+      'general requirements': 'General Requirements',
+      'critical requirements': 'Critical Requirements',
+      'serious risks identified': 'Serious Risks Identified',
+      'identified risk': 'Identified Risk',
+      'identified risk 1': 'Identified Risk',
+      'identified risk 2': 'Identified Risk',
+      'identified risk 3': 'Identified Risk',
+      'comment 1': 'Comment (Serious Risks)',
+      'comment 2': 'Comment (Serious Risks)',
+      'comment 3': 'Comment (Serious Risks)',
+      '1. process: was the report was submitted on time?': 'Question 1. Was the report submitted on time?',
+      '2. process: has the ma consulted with you, the aoc, during the development of the ar?': 'Question 2. Has the affiliate consulted with the AOC?',
+      '3. quality: is the report done to the required standard: e.g. all answers and budget fields are completed and are understandable?': 'Question 3. Is the report done to the required standard?',
+      '4. narrative report: in section 2, question 2, has the ma/cp reported tangible results in at least two of the four ippf strategic pillars': 'Question 4. Tangible results in at least two Strategic Pillars?',
+      '5.  narrative report: in section 2, question 3 to 6, has the ma/cp meaningfully reflected on challenges and learnings in the reporting period?': 'Question 5. Meaningful reflection on challenges and learnings?',
+      '5. narrative report: in section 2, question 3 to 6, has the ma/cp meaningfully reflected on challenges and learnings in the reporting period?': 'Question 5. Meaningful reflection on challenges and learnings?',
+      '6. financial: is the total expense reported under section 4 the same as the total reported in section 5?': 'Question 6. Total expense Section 4 equals Section 5?',
+      '7. financial: what is the status of the audit report for the financial year?': 'Question 7. Status of the audit report?',
+      '8. in section 5 "budget vs actuals by expense category", are negative variances (in red) sufficiently explained for all of the individual projects?': 'Question 8. Negative variances sufficiently explained?',
+      '9.  financial: in section 6 "actual income", is the overall financial status indicating a surplus or balanced budget (income minus expenses)?': 'Question 9. Surplus or balanced budget?',
+      '9. financial: in section 6 "actual income", is the overall financial status indicating a surplus or balanced budget (income minus expenses)?': 'Question 9. Surplus or balanced budget?',
     };
 
     // Index glossary by exact name (lower-cased)
@@ -873,7 +936,7 @@
 
   function injectFieldHelpIcons() {
     // Process all labels, h3/h4 section headers, and focus area spans in tables
-    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"]';
+    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"], .listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong';
     var labels = document.querySelectorAll(selectors);
 
     labels.forEach(function(label) {
