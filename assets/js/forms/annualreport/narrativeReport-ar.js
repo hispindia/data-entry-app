@@ -50,7 +50,7 @@ const maxWords = 300;
     if(user.annualReporting) document.getElementById('reporting-periodicity').value = user.annualReporting;
 
     const years = getYears(tei.year.start, tei.year.end);
-    document.getElementById('year-update').innerHTML = years.map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
+    document.getElementById('year-update').innerHTML = years.filter(year => !tei.hideReportingYears.includes(year)).map(year => `<option value="${year}"  ${tei.year.selectReporting==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYearAR) document.getElementById('year-update').value = user.annualYearAR;
 
     tei.program = program.arOrganisationDetails;

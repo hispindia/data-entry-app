@@ -7,7 +7,7 @@ export const tei = {
   yearAmount: "",
   projects: [],
   disabledYear: {},
-  hideReportingYears: "2023;2025",
+  hideReportingYears: "2023;2024;2026,2027",
   hideYears: "2023;2024",
   dataValues: {},
   userDisabled: false,
@@ -23,7 +23,7 @@ export const tei = {
     end: new Date().getFullYear() + 1,
     value: "",
     selectedAnnual: new Date().getFullYear() + 1,
-    selectReporting: new Date().getFullYear(),
+    selectReporting: 2025,
   },
 };
 export const coreTeamGroups = "Q4GLIiUIxrM";

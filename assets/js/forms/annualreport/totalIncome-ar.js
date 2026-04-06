@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <th data-i18n="intro.total" class="text-center">Total</th>
         </tr>`
         category.options.forEach((option) => {
-          var selected = categoryIndex <= 4 ? true : false;
+          var selected = categoryIndex < 4 ? true : false;
           if(option.format == "ippf-unrestricted") selected = true;
           const restrictedId = dataElements.projectTotalIncome[categoryIndex].restricted;
           const unrestrictedId = dataElements.projectTotalIncome[categoryIndex].unrestricted;
