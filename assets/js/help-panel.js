@@ -13,153 +13,153 @@
   const GLOSSARY = [
     // ── Section 1: Organisational Info ──
     // 1.1 Membership Details
-    { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.', sec:'sec1', tag:'1.1 Membership', nid:'reporting_year' },
-    { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.', sec:'sec1', tag:'1.1 Membership', nid:'reporting_periodicity' },
-    { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).', sec:'sec1', tag:'1.1 Membership', nid:'ippf_region' },
-    { name:'Affiliate', def:'A national organisation that is a formal member or collaborative partner of IPPF. The affiliate is the entity submitting the report.', sec:'sec1', tag:'1.1 Membership', tid:'affiliate', nid:'organisation_name' },
-    { name:'Country of Operation', def:'The country in which the Affiliate is legally registered and primarily operates.', sec:'sec1', tag:'1.1 Membership', nid:'country_of_operation' },
-    { name:'Affiliate Code', def:'The short-form or abbreviated code assigned to the Affiliate for use within the IPPF reporting system (e.g. APPA (401)).', sec:'sec1', tag:'1.1 Membership', tid:'affiliate_code', nid:'organisation_code' },
-    { name:'Organisation Name (English)', def:'The official name of the Affiliate written in English, as registered with IPPF.', sec:'sec1', tag:'1.1 Membership', nid:'organisation_name' },
-    { name:'Organisation Name (Original Language)', def:'The official name of the Affiliate in the preferred IPPF language, if different from English.', sec:'sec1', tag:'1.1 Membership', nid:'organisation_name_original' },
-    { name:'Primary Point of Contact', def:'The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.', sec:'sec1', tag:'1.1 Membership', nid:'primary_contact_person' },
-    { name:'Contact Email', def:'The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.', sec:'sec1', tag:'1.1 Membership', nid:'contact_email' },
+    { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Affiliate', def:'A national organisation that is a formal member or collaborative partner of IPPF. The affiliate is the entity submitting the report.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Country of Operation', def:'The country in which the Affiliate is legally registered and primarily operates.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Affiliate Code', def:'The short-form or abbreviated code assigned to the Affiliate for use within the IPPF reporting system (e.g. APPA (401)).', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Organisation Name (English)', def:'The official name of the Affiliate written in English, as registered with IPPF.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Organisation Name (Original Language)', def:'The official name of the Affiliate in the preferred IPPF language, if different from English.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Primary Point of Contact', def:'The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Contact Email', def:'The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.', sec:'sec1', tag:'1.1 Membership' },
     // 1.2 Institutional Data
-    { name:'Address', def:'The registered physical or postal address of the Affiliate\'s main office or headquarters.', sec:'sec1', tag:'1.2 Institutional', nid:'physical_address' },
-    { name:'Key Contacts', def:'A set of designated individuals within the Affiliate who hold leadership or functional roles and serve as primary points of contact for IPPF communication and follow-up.', sec:'sec1', tag:'1.2 Institutional', nid:'key_contacts' },
-    { name:'Executive Director / CEO', def:'The person responsible for the overall management and operational leadership of the organisation.', sec:'sec1', tag:'1.2 Institutional', nid:'executive_director' },
-    { name:'Board Chair / President', def:'The elected or appointed leader of the Affiliate\'s governing board.', sec:'sec1', tag:'1.2 Institutional', nid:'board_chair' },
-    { name:'Officer of the Board', def:'Additional elected or appointed members of the governing board holding designated roles such as Vice President, Secretary, or Treasurer. These individuals support the governance and oversight of the organisation.', sec:'sec1', tag:'1.2 Institutional', nid:'officer_of_the_board1' },
-    { name:'Youth Board Member', def:'A member of the governing board who represents the youth constituency of the Affiliate.', sec:'sec1', tag:'1.2 Institutional', nid:'youth_board_member' },
-    { name:'Programmatic Lead(s)', def:'The individual responsible for managing and delivering the Affiliate\'s portfolio of programmes and/or projects.', sec:'sec1', tag:'1.2 Institutional', nid:'programmatic_lead' },
-    { name:'Finance Lead', def:'The individual responsible for managing the financial operations of the Affiliate, including budgeting, accounting, financial reporting, and audit compliance.', sec:'sec1', tag:'1.2 Institutional', nid:'finance_lead' },
-    { name:'Board Term \u2014 Start Year', def:'The year in which the current governing board\'s term of service commenced. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' , nid:'start_year'},
-    { name:'Board Term \u2014 End Year', def:'The year in which the current governing board\'s term of service is scheduled to conclude. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' , nid:'end_year'},
+    { name:'Address', def:'The registered physical or postal address of the Affiliate\'s main office or headquarters.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Key Contacts', def:'A set of designated individuals within the Affiliate who hold leadership or functional roles and serve as primary points of contact for IPPF communication and follow-up.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Executive Director / CEO', def:'The person responsible for the overall management and operational leadership of the organisation.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Board Chair / President', def:'The elected or appointed leader of the Affiliate\'s governing board.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Officer of the Board', def:'Additional elected or appointed members of the governing board holding designated roles such as Vice President, Secretary, or Treasurer. These individuals support the governance and oversight of the organisation.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Youth Board Member', def:'A member of the governing board who represents the youth constituency of the Affiliate.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Programmatic Lead(s)', def:'The individual responsible for managing and delivering the Affiliate\'s portfolio of programmes and/or projects.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Finance Lead', def:'The individual responsible for managing the financial operations of the Affiliate, including budgeting, accounting, financial reporting, and audit compliance.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Board Term \u2014 Start Year', def:'The year in which the current governing board\'s term of service commenced. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Board Term \u2014 End Year', def:'The year in which the current governing board\'s term of service is scheduled to conclude. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' },
     // 1.3 Key Documents
-    { name:'Key Annual Report Documents', def:'Supporting documents that accompany the Annual Report submission, such as the organisation\'s annual audit report.', sec:'sec1', tag:'1.3 Key Documents', nid:'key_document' },
-    { name:'Management Letter (Audit Report)', def:'A formal letter issued by the external auditor to the management of the Affiliate, alongside the audit report. It typically contains findings, observations, and recommendations on internal controls, financial management, and compliance noted during the audit.', sec:'sec1', tag:'1.3 Key Documents', nid:'key_management' },
+    { name:'Key Annual Report Documents', def:'Supporting documents that accompany the Annual Report submission, such as the organisation\'s annual audit report.', sec:'sec1', tag:'1.3 Key Documents' },
+    { name:'Management Letter (Audit Report)', def:'A formal letter issued by the external auditor to the management of the Affiliate, alongside the audit report. It typically contains findings, observations, and recommendations on internal controls, financial management, and compliance noted during the audit.', sec:'sec1', tag:'1.3 Key Documents' },
 
     // ── Section 2: Narrative Report ──
     // 2.1 Context Shifts and Operational Environment
-    { name:'Context Shifts and Operational Environment', def:'A narrative description of significant external events or developments during the reporting year that influenced the Affiliate\'s operating environment. This includes changes in the political or legal landscape, shifts in public opinion, opposition movements, or other country-level developments relevant to Sexual and Reproductive Health and Rights (SRHR).', sec:'sec2', tag:'2.1 Context', tid:'context_events', nid:'context_events' },
+    { name:'Context Shifts and Operational Environment', def:'A narrative description of significant external events or developments during the reporting year that influenced the Affiliate\'s operating environment. This includes changes in the political or legal landscape, shifts in public opinion, opposition movements, or other country-level developments relevant to Sexual and Reproductive Health and Rights (SRHR).', sec:'sec2', tag:'2.1 Context' },
     // 2.2 Results & Achievements
-    { name:'Results & Achievements', def:'A summary of the main outcomes and accomplishments of the Affiliate during the reporting period, organised by IPPF Strategic Pillar. Affiliates are requested to highlight how actual results compare with planned expectations and to emphasise work with youth and marginalised populations.', sec:'sec2', tag:'2.2 Results', tid:'results_and_achievements', nid:'results_achivements' },
+    { name:'Results & Achievements', def:'A summary of the main outcomes and accomplishments of the Affiliate during the reporting period, organised by IPPF Strategic Pillar. Affiliates are requested to highlight how actual results compare with planned expectations and to emphasise work with youth and marginalised populations.', sec:'sec2', tag:'2.2 Results' },
     { name:'Strategic Pillar', def:'One of the core thematic areas of IPPF\'s organisational strategy. Current pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.', sec:'sec2', tag:'2.2 Results' },
-    { name:'Center Care on People', def:'IPPF Strategic Pillar focused on placing the needs, rights, and experiences of individuals \u2014 especially those most marginalised \u2014 at the heart of service delivery.', sec:'sec2', tag:'2.2 Results', tid:'centre_care_on_people', nid:'center_people' },
-    { name:'Move the Sexuality Agenda', def:'IPPF Strategic Pillar centred on advocacy, rights-based approaches, and shifting norms to advance sexual rights and CSE.', sec:'sec2', tag:'2.2 Results', tid:'move_the_sexuality_agenda', nid:'move_sexuality_agenda' },
-    { name:'Solidarity for Change', def:'IPPF Strategic Pillar focused on movement-building, partnerships, and collective action to drive systemic SRHR change.', sec:'sec2', tag:'2.2 Results', tid:'solidarity_for_change', nid:'solidarity' },
-    { name:'Nurture our Federation', def:'IPPF Strategic Pillar focused on strengthening internal capacity, governance, sustainability, and culture of MAs.', sec:'sec2', tag:'2.2 Results', tid:'nurture_our_federation', nid:'nurture' },
+    { name:'Center Care on People', def:'IPPF Strategic Pillar focused on placing the needs, rights, and experiences of individuals \u2014 especially those most marginalised \u2014 at the heart of service delivery.', sec:'sec2', tag:'2.2 Results' },
+    { name:'Move the Sexuality Agenda', def:'IPPF Strategic Pillar centred on advocacy, rights-based approaches, and shifting norms to advance sexual rights and CSE.', sec:'sec2', tag:'2.2 Results' },
+    { name:'Solidarity for Change', def:'IPPF Strategic Pillar focused on movement-building, partnerships, and collective action to drive systemic SRHR change.', sec:'sec2', tag:'2.2 Results' },
+    { name:'Nurture our Federation', def:'IPPF Strategic Pillar focused on strengthening internal capacity, governance, sustainability, and culture of MAs.', sec:'sec2', tag:'2.2 Results' },
     { name:'Marginalised Populations', def:'Groups facing systemic barriers to accessing SRHR services due to age, gender identity, sexual orientation, disability, socioeconomic status, ethnicity, or geographic location.', sec:'sec2', tag:'2.2 Results' },
     { name:'Youth', def:'In IPPF reporting, individuals aged 10\u201324 years. MAs are specifically asked to highlight their work with this age group.', sec:'sec2', tag:'2.2 Results' },
     // 2.3 Challenges
-    { name:'Challenges', def:'A description of the main difficulties, obstacles, or constraints encountered by the Affiliate during the reporting period that affected program delivery, organisational operations, or achievement of planned results.', sec:'sec2', tag:'2.3 Challenges', tid:'challenges', nid:'challenges' },
+    { name:'Challenges', def:'A description of the main difficulties, obstacles, or constraints encountered by the Affiliate during the reporting period that affected program delivery, organisational operations, or achievement of planned results.', sec:'sec2', tag:'2.3 Challenges' },
     // 2.4 Most Effective Strategies / Approaches
-    { name:'Most Effective Strategies / Approaches', def:'A reflective account of the methods, interventions, or programmatic approaches that proved most successful in achieving results during the reporting period. Affiliates are encouraged to share examples of good practice and important learnings that could benefit the wider federation.', sec:'sec2', tag:'2.4 Strategies', tid:'most_effective_strategies_approaches', nid:'most_effective' },
-    { name:'Good Practice', def:'A documented approach, initiative, or method that has demonstrated effectiveness, efficiency, or innovation in achieving SRHR outcomes. Good practices shared may be considered for wider dissemination across affiliates.', sec:'sec2', tag:'2.4 Strategies', tid:'good_practice' },
+    { name:'Most Effective Strategies / Approaches', def:'A reflective account of the methods, interventions, or programmatic approaches that proved most successful in achieving results during the reporting period. Affiliates are encouraged to share examples of good practice and important learnings that could benefit the wider federation.', sec:'sec2', tag:'2.4 Strategies' },
+    { name:'Good Practice', def:'A documented approach, initiative, or method that has demonstrated effectiveness, efficiency, or innovation in achieving SRHR outcomes. Good practices shared may be considered for wider dissemination across affiliates.', sec:'sec2', tag:'2.4 Strategies' },
     // 2.5 Organisational Update
-    { name:'Organisational Update', def:'A summary of any significant internal changes that occurred within the Affiliate during the reporting period. This may include changes to the organisational structure, leadership or board composition, staffing, or internal policies and procedures.', sec:'sec2', tag:'2.5 Org Update', tid:'organisational_update', nid:'organisational_update' },
+    { name:'Organisational Update', def:'A summary of any significant internal changes that occurred within the Affiliate during the reporting period. This may include changes to the organisational structure, leadership or board composition, staffing, or internal policies and procedures.', sec:'sec2', tag:'2.5 Org Update' },
     // 2.6 Learning
-    { name:'Learning', def:'Key insights, lessons, or knowledge gained by the Affiliate through its work during the reporting period. This may include what worked well, what did not work, unexpected outcomes, or reflections that will inform future planning and programming.', sec:'sec2', tag:'2.6 Learning', tid:'learning', nid:'learning' },
+    { name:'Learning', def:'Key insights, lessons, or knowledge gained by the Affiliate through its work during the reporting period. This may include what worked well, what did not work, unexpected outcomes, or reflections that will inform future planning and programming.', sec:'sec2', tag:'2.6 Learning' },
 
     // ── Section 3: Add New Projects ──
     // 3.1 New Project \u2014 General Information
-    { name:'New Project', def:'A project added by the Affiliate during the Annual Reporting process that was not included in the original Annual Business Plan for the reporting year. This may include newly secured grants, emergency-response initiatives, or opportunistic partnerships that arose after the business plan was finalised.', sec:'sec3', tag:'3.1 General Info', tid:'new_project', nid:'new_project' },
-    { name:'Project Name', def:'The official or working title of the project as agreed with the donor or as used internally by the Affiliate.', sec:'sec3', tag:'3.1 General Info', tid:'project_name', nid:'project_name' },
-    { name:'Start Date', def:'The date on which the project officially commenced implementation, formatted as DD/MM/YYYY.', sec:'sec3', tag:'3.1 General Info', tid:'start_date', nid:'start_date' },
-    { name:'End Date', def:'The date on which the project is scheduled to conclude or has concluded, formatted as DD/MM/YYYY.', sec:'sec3', tag:'3.1 General Info', tid:'end_date', nid:'end_date' },
-    { name:'Project Theme', def:'The primary thematic area or program focus that the project addresses. Selected from a predefined list aligned with IPPF\'s strategic priorities (e.g. SRHR services, advocacy, CSE).', sec:'sec3', tag:'3.1 General Info', tid:'project_theme', nid:'project_theme' },
-    { name:'Project Donor', def:'The external organisation, institution, or government body that is providing funding for the project. Selected from a predefined list; if not listed, the donor can be specified under "Other".', sec:'sec3', tag:'3.1 General Info', tid:'project_donor', nid:'project_donor' },
-    { name:'Funding Type', def:'The classification of funds as either restricted or unrestricted (core). Restricted funds have clear restrictions for their use; Unrestricted funds may be allocated flexibly.', sec:'sec3', tag:'3.1 General Info', tid:'funding_type', nid:'funding_type' },
-    { name:'Restricted', def:'Funding that has been received from a donor with clear restrictions for its use. Restricted funds may only be used in accordance with the donor\'s conditions and cannot be redirected without donor approval.', sec:'sec3', tag:'3.1 General Info', tid:'restricted', nid:'restricted' },
-    { name:'Unrestricted', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities and operational needs.', sec:'sec3', tag:'3.1 General Info', tid:'unrestricted', nid:'unrestricted' },
-    { name:'Total Contract Value', def:'The full monetary value of the project contract or grant agreement with the donor, covering the entire project period. Expressed in USD.', sec:'sec3', tag:'3.1 General Info', tid:'total_contract_value', nid:'total_contract_value' },
-    { name:'Annual Project Income', def:'The portion of the total project funding that was received (or recognised as income) during the specific reporting year. This may differ from the total contract value if the project spans multiple years.', sec:'sec3', tag:'3.1 General Info', tid:'annual_project_income', nid:'annual_proj_income' },
-    { name:'Description of Project', def:'A summary of the project\'s purpose, target population, geographic scope, and key activities. Should provide enough context for the IPPF Secretariat to understand what the project entails and who it benefits.', sec:'sec3', tag:'3.1 General Info', tid:'description_of_project', nid:'description_project' },
+    { name:'New Project', def:'A project added by the Affiliate during the Annual Reporting process that was not included in the original Annual Business Plan for the reporting year. This may include newly secured grants, emergency-response initiatives, or opportunistic partnerships that arose after the business plan was finalised.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Project Name', def:'The official or working title of the project as agreed with the donor or as used internally by the Affiliate.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Start Date', def:'The date on which the project officially commenced implementation, formatted as DD/MM/YYYY.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'End Date', def:'The date on which the project is scheduled to conclude or has concluded, formatted as DD/MM/YYYY.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Project Theme', def:'The primary thematic area or program focus that the project addresses. Selected from a predefined list aligned with IPPF\'s strategic priorities (e.g. SRHR services, advocacy, CSE).', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Project Donor', def:'The external organisation, institution, or government body that is providing funding for the project. Selected from a predefined list; if not listed, the donor can be specified under "Other".', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Funding Type', def:'The classification of funds as either restricted or unrestricted (core). Restricted funds have clear restrictions for their use; Unrestricted funds may be allocated flexibly.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Restricted', def:'Funding that has been received from a donor with clear restrictions for its use. Restricted funds may only be used in accordance with the donor\'s conditions and cannot be redirected without donor approval.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Unrestricted', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities and operational needs.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Total Contract Value', def:'The full monetary value of the project contract or grant agreement with the donor, covering the entire project period. Expressed in USD.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Annual Project Income', def:'The portion of the total project funding that was received (or recognised as income) during the specific reporting year. This may differ from the total contract value if the project spans multiple years.', sec:'sec3', tag:'3.1 General Info' },
+    { name:'Description of Project', def:'A summary of the project\'s purpose, target population, geographic scope, and key activities. Should provide enough context for the IPPF Secretariat to understand what the project entails and who it benefits.', sec:'sec3', tag:'3.1 General Info' },
     // 3.2 Project Focus Area
-    { name:'Project Focus Area', def:'A breakdown of how the project budget is allocated across standardised programmatic categories. Each focus area represents a distinct type of service delivery, programmatic activity, or organisational function.', sec:'sec3', tag:'3.2 Focus Area', tid:'project_focus_area', nid:'project_focus_area' },
-    { name:'Expense Budget (per Focus Area)', def:'The amount of project funding allocated to each specific focus area, expressed in the reporting currency. The sum of all focus area budgets should correspond to the total project budget.', sec:'sec3', tag:'3.2 Focus Area', tid:'expense_budget_per_focus_area' },
-    { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.', sec:'sec3', tag:'3.2 Focus Area', tid:'care_static_clinic', nid:'focus_area_1' },
-    { name:'Care: Outreach, Mobile Clinic, Community-based Delivery', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.', sec:'sec3', tag:'3.2 Focus Area', tid:'care_outreach_mobile_clinic_community_based_delivery', nid:'focus_area_2' },
-    { name:'Care: Other Services, Enabled or Referred', def:'SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.', sec:'sec3', tag:'3.2 Focus Area', tid:'care_other_services_enabled_or_referred', nid:'focus_area_3' },
-    { name:'Care: Social Marketing Services', def:'Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.', sec:'sec3', tag:'3.2 Focus Area', tid:'care_social_marketing_services', nid:'focus_area_4' },
-    { name:'Care: Digital Health Intervention and Selfcare', def:'SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider, using tools or commodities independently.', sec:'sec3', tag:'3.2 Focus Area', tid:'care_digital_health_intervention_and_selfcare', nid:'focus_area_5' },
-    { name:'Advocacy', def:'Activities aimed at influencing policies, laws, social norms, or public opinion in support of SRHR. Advocacy work may target government bodies, decision-makers, communities, or the wider public.', sec:'sec3', tag:'3.2 Focus Area', tid:'advocacy', nid:'focus_area_6' },
-    { name:'CSE (Comprehensive Sexuality Education)', def:'A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based, equipping young people with the knowledge and skills to make informed decisions about their health and relationships.', sec:'sec3', tag:'3.2 Focus Area', tid:'cse_comprehensive_sexuality_education', nid:'focus_area_7' },
-    { name:'CSE Online, including Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.', sec:'sec3', tag:'3.2 Focus Area', tid:'cse_online_including_social_media', nid:'focus_area_8' },
-    { name:'Partnerships and Movements', def:'Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.', sec:'sec3', tag:'3.2 Focus Area', tid:'partnerships_and_movements' },
-    { name:'Knowledge, Research, Evidence, Innovation', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.', sec:'sec3', tag:'3.2 Focus Area', tid:'knowledge_research_evidence_innovation_and_publishing' },
-    { name:'Internal MA Infrastructure', def:'Resources and activities directed towards strengthening the Affiliate\'s own organisational capacity, systems, governance, workforce development, and institutional culture, rather than direct programme delivery.', sec:'sec3', tag:'3.2 Focus Area', tid:'internal_ma_infrastructure_organisational_development' },
+    { name:'Project Focus Area', def:'A breakdown of how the project budget is allocated across standardised programmatic categories. Each focus area represents a distinct type of service delivery, programmatic activity, or organisational function.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Expense Budget (per Focus Area)', def:'The amount of project funding allocated to each specific focus area, expressed in the reporting currency. The sum of all focus area budgets should correspond to the total project budget.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Outreach, Mobile Clinic, Community-based Delivery', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Other Services, Enabled or Referred', def:'SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Social Marketing Services', def:'Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Care: Digital Health Intervention and Selfcare', def:'SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider, using tools or commodities independently.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Advocacy', def:'Activities aimed at influencing policies, laws, social norms, or public opinion in support of SRHR. Advocacy work may target government bodies, decision-makers, communities, or the wider public.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'CSE (Comprehensive Sexuality Education)', def:'A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based, equipping young people with the knowledge and skills to make informed decisions about their health and relationships.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'CSE Online, including Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Partnerships and Movements', def:'Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Knowledge, Research, Evidence, Innovation', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.', sec:'sec3', tag:'3.2 Focus Area' },
+    { name:'Internal MA Infrastructure', def:'Resources and activities directed towards strengthening the Affiliate\'s own organisational capacity, systems, governance, workforce development, and institutional culture, rather than direct programme delivery.', sec:'sec3', tag:'3.2 Focus Area' },
     // 3.3 Project by Expense Category
-    { name:'Project by Expense Category', def:'A financial breakdown of project expenditure classified into standardised cost categories. Provides the IPPF Secretariat with insight into how project funds were spent across different types of costs.', sec:'sec3', tag:'3.3 Expense', tid:'project_by_expense_category', nid:'project_expense_category' },
-    { name:'Personnel', def:'Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.', sec:'sec3', tag:'3.3 Expense', tid:'personnel', nid:'personnel' },
-    { name:'Direct Project Activities', def:'Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.', sec:'sec3', tag:'3.3 Expense', tid:'direct_project_activities', nid:'activities' },
-    { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.', sec:'sec3', tag:'3.3 Expense', tid:'commodities', nid:'commodities' },
-    { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.', sec:'sec3', tag:'3.3 Expense', tid:'indirect_support_costs', nid:'indirect' },
+    { name:'Project by Expense Category', def:'A financial breakdown of project expenditure classified into standardised cost categories. Provides the IPPF Secretariat with insight into how project funds were spent across different types of costs.', sec:'sec3', tag:'3.3 Expense' },
+    { name:'Personnel', def:'Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.', sec:'sec3', tag:'3.3 Expense' },
+    { name:'Direct Project Activities', def:'Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.', sec:'sec3', tag:'3.3 Expense' },
+    { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.', sec:'sec3', tag:'3.3 Expense' },
+    { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.', sec:'sec3', tag:'3.3 Expense' },
 
     // ── Section 4: Budget vs Actuals by Focus Area ──
     // 4.1 Control Cells
-    { name:'Control Cells (Focus Area)', def:'A summary row at the top of the Budget vs Actuals section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.', sec:'sec4', tag:'4.1 Control', tid:'control_cells', nid:'control_cells' },
-    { name:'Total Budgeted Expenses (by Focus Areas)', def:'The sum of all budgeted amounts across all focus areas and all projects in the reporting year, as originally planned in the Annual Business Plan. Serves as the baseline for variance analysis.', sec:'sec4', tag:'4.1 Control', tid:'total_budgeted_expenses_by_focus_areas', nid:'total_budget_area' },
-    { name:'Total Actual Expenses (by Focus Areas)', def:'The sum of all actual expenditure recorded across all focus areas and all projects during the reporting year. Reflects real spending as opposed to planned spending.', sec:'sec4', tag:'4.1 Control', tid:'total_actual_expenses_by_focus_areas', nid:'actual_expense_FA' },
-    { name:'Variance ($) \u2014 Focus Area', def:'The difference between Total Budgeted Expenses and Total Actual Expenses, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.', sec:'sec4', tag:'4.1 Control' , tid:'control_cell_variance', nid:'variation'},
-    { name:'Total Spend (%) \u2014 Focus Area', def:'The proportion of the total budget that has been spent, expressed as a percentage. Calculated as (Total Actual Expenses \u00f7 Total Budgeted Expenses) \u00d7 100.', sec:'sec4', tag:'4.1 Control' , tid:'control_cell_total_spend', nid:'total_spend'},
+    { name:'Control Cells (Focus Area)', def:'A summary row at the top of the Budget vs Actuals section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.', sec:'sec4', tag:'4.1 Control' },
+    { name:'Total Budgeted Expenses (by Focus Areas)', def:'The sum of all budgeted amounts across all focus areas and all projects in the reporting year, as originally planned in the Annual Business Plan. Serves as the baseline for variance analysis.', sec:'sec4', tag:'4.1 Control' },
+    { name:'Total Actual Expenses (by Focus Areas)', def:'The sum of all actual expenditure recorded across all focus areas and all projects during the reporting year. Reflects real spending as opposed to planned spending.', sec:'sec4', tag:'4.1 Control' },
+    { name:'Variance ($) \u2014 Focus Area', def:'The difference between Total Budgeted Expenses and Total Actual Expenses, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.', sec:'sec4', tag:'4.1 Control' },
+    { name:'Total Spend (%) \u2014 Focus Area', def:'The proportion of the total budget that has been spent, expressed as a percentage. Calculated as (Total Actual Expenses \u00f7 Total Budgeted Expenses) \u00d7 100.', sec:'sec4', tag:'4.1 Control' },
     // 4.2 Budget vs Actuals Table
-    { name:'Focus Area', def:'One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.', sec:'sec4', tag:'4.2 Table', tid:'focus_area', nid:'focus_area' },
-    { name:'Budget (Focus Area)', def:'The planned or approved financial allocation for a specific focus area within a project for the reporting year, as set out in the Annual Business Plan or project agreement.', sec:'sec4', tag:'4.2 Table', tid:'budget', nid:'budget' },
-    { name:'Actual Expenses (Focus Area)', def:'The amount spent within a specific focus area during the reporting year. Should reflect verified expenditure from the Affiliate\'s financial records.', sec:'sec4', tag:'4.2 Table', tid:'actual_expenses', nid:'actual_expense' },
-    { name:'Variance ($)', def:'The monetary difference between budgeted amount and actual expenses for a specific focus area. Calculated as Budget minus Actual Expenses. Positive = underspend; negative = overspend.', sec:'sec4', tag:'4.2 Table', tid:'variance', nid:'variation' },
-    { name:'Total Spend (%)', def:'The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses \u00f7 Budget) \u00d7 100.', sec:'sec4', tag:'4.2 Table', tid:'total_spend', nid:'total_spend' },
-    { name:'Project Total (Focus Area)', def:'The sum row at the bottom of each project\'s focus area table, showing total budgeted amount, total actual expenses, total variance, and overall spend percentage across all focus areas.', sec:'sec4', tag:'4.2 Table', tid:'project_total', nid:'project_total' },
-    { name:'Remarks', def:'A free-text field (up to 200 words) at the end of each project\'s budget vs actuals table, where the Affiliate can provide explanations for significant variances, delays, reallocation of funds, or any other context relevant to the project\'s financial performance.', sec:'sec4', tag:'4.2 Table', tid:'remarks', nid:'remarks' },
+    { name:'Focus Area', def:'One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Budget (Focus Area)', def:'The planned or approved financial allocation for a specific focus area within a project for the reporting year, as set out in the Annual Business Plan or project agreement.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Actual Expenses (Focus Area)', def:'The amount spent within a specific focus area during the reporting year. Should reflect verified expenditure from the Affiliate\'s financial records.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Variance ($)', def:'The monetary difference between budgeted amount and actual expenses for a specific focus area. Calculated as Budget minus Actual Expenses. Positive = underspend; negative = overspend.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Total Spend (%)', def:'The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses \u00f7 Budget) \u00d7 100.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Project Total (Focus Area)', def:'The sum row at the bottom of each project\'s focus area table, showing total budgeted amount, total actual expenses, total variance, and overall spend percentage across all focus areas.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Remarks', def:'A free-text field (up to 200 words) at the end of each project\'s budget vs actuals table, where the Affiliate can provide explanations for significant variances, delays, reallocation of funds, or any other context relevant to the project\'s financial performance.', sec:'sec4', tag:'4.2 Table' },
 
     // ── Section 5: Budget vs Actuals by Expense Category ──
     // 5.1 Control Cells
-    { name:'Control Cells (Expense Category)', def:'A summary row at the top of the section that automatically aggregates total financial figures across all projects and expense categories for the entire Affiliate. System-calculated, providing an organisation-wide financial snapshot.', sec:'sec5', tag:'5.1 Control', tid:'control_cells_sec5', nid:'control_cells' },
-    { name:'Total MA Budgeted Expense', def:'The total planned expenditure for the Affiliate across all projects and all expense categories for the reporting year. Drawn from the Annual Business Plan.', sec:'sec5', tag:'5.1 Control', tid:'total_ma_budgeted_expense', nid:'total_ma_budget_expense' },
-    { name:'Total MA Actuals by Expense Category', def:'The total actual expenditure recorded by the Affiliate across all projects and all expense categories during the reporting year. Represents verified real-world spending at the organisational level.', sec:'sec5', tag:'5.1 Control', tid:'total_ma_actuals_by_expense_category', nid:'total_ma_actuals' },
-    { name:'Variance ($) \u2014 Expense Category', def:'The difference between Total MA Budgeted Expense and Total MA Actuals by Expense Category, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.', sec:'sec5', tag:'5.1 Control' , tid:'control_cell_variance_sec5', nid:'variation'},
-    { name:'Total Spend (%) \u2014 Expense Category', def:'The overall budget utilisation rate for the Affiliate, calculated as (Total MA Actuals \u00f7 Total MA Budgeted Expense) \u00d7 100. Gives an organisation-wide view of financial performance against plan.', sec:'sec5', tag:'5.1 Control' , tid:'control_cell_total_spend_sec5', nid:'total_spend'},
+    { name:'Control Cells (Expense Category)', def:'A summary row at the top of the section that automatically aggregates total financial figures across all projects and expense categories for the entire Affiliate. System-calculated, providing an organisation-wide financial snapshot.', sec:'sec5', tag:'5.1 Control' },
+    { name:'Total MA Budgeted Expense', def:'The total planned expenditure for the Affiliate across all projects and all expense categories for the reporting year. Drawn from the Annual Business Plan.', sec:'sec5', tag:'5.1 Control' },
+    { name:'Total MA Actuals by Expense Category', def:'The total actual expenditure recorded by the Affiliate across all projects and all expense categories during the reporting year. Represents verified real-world spending at the organisational level.', sec:'sec5', tag:'5.1 Control' },
+    { name:'Variance ($) \u2014 Expense Category', def:'The difference between Total MA Budgeted Expense and Total MA Actuals by Expense Category, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.', sec:'sec5', tag:'5.1 Control' },
+    { name:'Total Spend (%) \u2014 Expense Category', def:'The overall budget utilisation rate for the Affiliate, calculated as (Total MA Actuals \u00f7 Total MA Budgeted Expense) \u00d7 100. Gives an organisation-wide view of financial performance against plan.', sec:'sec5', tag:'5.1 Control' },
     // 5.2 Budget vs Actuals Table by Expense Category
-    { name:'Expense Budget (including IPPF Core)', def:'The planned expenditure for a project, inclusive of any core funding received from IPPF.', sec:'sec5', tag:'5.2 Table', tid:'expense_budget_including_ippf_core', nid:'budget_including_ippf' },
-    { name:'Actual (including IPPF Core)', def:'The actual expenditure recorded for a specific expense category within a project, inclusive of IPPF core funds.', sec:'sec5', tag:'5.2 Table', tid:'actual_including_ippf_core', nid:'actual_including_ippf' },
-    { name:'IPPF Core', def:'Strategic funding provided by IPPF to the Affiliate as core support. The IPPF Core grant is unrestricted and can be used across various projects. The amount is based on a transparent formula considering criteria mostly based on SRHR need.', sec:'sec5', tag:'5.2 Table', tid:'ippf_core', nid:'ippf-unrestricted' },
-    { name:'Variance ($) \u2014 Expense', def:'The monetary difference between the budgeted amount and actual expenses for a specific expense category within a project. Positive = underspend; negative = overspend.', sec:'sec5', tag:'5.2 Table' , tid:'variance_sec5', nid:'variation'},
-    { name:'Total Spend (%) \u2014 Expense', def:'The percentage of the budgeted amount that has been spent for a specific expense category within a project. Calculated as (Actual \u00f7 Budget) \u00d7 100.', sec:'sec5', tag:'5.2 Table' , tid:'total_spend_sec5', nid:'total_spend'},
-    { name:'Project Total (Expense Category)', def:'The sum row at the bottom of each project\'s expense category table, aggregating the budget, actuals, variance, and total spend percentage across all four expense categories.', sec:'sec5', tag:'5.2 Table', tid:'project_total_sec5', nid:'project_total' },
-    { name:'Variance Explanation', def:'A free-text field (up to 200 words) provided at the end of each project\'s expense category table, where the Affiliate can explain the reasons behind significant budget variances.', sec:'sec5', tag:'5.2 Table', tid:'variance_explanation', nid:'variance_explanation' },
+    { name:'Expense Budget (including IPPF Core)', def:'The planned expenditure for a project, inclusive of any core funding received from IPPF.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Actual (including IPPF Core)', def:'The actual expenditure recorded for a specific expense category within a project, inclusive of IPPF core funds.', sec:'sec5', tag:'5.2 Table' },
+    { name:'IPPF Core', def:'Strategic funding provided by IPPF to the Affiliate as core support. The IPPF Core grant is unrestricted and can be used across various projects. The amount is based on a transparent formula considering criteria mostly based on SRHR need.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Variance ($) \u2014 Expense', def:'The monetary difference between the budgeted amount and actual expenses for a specific expense category within a project. Positive = underspend; negative = overspend.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Total Spend (%) \u2014 Expense', def:'The percentage of the budgeted amount that has been spent for a specific expense category within a project. Calculated as (Actual \u00f7 Budget) \u00d7 100.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Project Total (Expense Category)', def:'The sum row at the bottom of each project\'s expense category table, aggregating the budget, actuals, variance, and total spend percentage across all four expense categories.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Variance Explanation', def:'A free-text field (up to 200 words) provided at the end of each project\'s expense category table, where the Affiliate can explain the reasons behind significant budget variances.', sec:'sec5', tag:'5.2 Table' },
 
     // ── Section 6: Actual Income Details ──
     // 6.1 Income Summary
-    { name:'Actual Income Details', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', sec:'sec6', tag:'6.1 Summary', tid:'actual_income_details', nid:'income_details' },
-    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Locally Generated Income, International Income (Non-IPPF), and IPPF Income.', sec:'sec6', tag:'6.1 Summary', tid:'income_category', nid:'income_category' },
-    { name:'Restricted (Income)', def:'Funding that has been designated by the donor for a specific purpose, project, activity, or population. May only be used in accordance with the donor\'s conditions.', sec:'sec6', tag:'6.1 Summary', tid:'restricted_sec6', nid:'restricted' },
-    { name:'Unrestricted (Income)', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities.', sec:'sec6', tag:'6.1 Summary', tid:'unrestricted_sec6', nid:'unrestricted' },
-    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Locally Generated, International Non-IPPF, and IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.', sec:'sec6', tag:'6.1 Summary', tid:'total_income', nid:'total' },
-    { name:'Total Actual Expenses (by Expense Categories)', def:'The total verified expenditure of the Affiliate during the reporting year, drawn from the expense category data entered in Section 5. Displayed to enable direct comparison with total income.', sec:'sec6', tag:'6.1 Summary', tid:'total_actual_expenses_by_expense_categories', nid:'actual_expense_EC' },
-    { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. Positive = surplus; negative = deficit. System-calculated.', sec:'sec6', tag:'6.1 Summary', tid:'deficit_surplus', nid:'deficit' },
+    { name:'Actual Income Details', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Locally Generated Income, International Income (Non-IPPF), and IPPF Income.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Restricted (Income)', def:'Funding that has been designated by the donor for a specific purpose, project, activity, or population. May only be used in accordance with the donor\'s conditions.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Unrestricted (Income)', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Locally Generated, International Non-IPPF, and IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Total Actual Expenses (by Expense Categories)', def:'The total verified expenditure of the Affiliate during the reporting year, drawn from the expense category data entered in Section 5. Displayed to enable direct comparison with total income.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. Positive = surplus; negative = deficit. System-calculated.', sec:'sec6', tag:'6.1 Summary' },
     // 6.2 Locally Generated Income
-    { name:'Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.', sec:'sec6', tag:'6.2 Local', tid:'locally_generated_income', nid:'locally-generated' },
-    { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.', sec:'sec6', tag:'6.2 Local', tid:'commodity_sales', nid:'commodity-sales' },
-    { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.', sec:'sec6', tag:'6.2 Local', tid:'client_patient_fees', nid:'client-fees' },
-    { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.', sec:'sec6', tag:'6.2 Local', tid:'training_education_professional_services_and_rentals', nid:'services-rental' },
-    { name:'Local/National: Government', def:'Grants, subsidies, contracts, or other financial support received from local or national government bodies within the Affiliate\'s country of operation.', sec:'sec6', tag:'6.2 Local', tid:'local_national_government', nid:'local-government' },
-    { name:'Local/National: Non-Government', def:'Donations, grants, or other income received from local or national non-governmental sources, such as national foundations, trusts, businesses, or private donors based within the country.', sec:'sec6', tag:'6.2 Local', tid:'local_national_non_government', nid:'local-nongovernment' },
-    { name:'Membership Fees', def:'Income collected from individuals or organisations who pay a fee to become members of the Affiliate, often granting them certain rights, services, or participation in the organisation\'s governance.', sec:'sec6', tag:'6.2 Local', tid:'membership_fees', nid:'membership-fees' },
-    { name:'Non-operational Income', def:'Income that does not arise from the MA\'s core programmatic or service delivery activities. This may include interest earned on bank accounts, investment returns, or other incidental financial gains.', sec:'sec6', tag:'6.2 Local', tid:'non_operational_income', nid:'nonoperational-income' },
-    { name:'Other National Income', def:'Any locally generated income that does not fit into the other defined sub-categories. Used for miscellaneous or atypical domestic income sources.', sec:'sec6', tag:'6.2 Local', tid:'other_national_income', nid:'other-income' },
+    { name:'Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Local/National: Government', def:'Grants, subsidies, contracts, or other financial support received from local or national government bodies within the Affiliate\'s country of operation.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Local/National: Non-Government', def:'Donations, grants, or other income received from local or national non-governmental sources, such as national foundations, trusts, businesses, or private donors based within the country.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Membership Fees', def:'Income collected from individuals or organisations who pay a fee to become members of the Affiliate, often granting them certain rights, services, or participation in the organisation\'s governance.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Non-operational Income', def:'Income that does not arise from the MA\'s core programmatic or service delivery activities. This may include interest earned on bank accounts, investment returns, or other incidental financial gains.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Other National Income', def:'Any locally generated income that does not fit into the other defined sub-categories. Used for miscellaneous or atypical domestic income sources.', sec:'sec6', tag:'6.2 Local' },
     // 6.3 International Income (Non-IPPF)
-    { name:'International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.', sec:'sec6', tag:'6.3 International', tid:'international_income_non_ippf', nid:'international-income' },
-    { name:'Multilateral Agencies and Organisations', def:'International bodies funded and governed by multiple member states or governments, such as UN agencies (e.g. UNFPA, UNICEF, WHO) or the World Bank.', sec:'sec6', tag:'6.3 International', tid:'multilateral_agencies_and_organisations', nid:'multinational-agencies' },
-    { name:'Foreign Governments', def:'Direct funding received from the government of a country other than the MA\'s own country of operation, typically through bilateral aid programs or government development agencies.', sec:'sec6', tag:'6.3 International', tid:'foreign_governments', nid:'foriegn-governments' },
-    { name:'International Trusts and Foundations / NGOs', def:'Grants or donations received from internationally operating private foundations, charitable trusts, or non-governmental organisations headquartered outside the MA\'s country of operation.', sec:'sec6', tag:'6.3 International', tid:'international_trusts_and_foundations_ngos', nid:'interational-trusts' },
-    { name:'Corporate / Business Sector', def:'Income received from private sector companies or business entities, whether as direct donations, sponsorships, corporate social responsibility (CSR) contributions, or contractual payments for services.', sec:'sec6', tag:'6.3 International', tid:'corporate_business_sector', nid:'corporate-sector' },
-    { name:'Other International Income', def:'Any international income not captured by the above sub-categories. Used for atypical or miscellaneous income from overseas sources.', sec:'sec6', tag:'6.3 International', tid:'other_international_income', nid:'other-international-income' },
+    { name:'International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.', sec:'sec6', tag:'6.3 International' },
+    { name:'Multilateral Agencies and Organisations', def:'International bodies funded and governed by multiple member states or governments, such as UN agencies (e.g. UNFPA, UNICEF, WHO) or the World Bank.', sec:'sec6', tag:'6.3 International' },
+    { name:'Foreign Governments', def:'Direct funding received from the government of a country other than the MA\'s own country of operation, typically through bilateral aid programs or government development agencies.', sec:'sec6', tag:'6.3 International' },
+    { name:'International Trusts and Foundations / NGOs', def:'Grants or donations received from internationally operating private foundations, charitable trusts, or non-governmental organisations headquartered outside the MA\'s country of operation.', sec:'sec6', tag:'6.3 International' },
+    { name:'Corporate / Business Sector', def:'Income received from private sector companies or business entities, whether as direct donations, sponsorships, corporate social responsibility (CSR) contributions, or contractual payments for services.', sec:'sec6', tag:'6.3 International' },
+    { name:'Other International Income', def:'Any international income not captured by the above sub-categories. Used for atypical or miscellaneous income from overseas sources.', sec:'sec6', tag:'6.3 International' },
     // 6.4 IPPF Income
-    { name:'IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.', sec:'sec6', tag:'6.4 IPPF', tid:'ippf_income', nid:'ippf-income' },
-    { name:'IPPF Core Grant', def:'The strategic funding allocation provided by IPPF to the Affiliate without restrictions. This amount is auto-populated.', sec:'sec6', tag:'6.4 IPPF', tid:'ippf_core_grant', nid:'ippf-unrestricted' },
-    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support.', sec:'sec6', tag:'6.4 IPPF', tid:'other_ippf_grant', nid:'ippf-restricted' },
+    { name:'IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.', sec:'sec6', tag:'6.4 IPPF' },
+    { name:'IPPF Core Grant', def:'The strategic funding allocation provided by IPPF to the Affiliate without restrictions. This amount is auto-populated.', sec:'sec6', tag:'6.4 IPPF' },
+    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support.', sec:'sec6', tag:'6.4 IPPF' },
     // 6.5 Largest Contributor
-    { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.', sec:'sec6', tag:'6.5 Contributor', tid:'largest_contributor', nid:'organisation_contributor' },
-    { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.', sec:'sec6', tag:'6.5 Contributor', tid:'how_much_income_did_they_provide', nid:'income_provided' },
+    { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.', sec:'sec6', tag:'6.5 Contributor' },
+    { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.', sec:'sec6', tag:'6.5 Contributor' },
 
     // ── Section 7: AOC Review Form ──
     // 7.0 AOC Review — General
@@ -261,86 +261,6 @@
       { label:'Select a Section', desc:'Use the sidebar navigation to go to a section, then click the ? icon for contextual help.' },
     ]},
   };
-
-
-  // ═══════════════════════════════
-  //  TRANSLATION SUPPORT
-  //  Uses translation_mapping_ar_glossary for multilingual definitions
-  // ═══════════════════════════════
-  function getCurrentLang() {
-    if (typeof i18next !== 'undefined' && i18next.language) return i18next.language;
-    try { return localStorage.getItem('i18nextLng') || 'en'; } catch(e) { return 'en'; }
-  }
-
-  function getTranslatedDef(glossaryEntry) {
-    if (!glossaryEntry.tid) return glossaryEntry.def;
-    var lang = getCurrentLang();
-    if (lang === 'en') return glossaryEntry.def;
-    if (typeof translation_mapping_ar_glossary !== 'undefined') {
-      for (var i = 0; i < translation_mapping_ar_glossary.length; i++) {
-        var entry = translation_mapping_ar_glossary[i];
-        if (entry.id === glossaryEntry.tid) {
-          var translated = entry[lang];
-          if (translated && translated.trim()) return translated;
-          return entry.en || glossaryEntry.def;
-        }
-      }
-    }
-    return glossaryEntry.def;
-  }
-
-
-  function getTranslatedName(glossaryEntry) {
-    // If no nid, return the English name
-    if (!glossaryEntry.nid) return glossaryEntry.name;
-    var lang = getCurrentLang();
-    if (lang === 'en') return glossaryEntry.name;
-    // Look up in translation_mapping (the main i18n file with UI labels)
-    if (typeof translation_mapping !== 'undefined') {
-      for (var i = 0; i < translation_mapping.length; i++) {
-        var entry = translation_mapping[i];
-        if (entry.id === glossaryEntry.nid) {
-          var translated = entry[lang];
-          if (translated && translated.trim()) return translated;
-          return glossaryEntry.name;
-        }
-      }
-    }
-    return glossaryEntry.name;
-  }
-
-  function getTranslatedWalkthrough(sectionKey) {
-    var lang = getCurrentLang();
-    if (lang === 'en' || typeof translation_mapping_ar_glossary === 'undefined') return null;
-    var prefix = 'instr_sec' + sectionKey;
-    var titleEntry = null;
-    var steps = [];
-    for (var i = 0; i < translation_mapping_ar_glossary.length; i++) {
-      var entry = translation_mapping_ar_glossary[i];
-      if (entry.id === prefix + '_title') {
-        titleEntry = entry[lang] || entry.en;
-      }
-      var stepPrefix = prefix + '_step';
-      var stepMatch = (entry.id.indexOf(stepPrefix) === 0 && entry.id.indexOf('_title') > 0) ? entry.id.replace(stepPrefix, '').replace('_title', '') : null;
-      if (stepMatch && !isNaN(parseInt(stepMatch, 10))) {
-        var stepNum = parseInt(stepMatch, 10);
-        steps[stepNum - 1] = entry[lang] || entry.en;
-      }
-    }
-    return { title: titleEntry, stepLabels: steps };
-  }
-
-  function getTranslatedUIString(key) {
-    var lang = getCurrentLang();
-    if (lang === 'en' || typeof translation_mapping_ar_glossary === 'undefined') return null;
-    for (var i = 0; i < translation_mapping_ar_glossary.length; i++) {
-      var entry = translation_mapping_ar_glossary[i];
-      if (entry.id === key) {
-        return entry[lang] || entry.en || null;
-      }
-    }
-    return null;
-  }
 
   // ═══════════════════════════════
   //  PLACE TOGGLE BUTTON INLINE WITH SECTION TITLE
@@ -484,9 +404,6 @@
 
     document.body.appendChild(panel);
 
-    // Translate UI strings if not English
-    translatePanelUI();
-
     // Build glossary filter tags
     buildGlossaryFilters();
     renderGlossary(GLOSSARY);
@@ -499,30 +416,6 @@
     injectFieldHelpIcons();
     // Also observe for dynamic content (forms that load after API calls)
     observeForFieldLabels();
-  }
-
-  function translatePanelUI() {
-    var title = getTranslatedUIString('help_panel_title');
-    if (title) {
-      var titleEl = document.querySelector('.help-panel-title');
-      if (titleEl) titleEl.textContent = title;
-    }
-    var subtitle = getTranslatedUIString('help_panel_subtitle');
-    if (subtitle) {
-      var ctx = document.getElementById('helpPanelCtx');
-      if (ctx && ctx.textContent === 'Click any ? icon or field to see guidance') ctx.textContent = subtitle;
-    }
-    var instrTab = document.querySelector('.help-tab[data-tab="instructions"]');
-    var instrLabel = getTranslatedUIString('help_tab_instructions');
-    if (instrTab && instrLabel) instrTab.textContent = instrLabel;
-    var glossaryTab = document.querySelector('.help-tab[data-tab="glossary"]');
-    var glossaryLabel = getTranslatedUIString('help_tab_glossary');
-    if (glossaryTab && glossaryLabel) glossaryTab.textContent = glossaryLabel;
-    var idleTitle = getTranslatedUIString('glossary_idle_title') || getTranslatedUIString('help_glossary_idle_title');
-    if (idleTitle) {
-      var idleH3 = document.querySelector('#helpIdle h3');
-      if (idleH3) idleH3.textContent = idleTitle;
-    }
   }
 
   // ═══════════════════════════════
@@ -647,15 +540,6 @@
     var ctx = document.getElementById('helpPanelCtx');
     if (!idle || !content) return;
 
-    // Try to find translated definition and name
-    var matchEntry = glossaryLookup[name.toLowerCase()];
-    if (matchEntry && matchEntry.tid) {
-      definition = getTranslatedDef(matchEntry);
-    }
-    if (matchEntry && matchEntry.nid) {
-      name = getTranslatedName(matchEntry);
-    }
-
     idle.style.display = 'none';
     content.style.display = 'block';
     if (ctx) ctx.textContent = name;
@@ -693,18 +577,12 @@
     var pageSection = detectCurrentSection();
     var data = WALKTHROUGHS[pageSection] || WALKTHROUGHS['default'];
 
-    // Try translated walkthrough (Sections 1-6 only)
-    var majorSec = pageSection.split('.')[0];
-    var translated = (majorSec !== '7') ? getTranslatedWalkthrough(majorSec) : null;
-    var displayTitle = (translated && translated.title) ? translated.title : data.title;
-
     var stepsHtml = data.steps.map(function(s, i) {
-      var stepLabel = (translated && translated.stepLabels && translated.stepLabels[i]) ? translated.stepLabels[i] : s.label;
       return '<div class="wstep"><div class="wnum todo">' + (i + 1) + '</div>'
-        + '<div class="wcontent"><h4>' + stepLabel + '</h4><p>' + s.desc + '</p></div></div>';
+        + '<div class="wcontent"><h4>' + s.label + '</h4><p>' + s.desc + '</p></div></div>';
     }).join('');
 
-    container.innerHTML = '<div style="font-size:14px;font-weight:700;color:#333333;margin-bottom:4px;">' + displayTitle + '</div>'
+    container.innerHTML = '<div style="font-size:14px;font-weight:700;color:#333333;margin-bottom:4px;">' + data.title + '</div>'
       + '<div style="font-size:12px;color:#666666;margin-bottom:16px;">' + data.subtitle + '</div>'
       + stepsHtml;
   }
@@ -746,18 +624,14 @@
       return;
     }
     list.innerHTML = terms.map(function(t) {
-      var translatedDef = getTranslatedDef(t);
-      var translatedName = getTranslatedName(t);
-      return '<div class="g-term"><div class="g-term-name">' + translatedName + '</div><div class="g-term-def">' + translatedDef + '</div><span class="g-term-tag">' + t.tag + '</span></div>';
+      return '<div class="g-term"><div class="g-term-name">' + t.name + '</div><div class="g-term-def">' + t.def + '</div><span class="g-term-tag">' + t.tag + '</span></div>';
     }).join('');
   }
 
   function filterGlossary(query) {
     var s = (query || '').toLowerCase();
     var filtered = GLOSSARY.filter(function(t) {
-      var translatedDef = getTranslatedDef(t);
-      var translatedName = getTranslatedName(t);
-      var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || translatedName.toLowerCase().indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1 || translatedDef.toLowerCase().indexOf(s) !== -1;
+      var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1;
       var matchSec = !currentSecFilter || t.sec === currentSecFilter;
       return matchQ && matchSec;
     });
@@ -1002,17 +876,13 @@
     return tt;
   }
 
-  function showTooltip(iconEl, termName, termDef, glossaryEntry) {
+  function showTooltip(iconEl, termName, termDef) {
     clearTimeout(tooltipHideTimer);
     var tt = createGlobalTooltip();
 
-    // Use translated definition if glossary entry available
-    var displayDef = (glossaryEntry && glossaryEntry.tid) ? getTranslatedDef(glossaryEntry) : termDef;
-
-    // Set content — use translated name if available
-    var displayName = (glossaryEntry && glossaryEntry.nid) ? getTranslatedName(glossaryEntry) : termName;
-    tt.querySelector('.tooltip-term').textContent = displayName;
-    tt.querySelector('.tooltip-def').textContent = displayDef;
+    // Set content
+    tt.querySelector('.tooltip-term').textContent = termName;
+    tt.querySelector('.tooltip-def').textContent = termDef;
 
     // Remove old arrow classes and hide
     tt.classList.remove('arrow-down', 'arrow-up', 'visible');
@@ -1112,21 +982,21 @@
       };
 
       // Hover → show body-appended tooltip (no sidebar)
-      (function(icon, termName, termDef, entry) {
+      (function(icon, termName, termDef) {
         icon.addEventListener('mouseenter', function() {
-          showTooltip(icon, termName, termDef, entry);
+          showTooltip(icon, termName, termDef);
         });
         icon.addEventListener('mouseleave', function() {
           hideTooltip();
         });
         // Keyboard accessibility: show on focus, hide on blur
         icon.addEventListener('focus', function() {
-          showTooltip(icon, termName, termDef, entry);
+          showTooltip(icon, termName, termDef);
         });
         icon.addEventListener('blur', function() {
           hideTooltip();
         });
-      })(qIcon, match.name, match.def, match);
+      })(qIcon, match.name, match.def);
 
       // Insert ? icon right after the label text
       label.appendChild(document.createTextNode(' '));
