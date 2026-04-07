@@ -8,6 +8,246 @@
   'use strict';
 
   // ═══════════════════════════════
+  //  TRANSLATION SUPPORT
+  //  Translates glossary names + definitions at display time
+  //  Uses: translation_mapping (names) & translation_mapping_ar_glossary (definitions)
+  // ═══════════════════════════════
+
+  // Map: GLOSSARY name → { nid: translation_mapping id (for name), tid: glossary translation id (for def) }
+  // Section 7 entries are omitted — they stay English-only
+  var GLOSSARY_TRANS_MAP = {
+    // Section 1
+    'Reporting Year': { nid:'reporting_year' },
+    'Reporting Periodicity': { nid:'reporting_periodicity' },
+    'IPPF Region': { nid:'ippf_region' },
+    'Affiliate': { nid:'organisation_name', tid:'affiliate' },
+    'Country of Operation': { nid:'country_of_operation' },
+    'Affiliate Code': { nid:'organisation_code', tid:'affiliate_code' },
+    'Organisation Name (English)': { nid:'organisation_name' },
+    'Organisation Name (Original Language)': { nid:'organisation_name_original' },
+    'Primary Point of Contact': { nid:'primary_contact_person' },
+    'Contact Email': { nid:'contact_email' },
+    'Address': { nid:'physical_address' },
+    'Key Contacts': { nid:'key_contacts' },
+    'Executive Director / CEO': { nid:'executive_director' },
+    'Board Chair / President': { nid:'board_chair' },
+    'Officer of the Board': { nid:'officer_of_the_board1' },
+    'Youth Board Member': { nid:'youth_board_member' },
+    'Programmatic Lead(s)': { nid:'programmatic_lead' },
+    'Finance Lead': { nid:'finance_lead' },
+    'Key Annual Report Documents': { nid:'key_document' },
+    'Management Letter (Audit Report)': { nid:'key_management' },
+    // Section 2
+    'Context Shifts and Operational Environment': { nid:'context_events', tid:'context_events' },
+    'Results & Achievements': { nid:'results_achivements', tid:'results_and_achievements' },
+    'Strategic Pillar': { nid_g:'name_strategic_pillar', tid:'def_strategic_pillar' },
+    'Center Care on People': { nid:'center_people', tid:'centre_care_on_people' },
+    'Move the Sexuality Agenda': { nid:'move_sexuality_agenda', tid:'move_the_sexuality_agenda' },
+    'Solidarity for Change': { nid:'solidarity', tid:'solidarity_for_change' },
+    'Nurture our Federation': { nid:'nurture', tid:'nurture_our_federation' },
+    'Marginalised Populations': { nid_g:'name_marginalised_populations', tid:'def_marginalised_populations' },
+    'Youth': { nid_g:'name_youth', tid:'def_youth' },
+    'Challenges': { nid:'challenges', tid:'challenges' },
+    'Most Effective Strategies / Approaches': { nid:'most_effective', tid:'most_effective_strategies_approaches' },
+    'Good Practice': { nid_g:'name_good_practice', tid:'good_practice' },
+    'Organisational Update': { nid:'organisational_update', tid:'organisational_update' },
+    'Learning': { nid:'learning', tid:'learning' },
+    // Section 3
+    'New Project': { nid:'new_project', tid:'new_project' },
+    'Project Name': { nid:'project_name', tid:'project_name' },
+    'Start Date': { nid:'start_date', tid:'start_date' },
+    'End Date': { nid:'end_date', tid:'end_date' },
+    'Project Theme': { nid:'project_theme', tid:'project_theme' },
+    'Project Donor': { nid:'project_donor', tid:'project_donor' },
+    'Funding Type': { nid:'funding_type', tid:'funding_type' },
+    'Restricted': { nid:'restricted', tid:'restricted' },
+    'Unrestricted': { nid:'unrestricted', tid:'unrestricted' },
+    'Total Contract Value': { nid:'total_contract_value', tid:'total_contract_value' },
+    'Annual Project Income': { nid:'annual_proj_income', tid:'annual_project_income' },
+    'Description of Project': { nid:'description_project', tid:'description_of_project' },
+    'Project Focus Area': { nid:'project_focus_area', tid:'project_focus_area' },
+    'Expense Budget (per Focus Area)': { nid_g:'name_expense_budget_per_focus_area', tid:'expense_budget_per_focus_area' },
+    'Care: Static Clinic': { nid:'focus_area_1', tid:'care_static_clinic' },
+    'Care: Outreach, Mobile Clinic, Community-based Delivery': { nid:'focus_area_2', tid:'care_outreach_mobile_clinic_community_based_delivery' },
+    'Care: Other Services, Enabled or Referred': { nid:'focus_area_3', tid:'care_other_services_enabled_or_referred' },
+    'Care: Social Marketing Services': { nid:'focus_area_4', tid:'care_social_marketing_services' },
+    'Care: Digital Health Intervention and Selfcare': { nid:'focus_area_5', tid:'care_digital_health_intervention_and_selfcare' },
+    'Advocacy': { nid:'focus_area_6', tid:'advocacy' },
+    'CSE (Comprehensive Sexuality Education)': { nid:'focus_area_7', tid:'cse_comprehensive_sexuality_education' },
+    'CSE Online, including Social Media': { nid:'focus_area_8', tid:'cse_online_including_social_media' },
+    'Partnerships and Movements': { nid_g:'name_partnerships_and_movements', tid:'partnerships_and_movements' },
+    'Knowledge, Research, Evidence, Innovation': { nid_g:'name_knowledge_research', tid:'knowledge_research_evidence_innovation_and_publishing' },
+    'Internal MA Infrastructure': { nid_g:'name_internal_ma_infrastructure', tid:'internal_ma_infrastructure_organisational_development' },
+    'Project by Expense Category': { nid:'project_expense_category', tid:'project_by_expense_category' },
+    'Personnel': { nid:'personnel', tid:'personnel' },
+    'Direct Project Activities': { nid:'activities', tid:'direct_project_activities' },
+    'Commodities': { nid:'commodities', tid:'commodities' },
+    'Indirect / Support Costs': { nid:'indirect', tid:'indirect_support_costs' },
+    // Section 4
+    'Control Cells (Focus Area)': { nid:'control_cells', tid:'control_cells' },
+    'Total Budgeted Expenses (by Focus Areas)': { nid:'total_budget_area', tid:'total_budgeted_expenses_by_focus_areas' },
+    'Total Actual Expenses (by Focus Areas)': { nid:'actual_expense_FA', tid:'total_actual_expenses_by_focus_areas' },
+    'Variance ($) \u2014 Focus Area': { nid:'variation', tid:'control_cell_variance' },
+    'Total Spend (%) \u2014 Focus Area': { nid:'total_spend', tid:'control_cell_total_spend' },
+    'Focus Area': { nid:'focus_area', tid:'focus_area' },
+    'Budget (Focus Area)': { nid:'budget', tid:'budget' },
+    'Actual Expenses (Focus Area)': { nid:'actual_expense', tid:'actual_expenses' },
+    'Variance ($)': { nid:'variation', tid:'variance' },
+    'Total Spend (%)': { nid:'total_spend', tid:'total_spend' },
+    'Project Total (Focus Area)': { nid:'project_total', tid:'project_total' },
+    'Remarks': { nid:'remarks', tid:'remarks' },
+    // Section 5
+    'Control Cells (Expense Category)': { nid:'control_cells', tid:'control_cells_sec5' },
+    'Total MA Budgeted Expense': { nid:'total_ma_budget_expense', tid:'total_ma_budgeted_expense' },
+    'Total MA Actuals by Expense Category': { nid:'total_ma_actuals', tid:'total_ma_actuals_by_expense_category' },
+    'Variance ($) \u2014 Expense Category': { nid:'variation', tid:'control_cell_variance_sec5' },
+    'Total Spend (%) \u2014 Expense Category': { nid:'total_spend', tid:'control_cell_total_spend_sec5' },
+    'Expense Budget (including IPPF Core)': { nid:'budget_including_ippf', tid:'expense_budget_including_ippf_core' },
+    'Actual (including IPPF Core)': { nid:'actual_including_ippf', tid:'actual_including_ippf_core' },
+    'IPPF Core': { nid:'ippf-unrestricted', tid:'ippf_core' },
+    'Variance ($) \u2014 Expense': { nid:'variation', tid:'variance_sec5' },
+    'Total Spend (%) \u2014 Expense': { nid:'total_spend', tid:'total_spend_sec5' },
+    'Project Total (Expense Category)': { nid:'project_total', tid:'project_total_sec5' },
+    'Variance Explanation': { nid:'variance_explanation', tid:'variance_explanation' },
+    // Section 6
+    'Actual Income Details': { nid:'income_details', tid:'actual_income_details' },
+    'Income Category': { nid:'income_category', tid:'income_category' },
+    'Restricted (Income)': { nid:'restricted', tid:'restricted_sec6' },
+    'Unrestricted (Income)': { nid:'unrestricted', tid:'unrestricted_sec6' },
+    'Total Income': { nid:'total', tid:'total_income' },
+    'Total Actual Expenses (by Expense Categories)': { nid:'actual_expense_EC', tid:'total_actual_expenses_by_expense_categories' },
+    'Deficit / Surplus': { nid:'deficit', tid:'deficit_surplus' },
+    'Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
+    'Commodity Sales': { nid_g:'name_commodity_sales', tid:'commodity_sales' },
+    'Client / Patient Fees': { nid:'client-fees', tid:'client_patient_fees' },
+    'Training, Education, Professional Services': { nid:'services-rental', tid:'training_education_professional_services_and_rentals' },
+    'Local/National: Government': { nid:'local-government', tid:'local_national_government' },
+    'Local/National: Non-Government': { nid:'local-nongovernment', tid:'local_national_non_government' },
+    'Membership Fees': { nid:'membership-fees', tid:'membership_fees' },
+    'Non-operational Income': { nid:'nonoperational-income', tid:'non_operational_income' },
+    'Other National Income': { nid:'other-income', tid:'other_national_income' },
+    'International Income (Non-IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
+    'Multilateral Agencies and Organisations': { nid:'multinational-agencies', tid:'multilateral_agencies_and_organisations' },
+    'Foreign Governments': { nid:'foriegn-governments', tid:'foreign_governments' },
+    'International Trusts and Foundations / NGOs': { nid:'interational-trusts', tid:'international_trusts_and_foundations_ngos' },
+    'Corporate / Business Sector': { nid:'corporate-sector', tid:'corporate_business_sector' },
+    'Other International Income': { nid:'other-international-income', tid:'other_international_income' },
+    'IPPF Income': { nid:'ippf-income', tid:'ippf_income' },
+    'IPPF Core Grant': { nid:'ippf-unrestricted', tid:'ippf_core_grant' },
+    'Other IPPF Grant': { nid:'ippf-restricted', tid:'other_ippf_grant' },
+    'Largest Contributor': { nid:'organisation_contributor', tid:'largest_contributor' },
+    'How Much Income Did They Provide?': { nid:'income_provided', tid:'how_much_income_did_they_provide' },
+  };
+
+  function _getCurrentLang() {
+    // Read language at display time, not build time
+    if (typeof i18next !== 'undefined' && i18next.language) return i18next.language;
+    try { var l = localStorage.getItem('i18nextLng'); return l || 'en'; } catch(e) { return 'en'; }
+  }
+
+  function _lookupInArray(arr, id, lang) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].id === id) {
+        var val = arr[i][lang];
+        if (val && val.trim()) return val;
+        return arr[i].en || null;
+      }
+    }
+    return null;
+  }
+
+  // Get translated DEFINITION for a glossary term (from glossary_translations.js)
+  function getTranslatedDef(glossaryName, fallbackDef) {
+    var lang = _getCurrentLang();
+    if (lang === 'en') return fallbackDef;
+    var mapping = GLOSSARY_TRANS_MAP[glossaryName];
+    if (!mapping || !mapping.tid) return fallbackDef;
+    if (typeof translation_mapping_ar_glossary === 'undefined') return fallbackDef;
+    return _lookupInArray(translation_mapping_ar_glossary, mapping.tid, lang) || fallbackDef;
+  }
+
+  // Get translated NAME for a glossary term
+  // First checks translation.js (nid), then glossary_translations.js (nid_g)
+  function getTranslatedName(glossaryName) {
+    var lang = _getCurrentLang();
+    if (lang === 'en') return glossaryName;
+    var mapping = GLOSSARY_TRANS_MAP[glossaryName];
+    if (!mapping) return glossaryName;
+    // Try translation_mapping first (nid)
+    if (mapping.nid && typeof translation_mapping !== 'undefined') {
+      var result = _lookupInArray(translation_mapping, mapping.nid, lang);
+      if (result) return result;
+    }
+    // Fallback to glossary_translations (nid_g)
+    if (mapping.nid_g && typeof translation_mapping_ar_glossary !== 'undefined') {
+      var result2 = _lookupInArray(translation_mapping_ar_glossary, mapping.nid_g, lang);
+      if (result2) return result2;
+    }
+    return glossaryName;
+  }
+
+  // UI label translations for help panel tabs
+  var UI_LABELS = {
+    'Instructions':  { sp: 'Instrucciones',       fr: 'Directives',       ar: 'تعليمات' },
+    'Glossary':      { sp: 'Glosario',             fr: 'Glossaire',        ar: 'مسرد المصطلحات' },
+    'Help & Guidance': { sp: 'Ayuda y orientación', fr: 'Aide et conseils', ar: 'المساعدة والإرشاد' },
+  };
+
+  function getUILabel(englishLabel) {
+    var lang = _getCurrentLang();
+    if (lang === 'en') return englishLabel;
+    var entry = UI_LABELS[englishLabel];
+    if (!entry || !entry[lang]) return englishLabel;
+    return entry[lang];
+  }
+
+  // ═══════════════════════════════
+  //  WALKTHROUGH / INSTRUCTIONS TRANSLATION MAP
+  //  Maps section walkthrough subtitle + step descriptions to translation IDs
+  //  in translation_mapping_ar_glossary (glossary_translations.js)
+  // ═══════════════════════════════
+  var INSTR_TRANS_MAP = {
+    '1': {
+      sectionTitle: 'instr_sec1_section_title',
+      subtitle: 'instr_sec1_title',
+      steps:  ['instr_sec1_step1_title','instr_sec1_step2_title','instr_sec1_step3_title','instr_sec1_step4_title'],
+      labels: ['instr_sec1_step1_label','instr_sec1_step2_label','instr_sec1_step3_label','instr_sec1_step4_label']
+    },
+    '3': {
+      sectionTitle: 'instr_sec3_section_title',
+      subtitle: 'instr_sec3_title',
+      steps:  ['instr_sec3_step1_title','instr_sec3_step2_title','instr_sec3_step3_title','instr_sec3_step4_title'],
+      labels: ['instr_sec3_step1_label','instr_sec3_step2_label','instr_sec3_step3_label','instr_sec3_step4_label']
+    },
+    '4': {
+      sectionTitle: 'instr_sec4_section_title',
+      subtitle: 'instr_sec4_title',
+      steps:  ['instr_sec4_step1_title','instr_sec4_step2_title','instr_sec4_step3_title','instr_sec4_step4_title'],
+      labels: ['instr_sec4_step1_label','instr_sec4_step2_label','instr_sec4_step3_label','instr_sec4_step4_label']
+    },
+    '5': {
+      sectionTitle: 'instr_sec5_section_title',
+      subtitle: 'instr_sec5_title',
+      steps:  ['instr_sec5_step1_title','instr_sec5_step2_title','instr_sec5_step3_title','instr_sec5_step4_title'],
+      labels: ['instr_sec5_step1_label','instr_sec5_step2_label','instr_sec5_step3_label','instr_sec5_step4_label']
+    },
+    '6': {
+      sectionTitle: 'instr_sec6_section_title',
+      subtitle: 'instr_sec6_title',
+      steps:  ['instr_sec6_step1_title','instr_sec6_step2_title','instr_sec6_step3_title','instr_sec6_step4_title','instr_sec6_step5_title'],
+      labels: ['instr_sec6_step1_label','instr_sec6_step2_label','instr_sec6_step3_label','instr_sec6_step4_label','instr_sec6_step5_label']
+    },
+  };
+
+  // Translate a walkthrough instruction text by its ID in translation_mapping_ar_glossary
+  function getTranslatedInstr(instrId, fallback) {
+    var lang = _getCurrentLang();
+    if (lang === 'en') return fallback;
+    if (typeof translation_mapping_ar_glossary === 'undefined') return fallback;
+    return _lookupInArray(translation_mapping_ar_glossary, instrId, lang) || fallback;
+  }
+
+  // ═══════════════════════════════
   //  GLOSSARY DATA — from BPR v1.6
   // ═══════════════════════════════
   const GLOSSARY = [
@@ -370,14 +610,14 @@
     panel.id = 'helpPanelOverlay';
     panel.innerHTML = '<div class="help-panel-head">'
       + '<div class="help-panel-head-row">'
-      + '<div class="help-panel-title">Help & Guidance</div>'
+      + '<div class="help-panel-title" id="helpPanelTitle">' + getUILabel('Help & Guidance') + '</div>'
       + '<button class="help-panel-close" onclick="window.IPPFHelp.close()" title="Close">&#10005;</button>'
       + '</div>'
-      + '<div class="help-panel-ctx" id="helpPanelCtx">Click any ? icon or field to see guidance</div>'
+      + '<div class="help-panel-ctx" id="helpPanelCtx">' + getTranslatedInstr('ui_help_subtitle', 'Click any ? icon or field to see guidance') + '</div>'
       + '<div class="help-tabs">'
-      + '<button class="help-tab active" data-tab="instructions" onclick="window.IPPFHelp.switchTab(\'instructions\',this)">Instructions</button>'
+      + '<button class="help-tab active" data-tab="instructions" onclick="window.IPPFHelp.switchTab(\'instructions\',this)">' + getUILabel('Instructions') + '</button>'
       + '<button class="help-tab" data-tab="walkthrough" onclick="window.IPPFHelp.switchTab(\'walkthrough\',this)">Walkthrough</button>'
-      + '<button class="help-tab" data-tab="glossary" onclick="window.IPPFHelp.switchTab(\'glossary\',this)">Glossary</button>'
+      + '<button class="help-tab" data-tab="glossary" onclick="window.IPPFHelp.switchTab(\'glossary\',this)">' + getUILabel('Glossary') + '</button>'
       + '</div>'
       + '</div>'
       + '<div class="help-panel-body">'
@@ -416,6 +656,39 @@
     injectFieldHelpIcons();
     // Also observe for dynamic content (forms that load after API calls)
     observeForFieldLabels();
+
+    // Re-render glossary when language changes
+    var langSwitcher = document.getElementById('languageSwitcher');
+    if (langSwitcher) {
+      langSwitcher.addEventListener('change', function() {
+        // Small delay to let i18next finish changing language and localize() to complete
+        setTimeout(function() {
+          // Re-translate glossary
+          var searchInput = document.getElementById('helpGSearch');
+          filterGlossary(searchInput ? searchInput.value : '');
+          // Re-translate tab labels
+          var allTabs = document.querySelectorAll('.help-tab');
+          allTabs.forEach(function(tab) {
+            var tabKey = tab.getAttribute('data-tab');
+            if (tabKey === 'instructions') tab.textContent = getUILabel('Instructions');
+            if (tabKey === 'glossary') tab.textContent = getUILabel('Glossary');
+            if (tabKey === 'walkthrough' && tab.style.display !== 'none') {
+              // Walkthrough tab is renamed to "Instructions" in sections 1, 3-7
+              if (tab.textContent !== 'Walkthrough') tab.textContent = getUILabel('Instructions');
+            }
+          });
+          // Re-inject ? help icons (localize() wipes them when it replaces label text)
+          reinjectFieldHelpIcons();
+          // Re-render walkthrough/instructions with translated text
+          renderWalkthrough();
+          // Re-translate panel title and subtitle
+          var panelTitle = document.getElementById('helpPanelTitle');
+          if (panelTitle) panelTitle.textContent = getUILabel('Help & Guidance');
+          var panelCtx = document.getElementById('helpPanelCtx');
+          if (panelCtx) panelCtx.textContent = getTranslatedInstr('ui_help_subtitle', 'Click any ? icon or field to see guidance');
+        }, 300);
+      });
+    }
   }
 
   // ═══════════════════════════════
@@ -479,7 +752,7 @@
       if (tabGlossary) tabGlossary.style.display = 'none';
       if (paneGlossary) paneGlossary.style.display = 'none';
       if (tabWalkthrough) {
-        tabWalkthrough.textContent = 'Instructions';
+        tabWalkthrough.textContent = getUILabel('Instructions');
         tabWalkthrough.classList.add('active');
       }
       if (paneWalkthrough) paneWalkthrough.classList.add('active');
@@ -491,11 +764,11 @@
       if (tabInstructions) tabInstructions.classList.add('active');
       if (paneInstructions) paneInstructions.classList.add('active');
     } else if (majorSec === '3' || majorSec === '4' || majorSec === '5' || majorSec === '6' || majorSec === '7') {
-      // Sections 3–6: Hide Instructions tab; rename Walkthrough to "Instructions"; keep Glossary
+      // Sections 3–7: Hide Instructions tab; rename Walkthrough to "Instructions"; keep Glossary
       if (tabInstructions) tabInstructions.style.display = 'none';
       if (paneInstructions) { paneInstructions.style.display = 'none'; paneInstructions.classList.remove('active'); }
       if (tabWalkthrough) {
-        tabWalkthrough.textContent = 'Instructions';
+        tabWalkthrough.textContent = getUILabel('Instructions');
         tabWalkthrough.classList.add('active');
       }
       if (paneWalkthrough) paneWalkthrough.classList.add('active');
@@ -540,9 +813,15 @@
     var ctx = document.getElementById('helpPanelCtx');
     if (!idle || !content) return;
 
+    // Translate at display time
+    var displayName = getTranslatedName(name);
+    var displayDef = getTranslatedDef(name, definition);
+
     idle.style.display = 'none';
     content.style.display = 'block';
-    if (ctx) ctx.textContent = name;
+    if (ctx) ctx.textContent = displayName;
+    name = displayName;
+    definition = displayDef;
 
     var avoidHtml = '';
     if (avoidList && avoidList.length) {
@@ -577,13 +856,39 @@
     var pageSection = detectCurrentSection();
     var data = WALKTHROUGHS[pageSection] || WALKTHROUGHS['default'];
 
+    // Check if we have translations for this section's instructions
+    var majorSec = pageSection.split('.')[0];
+    var instrMap = INSTR_TRANS_MAP[majorSec];
+
+    // Translate section title if mapping exists
+    var displayTitle = data.title;
+    if (instrMap && instrMap.sectionTitle) {
+      displayTitle = getTranslatedInstr(instrMap.sectionTitle, data.title);
+    }
+
+    // Translate subtitle if mapping exists
+    var displaySubtitle = data.subtitle;
+    if (instrMap && instrMap.subtitle) {
+      displaySubtitle = getTranslatedInstr(instrMap.subtitle, data.subtitle);
+    }
+
     var stepsHtml = data.steps.map(function(s, i) {
+      // Translate step label if mapping exists
+      var displayLabel = s.label;
+      if (instrMap && instrMap.labels && instrMap.labels[i]) {
+        displayLabel = getTranslatedInstr(instrMap.labels[i], s.label);
+      }
+      // Translate step description if mapping exists
+      var displayDesc = s.desc;
+      if (instrMap && instrMap.steps && instrMap.steps[i]) {
+        displayDesc = getTranslatedInstr(instrMap.steps[i], s.desc);
+      }
       return '<div class="wstep"><div class="wnum todo">' + (i + 1) + '</div>'
-        + '<div class="wcontent"><h4>' + s.label + '</h4><p>' + s.desc + '</p></div></div>';
+        + '<div class="wcontent"><h4>' + displayLabel + '</h4><p>' + displayDesc + '</p></div></div>';
     }).join('');
 
-    container.innerHTML = '<div style="font-size:14px;font-weight:700;color:#333333;margin-bottom:4px;">' + data.title + '</div>'
-      + '<div style="font-size:12px;color:#666666;margin-bottom:16px;">' + data.subtitle + '</div>'
+    container.innerHTML = '<div style="font-size:14px;font-weight:700;color:#333333;margin-bottom:4px;">' + displayTitle + '</div>'
+      + '<div style="font-size:12px;color:#666666;margin-bottom:16px;">' + displaySubtitle + '</div>'
       + stepsHtml;
   }
 
@@ -624,14 +929,18 @@
       return;
     }
     list.innerHTML = terms.map(function(t) {
-      return '<div class="g-term"><div class="g-term-name">' + t.name + '</div><div class="g-term-def">' + t.def + '</div><span class="g-term-tag">' + t.tag + '</span></div>';
+      var displayName = getTranslatedName(t.name);
+      var displayDef = getTranslatedDef(t.name, t.def);
+      return '<div class="g-term"><div class="g-term-name">' + displayName + '</div><div class="g-term-def">' + displayDef + '</div><span class="g-term-tag">' + t.tag + '</span></div>';
     }).join('');
   }
 
   function filterGlossary(query) {
     var s = (query || '').toLowerCase();
     var filtered = GLOSSARY.filter(function(t) {
-      var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1;
+      var tName = getTranslatedName(t.name).toLowerCase();
+      var tDef = getTranslatedDef(t.name, t.def).toLowerCase();
+      var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || tName.indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1 || tDef.indexOf(s) !== -1;
       var matchSec = !currentSecFilter || t.sec === currentSecFilter;
       return matchQ && matchSec;
     });
@@ -839,7 +1148,7 @@
     // Remove leading numbers like "1. ", "2. "
     var withoutNum = clean.replace(/^\d+\.\s*/, '');
 
-    // Direct match
+    // Direct match (English glossary names)
     if (glossaryLookup[clean]) return glossaryLookup[clean];
     if (glossaryLookup[withoutNum]) return glossaryLookup[withoutNum];
 
@@ -854,6 +1163,27 @@
     for (var j = 0; j < keys.length; j++) {
       if (withoutNum.indexOf(keys[j]) === 0 || keys[j].indexOf(withoutNum) === 0) {
         return glossaryLookup[keys[j]];
+      }
+    }
+
+    // Reverse-lookup: label text may be in a translated language (after localize()),
+    // so check if it matches any translated glossary name
+    var lang = _getCurrentLang();
+    if (lang !== 'en' && typeof translation_mapping !== 'undefined') {
+      var glossaryNames = Object.keys(GLOSSARY_TRANS_MAP);
+      for (var k = 0; k < glossaryNames.length; k++) {
+        var mapping = GLOSSARY_TRANS_MAP[glossaryNames[k]];
+        if (mapping && mapping.nid) {
+          var translatedName = _lookupInArray(translation_mapping, mapping.nid, lang);
+          if (translatedName) {
+            var transLower = translatedName.toLowerCase().trim();
+            if (transLower === clean || transLower === withoutNum ||
+                clean.indexOf(transLower) === 0 || transLower.indexOf(clean) === 0 ||
+                withoutNum.indexOf(transLower) === 0 || transLower.indexOf(withoutNum) === 0) {
+              return glossaryLookup[glossaryNames[k].toLowerCase()];
+            }
+          }
+        }
       }
     }
 
@@ -880,9 +1210,13 @@
     clearTimeout(tooltipHideTimer);
     var tt = createGlobalTooltip();
 
+    // Translate at display time
+    var displayName = getTranslatedName(termName);
+    var displayDef = getTranslatedDef(termName, termDef);
+
     // Set content
-    tt.querySelector('.tooltip-term').textContent = termName;
-    tt.querySelector('.tooltip-def').textContent = termDef;
+    tt.querySelector('.tooltip-term').textContent = displayName;
+    tt.querySelector('.tooltip-def').textContent = displayDef;
 
     // Remove old arrow classes and hide
     tt.classList.remove('arrow-down', 'arrow-up', 'visible');
@@ -933,6 +1267,17 @@
 
   // Track which labels we've already processed
   var processedLabels = new WeakSet();
+
+  // Re-inject help icons after language change (localize() wipes them out)
+  function reinjectFieldHelpIcons() {
+    // Remove all existing help icons
+    var existingIcons = document.querySelectorAll('.help-field-icon');
+    existingIcons.forEach(function(icon) { icon.parentNode.removeChild(icon); });
+    // Reset the processed set so labels can be re-processed
+    processedLabels = new WeakSet();
+    // Re-inject
+    injectFieldHelpIcons();
+  }
 
   function injectFieldHelpIcons() {
     // Process all labels, h3/h4 section headers, and focus area spans in tables
