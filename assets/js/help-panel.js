@@ -368,6 +368,18 @@
     { name:'Total Spend (%)', def:'The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses \u00f7 Budget) \u00d7 100.', sec:'sec4', tag:'4.2 Table' },
     { name:'Project Total (Focus Area)', def:'The sum row at the bottom of each project\'s focus area table, showing total budgeted amount, total actual expenses, total variance, and overall spend percentage across all focus areas.', sec:'sec4', tag:'4.2 Table' },
     { name:'Remarks', def:'A free-text field (up to 200 words) at the end of each project\'s budget vs actuals table, where the Affiliate can provide explanations for significant variances, delays, reallocation of funds, or any other context relevant to the project\'s financial performance.', sec:'sec4', tag:'4.2 Table' },
+    // Reuse the Section 3 focus-area glossary terms here so they also appear under Section 4.
+    { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Care: Outreach, Mobile Clinic, Community-based Delivery', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Care: Other Services, Enabled or Referred', def:'SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Care: Social Marketing Services', def:'Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Care: Digital Health Intervention and Selfcare', def:'SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider, using tools or commodities independently.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Advocacy', def:'Activities aimed at influencing policies, laws, social norms, or public opinion in support of SRHR. Advocacy work may target government bodies, decision-makers, communities, or the wider public.', sec:'sec4', tag:'4.2 Table' },
+    { name:'CSE (Comprehensive Sexuality Education)', def:'A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based, equipping young people with the knowledge and skills to make informed decisions about their health and relationships.', sec:'sec4', tag:'4.2 Table' },
+    { name:'CSE Online, including Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Partnerships and Movements', def:'Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Knowledge, Research, Evidence, Innovation', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Internal MA Infrastructure', def:'Resources and activities directed towards strengthening the Affiliate\'s own organisational capacity, systems, governance, workforce development, and institutional culture, rather than direct programme delivery.', sec:'sec4', tag:'4.2 Table' },
 
     // ── Section 5: Budget vs Actuals by Expense Category ──
     // 5.1 Control Cells
@@ -384,6 +396,11 @@
     { name:'Total Spend (%) \u2014 Expense', def:'The percentage of the budgeted amount that has been spent for a specific expense category within a project. Calculated as (Actual \u00f7 Budget) \u00d7 100.', sec:'sec5', tag:'5.2 Table' },
     { name:'Project Total (Expense Category)', def:'The sum row at the bottom of each project\'s expense category table, aggregating the budget, actuals, variance, and total spend percentage across all four expense categories.', sec:'sec5', tag:'5.2 Table' },
     { name:'Variance Explanation', def:'A free-text field (up to 200 words) provided at the end of each project\'s expense category table, where the Affiliate can explain the reasons behind significant budget variances.', sec:'sec5', tag:'5.2 Table' },
+    // Reuse the expense-category glossary terms here so they also appear under Section 5.
+    { name:'Personnel', def:'Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Direct Project Activities', def:'Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.', sec:'sec5', tag:'5.2 Table' },
 
     // ── Section 6: Actual Income Details ──
     // 6.1 Income Summary
@@ -1094,6 +1111,7 @@
       'partnerships and movements': 'Partnerships and Movements',
       '10. knowledge, research, evidence, innovation, and publishing, including peer-review articles': 'Knowledge, Research, Evidence, Innovation',
       'knowledge, research, evidence': 'Knowledge, Research, Evidence, Innovation',
+      '10. المعرفة، البحث، الأدلة، الابتكار، والنشر، بما في ذلك المقالات التي يراجعها الأقران': 'Knowledge, Research, Evidence, Innovation',
       '11. internal ma infrastructure, organisational development, capacity development, values, processes, and procedures': 'Internal MA Infrastructure',
       'internal ma infrastructure': 'Internal MA Infrastructure',
       "11. infrastructure interne de l'association membre, developpement organisationnel, renforcement des capacites, valeurs, processus et procedures": 'Internal MA Infrastructure',
@@ -1212,16 +1230,22 @@
     if (glossaryLookup[withoutNum]) return glossaryLookup[withoutNum];
 
     // Partial match: check if any glossary key starts with or is contained in the label
+    // Require minimum 4 characters for partial matching to avoid false matches
+    // (e.g. "No" matching "Non-operational Income", "Yes" matching unrelated terms)
     var keys = Object.keys(glossaryLookup);
-    for (var i = 0; i < keys.length; i++) {
-      if (clean.indexOf(keys[i]) === 0 || keys[i].indexOf(clean) === 0) {
-        return glossaryLookup[keys[i]];
+    if (clean.length >= 4) {
+      for (var i = 0; i < keys.length; i++) {
+        if (clean.indexOf(keys[i]) === 0 || keys[i].indexOf(clean) === 0) {
+          return glossaryLookup[keys[i]];
+        }
       }
     }
     // Try without number prefix
-    for (var j = 0; j < keys.length; j++) {
-      if (withoutNum.indexOf(keys[j]) === 0 || keys[j].indexOf(withoutNum) === 0) {
-        return glossaryLookup[keys[j]];
+    if (withoutNum.length >= 4) {
+      for (var j = 0; j < keys.length; j++) {
+        if (withoutNum.indexOf(keys[j]) === 0 || keys[j].indexOf(withoutNum) === 0) {
+          return glossaryLookup[keys[j]];
+        }
       }
     }
 
@@ -1351,7 +1375,8 @@
     var labels = document.querySelectorAll(selectors);
 
     labels.forEach(function(label) {
-      if (processedLabels.has(label) && label.querySelector('.help-field-icon')) return;
+      // Skip if already has a help icon (prevents duplicates from MutationObserver re-runs)
+      if (label.querySelector('.help-field-icon')) return;
 
       // Get visible text (strip any existing icons)
       var rawText = '';
