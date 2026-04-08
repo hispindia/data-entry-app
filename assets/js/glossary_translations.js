@@ -17,6 +17,41 @@ const translation_mapping_ar_glossary = [
         fr: "Code abrégé attribué à l'affilié à utiliser dans le système de déclaration de données de l'IPPF (par ex. APPA (401)).",
         ar: "هو الرمز المختصر أو الموجز الذي تُعرَّف به الجهة التابعة ويشير إليها في نظام الإبلاغ الخاص بالاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، APPA (401)).",
     },
+    {
+        id: "country_of_operation",
+        en: "The country in which the Affiliate is legally registered and primarily operates.",
+        sp: "El país en el que la Entidad afiliada está legalmente registrada y donde opera principalmente.",
+        fr: "Le pays dans lequel l'affilié est légalement enregistré et opère principalement.",
+        ar: "البلد الذي تُسجَّل فيه الجهة التابعة قانونيًا وتباشر فيه عملياتها بشكل رئيسي.",
+    },
+    {
+        id: "ippf_region",
+        en: "The IPPF region in which the Affiliate is located (e.g. ACR — Americas and Caribbean Region).",
+        sp: "La región de la IPPF en la que se ubica la Entidad afiliada (p. ej., ACR — Región de las Américas y el Caribe).",
+        fr: "La région de l'IPPF dans laquelle l'affilié est situé (par exemple, ACR — Région des Amériques et des Caraïbes).",
+        ar: "إقليم الاتحاد الدولي لتنظيم الأسرة الذي تقع فيه الجهة التابعة (مثل ACR - إقليم الأمريكتين ومنطقة الكاريبي).",
+    },
+    {
+        id: "organisation_name_original",
+        en: "The official name of the Affiliate in the preferred IPPF language, if different from English.",
+        sp: "El nombre oficial de la Entidad afiliada en el idioma preferido de la IPPF, si es diferente del inglés.",
+        fr: "Le nom officiel de l'affilié dans la langue préférée de l'IPPF, s'il est différent de l'anglais.",
+        ar: "الاسم الرسمي للجهة التابعة باللغة المفضلة لدى الاتحاد الدولي لتنظيم الأسرة، إذا كان مختلفًا عن اللغة الإنجليزية.",
+    },
+    {
+        id: "primary_contact_person",
+        en: "The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.",
+        sp: "La persona designada dentro de la organización responsable de responder consultas, aclaraciones o acciones de seguimiento relacionadas con el Plan Empresarial Anual o la presentación del informe.",
+        fr: "La personne désignée au sein de l'organisation chargée de répondre aux questions, de fournir des éclaircissements ou d'assurer les actions de suivi liées au Plan d'affaires annuel ou à la soumission du rapport.",
+        ar: "الشخص المعين داخل المنظمة والمسؤول عن الرد على الاستفسارات أو طلبات التوضيح أو إجراءات المتابعة المتعلقة بالخطة السنوية للأعمال أو تقديم التقرير.",
+    },
+    {
+        id: "contact_email",
+        en: "The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.",
+        sp: "La dirección de correo electrónico oficial de la persona de contacto principal, utilizada para toda la correspondencia formal relacionada con el informe o el plan de negocio presentados.",
+        fr: "L'adresse e-mail officielle du point de contact principal, utilisée pour toute correspondance officielle concernant le rapport ou le plan d'affaires soumis.",
+        ar: "عنوان البريد الإلكتروني الرسمي لجهة الاتصال الرئيسية، ويُستخدم في جميع المراسلات الرسمية المتعلقة بالتقرير أو الخطة المقدَّمة.",
+    },
     // ─────────────────────────────────────────────
     // Section 2: Narrative Report
     // ─────────────────────────────────────────────
