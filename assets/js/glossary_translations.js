@@ -1321,4 +1321,49 @@ const translation_mapping_ar_glossary = [
         fr: "Dans le cadre des rapports de l'IPPF, personnes âgées de 10 à 24 ans. Les associations membres sont spécifiquement invitées à mettre en avant leur travail avec cette tranche d'âge.",
         ar: "في تقارير الاتحاد الدولي لتنظيم الأسرة، يُقصد بالشباب الأفراد الذين تتراوح أعمارهم بين 10 و24 عامًا. ويُطلب من الجمعيات الأعضاء تسليط الضوء تحديدًا على عملها مع هذه الفئة العمرية.",
     },
+    // ─────────────────────────────────────────────
+    {
+        id: "membership_details_section",
+        en: "Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.",
+        sp: "InformaciÃ³n bÃ¡sica de identidad y registro de la asociaciÃ³n miembro que presenta el informe, incluido el paÃ­s de operaciÃ³n, el cÃ³digo de la asociaciÃ³n, la regiÃ³n de IPPF, los nombres de la organizaciÃ³n y la persona principal de contacto para el seguimiento.",
+        fr: "Informations de base sur l'identitÃ© et l'enregistrement de l'association membre soumettant le rapport, y compris le pays d'activitÃ©, le code de l'affiliÃ©, la rÃ©gion de l'IPPF, les noms de l'organisation et le principal point de contact pour le suivi.",
+        ar: "Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù‡ÙˆÙŠØ© Ø§Ù„Ø¬Ù…Ø¹ÙŠØ© Ø§Ù„Ø¹Ø¶Ùˆ ÙˆØªØ³Ø¬ÙŠÙ„Ù‡Ø§ Ø¨ØµÙØªÙ‡Ø§ Ø§Ù„Ø¬Ù‡Ø© Ø§Ù„Ù…Ù‚Ø¯Ù…Ø© Ù„Ù„ØªÙ‚Ø±ÙŠØ±ØŒ Ø¨Ù…Ø§ ÙÙŠ Ø°Ù„Ùƒ Ø¨Ù„Ø¯ Ø§Ù„Ø¹Ù…Ù„ØŒ ÙˆØ±Ù…Ø² Ø§Ù„Ø¬Ù…Ø¹ÙŠØ©ØŒ ÙˆØ¥Ù‚Ù„ÙŠÙ… Ø§Ù„Ø§ØªØ­Ø§Ø¯ Ø§Ù„Ø¯ÙˆÙ„ÙŠ Ù„ØªÙ†Ø¸ÙŠÙ… Ø§Ù„Ø£Ø³Ø±Ø©ØŒ ÙˆØ£Ø³Ù…Ø§Ø¡ Ø§Ù„Ù…Ù†Ø¸Ù…Ø©ØŒ ÙˆØ¬Ù‡Ø© Ø§Ù„Ø§ØªØµØ§Ù„ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© Ù„Ù„Ù…ØªØ§Ø¨Ø¹Ø©.",
+    },
+    {
+        id: "organisation_name_english",
+        en: "The official name of the Affiliate written in English, as registered with IPPF.",
+        sp: "El nombre oficial de la asociaciÃ³n miembro escrito en inglÃ©s, tal como estÃ¡ registrado en la IPPF.",
+        fr: "Le nom officiel de l'association membre rÃ©digÃ© en anglais, tel qu'il est enregistrÃ© auprÃ¨s de l'IPPF.",
+        ar: "Ø§Ù„Ø§Ø³Ù… Ø§Ù„Ø±Ø³Ù…ÙŠ Ù„Ù„Ø¬Ù…Ø¹ÙŠØ© Ø§Ù„Ø¹Ø¶Ùˆ Ø¨Ø§Ù„Ù„ØºØ© Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ© ÙƒÙ…Ø§ Ù‡Ùˆ Ù…Ø³Ø¬Ù„ Ù„Ø¯Ù‰ Ø§Ù„Ø§ØªØ­Ø§Ø¯ Ø§Ù„Ø¯ÙˆÙ„ÙŠ Ù„ØªÙ†Ø¸ÙŠÙ… Ø§Ù„Ø£Ø³Ø±Ø©.",
+    },
+    {
+        id: "institutional_data_section",
+        en: "Core organisational and governance information about the affiliate, including address, leadership contacts, board details, and key management roles used for oversight and follow-up.",
+        sp: "InformaciÃ³n institucional y de gobernanza de la asociaciÃ³n miembro, incluida la direcciÃ³n, los contactos de liderazgo, los detalles de la junta y los principales cargos de gestiÃ³n utilizados para la supervisiÃ³n y el seguimiento.",
+        fr: "Informations institutionnelles et de gouvernance de l'affiliÃ©, y compris l'adresse, les contacts de direction, les dÃ©tails du conseil et les principaux rÃ´les de gestion utilisÃ©s pour la supervision et le suivi.",
+        ar: "Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠØ© ÙˆÙ…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„Ø­ÙˆÙƒÙ…Ø© Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„Ø¬Ù…Ø¹ÙŠØ© Ø§Ù„Ø¹Ø¶ÙˆØŒ Ø¨Ù…Ø§ ÙÙŠ Ø°Ù„Ùƒ Ø§Ù„Ø¹Ù†ÙˆØ§Ù†ØŒ ÙˆØ¬Ù‡Ø§Øª Ø§Ù„Ø§ØªØµØ§Ù„ Ø§Ù„Ù‚ÙŠØ§Ø¯ÙŠØ©ØŒ ÙˆØªÙØ§ØµÙŠÙ„ Ù…Ø¬Ù„Ø³ Ø§Ù„Ø¥Ø¯Ø§Ø±Ø©ØŒ ÙˆØ§Ù„Ø£Ø¯ÙˆØ§Ø± Ø§Ù„Ø¥Ø¯Ø§Ø±ÙŠØ© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù„Ø¥Ø´Ø±Ø§Ù ÙˆØ§Ù„Ù…ØªØ§Ø¨Ø¹Ø©.",
+    },
+    {
+        id: "key_documents_section",
+        en: "Supporting files required as part of the report submission, such as audit-related documents and other key records used to validate organisational and financial reporting.",
+        sp: "Archivos de respaldo requeridos como parte de la presentaciÃ³n del informe, como documentos relacionados con la auditorÃ­a y otros registros clave utilizados para validar la informaciÃ³n organizativa y financiera.",
+        fr: "Fichiers justificatifs requis dans le cadre de la soumission du rapport, tels que les documents liÃ©s Ã  l'audit et d'autres piÃ¨ces essentielles servant Ã  valider les informations organisationnelles et financiÃ¨res.",
+        ar: "Ø§Ù„Ù…Ù„ÙØ§Øª Ø§Ù„Ø¯Ø§Ø¹Ù…Ø© Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø© ÙƒØ¬Ø²Ø¡ Ù…Ù† ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„ØªÙ‚Ø±ÙŠØ±ØŒ Ù…Ø«Ù„ Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ù…ØªØ¹Ù„Ù‚Ø© Ø¨Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚ ÙˆØºÙŠØ±Ù‡Ø§ Ù…Ù† Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù„ØªØ­Ù‚Ù‚ Ù…Ù† ØµØ­Ø© Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„ØªÙ†Ø¸ÙŠÙ…ÙŠØ© ÙˆØ§Ù„Ù…Ø§Ù„ÙŠØ©.",
+    },
+    // Field-Level Guidance idle state (Instructions pane default)
+    // ─────────────────────────────────────────────
+    {
+        id: "ui_field_level_guidance",
+        en: "Field-Level Guidance",
+        sp: "Orientación a nivel de campo",
+        fr: "Aide au niveau des champs",
+        ar: "إرشادات على مستوى الحقل",
+    },
+    {
+        id: "ui_field_level_guidance_desc",
+        en: "Click any ? icon or field label to see its definition, an example, and common mistakes to avoid.",
+        sp: "Haga clic en cualquier ícono ? o etiqueta de campo para ver su definición, un ejemplo y los errores más frecuentes que debe evitar.",
+        fr: "Cliquez sur n'importe quelle icône ? ou libellé de champ pour afficher sa définition, un exemple et les erreurs courantes à éviter.",
+        ar: "انقر على أي أيقونة ? أو تسمية حقل لعرض تعريفه ومثال عليه والأخطاء الشائعة التي ينبغي تجنبها.",
+    },
 ];

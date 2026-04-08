@@ -81,6 +81,7 @@
   position: relative;
   vertical-align: middle;
   flex-shrink: 0;
+  margin-left: 4px;
 }
 .help-field-icon:hover {
   background: #007A8A;
@@ -511,6 +512,61 @@
 .help-panel-body::-webkit-scrollbar-thumb {
   background: #E0E0E0;
   border-radius: 2px;
+}
+
+/* ═══════════════════════════════
+   RTL (Arabic) — help icon & panel adjustments
+   ═══════════════════════════════ */
+
+/* Icon spacing: swap margin for RTL */
+[dir="rtl"] .help-field-icon,
+.rtl-mode .help-field-icon {
+  margin-left: 0;
+  margin-right: 6px;
+}
+
+/* Ensure parent labels/cells don't clip the icon in RTL */
+[dir="rtl"] td > span,
+[dir="rtl"] .form-group label,
+[dir="rtl"] .form-row label,
+[dir="rtl"] .box-from-inner label,
+[dir="rtl"] .top-detail-form label,
+[dir="rtl"] .cont-wrap-inner label,
+[dir="rtl"] .listnum > div,
+[dir="rtl"] td,
+.rtl-mode td > span,
+.rtl-mode .form-group label,
+.rtl-mode .form-row label,
+.rtl-mode .box-from-inner label,
+.rtl-mode .top-detail-form label,
+.rtl-mode .cont-wrap-inner label,
+.rtl-mode .listnum > div,
+.rtl-mode td {
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Help panel: slides from left in RTL */
+[dir="rtl"] .help-panel-overlay,
+.rtl-mode .help-panel-overlay {
+  right: auto;
+  left: 0;
+  border-left: none;
+  border-right: 1px solid #E0E0E0;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.12);
+  transform: translateX(-100%);
+}
+[dir="rtl"] .help-panel-overlay.open,
+.rtl-mode .help-panel-overlay.open {
+  transform: translateX(0);
+}
+
+/* Toggle button position in RTL */
+[dir="rtl"] .help-toggle-btn,
+.rtl-mode .help-toggle-btn {
+  float: left;
+  margin-left: 0;
+  margin-right: 8px;
 }
 
 /* Responsive */

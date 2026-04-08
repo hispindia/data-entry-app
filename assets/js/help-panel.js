@@ -23,10 +23,12 @@
     'Affiliate': { nid:'organisation_name', tid:'affiliate' },
     'Country of Operation': { nid:'country_of_operation' },
     'Affiliate Code': { nid:'organisation_code', tid:'affiliate_code' },
-    'Organisation Name (English)': { nid:'organisation_name' },
+    'Membership Details': { nid:'membership_details', tid:'membership_details_section' },
+    'Organisation Name (English)': { nid:'organisation_name', tid:'organisation_name_english' },
     'Organisation Name (Original Language)': { nid:'organisation_name_original' },
     'Primary Point of Contact': { nid:'primary_contact_person' },
     'Contact Email': { nid:'contact_email' },
+    'Institutional Data': { nid:'institutional_data', tid:'institutional_data_section' },
     'Address': { nid:'physical_address' },
     'Key Contacts': { nid:'key_contacts' },
     'Executive Director / CEO': { nid:'executive_director' },
@@ -35,6 +37,7 @@
     'Youth Board Member': { nid:'youth_board_member' },
     'Programmatic Lead(s)': { nid:'programmatic_lead' },
     'Finance Lead': { nid:'finance_lead' },
+    'Key Documents': { nid:'key_document', tid:'key_documents_section' },
     'Key Annual Report Documents': { nid:'key_document' },
     'Management Letter (Audit Report)': { nid:'key_management' },
     // Section 2
@@ -114,11 +117,11 @@
     'Income Category': { nid:'income_category', tid:'income_category' },
     'Restricted (Income)': { nid:'restricted', tid:'restricted_sec6' },
     'Unrestricted (Income)': { nid:'unrestricted', tid:'unrestricted_sec6' },
-    'Total Income': { nid:'total', tid:'total_income' },
+    'Total Income': { nid:'total_income_ar', tid:'total_income' },
     'Total Actual Expenses (by Expense Categories)': { nid:'actual_expense_EC', tid:'total_actual_expenses_by_expense_categories' },
     'Deficit / Surplus': { nid:'deficit', tid:'deficit_surplus' },
     'Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
-    'Commodity Sales': { nid_g:'name_commodity_sales', tid:'commodity_sales' },
+    'Commodity Sales': { nid:'commodity-sales', nid_g:'name_commodity_sales', tid:'commodity_sales' },
     'Client / Patient Fees': { nid:'client-fees', tid:'client_patient_fees' },
     'Training, Education, Professional Services': { nid:'services-rental', tid:'training_education_professional_services_and_rentals' },
     'Local/National: Government': { nid:'local-government', tid:'local_national_government' },
@@ -154,6 +157,18 @@
       }
     }
     return null;
+  }
+
+  function normalizeLabelText(value) {
+    return (value || '')
+      .replace(/[\u00A0\u202F]/g, ' ')
+      .replace(/[‘’´`]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/[–—]/g, '-')
+      .replace(/\s*\/\s*/g, ' / ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
   }
 
   // Get translated DEFINITION for a glossary term (from glossary_translations.js)
@@ -253,6 +268,7 @@
   const GLOSSARY = [
     // ── Section 1: Organisational Info ──
     // 1.1 Membership Details
+    { name:'Membership Details', def:'Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.', sec:'sec1', tag:'1.1 Membership' },
     { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.', sec:'sec1', tag:'1.1 Membership' },
     { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.', sec:'sec1', tag:'1.1 Membership' },
     { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).', sec:'sec1', tag:'1.1 Membership' },
@@ -264,6 +280,7 @@
     { name:'Primary Point of Contact', def:'The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.', sec:'sec1', tag:'1.1 Membership' },
     { name:'Contact Email', def:'The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.', sec:'sec1', tag:'1.1 Membership' },
     // 1.2 Institutional Data
+    { name:'Institutional Data', def:'Core organisational and governance information about the affiliate, including address, leadership contacts, board details, and key management roles used for oversight and follow-up.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Address', def:'The registered physical or postal address of the Affiliate\'s main office or headquarters.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Key Contacts', def:'A set of designated individuals within the Affiliate who hold leadership or functional roles and serve as primary points of contact for IPPF communication and follow-up.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Executive Director / CEO', def:'The person responsible for the overall management and operational leadership of the organisation.', sec:'sec1', tag:'1.2 Institutional' },
@@ -275,6 +292,7 @@
     { name:'Board Term \u2014 Start Year', def:'The year in which the current governing board\'s term of service commenced. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Board Term \u2014 End Year', def:'The year in which the current governing board\'s term of service is scheduled to conclude. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' },
     // 1.3 Key Documents
+    { name:'Key Documents', def:'Supporting files required as part of the report submission, such as audit-related documents and other key records used to validate organisational and financial reporting.', sec:'sec1', tag:'1.3 Key Documents' },
     { name:'Key Annual Report Documents', def:'Supporting documents that accompany the Annual Report submission, such as the organisation\'s annual audit report.', sec:'sec1', tag:'1.3 Key Documents' },
     { name:'Management Letter (Audit Report)', def:'A formal letter issued by the external auditor to the management of the Affiliate, alongside the audit report. It typically contains findings, observations, and recommendations on internal controls, financial management, and compliance noted during the audit.', sec:'sec1', tag:'1.3 Key Documents' },
 
@@ -625,8 +643,8 @@
       + '<div class="help-pane active" id="hp-instructions">'
       + '<div class="help-idle" id="helpIdle">'
       + '<div class="help-idle-icon">&#128161;</div>'
-      + '<h3>Field-Level Guidance</h3>'
-      + '<p>Click any <strong>?</strong> icon or field label to see its definition, an example, and common mistakes to avoid.</p>'
+      + '<h3 id="helpIdleTitle">' + getTranslatedInstr('ui_field_level_guidance', 'Field-Level Guidance') + '</h3>'
+      + '<p id="helpIdleDesc">' + getTranslatedInstr('ui_field_level_guidance_desc', 'Click any <strong>?</strong> icon or field label to see its definition, an example, and common mistakes to avoid.') + '</p>'
       + '</div>'
       + '<div id="helpContent" style="display:none"></div>'
       + '</div>'
@@ -686,6 +704,11 @@
           if (panelTitle) panelTitle.textContent = getUILabel('Help & Guidance');
           var panelCtx = document.getElementById('helpPanelCtx');
           if (panelCtx) panelCtx.textContent = getTranslatedInstr('ui_help_subtitle', 'Click any ? icon or field to see guidance');
+          // Re-translate field-level guidance idle state
+          var idleTitle = document.getElementById('helpIdleTitle');
+          if (idleTitle) idleTitle.textContent = getTranslatedInstr('ui_field_level_guidance', 'Field-Level Guidance');
+          var idleDesc = document.getElementById('helpIdleDesc');
+          if (idleDesc) idleDesc.textContent = getTranslatedInstr('ui_field_level_guidance_desc', 'Click any ? icon or field label to see its definition, an example, and common mistakes to avoid.');
         }, 300);
       });
     }
@@ -981,7 +1004,13 @@
       'country of operation': 'Country of Operation',
       'organisation code': 'Affiliate Code',
       'organization code': 'Affiliate Code',
+      'membership details': 'Membership Details',
+      'institutional data': 'Institutional Data',
+      'key documents': 'Key Documents',
       'organisation name (english)': 'Organisation Name (English)',
+      'organisation name(english)': 'Organisation Name (English)',
+      'organization name (english)': 'Organisation Name (English)',
+      'organization name(english)': 'Organisation Name (English)',
       'organisation name (original lang)': 'Organisation Name (Original Language)',
       'organisation name (original language)': 'Organisation Name (Original Language)',
       'primary point of contact for follow-up on business plan': 'Primary Point of Contact',
@@ -1037,15 +1066,20 @@
       // Section 3.2 Focus Area labels (as they appear in the dynamic tables)
       'care: static clinic': 'Care: Static Clinic',
       '1. care: static clinic': 'Care: Static Clinic',
+      "1. soins : clinique statique": 'Care: Static Clinic',
       'care: outreach, mobile clinic, community-based, delivery': 'Care: Outreach, Mobile Clinic, Community-based Delivery',
       '2. care: outreach, mobile clinic, community-based, delivery': 'Care: Outreach, Mobile Clinic, Community-based Delivery',
       'care: outreach, mobile clinic': 'Care: Outreach, Mobile Clinic, Community-based Delivery',
+      "2. soins : sensibilisation, clinique mobile, communautaire, prestation": 'Care: Outreach, Mobile Clinic, Community-based Delivery',
       'care: other services, enabled or referred (associated clinics)': 'Care: Other Services, Enabled or Referred',
       '3. care: other services, enabled or referred (associated clinics)': 'Care: Other Services, Enabled or Referred',
       'care: other services': 'Care: Other Services, Enabled or Referred',
+      "3. soins : autres services, facilites ou referes (cliniques associees)": 'Care: Other Services, Enabled or Referred',
+      "3. soins : autres services, facilités ou référés (cliniques associées)": 'Care: Other Services, Enabled or Referred',
       'care: social marketing services': 'Care: Social Marketing Services',
       '4. care: social marketing services': 'Care: Social Marketing Services',
       'care: social marketing': 'Care: Social Marketing Services',
+      "4. soins : services de marketing social": 'Care: Social Marketing Services',
       'care: digital health intervention and selfcare': 'Care: Digital Health Intervention and Selfcare',
       '5. care: digital health intervention and selfcare': 'Care: Digital Health Intervention and Selfcare',
       'care: digital health & selfcare': 'Care: Digital Health Intervention and Selfcare',
@@ -1062,9 +1096,26 @@
       'knowledge, research, evidence': 'Knowledge, Research, Evidence, Innovation',
       '11. internal ma infrastructure, organisational development, capacity development, values, processes, and procedures': 'Internal MA Infrastructure',
       'internal ma infrastructure': 'Internal MA Infrastructure',
+      "11. infrastructure interne de l'association membre, developpement organisationnel, renforcement des capacites, valeurs, processus et procedures": 'Internal MA Infrastructure',
+      "11. infrastructure interne de l'association membre, développement organisationnel, renforcement des capacités, valeurs, processus et procédures": 'Internal MA Infrastructure',
+      "11. infrastructure interne de l’association membre, développement organisationnel, renforcement des capacités, valeurs, processus et procédures": 'Internal MA Infrastructure',
       'project focus area': 'Project Focus Area',
       'expense budget (per focus area)': 'Expense Budget (per Focus Area)',
       // Section 4 & 5
+      'control cell: variance ($)': 'Variance ($) — Focus Area',
+      'control cell : variance ($)': 'Variance ($) — Focus Area',
+      'control cell: total spend (%)': 'Total Spend (%) — Focus Area',
+      'control cell : total spend (%)': 'Total Spend (%) — Focus Area',
+      'célula de control: varianza ($)': 'Variance ($) — Focus Area',
+      'célula de control : varianza ($)': 'Variance ($) — Focus Area',
+      'célula de control: gasto total (%)': 'Total Spend (%) — Focus Area',
+      'célula de control : gasto total (%)': 'Total Spend (%) — Focus Area',
+      'cellule de contrôle : variance ($)': 'Variance ($) — Focus Area',
+      'cellule de controle : variance ($)': 'Variance ($) — Focus Area',
+      'cellule de contrôle : dépenses totales (%)': 'Total Spend (%) — Focus Area',
+      'cellule de controle : depenses totales (%)': 'Total Spend (%) — Focus Area',
+      'خلية التحكم: التباين ($)': 'Variance ($) — Focus Area',
+      'خلية التحكم: إجمالي الإنفاق (%)': 'Total Spend (%) — Focus Area',
       'budget': 'Budget (Focus Area)',
       'actual expenses': 'Actual Expenses (Focus Area)',
       'variance ($)': 'Variance ($)',
@@ -1077,6 +1128,8 @@
       'direct project activities': 'Direct Project Activities',
       'commodities': 'Commodities',
       'indirect / support costs': 'Indirect / Support Costs',
+      'indirect/support costs': 'Indirect / Support Costs',
+      'indirect/ support costs': 'Indirect / Support Costs',
       'ippf core': 'IPPF Core',
       // Section 6
       'restricted': 'Restricted (Income)',
@@ -1084,7 +1137,13 @@
       'deficit / surplus': 'Deficit / Surplus',
       'locally generated income': 'Locally Generated Income',
       'international income (non-ippf)': 'International Income (Non-IPPF)',
+      'international income (non - ippf)': 'International Income (Non-IPPF)',
       'ippf income': 'IPPF Income',
+      'commodity sales (including contraceptive, other srh and non-srh supplies/products)': 'Commodity Sales',
+      'training, education, professional services and rentals': 'Training, Education, Professional Services',
+      'local/national: government': 'Local/National: Government',
+      'local/national: non-government': 'Local/National: Non-Government',
+      'multilateral agencies and organizations': 'Multilateral Agencies and Organisations',
       'commodity sales': 'Commodity Sales',
       'client / patient fees': 'Client / Patient Fees',
       'membership fees': 'Membership Fees',
@@ -1129,24 +1188,24 @@
 
     // Index glossary by exact name (lower-cased)
     GLOSSARY.forEach(function(term) {
-      glossaryLookup[term.name.toLowerCase()] = term;
+      glossaryLookup[normalizeLabelText(term.name)] = term;
     });
     // Add aliases
     Object.keys(labelAliases).forEach(function(alias) {
       var termName = labelAliases[alias];
-      var term = glossaryLookup[termName.toLowerCase()];
+      var term = glossaryLookup[normalizeLabelText(termName)];
       if (term) {
-        glossaryLookup[alias] = term;
+        glossaryLookup[normalizeLabelText(alias)] = term;
       }
     });
   })();
 
   function findGlossaryMatch(labelText) {
-    var clean = labelText.replace(/\s+/g, ' ').trim().toLowerCase();
+    var clean = normalizeLabelText(labelText);
     // Remove trailing asterisks, colons
     clean = clean.replace(/[\*:]+$/, '').trim();
     // Remove leading numbers like "1. ", "2. "
-    var withoutNum = clean.replace(/^\d+\.\s*/, '');
+    var withoutNum = clean.replace(/^\d+[.)]?\s*/, '');
 
     // Direct match (English glossary names)
     if (glossaryLookup[clean]) return glossaryLookup[clean];
@@ -1169,19 +1228,26 @@
     // Reverse-lookup: label text may be in a translated language (after localize()),
     // so check if it matches any translated glossary name
     var lang = _getCurrentLang();
-    if (lang !== 'en' && typeof translation_mapping !== 'undefined') {
+    if (lang !== 'en') {
       var glossaryNames = Object.keys(GLOSSARY_TRANS_MAP);
       for (var k = 0; k < glossaryNames.length; k++) {
         var mapping = GLOSSARY_TRANS_MAP[glossaryNames[k]];
-        if (mapping && mapping.nid) {
-          var translatedName = _lookupInArray(translation_mapping, mapping.nid, lang);
-          if (translatedName) {
-            var transLower = translatedName.toLowerCase().trim();
-            if (transLower === clean || transLower === withoutNum ||
-                clean.indexOf(transLower) === 0 || transLower.indexOf(clean) === 0 ||
-                withoutNum.indexOf(transLower) === 0 || transLower.indexOf(withoutNum) === 0) {
-              return glossaryLookup[glossaryNames[k].toLowerCase()];
-            }
+        if (!mapping) continue;
+        var translatedName = null;
+        // Check nid (translation_mapping) first
+        if (mapping.nid && typeof translation_mapping !== 'undefined') {
+          translatedName = _lookupInArray(translation_mapping, mapping.nid, lang);
+        }
+        // Fallback: check nid_g (translation_mapping_ar_glossary)
+        if (!translatedName && mapping.nid_g && typeof translation_mapping_ar_glossary !== 'undefined') {
+          translatedName = _lookupInArray(translation_mapping_ar_glossary, mapping.nid_g, lang);
+        }
+        if (translatedName) {
+          var transLower = normalizeLabelText(translatedName);
+          if (transLower === clean || transLower === withoutNum ||
+              clean.indexOf(transLower) === 0 || transLower.indexOf(clean) === 0 ||
+              withoutNum.indexOf(transLower) === 0 || transLower.indexOf(withoutNum) === 0) {
+            return glossaryLookup[normalizeLabelText(glossaryNames[k])];
           }
         }
       }
@@ -1281,11 +1347,11 @@
 
   function injectFieldHelpIcons() {
     // Process all labels, h3/h4 section headers, and focus area spans in tables
-    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"], .listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong';
+    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td[data-i18n], td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"], .listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong, th[data-i18n], th > span[data-i18n]';
     var labels = document.querySelectorAll(selectors);
 
     labels.forEach(function(label) {
-      if (processedLabels.has(label)) return;
+      if (processedLabels.has(label) && label.querySelector('.help-field-icon')) return;
 
       // Get visible text (strip any existing icons)
       var rawText = '';
@@ -1383,6 +1449,7 @@
     fieldObserver.observe(document.body, {
       childList: true,
       subtree: true,
+      characterData: true,
     });
 
     // Also run after a delay for initial page load

@@ -425,6 +425,42 @@ a{cursor:pointer;}
   .info-cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+.notice-item--stacked {
+  border: 1px solid #eef2f6;
+  border-radius: 16px;
+  padding: 1rem 1rem 0.9rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+}
+
+.notice-item--stacked p {
+  margin-bottom: 0;
+  line-height: 1.7;
+}
+
+.notice-language-entry + .notice-language-entry {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #edf2f7;
+}
+
+.notice-language-entry h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+}
+
+.notice-language-entry p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.notice-language-entry--rtl {
+  text-align: right;
+}
+
 /* Important Dates timeline */
 .dates-timeline {
   display: flex;
