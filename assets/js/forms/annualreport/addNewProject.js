@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="form-group col-md-12 textbox-wrap">
                 <label for="projectName" data-i18n="intro.project_name">Project Name</label>
                 <input type="text" class="form-control textContent" id="projectName"  ${tei.disabled ? 'disabled readonly': ''} >
-                <div class="invalid-feedback"> Error here </div>
+                <div class="invalid-feedback" id="projectName-error"> Error here </div>
             </div>
     <table class="table w-100">
       <tbody>
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textContent"
             />
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="startDate-error"> Error here </div>
           </td>
           <td>
             <label for="projectTheme"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 placeholder="Other (Please specify)"
               />
             </div>
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="projectTheme-error"> Error here </div>
           </td>
           <td>
           <label for="projectFunding"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <option value="Restricted" data-i18n="intro.restricted">Restricted</option>
                 <option value="Unrestricted" data-i18n="intro.unrestricted">Unrestricted</option>
               </select>
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="projectFunding-error"> Error here </div>
           </td>
           <td>
             <label for="projectContract"><span data-i18n="intro.total_contract_value">Total Contract Value:</span> </label>
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control input-budget "
             />
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="projectContract-error"> Error here </div>
           </td>
         </tr>
         <tr>
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${tei.disabled ? 'disabled readonly': ''}
               class="w-100 form-control textContent" 
             >
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="endDate-error"> Error here </div>
           </td> 
           <td>
             <label for="projectDonor"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 placeholder="Other (Please specify)"
               />
             </div>
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="projectDonor-error"> Error here </div>
           </td>
           <td>
             <label for="projectIncome"><span data-i18n="intro.annual_proj_income">Annual Project Income:</span> </label>
@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${tei.disabled ? 'disabled readonly': ''}  
               class="w-100 form-control input-budget"
             />
-            <div class="invalid-feedback"> Error here </div>
+            <div class="invalid-feedback" id="projectIncome-error"> Error here </div>
           </td>
         </tr>
       </tbody>
@@ -500,6 +500,29 @@ function countProjects(projects, dataValues) {
 }
 
 async function pushProject() {
+    const fields = [
+        'projectName',
+        'startDate',
+        'endDate',
+        'projectTheme',
+        'projectDonor',
+        'projectFunding',
+        'projectIncome',
+        'projectContract'
+    ];
+
+    const unfilledDetails = fields
+        .filter(id => !document.getElementById(id)?.value).join(', ')
+
+    fields.forEach(detail => {
+        if(unfilledDetails.includes(detail)) document.getElementById(`${detail}-error`).style.display = 'block';
+        else document.getElementById(`${detail}-error`).style.display = 'none';
+    });
+    if (unfilledDetails) {
+        alert(`Please fill mandatory fields: ${unfilledDetails}`);
+        return;
+    } 
+
     document.getElementById("submit-button").disabled = true;
     document.getElementById("submit-button").value = 'Pushing...';
     const data = await getTEI(tei.orgUnit);

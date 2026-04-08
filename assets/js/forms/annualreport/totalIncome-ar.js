@@ -1,5 +1,6 @@
+import { dataSet } from "../../api/dataSet.js";
 import { createEvent, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { tei, dataElements, program, programStage, dataSetFunds } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears, unformatNumber } from '../func.js';
 
@@ -137,6 +138,15 @@ const categoryIncome = [
   },
 ];
 
+async function fetchDataSet(year) {
+  const values = {};
+    
+  const dataValuesQuantity = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+  dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+  return values;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -196,6 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tei.year.value= document.getElementById("year-update").value;
     tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
+    const dataSetValues = await fetchDataSet(tei.year.value);
     const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -222,11 +233,14 @@ document.addEventListener("DOMContentLoaded", function () {
             value: tei.periodicity.value
           }];
           tei.event = await createEvent(data);
+          if(dataSetValues[dataElements.fullAllocation]) tei.dataValues = {'tGS8X8B4BtK': dataSetValues[dataElements.fullAllocation]};
         }
       }
       else {
         tei.event = dataValues['event'];
         tei.dataValues = dataValues;
+        //Default IPPF core grant unrestricted amount.
+        if(dataSetValues[dataElements.fullAllocation]) tei.dataValues['tGS8X8B4BtK'] = dataSetValues[dataElements.fullAllocation];
 
         var calculatedElements = loadCalculatedVariables(tei.dataValues, dataElements);
         calculatedElements.forEach((elements) => {
@@ -235,16 +249,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      populateProgramEvents(tei.dataValues);
+      populateProgramEvents(tei.dataValues, dataSetValues);
     } else {
       console.log("No data found for the organisation unit.");
     }
   }
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues) {
+  function populateProgramEvents(dataValues, dataSetValues) {
         $('#push-button').empty();
-    
         if(window.localStorage.getItem("hideReporting").includes('ed')) {
           const btn = document.createElement("button");
           btn.innerHTML = `<span data-i18n="intro.submit_annual_report">Submit Annual Report</span>`;
@@ -287,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
     })
 
-    const organisationContributor = displayContributor(dataValues);
+    const organisationContributor = displayContributor(dataValues, tei.year.value);
     $("#organisation-contributor").empty();
     $("#organisation-contributor").html(organisationContributor);
     $('#organisation-contributor .textValue').toArray().forEach(el => {
@@ -441,8 +454,12 @@ document.addEventListener("DOMContentLoaded", function () {
         <th data-i18n="intro.total" class="text-center">Total</th>
         </tr>`
         category.options.forEach((option) => {
-          var selected = categoryIndex < 4 ? true : false;
-          if(option.format == "ippf-unrestricted") selected = true;
+          var restrictedSelected = categoryIndex < 4 ? true : false;
+          var unrestrictedSelected = false;
+          if(option.format == "ippf-unrestricted") {
+            restrictedSelected = true;
+            unrestrictedSelected = true;
+          }
           const restrictedId = dataElements.projectTotalIncome[categoryIndex].restricted;
           const unrestrictedId = dataElements.projectTotalIncome[categoryIndex].unrestricted;
           const restricted = dataValues && dataValues[restrictedId]  ? dataValues[restrictedId] : "";
@@ -457,7 +474,7 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
               <input 
               type="text" 
-              ${(tei.disabled ||  selected) ? 'disabled readonly': ''} 
+              ${(tei.disabled ||  restrictedSelected) ? 'disabled readonly': ''} 
               id="${restrictedId}" 
               name="${option.id}-restricted-${category.shortName}" 
               value="${formatNumberInput(restricted)}" 
@@ -471,7 +488,7 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
               <input 
               type="text" 
-              ${tei.disabled ? 'disabled readonly': ''} 
+              ${(tei.disabled || unrestrictedSelected) ? 'disabled readonly': ''} 
               id="${unrestrictedId}" 
               name="${option.id}-unrestricted-${category.shortName}" 
               value="${formatNumberInput(unrestricted)}"  
