@@ -57,6 +57,7 @@
     'Learning': { nid:'learning', tid:'learning' },
     // Section 3
     'New Project': { nid:'new_project', tid:'new_project' },
+    'Add new project': { nid:'new_project', tid:'new_project' },
     'Project Name': { nid:'project_name', tid:'project_name' },
     'Start Date': { nid:'start_date', tid:'start_date' },
     'End Date': { nid:'end_date', tid:'end_date' },
@@ -114,13 +115,16 @@
     'Variance Explanation': { nid:'variance_explanation', tid:'variance_explanation' },
     // Section 6
     'Actual Income Details': { nid:'income_details', tid:'actual_income_details' },
+    'Actual income': { nid:'income_details', tid:'actual_income_details' },
     'Income Category': { nid:'income_category', tid:'income_category' },
+    'Serious Risk Identified': { nid:'serious_risk_identified', tid:'serious_risk_identified' },
     'Restricted (Income)': { nid:'restricted', tid:'restricted_sec6' },
     'Unrestricted (Income)': { nid:'unrestricted', tid:'unrestricted_sec6' },
     'Total Income': { nid:'total_income_ar', tid:'total_income' },
     'Total Actual Expenses (by Expense Categories)': { nid:'actual_expense_EC', tid:'total_actual_expenses_by_expense_categories' },
     'Deficit / Surplus': { nid:'deficit', tid:'deficit_surplus' },
     'Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
+    'Actual Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
     'Commodity Sales': { nid:'commodity-sales', nid_g:'name_commodity_sales', tid:'commodity_sales' },
     'Client / Patient Fees': { nid:'client-fees', tid:'client_patient_fees' },
     'Training, Education, Professional Services': { nid:'services-rental', tid:'training_education_professional_services_and_rentals' },
@@ -130,12 +134,15 @@
     'Non-operational Income': { nid:'nonoperational-income', tid:'non_operational_income' },
     'Other National Income': { nid:'other-income', tid:'other_national_income' },
     'International Income (Non-IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
+    'Actual International Income (Non-IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
+    'Actual International Income (Non - IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
     'Multilateral Agencies and Organisations': { nid:'multinational-agencies', tid:'multilateral_agencies_and_organisations' },
     'Foreign Governments': { nid:'foriegn-governments', tid:'foreign_governments' },
     'International Trusts and Foundations / NGOs': { nid:'interational-trusts', tid:'international_trusts_and_foundations_ngos' },
     'Corporate / Business Sector': { nid:'corporate-sector', tid:'corporate_business_sector' },
     'Other International Income': { nid:'other-international-income', tid:'other_international_income' },
     'IPPF Income': { nid:'ippf-income', tid:'ippf_income' },
+    'Actual IPPF Income': { nid:'ippf-income', tid:'ippf_income' },
     'IPPF Core Grant': { nid:'ippf-unrestricted', tid:'ippf_core_grant' },
     'Other IPPF Grant': { nid:'ippf-restricted', tid:'other_ippf_grant' },
     'Largest Contributor': { nid:'organisation_contributor', tid:'largest_contributor' },
@@ -405,14 +412,14 @@
     // ── Section 6: Actual Income Details ──
     // 6.1 Income Summary
     { name:'Actual Income Details', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Locally Generated Income, International Income (Non-IPPF), and IPPF Income.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Actual Locally Generated Income, Actual International Income (Non-IPPF), and Actual IPPF Income.', sec:'sec6', tag:'6.1 Summary' },
     { name:'Restricted (Income)', def:'Funding that has been designated by the donor for a specific purpose, project, activity, or population. May only be used in accordance with the donor\'s conditions.', sec:'sec6', tag:'6.1 Summary' },
     { name:'Unrestricted (Income)', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities.', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Locally Generated, International Non-IPPF, and IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Actual Locally Generated, Actual International Non-IPPF, and Actual IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.', sec:'sec6', tag:'6.1 Summary' },
     { name:'Total Actual Expenses (by Expense Categories)', def:'The total verified expenditure of the Affiliate during the reporting year, drawn from the expense category data entered in Section 5. Displayed to enable direct comparison with total income.', sec:'sec6', tag:'6.1 Summary' },
     { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. Positive = surplus; negative = deficit. System-calculated.', sec:'sec6', tag:'6.1 Summary' },
-    // 6.2 Locally Generated Income
-    { name:'Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.', sec:'sec6', tag:'6.2 Local' },
+    // 6.2 Actual Locally Generated Income
+    { name:'Actual Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.', sec:'sec6', tag:'6.2 Local' },
     { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.', sec:'sec6', tag:'6.2 Local' },
     { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.', sec:'sec6', tag:'6.2 Local' },
     { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.', sec:'sec6', tag:'6.2 Local' },
@@ -421,17 +428,17 @@
     { name:'Membership Fees', def:'Income collected from individuals or organisations who pay a fee to become members of the Affiliate, often granting them certain rights, services, or participation in the organisation\'s governance.', sec:'sec6', tag:'6.2 Local' },
     { name:'Non-operational Income', def:'Income that does not arise from the MA\'s core programmatic or service delivery activities. This may include interest earned on bank accounts, investment returns, or other incidental financial gains.', sec:'sec6', tag:'6.2 Local' },
     { name:'Other National Income', def:'Any locally generated income that does not fit into the other defined sub-categories. Used for miscellaneous or atypical domestic income sources.', sec:'sec6', tag:'6.2 Local' },
-    // 6.3 International Income (Non-IPPF)
-    { name:'International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.', sec:'sec6', tag:'6.3 International' },
+    // 6.3 Actual International Income (Non-IPPF)
+    { name:'Actual International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.', sec:'sec6', tag:'6.3 International' },
     { name:'Multilateral Agencies and Organisations', def:'International bodies funded and governed by multiple member states or governments, such as UN agencies (e.g. UNFPA, UNICEF, WHO) or the World Bank.', sec:'sec6', tag:'6.3 International' },
     { name:'Foreign Governments', def:'Direct funding received from the government of a country other than the MA\'s own country of operation, typically through bilateral aid programs or government development agencies.', sec:'sec6', tag:'6.3 International' },
     { name:'International Trusts and Foundations / NGOs', def:'Grants or donations received from internationally operating private foundations, charitable trusts, or non-governmental organisations headquartered outside the MA\'s country of operation.', sec:'sec6', tag:'6.3 International' },
     { name:'Corporate / Business Sector', def:'Income received from private sector companies or business entities, whether as direct donations, sponsorships, corporate social responsibility (CSR) contributions, or contractual payments for services.', sec:'sec6', tag:'6.3 International' },
     { name:'Other International Income', def:'Any international income not captured by the above sub-categories. Used for atypical or miscellaneous income from overseas sources.', sec:'sec6', tag:'6.3 International' },
-    // 6.4 IPPF Income
-    { name:'IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.', sec:'sec6', tag:'6.4 IPPF' },
+    // 6.4 Actual IPPF Income
+    { name:'Actual IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.', sec:'sec6', tag:'6.4 IPPF' },
     { name:'IPPF Core Grant', def:'The strategic funding allocation provided by IPPF to the Affiliate without restrictions. This amount is auto-populated.', sec:'sec6', tag:'6.4 IPPF' },
-    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support.', sec:'sec6', tag:'6.4 IPPF' },
+    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support. Please enter vouchers and opportunity grants as restricted income.', sec:'sec6', tag:'6.4 IPPF' },
     // 6.5 Largest Contributor
     { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.', sec:'sec6', tag:'6.5 Contributor' },
     { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.', sec:'sec6', tag:'6.5 Contributor' },
@@ -459,6 +466,7 @@
     { name:'Question 9. Surplus or balanced budget?', def:'An assessment of whether the affiliate\'s Deficit / Surplus figure in Section 6 is positive or neutral \u2014 meaning total income is equal to or greater than total actual expenses. A "Yes" response (shown in green in the portal) confirms a financially healthy position. A "No" response indicates a deficit where expenditure has exceeded income, which is a critical finding requiring a comment explaining the cause and the affiliate\'s plan to address the shortfall. This question applies only to Annual Reports.', sec:'sec7', tag:'7.2 Critical Req.' },
     // 7.3 Serious Risks Identified
     { name:'Serious Risks Identified', def:'A free-text section at the end of the AOC Review Form where the AOC formally documents any significant risks identified during the review of the affiliate\'s Annual Report that require IPPF Secretariat\'s attention. This section is distinct from the criteria-based sections above. It allows the AOC to flag concerns that may not be captured by the Yes/No criteria, such as governance failures, safeguarding concerns, financial sustainability issues, or programme delivery risks.', sec:'sec7', tag:'7.3 Serious Risks' },
+    { name:'Serious Risk Identified', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
     { name:'Identified Risk', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
     { name:'Comment (Serious Risks)', def:'A free-text field of up to 200 words paired with each Identified Risk, where the AOC provides a detailed description of the risk, its potential impact on the affiliate\'s operations and any recommended follow-up actions or support measures. This comment forms part of the formal AOC review record and may be used by IPPF Secretariat to determine next steps, including escalation, capacity support, or compliance review.', sec:'sec7', tag:'7.3 Serious Risks' },
   ];
@@ -472,13 +480,13 @@
       { label:'Board Term & Governance', desc:'Enter Board Term start/end years and other institutional governance data.' },
       { label:'Key Documents', desc:'Upload the Management Letter (Audit Report) from your external auditor for the reporting year.' },
     ]},
-    '1.1': { title:'Section 1.1 \u2014 Organisation Details', subtitle:'Membership details, contacts, institutional data, and key documents', steps:[
+    '1.1': { title:'Section 1.1 \u2014 Organizational details', subtitle:'Membership details, contacts, institutional data, and key documents', steps:[
       { label:'Membership Details', desc:'Verify your Reporting Year, Reporting Periodicity, IPPF Region, Affiliate Code, Organisation Name, Country of Operation, and Primary Contact.' },
       { label:'Institutional Data', desc:'Provide your registered address and details for key contacts \u2014 Executive Director, Board Chair, Finance Lead, Youth Board Member, and Programmatic Leads.' },
       { label:'Board Term & Governance', desc:'Enter Board Term start/end years and other institutional governance data.' },
       { label:'Key Documents', desc:'Upload the Management Letter (Audit Report) from your external auditor for the reporting year.' },
     ]},
-    '2': { title:'Section 2 \u2014 Narrative Report', subtitle:'Context, results, challenges, strategies, and learning', steps:[
+    '2': { title:'Section 2 \u2014 Narrative report', subtitle:'Context, results, challenges, strategies, and learning', steps:[
       { label:'Context Shifts and Operational Environment', desc:'Describe significant external events or developments during the reporting year that influenced your operating environment.' },
       { label:'Results & Achievements', desc:'Summarise the main outcomes organised by IPPF Strategic Pillar. Highlight work with youth and marginalised populations.' },
       { label:'Challenges', desc:'Describe main difficulties or constraints that affected programme delivery or achievement of planned results.' },
@@ -486,29 +494,29 @@
       { label:'Organisational Update', desc:'Summarise any significant internal changes \u2014 structure, leadership, board composition, staffing, or policies.' },
       { label:'Learning', desc:'Share key insights, lessons, or knowledge gained that will inform future planning.' },
     ]},
-    '3': { title:'Section 3 \u2014 Add New Projects', subtitle:'Register projects not in the original Business Plan', steps:[
+    '3': { title:'Section 3 \u2014 Add new project', subtitle:'Register projects not in the original Business Plan', steps:[
       { label:'Project General Information', desc:'Enter project name, start/end dates, theme, donor, funding type, total contract value, and annual project income.' },
       { label:'Project Focus Area Breakdown', desc:'Allocate the project budget across standardised programmatic focus areas (e.g. Static Clinic, Outreach, Advocacy, CSE).' },
       { label:'Expense Category Breakdown', desc:'Break down expenditure by Personnel, Direct Project Activities, Commodities, and Indirect/Support Costs.' },
       { label:'Project Description', desc:'Provide a summary of the project\'s purpose, target population, geographic scope, and key activities.' },
     ]},
-    '4': { title:'Section 4 \u2014 Budget vs Actuals by Focus Area', subtitle:'Compare budgeted and actual expenses by programmatic focus area', steps:[
+    '4': { title:'Section 4 \u2014 Budget vs actuals by focus area', subtitle:'Compare budgeted and actual expenses by programmatic focus area', steps:[
       { label:'Review Control Cells', desc:'Check the summary row showing total budgeted expenses, total actual expenses, variance, and total spend percentage across all focus areas.' },
       { label:'Enter Actual Expenses', desc:'For each project and focus area, enter the actual amount spent during the reporting year.' },
       { label:'Review Variance & Spend', desc:'Check system-calculated variance ($) and total spend (%) for each focus area. Identify significant deviations.' },
       { label:'Add Remarks', desc:'Provide explanations (up to 200 words) for significant variances, delays, or reallocation of funds.' },
     ]},
-    '5': { title:'Section 5 \u2014 Budget vs Actuals by Expense Category', subtitle:'Compare budgeted and actual expenses by cost type', steps:[
+    '5': { title:'Section 5 \u2014 Budget vs actuals by expense category', subtitle:'Compare budgeted and actual expenses by cost type', steps:[
       { label:'Review Control Cells', desc:'Check the summary row showing total MA budgeted expense, total MA actuals, variance, and total spend percentage.' },
       { label:'Enter Actual Expenses', desc:'For each project and expense category (Personnel, Direct Activities, Commodities, Indirect Costs), enter the actual amount spent.' },
       { label:'Review Variance & Spend', desc:'Check system-calculated variance and total spend percentage. Compare against the focus area view in Section 4.' },
       { label:'Add Variance Explanation', desc:'Provide explanations (up to 200 words) for significant variances in each project.' },
     ]},
-    '6': { title:'Section 6 \u2014 Actual Income Details', subtitle:'Record all income received during the reporting year', steps:[
+    '6': { title:'Section 6 \u2014 Actual income', subtitle:'Record all income received during the reporting year', steps:[
       { label:'Income Summary', desc:'Review the summary showing Total Income, Total Actual Expenses, and Deficit/Surplus calculation.' },
-      { label:'Locally Generated Income', desc:'Enter income from commodity sales, patient fees, training services, government grants, membership fees, and other local sources.' },
-      { label:'International Income (Non-IPPF)', desc:'Enter income from multilateral agencies, foreign governments, international trusts/NGOs, and corporate sources.' },
-      { label:'IPPF Income', desc:'Verify IPPF Core Grant (auto-populated) and enter any other IPPF grants received.' },
+      { label:'Actual Locally Generated Income', desc:'Enter income from commodity sales, patient fees, training services, government grants, membership fees, and other local sources.' },
+      { label:'Actual International Income (Non-IPPF)', desc:'Enter income from multilateral agencies, foreign governments, international trusts/NGOs, and corporate sources.' },
+      { label:'Actual IPPF Income', desc:'Verify IPPF Core Grant (auto-populated) and enter any other IPPF grants received.' },
       { label:'Largest Contributor', desc:'Identify the single organisation that provided the greatest amount of income and specify the amount.' },
     ]},
     '7': { title:'Section 7 \u2014 AOC Review Form', subtitle:'Review and assess the affiliate\'s Annual Report submission', steps:[
@@ -1075,6 +1083,7 @@
       'nurture our federation': 'Nurture our Federation',
       // Section 3
       'new project': 'New Project',
+      'add new project': 'New Project',
       'project name': 'Project Name',
       'start date': 'Start Date',
       'end date': 'End Date',
@@ -1157,10 +1166,14 @@
       'restricted': 'Restricted (Income)',
       'unrestricted': 'Unrestricted (Income)',
       'deficit / surplus': 'Deficit / Surplus',
-      'locally generated income': 'Locally Generated Income',
-      'international income (non-ippf)': 'International Income (Non-IPPF)',
-      'international income (non - ippf)': 'International Income (Non-IPPF)',
-      'ippf income': 'IPPF Income',
+      'locally generated income': 'Actual Locally Generated Income',
+      'actual locally generated income': 'Actual Locally Generated Income',
+      'international income (non-ippf)': 'Actual International Income (Non-IPPF)',
+      'international income (non - ippf)': 'Actual International Income (Non-IPPF)',
+      'actual international income (non-ippf)': 'Actual International Income (Non-IPPF)',
+      'actual international income (non - ippf)': 'Actual International Income (Non-IPPF)',
+      'ippf income': 'Actual IPPF Income',
+      'actual ippf income': 'Actual IPPF Income',
       'commodity sales (including contraceptive, other srh and non-srh supplies/products)': 'Commodity Sales',
       'training, education, professional services and rentals': 'Training, Education, Professional Services',
       'local/national: government': 'Local/National: Government',
@@ -1176,6 +1189,8 @@
       'other ippf grant': 'Other IPPF Grant',
       'income details': 'Actual Income Details',
       'actual income details': 'Actual Income Details',
+      'actual income': 'Actual Income Details',
+      'Actual income': 'Actual Income Details',
       // Section 7 — AOC Review Form
       'final aoc rating': 'Review Outcome',
       'review outcome': 'Review Outcome',
@@ -1188,10 +1203,14 @@
       'general requirements': 'General Requirements',
       'critical requirements': 'Critical Requirements',
       'serious risks identified': 'Serious Risks Identified',
-      'identified risk': 'Identified Risk',
-      'identified risk 1': 'Identified Risk',
-      'identified risk 2': 'Identified Risk',
-      'identified risk 3': 'Identified Risk',
+      'serious risk identified': 'Serious Risk Identified',
+      'serious risk identified 1': 'Serious Risk Identified',
+      'serious risk identified 2': 'Serious Risk Identified',
+      'serious risk identified 3': 'Serious Risk Identified',
+      'identified risk': 'Serious Risk Identified',
+      'identified risk 1': 'Serious Risk Identified',
+      'identified risk 2': 'Serious Risk Identified',
+      'identified risk 3': 'Serious Risk Identified',
       'comment 1': 'Comment (Serious Risks)',
       'comment 2': 'Comment (Serious Risks)',
       'comment 3': 'Comment (Serious Risks)',

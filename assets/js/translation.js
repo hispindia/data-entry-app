@@ -1,8 +1,8 @@
 const translation_mapping = [
     // 1.1 Organization detials
-    { 
+    {
         id: "organization_details", 
-        en: "1.1 Organization Details",
+        en: "1. Organizational details",
         sp: "1.1 Información de la organización",
         fr: "1.1 Détails de l'organisation",
         ar: "بيانات المنظمة ",    
@@ -1485,42 +1485,42 @@ const translation_mapping = [
     },
     {
         id: "organization_report",
-        en: "1. Organization Details",
+        en: "1. Organizational details",
         sp: "1. Información de la AM",
         fr: "1. Informations sur l'AM",
         ar: 'بيانات المنظمة'
     },
     {
         id: "narrative_report",
-        en: "2. Narrative Report",
+        en: "2. Narrative report",
         sp: "2. Informe narrativo",
         fr: "2. Rapport descriptif",
         ar: 'التقرير السردي'
     },
     {
         id: "add_project",
-        en: "3. Add New Project",
+        en: "3. Add new project",
         sp: "3. Añadir nuevo proyecto",
         fr: "3. Ajouter un nouveau projet",
         ar: '3. إضافة مشروع جديد'
     },
     {
         id: "budget_vs_focusarea",
-        en: "4. Budget vs Actuals by Focus Area",
+        en: "4. Budget vs actuals by focus area",
         sp: "4. Presupuesto vs. datos reales según área prioritaria",
         fr: "4. Écart entre le budget et les dépenses réelles par volet d’intervention",
         ar: '4. الميزانية مقابل القيم الفعلية حسب مجال التركيز'
     },
     {
         id: "budget_vs_expense",
-        en: "5. Budget vs Actuals by Expense Category",
+        en: "5. Budget vs actuals by expense category",
         sp: "5. Presupuesto vs. datos reales por categoría de gastos",
         fr: "5. Écart entre le budget et les dépenses réelles par catégorie de dépenses",
         ar: '5. الميزانية مقابل القيم الفعلية حسب فئة الإنفاق'
     },
     {
         id: "actual_income",
-        en: "6. Actual Income",
+        en: "6. Actual income",
         sp: "6. Ingreso real (real)",
         fr: "6. Revenus réels (Chiffres réels)",
         ar: '6. الدخل الفعلي'
@@ -2362,21 +2362,21 @@ const translation_mapping = [
     },
     {
         id: "locally-generated",
-        en: "Locally generated income",
+        en: "Actual locally generated income",
         sp: "Ingresos generados de forma local",
         fr: "Revenus générés localement",
         ar: "الدخل من مصادر محلية"
     },
     {
         id: "international-income",
-        en: "International income (Non - IPPF)",
+        en: "Actual international income (Non - IPPF)",
         sp: "Ingresos internacionales (no procedentes de la IPPF)",
         fr: "Revenus internationaux (hors IPPF)",
         ar: "الدخل الدولي (من غير IPPF)"
     },
     {
         id: "ippf-income",
-        en: "IPPF income",
+        en: "Actual IPPF income",
         sp: "Ingresos de la IPPF",
         fr: "Revenus de l’IPPF",
         ar: "دخل اتحاد IPPF"
@@ -3016,6 +3016,13 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "تفاوت"
     },
     {
+        id: "variation_focusarea",
+        en: "Variance ($)",
+        sp: "Variación ($)",
+        fr: "Écart ($)",
+        ar: "التباين ($)"
+    },
+    {
         id: "control_varaince",
         en: "Control Cell: Variance ($)",
         sp: "Célula de control: Varianza ($)",
@@ -3118,7 +3125,7 @@ de productos (como se indica en la parte de abajo del formulario)
     //Organisational Details 
     {
         id: "orgainsation-info",
-        en: "1.1 Organizational info",
+        en: "1. Organizational details",
         sp: "1.1 Información de la organización",
         fr: "1.1 Renseignements sur l’organisation",
         ar: "1.1 البيانات التنظيمية"
@@ -3253,7 +3260,7 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "budget_vs_actual",
-        en: "4. Total Budgeted Expenses vs Actual Expenses (by Focus Areas)",
+        en: "4. Budget vs actuals by focus area",
         sp: "4. Presupuesto vs. datos reales según área prioritaria",
         fr: "4. Écart entre le budget et les dépenses réelles par volet d’intervention",
         ar: "الميزانية مقابل القيم الفعلية (حسب مجال التركيز)"
@@ -3271,6 +3278,13 @@ de productos (como se indica en la parte de abajo del formulario)
         sp: "Gasto total",
         fr: "Dépense totale",
         ar: "إجمالي الإنفاق"
+    },
+    {
+        id: "total_spend_focusarea",
+        en: "Total Spend (%)",
+        sp: "Gasto total (%)",
+        fr: "Dépense totale (%)",
+        ar: "إجمالي الإنفاق (%)"
     },
     {
         id: "actual_expense",
@@ -3344,7 +3358,7 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "budget_vs_project_expense",
-        en: "5. Total Budgeted Expenses vs Actual Expenses (by Expense Category)",
+        en: "5. Budget vs actuals by expense category",
         sp: "Presupuesto vs. datos reales por categoría de gastos",
         fr: "Écart entre le budget et les dépenses réelles par catégorie de dépenses",
         ar: "5. الميزانية مقابل القيم الفعلية (حسب فئة الإنفاق)"
@@ -3386,16 +3400,23 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "actual_income_details",
-        en: "6 - Actual Income Details",
+        en: "6. Actual income",
         sp: "6 - Detalles de ingresos reales",
         fr: "6 - Détails du revenu réel",
         ar: "6- تفاصيل الدخل الفعلي     "
     },
     {
+        id: "serious_risk_identified",
+        en: "Serious Risk Identified",
+        sp: "Riesgo grave identificado",
+        fr: "Risque grave identifié",
+        ar: "تم تحديد خطر جسيم"
+    },
+    {
         id: "actual_income_details_info",
         en: `<p><strong>Instructions:</strong></p>
-        <p>This sheet captures the actual income during the year, divided into three categories. Local Income,
-          International Non-IPPF Income, and IPPF Income.</p>
+        <p>This sheet captures the actual income during the year, divided into three categories. Actual locally generated income,
+          Actual international income (Non-IPPF), and Actual IPPF income.</p>
         <p>Income categories are self-explained, but if further clarification is needed, please contact the
           Regional Office.</p>
         <p>Actual Income should be reported by Fund Type (i.e. Restricted, Unrestricted, or Designated). The
@@ -3409,7 +3430,7 @@ de productos (como se indica en la parte de abajo del formulario)
     //other 
     {
         id: "new_project",
-        en: "New Project",
+        en: "3. Add new project",
         sp: "Nuevo proyecto",
         fr: "Nouveau projet",
         ar: "مشروع جديد",

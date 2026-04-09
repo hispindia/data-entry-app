@@ -267,7 +267,7 @@ var riskCount = 0;
       const projectRow = `<div  class="serious-risk-list">
       <div class="form-row">
         <div class="form-group col-md-12 textbox-wrap mb-2">
-          <label for="${risk.name}" >Identified Risk ${riskCount+1}</label>
+          <label for="${risk.name}" ><span data-i18n="intro.serious_risk_identified">Serious Risk Identified</span> ${riskCount+1}</label>
           <input type="text" class="form-control serious-risk textContent" ${tei.disabled ? 'disabled' : ''} value="${name}" id="${risk.name}">                              
           <div class="invalid-feedback"> Error here</div>
          </div>

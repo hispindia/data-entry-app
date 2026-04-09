@@ -730,10 +730,10 @@ const translation_mapping_ar_glossary = [
     },
     {
         id: "other_ippf_grant",
-        en: "Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support provided by IPPF.",
-        sp: "Otros fondos recibidos de la IPPF aparte de las subvenciones básicas. Pueden incluir subvenciones para programas específicos, fondos de emergencia, fondos para la innovación, u otro tipo de ayuda financiera especial otorgada por la IPPF.",
-        fr: "Tout financement supplémentaire reçu de l'IPPF au-delà de la subvention de base. Cela peut inclure des subventions pour des programmes spécifiques, des fonds d'urgence, des fonds d'innovation ou tout autre soutien financier ciblé fourni par l'IPPF.",
-        ar: "كل تمويل إضافي من الاتحاد الدولي لتنظيم الأسرة بخلاف المنحة الأساسية. وهذا يشمل المنح التي تُقدم لبرامج محددة، أو التمويل الطارئ، أو صناديق الابتكار، أو غير ذلك من صور الدعم المالي الموجه التي يقدمها الاتحاد الدولي لتنظيم الأسرة.",
+        en: "Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support provided by IPPF. Please enter vouchers and opportunity grants as restricted income.",
+        sp: "Otros fondos recibidos de la IPPF aparte de las subvenciones básicas. Pueden incluir subvenciones para programas específicos, fondos de emergencia, fondos para la innovación, u otro tipo de ayuda financiera especial otorgada por la IPPF. Por favor, introduzca los vales y las subvenciones de oportunidad como ingresos restringidos.",
+        fr: "Tout financement supplémentaire reçu de l'IPPF au-delà de la subvention de base. Cela peut inclure des subventions pour des programmes spécifiques, des fonds d'urgence, des fonds d'innovation ou tout autre soutien financier ciblé fourni par l'IPPF. Veuillez saisir les bons et les subventions d'opportunité comme des revenus affectés.",
+        ar: "كل تمويل إضافي من الاتحاد الدولي لتنظيم الأسرة بخلاف المنحة الأساسية. وهذا يشمل المنح التي تُقدم لبرامج محددة، أو التمويل الطارئ، أو صناديق الابتكار، أو غير ذلك من صور الدعم المالي الموجه التي يقدمها الاتحاد الدولي لتنظيم الأسرة. يرجى إدخال القسائم ومنح الفرص كدخل مقيد.",
     },
     // 6.5 Largest Contributor
     {

@@ -7,21 +7,21 @@ import { formatNumberInput, getYears, unformatNumber } from '../func.js';
 var totalExpenses = 0;
 const totalsId = [{
   id: 'localIncome',
-  name: 'Locally generated income',
+  name: 'Actual locally generated income',
   format: 'locally-generated'
 }, {
   id: 'internationalIncome',
-  name: 'International income (Non - IPPF)',
+  name: 'Actual international income (Non - IPPF)',
   format: 'international-income'
 }, {
   id: 'ippfIncome',
-  name: 'IPPF income',
+  name: 'Actual IPPF income',
   format: 'ippf-income'
 }]
 const categoryIncome = [
   {
-    name: "Locally generated income",
-    code: "Locally generated income",
+    name: "Actual locally generated income",
+    code: "Actual locally generated income",
     shortName: 'localIncome',
     format: 'locally-generated',
     id: "AwylsBWgOEK",
@@ -77,8 +77,8 @@ const categoryIncome = [
     ],
   },
   {
-    name: "International income (Non - IPPF)",
-    code: "International income (Non - IPPF)",
+    name: "Actual international income (Non - IPPF)",
+    code: "Actual international income (Non - IPPF)",
     id: "EbbYrTYLZNZ",
     shortName: 'internationalIncome',
     format: 'international-income',
@@ -116,8 +116,8 @@ const categoryIncome = [
     ],
   },
   {
-    name: "IPPF income",
-    code: "IPPF income",
+    name: "Actual IPPF income",
+    code: "Actual IPPF income",
     id: "iKycH3397wP",
     shortName: 'ippfIncome',
     format: 'ippf-income',
