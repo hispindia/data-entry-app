@@ -95,6 +95,27 @@ h6.title-main {
   line-height: 1.25;
   font-weight: 700;
 }
+
+/* Section group cards for board/staff blocks */
+.member-group {
+  margin: 1rem 0 1.25rem;
+  padding: 1rem 1rem 0.75rem;
+  border-top: 5px solid transparent;
+  border-radius: 10px;
+}
+.member-group-board {
+  background: rgba(162, 228, 244, 0.22);
+  border-top-color: #20666e;
+}
+.member-group-staff {
+  background: rgba(215, 224, 223, 0.34);
+  border-top-color: #0e3242;
+}
+.member-group-title {
+  margin-bottom: 0.75rem;
+  color: #0e3242;
+  font-weight: 700;
+}
 a{cursor:pointer;}
 .card{background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 8px;}
 .btn {

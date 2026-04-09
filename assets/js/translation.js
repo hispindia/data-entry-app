@@ -134,6 +134,20 @@ const translation_mapping = [
         ar: 'الوثائق الرئيسية'
     },
     {
+        id: "board_members",
+        en: "Board Members",
+        sp: "Miembros de la Junta",
+        fr: "Membres du Conseil",
+        ar: "أعضاء المجلس"
+    },
+    {
+        id: "staff_members",
+        en: "Staff Members",
+        sp: "Miembros del personal",
+        fr: "Membres du personnel",
+        ar: "أعضاء الفريق"
+    },
+    {
         id: "executive_director",
         en: "Executive Director / CEO (or equivalent)",
         sp: "Director/a Ejecutivo/a (o equivalente)",

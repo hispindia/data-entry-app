@@ -293,7 +293,7 @@
     { name:'Executive Director / CEO', def:'The person responsible for the overall management and operational leadership of the organisation.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Board Chair / President', def:'The elected or appointed leader of the Affiliate\'s governing board.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Officer of the Board', def:'Additional elected or appointed members of the governing board holding designated roles such as Vice President, Secretary, or Treasurer. These individuals support the governance and oversight of the organisation.', sec:'sec1', tag:'1.2 Institutional' },
-    { name:'Youth Board Member', def:'A member of the governing board who represents the youth constituency of the Affiliate.', sec:'sec1', tag:'1.2 Institutional' },
+    { name:'Youth Board Member', def:'A member of the governing board who represents the youth constituency of the Affiliate. Put N/A in case the position is vacant.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Programmatic Lead(s)', def:'The individual responsible for managing and delivering the Affiliate\'s portfolio of programmes and/or projects.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Finance Lead', def:'The individual responsible for managing the financial operations of the Affiliate, including budgeting, accounting, financial reporting, and audit compliance.', sec:'sec1', tag:'1.2 Institutional' },
     { name:'Board Term \u2014 Start Year', def:'The year in which the current governing board\'s term of service commenced. Alternatively, use the term period of the Board Chair / President.', sec:'sec1', tag:'1.2 Institutional' },
@@ -476,13 +476,13 @@
     // Annual Report sections (detected by leading number in URL/title)
     '1': { title:'Section 1 \u2014 Organisation Details', subtitle:'Membership details, contacts, institutional data, and key documents', steps:[
       { label:'Membership Details', desc:'Verify your Reporting Year, Reporting Periodicity, IPPF Region, Affiliate Code, Organisation Name, Country of Operation, and Primary Contact.' },
-      { label:'Institutional Data', desc:'Provide your registered address and details for key contacts \u2014 Executive Director, Board Chair, Finance Lead, Youth Board Member, and Programmatic Leads.' },
+      { label:'Institutional Data', desc:'Provide your registered address and details for key contacts \u2014 Executive Director, Board Chair, Finance Lead, Youth Board Member, and Programmatic Leads. Put N/A in case the position is vacant.' },
       { label:'Board Term & Governance', desc:'Enter Board Term start/end years and other institutional governance data.' },
       { label:'Key Documents', desc:'Upload the Management Letter (Audit Report) from your external auditor for the reporting year.' },
     ]},
     '1.1': { title:'Section 1.1 \u2014 Organizational details', subtitle:'Membership details, contacts, institutional data, and key documents', steps:[
       { label:'Membership Details', desc:'Verify your Reporting Year, Reporting Periodicity, IPPF Region, Affiliate Code, Organisation Name, Country of Operation, and Primary Contact.' },
-      { label:'Institutional Data', desc:'Provide your registered address and details for key contacts \u2014 Executive Director, Board Chair, Finance Lead, Youth Board Member, and Programmatic Leads.' },
+      { label:'Institutional Data', desc:'Provide your registered address and details for key contacts \u2014 Executive Director, Board Chair, Finance Lead, Youth Board Member, and Programmatic Leads. Put N/A in case the position is vacant.' },
       { label:'Board Term & Governance', desc:'Enter Board Term start/end years and other institutional governance data.' },
       { label:'Key Documents', desc:'Upload the Management Letter (Audit Report) from your external auditor for the reporting year.' },
     ]},
