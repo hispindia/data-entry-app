@@ -1546,7 +1546,576 @@ const translation_mapping = [
         fr: "Génération de rapports standard à partir du portail BP",
         ar: 'إنشاء التقارير القياسية من بوابة BP'
     },
+    {
+        id: "maintenance",
+        en: "Maintenance",
+        sp: "Mantenimiento",
+        fr: "Maintenance",
+        ar: "الصيانة"
+    },
+    {
+        id: "log_out",
+        en: "LOG OUT",
+        sp: "CERRAR SESIÃ“N",
+        fr: "SE DÃ‰CONNECTER",
+        ar: "تسجيل الخروج"
+    },
+    {
+        id: "member_association",
+        en: "Member Association",
+        sp: "AsociaciÃ³n Miembro",
+        fr: "Association membre",
+        ar: "الجمعية العضو"
+    },
+    {
+        id: "home_welcome_message",
+        en: "Welcome to the <strong>IPPF Business Planning and Reporting Portal</strong>. The portal is your one-stop-shop for uploading your annual business plans, submitting annual and half-year reports, or for downloading reports and relevant documents.",
+        sp: "Bienvenido al <strong>Portal de PlanificaciÃ³n y Reporte de IPPF</strong>. El portal es su ventanilla Ãºnica para cargar sus planes de negocio anuales, presentar informes anuales y semestrales, o descargar informes y documentos pertinentes.",
+        fr: "Bienvenue sur le <strong>Portail de planification et de rapport de l'IPPF</strong>. Ce portail est votre guichet unique pour tÃ©lÃ©verser vos plans d'activitÃ© annuels, soumettre vos rapports annuels et semestriels, ou tÃ©lÃ©charger des rapports et des documents pertinents.",
+        ar: "مرحبًا بكم في <strong>بوابة التخطيط وإعداد التقارير التابعة لـ IPPF</strong>. تُعد البوابة منصتكم الموحدة لرفع خطط الأعمال السنوية، وتقديم التقارير السنوية ونصف السنوية، أو تنزيل التقارير والوثائق ذات الصلة."
+    },
+    {
+        id: "timeline_title",
+        en: "MA BPR Timelines: 2026",
+        sp: "Cronograma MA BPR: 2026",
+        fr: "Calendrier MA BPR : 2026",
+        ar: "الجدول الزمني لـ MA BPR: 2026"
+    },
+    {
+        id: "reporting",
+        en: "Reporting",
+        sp: "Informe",
+        fr: "Rapport",
+        ar: "إعداد التقارير"
+    },
+    {
+        id: "planning",
+        en: "Planning",
+        sp: "PlanificaciÃ³n",
+        fr: "Planification",
+        ar: "التخطيط"
+    },
+    {
+        id: "review_analysis",
+        en: "Review & Analysis",
+        sp: "RevisiÃ³n y AnÃ¡lisis",
+        fr: "Revue et Analyse",
+        ar: "المراجعة والتحليل"
+    },
+    {
+        id: "period_apr_jun",
+        en: "April - June",
+        sp: "Abril - Junio",
+        fr: "Avril - Juin",
+        ar: "أبريل - يونيو"
+    },
+    {
+        id: "period_jul_sep",
+        en: "July - September",
+        sp: "Julio - Septiembre",
+        fr: "Juillet - Septembre",
+        ar: "يوليو - سبتمبر"
+    },
+    {
+        id: "period_oct_dec",
+        en: "October - December",
+        sp: "Octubre - Diciembre",
+        fr: "Octobre - DÃ©cembre",
+        ar: "أكتوبر - ديسمبر"
+    },
+    {
+        id: "date_april_10",
+        en: "April 10",
+        sp: "10 de abril",
+        fr: "10 avril",
+        ar: "10 أبريل"
+    },
+    {
+        id: "date_may_15",
+        en: "May 15",
+        sp: "15 de mayo",
+        fr: "15 mai",
+        ar: "15 مايو"
+    },
+    {
+        id: "date_june_15",
+        en: "June 15",
+        sp: "15 de junio",
+        fr: "15 juin",
+        ar: "15 يونيو"
+    },
+    {
+        id: "date_july_15",
+        en: "July 15",
+        sp: "15 de julio",
+        fr: "15 juillet",
+        ar: "15 يوليو"
+    },
+    {
+        id: "date_august_15",
+        en: "August 15",
+        sp: "15 de agosto",
+        fr: "15 aoÃ»t",
+        ar: "15 أغسطس"
+    },
+    {
+        id: "date_september_18",
+        en: "September 18",
+        sp: "18 de septiembre",
+        fr: "18 septembre",
+        ar: "18 سبتمبر"
+    },
+    {
+        id: "date_october_16",
+        en: "October 16",
+        sp: "16 de octubre",
+        fr: "16 octobre",
+        ar: "16 أكتوبر"
+    },
+    {
+        id: "date_october_30",
+        en: "October 30",
+        sp: "30 de octubre",
+        fr: "30 octobre",
+        ar: "30 أكتوبر"
+    },
+    {
+        id: "date_nov_19_tbc",
+        en: "Nov 19 (tbc)",
+        sp: "19 nov. (por confirmar)",
+        fr: "19 nov. (Ã  confirmer)",
+        ar: "19 نوفمبر (قيد التأكيد)"
+    },
+    {
+        id: "annual_reports_2025",
+        en: "2025 Annual Reports",
+        sp: "Informes anuales 2025",
+        fr: "Rapports annuels 2025",
+        ar: "التقارير السنوية لعام 2025"
+    },
+    {
+        id: "portal_open",
+        en: "Portal Open",
+        sp: "Portal abierto",
+        fr: "Portail ouvert",
+        ar: "البوابة مفتوحة"
+    },
+    {
+        id: "portal_opens",
+        en: "Portal opens",
+        sp: "Portal abre",
+        fr: "Ouverture du portail",
+        ar: "تفتح البوابة"
+    },
+    {
+        id: "portal_closes",
+        en: "Portal closes",
+        sp: "Portal cierra",
+        fr: "Fermeture du portail",
+        ar: "تغلق البوابة"
+    },
+    {
+        id: "aoc_ar_review",
+        en: "AOC AR Review",
+        sp: "RevisiÃ³n AOC AR",
+        fr: "Revue AOC AR",
+        ar: "مراجعة AOC AR"
+    },
+    {
+        id: "completed",
+        en: "Completed",
+        sp: "Completado",
+        fr: "TerminÃ©",
+        ar: "مكتمل"
+    },
+    {
+        id: "second_tranche_2026",
+        en: "2nd tranche 2026",
+        sp: "2.Âº tramo 2026",
+        fr: "2e tranche 2026",
+        ar: "الشريحة الثانية 2026"
+    },
+    {
+        id: "funding_released",
+        en: "Funding Released",
+        sp: "FinanciaciÃ³n liberada",
+        fr: "Financement dÃ©bloquÃ©",
+        ar: "تم صرف التمويل"
+    },
+    {
+        id: "ipfs_2027",
+        en: "2027 IPFs",
+        sp: "IPFs 2027",
+        fr: "IPFs 2027",
+        ar: "IPFs لعام 2027"
+    },
+    {
+        id: "board_confirmation",
+        en: "Board Confirmation",
+        sp: "ConfirmaciÃ³n de la Junta",
+        fr: "Confirmation du Conseil",
+        ar: "تأكيد مجلس الإدارة"
+    },
+    {
+        id: "bp_2027_hyr_2026",
+        en: "2027 BP & 2026 HYR",
+        sp: "BP 2027 y HYR 2026",
+        fr: "BP 2027 et HYR 2026",
+        ar: "خطة العمل 2027 وتقرير نصف السنة 2026"
+    },
+    {
+        id: "trt_review",
+        en: "TRT Review",
+        sp: "RevisiÃ³n TRT",
+        fr: "Revue TRT",
+        ar: "مراجعة TRT"
+    },
+    {
+        id: "third_tranche_2026",
+        en: "3rd tranche 2026",
+        sp: "3.er tramo 2026",
+        fr: "3e tranche 2026",
+        ar: "الشريحة الثالثة 2026"
+    },
+    {
+        id: "budgets_2027",
+        en: "2027 Budgets",
+        sp: "Presupuestos 2027",
+        fr: "Budgets 2027",
+        ar: "ميزانيات 2027"
+    },
+    {
+        id: "c_far",
+        en: "C-FAR",
+        sp: "C-FAR",
+        fr: "C-FAR",
+        ar: "C-FAR"
+    },
+    {
+        id: "now_active",
+        en: "Now Active",
+        sp: "Activo Ahora",
+        fr: "Actif",
+        ar: "نشط الآن"
+    },
+    {
+        id: "annual_reporting",
+        en: "Annual Reporting",
+        sp: "Informe Anual",
+        fr: "Rapport Annuel",
+        ar: "التقارير السنوية"
+    },
+    {
+        id: "mas_commenced",
+        en: "MAs Commenced",
+        sp: "MAs Iniciadas",
+        fr: "AM commencÃ©es",
+        ar: "الجمعيات التي بدأت"
+    },
+    {
+        id: "finalized_reporting",
+        en: "Finalized Reporting",
+        sp: "Informe Finalizado",
+        fr: "Rapport finalisÃ©",
+        ar: "تم الانتهاء من التقارير"
+    },
+    {
+        id: "notice_board",
+        en: "Notice Board",
+        sp: "TablÃ³n de Anuncios",
+        fr: "Tableau d'affichage",
+        ar: "لوحة الإعلانات"
+    },
+    {
+        id: "english_label",
+        en: "English",
+        sp: "InglÃ©s",
+        fr: "Anglais",
+        ar: "الإنجليزية"
+    },
+    {
+        id: "spanish_label",
+        en: "Spanish",
+        sp: "EspaÃ±ol",
+        fr: "Espagnol",
+        ar: "الإسبانية"
+    },
+    {
+        id: "french_label",
+        en: "French",
+        sp: "FrancÃ©s",
+        fr: "FranÃ§ais",
+        ar: "الفرنسية"
+    },
+    {
+        id: "arabic_label",
+        en: "Arabic",
+        sp: "Ãrabe",
+        fr: "Arabe",
+        ar: "العربية"
+    },
+    {
+        id: "member_association_selected",
+        en: "Member Association {{orgUnitName}} selected!",
+        sp: "Se ha seleccionado la AsociaciÃ³n Miembro {{orgUnitName}}.",
+        fr: "L'association membre {{orgUnitName}} a Ã©tÃ© sÃ©lectionnÃ©e.",
+        ar: "تم اختيار الجمعية العضو {{orgUnitName}}."
+    },
+    {
+        id: "home_selection_info",
+        en: "Changes made here will reflect all around the pages and the data will be displayed accordingly. Please select carefully!",
+        sp: "Los cambios realizados aquÃ­ se reflejarÃ¡n en todas las pÃ¡ginas y los datos se mostrarÃ¡n en consecuencia. Â¡Seleccione cuidadosamente!",
+        fr: "Les modifications apportÃ©es ici se reflÃ¨teront dans toutes les pages et les donnÃ©es seront affichÃ©es en consÃ©quence. Veuillez sÃ©lectionner avec soin !",
+        ar: "ستنعكس التغييرات التي يتم إجراؤها هنا في جميع الصفحات وسيتم عرض البيانات وفقًا لذلك. يُرجى الاختيار بعناية."
+    },
+    // Homepage French encoding overrides: later duplicate ids intentionally win during resource construction.
+    {
+        id: "log_out",
+        en: "LOG OUT",
+        sp: "CERRAR SESIÃƒâ€œN",
+        fr: "SE DÉCONNECTER",
+        ar: "ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬"
+    },
+    {
+        id: "home_welcome_message",
+        en: "Welcome to the <strong>IPPF Business Planning and Reporting Portal</strong>. The portal is your one-stop-shop for uploading your annual business plans, submitting annual and half-year reports, or for downloading reports and relevant documents.",
+        sp: "Bienvenido al <strong>Portal de PlanificaciÃƒÂ³n y Reporte de IPPF</strong>. El portal es su ventanilla ÃƒÂºnica para cargar sus planes de negocio anuales, presentar informes anuales y semestrales, o descargar informes y documentos pertinentes.",
+        fr: "Bienvenue sur le <strong>Portail de planification et de rapport de l'IPPF</strong>. Ce portail est votre guichet unique pour téléverser vos plans d'activité annuels, soumettre vos rapports annuels et semestriels, ou télécharger des rapports et des documents pertinents.",
+        ar: "Ù…Ø±Ø­Ø¨Ù‹Ø§ Ø¨ÙƒÙ… ÙÙŠ <strong>Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„ØªØ®Ø·ÙŠØ· ÙˆØ¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„ØªÙ‚Ø§Ø±ÙŠØ± Ø§Ù„ØªØ§Ø¨Ø¹Ø© Ù„Ù€ IPPF</strong>. ØªÙØ¹Ø¯ Ø§Ù„Ø¨ÙˆØ§Ø¨Ø© Ù…Ù†ØµØªÙƒÙ… Ø§Ù„Ù…ÙˆØ­Ø¯Ø© Ù„Ø±ÙØ¹ Ø®Ø·Ø· Ø§Ù„Ø£Ø¹Ù…Ø§Ù„ Ø§Ù„Ø³Ù†ÙˆÙŠØ©ØŒ ÙˆØªÙ‚Ø¯ÙŠÙ… Ø§Ù„ØªÙ‚Ø§Ø±ÙŠØ± Ø§Ù„Ø³Ù†ÙˆÙŠØ© ÙˆÙ†ØµÙ Ø§Ù„Ø³Ù†ÙˆÙŠØ©ØŒ Ø£Ùˆ ØªÙ†Ø²ÙŠÙ„ Ø§Ù„ØªÙ‚Ø§Ø±ÙŠØ± ÙˆØ§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø°Ø§Øª Ø§Ù„ØµÙ„Ø©."
+    },
+    {
+        id: "period_oct_dec",
+        en: "October - December",
+        sp: "Octubre - Diciembre",
+        fr: "Octobre - Décembre",
+        ar: "Ø£ÙƒØªÙˆØ¨Ø± - Ø¯ÙŠØ³Ù…Ø¨Ø±"
+    },
+    {
+        id: "date_august_15",
+        en: "August 15",
+        sp: "15 de agosto",
+        fr: "15 août",
+        ar: "15 Ø£ØºØ³Ø·Ø³"
+    },
+    {
+        id: "date_nov_19_tbc",
+        en: "Nov 19 (tbc)",
+        sp: "19 nov. (por confirmar)",
+        fr: "19 nov. (à confirmer)",
+        ar: "19 Ù†ÙˆÙÙ…Ø¨Ø± (Ù‚ÙŠØ¯ Ø§Ù„ØªØ£ÙƒÙŠØ¯)"
+    },
+    {
+        id: "completed",
+        en: "Completed",
+        sp: "Completado",
+        fr: "Terminé",
+        ar: "Ù…ÙƒØªÙ…Ù„"
+    },
+    {
+        id: "funding_released",
+        en: "Funding Released",
+        sp: "FinanciaciÃƒÂ³n liberada",
+        fr: "Financement débloqué",
+        ar: "ØªÙ… ØµØ±Ù Ø§Ù„ØªÙ…ÙˆÙŠÙ„"
+    },
+    {
+        id: "mas_commenced",
+        en: "MAs Commenced",
+        sp: "MAs Iniciadas",
+        fr: "AM commencées",
+        ar: "Ø§Ù„Ø¬Ù…Ø¹ÙŠØ§Øª Ø§Ù„ØªÙŠ Ø¨Ø¯Ø£Øª"
+    },
+    {
+        id: "finalized_reporting",
+        en: "Finalized Reporting",
+        sp: "Informe Finalizado",
+        fr: "Rapport finalisé",
+        ar: "ØªÙ… Ø§Ù„Ø§Ù†ØªÙ‡Ø§Ø¡ Ù…Ù† Ø§Ù„ØªÙ‚Ø§Ø±ÙŠØ±"
+    },
+    {
+        id: "french_label",
+        en: "French",
+        sp: "FrancÃƒÂ©s",
+        fr: "Français",
+        ar: "Ø§Ù„ÙØ±Ù†Ø³ÙŠØ©"
+    },
+    {
+        id: "member_association_selected",
+        en: "Member Association {{orgUnitName}} selected!",
+        sp: "Se ha seleccionado la AsociaciÃƒÂ³n Miembro {{orgUnitName}}.",
+        fr: "L'association membre {{orgUnitName}} a été sélectionnée.",
+        ar: "ØªÙ… Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¬Ù…Ø¹ÙŠØ© Ø§Ù„Ø¹Ø¶Ùˆ {{orgUnitName}}."
+    },
+    {
+        id: "home_selection_info",
+        en: "Changes made here will reflect all around the pages and the data will be displayed accordingly. Please select carefully!",
+        sp: "Los cambios realizados aquÃƒÂ­ se reflejarÃƒÂ¡n en todas las pÃƒÂ¡ginas y los datos se mostrarÃƒÂ¡n en consecuencia. Ã‚Â¡Seleccione cuidadosamente!",
+        fr: "Les modifications apportées ici se reflèteront dans toutes les pages et les données seront affichées en conséquence. Veuillez sélectionner avec soin !",
+        ar: "Ø³ØªÙ†Ø¹ÙƒØ³ Ø§Ù„ØªØºÙŠÙŠØ±Ø§Øª Ø§Ù„ØªÙŠ ÙŠØªÙ… Ø¥Ø¬Ø±Ø§Ø¤Ù‡Ø§ Ù‡Ù†Ø§ ÙÙŠ Ø¬Ù…ÙŠØ¹ Ø§Ù„ØµÙØ­Ø§Øª ÙˆØ³ÙŠØªÙ… Ø¹Ø±Ø¶ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙˆÙÙ‚Ù‹Ø§ Ù„Ø°Ù„Ùƒ. ÙŠÙØ±Ø¬Ù‰ Ø§Ù„Ø§Ø®ØªÙŠØ§Ø± Ø¨Ø¹Ù†Ø§ÙŠØ©."
+    },
 //changes updated above
+    // Final clean homepage overrides: later duplicate ids intentionally win during resource construction.
+    {
+        id: "log_out",
+        en: "LOG OUT",
+        sp: "CERRAR SESIÓN",
+        fr: "SE DÉCONNECTER",
+        ar: "تسجيل الخروج"
+    },
+    {
+        id: "member_association",
+        en: "Member Association",
+        sp: "Asociación Miembro",
+        fr: "Association membre",
+        ar: "الجمعية العضو"
+    },
+    {
+        id: "home_welcome_message",
+        en: "Welcome to the <strong>IPPF Business Planning and Reporting Portal</strong>. The portal is your one-stop-shop for uploading your annual business plans, submitting annual and half-year reports, or for downloading reports and relevant documents.",
+        sp: "Bienvenido al <strong>Portal de Planificación y Reporte de IPPF</strong>. El portal es su ventanilla única para cargar sus planes de negocio anuales, presentar informes anuales y semestrales, o descargar informes y documentos pertinentes.",
+        fr: "Bienvenue sur le <strong>Portail de planification et de rapport de l'IPPF</strong>. Ce portail est votre guichet unique pour téléverser vos plans d'activité annuels, soumettre vos rapports annuels et semestriels, ou télécharger des rapports et des documents pertinents.",
+        ar: "مرحبًا بكم في <strong>بوابة التخطيط وإعداد التقارير التابعة لـ IPPF</strong>. تُعد البوابة منصتكم الموحدة لرفع خطط الأعمال السنوية، وتقديم التقارير السنوية ونصف السنوية، أو تنزيل التقارير والوثائق ذات الصلة."
+    },
+    {
+        id: "planning",
+        en: "Planning",
+        sp: "Planificación",
+        fr: "Planification",
+        ar: "التخطيط"
+    },
+    {
+        id: "review_analysis",
+        en: "Review & Analysis",
+        sp: "Revisión y Análisis",
+        fr: "Revue et Analyse",
+        ar: "المراجعة والتحليل"
+    },
+    {
+        id: "period_oct_dec",
+        en: "October - December",
+        sp: "Octubre - Diciembre",
+        fr: "Octobre - Décembre",
+        ar: "أكتوبر - ديسمبر"
+    },
+    {
+        id: "date_august_15",
+        en: "August 15",
+        sp: "15 de agosto",
+        fr: "15 août",
+        ar: "15 أغسطس"
+    },
+    {
+        id: "date_nov_19_tbc",
+        en: "Nov 19 (tbc)",
+        sp: "19 nov. (por confirmar)",
+        fr: "19 nov. (à confirmer)",
+        ar: "19 نوفمبر (قيد التأكيد)"
+    },
+    {
+        id: "aoc_ar_review",
+        en: "AOC AR Review",
+        sp: "Revisión AOC AR",
+        fr: "Revue AOC AR",
+        ar: "مراجعة AOC AR"
+    },
+    {
+        id: "completed",
+        en: "Completed",
+        sp: "Completado",
+        fr: "Terminé",
+        ar: "مكتمل"
+    },
+    {
+        id: "second_tranche_2026",
+        en: "2nd tranche 2026",
+        sp: "2.º tramo 2026",
+        fr: "2e tranche 2026",
+        ar: "الشريحة الثانية 2026"
+    },
+    {
+        id: "funding_released",
+        en: "Funding Released",
+        sp: "Financiación liberada",
+        fr: "Financement débloqué",
+        ar: "تم صرف التمويل"
+    },
+    {
+        id: "board_confirmation",
+        en: "Board Confirmation",
+        sp: "Confirmación de la Junta",
+        fr: "Confirmation du Conseil",
+        ar: "تأكيد مجلس الإدارة"
+    },
+    {
+        id: "trt_review",
+        en: "TRT Review",
+        sp: "Revisión TRT",
+        fr: "Revue TRT",
+        ar: "مراجعة TRT"
+    },
+    {
+        id: "mas_commenced",
+        en: "MAs Commenced",
+        sp: "MAs Iniciadas",
+        fr: "AM commencées",
+        ar: "الجمعيات التي بدأت"
+    },
+    {
+        id: "finalized_reporting",
+        en: "Finalized Reporting",
+        sp: "Informe Finalizado",
+        fr: "Rapport finalisé",
+        ar: "تم الانتهاء من التقارير"
+    },
+    {
+        id: "notice_board",
+        en: "Notice Board",
+        sp: "Tablón de Anuncios",
+        fr: "Tableau d'affichage",
+        ar: "لوحة الإعلانات"
+    },
+    {
+        id: "english_label",
+        en: "English",
+        sp: "Inglés",
+        fr: "Anglais",
+        ar: "الإنجليزية"
+    },
+    {
+        id: "spanish_label",
+        en: "Spanish",
+        sp: "Español",
+        fr: "Espagnol",
+        ar: "الإسبانية"
+    },
+    {
+        id: "french_label",
+        en: "French",
+        sp: "Francés",
+        fr: "Français",
+        ar: "الفرنسية"
+    },
+    {
+        id: "arabic_label",
+        en: "Arabic",
+        sp: "Árabe",
+        fr: "Arabe",
+        ar: "العربية"
+    },
+    {
+        id: "member_association_selected",
+        en: "Member Association {{orgUnitName}} selected!",
+        sp: "Se ha seleccionado la Asociación Miembro {{orgUnitName}}.",
+        fr: "L'association membre {{orgUnitName}} a été sélectionnée.",
+        ar: "تم اختيار الجمعية العضو {{orgUnitName}}."
+    },
+    {
+        id: "home_selection_info",
+        en: "Changes made here will reflect all around the pages and the data will be displayed accordingly. Please select carefully!",
+        sp: "Los cambios realizados aquí se reflejarán en todas las páginas y los datos se mostrarán en consecuencia. ¡Seleccione cuidadosamente!",
+        fr: "Les modifications apportées ici se reflèteront dans toutes les pages et les données seront affichées en conséquence. Veuillez sélectionner avec soin !",
+        ar: "ستنعكس التغييرات التي يتم إجراؤها هنا في جميع الصفحات وسيتم عرض البيانات وفقًا لذلك. يُرجى الاختيار بعناية."
+    },
     {
         id: "business_plan",
         en: "3 Year Business Plan",

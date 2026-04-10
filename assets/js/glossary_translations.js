@@ -865,6 +865,14 @@ const translation_mapping_ar_glossary = [
     // ─────────────────────────────────────────────
     // Page 1: Organisation Details — Instructions Panel
     // ─────────────────────────────────────────────
+    // Section title
+    {
+        id: "instr_sec1_section_title",
+        en: "Section 1 — Organisation Details",
+        sp: "Sección 1 — Datos de la organización",
+        fr: "Section 1 — Détails de l'organisation",
+        ar: "القسم 1 — تفاصيل المنظمة",
+    },
     // Panel header
     {
         id: "instr_sec1_title",
@@ -872,6 +880,14 @@ const translation_mapping_ar_glossary = [
         sp: "Datos de afiliación, contactos, datos institucionales y documentos principales.",
         fr: "Renseignements sur l'adhésion, contacts, données institutionnelles et documents clés.",
         ar: "بيانات العضوية، وجهات الاتصال، والبيانات المؤسسية، والوثائق الرئيسية.",
+    },
+    // Step 1 label
+    {
+        id: "instr_sec1_step1_label",
+        en: "Membership Details",
+        sp: "Datos de afiliación",
+        fr: "Détails de l'adhésion",
+        ar: "بيانات العضوية",
     },
     // Step 1
     {
@@ -881,6 +897,14 @@ const translation_mapping_ar_glossary = [
         fr: "Vérifiez l'année de déclaration, la périodicité de déclaration, la région de l'IPPF, le code de l'affilié, le nom de l'organisation, le pays d'opération et le contact principal.",
         ar: "تحقق من سنة التقرير، ودورية الإبلاغ، وإقليم الاتحاد الدولي لتنظيم الأسرة، وكود الجهة التابعة، واسم المنظمة، وبلد العمليات، وجهة الاتصال الرئيسية.",
     },
+    // Step 2 label
+    {
+        id: "instr_sec1_step2_label",
+        en: "Institutional Data",
+        sp: "Datos institucionales",
+        fr: "Données institutionnelles",
+        ar: "البيانات المؤسسية",
+    },
     // Step 2
     {
         id: "instr_sec1_step2_title",
@@ -889,6 +913,14 @@ const translation_mapping_ar_glossary = [
         fr: "Indiquez votre adresse enregistrée et les coordonnées des contacts clés : Directeur·ce exécutif·ve, Président·e du conseil d'administration, Responsable financier, Jeune membre du conseil et Chefs de file programmatiques.",
         ar: "قدم عنوانك المسجل وتفاصيل جهات الاتصال الرئيسية — المدير التنفيذي، ورئيس مجلس الإدارة، وقائد الشؤون المالية، وعضو مجلس الشباب، وقادة البرامج.",
     },
+    // Step 3 label
+    {
+        id: "instr_sec1_step3_label",
+        en: "Board Term & Governance",
+        sp: "Período de la junta y gobernanza",
+        fr: "Mandat du conseil et gouvernance",
+        ar: "فترة ولاية المجلس والحوكمة",
+    },
     // Step 3
     {
         id: "instr_sec1_step3_title",
@@ -896,6 +928,14 @@ const translation_mapping_ar_glossary = [
         sp: "Introduzca los años de inicio y finalización del período de la junta directiva y otros datos de gobernanza institucional.",
         fr: "Saisissez les années de début et de fin du mandat du conseil d'administration ainsi que les autres données de gouvernance institutionnelle.",
         ar: "أدخل سنوات بداية ونهاية فترة عمل المجلس وغيرها من بيانات الحوكمة المؤسسية.",
+    },
+    // Step 4 label
+    {
+        id: "instr_sec1_step4_label",
+        en: "Key Documents",
+        sp: "Documentos principales",
+        fr: "Documents clés",
+        ar: "الوثائق الرئيسية",
     },
     // Step 4
     {
@@ -986,6 +1026,14 @@ const translation_mapping_ar_glossary = [
     // ─────────────────────────────────────────────
     // Page 3: Section 3 — Add New Projects Instructions Panel
     // ─────────────────────────────────────────────
+    // Section title
+    {
+        id: "instr_sec3_section_title",
+        en: "Section 3 — Add new project",
+        sp: "Sección 3 — Añadir nuevo proyecto",
+        fr: "Section 3 — Ajouter un nouveau projet",
+        ar: "القسم 3 — إضافة مشروع جديد",
+    },
     // Panel header
     {
         id: "instr_sec3_title",
@@ -993,6 +1041,14 @@ const translation_mapping_ar_glossary = [
         sp: "Registre los proyectos que no figuraban en el Plan de negocio original.",
         fr: "Enregistrez les projets ne figurant pas dans le plan d'activité initial.",
         ar: "سجِّل المشاريع غير المدرجة في خطة الأعمال الأصلية.",
+    },
+    // Step 1 label
+    {
+        id: "instr_sec3_step1_label",
+        en: "Project General Information",
+        sp: "Información general del proyecto",
+        fr: "Informations générales du projet",
+        ar: "معلومات عامة عن المشروع",
     },
     // Step 1
     {
@@ -1002,6 +1058,14 @@ const translation_mapping_ar_glossary = [
         fr: "Saisissez le nom du projet, les dates de début et de fin, le thème, le bailleur de fonds, le type de financement, le montant total du contrat et les recettes annuelles du projet.",
         ar: "أدخل اسم المشروع، وتواريخ البدء/الانتهاء، والموضوع، والجهة المانحة، ونوع التمويل، وإجمالي قيمة العقد، والدخل السنوي للمشروع.",
     },
+    // Step 2 label
+    {
+        id: "instr_sec3_step2_label",
+        en: "Project Focus Area Breakdown",
+        sp: "Desglose por área prioritaria del proyecto",
+        fr: "Répartition par volet d'intervention du projet",
+        ar: "توزيع مجالات تركيز المشروع",
+    },
     // Step 2
     {
         id: "instr_sec3_step2_title",
@@ -1010,6 +1074,14 @@ const translation_mapping_ar_glossary = [
         fr: "Répartissez le budget du projet entre les volets d'intervention programmatiques types (p. ex. Clinique statique, Action de proximité, Plaidoyer, ECS).",
         ar: "وزِّع ميزانية المشروع على مجالات التركيز البرامجية الموحدة (مثل العيادة الثابتة، والتوعية، والدعوة، والتثقيف الجنسي الشامل).",
     },
+    // Step 3 label
+    {
+        id: "instr_sec3_step3_label",
+        en: "Expense Category Breakdown",
+        sp: "Desglose por categoría de gastos",
+        fr: "Répartition par catégorie de dépenses",
+        ar: "توزيع فئات النفقات",
+    },
     // Step 3
     {
         id: "instr_sec3_step3_title",
@@ -1017,6 +1089,14 @@ const translation_mapping_ar_glossary = [
         sp: "Desglose los gastos en Personal, Actividades directas del proyecto, Productos y Costos indirectos/de apoyo.",
         fr: "Décomposez les dépenses par Personnel, Activités directes du projet, Fournitures et Coûts indirects/Dépenses d'appui.",
         ar: "قسِّم النفقات حسب الأفراد، وأنشطة المشروع المباشرة، والسلع الطبية، والتكاليف غير المباشرة/تكاليف الدعم.",
+    },
+    // Step 4 label
+    {
+        id: "instr_sec3_step4_label",
+        en: "Project Description",
+        sp: "Descripción del proyecto",
+        fr: "Description du projet",
+        ar: "وصف المشروع",
     },
     // Step 4
     {
@@ -1029,6 +1109,14 @@ const translation_mapping_ar_glossary = [
     // ─────────────────────────────────────────────
     // Page 4: Section 4 — Budget vs Actuals by Focus Area Instructions Panel
     // ─────────────────────────────────────────────
+    // Section title
+    {
+        id: "instr_sec4_section_title",
+        en: "Section 4 — Budget vs actuals by focus area",
+        sp: "Sección 4 — Presupuesto vs. datos reales según área prioritaria",
+        fr: "Section 4 — Budget vs réalisations par volet d'intervention",
+        ar: "القسم 4 — الميزانية مقابل الفعلي حسب مجال التركيز",
+    },
     // Panel header
     {
         id: "instr_sec4_title",
@@ -1036,6 +1124,14 @@ const translation_mapping_ar_glossary = [
         sp: "Compare los gastos presupuestados y los gastos reales por área prioritaria programática.",
         fr: "Comparez les dépenses budgétées et les dépenses réelles par volet d'intervention programmatique.",
         ar: "قارن النفقات المدرجة في الميزانية بالنفقات الفعلية حسب مجال التركيز البرامجي.",
+    },
+    // Step 1 label
+    {
+        id: "instr_sec4_step1_label",
+        en: "Review Control Cells",
+        sp: "Revisar las celdas de control",
+        fr: "Vérifier les cellules de contrôle",
+        ar: "مراجعة خلايا التحكم",
     },
     // Step 1
     {
@@ -1045,6 +1141,14 @@ const translation_mapping_ar_glossary = [
         fr: "Consultez la ligne récapitulative indiquant le total des dépenses budgétées, le total des dépenses réelles, l'écart et le pourcentage du total des dépenses dans tous les volets d'intervention.",
         ar: "تحقق من الصف الموجز الذي يُظهر إجمالي النفقات المدرجة في الميزانية، وإجمالي النفقات الفعلية، والفارق، ونسبة الإنفاق الكلي عبر جميع مجالات التركيز.",
     },
+    // Step 2 label
+    {
+        id: "instr_sec4_step2_label",
+        en: "Enter Actual Expenses",
+        sp: "Introducir los gastos reales",
+        fr: "Saisir les dépenses réelles",
+        ar: "إدخال النفقات الفعلية",
+    },
     // Step 2
     {
         id: "instr_sec4_step2_title",
@@ -1053,6 +1157,14 @@ const translation_mapping_ar_glossary = [
         fr: "Pour chaque projet et chaque volet d'intervention, saisissez le montant réel dépensé au cours de l'année de déclaration.",
         ar: "لكل مشروع ومجال تركيز، أدخل المبلغ الفعلي الذي تم إنفاقه خلال السنة المشمولة بالتقرير.",
     },
+    // Step 3 label
+    {
+        id: "instr_sec4_step3_label",
+        en: "Review Variance & Spend",
+        sp: "Revisar la variación y el gasto",
+        fr: "Vérifier l'écart et les dépenses",
+        ar: "مراجعة الفارق والإنفاق",
+    },
     // Step 3
     {
         id: "instr_sec4_step3_title",
@@ -1060,6 +1172,14 @@ const translation_mapping_ar_glossary = [
         sp: "Compruebe la variación calculada por el sistema ($) y el gasto total (%) para cada área prioritaria. Identifique las desviaciones significativas.",
         fr: "Vérifiez l'écart calculé par le système ($) et le total des dépenses (%) pour chaque volet d'intervention. Identifiez les écarts significatifs.",
         ar: "تحقق من الفارق المحسوب بواسطة النظام ($) وإجمالي الإنفاق (٪) لكل مجال تركيز. حدد الانحرافات الجوهرية.",
+    },
+    // Step 4 label
+    {
+        id: "instr_sec4_step4_label",
+        en: "Add Remarks",
+        sp: "Añadir observaciones",
+        fr: "Ajouter des remarques",
+        ar: "إضافة ملاحظات",
     },
     // Step 4
     {
@@ -1072,6 +1192,14 @@ const translation_mapping_ar_glossary = [
     // ─────────────────────────────────────────────
     // Page 5: Section 5 — Budget vs Actuals by Expense Category Instructions Panel
     // ─────────────────────────────────────────────
+    // Section title
+    {
+        id: "instr_sec5_section_title",
+        en: "Section 5 — Budget vs actuals by expense category",
+        sp: "Sección 5 — Presupuesto vs. datos reales por categoría de gastos",
+        fr: "Section 5 — Budget vs réalisations par catégorie de dépenses",
+        ar: "القسم 5 — الميزانية مقابل الفعلي حسب فئة النفقات",
+    },
     // Panel header
     {
         id: "instr_sec5_title",
@@ -1079,6 +1207,14 @@ const translation_mapping_ar_glossary = [
         sp: "Compare los gastos presupuestados y los gastos reales por tipo de costo.",
         fr: "Comparez les dépenses budgétées et les dépenses réelles par type de coût.",
         ar: "قارن النفقات المدرجة في الميزانية بالنفقات الفعلية حسب نوع التكلفة.",
+    },
+    // Step 1 label
+    {
+        id: "instr_sec5_step1_label",
+        en: "Review Control Cells",
+        sp: "Revisar las celdas de control",
+        fr: "Vérifier les cellules de contrôle",
+        ar: "مراجعة خلايا التحكم",
     },
     // Step 1
     {
@@ -1088,6 +1224,14 @@ const translation_mapping_ar_glossary = [
         fr: "Consultez la ligne récapitulative indiquant le total des dépenses budgétées de l'association membre, le total des chiffres réels de l'association membre, l'écart et le pourcentage du total des dépenses.",
         ar: "تحقق من الصف الموجز الذي يُظهر إجمالي النفقات المدرجة في ميزانية الجمعية العضو، وإجمالي المبالغ الفعلية للجمعية العضو، والفارق، ونسبة الإنفاق الكلي.",
     },
+    // Step 2 label
+    {
+        id: "instr_sec5_step2_label",
+        en: "Enter Actual Expenses",
+        sp: "Introducir los gastos reales",
+        fr: "Saisir les dépenses réelles",
+        ar: "إدخال النفقات الفعلية",
+    },
     // Step 2
     {
         id: "instr_sec5_step2_title",
@@ -1096,6 +1240,14 @@ const translation_mapping_ar_glossary = [
         fr: "Pour chaque projet et catégorie de dépenses (Personnel, Activités directes, Fournitures, Coûts indirects), saisissez le montant réel dépensé.",
         ar: "لكل مشروع وفئة إنفاق (الأفراد، والأنشطة المباشرة، والسلع الطبية، والتكاليف غير المباشرة)، أدخل المبلغ الفعلي الذي تم إنفاقه.",
     },
+    // Step 3 label
+    {
+        id: "instr_sec5_step3_label",
+        en: "Review Variance & Spend",
+        sp: "Revisar la variación y el gasto",
+        fr: "Vérifier l'écart et les dépenses",
+        ar: "مراجعة الفارق والإنفاق",
+    },
     // Step 3
     {
         id: "instr_sec5_step3_title",
@@ -1103,6 +1255,14 @@ const translation_mapping_ar_glossary = [
         sp: "Compruebe la variación calculada por el sistema y el porcentaje de gasto total. Compare con la vista por área prioritaria de la Sección 4.",
         fr: "Vérifiez l'écart calculé par le système et le pourcentage du total des dépenses. Comparez avec la vue par volet d'intervention de la Section 4.",
         ar: "تحقق من الفارق المحسوب بواسطة النظام ونسبة الإنفاق الكلي. قارنه بعرض مجال التركيز في القسم 4.",
+    },
+    // Step 4 label
+    {
+        id: "instr_sec5_step4_label",
+        en: "Add Variance Explanation",
+        sp: "Añadir explicación de la variación",
+        fr: "Ajouter une explication de l'écart",
+        ar: "إضافة توضيح الفارق",
     },
     // Step 4
     {
@@ -1115,6 +1275,14 @@ const translation_mapping_ar_glossary = [
     // ─────────────────────────────────────────────
     // Page 6: Section 6 — Actual Income Details Instructions Panel
     // ─────────────────────────────────────────────
+    // Section title
+    {
+        id: "instr_sec6_section_title",
+        en: "Section 6 — Actual income",
+        sp: "Sección 6 — Ingreso real",
+        fr: "Section 6 — Recettes réelles",
+        ar: "القسم 6 — الدخل الفعلي",
+    },
     // Panel header
     {
         id: "instr_sec6_title",
@@ -1122,6 +1290,14 @@ const translation_mapping_ar_glossary = [
         sp: "Registre todos los ingresos recibidos durante el año del informe.",
         fr: "Enregistrez toutes les recettes perçues au cours de l'année de déclaration.",
         ar: "سجِّل جميع الدخل المستلم خلال السنة المشمولة بالتقرير.",
+    },
+    // Step 1 label
+    {
+        id: "instr_sec6_step1_label",
+        en: "Income Summary",
+        sp: "Resumen de ingresos",
+        fr: "Résumé des recettes",
+        ar: "ملخص الدخل",
     },
     // Step 1
     {
@@ -1131,6 +1307,14 @@ const translation_mapping_ar_glossary = [
         fr: "Consultez le résumé indiquant le total des recettes, le total des dépenses réelles et le calcul du déficit/excédent.",
         ar: "راجع الملخص الذي يُظهر إجمالي الدخل، وإجمالي النفقات الفعلية، وحساب العجز/الفائض.",
     },
+    // Step 2 label
+    {
+        id: "instr_sec6_step2_label",
+        en: "Actual Locally Generated Income",
+        sp: "Ingreso real generado localmente",
+        fr: "Recettes réelles générées localement",
+        ar: "الدخل الفعلي المحقق محليًا",
+    },
     // Step 2
     {
         id: "instr_sec6_step2_title",
@@ -1138,6 +1322,14 @@ const translation_mapping_ar_glossary = [
         sp: "Introduzca los ingresos provenientes de ventas de productos, tasas de pacientes, servicios de formación, subvenciones gubernamentales, cuotas de afiliación y otras fuentes locales.",
         fr: "Saisissez les recettes issues des ventes de fournitures, des honoraires de patients, des services de formation, des subventions publiques, des cotisations des membres et d'autres sources locales.",
         ar: "أدخل الدخل من مبيعات السلع الطبية، ورسوم المرضى، وخدمات التدريب، والمنح الحكومية، ورسوم العضوية، وغيرها من المصادر المحلية.",
+    },
+    // Step 3 label
+    {
+        id: "instr_sec6_step3_label",
+        en: "Actual International Income (Non-IPPF)",
+        sp: "Ingreso real internacional (no IPPF)",
+        fr: "Recettes internationales réelles (hors IPPF)",
+        ar: "الدخل الدولي الفعلي (غير الاتحاد الدولي لتنظيم الأسرة)",
     },
     // Step 3
     {
@@ -1147,6 +1339,14 @@ const translation_mapping_ar_glossary = [
         fr: "Saisissez les recettes provenant d'agences multilatérales, de gouvernements étrangers, de trusts/ONG internationaux et de sources commerciales.",
         ar: "أدخل الدخل من الوكالات المتعددة الأطراف، والحكومات الأجنبية، والاتحادات/المنظمات غير الحكومية الدولية، والمصادر التجارية.",
     },
+    // Step 4 label
+    {
+        id: "instr_sec6_step4_label",
+        en: "Actual IPPF Income",
+        sp: "Ingreso real de la IPPF",
+        fr: "Recettes réelles de l'IPPF",
+        ar: "دخل الاتحاد الدولي لتنظيم الأسرة الفعلي",
+    },
     // Step 4
     {
         id: "instr_sec6_step4_title",
@@ -1155,6 +1355,14 @@ const translation_mapping_ar_glossary = [
         fr: "Vérifiez la subvention de base de l'IPPF (renseignée automatiquement) et saisissez toute autre subvention de l'IPPF reçue.",
         ar: "تحقق من المنحة الأساسية للاتحاد الدولي لتنظيم الأسرة (تُعبَّأ آليًّا) وأدخل أي منح أخرى مستلمة من الاتحاد الدولي لتنظيم الأسرة.",
     },
+    // Step 5 label
+    {
+        id: "instr_sec6_step5_label",
+        en: "Largest Contributor",
+        sp: "Donante principal",
+        fr: "Plus grand contributeur",
+        ar: "أكبر جهة مساهمة",
+    },
     // Step 5
     {
         id: "instr_sec6_step5_title",
@@ -1162,5 +1370,191 @@ const translation_mapping_ar_glossary = [
         sp: "Identifique la organización que proporcionó el mayor importe de ingresos y especifique dicho importe.",
         fr: "Identifiez l'organisation qui a versé le montant de recettes le plus élevé et précisez ce montant.",
         ar: "حدِّد المنظمة الوحيدة التي قدمت أكبر قدر من الدخل واذكر المبلغ المحدد.",
+    },
+    // ─────────────────────────────────────────────
+    // Section 2: Glossary name translations (nid_g)
+    // ─────────────────────────────────────────────
+    {
+        id: "name_strategic_pillar",
+        en: "Strategic Pillar",
+        sp: "Pilar estratégico",
+        fr: "Pilier stratégique",
+        ar: "الركيزة الاستراتيجية",
+    },
+    {
+        id: "name_marginalised_populations",
+        en: "Marginalised Populations",
+        sp: "Poblaciones marginadas",
+        fr: "Populations marginalisées",
+        ar: "الفئات السكانية المهمشة",
+    },
+    {
+        id: "name_youth",
+        en: "Youth",
+        sp: "Juventud",
+        fr: "Jeunesse",
+        ar: "الشباب",
+    },
+    {
+        id: "name_good_practice",
+        en: "Good Practice",
+        sp: "Buenas prácticas",
+        fr: "Bonnes pratiques",
+        ar: "الممارسات الجيدة",
+    },
+    // ─────────────────────────────────────────────
+    // Section 2: Glossary definition translations (tid)
+    // ─────────────────────────────────────────────
+    {
+        id: "def_strategic_pillar",
+        en: "One of the core thematic areas of IPPF's organisational strategy. Current pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.",
+        sp: "Una de las áreas temáticas centrales de la estrategia organizativa de la IPPF. Los pilares actuales son: Centrar la atención en las necesidades de las personas, Avanzar en la Agenda sobre sexualidad, Construir solidaridad para lograr el cambio y Nutrir nuestra Federación.",
+        fr: "L'un des domaines thématiques fondamentaux de la stratégie organisationnelle de l'IPPF. Les piliers actuels sont : Centrer les soins sur la personne, Faire évoluer la question de la sexualité, Solidarité pour le changement et Consolider notre Fédération.",
+        ar: "أحد المجالات الموضوعية الأساسية في الاستراتيجية التنظيمية للاتحاد الدولي لتنظيم الأسرة. الركائز الحالية هي: تركيز الرعاية على الأفراد، والارتقاء بالأجندة الجنسية، والتكافل من أجل التغيير، وتنمية اتحادنا.",
+    },
+    {
+        id: "def_marginalised_populations",
+        en: "Groups facing systemic barriers to accessing SRHR services due to age, gender identity, sexual orientation, disability, socioeconomic status, ethnicity, or geographic location.",
+        sp: "Grupos que se enfrentan a barreras sistémicas para acceder a los servicios de SDSR debido a su edad, identidad de género, orientación sexual, discapacidad, nivel socioeconómico, origen étnico o ubicación geográfica.",
+        fr: "Groupes confrontés à des obstacles systémiques pour accéder aux services de SDSR en raison de leur âge, identité de genre, orientation sexuelle, handicap, statut socio-économique, origine ethnique ou situation géographique.",
+        ar: "الفئات التي تواجه عوائق منهجية في الحصول على خدمات الصحة والحقوق الجنسية والإنجابية بسبب العمر أو الهوية الجنسانية أو التوجه الجنسي أو الإعاقة أو الوضع الاجتماعي والاقتصادي أو العرق أو الموقع الجغرافي.",
+    },
+    {
+        id: "def_youth",
+        en: "In IPPF reporting, individuals aged 10-24 years. MAs are specifically asked to highlight their work with this age group.",
+        sp: "En los informes de la IPPF, personas de entre 10 y 24 años. Se solicita específicamente a las Asociaciones Miembro que destaquen su trabajo con este grupo de edad.",
+        fr: "Dans les rapports de l'IPPF, personnes âgées de 10 à 24 ans. Les associations membres sont spécifiquement invitées à mettre en avant leur travail avec cette tranche d'âge.",
+        ar: "في تقارير الاتحاد الدولي لتنظيم الأسرة، الأفراد الذين تتراوح أعمارهم بين 10 و24 عامًا. ويُطلب من الجمعيات الأعضاء تحديدًا إبراز عملها مع هذه الفئة العمرية.",
+    },
+    // ─────────────────────────────────────────────
+    // UI: Help panel idle state translations
+    // ─────────────────────────────────────────────
+    {
+        id: "ui_field_level_guidance",
+        en: "Field-Level Guidance",
+        sp: "Orientación a nivel de campo",
+        fr: "Aide contextuelle par champ",
+        ar: "إرشادات على مستوى الحقل",
+    },
+    {
+        id: "ui_help_subtitle",
+        en: "Click any ? icon or field to see guidance",
+        sp: "Haga clic en cualquier icono ? o campo para ver la orientación",
+        fr: "Cliquez sur une icône ? ou un champ pour afficher l'aide",
+        ar: "انقر على أي أيقونة ؟ أو حقل لعرض الإرشادات",
+    },
+    {
+        id: "ui_field_level_guidance_desc",
+        en: "Click any <strong>?</strong> icon or field label to see its definition, an example, and common mistakes to avoid.",
+        sp: "Haga clic en cualquier icono <strong>?</strong> o etiqueta de campo para ver su definición, un ejemplo y los errores comunes que debe evitar.",
+        fr: "Cliquez sur une icône <strong>?</strong> ou sur le libellé d'un champ pour afficher sa définition, un exemple et les erreurs courantes à éviter.",
+        ar: "انقر على أي أيقونة <strong>?</strong> أو تسمية حقل لعرض تعريفه ومثال عليه والأخطاء الشائعة التي يجب تجنبها.",
+    },
+    // ─────────────────────────────────────────────
+    // Section 2: Instruction panel translations
+    // ─────────────────────────────────────────────
+    {
+        id: "instr_sec2_section_title",
+        en: "Section 2 — Narrative report",
+        sp: "Sección 2 — Informe narrativo",
+        fr: "Section 2 — Rapport narratif",
+        ar: "القسم 2 — التقرير السردي",
+    },
+    {
+        id: "instr_sec2_title",
+        en: "Context, results, challenges, strategies, and learning",
+        sp: "Contexto, resultados, desafíos, estrategias y aprendizaje",
+        fr: "Contexte, résultats, défis, stratégies et apprentissage",
+        ar: "السياق والنتائج والتحديات والاستراتيجيات والتعلم",
+    },
+    // Step 1
+    {
+        id: "instr_sec2_step1_label",
+        en: "Context Shifts and Operational Environment",
+        sp: "Hechos del contexto y entorno operativo",
+        fr: "Événements contextuels et environnement opérationnel",
+        ar: "التحولات السياقية والبيئة التشغيلية",
+    },
+    {
+        id: "instr_sec2_step1_title",
+        en: "Describe significant external events or developments during the reporting year that influenced your operating environment.",
+        sp: "Describa los hechos o cambios externos importantes ocurridos durante el año del informe que influyeron en su entorno operativo.",
+        fr: "Décrivez les événements ou évolutions externes significatifs survenus au cours de l'année de déclaration qui ont influencé votre environnement opérationnel.",
+        ar: "صِف الأحداث أو التطورات الخارجية المهمة التي وقعت خلال سنة التقرير والتي أثرت على بيئتكم التشغيلية.",
+    },
+    // Step 2
+    {
+        id: "instr_sec2_step2_label",
+        en: "Results & Achievements",
+        sp: "Resultados y logros",
+        fr: "Résultats et réalisations",
+        ar: "النتائج والإنجازات",
+    },
+    {
+        id: "instr_sec2_step2_title",
+        en: "Summarise the main outcomes organised by IPPF Strategic Pillar. Highlight work with youth and marginalised populations.",
+        sp: "Resuma los principales resultados organizados por pilar estratégico de la IPPF. Destaque el trabajo con la juventud y las poblaciones marginadas.",
+        fr: "Résumez les principaux résultats organisés par pilier stratégique de l'IPPF. Mettez en avant le travail avec les jeunes et les populations marginalisées.",
+        ar: "لخِّص النتائج الرئيسية مرتبةً حسب الركيزة الاستراتيجية للاتحاد الدولي لتنظيم الأسرة. سلِّط الضوء على العمل مع الشباب والفئات السكانية المهمشة.",
+    },
+    // Step 3
+    {
+        id: "instr_sec2_step3_label",
+        en: "Challenges",
+        sp: "Desafíos",
+        fr: "Difficultés",
+        ar: "التحديات",
+    },
+    {
+        id: "instr_sec2_step3_title",
+        en: "Describe main difficulties or constraints that affected programme delivery or achievement of planned results.",
+        sp: "Describa las principales dificultades o limitaciones que afectaron a la ejecución de los programas o al logro de los resultados previstos.",
+        fr: "Décrivez les principales difficultés ou contraintes qui ont affecté la mise en oeuvre des programmes ou l'atteinte des résultats prévus.",
+        ar: "صِف الصعوبات أو القيود الرئيسية التي أثرت على تنفيذ البرامج أو تحقيق النتائج المخطط لها.",
+    },
+    // Step 4
+    {
+        id: "instr_sec2_step4_label",
+        en: "Most Effective Strategies",
+        sp: "Estrategias más efectivas",
+        fr: "Stratégies les plus efficaces",
+        ar: "الاستراتيجيات الأكثر فعالية",
+    },
+    {
+        id: "instr_sec2_step4_title",
+        en: "Reflect on methods or approaches that proved most successful. Share examples of good practice.",
+        sp: "Reflexione sobre los métodos o planteamientos que demostraron ser más efectivos. Comparta ejemplos de buenas prácticas.",
+        fr: "Réfléchissez aux méthodes ou approches qui se sont révélées les plus efficaces. Partagez des exemples de bonnes pratiques.",
+        ar: "تأمل في الأساليب أو النُهج التي أثبتت نجاحها. شارك أمثلة على الممارسات الجيدة.",
+    },
+    // Step 5
+    {
+        id: "instr_sec2_step5_label",
+        en: "Organisational Update",
+        sp: "Cambios en la organización",
+        fr: "Mise à jour de l'organisation",
+        ar: "التحديث التنظيمي",
+    },
+    {
+        id: "instr_sec2_step5_title",
+        en: "Summarise any significant internal changes — structure, leadership, board composition, staffing, or policies.",
+        sp: "Resuma cualquier cambio interno importante: estructura, liderazgo, composición de la junta, personal o políticas.",
+        fr: "Résumez tout changement interne important — structure, direction, composition du conseil, personnel ou politiques.",
+        ar: "لخِّص أي تغييرات داخلية مهمة — الهيكل أو القيادة أو تشكيلة المجلس أو التوظيف أو السياسات.",
+    },
+    // Step 6
+    {
+        id: "instr_sec2_step6_label",
+        en: "Learning",
+        sp: "Aprendizaje",
+        fr: "Apprentissage",
+        ar: "التعلم",
+    },
+    {
+        id: "instr_sec2_step6_title",
+        en: "Share key insights, lessons, or knowledge gained that will inform future planning.",
+        sp: "Comparta las percepciones, lecciones o conocimientos importantes obtenidos que servirán para la planificación futura.",
+        fr: "Partagez les principaux enseignements, leçons ou connaissances acquis qui orienteront la planification future.",
+        ar: "شارك أهم الأفكار أو الدروس المستفادة أو المعارف المكتسبة التي ستفيد في التخطيط المستقبلي.",
     },
 ];
