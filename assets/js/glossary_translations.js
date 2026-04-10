@@ -52,6 +52,20 @@
         fr: "L'adresse e-mail officielle du point de contact principal, utilisÃ©e pour toute correspondance officielle concernant le rapport ou le plan d'affaires soumis.",
         ar: "Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ Ø§Ù„Ø±Ø³Ù…ÙŠ Ù„Ø¬Ù‡Ø© Ø§Ù„Ø§ØªØµØ§Ù„ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©ØŒ ÙˆÙŠÙØ³ØªØ®Ø¯Ù… ÙÙŠ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ø±Ø§Ø³Ù„Ø§Øª Ø§Ù„Ø±Ø³Ù…ÙŠØ© Ø§Ù„Ù…ØªØ¹Ù„Ù‚Ø© Ø¨Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø£Ùˆ Ø§Ù„Ø®Ø·Ø© Ø§Ù„Ù…Ù‚Ø¯Ù‘ÙŽÙ…Ø©.",
     },
+    {
+        id: "treasurer",
+        en: "An elected or appointed member of the governing board responsible for overseeing the financial health of the Affiliate, ensuring proper financial governance, reviewing financial reports, and providing board-level accountability for the organisation’s funds.",
+        sp: "Un miembro electo o designado del consejo de gobierno responsable de supervisar la salud financiera de la Asociación Miembro, garantizando una buena gobernanza financiera, revisando los informes financieros y asegurando la rendición de cuentas a nivel del consejo respecto a los fondos de la organización.",
+        fr: "Un(e) membre élu(e) ou nommé(e) du conseil d’administration chargé(e) de superviser la santé financière de l’Association Membre, en assurant une bonne gouvernance financière, en examinant les rapports financiers et en garantissant la responsabilité du conseil concernant les fonds de l’organisation.",
+        ar: "عضو منتخب أو معيّن في مجلس الإدارة، يتولى الإشراف على السلامة المالية للجمعية العضو، وضمان حوكمة مالية سليمة، ومراجعة التقارير المالية، وتحقيق المساءلة على مستوى المجلس فيما يخص أموال المنظمة.",
+    },
+    {
+        id: "director_of_finance",
+        en: "The senior staff member responsible for overseeing the financial management of the Affiliate, including budgeting, financial reporting, audit processes, internal controls, and compliance with donor and regulatory requirements.",
+        sp: "El/la miembro senior del personal responsable de supervisar la gestión financiera de la Asociación Miembro, incluyendo la elaboración de presupuestos, los informes financieros, los procesos de auditoría, los controles internos y el cumplimiento de los requisitos de los donantes y de la normativa vigente.",
+        fr: "Le/la membre senior du personnel responsable de la supervision de la gestion financière de l’Association Membre, notamment la budgétisation, les rapports financiers, les processus d’audit, les contrôles internes et la conformité aux exigences des bailleurs de fonds et des réglementations en vigueur.",
+        ar: "العضو الأقدم في الفريق الوظيفي المسؤول عن الإشراف على الإدارة المالية للجمعية العضو، بما يشمل إعداد الميزانيات، وإعداد التقارير المالية، وعمليات التدقيق، والرقابة الداخلية، والامتثال لمتطلبات الجهات المانحة والأطر التنظيمية المعمول بها.",
+    },
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Section 2: Narrative Report
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
