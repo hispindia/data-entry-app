@@ -95,3 +95,15 @@ export const organisationUnitGroup =  {
     }
   }
 }
+
+export const constantsApi = {
+  get: async (filter) => {
+    const url = `constants.json?filter=${filter}&paging=false&fields=id,name,description`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error loading Organisation Units", error);
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { eventApi, dataElementApi, meApi, organisationUnitGroup, attributeApi } from './DataApi.js';
+import { eventApi, dataElementApi, meApi, organisationUnitGroup, attributeApi, constantsApi } from './DataApi.js';
 import { tei } from "../constant.js";
 
 export function getEvents(programs, programId, year) {
@@ -253,6 +253,9 @@ export async function getTEI(orgUnit) {
   return await eventApi.get(orgUnit);
 }
 
+export async function getConstants(filter) {
+  return await constantsApi.get(filter);
+}
 
 export async function getOrganisationUnits(orgUnit) {
   return await organisationUnitGroup.get(orgUnit);
