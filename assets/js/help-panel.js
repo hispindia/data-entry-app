@@ -29,19 +29,19 @@
     'Primary Point of Contact': { nid:'primary_contact_person', tid:'primary_contact_person' },
     'Contact Email': { nid:'contact_email', tid:'contact_email' },
     'Institutional Data': { nid:'institutional_data', tid:'institutional_data_section' },
-    'Address': { nid:'physical_address' },
-    'Key Contacts': { nid:'key_contacts' },
-    'Executive Director / CEO': { nid:'executive_director' },
-    'Board Chair / President': { nid:'board_chair' },
-    'Officer of the Board': { nid:'officer_of_the_board1' },
+    'Address': { nid:'physical_address', tid:'address_definition' },
+    'Key Contacts': { nid:'key_contacts', tid:'key_contacts_definition' },
+    'Executive Director / CEO': { nid:'executive_director', tid:'executive_director_definition' },
+    'Board Chair / President': { nid:'board_chair', tid:'board_chair_definition' },
+    'Officer of the Board': { nid:'officer_of_the_board1', tid:'officer_of_the_board_definition' },
     'Treasurer': { nid:'treasurer_equivalent', tid:'treasurer' },
-    'Youth Board Member': { nid:'youth_board_member' },
-    'Programmatic Lead(s)': { nid:'programmatic_lead' },
-    'Finance Lead': { nid:'finance_lead' },
+    'Youth Board Member': { nid:'youth_board_member', tid:'youth_board_member_definition' },
+    'Programmatic Lead(s)': { nid:'programmatic_lead', tid:'programmatic_lead_definition' },
+    'Finance Lead': { nid:'finance_lead', tid:'finance_lead_definition' },
     'Director of Finance': { nid:'director_finance', tid:'director_of_finance' },
     'Key Documents': { nid:'key_document', tid:'key_documents_section' },
-    'Key Annual Report Documents': { nid:'key_document' },
-    'Management Letter (Audit Report)': { nid:'key_management' },
+    'Key Annual Report Documents': { nid:'key_document', tid:'key_annual_report_documents_definition' },
+    'Management Letter (Audit Report)': { nid:'key_management', tid:'management_letter_audit_report_definition' },
     // Section 2
     'Context Shifts and Operational Environment': { nid:'context_events', tid:'context_events' },
     'Results & Achievements': { nid:'results_achivements', tid:'results_and_achievements' },
@@ -171,8 +171,8 @@
   function normalizeLabelText(value) {
     return (value || '')
       .replace(/[\u00A0\u202F]/g, ' ')
-      .replace(/[‘’´`]/g, "'")
-      .replace(/[“”]/g, '"')
+      .replace(/[\u2018\u2019'´`]/g, "'")
+      .replace(/[\u201c\u201d]/g, '"')
       .replace(/[–—]/g, '-')
       .replace(/\s*\/\s*/g, ' / ')
       .replace(/\s+/g, ' ')
@@ -1023,6 +1023,7 @@
 
   // Build a lookup map: normalised label text -> glossary entry
   var glossaryLookup = {};
+  var allowedEnglishLabelGlossary = {};
   (function buildLookup() {
     // Map of common label text -> glossary term name (for fuzzy matching)
     var labelAliases = {
@@ -1101,6 +1102,59 @@
       'total contract value': 'Total Contract Value',
       'annual project income': 'Annual Project Income',
       'description of project': 'Description of Project',
+      'project focus area': 'Project Focus Area',
+      'expense budget (per focus area)': 'Expense Budget (per Focus Area)',
+      'project by expense category': 'Project by Expense Category',
+      'personnel': 'Personnel',
+      'direct project activities': 'Direct Project Activities',
+      'commodities': 'Commodities',
+      'indirect / support costs': 'Indirect / Support Costs',
+      'indirect/ support costs': 'Indirect / Support Costs',
+      // Section 3 — Spanish aliases
+      'nuevo proyecto': 'New Project',
+      'nombre del proyecto': 'Project Name',
+      'fecha de inicio': 'Start Date',
+      'fecha de finalizacion': 'End Date',
+      'tema del proyecto': 'Project Theme',
+      'donante del proyecto': 'Project Donor',
+      'tipo de financiamiento': 'Funding Type',
+      'valor total del contrato': 'Total Contract Value',
+      'ingreso anual del proyecto': 'Annual Project Income',
+      'descripcion del proyecto': 'Description of Project',
+      'area prioritaria del proyecto': 'Project Focus Area',
+      'presupuesto de gastos (por area prioritaria)': 'Expense Budget (per Focus Area)',
+      'proyecto segun la categoria de gastos': 'Project by Expense Category',
+      'personal': 'Personnel',
+      'costos directos de actividades del proyecto': 'Direct Project Activities',
+      'productos': 'Commodities',
+      'costos indirectos / de apoyo': 'Indirect / Support Costs',
+      'costos indirectos/de apoyo': 'Indirect / Support Costs',
+      // Section 3 — French aliases
+      'nouveau projet': 'New Project',
+      'nom du projet': 'Project Name',
+      'date de debut': 'Start Date',
+      'date de fin': 'End Date',
+      'thematique du projet': 'Project Theme',
+      'bailleur de fonds du projet': 'Project Donor',
+      'type de financement': 'Funding Type',
+      'valeur totale du contrat': 'Total Contract Value',
+      'recettes annuelles du projet': 'Annual Project Income',
+      'description du projet': 'Description of Project',
+      "volet d'intervention du projet": 'Project Focus Area',
+      "budget des depenses (par volet d'intervention)": 'Expense Budget (per Focus Area)',
+      "projet par categorie de depenses": 'Project by Expense Category',
+      'activites directes du projet': 'Direct Project Activities',
+      'couts indirects / de soutien': 'Indirect / Support Costs',
+      'couts indirects/de soutien': 'Indirect / Support Costs',
+      // Section 3 — Arabic aliases
+      '\u0645\u0634\u0631\u0648\u0639 \u062c\u062f\u064a\u062f': 'New Project',
+      '\u0627\u0633\u0645 \u0627\u0644\u0645\u0634\u0631\u0648\u0639': 'Project Name',
+      '\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0628\u062f\u0621': 'Start Date',
+      '\u0645\u0648\u0636\u0648\u0639 \u0627\u0644\u0645\u0634\u0631\u0648\u0639': 'Project Theme',
+      '\u0627\u0644\u062c\u0647\u0629 \u0627\u0644\u0645\u0627\u0646\u062d\u0629 \u0644\u0644\u0645\u0634\u0631\u0648\u0639': 'Project Donor',
+      '\u0646\u0648\u0639 \u0627\u0644\u062a\u0645\u0648\u064a\u0644': 'Funding Type',
+      '\u0627\u0644\u0642\u064a\u0645\u0629 \u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a\u0629 \u0644\u0644\u0639\u0642\u062f': 'Total Contract Value',
+      '\u0627\u0644\u062f\u062e\u0644 \u0627\u0644\u0633\u0646\u0648\u064a \u0644\u0644\u0645\u0634\u0631\u0648\u0639': 'Annual Project Income',
       // Section 3.2 Focus Area labels (as they appear in the dynamic tables)
       'care: static clinic': 'Care: Static Clinic',
       '1. care: static clinic': 'Care: Static Clinic',
@@ -1130,14 +1184,30 @@
       'cse online / social media': 'CSE Online, including Social Media',
       '9. partnerships and movements: capacity-sharing, amplifying messages, and sub-granting': 'Partnerships and Movements',
       'partnerships and movements': 'Partnerships and Movements',
+      '9. asociaciones y movimientos: capacidades compartidas, amplificación de mensajes, y subconcesión de subvenciones': 'Partnerships and Movements',
+      'asociaciones y movimientos': 'Partnerships and Movements',
+      '9. partenariats et mouvements – partage des capacités, amplification des messages et octroi de subventions subsidiaires': 'Partnerships and Movements',
+      'partenariats et mouvements': 'Partnerships and Movements',
+      '9. الشراكات والحركات: تبادل القدرات، تعظيم الرسائل وتقديم المنح الفرعية': 'Partnerships and Movements',
+      'الشراكات والحركات': 'Partnerships and Movements',
       '10. knowledge, research, evidence, innovation, and publishing, including peer-review articles': 'Knowledge, Research, Evidence, Innovation',
       'knowledge, research, evidence': 'Knowledge, Research, Evidence, Innovation',
       '10. المعرفة، البحث، الأدلة، الابتكار، والنشر، بما في ذلك المقالات التي يراجعها الأقران': 'Knowledge, Research, Evidence, Innovation',
+      '10. conocimientos, investigación, evidencia, innovación, y publicaciones, incluidos artículos sometidos a revisión de pares': 'Knowledge, Research, Evidence, Innovation',
+      'conocimientos, investigación, evidencia, innovación': 'Knowledge, Research, Evidence, Innovation',
+      '10. connaissances, recherche, données probantes, innovation et édition, y compris des articles soumis à une évaluation par des pairs': 'Knowledge, Research, Evidence, Innovation',
+      'connaissances, recherche, données probantes, innovation': 'Knowledge, Research, Evidence, Innovation',
+      'المعرفة، البحث، الأدلة، الابتكار': 'Knowledge, Research, Evidence, Innovation',
       '11. internal ma infrastructure, organisational development, capacity development, values, processes, and procedures': 'Internal MA Infrastructure',
       'internal ma infrastructure': 'Internal MA Infrastructure',
+      '11. infraestructura interna de la am, desarrollo organizativo, ampliación de capacidad, valores, procesos, y procedimientos': 'Internal MA Infrastructure',
+      'infraestructura interna de la am': 'Internal MA Infrastructure',
       "11. infrastructure interne de l'association membre, developpement organisationnel, renforcement des capacites, valeurs, processus et procedures": 'Internal MA Infrastructure',
       "11. infrastructure interne de l'association membre, développement organisationnel, renforcement des capacités, valeurs, processus et procédures": 'Internal MA Infrastructure',
-      "11. infrastructure interne de l’association membre, développement organisationnel, renforcement des capacités, valeurs, processus et procédures": 'Internal MA Infrastructure',
+      "11. infrastructure interne de l'association membre, développement organisationnel, renforcement des capacités, valeurs, processus et procédures": 'Internal MA Infrastructure',
+      "infrastructure interne de l'association membre": 'Internal MA Infrastructure',
+      '11. البنية التحتية الداخلية للجمعية العضو، التطوير التنظيمي، تنمية القدرات، القيم، العمليات، والإجراءات': 'Internal MA Infrastructure',
+      'البنية التحتية الداخلية للجمعية العضو': 'Internal MA Infrastructure',
       'project focus area': 'Project Focus Area',
       'expense budget (per focus area)': 'Expense Budget (per Focus Area)',
       // Section 4 & 5
@@ -1237,14 +1307,18 @@
 
     // Index glossary by exact name (lower-cased)
     GLOSSARY.forEach(function(term) {
-      glossaryLookup[normalizeLabelText(term.name)] = term;
+      var normName = normalizeLabelText(term.name);
+      glossaryLookup[normName] = term;
+      allowedEnglishLabelGlossary[normName] = term.name;
     });
     // Add aliases
     Object.keys(labelAliases).forEach(function(alias) {
       var termName = labelAliases[alias];
       var term = glossaryLookup[normalizeLabelText(termName)];
       if (term) {
-        glossaryLookup[normalizeLabelText(alias)] = term;
+        var normAlias = normalizeLabelText(alias);
+        glossaryLookup[normAlias] = term;
+        allowedEnglishLabelGlossary[normAlias] = termName;
       }
     });
   })();
@@ -1289,19 +1363,25 @@
         var mapping = GLOSSARY_TRANS_MAP[glossaryNames[k]];
         if (!mapping) continue;
         var translatedName = null;
+        var englishSource = null;
         // Check nid (translation_mapping) first
         if (mapping.nid && typeof translation_mapping !== 'undefined') {
           translatedName = _lookupInArray(translation_mapping, mapping.nid, lang);
+          englishSource = _lookupInArray(translation_mapping, mapping.nid, 'en');
         }
         // Fallback: check nid_g (translation_mapping_ar_glossary)
         if (!translatedName && mapping.nid_g && typeof translation_mapping_ar_glossary !== 'undefined') {
           translatedName = _lookupInArray(translation_mapping_ar_glossary, mapping.nid_g, lang);
+          englishSource = _lookupInArray(translation_mapping_ar_glossary, mapping.nid_g, 'en');
         }
         if (translatedName) {
-          var transLower = normalizeLabelText(translatedName);
-          if (transLower === clean || transLower === withoutNum ||
-              clean.indexOf(transLower) === 0 || transLower.indexOf(clean) === 0 ||
-              withoutNum.indexOf(transLower) === 0 || transLower.indexOf(withoutNum) === 0) {
+          var englishSourceKey = normalizeLabelText(englishSource).replace(/[\*:]+$/, '').trim();
+          if (allowedEnglishLabelGlossary[englishSourceKey] !== glossaryNames[k]) continue;
+          var transLower = normalizeLabelText(translatedName).replace(/[\*:]+$/, '').trim();
+          // For translated labels, require exact equality only.
+          // Prefix/contains matching creates false positives for short generic
+          // labels like "Name", "Nombre", "Nom", which can match many terms.
+          if (transLower === clean || transLower === withoutNum) {
             return glossaryLookup[normalizeLabelText(glossaryNames[k])];
           }
         }

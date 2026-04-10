@@ -3166,6 +3166,13 @@ de productos (como se indica en la parte de abajo del formulario)
         fr: "Veuillez préciser la date de début et la date de fin du mandat actuel du conseil d'administration (si différents membres ont des mandats différents, veuillez également les préciser)",
         ar: "يرجى تحديد تاريخ البدء وتاريخ الانتهاء لفترة المجلس الحالية (إذا كان لدى الأعضاء المختلفين فترات مختلفة، فيرجى تحديدها أيضًا)"
     },
+    {
+        id: "board_chair_term_end",
+        en: "When does the current board chair's term end?",
+        sp: "¿Cuándo termina el mandato del actual presidente de la junta directiva?",
+        fr: "Quand se termine le mandat de l'actuel président du conseil ?",
+        ar: "متى تنتهي ولاية الرئيس الحالي لمجلس الإدارة؟"
+    },
     //Narrative Report
     {
         id: "context_events",
