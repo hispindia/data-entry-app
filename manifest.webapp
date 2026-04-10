@@ -2,7 +2,7 @@
     "version": "10.0",
     "name": "IPPF BPR App",
     "description": "IPPF BR Data Entry",
-    "launch_path": "/index.html",
+    "launch_path": "/members-association.html",
     "appType": "APP",
     "icons": {
         "16": "assets/images/fav.png",

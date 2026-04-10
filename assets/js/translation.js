@@ -3161,10 +3161,10 @@ de productos (como se indica en la parte de abajo del formulario)
    
     {
         id: "specify_date",
-        en: "Please specify the start date and end date for the current board's term (if different members have different terms, please specify those as well)",
-        sp: "Por favor, especifique la fecha de inicio y la fecha de finalización del mandato de la junta actual (si los diferentes miembros tienen mandatos diferentes, especifíquelos también)",
-        fr: "Veuillez préciser la date de début et la date de fin du mandat actuel du conseil d'administration (si différents membres ont des mandats différents, veuillez également les préciser)",
-        ar: "يرجى تحديد تاريخ البدء وتاريخ الانتهاء لفترة المجلس الحالية (إذا كان لدى الأعضاء المختلفين فترات مختلفة، فيرجى تحديدها أيضًا)"
+        en: "Please specify the start date and end date for the current board's term",
+        sp: "Por favor, especifique la fecha de inicio y la fecha de finalización del mandato de la junta actual",
+        fr: "Veuillez préciser la date de début et la date de fin du mandat actuel du conseil d'administration",
+        ar: "يرجى تحديد تاريخ البدء وتاريخ الانتهاء لفترة المجلس الحالية"
     },
     {
         id: "board_chair_term_end",
