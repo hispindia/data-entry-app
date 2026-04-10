@@ -96,6 +96,7 @@ export const PROGRAM_RULE_TYPES = {
 
 export const dataElements = {
     affiliationStatus: 'qg4tyJoHEiS',
+    uploadAccuity: 'R6nujxC6zLD',
 
     //affiliate Info 
     registeredAddress: "b6BcgDUCFog",

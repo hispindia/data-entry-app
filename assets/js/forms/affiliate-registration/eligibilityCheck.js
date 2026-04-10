@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const button = e.target.closest('.row-btn');
       if(!button) return;
       const affiliate = button.dataset.affiliate.split("-");
-      if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/ooPAejK2C54?affiliate=${affiliate[0]}`;
+      if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`;
       else if(affiliate[1]=="dueDiligence") window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate[0]}`;
     })
 

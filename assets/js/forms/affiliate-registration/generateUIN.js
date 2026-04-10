@@ -1,8 +1,7 @@
 import { dataApi } from "../../api/DataApi.js";
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
-import { createPayload } from "../../api/payload.js";
 import { attributes, optionSet, programStage, programs, tei } from "../../constant.js";
-import { getNextCode, toast } from "../utils.js";
+import { toast } from "../utils.js";
 import { configureRules, convert, fetchValueType, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 

@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js";
 import { meApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, programStage, programs, tei, trackedEntityType} from "../../constant.js";
+import { attributes, dataElements, programStage, programs, tei, trackedEntityType} from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { convert } from "../metadata.js";
 import { getNextCode, toast } from "../utils.js";
@@ -23,6 +23,33 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   });
+   const riskNames = [
+        'Arms Trafficking & WMD',
+        'Terrorism',
+        'Money Laundering',
+        'Drug Trafficking',
+        'Fraud',
+        'Wanted Individuals',
+        'Global Sanction List',
+        'PEP',
+        'Enforcement'
+      ];
+
+      const DE_ROLE_MAP = {
+        'UkQI1dWzZOv': 'organisation',
+        'daG91uRV8pi': 'President',
+        'uT1NdSet4eo': 'Vice President',
+        'DMJOfwrOwo8': 'Secretary',
+        'fKFIKK33FRc': 'Treasurer',
+        'xCJOBTvagP9': 'Youth Member',
+        'RA5zVHd7pVO': 'Chief Executive Officer',
+        'glFVJpRaGWK': 'Director of Finance',
+        'YjmSPK8DMOZ': 'Director of HR',
+        'U4OSVfrlPxQ': 'Director of Programs',
+        'TfCXfVv6j2O': 'Bank Account',
+      };
+
+      let orgName = null;
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
@@ -108,6 +135,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       const { id, affiliate } = button.dataset;
       if(id == "view-uin") window.location.href = `./1.3.1-generate-uin.html?affiliate=${affiliate}`;
       else if(id == "generate-uin") {
+        showLoader("Please wait, generating report...");
+        setTimeout(async () => {
+        try {
         const resAffiliate = await dataApi.getTrackedEntity(affiliate);
         tei.affiliate = resAffiliate.trackedEntities[0];
     
@@ -149,6 +179,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         tei.values = dataValues;
+        document.querySelector("#global-loader p").innerText = "Processing compliance data...";        
+
+        const allRecords = await dataApi.dataStore(`accuityResponse/${affiliate}`);
+        const processed = processAccuityData(allRecords?.data || allRecords);
+        document.querySelector("#global-loader p").innerText = "Generating PDF...";
+        const blob = await generatePdfBlob(processed);
+        document.querySelector("#global-loader p").innerText = "Uploading report...";
+        // const url = URL.createObjectURL(blob);
+        // window.open(url);
+        const fileResourceId = await uploadPdf(blob);
+        tei.values[dataElements.uploadAccuity] = fileResourceId;
+        document.querySelector("#global-loader p").innerText = "Generating UIN...";
+        
         if(tei.affiliate) {
           const countryRegistration = tei.affiliate.attributes.find(attr => attr.attribute == attributes.countryRegistration);
           const orgUnit = await orgUnitsApi.get({filter:countryRegistration.value});
@@ -178,10 +221,334 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
               ]
             })
+            hideLoader();
             toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`, nextOUCode});
           }
+        }                 
+      } catch (error) {
+            hideLoader();
+            toast({ status: 'ERROR', message: error.message });
+
         }
+        }, 0);
       }
     })
   }
-})
+
+    function processAccuityData(allRecords) {
+      const personMap = new Map();
+      let totalFlags = 0;
+
+      for (const rec of allRecords) {
+        const deUID = rec.id?.split('_')[0];
+        const designation = DE_ROLE_MAP[deUID] || " ";
+        const name = rec[deUID] || rec.value || "—";
+        const resultText = rec[rec.id];
+
+        if (designation === 'organisation') {
+          orgName = name;
+        }
+
+        const key = `${rec.event_uid}_${deUID}_${rec.id}`;
+
+        if (!personMap.has(key)) {
+          personMap.set(key, {
+            name,
+            designation,
+            date: new Date(rec.date).toLocaleString(),
+            flaggedCategories: new Set(),
+            screeningResult: (resultText || 'No Records Found')
+          });
+        }
+
+        const lower = (resultText || '').toLowerCase();
+        riskNames.forEach(cat => {
+          const keywordWithDot = `.${cat.toLowerCase()}`;
+          if (lower.includes(keywordWithDot)) {
+            personMap.get(key).flaggedCategories.add(cat);
+          }
+        });
+      }
+
+      const persons = [...personMap.values()];
+      let individualOut = 0;
+
+      persons.forEach(p => {
+        const count = p.flaggedCategories.size;
+        if (count > 0) individualOut++;
+        totalFlags += count;
+      });
+
+      const summary = {
+        total: persons.length,
+        flags: totalFlags,
+        individuals: individualOut
+      };
+
+      const tableRows = persons.map(p => ({
+        name: p.name,
+        designation: p.designation,
+        cells: riskNames.map(cat => {
+          const isFlagged = p.flaggedCategories.has(cat);
+          const result = p.screeningResult?.toLowerCase() || '';
+
+          if (!isFlagged) return "green";
+
+          if (cat === 'PEP' || cat === 'Enforcement') return "orange";
+
+          if (result.includes("approve")) return "green";
+
+          if (result.includes("reject")) return "orange";
+
+          return "red";
+        })
+      }));
+
+      const flagDetails = persons
+        .map(p => ({
+          name: p.name,
+          designation: p.designation,
+          date: p.date,
+          screeningResult: p.screeningResult
+        }));
+
+      return { summary, tableRows, flagDetails };
+    }
+
+    async function generatePdfBlob({ summary, tableRows, flagDetails }) {
+
+      const html = `
+      <div style="font-family: Arial, sans-serif; padding: 20px; color:#222;">
+
+        <div style="text-align:center;">
+          <h2 style="color:#2b5d7d;">ORGANISATION COMPLIANCE REPORT CARD</h2>
+          <h3 style="color:#2b7da3;"">Organisation: ${orgName || '—'}</h3>
+          <p style="font-size:12px;">
+            Generated: ${new Date().toLocaleString()}
+          </p>
+          <hr style="border-top:2px solid #2b7da3; width:80%; margin:auto;">
+          <p style="font-size:11px; color:#888;">
+            Source: Acuity Online Compliance System
+          </p>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin:20px 0;">
+          <div><b>Total Checks:</b> ${summary.total}</div>
+          <div><b>Flags:</b> ${summary.flags}</div>
+          <div><b>Individuals Flagged:</b> ${summary.individuals}</div>
+        </div>
+
+        <h3 style="margin-top:10px;">Section 1: Compliance Screening Summary</h3>
+
+        <table  style="width:100%; border-collapse:collapse; font-size:11px;"
+        border="1" cellspacing="0" cellpadding="6">
+          
+          <thead style="background:#d9e6f2;">
+            <tr style="page-break-inside: avoid";>
+              <th>Name</th>
+              <th>Designation</th>
+              ${riskNames.map(h => `<th>${h}</th>`).join('')}
+            </tr>
+          </thead>
+
+          <tbody>
+            ${ tableRows.length ? 
+              tableRows.map(row => `
+              <tr style="page-break-inside: avoid;">
+                <td>${row.name}</td>
+                <td>${row.designation}</td>
+                ${row.cells.map(cell => {
+                let symbol = '';
+                let color = '';
+
+                if (cell === 'green') {
+                  symbol = '✔';
+                  color = '#2e7d32';
+                } else if (cell === 'orange') {
+                  symbol = '✔';
+                  color = '#e65100';
+                } else if (cell === 'red') {
+                  symbol = '✖';
+                  color = '#c62828';
+                }
+                return `<td style="text-align:center; color:${color}; font-weight:bold;">${symbol}</td>`;
+              }).join('')}
+              </tr>
+            `).join('') : `
+                <tr>
+                <td colspan="${2 + riskNames.length}" style="text-align:center;">
+                  No data available
+                </td>
+              </tr>            
+            `
+            }
+          </tbody>
+        </table>
+
+        <p style="font-size: 11px; margin-top: 10px;">
+        <b>Legend:</b>
+        <span style="color:#2e7d32;">✔ Clear</span> |
+        <span style="color:#e65100;">✔ Auto Cleared (PEP / Enforcement)</span> |
+        <span style="color:#e65100;">✔ Waiver Approved</span> |
+        <span style="color:#c62828;">✖ Waiver Required / Rejected</span>
+      </p>
+        
+        <h3 style="margin-top:10px;">Section 2: Flag & Match Details</h3>
+        ${
+             flagDetails.map((f, i) => `
+              <div style="margin-bottom:12px; page-break-inside:avoid">
+                <b>Individual ${i + 1}</b><br/>
+                <b>Name:</b> ${f.name}<br/>
+                <b>Designation:</b> ${f.designation}<br/>
+                <b>Date:</b> ${f.date}<br/>
+                <b>Result:</b> ${f.screeningResult}
+              </div>
+            `).join('')
+        }
+
+        <div style="margin-top:30px;">
+          <h3 style="color:#2b5d7d; page-break-inside:avoid;">Section 3: Data Source & Disclaimer</h3>
+
+          <p style="font-size:12px;">
+            All compliance screening data presented in this report has been
+            retrieved from the Acuity Online Compliance System via an automated
+            integration with the IPPF Unified Identification Number (UIN)
+            system. The data retrieval was completed on
+          </p>
+
+          <h4 style="color: #2b7da3; margin-top: 15px">Disclaimer</h4>
+          <ol
+            style="
+              font-size: 12px;
+              color: #444;
+              padding-left: 18px;
+              text-align: justify;
+            "
+          >
+            <li style="page-break-inside:avoid;">
+              Acuity Online Compliance System is the primary source of all
+              screening results, flag descriptions, and match data included in
+              this report.
+            </li>
+            <li style="page-break-inside:avoid;">
+              IPPF's Unified Identification Number (UIN) system functions solely
+              as a storage and display platform for the data received from
+              Acuity.
+            </li>
+            <li style="page-break-inside:avoid;">
+              All flags and screening outcomes must be reviewed by an authorized
+              compliance officer before any risk decision is made.
+            </li>
+            <li style="page-break-inside:avoid;">
+              This report is confidential and intended only for authorized
+              personnel within IPPF's compliance and governance functions.
+            </li>
+            <li style="page-break-inside:avoid;">
+              Any decision taken based on the information in this report should
+              be supported by independent verification where necessary.
+            </li>
+            <li style="page-break-inside:avoid;">
+              This report reflects the dataset available at the time of report
+              generation. As the source system is updated, this information may
+              change.
+            </li>
+            <li style="page-break-inside:avoid;">
+              Acuity remains the authoritative system of record for all
+              underlying screening data.
+            </li>
+          </ol>
+          <hr/>
+
+          <p style="font-size:10px; text-align:center;">
+            Report generated: ${new Date().toLocaleString()} |
+            Source: Acuity |
+            IPPF UIN System
+          </p>
+        </div>
+
+      </div>`;
+
+      const blob = await html2pdf()
+        .set({
+          margin: 10,
+          html2canvas: { scale: 0.8, scrollY: 0 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+          pagebreak: { mode: ['css', 'legacy'] }
+        })
+        .from(html)
+        .output('blob');
+
+      return blob;
+    }
+
+
+    async function uploadPdf(blob) {
+
+      const formData = new FormData();
+      formData.append("file", blob, "ORGANISATION-COMPLIANCE-REPORT-CARD.pdf");
+
+      const res = await dataApi.uploadFile(formData);
+
+      if (res.status === 'OK') {
+        return res.response.fileResource.id;
+      }
+
+      throw new Error("File upload failed");
+
+    }
+  })
+  function showLoader(message = "Please wait, generating report...") {
+    const loader = document.createElement("div");
+    loader.id = "global-loader";
+    loader.innerHTML = `
+      <div style="
+        position: fixed;
+        top:0; left:0;
+        width:100%; height:100%;
+        background: rgba(0,0,0,0.5);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:9999;
+      ">
+        <div style="
+          background:white;
+          padding:30px 40px;
+          border-radius:10px;
+          text-align:center;
+          box-shadow:0 4px 20px rgba(0,0,0,0.2);
+        ">
+          <div class="spinner" style="
+            border:5px solid #eee;
+            border-top:5px solid #15803d;
+            border-radius:50%;
+            width:40px;
+            height:40px;
+            margin:0 auto 15px;
+            animation: spin 1s linear infinite;
+          "></div>
+          <p style="font-weight:500;">${message}</p>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(loader);
+
+    // inject animation once
+    if (!document.getElementById("loader-style")) {
+      const style = document.createElement("style");
+      style.id = "loader-style";
+      style.innerHTML = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  function hideLoader() {
+    const loader = document.getElementById("global-loader");
+    if (loader) loader.remove();
+  }
