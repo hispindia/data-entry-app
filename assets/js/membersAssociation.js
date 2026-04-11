@@ -1,4 +1,4 @@
-import { getMeData, getOrganisationUnits } from "./api/func.js";
+import { getConstants, getMeData, getOrganisationUnits } from "./api/func.js";
 import { tei } from "./constant.js";
 import { userGroupConfig } from "./forms/config.js";
 
@@ -25,9 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   async function fetchOrganizationUnitUid() {
-    try {
+    try {  
+      const noticeBoardIds = [{ id:'lNR63q5GkXj', name:'notice-english'}, {id:'upQA8yJuVKx', name: 'notice-french'}, {id: 'bZlXa1FiHG3', name: 'notice-spanish'}, {id: 'HCSaa6Kdof1', name: 'notice-arabic'}];
       const data = await getMeData();
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+      const resNoticeBoard = await getConstants(`id:in:[${noticeBoardIds.map(board => board.id).join(',')}]`);
+      noticeBoardIds.forEach(boardId => {
+        const board = resNoticeBoard.constants.find(noticeBoard => noticeBoard.id == boardId.id);
+        if(board) document.getElementById(boardId.name).innerHTML = board.description;
+      })
 
       const userConfig = userGroupConfig(data);
       tei.disabled = userConfig.disabled;
