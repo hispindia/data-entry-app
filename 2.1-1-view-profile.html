@@ -112,25 +112,43 @@
         <h4 class="mt-3" style="color: black;">UIN Generation <span id="country"></span></h4>
         <p class="text-muted small"></p>
         <section class="section">
-          <div class="row">
-            <div id="basicInformation" class="col-12">
-            </div>
-            <div class="col-12">
-              <form id="dueDiligence"></form>
+          <!-- Tab Navigation -->
+          <ul class="profile-tabs" id="profileTabs">
+            <li class="profile-tab active" data-tab="tab-affiliate">1. Affiliate Details</li>
+            <li class="profile-tab" data-tab="tab-bank">2. Affiliate Bank Details</li>
+            <li class="profile-tab" data-tab="tab-completion">3. Core Completion Checklist</li>
+            <li class="profile-tab" data-tab="tab-affiliation">4. Affiliation Status and Affiliation Type</li>
+          </ul>
 
-              <div class="row mt-4">
-                <div class="col-4 mb-2">
-                  <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="generateUIN" disabled
-                    style="background-color: rgb(235, 51, 0);; color: white;">Submit</button>
-                </div>
-                <div class="col-4 mb-2">
-                  <button type="button" class="btn btn-lg btn-block" id="searchButton" 
-                  onclick="window.location.href='./2.1-view-and-update-profile.html'"
-                    style="background-color: #6a6a6a; color: white;">Back to View and Update</button>
-                </div>
-                </div>
-              </div>
-            
+          <!-- Tab Content Panels -->
+          <div class="profile-tab-content">
+            <div id="tab-affiliate" class="profile-tab-panel active">
+              <div id="basicInformation" class="col-12"></div>
+              <div id="affiliateStage" class="col-12"></div>
+            </div>
+            <div id="tab-bank" class="profile-tab-panel" style="display:none;">
+              <div id="bankStage" class="col-12"></div>
+            </div>
+            <div id="tab-completion" class="profile-tab-panel" style="display:none;">
+              <div id="completionStage" class="col-12"></div>
+            </div>
+            <div id="tab-affiliation" class="profile-tab-panel" style="display:none;">
+              <div id="affiliationStage" class="col-12"></div>
+            </div>
+          </div>
+
+          <!-- Buttons outside tabs -->
+          <form id="dueDiligence" style="display:none;"></form>
+          <div class="row mt-4">
+            <div class="col-4 mb-2">
+              <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="generateUIN" disabled
+                style="background-color: rgb(235, 51, 0); color: white;">Submit</button>
+            </div>
+            <div class="col-4 mb-2">
+              <button type="button" class="btn btn-lg btn-block" id="searchButton"
+              onclick="window.location.href='./2.1-view-and-update-profile.html'"
+                style="background-color: #6a6a6a; color: white;">Back to View and Update</button>
+            </div>
           </div>
         </section>
       </div>

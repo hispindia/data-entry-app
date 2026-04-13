@@ -130,27 +130,115 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
 
-  document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
-  
-  const renderDueDiligence = () => {
-      const completionCheckListDiv = renderSections(completionCheckList.sections);
-      const uinStageDiv = renderSections(uinStage.sections);
-      let dueDiligenceHtml = `${uinStageDiv}`;
-      if(hasWriteAccess) {
-        dueDiligenceHtml += `${completionCheckListDiv}`
-      }
-      document.getElementById("dueDiligence").innerHTML = dueDiligenceHtml;
-      flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
-  }
-  renderDueDiligence();
+  // --- Tab categorization helpers ---
+  const affiliateKeywords = [
+    'uin form', 'affiliate detail', 'board member', 'additional board',
+    'senior management', 'additional senior', 'youth'
+  ];
+  const bankKeywords = [
+    'bank detail', 'bank account', 'additional document', 'additional bank',
+    'netsuite'
+  ];
+  const completionKeywords = ['completion checklist'];
+  const affiliationKeywords = ['affiliation'];
 
-  document.getElementById("dueDiligence").addEventListener('change', function(e) {
-      if (e.target.matches("input, select, textarea")) {
-          tei.values[e.target.id] = e.target.value;
-          document.getElementById(`error-${e.target.id}`).innerHTML = '';
-          ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-          renderDueDiligence();
-        }
+  function categorizeSection(section) {
+    const name = (section.name || '').toLowerCase();
+    if (affiliationKeywords.some(k => name.includes(k))) return 'affiliation';
+    if (completionKeywords.some(k => name.includes(k))) return 'completion';
+    if (bankKeywords.some(k => name.includes(k))) return 'bank';
+    return 'affiliate'; // default
+  }
+
+  // Separate UIN stage sections into tab buckets
+  const affiliateStageSections = [];
+  const bankStageSections = [];
+  const affiliationStageSections = [];
+
+  // Debug: log all section names for categorization verification
+  console.log('--- UIN Stage Sections ---');
+  uinStage.sections.forEach(section => console.log(`  UIN: "${section.name}" → ${categorizeSection(section)}`));
+  console.log('--- Completion Checklist Sections ---');
+  completionCheckList.sections.forEach(section => console.log(`  CL: "${section.name}" → ${categorizeSection(section)}`));
+  console.log('--- Program Attribute Sections ---');
+  programAttributes.sections.forEach(section => console.log(`  PA: "${section.name}"`));
+
+  uinStage.sections.forEach(section => {
+    const cat = categorizeSection(section);
+    if (cat === 'bank') bankStageSections.push(section);
+    else if (cat === 'affiliation') affiliationStageSections.push(section);
+    else affiliateStageSections.push(section);
+  });
+
+  // Render into tab panels
+  document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
+
+  // Also categorize completion checklist sections into tab buckets
+  const completionBankSections = [];
+  const completionAffiliationSections = [];
+  const completionOnlySections = [];
+
+  completionCheckList.sections.forEach(section => {
+    const cat = categorizeSection(section);
+    if (cat === 'bank') completionBankSections.push(section);
+    else if (cat === 'affiliation') completionAffiliationSections.push(section);
+    else completionOnlySections.push(section);
+  });
+
+  const renderTabContent = () => {
+    document.getElementById("affiliateStage").innerHTML = renderSections(affiliateStageSections);
+    document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections]);
+
+    let completionHtml = '';
+    if (hasWriteAccess) {
+      completionHtml = renderSections(completionOnlySections);
+    }
+    document.getElementById("completionStage").innerHTML = completionHtml;
+
+    document.getElementById("affiliationStage").innerHTML = renderSections(
+      [...affiliationStageSections, ...completionAffiliationSections]
+    );
+
+    flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+  };
+  renderTabContent();
+
+  // --- Tab switching logic ---
+  document.querySelectorAll('.profile-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.profile-tab-panel').forEach(p => {
+        p.style.display = 'none';
+        p.classList.remove('active');
+      });
+      this.classList.add('active');
+      const target = document.getElementById(this.getAttribute('data-tab'));
+      if (target) {
+        target.style.display = 'block';
+        target.classList.add('active');
+      }
+    });
+  });
+
+  // Listen for form changes across all tab panels
+  document.querySelector('.profile-tab-content').addEventListener('change', function(e) {
+    if (e.target.matches("input, select, textarea")) {
+      tei.values[e.target.id] = e.target.value;
+      const errorEl = document.getElementById(`error-${e.target.id}`);
+      if (errorEl) errorEl.innerHTML = '';
+
+      // Store completion checklist data elements for submit
+      completionCheckList.sections.forEach(section => {
+        section.items.forEach(item => {
+          if (tei.values[item.code] !== undefined) {
+            if (!tei.completionCheckListDEs) tei.completionCheckListDEs = [];
+          }
+        });
+      });
+
+      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      renderTabContent();
+    }
   });
   }
 

@@ -974,8 +974,54 @@ html.rtl-mode body > * {
     }
   }
 
+/* ===== Profile Tabs ===== */
+ul.profile-tabs {
+  display: flex !important;
+  flex-direction: row !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 24px 0 !important;
+  border-bottom: 3px solid #e0e0e0;
+  gap: 0;
+  background: transparent !important;
+}
 
+ul.profile-tabs li.profile-tab {
+  display: inline-block !important;
+  padding: 14px 28px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: #6a6a6a;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  background: transparent !important;
+  list-style: none !important;
+}
 
+ul.profile-tabs li.profile-tab:hover {
+  color: #333;
+  background-color: #f5f5f5 !important;
+}
 
+ul.profile-tabs li.profile-tab.active {
+  color: #eb3300;
+  border-bottom-color: #eb3300;
+  background-color: transparent !important;
+}
+
+.profile-tab-content {
+  min-height: 300px;
+}
+
+.profile-tab-panel {
+  display: none;
+}
+
+.profile-tab-panel.active {
+  display: block;
+}
 
 
