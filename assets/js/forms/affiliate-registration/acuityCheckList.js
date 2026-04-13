@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   loadAffiliates();
   async function loadAffiliates() {
-    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'KKW9E5sqqPN');
+    // const rresponse = await dataApi.dataStoreDelete('accuityResponse', 'YhW4ROqTyVi');
     const url = new URL(window.location.href);
     const affiliate = url.searchParams.get('affiliate');
 
@@ -90,7 +90,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById('table').innerHTML = tableBody.join('');
             if(index >= 12) {
               if(name) {
+                showLoader(`Please wait your ${name} is Loaded...`);
                 const response = await runAcuityBank({name});
+                hideLoader();
                 status = response.rawPageText;
                 teiAcuityCheck.push({
                   "id": `${element.id}`,
@@ -116,7 +118,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             } else {
               if(name && regNo) {
+                showLoader(`Please wait your ${name} is Loaded`);
                 const response = await runAcuity({name, regNo});
+                hideLoader();
                 status = response.rawPageText;
                 teiAcuityCheck.push({
                   "id": `${element.id}`,
@@ -150,7 +154,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
  async function runAcuity({name, regNo}) {
-    var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+    try {
+      var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -167,14 +172,20 @@ document.addEventListener("DOMContentLoaded", async function () {
       const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
       if(!pageText) response.rawPageText = "No Records Found";
     }
-    if(!response.rawPageText) {
-      response = await runAcuity({name, regNo})
+      return response;
+      
+    } catch (error) {
+      console.error("Error in acuity: ", error);
+      showLoader(`Fetching again for ${name}...`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return await runAcuity({name, regNo});
+
     }
-    return response;
   }
   
  async function runAcuityBank({name}) {
-    var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
+    try {
+       var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -193,9 +204,74 @@ document.addEventListener("DOMContentLoaded", async function () {
       const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
       if(!pageText) response.rawPageText = "No Records Found";
     }
-    if(!response.rawPageText) {
-      response = await runAcuityBank({name})
-    }
+
     return response;  
+      
+    } catch (error) {
+      console.error("Error in runAcuityBank:", error);
+      showLoader(`Fetching again for ${name}...`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return await runAcuityBank({name});
+    }
   }
 })
+
+ function showLoader(message) {
+    // Remove existing loader if any
+    const existingLoader = document.getElementById("global-loader");
+    if (existingLoader) existingLoader.remove();
+    
+    const loader = document.createElement("div");
+    loader.id = "global-loader";
+    loader.innerHTML = `
+      <div style="
+        position: fixed;
+        top:0; left:0;
+        width:100%; height:100%;
+        background: rgba(0,0,0,0.5);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:99999;
+      ">
+        <div style="
+          background:white;
+          padding:30px 40px;
+          border-radius:10px;
+          text-align:center;
+          box-shadow:0 4px 20px rgba(0,0,0,0.2);
+        ">
+          <div class="spinner" style="
+            border:5px solid #eee;
+            border-top:5px solid #15803d;
+            border-radius:50%;
+            width:40px;
+            height:40px;
+            margin:0 auto 15px;
+            animation: spin 1s linear infinite;
+          "></div>
+          <p style="font-weight:500;">${message}</p>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(loader);
+
+    // inject animation once
+    if (!document.getElementById("loader-style")) {
+      const style = document.createElement("style");
+      style.id = "loader-style";
+      style.innerHTML = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+}
+
+function hideLoader() {
+    const loader = document.getElementById("global-loader");
+    if (loader) loader.remove();
+}
