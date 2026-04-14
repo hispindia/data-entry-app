@@ -116,35 +116,34 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
               }
 
-            } 
-            // else {
-            //   if(name && regNo) {
-            //     showLoader(`Please wait ${name} is Loaded...`);
-            //     const response = await runAcuity({name, regNo});
-            //     hideLoader();
-            //     status = response.rawPageText;
-            //     teiAcuityCheck.push({
-            //       "id": `${element.id}`,
-            //       "date": newDate,
-            //       "sl_no": index,
-            //       "tei_uid": affiliate.trackedEntity,
-            //       [id[0]]: name,
-            //       [id[1]]: regNo,
-            //       [element.id]: response.rawPageText,
-            //     });
-            //   } else {
-            //     status = "No Data Found in Source";
-            //     teiAcuityCheck.push({
-            //       "id": `${element.id}`,
-            //       "date": newDate,
-            //       "sl_no": index,
-            //       "tei_uid": affiliate.trackedEntity,
-            //       [id[0]]: name,
-            //       [id[1]]: regNo,
-            //       [element.id]: "No Data Found in Source",
-            //     });
-            //   }
-            // }
+            } else {
+              if(name && regNo) {
+                showLoader(`Please wait ${name} is Loaded...`);
+                const response = await runAcuity({name, regNo});
+                hideLoader();
+                status = response.rawPageText;
+                teiAcuityCheck.push({
+                  "id": `${element.id}`,
+                  "date": newDate,
+                  "sl_no": index,
+                  "tei_uid": affiliate.trackedEntity,
+                  [id[0]]: name,
+                  [id[1]]: regNo,
+                  [element.id]: response.rawPageText,
+                });
+              } else {
+                status = "No Data Found in Source";
+                teiAcuityCheck.push({
+                  "id": `${element.id}`,
+                  "date": newDate,
+                  "sl_no": index,
+                  "tei_uid": affiliate.trackedEntity,
+                  [id[0]]: name,
+                  [id[1]]: regNo,
+                  [element.id]: "No Data Found in Source",
+                });
+              }
+            }
             tableBody.pop();
             body = `<tr><td>${(index)}</td><td>${name}</td><td>${regNo}</td><td>${status}</td></tr>`;
             tableBody.push(body);
