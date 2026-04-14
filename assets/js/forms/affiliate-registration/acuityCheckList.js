@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById('table').innerHTML = tableBody.join('');
             if(index >= 12) {
               if(name) {
-                showLoader(`Please wait your ${name} is Loaded...`);
+                showLoader(`Please wait ${name} is Loaded...`);
                 const response = await runAcuityBank({name});
                 hideLoader();
                 status = response.rawPageText;
@@ -116,34 +116,35 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
               }
 
-            } else {
-              if(name && regNo) {
-                showLoader(`Please wait your ${name} is Loaded`);
-                const response = await runAcuity({name, regNo});
-                hideLoader();
-                status = response.rawPageText;
-                teiAcuityCheck.push({
-                  "id": `${element.id}`,
-                  "date": newDate,
-                  "sl_no": index,
-                  "tei_uid": affiliate.trackedEntity,
-                  [id[0]]: name,
-                  [id[1]]: regNo,
-                  [element.id]: response.rawPageText,
-                });
-              } else {
-                status = "No Data Found in Source";
-                teiAcuityCheck.push({
-                  "id": `${element.id}`,
-                  "date": newDate,
-                  "sl_no": index,
-                  "tei_uid": affiliate.trackedEntity,
-                  [id[0]]: name,
-                  [id[1]]: regNo,
-                  [element.id]: "No Data Found in Source",
-                });
-              }
-            }
+            } 
+            // else {
+            //   if(name && regNo) {
+            //     showLoader(`Please wait ${name} is Loaded...`);
+            //     const response = await runAcuity({name, regNo});
+            //     hideLoader();
+            //     status = response.rawPageText;
+            //     teiAcuityCheck.push({
+            //       "id": `${element.id}`,
+            //       "date": newDate,
+            //       "sl_no": index,
+            //       "tei_uid": affiliate.trackedEntity,
+            //       [id[0]]: name,
+            //       [id[1]]: regNo,
+            //       [element.id]: response.rawPageText,
+            //     });
+            //   } else {
+            //     status = "No Data Found in Source";
+            //     teiAcuityCheck.push({
+            //       "id": `${element.id}`,
+            //       "date": newDate,
+            //       "sl_no": index,
+            //       "tei_uid": affiliate.trackedEntity,
+            //       [id[0]]: name,
+            //       [id[1]]: regNo,
+            //       [element.id]: "No Data Found in Source",
+            //     });
+            //   }
+            // }
             tableBody.pop();
             body = `<tr><td>${(index)}</td><td>${name}</td><td>${regNo}</td><td>${status}</td></tr>`;
             tableBody.push(body);
@@ -155,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
  async function runAcuity({name, regNo}) {
     try {
-      var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
+      const res = await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/659d9a7a7b404fbfa426dfa84e486992/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5VaBmHuGhyAYYnAumUf0eqdXPwOpue0aPICvxPgfthQ", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -167,7 +168,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         "program": "Prog_01",
         "PresidentName": `${name} ${regNo}`
       })
-    })).json();
+    });
+    if(!res.ok) {
+      throw new Error(`HTTP Error: ${res.status}`);
+    }
+    var response = await res.json();
     if(response?.rawPageText) {
       const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
       if(!pageText) response.rawPageText = "No Records Found";
@@ -176,7 +181,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       
     } catch (error) {
       console.error("Error in acuity: ", error);
-      showLoader(`Fetching again for ${name}...`);
+      showLoader(`Accuity is not Responding Fetching again for ${name}...`);
       await new Promise(resolve => setTimeout(resolve, 2000));
       return await runAcuity({name, regNo});
 
@@ -185,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
  async function runAcuityBank({name}) {
     try {
-       var response = await (await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
+       var res = await fetch("https://default56af9532501a404c995d80633a35c0.ac.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b806d85e0c3424984a2033ab269967a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4YFvKxncVyxpWlgVmBVd96icBe-JT4X6AjUhrGbWaFI", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -198,7 +203,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         "EntityType":"Organization",
         "OrganizationName": `${name}`
       })
-    })).json();
+    });
+    if (!res.ok) {
+      throw new Error(`HTTP Error: ${res.status}`);
+    }
+    var response = res.json();
 
     if(response?.rawPageText) {
       const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
