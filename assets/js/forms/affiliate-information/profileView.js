@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
 
-
   fetchAffiliateList();
   async function fetchAffiliateList() {
   tei.mandatoryList = []
@@ -59,7 +58,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if(affiliate) {
     try {
-    console.log('Fetching affiliate with ID:', affiliate);  // Debug log
     const resAffiliate = await dataApi.getTrackedEntity(affiliate);
     console.log('API Response:', resAffiliate);  // Debug log
     if (!resAffiliate.trackedEntities) {
@@ -68,7 +66,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     tei.affiliate = resAffiliate.trackedEntities[0];
-    console.log('Affiliate data loaded:', tei.affiliate);  // Debug log
     if(hasWriteAccess) {
       const generateBtn = document.getElementById('generateUIN');
       if (generateBtn) generateBtn.disabled = false;
@@ -78,7 +75,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     }
     catch(err) {
-      console.error('Error fetching affiliate:', err);  // Debug log
       iziToast.info({
         message: "Affiliate Not found",
         timeout: 1500,
@@ -159,10 +155,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const bankStageSections = [];
   const affiliationStageSections = [];
 
-  uinStage.sections.forEach(section => console.log(`  UIN: "${section.name}" → ${categorizeSection(section)}`));
-  completionCheckList.sections.forEach(section => console.log(`  CL: "${section.name}" → ${categorizeSection(section)}`));
-  programAttributes.sections.forEach(section => console.log(`  PA: "${section.name}"`));
-
   uinStage.sections.forEach(section => {
     const cat = categorizeSection(section);
     if (cat === 'bank') bankStageSections.push(section);
@@ -221,7 +213,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
     const config = tabButtonConfig[tabId];
-
     let buttonHtml = '';
     let backButtonLabel = 'Back to View and Update';
     let backButtonData = '';
@@ -237,7 +228,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           backButtonLabel = `Back to ${prevTabName}`;
        }
     }
-      buttonHtml += `
+    buttonHtml += `
       <div class="col-4 mb-2">
         <button type="button" class="btn btn-lg btn-block" id="searchButton" data-action="${backButtonData}"  
           style="background-color: #6a6a6a; color: white;">${backButtonLabel}</button>
@@ -260,9 +251,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         </div>
       `;
     }
-
-   
-
+  
   document.getElementById('buttonContainer').innerHTML = buttonHtml;  
   
   const newNextButton = document.getElementById('nextButton');
