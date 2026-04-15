@@ -4,9 +4,29 @@ import { createPayload } from "../../api/payload.js";
 import { attributes, optionSet, programStage, programs, tei } from "../../constant.js";
 import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
-import { getNextCode } from "../utils.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
+  const profileTabs = document.querySelectorAll('.profile-tab');
+  const profilePanels = document.querySelectorAll('.profile-tab-panel');
+
+  const tabButtonConfig = {
+    'tab-affiliate': {
+      next: true,
+      submit: false
+    },
+    'tab-bank': {
+      next: true,
+      submit: true
+    },
+    'tab-completion': {
+      next: true,
+      submit: true
+    },
+    'tab-affiliation': {
+      next: false,
+      submit: true
+    },
+  }
  const userConfig = await getUserConfig();
   if (userConfig) {
       userConfig.user.forEach(user => {
@@ -24,23 +44,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
 
-  document.getElementById('generateUIN').addEventListener('click', async function() { 
-    if(tei.affiliate) {
-        const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
-        const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.enrollment;
-        if(!orgUnitId || !enrollment) return;
-        
-        tei.dataElements = tei.completionCheckListDEs;
-        const payloadCompletionCheckList = createPayload.event({tei, orgUnit: orgUnitId, enrollment, program: programs.UINControlMaster, programStage: programStage.completionCheckList});
-        await dataApi.enroll(payloadCompletionCheckList);
-        iziToast.success({
-            status: 'SUCCESS',
-            message: "Details Submitted Successfully",
-            position: "center",
-        });
-          window.location.href = './2.1-view-and-update-profile.html';
-        }
-    });
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
@@ -56,21 +59,26 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if(affiliate) {
     try {
+    console.log('Fetching affiliate with ID:', affiliate);  // Debug log
     const resAffiliate = await dataApi.getTrackedEntity(affiliate);
-    
+    console.log('API Response:', resAffiliate);  // Debug log
     if (!resAffiliate.trackedEntities) {
       const errorBody = await resAffiliate.json();
       throw new Error(errorBody.message || 'Request failed');
     }
 
     tei.affiliate = resAffiliate.trackedEntities[0];
+    console.log('Affiliate data loaded:', tei.affiliate);  // Debug log
     if(hasWriteAccess) {
-      document.getElementById('generateUIN').disabled = false;
+      const generateBtn = document.getElementById('generateUIN');
+      if (generateBtn) generateBtn.disabled = false;
     } else {
-      document.getElementById('generateUIN').style.display = 'none';
+      const generateBtn = document.getElementById('generateUIN');
+      if (generateBtn) generateBtn.disabled = false;
     }
     }
     catch(err) {
+      console.error('Error fetching affiliate:', err);  // Debug log
       iziToast.info({
         message: "Affiliate Not found",
         timeout: 1500,
@@ -131,10 +139,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
 
   // --- Tab categorization helpers ---
-  const affiliateKeywords = [
-    'uin form', 'affiliate detail', 'board member', 'additional board',
-    'senior management', 'additional senior', 'youth'
-  ];
   const bankKeywords = [
     'bank detail', 'bank account', 'additional document', 'additional bank',
     'netsuite'
@@ -155,12 +159,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const bankStageSections = [];
   const affiliationStageSections = [];
 
-  // Debug: log all section names for categorization verification
-  console.log('--- UIN Stage Sections ---');
   uinStage.sections.forEach(section => console.log(`  UIN: "${section.name}" → ${categorizeSection(section)}`));
-  console.log('--- Completion Checklist Sections ---');
   completionCheckList.sections.forEach(section => console.log(`  CL: "${section.name}" → ${categorizeSection(section)}`));
-  console.log('--- Program Attribute Sections ---');
   programAttributes.sections.forEach(section => console.log(`  PA: "${section.name}"`));
 
   uinStage.sections.forEach(section => {
@@ -203,43 +203,113 @@ document.addEventListener("DOMContentLoaded", async function () {
   };
   renderTabContent();
 
-  // --- Tab switching logic ---
-  document.querySelectorAll('.profile-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-      document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.profile-tab-panel').forEach(p => {
-        p.style.display = 'none';
-        p.classList.remove('active');
+    profileTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        switchTab(this.getAttribute('data-tab'));
       });
-      this.classList.add('active');
-      const target = document.getElementById(this.getAttribute('data-tab'));
-      if (target) {
-        target.style.display = 'block';
-        target.classList.add('active');
+    });
+    switchTab('tab-affiliate');
+  }
+
+  function switchTab(tabId) {
+
+    profilePanels.forEach(panel => panel.style.display = 'none');
+    profileTabs.forEach(tab => tab.classList.remove('active'));
+
+    //selected panel
+    document.getElementById(tabId).style.display = 'block';
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+
+    const config = tabButtonConfig[tabId];
+
+    let buttonHtml = '';
+    let backButtonLabel = 'Back to View and Update';
+    let backButtonData = '';
+
+    if (tabId == 'tab-affiliate') {
+      backButtonData = 'external';
+    } else { 
+       backButtonData = 'previous';
+       const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
+       const prevTabElement = activeTab.previousElementSibling;
+        if (prevTabElement && prevTabElement.classList.contains('profile-tab')) {
+          const prevTabName = prevTabElement.textContent.trim();
+          backButtonLabel = `Back to ${prevTabName}`;
+       }
+    }
+      buttonHtml += `
+      <div class="col-4 mb-2">
+        <button type="button" class="btn btn-lg btn-block" id="searchButton" data-action="${backButtonData}"  
+          style="background-color: #6a6a6a; color: white;">${backButtonLabel}</button>
+      </div>
+    `;
+
+    if (config.submit) {
+      buttonHtml += `
+      <div class="col-4 mb-2">
+        <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="generateUIN"
+          style="background-color: rgb(235, 51, 0); color: white;">Submit</button>
+      </div>
+    `;
+    }
+    if (config.next) {
+      buttonHtml += `
+        <div class="col-4 mb-2">
+        <button type="button" class="btn btn-lg btn-block" id="nextButton" 
+          style="background-color: rgb(235, 51, 0); color: white;">Next</button>
+        </div>
+      `;
+    }
+
+   
+
+  document.getElementById('buttonContainer').innerHTML = buttonHtml;  
+  
+  const newNextButton = document.getElementById('nextButton');
+  if (newNextButton) {
+    newNextButton.addEventListener('click', function() {
+      const activeTab = document.querySelector('.profile-tab.active');
+      const nextTabElement = activeTab.nextElementSibling;
+      if (nextTabElement && nextTabElement.classList.contains('profile-tab')) {
+        switchTab(nextTabElement.getAttribute('data-tab'));
       }
     });
-  });
+  }
 
-  // Listen for form changes across all tab panels
-  document.querySelector('.profile-tab-content').addEventListener('change', function(e) {
-    if (e.target.matches("input, select, textarea")) {
-      tei.values[e.target.id] = e.target.value;
-      const errorEl = document.getElementById(`error-${e.target.id}`);
-      if (errorEl) errorEl.innerHTML = '';
-
-      // Store completion checklist data elements for submit
-      completionCheckList.sections.forEach(section => {
-        section.items.forEach(item => {
-          if (tei.values[item.code] !== undefined) {
-            if (!tei.completionCheckListDEs) tei.completionCheckListDEs = [];
-          }
+  const generateUIN = document.getElementById('generateUIN');  
+   if (generateUIN) {
+    generateUIN.addEventListener('click', async function() { 
+    if(tei.affiliate) {
+      const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
+      const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.enrollment;
+      if(!orgUnitId || !enrollment) return;
+        
+        tei.dataElements = tei.completionCheckListDEs;
+        const payloadCompletionCheckList = createPayload.event({tei, orgUnit: orgUnitId, enrollment, program: programs.UINControlMaster, programStage: programStage.completionCheckList});
+        await dataApi.enroll(payloadCompletionCheckList);
+        iziToast.success({
+            status: 'SUCCESS',
+            message: "Details Submitted Successfully",
+            position: "center",
         });
-      });
+          window.location.href = './2.1-view-and-update-profile.html';
+        }
+    });
+   }
 
-      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-      renderTabContent();
-    }
+  document.getElementById('searchButton').addEventListener('click', function() {
+      const action = this.getAttribute('data-action');
+      if (action == 'external') {
+        window.location.href = './2.1-view-and-update-profile.html';
+      } else if (action == 'previous') {
+        const activeTab = document.querySelector('.profile-tab.active');
+        const prevTabElement = activeTab.previousElementSibling;
+        if (prevTabElement && prevTabElement.classList.contains('profile-tab')) {
+          switchTab(prevTabElement.getAttribute('data-tab'));
+        }
+      }
   });
+
   }
 
     function renderSections(sections) {
