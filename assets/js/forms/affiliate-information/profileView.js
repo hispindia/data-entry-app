@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   if(affiliate) {
     try {
     const resAffiliate = await dataApi.getTrackedEntity(affiliate);
-    console.log('API Response:', resAffiliate);  // Debug log
     if (!resAffiliate.trackedEntities) {
       const errorBody = await resAffiliate.json();
       throw new Error(errorBody.message || 'Request failed');
@@ -370,6 +369,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             message: "Details Submitted Successfully",
             position: "center",
         });
+        window.location.href = './2.1-view-and-update-profile.html';
         }
     });
    }
