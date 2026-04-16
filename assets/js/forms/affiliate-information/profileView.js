@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js"
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, optionSet, programStage, programs, tei } from "../../constant.js";
+import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
 import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 
@@ -119,9 +119,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   const completionCheckList = convert.stage({ programStage: resCompletionCheckList, disabled: true});
   //saving for later use
   tei.completionCheckListDEs = completionCheckList.dataElements;
-  
+  tei.uinStage = uinStage;
   tei.programStages = [...programAttributes.sections, ...uinStage.sections, ...completionCheckList.sections];
   tei.values = {...programAttributes.values, ...uinStage.values, ...completionCheckList.values, ...dataValues};
+  tei.completionCheckListDEs = completionCheckList.dataElements;
+  tei.uinStageDataElements = uinStage.dataElements;  
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
   tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
 
@@ -280,16 +282,94 @@ document.addEventListener("DOMContentLoaded", async function () {
       const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
       const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.enrollment;
       if(!orgUnitId || !enrollment) return;
-        
-        tei.dataElements = tei.completionCheckListDEs;
-        const payloadCompletionCheckList = createPayload.event({tei, orgUnit: orgUnitId, enrollment, program: programs.UINControlMaster, programStage: programStage.completionCheckList});
-        await dataApi.enroll(payloadCompletionCheckList);
+
+      const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
+      let programStageToUpdate;
+      let dataElementToUpdate;
+
+      if (activeTab === 'tab-bank') {
+        programStageToUpdate = programStage.UINControlMaster;
+        dataElementToUpdate = tei.uinStageDataElements;
+      }
+     else if (activeTab === 'tab-completion' || activeTab === 'tab-affiliation') {
+        programStageToUpdate = programStage.completionCheckList;
+        dataElementToUpdate = tei.completionCheckListDEs;
+      }
+
+      // for handling file error so that existing value will not collide with newly filled fields
+      dataElementToUpdate.forEach(deUid => {
+        const el = document.getElementById(deUid);
+        if (el) {
+          if (el.type === "file") {
+            if (el.files.length > 0) tei.values[deUid] = el.files[0];
+          } else if (el.type === "checkbox") {
+            tei.values[deUid] = el.checked;
+          } else {
+            tei.values[deUid] = el.value;
+          }
+        }
+      });
+
+      // for new file Upload
+      for (const deUid of dataElementToUpdate) {
+        const file = tei.values[deUid];
+        if (file && typeof file !== "string") {
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const res = await dataApi.uploadFile(formData);
+            if (res.status === 'OK') {
+              tei.values[deUid] = res.response.fileResource.id;
+            }
+          } catch (error) {
+            console.error("Error uploading file:", error);
+          }
+        }
+      }
+
+      const existingEvent = tei.affiliate.enrollments
+      .find(enroll => enroll.program == programs.UINControlMaster)
+      ?.events.filter(event => event.programStage == programStageToUpdate && !event.deleted)
+      .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
+
+      const existingValues = {};
+      if (existingEvent?.dataValues) {
+        existingEvent.dataValues.forEach(dv => {
+          existingValues[dv.dataElement] = dv.value;
+        });
+      }
+
+      const changedDEs = dataElementToUpdate.filter(deUid => {
+        const newVal = tei.values[deUid] || "";
+        const oldVal = existingValues[deUid] || "";
+        return newVal.toString() !== oldVal.toString();
+      });
+
+      if (changedDEs.length === 0) {
+        iziToast.info({ message: "No changes to submit", position: "center" });
+        return;
+      }
+
+      const originalDEs = tei.dataElements;
+      tei.dataElements = changedDEs;
+      tei.eventId = existingEvent?.event;
+
+        const payload = createPayload.event({
+          tei,
+          event: tei.eventId,
+          orgUnit: orgUnitId,
+          enrollment,
+          program: programs.UINControlMaster,
+          programStage: programStageToUpdate,
+        })
+        await dataApi.enroll(payload);
+        tei.dataElements = originalDEs; 
+
         iziToast.success({
             status: 'SUCCESS',
             message: "Details Submitted Successfully",
             position: "center",
         });
-          window.location.href = './2.1-view-and-update-profile.html';
         }
     });
    }
