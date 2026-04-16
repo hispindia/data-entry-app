@@ -119,19 +119,19 @@ document.addEventListener("DOMContentLoaded", async function () {
   const completionCheckList = convert.stage({ programStage: resCompletionCheckList, disabled: true});
   //saving for later use
   tei.completionCheckListDEs = completionCheckList.dataElements;
-  completionCheckList.sections.forEach(section => {
-    section.items.forEach(element => {
-      if(element.name === "Affiliation Type" || element.name === "Affiliation Status") {
-          element.disabled = false;
-      }
-    })
-  })
   
   tei.programStages = [...programAttributes.sections, ...uinStage.sections, ...completionCheckList.sections];
   tei.values = {...programAttributes.values, ...uinStage.values, ...completionCheckList.values, ...dataValues};
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
   tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
 
+  completionCheckList.sections.forEach(section => {
+    section.items.forEach(element => {
+      if(element.name === "Affiliation Type" || element.name === "Affiliation Status" || !tei.values[element.code]) {
+          element.disabled = false;
+      }
+    })
+  })
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
 
   // --- Tab categorization helpers ---
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     else if (cat === 'affiliation') affiliationStageSections.push(section);
     else affiliateStageSections.push(section);
   });
-
+  
   // Render into tab panels
   document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
 
@@ -176,6 +176,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     else if (cat === 'affiliation') completionAffiliationSections.push(section);
     else completionOnlySections.push(section);
   });
+  
+  [...bankStageSections, ...completionBankSections].forEach(section => {
+    section.items.forEach(element => {
+      if(!tei.values[element.code] || tei.values[element.code] === '') {
+        element.disabled = false;
+      }
+    })
+  })
 
   const renderTabContent = () => {
     document.getElementById("affiliateStage").innerHTML = renderSections(affiliateStageSections);
