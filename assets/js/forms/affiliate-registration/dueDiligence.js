@@ -354,46 +354,46 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
     const config = tabButtonConfig[tabId];
-    let buttonHtml = '';
-    let backButtonLabel = 'Back to Eligibilty Check & Manage Waivers';
-    let backButtonData = '';
+    let backButtonHtml = '';
+    let redButtonHtml = '';
+
+    backButtonHtml += `
+      <div class="col-4 mb-2">
+        <button type="button" class="btn btn-lg btn-block" id="searchButton" 
+          style="background-color: #6a6a6a; color: white;">1.2 Eligibility Check & Manage Waivers</button>
+      </div>
+    `;
 
     if (tabId == 'tab-affiliate') {
-      backButtonData = 'external';
-    } else { 
-       backButtonData = 'previous';
-       const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
-       const prevTabElement = activeTab.previousElementSibling;
-        if (prevTabElement && prevTabElement.classList.contains('profile-tab')) {
-          const prevTabName = prevTabElement.textContent.trim();
-          backButtonLabel = `Back to ${prevTabName}`;
-       }
-    }
-    buttonHtml += `
-      <div class="col-4 mb-2">
-        <button type="button" class="btn btn-lg btn-block" id="searchButton" data-action="${backButtonData}"  
-          style="background-color: #6a6a6a; color: white;">${backButtonLabel}</button>
-      </div>
-    `;
-
-    if (config.submit) {
-      buttonHtml += `
-      <div class="col-4 mb-2">
-        <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="submit"
-          style="background-color: rgb(235, 51, 0); color: white;">Submit</button>
-      </div>
-    `;
-    }
-    if (config.next) {
-      buttonHtml += `
+      redButtonHtml = `
         <div class="col-4 mb-2">
-        <button type="button" class="btn btn-lg btn-block" id="nextButton" 
-          style="background-color: rgb(235, 51, 0); color: white;">Next</button>
+          <button type="button" class="btn btn-lg btn-block" id="nextButton"
+            style="background-color: rgb(235, 51, 0); color: white;">
+            Next
+          </button>
+        </div>
+      `;
+    } else if (tabId == 'tab-bank' || tabId == 'tab-completion') {
+      redButtonHtml = `
+        <div class="col-4 mb-2">
+          <button type="button" class="btn btn-lg btn-block" id="saveButton"
+            style="background-color: rgb(235, 51, 0); color: white;">
+            Save
+          </button>
+        </div>
+      `;
+    }  else if (tabId == 'tab-affiliation') {
+      redButtonHtml = `
+        <div class="col-4 mb-2">
+          <button type="button" class="btn btn-lg btn-block" id="submitButton"
+            style="background-color: rgb(235, 51, 0); color: white;">
+            Submit
+          </button>
         </div>
       `;
     }
-  
-  document.getElementById('buttonContainer').innerHTML = buttonHtml;  
+
+  document.getElementById('buttonContainer').innerHTML = redButtonHtml + backButtonHtml;  
   
   const newNextButton = document.getElementById('nextButton');
   if (newNextButton) {
@@ -507,16 +507,7 @@ document.addEventListener("DOMContentLoaded", async function () {
    }
 
   document.getElementById('searchButton').addEventListener('click', function() {
-      const action = this.getAttribute('data-action');
-      if (action == 'external') {
-        window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
-      } else if (action == 'previous') {
-        const activeTab = document.querySelector('.profile-tab.active');
-        const prevTabElement = activeTab.previousElementSibling;
-        if (prevTabElement && prevTabElement.classList.contains('profile-tab')) {
-          switchTab(prevTabElement.getAttribute('data-tab'));
-        }
-      }
+      window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
   });
 
   }
