@@ -500,7 +500,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             message: "Details Submitted Successfully",
             position: "center",
         });
-        window.location.href = './1.1-new-registration.html';
+        window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
         }
     });
    }

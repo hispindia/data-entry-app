@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport" />
-  <title>Standard Report 1</title>
+  <title>UIN Master Report</title>
   <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/css/app.min.css" />
   <!-- Template CSS -->
@@ -91,9 +91,9 @@
                             <span data-i18n="intro.">3. Standard Reports</span>
                             </a>
                             <ul class="dropdown-menu">
-                              <li class="active" data-target="3.1-standard-report-1.html"><a class="nav-link" href="#"><span>3.1 Standard Report 1</span></a></li>
-                              <li data-target="3.2-standard-report-2.html"><a class="nav-link" href="#"><span>3.2 Standard Report 2 </span></a></li>
-                              <li data-target="3.3-standard-report-3.html"><a class="nav-link" href="#"><span>3.3 Standard Report 3</span></a></li>
+                              <li class="active" data-target="3.1-standard-report-1.html"><a class="nav-link" href="#"><span>3.1 UIN Master Report</span></a></li>
+                              <li data-target="3.2-standard-report-2.html"><a class="nav-link" href="#"><span>3.2 UIN - IPPF Partnership Register </span></a></li>
+                              <li data-target="3.3-standard-report-3.html"><a class="nav-link" href="#"><span>3.3 UIN Affiliate Document Availability Checklist</span></a></li>
                             </ul>
                       </li>
               </ul>
@@ -102,8 +102,24 @@
       <!-- Main Content -->
         <div class="main-content">
           <div id="mainHeading">
-            <h4 class="mt-3" style="color: black;">3.1 Standard Report 1</h4>
-            <p>Generate and view Standard Report 1</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <h4 style="color: black; margin: 0;">3.1 UIN Master Report</h4>
+              <button id="downloadExcel" class="btn btn-success">
+                Download Excel
+              </button>
+            </div>
+            <p class="mb-3">Generate and view UIN Master Report</p>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="reportTable" class="table table-bordered table-striped">
+                    <thead></thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
     </div>
@@ -118,7 +134,7 @@
   <script src="assets/js/translation.js"></script>
   
   <!-- Page Specific JS File -->
-  <script type="module" src="assets/js/forms/standard-reports/standardReport_1.js"></script>
+  <script type="module" src="assets/js/forms/standard-reports/standardReport_1.js?v=3"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
