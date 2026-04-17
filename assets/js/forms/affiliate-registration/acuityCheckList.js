@@ -90,9 +90,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById('table').innerHTML = tableBody.join('');
             if(index >= 12) {
               if(name) {
-                showLoader(`Please wait ${name} is Loaded...`);
-                const response = await runAcuityBank({name});
-                hideLoader();
+                // showLoader(`Please wait ${name} is Loaded...`);
+                // const response = await runAcuityBank({name});
+                  const response = await runAcuityWithStages({
+                  name,
+                 regNo,
+                 isBank: index >= 12
+                });
+                // hideLoader();
                 status = response.rawPageText;
                 teiAcuityCheck.push({
                   "id": `${element.id}`,
@@ -118,9 +123,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             } else {
               if(name && regNo) {
-                showLoader(`Please wait ${name} is Loaded...`);
-                const response = await runAcuity({name, regNo});
-                hideLoader();
+                // showLoader(`Please wait ${name} is Loaded...`);
+                // const response = await runAcuity({name, regNo});
+                // hideLoader();
+                const response = await runAcuityWithStages({
+                  name,
+                  regNo,
+                  isBank: index >= 12
+                });
                 status = response.rawPageText;
                 teiAcuityCheck.push({
                   "id": `${element.id}`,
@@ -180,10 +190,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       
     } catch (error) {
       console.error("Error in acuity: ", error);
-      showLoader(`Accuity is not Responding Fetching again for ${name}...`);
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      return await runAcuity({name, regNo});
-
+      throw error;
     }
   }
   
@@ -206,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (!res.ok) {
       throw new Error(`HTTP Error: ${res.status}`);
     }
-    var response = res.json();
+    var response = await res.json();
 
     if(response?.rawPageText) {
       const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
@@ -217,13 +224,78 @@ document.addEventListener("DOMContentLoaded", async function () {
       
     } catch (error) {
       console.error("Error in runAcuityBank:", error);
-      showLoader(`Fetching again for ${name}...`);
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      return await runAcuityBank({name});
+      throw error;
     }
   }
+
+  
+   async function runAcuityWithStages({ name, regNo, isBank = false, attempt = 1 }) {
+    try {
+      showLoader(getAcuityMessage("init", name));
+      await new Promise(r => setTimeout(r, 300));
+
+      showLoader(getAcuityMessage("fetch", name));
+
+      const response = isBank
+        ? await runAcuityBank({ name })
+        : await runAcuity({ name, regNo });
+
+      if (!response || !response.rawPageText) {
+      throw new Error(`Invalid response for ${name}`);
+      }
+      showLoader(getAcuityMessage("complete", name));
+      await new Promise(r => setTimeout(r, 400));
+
+      hideLoader();
+
+      return response;
+
+    } catch (error) {
+      console.error("Retrying full cycle for:", name);
+
+      if (attempt >= 3) {
+        hideLoader();
+        throw error;
+      }
+
+      return await runAcuityWithStages({
+        name,
+        regNo,
+        isBank,
+        attempt: attempt + 1
+      });
+    }
+  }
+
+
+  function getAcuityMessage(stage, name) {
+  switch(stage) {
+    case "init":
+      return `Stage 1 — Initiating Check
+
+        Initiating Acuity screening for ${name}...
+        Connecting to Acuity database. Please wait...`;
+
+    case "fetch":
+      return `🔍 Stage 2 — Fetching Data
+
+      Fetching compliance records for ${name}...
+      Retrieving Acuity profile. This may take a few moments...`;
+
+    case "complete":
+      return `✅ Stage 3 — Completing
+
+      Acuity check complete for ${name}.
+      Screening completed. Loading results...`;
+
+      default:
+        return `Processing ${name}...`;
+   }
+  }
+
 })
 
+ 
  function showLoader(message) {
     // Remove existing loader if any
     const existingLoader = document.getElementById("global-loader");
