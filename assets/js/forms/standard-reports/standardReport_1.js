@@ -3,10 +3,9 @@ import BaseApi from "../../api/BaseApi.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   renderTable(); 
-  
+
   try {
     const userConfig = await getUserConfig();
-
     if (userConfig) {
       userConfig.user.forEach(user => {
         $(`.${user}`).hide();
@@ -30,6 +29,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   });
+
+  // -------- UIN HELPERS --------
+  function getCountryCode(country) {
+    return country
+      .replace(/[^a-zA-Z]/g, "")
+      .substring(0, 3)
+      .toUpperCase();
+  }
+
+  const countryCounter = {};
+
   async function renderTable() {
     const tableHead = document.querySelector("#reportTable thead");
     const tableBody = document.querySelector("#reportTable tbody");
@@ -40,7 +50,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const headers = [
       "BPCountry", 
       "Core_Grant_Receiving", 
-      "DHIS2_Code Verified", 
+      "DHIS2_Code Verified",
+      "UIN", 
       "ACCountry", 
       "ACEntity", 
       "ACEntityEnglish",
@@ -50,7 +61,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       "ACCountry_1",
       "Institutions",
       "ENGCountry"
-      
     ];
 
     const headRow = document.createElement("tr");
@@ -61,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
     tableHead.appendChild(headRow);
 
-    tableBody.innerHTML = "<tr><td colspan='6'>Loading report data...</td></tr>";
+    tableBody.innerHTML = "<tr><td colspan='13'>Loading...</td></tr>";
 
     try {
       const [orgUnitResponse, teiResponse] = await Promise.all([
@@ -70,150 +80,111 @@ document.addEventListener("DOMContentLoaded", async function () {
           method: "GET"
         }),
         BaseApi({
-          url: "tracker/trackedEntities.json?paging=false&program=w6sqrDv2VK8&ouMode=ACCESSIBLE&fields=trackedEntity,orgUnit,enrollments[events[dataValues[dataElement,value]]]",
+          url: "tracker/trackedEntities.json?paging=false&program=w6sqrDv2VK8&ouMode=ACCESSIBLE&fields=trackedEntity,orgUnit,enrollments[events[dataValues[dataElement,value,occurredAt]]]",
           method: "GET"
         })
       ]);
-      
-      if (!orgUnitResponse.ok || !teiResponse.ok) {
-        throw new Error("Network response was not ok");
-      }
 
-      const reportData = await orgUnitResponse.json();
-      const orgUnits = reportData.organisationUnits || [];
+      const orgUnits = (await orgUnitResponse.json()).organisationUnits || [];
+      const trackedEntities = (await teiResponse.json()).trackedEntities || [];
 
-      const teiData = await teiResponse.json();
-      const trackedEntities = teiData.trackedEntities || teiData.instances || [];
-
+      // ---- Tracker Map ----
       const trackerDataMap = {};
+
       trackedEntities.forEach(tei => {
         let affiliationStatus = "";
         let affiliationType = "";
 
-        const enrollments = tei.enrollments || [];
-        enrollments.forEach(en => {
-          const events = en.events || [];
-        //   events.forEach(ev => {
-        //     const dataValues = ev.dataValues || [];
-        //     dataValues.forEach(dv => {
-        //       // Affiliation Status
-        //       if (dv.dataElement === "qg4tyJoHEiS" && dv.value) {
-        //         affiliationStatus = dv.value;
-        //         console.log("affilaition status------", affiliationStatus);
-        //       }
-        //       // Affiliation Type (maps to CurrentStatus column)
-        //       if (dv.dataElement === "gDI26Sq88pk" && dv.value) {
-        //         affiliationType = dv.value;
-        //         console.log("affilatin type---", affiliationType);
-        //       }
-        //     });
-        //   });
-        let affiliationStatus = "";
-        let affiliationType = "";
-
-            const latestEvent = (en.events || []).sort(
+        tei.enrollments?.forEach(en => {
+          const latestEvent = (en.events || []).sort(
             (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
-            )[0];
+          )[0];
 
-            if (latestEvent) {
-            latestEvent.dataValues.forEach(dv => {
-                if (dv.dataElement === "qg4tyJoHEiS") {
-                affiliationStatus = dv.value;
-                }
-                if (dv.dataElement === "gDI26Sq88pk") {
-                affiliationType = dv.value;
-                }
-            });
-            }   
-    
-    });
+          latestEvent?.dataValues?.forEach(dv => {
+            if (dv.dataElement === "qg4tyJoHEiS") affiliationStatus = dv.value;
+            if (dv.dataElement === "gDI26Sq88pk") affiliationType = dv.value;
+          });
+        });
 
         if (tei.orgUnit) {
-          if (!trackerDataMap[tei.orgUnit]) {
-            trackerDataMap[tei.orgUnit] = { affiliationStatus: "", affiliationType: "" };
-          }
-          
-         
-          if (affiliationStatus) trackerDataMap[tei.orgUnit].affiliationStatus = affiliationStatus;
-          if (affiliationType) trackerDataMap[tei.orgUnit].affiliationType = affiliationType;
+          trackerDataMap[tei.orgUnit] = {
+            affiliationStatus,
+            affiliationType
+          };
         }
       });
 
-      // Clear loading state
       tableBody.innerHTML = "";
 
       orgUnits.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
       orgUnits.forEach(ou => {
-        if (ou.children && ou.children.length > 0) {
-          // If country has children (affiliates), render a row for EACH child
-          ou.children.forEach(child => {
-            const trackerData = trackerDataMap[ou.id] || {};
-            const affiliationStatus = trackerData.affiliationStatus || "";
-            const currentStatus = trackerData.affiliationType || "";
+        const trackerData = trackerDataMap[ou.id] || {};
+        const affiliationStatus = trackerData.affiliationStatus || "Active";
+        const currentStatus = trackerData.affiliationType || "Active";
 
+        const country = ou.name || "";
+        const code = getCountryCode(country);
+
+        if (!countryCounter[code]) countryCounter[code] = 1;
+        else countryCounter[code]++;
+
+        const uin = `IPPF-${code}-${String(countryCounter[code]).padStart(3, "0")}`;
+
+        if (ou.children && ou.children.length > 0) {
+          ou.children.forEach(child => {
             const tr = document.createElement("tr");
 
             tr.innerHTML = `
-              <td>${ou.name || ""}</td>
+              <td>${ou.name}</td>
               <td>Member</td>
-              <td>${ou.code || ""}</td>
-              <td>${ou.name || ""}</td>
-              <td>${child.name || ""}</td>
-              <td>${child.name || ""}</td>
+              <td>${ou.code}</td>
+              <td>${uin}</td>
+              <td>${ou.name}</td>
+              <td>${child.name}</td>
+              <td>${child.name}</td>
               <td>${affiliationStatus}</td>
               <td>${currentStatus}</td>
               <td></td>
-              <td>${ou.name || ""}</td>
+              <td>${ou.name}</td>
               <td>IPPF</td>
-              <td>${ou.name || ""}</td>
+              <td>${ou.name}</td>
             `;
 
             tableBody.appendChild(tr);
           });
         } else {
-          // If no children, render just the country row
-          const trackerData = trackerDataMap[ou.id] || {};
-          const affiliationStatus = trackerData.affiliationStatus || "";
-          const currentStatus = trackerData.affiliationType || "";
-
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
-            <td>${ou.name || ""}</td>
+            <td>${ou.name}</td>
             <td>Member</td>
-            <td>${ou.code || ""}</td>
-            <td>${ou.name || ""}</td>
+            <td>${ou.code}</td>
+            <td>${uin}</td>
+            <td>${ou.name}</td>
             <td></td>
             <td></td>
-            <td>${currentStatus}</td>
             <td>${affiliationStatus}</td>
+            <td>${currentStatus}</td>
             <td></td>
-            <td>${ou.name || ""}</td>
+            <td>${ou.name}</td>
             <td>IPPF</td>
-            <td>${ou.name || ""}</td>
+            <td>${ou.name}</td>
           `;
 
           tableBody.appendChild(tr);
         }
       });
-      
-      if (orgUnits.length === 0) {
-         tableBody.innerHTML = "<tr><td colspan='6'>No data available.</td></tr>";
-      }
+
     } catch (error) {
-      console.error("Error fetching report data:", error);
-      tableBody.innerHTML = "<tr><td colspan='6'>Error loading report data. Please try again later.</td></tr>";
+      console.error("Error:", error);
+      tableBody.innerHTML = "<tr><td colspan='13'>Error loading data</td></tr>";
     }
   }
 
   document.getElementById("downloadExcel")
     .addEventListener("click", () => {
-      if (typeof window.downloadTablesAsExcel === "function") {
-        window.downloadTablesAsExcel(["UIN Master Report"], "UIN_Master_Report");
-      } else {
-        console.error("downloadTablesAsExcel function is not globally available.");
-      }
+      window.downloadTablesAsExcel(["UIN Master Report"], "UIN_Master_Report");
     });
 
 });

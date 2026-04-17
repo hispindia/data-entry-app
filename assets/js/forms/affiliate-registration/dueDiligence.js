@@ -17,17 +17,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     },
     'tab-bank': {
       next: true,
-      submit: false
+      submit: true
     },
     'tab-completion': {
       next: true,
-      submit: false
+      submit: true
     },
     'tab-affiliation': {
       next: false,
       submit: true
     },
   }
+  
   const userConfig = await getUserConfig();
   if (userConfig) {
       userConfig.user.forEach(user => {
@@ -375,10 +376,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       </div>
     `;
 
-    if (config.submit && userConfig?.user?.includes('aoc')) {
+    if (config.submit) {
       buttonHtml += `
       <div class="col-4 mb-2">
-        <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="generateUIN"
+        <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="submit"
           style="background-color: rgb(235, 51, 0); color: white;">Submit</button>
       </div>
     `;
