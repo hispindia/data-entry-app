@@ -128,12 +128,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   // })
   // }
 
-  document.getElementById("dueDiligence").addEventListener('change', function(e) {
+  document.getElementById("dueDiligence").addEventListener('input', function(e) {
     if (e.target.matches("input, select, textarea")) {
       tei.values[e.target.id] = e.target.value;
       document.getElementById(`error-${e.target.id}`).innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-      document.getElementById("dueDiligence").innerHTML = renderSections(tei.programStages, tei.disabled);
+      // document.getElementById("dueDiligence").innerHTML = renderSections(tei.programStages, tei.disabled);
     }
   });
 
@@ -406,105 +406,142 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  const submitBtn = document.getElementById('submit');  
-   if (submitBtn) {
-    submitBtn.addEventListener('click', async function() { 
-    if(tei.affiliate) {
-      const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
-      const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
-      if(!orgUnitId || !enrollment) return;
+  const submitBtn = document.getElementById('submitButton'); 
+  const saveBtn = document.getElementById('saveButton');
 
+
+  //  if (submitBtn) {
+  //   submitBtn.addEventListener('click', async function() { 
+  //   console.log("submit clicked----------")
+  //   if(tei.affiliate) {
+  //     const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
+  //     const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
+  //     if(!orgUnitId || !enrollment) return;
+
+  //     const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
+  //     let programStageToUpdate;
+  //     let dataElementToUpdate;
+
+  //     if (activeTab === 'tab-bank') {
+  //       programStageToUpdate = programStage.affiliateKyc;
+  //       dataElementToUpdate = tei.affiliateStageDataElements;
+  //     }
+  //    else if (activeTab === 'tab-completion' || activeTab === 'tab-affiliation') {
+  //       programStageToUpdate = programStage.dueDiligence;
+  //       dataElementToUpdate = tei.dueDiligenceDEs;
+  //     }
+
+  //     // for handling file error so that existing value will not collide with newly filled fields
+  //     dataElementToUpdate.forEach(deUid => {
+  //       const el = document.getElementById(deUid);
+  //       if (el) {
+  //         if (el.type === "file") {
+  //           if (el.files.length > 0) tei.values[deUid] = el.files[0];
+  //         } else if (el.type === "checkbox") {
+  //           tei.values[deUid] = el.checked;
+  //         } else {
+  //           tei.values[deUid] = el.value;
+  //         }
+  //       }
+  //     });
+
+  //     // for new file Upload
+  //     for (const deUid of dataElementToUpdate) {
+  //       const file = tei.values[deUid];
+  //       if (file && typeof file !== "string") {
+  //         try {
+  //           const formData = new FormData();
+  //           formData.append('file', file);
+  //           const res = await dataApi.uploadFile(formData);
+  //           if (res.status === 'OK') {
+  //             tei.values[deUid] = res.response.fileResource.id;
+  //           }
+  //         } catch (error) {
+  //           console.error("Error uploading file:", error);
+  //         }
+  //       }
+  //     }
+
+  //     const existingEvent = tei.affiliate.enrollments
+  //     .find(enroll => enroll.program == programs.affiliateKyc)
+  //     ?.events.filter(event => event.programStage == programStageToUpdate && !event.deleted)
+  //     .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
+
+  //     const existingValues = {};
+  //     if (existingEvent?.dataValues) {
+  //       existingEvent.dataValues.forEach(dv => {
+  //         existingValues[dv.dataElement] = dv.value;
+  //       });
+  //     }
+
+  //     const changedDEs = dataElementToUpdate.filter(deUid => {
+  //       const newVal = tei.values[deUid] || "";
+  //       const oldVal = existingValues[deUid] || "";
+  //       return newVal.toString() !== oldVal.toString();
+  //     });
+
+  //     if (changedDEs.length === 0) {
+  //       iziToast.info({ message: "No changes to submit", position: "center" });
+  //       return;
+  //     }
+
+  //     const originalDEs = tei.dataElements;
+  //     tei.dataElements = changedDEs;
+  //     tei.eventId = existingEvent?.event;
+
+  //       const payload = createPayload.event({
+  //         tei,
+  //         event: tei.eventId,
+  //         orgUnit: orgUnitId,
+  //         enrollment,
+  //         program: programs.affiliateKyc,
+  //         programStage: programStageToUpdate,
+  //       })
+  //       await dataApi.enroll(payload);
+  //       tei.dataElements = originalDEs; 
+
+  //       iziToast.success({
+  //           status: 'SUCCESS',
+  //           message: "Details Submitted Successfully",
+  //           position: "center",
+  //       });
+  //       window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
+  //       }
+  //   });
+  //  }
+
+     if (submitBtn) {
+      submitBtn.addEventListener('click', async function() {
       const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
       let programStageToUpdate;
       let dataElementToUpdate;
 
       if (activeTab === 'tab-bank') {
         programStageToUpdate = programStage.affiliateKyc;
-        dataElementToUpdate = tei.uinStageDataElements;
+        dataElementToUpdate = tei.affiliateStageDataElements;
       }
      else if (activeTab === 'tab-completion' || activeTab === 'tab-affiliation') {
         programStageToUpdate = programStage.dueDiligence;
-        dataElementToUpdate = tei.completionCheckListDEs;
+        dataElementToUpdate = tei.dueDiligenceDEs;
       }
-
-      // for handling file error so that existing value will not collide with newly filled fields
-      dataElementToUpdate.forEach(deUid => {
-        const el = document.getElementById(deUid);
-        if (el) {
-          if (el.type === "file") {
-            if (el.files.length > 0) tei.values[deUid] = el.files[0];
-          } else if (el.type === "checkbox") {
-            tei.values[deUid] = el.checked;
-          } else {
-            tei.values[deUid] = el.value;
-          }
-        }
-      });
-
-      // for new file Upload
-      for (const deUid of dataElementToUpdate) {
-        const file = tei.values[deUid];
-        if (file && typeof file !== "string") {
-          try {
-            const formData = new FormData();
-            formData.append('file', file);
-            const res = await dataApi.uploadFile(formData);
-            if (res.status === 'OK') {
-              tei.values[deUid] = res.response.fileResource.id;
-            }
-          } catch (error) {
-            console.error("Error uploading file:", error);
-          }
-        }
-      }
-
-      const existingEvent = tei.affiliate.enrollments
-      .find(enroll => enroll.program == programs.affiliateKyc)
-      ?.events.filter(event => event.programStage == programStageToUpdate && !event.deleted)
-      .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
-
-      const existingValues = {};
-      if (existingEvent?.dataValues) {
-        existingEvent.dataValues.forEach(dv => {
-          existingValues[dv.dataElement] = dv.value;
-        });
-      }
-
-      const changedDEs = dataElementToUpdate.filter(deUid => {
-        const newVal = tei.values[deUid] || "";
-        const oldVal = existingValues[deUid] || "";
-        return newVal.toString() !== oldVal.toString();
-      });
-
-      if (changedDEs.length === 0) {
-        iziToast.info({ message: "No changes to submit", position: "center" });
-        return;
-      }
-
-      const originalDEs = tei.dataElements;
-      tei.dataElements = changedDEs;
-      tei.eventId = existingEvent?.event;
-
-        const payload = createPayload.event({
-          tei,
-          event: tei.eventId,
-          orgUnit: orgUnitId,
-          enrollment,
-          program: programs.affiliateKyc,
-          programStage: programStageToUpdate,
-        })
-        await dataApi.enroll(payload);
-        tei.dataElements = originalDEs; 
-
-        iziToast.success({
-            status: 'SUCCESS',
-            message: "Details Submitted Successfully",
-            position: "center",
-        });
-        window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
-        }
+      await upsertEvent({ programStageToUpdate, dataElementToUpdate })
     });
-   }
+    }
+
+    if (saveBtn) {
+    saveBtn.addEventListener('click', async function() {
+    const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
+      let programStageToUpdate;
+      let dataElementToUpdate;
+
+     if (activeTab === 'tab-completion' || activeTab === 'tab-affiliation' || activeTab == 'tab-bank') {
+        programStageToUpdate = programStage.dueDiligence;
+        dataElementToUpdate = tei.dueDiligenceDEs;
+      }
+      await upsertEvent({ programStageToUpdate, dataElementToUpdate })
+    });
+    }
+
 
   document.getElementById('searchButton').addEventListener('click', function() {
       window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
@@ -546,5 +583,108 @@ document.addEventListener("DOMContentLoaded", async function () {
         container += sectionDiv.outerHTML;
     }
     return container;
+    }
+
+  //for handling submit or save button 
+  async function handleAction(type) {
+    const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
+
+    let programStageToUpdate;
+    let dataElementToUpdate;
+
+    if (activeTab === 'tab-bank') {
+      programStageToUpdate = programStage.affiliateKyc;
+      dataElementToUpdate = tei.affiliateStageDataElements;
+    } else {
+      programStageToUpdate = programStage.dueDiligence;
+      dataElementToUpdate = tei.dueDiligenceDEs;
+    }
+
+    await upsertEvent({ programStageToUpdate, dataElementToUpdate });
+
+    if (type === "submit") {
+      iziToast.success({
+        message: "Submitted successfully",
+        position: "center"
+      });
+
+      window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
+    } else {
+      iziToast.success({
+        message: "Saved successfully",
+        position: "center"
+      });
+    }
+  }
+
+    //for event create or update 
+    async function upsertEvent({ programStageToUpdate, dataElementToUpdate }) {
+
+      dataElementToUpdate.forEach(deUid => {
+      const el = document.getElementById(deUid);
+      if (!el) {
+          console.warn("Missing element:", deUid);
+          return;
+      }
+
+        if (el.type === "file") {
+          if (el.files.length > 0) tei.values[deUid] = el.files[0];
+        } else if (el.type === "checkbox") {
+          tei.values[deUid] = el.checked;
+        } else {
+          tei.values[deUid] = el.value;
+        }
+      });
+
+      const orgUnitId = tei.affiliate.enrollments.find(
+        enroll => enroll.program == programs.affiliateKyc
+      )?.orgUnit;
+
+      const enrollment = tei.affiliate.enrollments.find(
+        enroll => enroll.program == programs.affiliateKyc
+      )?.enrollment;
+
+      if (!orgUnitId || !enrollment) return;
+
+      const existingEvent = tei.affiliate.enrollments
+        .find(enroll => enroll.program == programs.affiliateKyc)
+        ?.events
+        .filter(event => event.programStage == programStageToUpdate && !event.deleted)
+        .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
+
+      const existingValues = {};
+      if (existingEvent?.dataValues) {
+        existingEvent.dataValues.forEach(dv => {
+          existingValues[dv.dataElement] = dv.value;
+        });
+      }
+
+      const changedDEs = dataElementToUpdate.filter(deUid => {
+        const newVal = tei.values[deUid] || "";
+        const oldVal = existingValues[deUid] || "";
+        // return newVal.toString() !== oldVal.toString(); 
+        return String(newVal ?? "") !== String(oldVal ?? "");
+      });
+
+      if (changedDEs.length === 0) {
+        iziToast.info({ message: "No changes to submit", position: "center" });
+        return;
+      }
+
+      const originalDEs = tei.dataElements;
+      tei.dataElements = changedDEs;
+
+      const payload = createPayload.event({
+        tei,
+        event: existingEvent?.event, 
+        orgUnit: orgUnitId,
+        enrollment,
+        program: programs.affiliateKyc,
+        programStage: programStageToUpdate,
+      });
+
+      await dataApi.enroll(payload);
+
+      tei.dataElements = originalDEs;
     }
 })
