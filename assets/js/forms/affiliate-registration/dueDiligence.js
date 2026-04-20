@@ -32,7 +32,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   const userConfig = await getUserConfig();
   if (userConfig) {
       userConfig.user.forEach(user => {
-      $(`.${user}`).hide();
+        $(`.${user}`).each(function() {
+          this.style.setProperty('display', 'none', 'important');
+        });
       });
   }
   $('.sidebar-menu').show();
@@ -399,7 +401,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (newNextButton) {
     newNextButton.addEventListener('click', function() {
       const activeTab = document.querySelector('.profile-tab.active');
-      const nextTabElement = activeTab.nextElementSibling;
+      let nextTabElement = activeTab.nextElementSibling;
+      while (nextTabElement && nextTabElement.style.display === 'none') {
+        nextTabElement = nextTabElement.nextElementSibling;
+      }
       if (nextTabElement && nextTabElement.classList.contains('profile-tab')) {
         switchTab(nextTabElement.getAttribute('data-tab'));
       }

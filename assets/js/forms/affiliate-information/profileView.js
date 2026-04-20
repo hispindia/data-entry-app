@@ -30,7 +30,9 @@ document.addEventListener("DOMContentLoaded", async function () {
  const userConfig = await getUserConfig();
   if (userConfig) {
       userConfig.user.forEach(user => {
-      $(`.${user}`).hide();
+        $(`.${user}`).each(function() {
+          this.style.setProperty('display', 'none', 'important');
+        });
       });
   }
   $('.sidebar-menu').show();
@@ -231,7 +233,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     } else { 
        backButtonData = 'previous';
        const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
-       const prevTabElement = activeTab.previousElementSibling;
+       let prevTabElement = activeTab.previousElementSibling;
+       while (prevTabElement && prevTabElement.style.display === 'none') {
+         prevTabElement = prevTabElement.previousElementSibling;
+       }
         if (prevTabElement && prevTabElement.classList.contains('profile-tab')) {
           const prevTabName = prevTabElement.textContent.trim();
           backButtonLabel = `Back to ${prevTabName}`;
@@ -267,7 +272,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (newNextButton) {
     newNextButton.addEventListener('click', function() {
       const activeTab = document.querySelector('.profile-tab.active');
-      const nextTabElement = activeTab.nextElementSibling;
+      let nextTabElement = activeTab.nextElementSibling;
+      while (nextTabElement && nextTabElement.style.display === 'none') {
+        nextTabElement = nextTabElement.nextElementSibling;
+      }
       if (nextTabElement && nextTabElement.classList.contains('profile-tab')) {
         switchTab(nextTabElement.getAttribute('data-tab'));
       }
@@ -380,7 +388,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.location.href = './2.1-view-and-update-profile.html';
       } else if (action == 'previous') {
         const activeTab = document.querySelector('.profile-tab.active');
-        const prevTabElement = activeTab.previousElementSibling;
+        let prevTabElement = activeTab.previousElementSibling;
+        while (prevTabElement && prevTabElement.style.display === 'none') {
+          prevTabElement = prevTabElement.previousElementSibling;
+        }
         if (prevTabElement && prevTabElement.classList.contains('profile-tab')) {
           switchTab(prevTabElement.getAttribute('data-tab'));
         }
