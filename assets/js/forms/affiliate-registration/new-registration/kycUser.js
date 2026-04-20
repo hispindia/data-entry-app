@@ -8,9 +8,9 @@ import { toast, isGmailOrYahoo } from "../../utils.js";
 const newRegistration = async (userConfig) => {
     const url = new URL(window.location.href);
     const affiliate = url.searchParams.get('affiliate');
-    tei.affiliate = ''
+    tei.affiliate = '';
     if(userConfig.user.includes('aoc')) document.getElementById('sendToAcuityBtn').style.display = 'block';
-    
+        
     var resAffiliate = { trackedEntities: [] };
     
     if(affiliate) resAffiliate = await dataApi.getTrackedEntity(affiliate);
@@ -109,7 +109,6 @@ const newRegistration = async (userConfig) => {
             }
         }
         try {
-            tei['values'][attributes.user] = userConfig.username;
             
             if(!tei.affiliate) {
                 const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc});
