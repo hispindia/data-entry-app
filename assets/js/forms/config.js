@@ -3,10 +3,13 @@ import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
     const pages={
-        username: data.username,
+        username: data?.username,
         user: [],
         blockWaiver: false,
     };
+    if (!data || !data.userGroups) {
+        return pages;
+    }
     const userGroupIds = data.userGroups.map(ug => ug.id);
     const isIppfAdmin = userGroupIds.includes(userGroup.disabledIPPFAdmin);
     if (isIppfAdmin) {
@@ -23,6 +26,12 @@ export const userGroupConfig = (data) => {
     const isKyc = userGroupIds.includes(userGroup.disabledKyc);
     if (isKyc) {
         pages['user'].push('kyc');
+        pages['blockWaiver'] = true;
+    }
+
+    const isTpo = userGroupIds.includes(userGroup.diableTpo);
+    if (isTpo) {
+        pages['user'].push('tpo');
         pages['blockWaiver'] = true;
     }
 

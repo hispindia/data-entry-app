@@ -43,6 +43,7 @@ export const userGroup = {
     disabledAOCGroup : "jrCxIJzq4eE",
     disabledIPPFAdmin : "rhii1gmT3vo",
     disabledKyc: "CNG5iylPUoo",
+    diableTpo: "WBjDNaB9gS6",
     waiver: "qh0ixp80Gim"
 }
 export const programs = {
