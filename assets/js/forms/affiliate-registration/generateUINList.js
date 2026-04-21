@@ -241,10 +241,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       for (const rec of allRecords) {
         const deUID = rec.id?.split('_')[0];
-        const designation = DE_ROLE_MAP[deUID] || " ";
-        const name = rec[deUID] || rec.value || "—";
+        const designation = DE_ROLE_MAP[deUID] || "--";
+        const name = rec[deUID] || rec.value;
+        if (!name || name.trim() === "") {
+            continue;
+        }
         const resultText = rec[rec.id];
-
         if (designation === 'organisation') {
           orgName = name;
         }
