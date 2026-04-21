@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
    // --- Tab categorization helpers ---
   const bankKeywords = [
-    'bank detail', 'bank account', 'additional document', 'additional bank',
+    'bank detail', 'bank account', 'additional bank',
     'netsuite'
   ];
   const completionKeywords = ['completion checklist'];

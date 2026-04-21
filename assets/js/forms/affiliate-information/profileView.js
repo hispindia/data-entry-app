@@ -135,11 +135,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     })
   })
-  ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+  // ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
 
   // --- Tab categorization helpers ---
   const bankKeywords = [
-    'bank detail', 'bank account', 'additional document', 'additional bank',
+    'bank detail', 'bank account', 'additional bank',
     'netsuite'
   ];
   const completionKeywords = ['completion checklist'];
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       tei.values[e.target.id] = value;
       let errorEl = document.getElementById(`error-${e.target.id}`);
       if (errorEl) errorEl.innerHTML = '';
-      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      // ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       renderTabContent();
     }
   });
