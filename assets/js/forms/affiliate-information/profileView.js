@@ -206,7 +206,19 @@ document.addEventListener("DOMContentLoaded", async function () {
   };
   renderTabContent();
 
-    profileTabs.forEach(tab => {
+  document.querySelector("#tab-bank").addEventListener('change', function(e) {
+    if (e.target.matches("input, select, textarea")) {
+      let value = e.target.type === 'checkbox' ? (e.target.checked ? 'true' : 'false') : e.target.value;
+      tei.values[e.target.id] = value;
+      let errorEl = document.getElementById(`error-${e.target.id}`);
+      if (errorEl) errorEl.innerHTML = '';
+      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      renderTabContent();
+    }
+  });
+
+
+  profileTabs.forEach(tab => {
       tab.addEventListener('click', function() {
         switchTab(this.getAttribute('data-tab'));
       });

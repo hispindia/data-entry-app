@@ -95,7 +95,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                   const response = await runAcuityWithStages({
                   name,
                  regNo,
-                 isBank: index >= 12
+                 isBank: index >= 12,
+                 index: index
                 });
                 // hideLoader();
                 status = response.rawPageText;
@@ -129,7 +130,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const response = await runAcuityWithStages({
                   name,
                   regNo,
-                  isBank: index >= 12
+                  isBank: index >= 12,
+                  index: index
                 });
                 status = response.rawPageText;
                 teiAcuityCheck.push({
@@ -229,12 +231,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   
-   async function runAcuityWithStages({ name, regNo, isBank = false, attempt = 1 }) {
+   async function runAcuityWithStages({ name, regNo, isBank = false, attempt = 1, index }) {
     try {
-      showLoader(getAcuityMessage("init", name));
+      showLoader(getAcuityMessage("init", name, index));
       await new Promise(r => setTimeout(r, 300));
 
-      showLoader(getAcuityMessage("fetch", name));
+      showLoader(getAcuityMessage("fetch", name, index));
 
       const response = isBank
         ? await runAcuityBank({ name })
@@ -243,7 +245,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (!response || !response.rawPageText) {
       throw new Error(`Invalid response for ${name}`);
       }
-      showLoader(getAcuityMessage("complete", name));
+      showLoader(getAcuityMessage("complete", name, index));
       await new Promise(r => setTimeout(r, 400));
 
       hideLoader();
@@ -262,13 +264,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         name,
         regNo,
         isBank,
-        attempt: attempt + 1
+        attempt: attempt + 1,
+        index
       });
     }
   }
 
 
-  function getAcuityMessage(stage, name) {
+  function getAcuityMessage(stage, name, index = '?') {
   switch(stage) {
     case "init":
       return `Stage 1 — Initiating Check
@@ -279,8 +282,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     case "fetch":
       return `🔍 Stage 2 — Fetching Data
 
-      Fetching compliance records for ${name}...
-      Retrieving Acuity profile. This may take a few moments...`;
+      <div style="font-size: 12px; font-weight: 500;  margin-top: 20px;">
+        Checking profile <span style="color: red;">${index}</span> of 12
+      </div>
+
+      <div style="font-size: 12px; font-weight: 500; margin-top: 20px;">
+        Fetching compliance records for ${name}...
+        Retrieving Acuity profile. This may take a few moments...
+      </div>
+     
+      <div style="font-size: 14px; font-weight: 500; color: red; margin-top: 20px;">
+      This process takes around 15 minutes to complete. Please do not close the browser until the checks are complete.
+      </div>      
+      `;
 
     case "complete":
       return `✅ Stage 3 — Completing

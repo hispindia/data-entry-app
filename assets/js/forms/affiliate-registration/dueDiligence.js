@@ -130,15 +130,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   // })
   // }
 
-  document.querySelector("#tab-bank").addEventListener('input', function(e) {
-    if (e.target.matches("input, select, textarea")) {
-      let value = e.target.type === 'checkbox' ? (e.target.checked ? 'true' : 'false') : e.target.value;
-      tei.values[e.target.id] = value;
-      let errorEl = document.getElementById(`error-${e.target.id}`);
-      if (errorEl) errorEl.innerHTML = '';
-      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-    }
-  });
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
@@ -339,6 +330,18 @@ document.addEventListener("DOMContentLoaded", async function () {
   };
   renderTabContent();
 
+  document.querySelector("#tab-bank").addEventListener('change', function(e) {
+    if (e.target.matches("input, select, textarea")) {
+      let value = e.target.type === 'checkbox' ? (e.target.checked ? 'true' : 'false') : e.target.value;
+      tei.values[e.target.id] = value;
+      let errorEl = document.getElementById(`error-${e.target.id}`);
+      if (errorEl) errorEl.innerHTML = '';
+      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections]);
+      flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+    }
+  });
+
     profileTabs.forEach(tab => {
       tab.addEventListener('click', function() {
         switchTab(this.getAttribute('data-tab'));
@@ -356,7 +359,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById(tabId).style.display = 'block';
     document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
-    const config = tabButtonConfig[tabId];
     let backButtonHtml = '';
     let redButtonHtml = '';
 
