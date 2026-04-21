@@ -130,12 +130,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   // })
   // }
 
-  document.getElementById("dueDiligence").addEventListener('input', function(e) {
+  document.querySelector("#tab-bank").addEventListener('input', function(e) {
     if (e.target.matches("input, select, textarea")) {
-      tei.values[e.target.id] = e.target.value;
-      document.getElementById(`error-${e.target.id}`).innerHTML = '';
+      let value = e.target.type === 'checkbox' ? (e.target.checked ? 'true' : 'false') : e.target.value;
+      tei.values[e.target.id] = value;
+      let errorEl = document.getElementById(`error-${e.target.id}`);
+      if (errorEl) errorEl.innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-      // document.getElementById("dueDiligence").innerHTML = renderSections(tei.programStages, tei.disabled);
     }
   });
 
