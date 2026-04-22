@@ -96,7 +96,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                   name,
                  regNo,
                  isBank: index >= 12,
-                 index: index
+                 index: index,
+                 totalCount: dataElements.length
                 });
                 // hideLoader();
                 status = response.rawPageText;
@@ -131,7 +132,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                   name,
                   regNo,
                   isBank: index >= 12,
-                  index: index
+                  index: index,
+                  totalCount: dataElements.length
                 });
                 status = response.rawPageText;
                 teiAcuityCheck.push({
@@ -231,12 +233,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   
-   async function runAcuityWithStages({ name, regNo, isBank = false, attempt = 1, index }) {
+   async function runAcuityWithStages({ name, regNo, isBank = false, attempt = 1, index, totalCount }) {
     try {
-      showLoader(getAcuityMessage("init", name, index));
+      showLoader(getAcuityMessage("init", name, index, totalCount));
       await new Promise(r => setTimeout(r, 300));
 
-      showLoader(getAcuityMessage("fetch", name, index));
+      showLoader(getAcuityMessage("fetch", name, index, totalCount));
 
       const response = isBank
         ? await runAcuityBank({ name })
@@ -245,7 +247,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (!response || !response.rawPageText) {
       throw new Error(`Invalid response for ${name}`);
       }
-      showLoader(getAcuityMessage("complete", name, index));
+      showLoader(getAcuityMessage("complete", name, index, totalCount));
       await new Promise(r => setTimeout(r, 400));
 
       hideLoader();
@@ -265,13 +267,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         regNo,
         isBank,
         attempt: attempt + 1,
-        index
+        index,
+        totalCount
       });
     }
   }
 
 
-  function getAcuityMessage(stage, name, index = '?') {
+  function getAcuityMessage(stage, name, index = '?', totalCount = '?') {
   switch(stage) {
     case "init":
       return `Stage 1 — Initiating Check
@@ -283,7 +286,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return `🔍 Stage 2 — Fetching Data
 
       <div style="font-size: 12px; font-weight: 500;  margin-top: 20px;">
-        Checking profile <span style="color: red;">${index}</span> of 12
+        Checking profile <span style="color: red;">${index}</span> of ${totalCount}
       </div>
 
       <div style="font-size: 12px; font-weight: 500; margin-top: 20px;">
