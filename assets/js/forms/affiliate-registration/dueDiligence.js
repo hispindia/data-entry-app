@@ -255,8 +255,28 @@ document.addEventListener("DOMContentLoaded", async function () {
     
   const dueDiligenceDiv = renderSections(dueDiligence.sections);
   const affiliateKYCDiv = renderSections(affiliateStage.sections);
-  flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+  flatpickr(".flatpickr-date-input", { 
+    dateFormat: "Y-m-d", 
+      disable: [
+        function(date) { 
+          return  (date.getFullYear() < 1924) ||  (date > new Date()); 
+        }
+      ] 
+    });
 
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
    // --- Tab categorization helpers ---
   const bankKeywords = [
     'bank detail', 'bank account', 'additional bank',
@@ -326,7 +346,25 @@ document.addEventListener("DOMContentLoaded", async function () {
       [...affiliationStageSections, ...completionAffiliationSections]
     );
 
-    flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+     flatpickr(".flatpickr-date-input", { 
+        dateFormat: "Y-m-d",
+        minDate: "1924-01-01", 
+        maxDate: "today"
+    });
+
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
   };
   renderTabContent();
 
@@ -338,7 +376,25 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (errorEl) errorEl.innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections]);
-      flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+       flatpickr(".flatpickr-date-input", { 
+        dateFormat: "Y-m-d",
+        minDate: "1924-01-01", 
+        maxDate: "today"
+      });
+
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
     }
   });
 

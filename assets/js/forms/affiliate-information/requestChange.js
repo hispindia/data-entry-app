@@ -464,7 +464,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     body.appendChild(row);
     
     if (window.flatpickr) {
-        flatpickr(modal.querySelectorAll(".flatpickr-date-input"), { dateFormat: "Y-m-d" });
+        flatpickr(modal.querySelectorAll(".flatpickr-date-input"), { 
+                dateFormat: "Y-m-d", 
+                disable: [
+                  function(date) { 
+                      return (date.getFullYear() < 1924) ||  (date > new Date()); 
+                    }
+                ] 
+          });
+    }
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
     }
 
   modal.querySelector("#requestChangeSubmit").onclick = async () => {

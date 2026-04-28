@@ -37,6 +37,7 @@ const newRegistration = async (userConfig) => {
     const disclaimerCheck = document.getElementById('disclaimerCheck');
     disclaimerCheck.addEventListener('change', function(e) {
         if (e.target.checked) {
+        
         document.getElementById('submitBtn').disabled = false;
         } else {
         document.getElementById('submitBtn').disabled = true;
@@ -81,7 +82,18 @@ const newRegistration = async (userConfig) => {
                   mandatoryError.innerHTML = "Only valid email addresses are allowed.";
                   mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
                   mandatoryError.focus({ preventScroll: true });
-                } else {
+                } else if(tei.metadata[attr].valueType === "FILE_RESOURCE" && (tei.values[attr] instanceof File) && 
+                    !['.pdf', '.jpeg', '.jpg'].some(txt => tei.values[attr].name.toLowerCase().endsWith(txt))
+                )
+                {
+                  isEmpty = true;
+                  mandatoryError.innerHTML = "Only valid File Formats are allowed.";
+                  mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+                  mandatoryError.focus({ preventScroll: true });
+
+                } 
+                
+                else {
                     mandatoryError.innerHTML = "";
                 }
             }
@@ -154,12 +166,20 @@ const newRegistration = async (userConfig) => {
                     mandatoryError.innerHTML = "Only valid email addresses are allowed.";
                     mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
                     mandatoryError.focus({ preventScroll: true });
+                } else if(tei.metadata[id].valueType === "FILE_RESOURCE" && (tei.values[id] instanceof File) 
+                        && !['.pdf',',image/jpeg','.jpg','.jpeg'].some(ext => tei.values[id].name.toLowerCase().endsWith(ext))
+                ) {
+                    empty = true;
+                    mandatoryError.innerHTML = "Only valid File Formats are allowed.";
+                    mandatoryError.scrollIntoView({ behavior: "smooth", block: "center" });
+                    mandatoryError.focus({ preventScroll: true });
+
                 } else {
                     mandatoryError.innerHTML = "";
                 }
             }
             if(empty) {
-                toast({status: 'Info', message: 'Please fill mandatory fields!'});
+                toast({status: 'INFO', message: 'Please fill mandatory fields!'});
                 return;
             }
         }
@@ -170,7 +190,7 @@ const newRegistration = async (userConfig) => {
             if (!file || typeof file === "string")  continue;
             try {
                 const formData = new FormData();
-                formData.append('file', file);
+                formData.append('file', file);  
                 const res = await dataApi.uploadFile(formData);
                 if(res.status == 'OK') {
                 tei.values[input.id] = res.response.fileResource.id;
@@ -182,7 +202,6 @@ const newRegistration = async (userConfig) => {
                 return;
             }
         }
-
         try {
 
             if(!tei.affiliate) {
@@ -234,7 +253,14 @@ const newRegistration = async (userConfig) => {
             document.getElementById(`error-${e.target.id}`).innerHTML = '';
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
-            flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+            flatpickr(".flatpickr-date-input", { 
+                dateFormat: "Y-m-d", 
+                disable: [
+                    function(date) { 
+                        return  (date.getFullYear() < 1924) ||  (date > new Date()); 
+                    }
+                ] 
+            });
         }
     });
 
@@ -245,7 +271,14 @@ const newRegistration = async (userConfig) => {
             if(e.target.type == "file") return;
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
-            flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+            flatpickr(".flatpickr-date-input", { 
+                dateFormat: "Y-m-d", 
+                disable: [
+                    function(date) {
+                        return (date.getFullYear() < 1924) || (date > new Date()); 
+                    }
+                ] 
+            });
         }
     });
 
@@ -278,6 +311,7 @@ const newRegistration = async (userConfig) => {
         }
         tei.values = {...tei.values, ...dataValues};
     }
+    if(userConfig.user.includes('kyc')) tei['values'][attributes.user] = userConfig.username;         
 
     if(tei.values[attributes.acuityCheck]) document.getElementById("sendToAcuityBtn").disabled = true;
     
@@ -285,7 +319,28 @@ const newRegistration = async (userConfig) => {
         
     document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
     document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
-    flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+    flatpickr(".flatpickr-date-input", { 
+        dateFormat: "Y-m-d", 
+        disable: [
+            function(date) { 
+               return  (date.getFullYear() < 1924) ||  (date > new Date());
+            }
+        ] 
+    });
+
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
     document.getElementById('addAffiliateForm').style.display = 'block';
 
     function renderSections(sections, disabled) {

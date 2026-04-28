@@ -100,7 +100,28 @@ document.addEventListener("DOMContentLoaded", async function () {
   const affiliateKYCDiv = renderSections(affiliateStage.sections);
 
   document.getElementById("dueDiligence").innerHTML = `${affiliateKYCDiv}${dueDiligenceDiv}`
-  flatpickr(".flatpickr-date-input", { dateFormat: "Y-m-d" });
+    flatpickr(".flatpickr-date-input", { 
+      dateFormat: "Y-m-d", 
+        disable: [
+          function(date) { 
+            return (date.getFullYear() < 1924) ||  (date > new Date()); 
+          }
+        ] 
+      });
+
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
   }
 
     function renderSections(sections) {
