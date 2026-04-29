@@ -815,7 +815,7 @@ const translation_mapping = [
         id: "key_annual",
         en: "Please upload the current audit report in PDF",
         sp: "Cargue los documentos clave del informe anual",
-        fr: "Veuillez télécharger les principaux documents du rapport annuel",
+        fr: "Veuillez télécharger les principaux documents du rapport d’audit en format PDF.",
         ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
     },
     {
@@ -1571,7 +1571,7 @@ const translation_mapping = [
         id: "home_welcome_message",
         en: "Welcome to the <strong>IPPF Business Planning and Reporting Portal</strong>. The portal is your one-stop-shop for uploading your annual business plans, submitting annual and half-year reports, or for downloading reports and relevant documents.",
         sp: "Bienvenido al <strong>Portal de PlanificaciÃ³n y Reporte de IPPF</strong>. El portal es su ventanilla Ãºnica para cargar sus planes de negocio anuales, presentar informes anuales y semestrales, o descargar informes y documentos pertinentes.",
-        fr: "Bienvenue sur le <strong>Portail de planification et de rapport de l'IPPF</strong>. Ce portail est votre guichet unique pour tÃ©lÃ©verser vos plans d'activitÃ© annuels, soumettre vos rapports annuels et semestriels, ou tÃ©lÃ©charger des rapports et des documents pertinents.",
+        fr: "Bienvenue sur le <strong>Portail de planification et de rapports de l’IPPF</strong>. Ce portail est votre guichet unique pour téléverser vos plans d’activités annuels, soumettre vos rapports annuels et semestriels, ainsi que pour télécharger des rapports et autres documents pertinents.",
         ar: "مرحبًا بكم في <strong>بوابة التخطيط وإعداد التقارير التابعة لـ IPPF</strong>. تُعد البوابة منصتكم الموحدة لرفع خطط الأعمال السنوية، وتقديم التقارير السنوية ونصف السنوية، أو تنزيل التقارير والوثائق ذات الصلة."
     },
     {
