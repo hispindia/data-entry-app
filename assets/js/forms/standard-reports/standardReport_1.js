@@ -30,16 +30,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
 
-  // -------- UIN HELPERS --------
-  function getCountryCode(country) {
-    return country
-      .replace(/[^a-zA-Z]/g, "")
-      .substring(0, 3)
-      .toUpperCase();
-  }
-
-  const countryCounter = {};
-
   async function renderTable() {
     const tableHead = document.querySelector("#reportTable thead");
     const tableBody = document.querySelector("#reportTable tbody");
@@ -67,6 +57,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     headers.forEach(h => {
       const th = document.createElement("th");
       th.innerText = h;
+      if (h == "UIN") {
+        th.style.minWidth = "120px";
+        th.style.whiteSpace = "nowrap";
+      }
       headRow.appendChild(th);
     });
     tableHead.appendChild(headRow);
@@ -80,10 +74,13 @@ document.addEventListener("DOMContentLoaded", async function () {
           method: "GET"
         }),
         BaseApi({
-          url: "tracker/trackedEntities.json?paging=false&program=w6sqrDv2VK8&ouMode=ACCESSIBLE&fields=trackedEntity,orgUnit,enrollments[events[dataValues[dataElement,value,occurredAt]]]",
+          url: "tracker/trackedEntities.json?paging=false&program=w6sqrDv2VK8&ouMode=ACCESSIBLE&fields=trackedEntity,orgUnit,attributes[attribute,value],enrollments[events[dataValues[dataElement,value,occurredAt]]]",
           method: "GET"
         })
       ]);
+
+      const ATTR_UIN_CODE = "qZcVhl6kfpc";
+      const ATTR_DHIS2_CODE_VERIFIED = "ATmUT1JYobI";
 
       const orgUnits = (await orgUnitResponse.json()).organisationUnits || [];
       const trackedEntities = (await teiResponse.json()).trackedEntities || [];
@@ -95,6 +92,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         let affiliationStatus = "";
         let affiliationType = "";
 
+        const uinAttributes = tei.attributes?.find(a => a.attribute === ATTR_UIN_CODE);
+        const uinCode = uinAttributes ? uinAttributes.value : " ";
+
+        const dhis2CodeAttr = tei.attributes?.find(codeAttr => codeAttr.attribute === ATTR_DHIS2_CODE_VERIFIED);
+        const dhis2CodeVerified = dhis2CodeAttr ? dhis2CodeAttr.value : " ";
         tei.enrollments?.forEach(en => {
           const latestEvent = (en.events || []).sort(
             (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
@@ -109,7 +111,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (tei.orgUnit) {
           trackerDataMap[tei.orgUnit] = {
             affiliationStatus,
-            affiliationType
+            affiliationType,
+            uinCode,
+            dhis2CodeVerified,
           };
         }
       });
@@ -119,26 +123,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       orgUnits.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
       orgUnits.forEach(ou => {
-        const trackerData = trackerDataMap[ou.id] || {};
-        const affiliationStatus = trackerData.affiliationStatus || "Active";
-        const currentStatus = trackerData.affiliationType || "Active";
-
-        const country = ou.name || "";
-        const code = getCountryCode(country);
-
-        if (!countryCounter[code]) countryCounter[code] = 1;
-        else countryCounter[code]++;
-
-        const uin = `IPPF-${code}-${String(countryCounter[code]).padStart(3, "0")}`;
-
         if (ou.children && ou.children.length > 0) {
           ou.children.forEach(child => {
+            // Find data using child.id only (do not fallback to parent so each member gets its own UIN)
+            const trackerData = trackerDataMap[child.id] || {};
+            const affiliationStatus = trackerData.affiliationStatus || "Active";
+            const currentStatus = trackerData.affiliationType || "Active";
+            const uin = trackerData.uinCode || "--";
+            const dhisCode = trackerData.dhis2CodeVerified || ou.code; // Use attribute, fallback to ou.code
+
             const tr = document.createElement("tr");
 
             tr.innerHTML = `
               <td>${ou.name}</td>
               <td>Member</td>
-              <td>${ou.code}</td>
+              <td>${dhisCode}</td>
               <td>${uin}</td>
               <td>${ou.name}</td>
               <td>${child.name}</td>
@@ -154,12 +153,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             tableBody.appendChild(tr);
           });
         } else {
+          const trackerData = trackerDataMap[ou.id] || {};
+          const affiliationStatus = trackerData.affiliationStatus || "Active";
+          const currentStatus = trackerData.affiliationType || "Active";
+          const uin = trackerData.uinCode || "--";
+          const dhisCode = trackerData.dhis2CodeVerified || ou.code; // Use attribute, fallback to ou.code
+
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
             <td>${ou.name}</td>
             <td>Member</td>
-            <td>${ou.code}</td>
+            <td>${dhisCode}</td>
             <td>${uin}</td>
             <td>${ou.name}</td>
             <td></td>
@@ -184,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   document.getElementById("downloadExcel")
     .addEventListener("click", () => {
-      window.downloadTablesAsExcel(["UIN Master Report"], "UIN_Master_Report");
+      window.downloadTablesAsExcel(["UIN-IPPF Partnership Register"], "UIN-IPPF Partnership Register");
     });
 
 });

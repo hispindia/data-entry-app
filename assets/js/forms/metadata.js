@@ -300,8 +300,7 @@ export function fetchValueType({id, valueType, valueSet}, value, {href, file}, d
       return `<div>
         <input type="file"  ${disabled ? 'disabled' : ''} id="${id}" name="${id}" class="file-upload" hidden accept=".pdf,,image/jpeg,.jpg,.jpeg">
           <label onclick="document.getElementById('${id}').click();"
-                style="background-color: #000000;  
-                background-color: #000000;
+                style="background-color: ${disabled ? "#c0c0c0" : "#000000"};  
                 color: #ffffff;
                 padding: 8px 14px;
                 border-radius: 4px;
