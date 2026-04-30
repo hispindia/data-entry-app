@@ -119,13 +119,13 @@ document.addEventListener("DOMContentLoaded", function () {
           const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           if (dataValuesTI && dataValuesTI[tei.year.value]) dataElementOUValues[ou.id]['auti'] = dataValuesTI[tei.year.value]
 
-          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Semi-Annual Reporting" }); //data vlaues period wise
+          const dataValuesAREC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
           if(dataValuesAREC) dataElementOUValues[ou.id]['arec'] = dataValuesAREC;
 
-          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Semi-Annual Reporting" }); //data vlaues period wise
+          const dataValuesARFA = getProgramStagePeriodicity(filteredPrograms, program.arProjectFocusArea, programStage.arProjectFocusArea, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
           if(dataValuesARFA) dataElementOUValues[ou.id]['arfa'] = dataValuesARFA;
 
-          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Semi-Annual Reporting" }); //data vlaues period wise
+          const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
           if(dataValuesARAC) dataElementOUValues[ou.id]['arac'] = dataValuesARAC;
     
         }

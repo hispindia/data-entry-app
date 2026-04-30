@@ -1,5 +1,5 @@
 import { meApi, organisationUnitGroup } from "../../api/DataApi.js";
-import { getProgramStageEvents, getTEI } from "../../api/func.js";
+import { getEventsPeriodicity, getProgramStageEvents, getProgramStagePeriodicity, getTEI } from "../../api/func.js";
 import { program, programStage, tei } from "../../constant.js";
 
 var regionMA = {};
@@ -87,11 +87,13 @@ document.addEventListener("DOMContentLoaded", function () {
             enroll.program == program.auProjectDescription
             || enroll.program == program.auProjectBudget
             || enroll.program == program.auOrganisationDetails
+            || enroll.program == program.arTotalIncome
           );
           
           let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesTI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, {id: tei.year.id, value: 2025}, {id: tei.periodicity.id, value: "Annual Reporting"}) //data values year wise
 
           dataValuesOU.push({
             orgUnit: ou.name,
@@ -100,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dataValuesOD: dataValuesOD[tei.year.value],
             dataValuesPD,
             dataValuesPB,
+            dataValuesTI,
           })
         }
       }
@@ -113,17 +116,17 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateProgramEvents(level2OU, dataValuesOU) {
     // const list = getPillarBudgetFA(dataValuesOU, level2OU);
 
-    const listOD = getOrganisationDetails(dataValuesOU, level2OU);
-    document.getElementById('th-project-organisationDetails').innerHTML = listOD.tableHead;
-    document.getElementById('tb-project-organisationDetails').innerHTML = listOD.tableRow;
+      // const listOD = getOrganisationDetails(dataValuesOU, level2OU);
+      // document.getElementById('th-project-organisationDetails').innerHTML = listOD.tableHead;
+      // document.getElementById('tb-project-organisationDetails').innerHTML = listOD.tableRow;
 
     // const listEB = getExpenseBudget(dataValuesOU, level2OU);
     // document.getElementById('th-project-expBudget').innerHTML = listEB.tableHead;
     // document.getElementById('tb-project-expBudget').innerHTML = listEB.tableRow;
 
-    // const listTI = getTotalIncome(dataValuesOU, level2OU);
-    // document.getElementById('th-project-totalIncome').innerHTML = listTI.tableHead;
-    // document.getElementById('tb-project-totalIncome').innerHTML = listTI.tableRow;
+    const listTI = getTotalIncome(dataValuesOU, level2OU);
+    document.getElementById('th-project-totalIncome').innerHTML = listTI.tableHead;
+    document.getElementById('tb-project-totalIncome').innerHTML = listTI.tableRow;
 
     // const listAOC = getAOCReport(dataValuesOU, level2OU);
     // document.getElementById('th-project-aocReport').innerHTML = listAOC.tableHead;
@@ -158,183 +161,187 @@ document.addEventListener("DOMContentLoaded", function () {
       name: 'Affiliate Code',
       style: ''
     },
+    // {
+    //   id: 'budgetedIncome',
+    //   name: `Budgeted income ${year}`,
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'totalIncome',
+    //   name: `Total ${year} Income`,
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'totalUnrestricted',
+    //   name: 'Total IPPF Unrestricted income',
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'ippfPercentage',
+    //   name: 'IPPF Unrestricted as percentage of total ',
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'ippfCore',
+    //   name: `Total ${year} Unrestricted including IPPF`,
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'ippfCorePer',
+    //   name: `Total ${year} Unrestricted as percentage of total income`,
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'nonIppfCore',
+    //   name: `Total non-IPPF Unrestricted`,
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'financialPosition',
+    //   name: `Financial position`,
+    //   style: 'background:#e97132;'
+    // },
+    // {
+    //   id: 'qrdiDKqQotg',
+    //   code: 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)',
+    //   name: 'COMMODITY SALES',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'L89RPS2xzNl',
+    //   code: 'Client/Patient fees',
+    //   name: 'CLIENT/ PATIENT FEES',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'mHacTCqp5St',
+    //   code: 'Training, education, professional services and rentals',
+    //   name: 'TRAINING, EDUCATION, PROFESSIONAL SERVICES AND RENTALS',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'tK20oVQDvjE',
+    //   code: 'Local/national: government',
+    //   name: 'LOCAL / NATIONAL : GOVERNMENT',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'VJC9jDYrilT',
+    //   code: 'Local/national: non-government',
+    //   name: 'LOCAL / NATIONAL : NON-GOVERNMENT',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'IOf1cgEwUVt',
+    //   code: 'Membership fees',
+    //   name: 'MEMBERSHIP FEES',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'eF1Du2rscoA',
+    //   code: 'Non-operational income',
+    //   name: 'NON-OPERATIONAL INCOME',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'Yn7LiC5Zinj',
+    //   code: 'Other national income',
+    //   name: 'OTHER NATIONAL INCOME',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'totalLocallyGenerated',
+    //   code: '',
+    //   name: 'Total Locally Generated',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'percentLocallyGenerated',
+    //   code: '',
+    //   name: 'As percentage of total income',
+    //   style: 'background:#0f9ed5;'
+    // },{
+    //   id: 'gcErTbOLAjF',
+    //   code: 'Multilateral Agencies and Organizations',
+    //   name: 'MULTILATERAL AGENCIES AND ORGANIZATIONS',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'n3IO1nKmHYf',
+    //   code: 'Foreign Governments',
+    //   name: 'FOREIGN GOVERNMENTS',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'QGWY8yLtmhk',
+    //   code: 'International Trusts and Foundations / NGOs',
+    //   name: 'INTERNATIONAL TRUSTS AND FOUNDATIONS / NGOS',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'uBN3PJRnDRJ',
+    //   code: 'Corporate / Business Sector',
+    //   name: 'CORPORATE / BUSINESS SECTOR',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'zxRotHuBZ1U',
+    //   code: 'Other International Income',
+    //   name: 'OTHER INTERNATIONAL INCOME',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'totalInternational',
+    //   code: '',
+    //   name: 'Total International (non-IPPF)',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'percentInternational',
+    //   code: '',
+    //   name: 'As percentage of total income',
+    //   style: 'background:#4ea72e;'
+    // },{
+    //   id: 'HrH4reost9F',
+    //   code: 'IPPF Unrestricted Grant',
+    //   name: 'IPPF UNRESTRICTED GRANT',
+    //   style: 'background:#c00000;'
+    // },{
+    //   id: 'T8nVKg8gGUf',
+    //   code: 'IPPF Restricted Grant',
+    //   name: 'IPPF RESTRICTED GRANT',
+    //   style: 'background:#c00000;'
+    // },{
+    //   id: 'totalIppf',
+    //   code: '',
+    //   name: 'Total IPPF-sourced',
+    //   style: 'background:#c00000;'
+    // },{
+    //   id: 'percentIppf',
+    //   code: '',
+    //   name: 'As percentage of total income',
+    //   style: 'background:#c00000;'
+    // },{
+    //   id: 'totalIncomeControl',
+    //   code: '',
+    //   name: 'Total Income(Control)',
+    //   style: 'background:#2596be;'
+    // },{
+    //   id: 'totalIncomePer',
+    //   code: '',
+    //   name: 'Total Income as percentage (Control)',
+    //   style: 'background:#2596be;'
+    // },{
+    //   id: 'totalIncomeRestricted',
+    //   code: '',
+    //   name: 'Total Restricted Income',
+    //   style: 'background:#2596be;'
+    // },{
+    //   id: 'totalIncomeUnrestricted',
+    //   code: '',
+    //   name: 'Total Unrestricted Income',
+    //   style: 'background:#2596be;'
+    // },
+    // {
+    //   id: 'totalIncomeRestricted2024',
+    //   code: '',
+    //   name: 'Total Restricted Income 2024',
+    //   style: 'background:#2596be;'
+    // },{
+    //   id: 'totalIncomeUnrestricted2024',
+    //   code: '',
+    //   name: 'Total Unrestricted Income 2024',
+    //   style: 'background:#2596be;'
+    // },
     {
-      id: 'budgetedIncome',
-      name: `Budgeted income ${year}`,
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'totalIncome',
-      name: `Total ${year} Income`,
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'totalUnrestricted',
-      name: 'Total IPPF Unrestricted income',
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'ippfPercentage',
-      name: 'IPPF Unrestricted as percentage of total ',
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'ippfCore',
-      name: `Total ${year} Unrestricted including IPPF`,
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'ippfCorePer',
-      name: `Total ${year} Unrestricted as percentage of total income`,
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'nonIppfCore',
-      name: `Total non-IPPF Unrestricted`,
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'financialPosition',
-      name: `Financial position`,
-      style: 'background:#e97132;'
-    },
-    {
-      id: 'qrdiDKqQotg',
-      code: 'Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)',
-      name: 'COMMODITY SALES',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'L89RPS2xzNl',
-      code: 'Client/Patient fees',
-      name: 'CLIENT/ PATIENT FEES',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'mHacTCqp5St',
-      code: 'Training, education, professional services and rentals',
-      name: 'TRAINING, EDUCATION, PROFESSIONAL SERVICES AND RENTALS',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'tK20oVQDvjE',
-      code: 'Local/national: government',
-      name: 'LOCAL / NATIONAL : GOVERNMENT',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'VJC9jDYrilT',
-      code: 'Local/national: non-government',
-      name: 'LOCAL / NATIONAL : NON-GOVERNMENT',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'IOf1cgEwUVt',
-      code: 'Membership fees',
-      name: 'MEMBERSHIP FEES',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'eF1Du2rscoA',
-      code: 'Non-operational income',
-      name: 'NON-OPERATIONAL INCOME',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'Yn7LiC5Zinj',
-      code: 'Other national income',
-      name: 'OTHER NATIONAL INCOME',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'totalLocallyGenerated',
-      code: '',
-      name: 'Total Locally Generated',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'percentLocallyGenerated',
-      code: '',
-      name: 'As percentage of total income',
-      style: 'background:#0f9ed5;'
-    },{
-      id: 'gcErTbOLAjF',
-      code: 'Multilateral Agencies and Organizations',
-      name: 'MULTILATERAL AGENCIES AND ORGANIZATIONS',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'n3IO1nKmHYf',
-      code: 'Foreign Governments',
-      name: 'FOREIGN GOVERNMENTS',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'QGWY8yLtmhk',
-      code: 'International Trusts and Foundations / NGOs',
-      name: 'INTERNATIONAL TRUSTS AND FOUNDATIONS / NGOS',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'uBN3PJRnDRJ',
-      code: 'Corporate / Business Sector',
-      name: 'CORPORATE / BUSINESS SECTOR',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'zxRotHuBZ1U',
-      code: 'Other International Income',
-      name: 'OTHER INTERNATIONAL INCOME',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'totalInternational',
-      code: '',
-      name: 'Total International (non-IPPF)',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'percentInternational',
-      code: '',
-      name: 'As percentage of total income',
-      style: 'background:#4ea72e;'
-    },{
-      id: 'HrH4reost9F',
-      code: 'IPPF Unrestricted Grant',
-      name: 'IPPF UNRESTRICTED GRANT',
-      style: 'background:#c00000;'
-    },{
-      id: 'T8nVKg8gGUf',
-      code: 'IPPF Restricted Grant',
-      name: 'IPPF RESTRICTED GRANT',
-      style: 'background:#c00000;'
-    },{
-      id: 'totalIppf',
-      code: '',
-      name: 'Total IPPF-sourced',
-      style: 'background:#c00000;'
-    },{
-      id: 'percentIppf',
-      code: '',
-      name: 'As percentage of total income',
-      style: 'background:#c00000;'
-    },{
-      id: 'totalIncomeControl',
-      code: '',
-      name: 'Total Income(Control)',
-      style: 'background:#2596be;'
-    },{
-      id: 'totalIncomePer',
-      code: '',
-      name: 'Total Income as percentage (Control)',
-      style: 'background:#2596be;'
-    },{
-      id: 'totalIncomeRestricted',
-      code: '',
-      name: 'Total Restricted Income',
-      style: 'background:#2596be;'
-    },{
-      id: 'totalIncomeUnrestricted',
-      code: '',
-      name: 'Total Unrestricted Income',
-      style: 'background:#2596be;'
-    },
-    {
-      id: 'totalIncomeRestricted2024',
-      code: '',
-      name: 'Total Restricted Income 2024',
-      style: 'background:#2596be;'
-    },{
-      id: 'totalIncomeUnrestricted2024',
-      code: '',
-      name: 'Total Unrestricted Income 2024',
-      style: 'background:#2596be;'
-    },
+      id: 'GbGunhHaiDt',
+      name: 'Submitted'
+    }
   ]
 
   var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
@@ -363,86 +370,86 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
 
-    dataElements.projectTotalIncome.forEach(pti => {
+    // dataElements.projectTotalIncome.forEach(pti => {
       
-        if(item.dataValuesTI && item.dataValuesTI[pti.restricted]) {
-          values[pti.category] += Number(item.dataValuesTI[pti.restricted]);
-          values['totalIncome'] += Number(item.dataValuesTI[pti.restricted]);
-          values['totalIncomeRestricted'] += Number(item.dataValuesTI[pti.restricted]);
-        }
-        if(item.dataValuesTI && item.dataValuesTI[pti.unrestricted]) {
-          values[pti.category] += Number(item.dataValuesTI[pti.unrestricted]);
-          values['totalIncome'] += Number(item.dataValuesTI[pti.unrestricted]);
-          values['ippfCore'] += Number(item.dataValuesTI[pti.unrestricted]);
-          values['totalIncomeUnrestricted'] += Number(item.dataValuesTI[pti.unrestricted]);
-        }
+    //     if(item.dataValuesTI && item.dataValuesTI[pti.restricted]) {
+    //       values[pti.category] += Number(item.dataValuesTI[pti.restricted]);
+    //       values['totalIncome'] += Number(item.dataValuesTI[pti.restricted]);
+    //       values['totalIncomeRestricted'] += Number(item.dataValuesTI[pti.restricted]);
+    //     }
+    //     if(item.dataValuesTI && item.dataValuesTI[pti.unrestricted]) {
+    //       values[pti.category] += Number(item.dataValuesTI[pti.unrestricted]);
+    //       values['totalIncome'] += Number(item.dataValuesTI[pti.unrestricted]);
+    //       values['ippfCore'] += Number(item.dataValuesTI[pti.unrestricted]);
+    //       values['totalIncomeUnrestricted'] += Number(item.dataValuesTI[pti.unrestricted]);
+    //     }
 
-        if(item.dataValuesID[year] && item.dataValuesID[year][pti.restricted]) {
-          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.restricted]);
-          values['totalIncomeRestricted2024'] += Number(item.dataValuesID[year][pti.restricted]);
-        }
-        if(item.dataValuesID[year] && item.dataValuesID[year][pti.unrestricted]) {
-          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.unrestricted]);
-          values['totalIncomeUnrestricted2024'] += Number(item.dataValuesID[year][pti.unrestricted]);
-        }
+    //     if(item.dataValuesID[year] && item.dataValuesID[year][pti.restricted]) {
+    //       values['budgetedIncome'] += Number(item.dataValuesID[year][pti.restricted]);
+    //       values['totalIncomeRestricted2024'] += Number(item.dataValuesID[year][pti.restricted]);
+    //     }
+    //     if(item.dataValuesID[year] && item.dataValuesID[year][pti.unrestricted]) {
+    //       values['budgetedIncome'] += Number(item.dataValuesID[year][pti.unrestricted]);
+    //       values['totalIncomeUnrestricted2024'] += Number(item.dataValuesID[year][pti.unrestricted]);
+    //     }
       
-    })
+    // })
 
-    values['ippfCorePer'] = values['ippfCore'] && values['totalIncome'] && (values['ippfCore']/values['totalIncome']) ? ((values['ippfCore']/values['totalIncome'])*100).toFixed(2)  : '';
+    // values['ippfCorePer'] = values['ippfCore'] && values['totalIncome'] && (values['ippfCore']/values['totalIncome']) ? ((values['ippfCore']/values['totalIncome'])*100).toFixed(2)  : '';
     
-    deList.forEach((de,index) => {
-      if(index>=9 && index<=16) {
-        values['totalLocallyGenerated'] += values[de.id];
-        values['totalIncomeControl'] += values[de.id];
-      }
-      if(index>=19 && index<=23) {
-        values['totalInternational'] += values[de.id];
-        values['totalIncomeControl'] += values[de.id];
-      }
-      if(index==26 || index==27) {
-        values['totalIppf'] += values[de.id];
-        values['totalIncomeControl'] += values[de.id];
-      }
-    })
+    // deList.forEach((de,index) => {
+    //   if(index>=9 && index<=16) {
+    //     values['totalLocallyGenerated'] += values[de.id];
+    //     values['totalIncomeControl'] += values[de.id];
+    //   }
+    //   if(index>=19 && index<=23) {
+    //     values['totalInternational'] += values[de.id];
+    //     values['totalIncomeControl'] += values[de.id];
+    //   }
+    //   if(index==26 || index==27) {
+    //     values['totalIppf'] += values[de.id];
+    //     values['totalIncomeControl'] += values[de.id];
+    //   }
+    // })
 
-    values['percentLocallyGenerated'] = values['totalLocallyGenerated'] && values['totalIncome'] && (values['totalLocallyGenerated']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2) : '';
-    values['percentInternational'] = values['totalInternational'] && values['totalIncome'] && (values['totalInternational']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2)  : '';
-    values['percentIppf'] = values['totalIppf'] && values['totalIncome'] && (values['totalIppf']/values['totalIncome']) ? ((values['totalIppf']/values['totalIncome'])*100).toFixed(2)  : '';
-    values['totalIncomePer'] = values['totalIncome'] && values['totalIncomeControl'] && (values['totalIncomeControl']/values['totalIncome']) ? ((values['totalIncomeControl']/values['totalIncome'])*100).toFixed(2)  : '';
+    // values['percentLocallyGenerated'] = values['totalLocallyGenerated'] && values['totalIncome'] && (values['totalLocallyGenerated']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2) : '';
+    // values['percentInternational'] = values['totalInternational'] && values['totalIncome'] && (values['totalInternational']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2)  : '';
+    // values['percentIppf'] = values['totalIppf'] && values['totalIncome'] && (values['totalIppf']/values['totalIncome']) ? ((values['totalIppf']/values['totalIncome'])*100).toFixed(2)  : '';
+    // values['totalIncomePer'] = values['totalIncome'] && values['totalIncomeControl'] && (values['totalIncomeControl']/values['totalIncome']) ? ((values['totalIncomeControl']/values['totalIncome'])*100).toFixed(2)  : '';
     
-    values['totalCommodities'] = Number(values['internationalDonors']) + Number(values['localIncome']) + Number(values['inkindDonations']) + Number(values['otherincome']);
-    if(values['totalCommodities'] && values['totalIncome']) values['percentTotalCommodities'] = (values['totalCommodities'] && values['totalIncome'] && values['totalCommodities']/values['totalIncome']) ? (( values['totalCommodities']/values['totalIncome'])*100).toFixed(2): '';
-    var yearIndex = -1;
-    for(let i = tei.year.start; i<=tei.year.end; i++) {
-      yearIndex++;
-      if(year==i) break;
-    }
-    if(item.dataValuesOD && item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]) {
-      values['totalUnrestricted'] = Number(item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]);
-      values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]/values['totalIncome']) ? ((item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]/values['totalIncome'])*100).toFixed(2): ''
-    }
+    // values['totalCommodities'] = Number(values['internationalDonors']) + Number(values['localIncome']) + Number(values['inkindDonations']) + Number(values['otherincome']);
+    // if(values['totalCommodities'] && values['totalIncome']) values['percentTotalCommodities'] = (values['totalCommodities'] && values['totalIncome'] && values['totalCommodities']/values['totalIncome']) ? (( values['totalCommodities']/values['totalIncome'])*100).toFixed(2): '';
+    // var yearIndex = -1;
+    // for(let i = tei.year.start; i<=tei.year.end; i++) {
+    //   yearIndex++;
+    //   if(year==i) break;
+    // }
+    // if(item.dataValuesOD && item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]) {
+    //   values['totalUnrestricted'] = Number(item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]);
+    //   values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]/values['totalIncome']) ? ((item.dataValuesOD[dataElements.yearlyAmount[yearIndex]]/values['totalIncome'])*100).toFixed(2): ''
+    // }
 
-    if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
-    if(values['totalUnrestricted']) values['nonIppfCore'] -= values['totalUnrestricted'];
+    // if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
+    // if(values['totalUnrestricted']) values['nonIppfCore'] -= values['totalUnrestricted'];
     
-    dataElements.arProjectExpenseCategory.forEach((pec, index) => {
-      if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
-        if( item.dataValuesEC[pec.actualExpense.personnel]) values['expBudget']  +=  Number(item.dataValuesEC[pec.actualExpense.personnel]);
-        if( item.dataValuesEC[pec.actualExpense.activities]) values['expBudget'] +=  Number(item.dataValuesEC[pec.actualExpense.activities]);
-        if( item.dataValuesEC[pec.actualExpense.commodities]) values['expBudget']  +=  Number(item.dataValuesEC[pec.actualExpense.commodities]);
-        if( item.dataValuesEC[pec.actualExpense.cost]) values['expBudget']  +=  Number(item.dataValuesEC[pec.actualExpense.cost]);
-      }      
-    })
+    // dataElements.arProjectExpenseCategory.forEach((pec, index) => {
+    //   if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
+    //     if( item.dataValuesEC[pec.actualExpense.personnel]) values['expBudget']  +=  Number(item.dataValuesEC[pec.actualExpense.personnel]);
+    //     if( item.dataValuesEC[pec.actualExpense.activities]) values['expBudget'] +=  Number(item.dataValuesEC[pec.actualExpense.activities]);
+    //     if( item.dataValuesEC[pec.actualExpense.commodities]) values['expBudget']  +=  Number(item.dataValuesEC[pec.actualExpense.commodities]);
+    //     if( item.dataValuesEC[pec.actualExpense.cost]) values['expBudget']  +=  Number(item.dataValuesEC[pec.actualExpense.cost]);
+    //   }      
+    // })
     
-    // values['expBudget'] =  item.dataValuesEC['zGn5c7EZLr0']?displayValue(item.dataValuesEC['zGn5c7EZLr0']): '';
+    // // values['expBudget'] =  item.dataValuesEC['zGn5c7EZLr0']?displayValue(item.dataValuesEC['zGn5c7EZLr0']): '';
 
-    if(values['totalIncome']) values['financialPosition'] = values['totalIncome'];
-    if(values['expBudget']) values['financialPosition'] -= values['expBudget'];
+    // if(values['totalIncome']) values['financialPosition'] = values['totalIncome'];
+    // if(values['expBudget']) values['financialPosition'] -= values['expBudget'];
     
 
     deList.forEach((de,index) => {
       if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-      else  tableRow += `<td style="${de.style}">${values[de.id] ? formatNumberInput(displayValue(values[de.id])): ''}</td>`
+      else  tableRow += `<td style="${de.style}">${item['dataValuesTI'][de.id] ? item['dataValuesTI'][de.id] : ''}</td>`
     })
     tableRow += '</tr>'
     })
