@@ -107,4 +107,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       toast({ status: 'ERROR', message: error.message });
     }
   }
+  // syncUIn({
+  //   regionCode: "ESEAOR", 
+  //   legalName: "Global Development Partners Foundation Ltd.", 
+  //   uinCode: "IPPF-THA-008", 
+  //   teiUId: "drBWOwC30Zw"
+  // });
+  
+    async function syncUIn({regionCode, legalName, uinCode, teiUId}) {
+      try {
+        const payload = { regionCode, legalName, uinCode, teiUId };
+        const res = await fetch('http://stage.hispindia.org:8000/orgunit', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();  
+        console.log("Sync UIn ", data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 });

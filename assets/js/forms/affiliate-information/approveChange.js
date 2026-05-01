@@ -30,27 +30,26 @@ const ROLE_PERSON_DE = {
 };
 // Risk configuration - matching waiverForm.js pattern
 const RISK_COLUMNS = [
-  { name: 'Arms Trafficking', code: "AT"},
-  { name: 'PEP', code: "PEP"},
+  { name: 'Arms Trafficking & WMD', code: "AT"},
   { name: 'Terrorism', code: "TWIf"},
   { name: 'Money Laundering', code: "ML"},
   { name: 'Drug Trafficking', code: "DT"},
   { name: 'Fraud', code: "FR"},
-  { name: 'Wanted Individuals / Global Sanction', code: "GSL"},
-  { name: 'Sanction List', code: "SL"},
+  { name: 'Wanted Individuals', code: "WL"},
+  { name: 'Global Sanction', code: 'GSL'},
+  { name: 'PEP', code: "PEP"},
   { name: 'Enforcement', code: "EN"}
 ];
 
-
 const RISK_CODE_MAP = {
-  'Arms Trafficking': 'AT',
-  'PEP': 'PEP',
+  'Arms Trafficking & WMD': 'AT',
   'Terrorism': 'TWIf',
   'Money Laundering': 'ML',
   'Drug Trafficking': 'DT',
   'Fraud': 'FR',
-  'Wanted Individuals / Global Sanction': 'GSL',
-  'Sanction List': 'SL',    
+  'Wanted Individuals': 'WL',
+  'Global Sanction List': 'GSL',
+  'PEP': 'PEP',
   'Enforcement': 'EN'
 };
 
@@ -124,23 +123,18 @@ document.addEventListener("DOMContentLoaded", async function () {
                         const eventDataMap = {};
                         event.dataValues?.forEach(dv => { eventDataMap[dv.dataElement] = dv.value; });
 
-                        let roleKey = null;
                         for (const [key, deId] of Object.entries(ROLE_ACUITY_DE)) {
-                            if (eventDataMap[deId] === "In-Progress") { roleKey = key; break; }
-                        }
-
-                        if (!roleKey) return;
-                        if (processedEvents.has(roleKey)) return;
-                        processedEvents.add(roleKey);
-
+                            if (eventDataMap[deId] === "In-Progress") {
+                                if (processedEvents.has(key)) continue;
+                                processedEvents.add(key);
 
                         let personName = "";
                         let personUIN = "";
 
-                        if (roleKey === 'bank') {
+                                if (key === 'bank') {
                             personName = eventDataMap[dataElements.bankName] || "";
                         } else {
-                            const roleDE = ROLE_PERSON_DE[roleKey];
+                                    const roleDE = ROLE_PERSON_DE[key];
                             personName = roleDE ? (eventDataMap[roleDE.name] || "") : "";
                             personUIN = roleDE ? (eventDataMap[roleDE.uin] || "") : "";
                         }
@@ -159,8 +153,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                             dataValues: event.dataValues,
                             personName,
                             personUIN,
-                            roleKey
+                                    roleKey: key
                         });
+                            }
+                        }
                     });
                 });
             });
@@ -189,7 +185,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <tr>
                   <td>${index + 1}</td>
                   <td>${req.legalName}</td>
-                  <td>1 members(s)</td>
+                  <td>${getRoleDisplayName(req.roleKey)}</td>
                   <td>${req.requestedBy}</td>
                   <td>${req.requestDate.split('T')[0]}</td>
                   <td><span class="badge badge-warning">${req.status}</span></td>
@@ -198,7 +194,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <button class="btn-icon blue"
                             title="View Details"
                             style="cursor: pointer; background: none; border: none;"
-                            onclick="viewRequest('${req.teiId}', '${req.eventId}')">
+                            onclick="viewRequest('${req.teiId}', '${req.eventId}', '${req.roleKey}')">
                                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -208,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <button class="btn-icon green"
                             title="Approve"
                             style="cursor: pointer; background: none; border: none;"
-                            onclick="openApproveModal('${req.teiId}', '${req.eventId}')">
+                            onclick="openApproveModal('${req.teiId}', '${req.eventId}', '${req.roleKey}')">
                                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
@@ -227,7 +223,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return result.charAt(0).toUpperCase() + result.slice(1);
   }
 
-  window.viewRequest = async function(teiId, eventId) {
+  window.viewRequest = async function(teiId, eventId, roleKey) {
     const modal = ensureDetailModal();
     const contentDiv = document.getElementById("detailModalContent");
 
@@ -241,7 +237,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     try {
         const reqData = cachedRequests.find(
-            r => r.teiId === teiId && r.eventId === eventId
+            r => r.teiId === teiId && r.eventId === eventId && r.roleKey === roleKey
         );
 
         if (!reqData) throw new Error("Request not found");
@@ -250,14 +246,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         reqData.dataValues.forEach(dv => {
             dataMap[dv.dataElement] = dv.value;
         });
-
-        let roleKey = null;
-        for (const [key, deId] of Object.entries(ROLE_ACUITY_DE)) {
-            if (dataMap[deId] === "In-Progress") {
-                roleKey = key;
-                break;
-            }
-        }
 
         if (!roleKey) {
             throw new Error("Not a valid change request or status is not 'In-Progress'.");
@@ -351,7 +339,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 };
 
-  window.openApproveModal = function(teiId, eventId) {
+  window.openApproveModal = function(teiId, eventId, roleKey) {
     const modal = ensureApproveModal();
     const contentDiv = document.getElementById("approveModalContent");
     
@@ -361,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <button type="button" class="close text-white" onclick="document.getElementById('approveModal').classList.remove('show')">&times;</button>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to approve this change request?</p>
+        <p>Are you sure you want to verify this change request?</p>
       </div>
       <div class="modal-footer">
           <button class="btn bg-transparent border rounded-xl" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
@@ -370,7 +358,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     `;
 
     document.getElementById("confirmApproveBtn").onclick = async function() {
-      await performApprovalFlow(teiId, eventId, contentDiv);
+      await performApprovalFlow(teiId, eventId, roleKey, contentDiv);
     };
 
     modal.classList.add("show");
@@ -385,6 +373,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "program": "Prog_01",
                 "PresidentName": `${personName} ${personUIN}`.trim(),
                 // "PresidentName": "Aivars Lembergs",
+                // "PresidentName": "sonu singh AXWPS8419G",
+
             }
             
             const response = await (await fetch(PERSON_API_URL, {
@@ -392,7 +382,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             })).json();
-
+            console.log("raw Page Text", response?.rawPageText);
             if(response?.rawPageText) {
                 const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
                 if(!pageText) response.rawPageText = "No Records Found";
@@ -416,7 +406,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             "orgUnit": "OU_01",
             "program": "Prog_01",
             "EntityType": "Organization",
-            "OrganizationName": bankName
+            "OrganizationName": `${bankName}`
+            // "OrganizationName": "Republic Bank (EC) Limited"
         };
             
             const response = await (await fetch(BANK_API_URL, {
@@ -439,7 +430,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
   }
- async function performApprovalFlow(teiId, eventId, contentDiv) {
+ async function performApprovalFlow(teiId, eventId, roleKey, contentDiv) {
     contentDiv.innerHTML = `
       <div class="modal-header">
           <h5 class="modal-title">Verify Request</h5>
@@ -475,10 +466,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     }, 3000);
 
     try {
-        const reqData = cachedRequests.find(r => r.teiId === teiId && r.eventId === eventId);
+        const reqData = cachedRequests.find(r => r.teiId === teiId && r.eventId === eventId && r.roleKey === roleKey);
         if (!reqData) throw new Error("Request data not found.");
 
-        const { personName, personUIN, roleKey } = reqData;
+        const { personName, personUIN } = reqData;
         const isBank = roleKey === 'bank';
 
         let flowResult;
@@ -663,7 +654,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if(allApproved) {
             toast({ status: 'SUCCESS', message: 'All risks approved! Request updated.' });
         } else {
-            toast({ status: 'INFO', message: 'Risk decisions saved. Request rejected.' });
+            toast({ status: 'INFO', message: 'Risk decisions saved. Request remains pending for future review.' });
         }
     });
 }

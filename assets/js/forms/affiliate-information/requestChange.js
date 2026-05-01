@@ -513,22 +513,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     tei.values[acuityDeId] = "In-Progress";
-
-    const enrollment = tei.affiliate.enrollments.find(
-      e => e.program === programs.UINControlMaster
+    const existingEvent = tei?.affiliate?.enrollments?.[0]?.events.find(
+      e => e.programStage === programStage.UINControlMaster
     );
+    const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program === programs.UINControlMaster)?.orgUnit;
+    const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program === programs.UINControlMaster)?.enrollment;
     const payload = createPayload.event({
       tei,
-      orgUnit: enrollment.orgUnit,
-      enrollment: enrollment.enrollment,
+      event: existingEvent.event,
+      orgUnit: orgUnitId,
+      enrollment: enrollment,
       program: programs.UINControlMaster,
       programStage: programStage.UINControlMaster
-    }
-    );
-
+    });
 
     await dataApi.enroll(payload);
-
     toast({
       status: "SUCCESS",
       message: "Request Submitted Successfully",
