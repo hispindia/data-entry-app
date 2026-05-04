@@ -1,5 +1,6 @@
+import { dataSet } from '../../api/dataSet.js';
 import { getEvents, getProgramStagePeriodicity, getTEI } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { tei, dataElements, program, programStage, dataSetFunds } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -74,12 +75,22 @@ document.addEventListener("DOMContentLoaded", function () {
           fetchEvents();    
         }
     
+async function fetchDataSet(year) {
+  const values = {};
+    
+  const dataValuesQuantity = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+  dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+  return values;
+}
+
 
   async function fetchEvents() {
 
     tei.year.value = document.getElementById("year-update").value;
     tei.periodicity.value = document.getElementById("reporting-periodicity").value;
 
+    const dataSetValues = await fetchDataSet(tei.year.value);
     const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -115,15 +126,14 @@ document.addEventListener("DOMContentLoaded", function () {
         projectFocusAreas: dataValuesPFA,
         projectExpenseCategory: dataValuesEC,
         projectTotalIncome: dataValuesAI
-
-      });
+      }, dataSetValues);
     } else {
       console.log("No data found for the organisation unit.");
     }
   }
 
   // Function to populate program events data
-  function populateProgramEvents(dv) {
+  function populateProgramEvents(dv, dataSetValues) {
 
     const projectNames = checkProjects(dataElements.projectDescription, dv.projectDescription);
 
@@ -147,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tableRows = getNarrativeReport(dv.narrativePlan);
     document.getElementById('tb-project-narrativePlan').innerHTML = tableRows;
 
-    tableRows = getTotalIncome(dv.projectTotalIncome, dataElements.projectTotalIncome);
+    tableRows = getTotalIncome(dv.projectTotalIncome, dataElements.projectTotalIncome, dataSetValues);
     document.getElementById('tb-project-totalIncome').innerHTML = tableRows;
 
     if (!projectNames.length) {
@@ -335,7 +345,9 @@ function getProjectExpenseCategory(names, dv, deIds) {
   return tableRows;
 }
 
-function getTotalIncome(dv, deIds) {
+function getTotalIncome(dv, deIds, dataSetValues) {
+
+  if(dataSetValues[dataElements.fullAllocation]) dv['tGS8X8B4BtK'] = dataSetValues[dataElements.fullAllocation];
   const categoryIncome = [
     {
       name: "Locally generated income",
@@ -456,6 +468,7 @@ function getTotalIncome(dv, deIds) {
   var restrictedGlobalTotal = 0;
   var unrestrictedGlobalTotal = 0;
   var optionIndex = 0;
+  
   categoryIncome.forEach((categ, index) => {
     tableBody += `<tr><td style="font-weight:bold">${index + 1}. ${categ.name}</td><td style="font-weight:bold">Restricted</td><td style="font-weight:bold">Unrestricted</td></tr>`;
     categ.options.forEach((option) => {
