@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             deCodeMap[de.code] = de.id;  
             deCodeMap[de.id] = de.code;
         });
+        // console.log("--------DeCodeMap---------",deCodeMap);
 
         const response = await dataApi.get(
             orgUnit.id,
@@ -131,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         let personName = "";
                         let personUIN = "";
 
-                                if (key === 'bank') {
+                            if (key === 'bank') {
                             personName = eventDataMap[dataElements.bankName] || "";
                         } else {
                                     const roleDE = ROLE_PERSON_DE[key];
@@ -153,7 +154,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             dataValues: event.dataValues,
                             personName,
                             personUIN,
-                                    roleKey: key
+                            roleKey: key
                         });
                             }
                         }
@@ -371,8 +372,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "action": "complete",
                 "orgUnit": "OU_01",
                 "program": "Prog_01",
-                "PresidentName": `${personName} ${personUIN}`.trim(),
-                // "PresidentName": "Aivars Lembergs",
+                // "PresidentName": `${personName} ${personUIN}`.trim(),
+                "PresidentName": "Aivars Lembergs",
                 // "PresidentName": "sonu singh AXWPS8419G",
 
             }
@@ -382,7 +383,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             })).json();
-            console.log("raw Page Text", response?.rawPageText);
+            // console.log("raw Page Text", response?.rawPageText);
             if(response?.rawPageText) {
                 const pageText = ['Names', 'Country/Region', 'Class'].some(val => response.rawPageText.includes(val));
                 if(!pageText) response.rawPageText = "No Records Found";
@@ -409,7 +410,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             "OrganizationName": `${bankName}`
             // "OrganizationName": "Republic Bank (EC) Limited"
         };
-            
+            // console.log("raw Page Text", response?.rawPageText);
+
             const response = await (await fetch(BANK_API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -480,7 +482,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         clearInterval(msgInterval);
-        const { rawPageText } = flowResult;
+        // const { rawPageText } = flowResult; 
+        const rawPageText = [
+            "Names",
+            "Country/Region",
+            "Class",
+            "1KMAivars Lembergs Latvia Former Chair of City Council .PEP",
+            "2KMTest Company Latvia Suspicious transactions .Fraud",
+            "3KMTest Person Latvia Wanted for crimes .Enforcement"
+        ].join("\r\n");
 
         const deId = ROLE_ACUITY_DE[roleKey];
 
@@ -496,7 +506,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         programStage: reqData.programStage,
                         enrollment: reqData.enrollment,
                         occurredAt: reqData.requestDate,
-                        dataValues: [{ dataElement: deId, value: "Approved" }]
+                        dataValues: [{ dataElement: deId, value: "Approved", }]
                     }]
                 });
             }
@@ -543,15 +553,15 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
             </td>`;
         }
+        const riskDesc = rawPageText.split(/\r\n/)
+                    .filter(row => row.trim().endsWith(risk.name))
+                    .map(row =>  row 
+                    .replace(new RegExp(`\\.?${risk.name}$`, "i"), "")
+                    .replace(/^\d+KM/, "")
+                    .trim()
+                    ).join('\n');
+
         if(risk.code === 'PEP' || risk.code === 'EN') {
-            //regex for extracting resp
-            const riskDesc = rawPageText.split(/\r\n/)
-                        .filter(row => row.trim().endsWith(risk.name))
-                        .map(row =>  row 
-                        .replace(new RegExp(`\\.?${risk.name}$`, "i"), "")
-                        .replace(/^\d+KM/, "")
-                        .trim()
-                        ).join('\n');
             riskDecisions[risk.name] = { decision: 'Approve', comments: '', description: riskDesc};
             return `<td class="text-center" style="cursor:pointer;background-color:rgb(255,251,235);border-color:rgb(252,211,77);"
                 data-risk="${risk.code}"
@@ -559,6 +569,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
             </td>`;
         }
+
+        riskDecisions[risk.name] = { decision: '', comments: '', description: riskDesc};
 
         return `<td class="text-center" style="cursor:pointer;background-color:rgb(254,242,242);border-color:rgb(252,165,165);"
             data-risk="${risk.code}"
@@ -568,11 +580,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }).join('');
 
     const manualRisks = flaggedRisks.filter(r => r.code !== 'PEP' && r.code !== 'EN');
-    const manualDecidedCount = Object.keys(riskDecisions)
-        .filter(name => {
-            const r = RISK_COLUMNS.find(r => r.name === name);
-            return r && r.code !== 'PEP' && r.code !== 'EN';
-        }).length;
 
     contentDiv.innerHTML = `
         <div class="modal-header">
@@ -622,7 +629,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <div class="modal-footer">
             <button class="btn bg-transparent border" onclick="document.getElementById('approveModal').classList.remove('show')">Cancel</button>
             <button class="btn" id="submitAllRisksBtn" style="background:#28a745;color:#fff;">
-                Submit (${manualDecidedCount}/${manualRisks.length})
+                Submit
             </button>
         </div>
     `;
@@ -641,20 +648,35 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     document.getElementById('submitAllRisksBtn').addEventListener('click', async () => {
-        if(!manualRisks.every(r => riskDecisions[r.name])) {
-            toast({ status: 'ERROR', message: `Please make decisions for all ${manualRisks.length} flagged risks!` });
-            return;
+        let overallStatus = "Approved";
+        let hasReview = false;
+        let hasReject = false;
+
+        manualRisks.forEach(r => {
+            const d = riskDecisions[r.name];
+            if (!d || !d.decision) {
+                hasReview = true;
+            } else if (d.decision === 'Reject') {
+                hasReject = true;
+            }
+        });
+
+        if (hasReview) {
+            overallStatus = "Review";
+        } else if (hasReject) {
+            overallStatus = "Failed";
         }
 
-        const allApproved = Object.values(riskDecisions).every(d => d.decision === 'Approve');
-        await saveRiskDecisions(teiId, eventId, reqData, riskDecisions, allApproved, deId);
+        await saveRiskDecisions(teiId, eventId, reqData, riskDecisions, overallStatus, deId);
         await fetchChangeRequests();
         document.getElementById('approveModal').classList.remove('show');
 
-        if(allApproved) {
+        if(overallStatus === 'Approved') {
             toast({ status: 'SUCCESS', message: 'All risks approved! Request updated.' });
+        } else if (overallStatus === 'Failed') {
+            toast({ status: 'ERROR', message: 'Risk rejected. Request failed.' });
         } else {
-            toast({ status: 'INFO', message: 'Risk decisions saved. Request remains pending for future review.' });
+            toast({ status: 'INFO', message: 'Request sent for review due to pending decisions.' });
         }
     });
 }
@@ -695,53 +717,44 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <textarea class="form-control mb-3" id="risk-comments-textarea" rows="3" ${isReadOnly ? 'disabled' : ''}>${existing.comments || ''}</textarea>
 
             </div>
-            <button class="btn" style="background:#E93300;color:#fff;" id="save-risk-decision-btn">
-              Save Decision
-          </button>
         </div>
     `;
 
     if(isReadOnly) return; 
 
-    document.getElementById('save-risk-decision-btn').addEventListener('click', () => {
-        const decision = document.getElementById('risk-decision-select').value;
-        const comments = document.getElementById('risk-comments-textarea').value;
+    const decisionSelect = document.getElementById('risk-decision-select');
+    const commentsTextarea = document.getElementById('risk-comments-textarea');
 
-        if(!decision) {
-            toast({ status: 'ERROR', message: 'Please select a decision!' });
-            return;
-        }
+    const updateDecision = () => {
+        const decision = decisionSelect.value;
+        const comments = commentsTextarea.value;
 
         riskDecisions[risk.name] = { decision, comments, riskDesc };
 
         const td = document.getElementById(`risk-td-${risk.code}`);
         if(td) {
             if(decision === 'Approve') {
-                td.style.backgroundColor = 'rgb(255,251,235)';
-                td.style.borderColor = 'rgb(252,211,77)';
-                td.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>`;
+                td.style.backgroundColor = 'rgb(240,253,244)';
+                td.style.borderColor = 'rgb(134,239,172)';
+                td.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>`;
             } else {
-                td.style.backgroundColor = 'rgb(255,251,235)';
-                td.style.borderColor = 'rgb(252,211,77)';
-                td.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`;
+                td.style.backgroundColor = 'rgb(254,242,242)';
+                td.style.borderColor = 'rgb(252,165,165)';
+                td.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`;
             }
         }
+    };
 
-        const decidedCount = Object.keys(riskDecisions).length;
-        document.getElementById('submitAllRisksBtn').innerText = `Submit (${decidedCount}/${flaggedRisks.length})`;
-
-        riskModalContent.style.display = 'none';
-        riskModalContent.innerHTML = '';
-        toast({ status: 'SUCCESS', message: 'Decision saved.' });
-    });
+    decisionSelect.addEventListener('change', updateDecision);
+    commentsTextarea.addEventListener('input', updateDecision);
 }
 
-  async function saveRiskDecisions(teiId, eventId, reqData, riskDecisions, allApproved, deId) {
+  async function saveRiskDecisions(teiId, eventId, reqData, riskDecisions, overallStatus, deId) {
     try {
         const teData = await dataApi.getTrackedEntity(teiId);
         const teInfo = teData.trackedEntities[0];
         const ucmEnrollment = teInfo.enrollments.find(e => e.program === programs.UINControlMaster);
-        const existingEvent = ucmEnrollment?.events?.find(e => e.programStage === "Dfxzc7dflN8");
+        const existingEvent = ucmEnrollment?.events?.find(e => e.programStage === programStage.acuityStatusAndReport);
         const existingEventId = existingEvent?.event || null;
 
         const { roleKey } = reqData;
@@ -757,14 +770,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             const statusCode = `${code}-Status-${nameDeId}`;
             const justificationCode = `${code}-Justification-${nameDeId}`;
             const descriptionCode = `${code}-Description-${nameDeId}`;
+            const riskCode = `${code}-${nameDeId}`;
 
             const statusDeId = deCodeMap[statusCode];          
             const justificationDeId = deCodeMap[justificationCode]; 
             const descriptionDeId = deCodeMap[descriptionCode];
- 
-            if (statusDeId) dataValues.push({ dataElement: statusDeId, value: decision });
+            const riskDeId = deCodeMap[riskCode];
+
+            if (statusDeId && decision) dataValues.push({ dataElement: statusDeId, value: decision });
             if (justificationDeId && comments) dataValues.push({ dataElement: justificationDeId, value: comments });
-            if(descriptionDeId && description) dataValues.push({ dataElement: descriptionDeId, value: description });
+            if (descriptionDeId && description) dataValues.push({ dataElement: descriptionDeId, value: description });
+            if (riskDeId) dataValues.push({dataElement: riskDeId, value: true});
+
         });
 
 
@@ -775,7 +792,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     event: existingEventId,
                     orgUnit: reqData.orgUnit,
                     program: programs.UINControlMaster,
-                    programStage: "Dfxzc7dflN8",
+                    programStage: programStage.acuityStatusAndReport,
                     enrollment: reqData.enrollment,
                     trackedEntity: teiId,
                     occurredAt: new Date().toISOString(),
@@ -788,7 +805,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 events: [{
                     orgUnit: reqData.orgUnit,
                     program: programs.UINControlMaster,
-                    programStage: "Dfxzc7dflN8",
+                    programStage: programStage.acuityStatusAndReportExistingEvent,
                     enrollment: reqData.enrollment,
                     trackedEntity: teiId,
                     occurredAt: new Date().toISOString(),
@@ -799,7 +816,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         // Update main request status
-        if (allApproved && deId) {
+        if (deId) {
             await dataApi.update({
                 events: [{
                     event: eventId,
@@ -808,22 +825,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     programStage: reqData.programStage,
                     enrollment: reqData.enrollment,
                     occurredAt: new Date().toISOString(),
-                    dataValues: [{ dataElement: deId, value: "Approved" }]
-                }]
-            });
-        } else if (deId) {
-            await dataApi.update({
-                events: [{
-                    event: eventId,
-                    orgUnit: reqData.orgUnit,
-                    program: programs.UINControlMaster,
-                    programStage: reqData.programStage,
-                    enrollment: reqData.enrollment,
-                    occurredAt: new Date().toISOString(),
-                    dataValues: [{ dataElement: deId, value: "Failed" }]
+                    dataValues: [{ dataElement: deId, value: overallStatus }]
                 }]
             });
         }
+
+
 
     } catch (err) {
         console.error('Error saving risk decisions:', err);

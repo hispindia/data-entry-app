@@ -107,13 +107,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       toast({ status: 'ERROR', message: error.message });
     }
   }
-  // syncUIn({
-  //   regionCode: "ESEAOR", 
-  //   legalName: "Global Development Partners Foundation Ltd.", 
-  //   uinCode: "IPPF-THA-008", 
-  //   teiUId: "drBWOwC30Zw"
-  // });
-  
+    syncUIn({
+      regionCode: "ESEAOR", 
+      legalName: "Global Development Partners Foundation Ltd.", 
+      uinCode: "IPPF-THA-008", 
+      teiUId: "drBWOwC30Zw"
+    });
+    
     async function syncUIn({regionCode, legalName, uinCode, teiUId}) {
       try {
         const payload = { regionCode, legalName, uinCode, teiUId };
