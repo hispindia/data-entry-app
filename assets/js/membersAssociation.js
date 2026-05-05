@@ -1,4 +1,5 @@
-import { getConstants, getMeData, getOrganisationUnits } from "./api/func.js";
+import { eventApi } from "./api/DataApi.js";
+import { getConstants, getMeData, getOrganisationUnits,getCommencedLength } from "./api/func.js";
 import { tei } from "./constant.js";
 import { userGroupConfig } from "./forms/config.js";
 
@@ -29,7 +30,23 @@ document.addEventListener("DOMContentLoaded", function () {
       const noticeBoardIds = [{ id:'lNR63q5GkXj', name:'notice-english'}, {id:'upQA8yJuVKx', name: 'notice-french'}, {id: 'bZlXa1FiHG3', name: 'notice-spanish'}, {id: 'HCSaa6Kdof1', name: 'notice-arabic'}];
       const data = await getMeData();
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
+      const maCommenced = await getCommencedLength();
+      const finalisedReport = await eventApi.getEvents();
       const resNoticeBoard = await getConstants(`id:in:[${noticeBoardIds.map(board => board.id).join(',')}]`);
+
+      const maCommencedLength = maCommenced.listGrid?.rows?.length || 0;
+      const finalisedReportLen = finalisedReport.events?.length || 0;
+
+      const totalOrgUnits = resOUGroup.organisationUnits?.length || 0;
+      const percentage = totalOrgUnits > 0 ? (maCommencedLength / totalOrgUnits) * 100 : 0;
+      const percentageOfReporting = totalOrgUnits > 0 ? (finalisedReportLen / totalOrgUnits) * 100 : 0;
+      
+      document.getElementById('mas_commenced').innerHTML = `${maCommencedLength}`;
+      document.getElementById('finalized_reporting').innerHTML = `${finalisedReportLen}`;
+      document.querySelector('.progress-bar').style.width = percentage + '%';
+      document.querySelector('.reporting').style.width = percentageOfReporting + '%';
+
+
       noticeBoardIds.forEach(boardId => {
         const board = resNoticeBoard.constants.find(noticeBoard => noticeBoard.id == boardId.id);
         if(board) document.getElementById(boardId.name).innerHTML = board.description;
@@ -40,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.localStorage.setItem('userDisabled', userConfig.disabled);
       window.localStorage.setItem('hideReporting', userConfig.disabledValues);
     
+      
       
     if(userConfig.disabledValues.includes('aoc')) {
       $(`.aoc-users`).show();

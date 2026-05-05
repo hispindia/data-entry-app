@@ -10,6 +10,15 @@ export const eventApi = {
       console.error("Error fetching user data:", error);
     }
   },
+  getEvents: async () => {
+    const url = `events.json?skipPaging=true&filter=GbGunhHaiDt:EQ:true&filter=rpQi6D8L58H:EQ:2025&filter=T1poFhLsB2S:EQ:Annual%20Reporting&paging=false&programStage=V9OmnYWiC2j&fields=event`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  },
   fromStage: async (orgunit, program, programStage) => {
     const url = `trackedEntityInstances.json?skipPaging=true&ou=${orgunit}&program=${program}&programStage=${programStage}&fields=trackedEntityInstance,attributes[attribute,value],enrollments[program,orgUnit,events[trackedEntityInstance,program,event,programStage,orgUnit,orgUnitName,status,dataValues[dataElement,value]]`;
     try {
@@ -99,6 +108,18 @@ export const organisationUnitGroup =  {
 export const constantsApi = {
   get: async (filter) => {
     const url = `constants.json?filter=${filter}&paging=false&fields=id,name,description`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error loading Organisation Units", error);
+    }
+  }
+}
+
+export const maCommencedApi = {
+  get: async () => {
+    const url = `sqlViews/EBOQeh6v6lN/data?paging=false`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
