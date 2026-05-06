@@ -652,14 +652,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         let hasReview = false;
         let hasReject = false;
 
+        let missingComments = false;
+
         manualRisks.forEach(r => {
             const d = riskDecisions[r.name];
             if (!d || !d.decision) {
                 hasReview = true;
-            } else if (d.decision === 'Reject') {
-                hasReject = true;
+            } else {
+                if (d.decision === 'Reject') {
+                    hasReject = true;
+                }
+                if (!d.comments || d.comments.trim() === '') {
+                    missingComments = true;
+                }
             }
         });
+
+        if (missingComments) {
+            toast({ status: 'ERROR', message: 'Please provide justification comments for your decisions.' });
+            return;
+        }
 
         if (hasReview) {
             overallStatus = "Review";
@@ -777,9 +789,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             const descriptionDeId = deCodeMap[descriptionCode];
             const riskDeId = deCodeMap[riskCode];
 
-            if (statusDeId && decision) dataValues.push({ dataElement: statusDeId, value: decision });
-            if (justificationDeId && comments) dataValues.push({ dataElement: justificationDeId, value: comments });
-            if (descriptionDeId && description) dataValues.push({ dataElement: descriptionDeId, value: description });
+            if (statusDeId) dataValues.push({ dataElement: statusDeId, value: decision || "" });
+            if (justificationDeId) dataValues.push({ dataElement: justificationDeId, value: comments || "" });
+            if (descriptionDeId) dataValues.push({ dataElement: descriptionDeId, value: description || "" });
             if (riskDeId) dataValues.push({dataElement: riskDeId, value: true});
 
         });
