@@ -372,8 +372,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "action": "complete",
                 "orgUnit": "OU_01",
                 "program": "Prog_01",
-                // "PresidentName": `${personName} ${personUIN}`.trim(),
-                "PresidentName": "Aivars Lembergs",
+                "PresidentName": `${personName} ${personUIN}`.trim(),
+                // "PresidentName": "Aivars Lembergs",
                 // "PresidentName": "sonu singh AXWPS8419G",
 
             }
@@ -482,15 +482,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         clearInterval(msgInterval);
-        // const { rawPageText } = flowResult; 
-        const rawPageText = [
-            "Names",
-            "Country/Region",
-            "Class",
-            "1KMAivars Lembergs Latvia Former Chair of City Council .PEP",
-            "2KMTest Company Latvia Suspicious transactions .Fraud",
-            "3KMTest Person Latvia Wanted for crimes .Enforcement"
-        ].join("\r\n");
+        const { rawPageText } = flowResult; 
+        // const rawPageText = [
+        //     "Names",
+        //     "Country/Region",
+        //     "Class",
+        //     "1KMAivars Lembergs Latvia Former Chair of City Council .PEP",
+        //     "2KMTest Company Latvia Suspicious transactions .Fraud",
+        //     "3KMTest Person Latvia Wanted for crimes .Enforcement"
+        // ].join("\r\n");
 
         const deId = ROLE_ACUITY_DE[roleKey];
 
@@ -688,7 +688,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         } else if (overallStatus === 'Failed') {
             toast({ status: 'ERROR', message: 'Risk rejected. Request failed.' });
         } else {
-            toast({ status: 'INFO', message: 'Request sent for review due to pending decisions.' });
+            toast({ status: 'SUCCESS', message: 'Risk Approved! Request updated.' });
         }
     });
 }
