@@ -124,7 +124,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         if(affiliate[1]=="waiver")  {
           if(!affiliate[0]) return;
           const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, `filter=pkLdNynZWat:EQ:${affiliate[0]}`);
-          console.log(response)
           if(!response.trackedEntities.length) return;
           window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${response.trackedEntities[0]['trackedEntity']}`;
         }

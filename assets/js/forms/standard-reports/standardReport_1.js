@@ -2,6 +2,8 @@ import { getUserConfig } from "../config.js";
 import BaseApi from "../../api/BaseApi.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
+
+  showLoader();   
   renderTable(); 
 
   try {
@@ -184,6 +186,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (error) {
       console.error("Error:", error);
       tableBody.innerHTML = "<tr><td colspan='13'>Error loading data</td></tr>";
+    } finally {
+      hideLoader(); 
     }
   }
 
@@ -192,4 +196,71 @@ document.addEventListener("DOMContentLoaded", async function () {
       window.downloadTablesAsExcel(["UIN-IPPF Partnership Register"], "UIN-IPPF Partnership Register");
     });
 
+
 });
+
+  function showLoader(message = "Please wait, generating report...") {
+
+    const container = document.querySelector("#mainHeading");
+    container.style.position = "relative";
+
+    const loader = document.createElement("div");
+    loader.id = "global-loader";
+
+    loader.style.cssText = `
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-height: 500px;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    `;
+
+    loader.innerHTML = `
+      <div style="
+        background:white;
+        padding:30px 40px;
+        border-radius:10px;
+        text-align:center;
+        box-shadow:0 4px 20px rgba(0,0,0,0.15);
+      ">
+        <div class="spinner" style="
+          border:5px solid #eee;
+          border-top:5px solid #15803d;
+          border-radius:50%;
+          width:40px;
+          height:40px;
+          margin:0 auto 15px;
+          animation: spin 1s linear infinite;
+        "></div>
+
+        <p style="font-weight:500;margin:0;">
+          ${message}
+        </p>
+      </div>
+    `;
+    container.appendChild(loader);
+
+    if (!document.getElementById("loader-style")) {
+
+      const style = document.createElement("style");
+
+      style.id = "loader-style";
+
+      style.innerHTML = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  function hideLoader() {
+    const loader = document.getElementById("global-loader");
+    if (loader) loader.remove();
+  }

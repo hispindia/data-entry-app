@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       } else {
         approvedList.forEach(affiliate => {
           tbodyAffiliateApprovedRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
-            console.log("affiliate attribute----", affiliate[attributes.uinCodeAffiliate]);
             if (affiliate[attributes.uinCodeAffiliate]) {
                 headerList.forEach(attr => {
                 if(attr.id == attributes.acuityCheck) {
@@ -125,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           body: JSON.stringify(payload)
         });
         const data = await res.json();  
-        console.log("Sync UIn ", data);
+        // console.log("Sync UIn ", data);
       } catch (error) {
         console.error(error);
       }
