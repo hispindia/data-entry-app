@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         </button>
         </td>
         <td style="padding: 15px;">
-        <button data-affiliate="${trackedEntityId}_view" class="btn btn-primary">
+        <button data-affiliate="${trackedEntityId}_view" class="btn btn-primary row-btn">
           View
         </button>
         </td></tr>`;
