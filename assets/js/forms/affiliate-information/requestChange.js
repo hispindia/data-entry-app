@@ -9,6 +9,7 @@ import {
   attributes,
   ROLE_ACUITY_DE,
   programSection,
+  trackedEntityType,
 } from "../../constant.js";
 
 import {
@@ -201,6 +202,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("searchButton")
     .addEventListener("click", fetchAffiliateList);
 
+  const selectAllBtn = document.getElementById("selectAllAcuityBtn");
+  if (selectAllBtn) {
+    selectAllBtn.addEventListener("click", () => {
+      const checkboxes = document.querySelectorAll(".beautiful-checkbox");
+      if (checkboxes.length === 0) return;
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      checkboxes.forEach(cb => cb.checked = !allChecked);
+    });
+  }
+
+  const submitAcuityBtn = document.getElementById("submitAcuityBtn");
+  if (submitAcuityBtn) {
+    submitAcuityBtn.addEventListener("click", async () => {
+      const selectedCheckboxes = document.querySelectorAll(".beautiful-checkbox:checked");
+      if (selectedCheckboxes.length === 0) {
+        toast({ status: "INFO", message: "Please select at least one affiliate for Acuity Check" });
+        return;
+      }
+
+      try {
+        submitAcuityBtn.disabled = true;
+        submitAcuityBtn.innerText = "Submitting...";
+
+        const trackedEntities = Array.from(selectedCheckboxes).map(cb => {
+          return {
+            trackedEntity: cb.getAttribute("data-tei-id"),
+            orgUnit: cb.getAttribute("data-org-unit"),
+            trackedEntityType: trackedEntityType,
+            attributes: [{ attribute: attributes.acuityCheck, value: "In Progress" }]
+          };
+        });
+
+        const payload = { trackedEntities };
+        await dataApi.postAttribute(payload);
+
+        toast({ status: "SUCCESS", message: "Acuity status marked as In-Progress successfully", position: "bottomCenter" });
+        selectedCheckboxes.forEach(cb => cb.checked = false);
+      } catch (err) {
+        console.error("Failed to update acuity status:", err);
+        toast({ status: "ERROR", message: "Failed to update Acuity status. Please try again." });
+      } finally {
+        submitAcuityBtn.disabled = false;
+        submitAcuityBtn.innerText = "Submit Acuity";
+      }
+    });
+  }
+
   async function fetchAffiliateList() {
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
@@ -256,24 +304,74 @@ document.addEventListener("DOMContentLoaded", async () => {
       headerList.forEach(
         (item) => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`
       );
-      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600;">Action</th>`;
+      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600; text-align: center;">Action</th><th style="padding: 12px 15px; font-weight: 600; text-align: center;">Schedule Acuity Check</th>`;
+
+      if (!document.getElementById('beautiful-checkbox-style')) {
+        const style = document.createElement('style');
+        style.id = 'beautiful-checkbox-style';
+        style.innerHTML = `
+            .beautiful-checkbox {
+                appearance: none;
+                background-color: #fff;
+                margin: 0;
+                font: inherit;
+                color: currentColor;
+                width: 22px;
+                height: 22px;
+                border: 2px solid #cbd5e1;
+                border-radius: 6px;
+                display: grid;
+                place-content: center;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+            }
+            .beautiful-checkbox::before {
+                content: "";
+                width: 12px;
+                height: 12px;
+                clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+                transform: scale(0);
+                transform-origin: bottom left;
+                transition: 120ms transform ease-in-out;
+                background-color: white;
+            }
+            .beautiful-checkbox:checked {
+                background-color: #E93300;
+                border-color: #E93300;
+            }
+            .beautiful-checkbox:checked::before {
+                transform: scale(1);
+            }
+            .beautiful-checkbox:hover {
+                border-color: #E93300;
+                box-shadow: 0 0 0 3px rgba(233, 51, 0, 0.1);
+            }
+        `;
+        document.head.appendChild(style);
+      }
 
       var tbodyAffiliateRow = "";
       affilitateAttrList.forEach((affiliate, index) => {
-        const trackedEntityId = affiliateList.trackedEntities[index].trackedEntity
+        const trackedEntityId = affiliateList.trackedEntities[index].trackedEntity;
+        const orgUnitId = affiliateList.trackedEntities[index].orgUnit;
         tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
         headerList.forEach(
 
           (attr) => tbodyAffiliateRow += `<td style="padding: 15px;">${affiliate[attr.id] ? affiliate[attr.id] : ""}</td>`
         );
         tbodyAffiliateRow += `
-          <td style="padding: 15px;">
-            <div class="actions">
-              <button class="btn-icon blue" style="cursor: pointer;" title="View Details" onclick="openAffiliateModal(null, '${trackedEntityId}')">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <td style="padding: 15px; text-align: center; vertical-align: middle;">
+            <div class="actions" style="display: flex; justify-content: center;">
+              <button class="btn-icon blue" style="cursor: pointer; border: none; background: transparent; color: #0056b3;" title="View Details" onclick="openAffiliateModal(null, '${trackedEntityId}')">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
               </button>
+            </div>
+          </td>
+          <td style="padding: 15px; text-align: center; vertical-align: middle;">
+            <div style="display: flex; justify-content: center;">
+              <input type="checkbox" class="beautiful-checkbox" data-tei-id="${trackedEntityId}" data-org-unit="${orgUnitId}" title="Select for Acuity Check">
             </div>
           </td>
         </tr>`;
@@ -311,6 +409,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "flex";
 
     const res = await dataApi.getTrackedEntity(teiId);
+    console.log("======Attributess==============", res);
     tei.affiliate = res.trackedEntities[0];
 
     const attrs = {};

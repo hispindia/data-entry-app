@@ -149,14 +149,23 @@
                         </div>
                     </div>       
                     <div id="searchResults" style="display: none;" class="card shadow col-12 mt-2">
-                        <table class="table table-striped table-hover mb-0"
-                        style="border-bottom: 1px solid #e3e6f0; width: 100%;">
-                        <thead>
-                            <tr id="thead-affiliate" style="background-color: #f7f7f9; color: #6c757d; font-size: 0.85rem; border-bottom: 1px solid #e3e6f0;">
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-affiliate"></tbody>
-                        </table>
+                        <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                            <h6 class="m-0 font-weight-bold" style="color: #4472c4;">Search Results</h6>
+                            <div>
+                                <button type="button" class="btn btn-outline-primary btn-sm mr-2" id="selectAllAcuityBtn">Select All</button>
+                                <button type="button" class="btn btn-sm" style="background-color: #E93300; color: white;" id="submitAcuityBtn">Submit Acuity</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover mb-0"
+                            style="border-bottom: 1px solid #e3e6f0; width: 100%;">
+                            <thead>
+                                <tr id="thead-affiliate" style="background-color: #f7f7f9; color: #6c757d; font-size: 0.85rem; border-bottom: 1px solid #e3e6f0;">
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-affiliate"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
         </div>
