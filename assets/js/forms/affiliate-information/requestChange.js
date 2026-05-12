@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     submitAcuityBtn.addEventListener("click", async () => {
       const selectedCheckboxes = document.querySelectorAll(".beautiful-checkbox:checked");
       if (selectedCheckboxes.length === 0) {
-        toast({ status: "INFO", message: "Please select at least one affiliate for Acuity Check" });
+        toast({ status: "INFO", message: "Please select at least one affiliate for Acuity Check", position: 'bottomRight' });
         return;
       }
 
@@ -237,8 +237,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const payload = { trackedEntities };
         await dataApi.postAttribute(payload);
 
-        toast({ status: "SUCCESS", message: "Acuity status marked as In-Progress successfully", position: "bottomCenter" });
+        toast({ status: "SUCCESS", message: "Request sent for Acuity check successfully", position: "bottomCenter" });
         selectedCheckboxes.forEach(cb => cb.checked = false);
+        await fetchAffiliateList();
       } catch (err) {
         console.error("Failed to update acuity status:", err);
         toast({ status: "ERROR", message: "Failed to update Acuity status. Please try again." });
@@ -304,7 +305,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       headerList.forEach(
         (item) => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`
       );
-      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600; text-align: center;">Action</th><th style="padding: 12px 15px; font-weight: 600; text-align: center;">Schedule Acuity Check</th>`;
+      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600; text-align: center;">Action</th><th style="padding: 12px 15px; font-weight: 600; text-align: center;"><div style="display: flex; justify-content: center; align-items: center; gap: 8px;">Schedule Acuity Check
+      <input type="checkbox" id="headerSelectAllBtn" class="beautiful-checkbox" title="Select All"></div></th>`;
 
       if (!document.getElementById('beautiful-checkbox-style')) {
         const style = document.createElement('style');
@@ -346,6 +348,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 border-color: #E93300;
                 box-shadow: 0 0 0 3px rgba(233, 51, 0, 0.1);
             }
+            .beautiful-checkbox:disabled {
+               cursor: not-allowed;      
+                opacity: 0.6;
+                filter: grayscale(100%);
+      }
         `;
         document.head.appendChild(style);
       }
@@ -354,6 +361,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       affilitateAttrList.forEach((affiliate, index) => {
         const trackedEntityId = affiliateList.trackedEntities[index].trackedEntity;
         const orgUnitId = affiliateList.trackedEntities[index].orgUnit;
+        const acuityInProgress = affiliate[attributes.acuityCheck] === "In Progress";
         tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
         headerList.forEach(
 
@@ -371,12 +379,21 @@ document.addEventListener("DOMContentLoaded", async () => {
           </td>
           <td style="padding: 15px; text-align: center; vertical-align: middle;">
             <div style="display: flex; justify-content: center;">
-              <input type="checkbox" class="beautiful-checkbox" data-tei-id="${trackedEntityId}" data-org-unit="${orgUnitId}" title="Select for Acuity Check">
+              <input type="checkbox" class="beautiful-checkbox" data-tei-id="${trackedEntityId}" data-org-unit="${orgUnitId}" title="Select for Acuity Check" ${acuityInProgress ? 'checked disabled' : ''}>
             </div>
           </td>
         </tr>`;
       });
       document.getElementById("tbody-affiliate").innerHTML = tbodyAffiliateRow;
+      const headerSelectAllBtn = document.getElementById("headerSelectAllBtn");
+      if (headerSelectAllBtn) {
+      headerSelectAllBtn.addEventListener("change", (e) => {
+        const bodyCheckboxes = document.querySelectorAll("#tbody-affiliate .beautiful-checkbox:not([disabled])");
+        bodyCheckboxes.forEach(cb => {
+          cb.checked = e.target.checked;
+        });
+      });
+    }
   }
 
   // Modal and Tabs Logic
