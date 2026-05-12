@@ -1,7 +1,8 @@
 import { createPayload } from "../../../api/payload.js";
-import { optionSetApi, programStageApi, programsApi } from "../../../api/metaDataApi.js";
+import { optionSetApi, programStageApi, programsApi, orgUnitsApi } from "../../../api/metaDataApi.js";
+import { dataSet } from "../../../api/dataSet.js";
 import { configureRules, convert, fetchValueType, ruleCallback } from "../../metadata.js";
-import { attributes, orgUnit, programStage, programs, tei, trackedEntityType } from "../../../constant.js";
+import { attributes, orgUnit, programStage, programs, tei, trackedEntityType, dataElements } from "../../../constant.js";
 import { dataApi } from "../../../api/DataApi.js";
 import { toast, isGmailOrYahoo } from "../../utils.js";
 
@@ -264,11 +265,34 @@ const newRegistration = async (userConfig) => {
         }
     });
 
-    document.getElementById("basicInformation").addEventListener('change', function(e) {
+    document.getElementById("basicInformation").addEventListener('change', async function(e) {
         if (e.target.matches("input, select, textarea")) {
             tei.values[e.target.id] = e.target.value;
             document.getElementById(`error-${e.target.id}`).innerHTML = '';
             if(e.target.type == "file") return;
+
+            if (e.target.id === attributes.countryRegistration) {
+                const countryCode = e.target.value;
+                if (countryCode) {
+                    try {
+                        const orgUnitRes = await orgUnitsApi.get({ filter: countryCode });
+                        const countryOrgUnit = orgUnitRes.organisationUnits?.[0]?.id;
+                        const dataSetValues = await dataSet.getValues();
+                            if (dataSetValues && dataSetValues.dataValues) {
+                                const incomeStatusDV = dataSetValues.dataValues.find(dv => dv.orgUnit === countryOrgUnit);
+                                if (incomeStatusDV) {
+                                    tei.values[dataElements.countryIncomeStatus] = incomeStatusDV.value;
+                                    if(tei.metadata[dataElements.countryIncomeStatus]) tei.metadata[dataElements.countryIncomeStatus].disabled = true;
+                                }
+                                document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
+                            }
+                        
+                    } catch (err) {
+                        console.error("Failed to load country dataset values", err);
+                    }
+                }
+            }
+
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
             flatpickr(".flatpickr-date-input", { 

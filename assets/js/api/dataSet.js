@@ -11,7 +11,7 @@ export const dataSet = {
     }
   },
   getValues:async (dataSetId, orgUnit, period) => {
-    const url = `dataValueSets.json?dataSet=${dataSetId}&orgUnit=${orgUnit}&period=${period}`;
+    const url = `dataValueSets.json?orgUnitGroup=nDrAezMbLFS&dataSet=vDbMUQy8JsD&period=2026`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
