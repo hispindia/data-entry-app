@@ -3,7 +3,25 @@ import { meApi, programsApi} from "../../api/metaDataApi.js";
 import { attributes, programs} from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { toast } from "../utils.js";
+ const checkboxOptions = [
+    {
+      label: "Business Planning and Reporting Portal",
+      api: "http://stage.hispindia.org:8000/orgunit-bpr"
+    },
+    {
+      label: "IPPF DHIS2",
+      api: "http://stage.hispindia.org:8000/orgunit-pro"
+    },
+    {
+      label: "Kofax Unrestricted Funding Agreement",
+      api: ""
+    },
+    {
+      label: "NetSuite",
+      api: ""
+    }
 
+ ]
 document.addEventListener("DOMContentLoaded", async function () {
   const userConfig = await getUserConfig();
   if (userConfig) {
@@ -79,8 +97,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             <td class="text-center">  
               <button 
                 data-affiliate="${affiliate.id}" 
+                data-uin="${affiliate[attributes.uinCodeAffiliate]}"
+                data-region="${affiliate[attributes.region]}"
+                data-name="${affiliate[attributes.legalName]}"
                 data-id="sync-uin"
-                class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;">
+                class="btn btn-sm row-btn open-popup-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;">
                 Sync UIN
               </button>
             </td>
@@ -98,20 +119,86 @@ document.addEventListener("DOMContentLoaded", async function () {
         const { id, affiliate } = button.dataset;
         
         if (id == "sync-uin") {
-          alert("Syncing UIN", affiliate);
-        }
-      });
+      
+        let selectedAffiliateData = null;  
+        $(document).on("click", ".open-popup-btn", function () {
+
+          selectedAffiliateData = {
+            regionCode: $(this).data("region"),
+            legalName: $(this).data("name"),
+            uinCode: $(this).data("uin"),
+            teiUId: $(this).data("affiliate"),
+          };
+
+            const html = checkboxOptions.map(option => `
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input dynamic-checkbox" id="${option.id}" data-api="${option.api}">
+                <label class="custom-control-label font-weight-bold fs-6"for="${option.id}">
+                  ${option.label}
+                </label>
+              </div>
+            `).join("");
+
+            $("#checkboxContainer").html(html);
+            $("#submitActions").prop("disabled", true);
+            $("#actionModal").modal("show");
+        });
+
+        $(document).on("change", ".dynamic-checkbox", function () {
+          const checked = $(".dynamic-checkbox:checked").length;
+          $("#submitActions").prop("disabled", checked === 0);
+        });
+
+        $("#submitActions").on("click", async function () {
+
+          const checkedBoxes = $(".dynamic-checkbox:checked");
+
+          try {
+
+            for (let checkbox of checkedBoxes) {
+              const api = $(checkbox).data("api");
+              const payload = {
+                tei_uid: selectedAffiliateData.teiUId,
+                uin_code: selectedAffiliateData.uinCode,
+                region_code: selectedAffiliateData.regionCode,
+                legal_name: selectedAffiliateData.legalName,
+              };
+
+              console.log("Calling API:", api, payload);
+
+              await fetch(api, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+              });
+            }
+
+            alert("All APIs executed successfully");
+
+            $("#actionModal").modal("hide");
+
+          } catch (error) {
+
+            console.error(error);
+
+            alert("Something went wrong");
+          }
+        });
+      }
+    });
     } catch (error) {
       console.error(error);
       toast({ status: 'ERROR', message: error.message });
     }
   }
-    syncUIn({
-      regionCode: "ESEAOR", 
-      legalName: "Global Development Partners Foundation Ltd.", 
-      uinCode: "IPPF-THA-008", 
-      teiUId: "drBWOwC30Zw"
-    });
+    // syncUIn({
+    //   regionCode: "ESEAOR", 
+    //   legalName: "Global Development Partners Foundation Ltd.", 
+    //   uinCode: "IPPF-THA-008", 
+    //   teiUId: "drBWOwC30Zw"
+    // });
     
     async function syncUIn({regionCode, legalName, uinCode, teiUId}) {
       try {
