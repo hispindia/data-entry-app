@@ -866,7 +866,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
   function buildPivotSummary() {
-    debugger;
+    
     var rows = '';
     var globalBudget = 0, globalExpense = 0, globalVariance = 0, globalPercent = 0;
     focusAreaNames.forEach((name, index) => {

@@ -1,6 +1,7 @@
 import { eventApi } from '../../api/DataApi.js';
+import { dataSet } from '../../api/dataSet.js';
 import { getMeData, getOrganisationUnits, getProgramStageEvents, getProgramStagePeriodicity } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { tei, dataElements, program, programStage, dataSetFunds } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -83,6 +84,15 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error fetching organization unit:", error);
     }
   }
+      
+async function fetchDataSet(orgUnit, year) {
+  const values = {};
+    
+  const dataValuesQuantity = await dataSet.getValues(dataSetFunds, orgUnit, year);
+  dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+  return values;
+}
 
   async function fetchEvents() {
     $("#project-export").hide();
@@ -96,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
+        const dataSetValues = await fetchDataSet(ou.id, tei.year.value);
         const event = await eventApi.get(ou.id);
         if (event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
@@ -110,7 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // auec: {}, //project budget
             arec: {}, //expense category
             arfa: {}, //focus area
-            arac: {} //actual income
+            arac: {}, //actual income
+            dataSetValues
           }
 
           // const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, tei.year.id) //data values year wise
@@ -126,8 +138,10 @@ document.addEventListener("DOMContentLoaded", function () {
           if(dataValuesARFA) dataElementOUValues[ou.id]['arfa'] = dataValuesARFA;
 
           const dataValuesARAC = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: "Annual Reporting" }); //data vlaues period wise
-          if(dataValuesARAC) dataElementOUValues[ou.id]['arac'] = dataValuesARAC;
-    
+          if(dataValuesARAC) dataElementOUValues[ou.id]['arac'] = {
+            ...dataValuesARAC,
+            tGS8X8B4BtK: dataSetValues[dataElements.fullAllocation] ? dataSetValues[dataElements.fullAllocation] : '0'
+          }
         }
       }
     }
