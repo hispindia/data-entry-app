@@ -34,7 +34,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         'PEP',
         'Enforcement'
       ];
+    const checkboxOptions = [
+    {
+      label: "Business Planning and Reporting Portal",
+      api: "http://stage.hispindia.org:8000/orgunit-bpr"
+    },
+    {
+      label: "IPPF DHIS2",
+      api: "http://stage.hispindia.org:8000/orgunit-pro"
+    },
+    {
+      label: "Kofax Unrestricted Funding Agreement",
+      api: ""
+    },
+    {
+      label: "NetSuite",
+      api: ""
+    }
 
+ ]
       const DE_ROLE_MAP = {
         'UkQI1dWzZOv': 'organisation',
         'daG91uRV8pi': 'President',
@@ -120,8 +138,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       <button 
         data-affiliate="${affiliate.id}" 
         data-id="generate-uin"
-        class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px;">
+        class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 10px;">
         Generate
+      </button>
+      </td>
+      <td class="text-center">
+      <button 
+        data-affiliate="${affiliate.id}" 
+        data-region="${affiliate[attributes.region] || ''}"
+        data-name="${affiliate[attributes.legalName] || ''}"
+        data-id="sync-uin"
+        id="sync-uin-btn-${affiliate.id}"
+        class="btn btn-sm row-btn open-popup-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 9px; opacity: 0.6; cursor: not-allowed; white-space: nowrap;">
+        Sync UIN
       </button>
       </td>
       </tr>`
@@ -135,6 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const { id, affiliate } = button.dataset;
       if(id == "view-uin") window.location.href = `./1.3.1-generate-uin.html?affiliate=${affiliate}`;
       else if(id == "generate-uin") {
+        
         showLoader("Please wait, generating report...");
         setTimeout(async () => {
         try {
@@ -204,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
             await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster});
             const payloadEvent = createPayload.exchangeEvent(tei.values, orgUnitId, programs.UINControlMaster, tei.attributes, UINStages);
-            await dataApi.enroll(payloadEvent);
+           const teiId =  await dataApi.enroll(payloadEvent);
             await dataApi.postAttribute({
               "trackedEntities": [
                 {
@@ -221,8 +251,18 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
               ]
             })
+            const syncBtn = document.getElementById(`sync-uin-btn-${tei.affiliate.trackedEntity}`);
+            if (syncBtn) {
+              syncBtn.setAttribute('data-uin', nextOUCode);
+              syncBtn.setAttribute('data-teiid', teiId);
+              syncBtn.style.opacity = '1';
+              syncBtn.style.cursor = 'pointer';
+            }
+            button.dataset.generated = "true";
+            button.style.opacity = "0.6";
+            button.style.cursor = "not-allowed";
             hideLoader();
-            toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`, nextOUCode});
+            toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
           }
         }                 
       } catch (error) {
@@ -232,7 +272,69 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         }, 0);
       }
+      else if (id == "sync-uin") {
+        const uinCode = button.getAttribute("data-uin");
+        const newTeiId = button.getAttribute("data-teiid");
+
+        const selectedAffiliateData = {
+          regionCode: button.getAttribute("data-region"),
+          legalName: button.getAttribute("data-name"),
+          uinCode: uinCode,
+          teiUId: newTeiId,
+        };
+
+        const html = checkboxOptions.map((option, index) => `
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input dynamic-checkbox" id="checkbox-${index}" data-api="${option.api}">
+            <label class="custom-control-label font-weight-bold fs-6" for="checkbox-${index}">
+              ${option.label}
+            </label>
+          </div>
+        `).join("");
+
+        $("#checkboxContainer").html(html);
+        $("#submitActions").prop("disabled", true);
+        $("#actionModal").modal("show");
+
+        $(document).off("change", ".dynamic-checkbox").on("change", ".dynamic-checkbox", function () {
+          const checked = $(".dynamic-checkbox:checked").length;
+          $("#submitActions").prop("disabled", checked === 0);
+        });
+
+        $("#submitActions").off("click").on("click", async function () {
+          const checkedBoxes = $(".dynamic-checkbox:checked");
+          try {
+            for (let checkbox of checkedBoxes) {
+              const api = $(checkbox).data("api");
+              if (!api) continue;
+              
+              const payload = {
+                tei_uid: selectedAffiliateData.teiUId,
+                uin_code: selectedAffiliateData.uinCode,
+                region_code: selectedAffiliateData.regionCode,
+                legal_name: selectedAffiliateData.legalName,
+              };
+
+
+              await fetch(api, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+              });
+            }
+
+            toast({ status: "SUCCESS", message: "UIN Synced Successfully", position:'topRight', nextOUCode: true});
+            $("#actionModal").modal("hide");
+
+          } catch (error) {
+            toast({ status: "ERROR", message:"Something went wrong", position: 'topCenter'});
+          }
+        });
+      }
     })
+
   }
 
     function processAccuityData(allRecords) {

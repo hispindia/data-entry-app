@@ -1,7 +1,6 @@
 import { meApi } from "./assets/js/api/metaDataApi.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  console.log("Index JS loaded");
 
   try {
     const currentUser = await meApi.get();

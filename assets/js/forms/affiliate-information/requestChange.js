@@ -426,7 +426,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "flex";
 
     const res = await dataApi.getTrackedEntity(teiId);
-    console.log("======Attributess==============", res);
     tei.affiliate = res.trackedEntities[0];
 
     const attrs = {};
