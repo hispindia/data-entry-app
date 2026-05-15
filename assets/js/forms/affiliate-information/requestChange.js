@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const resRegion = await optionSetApi.get(optionSet.region);
   const resOptionGroups = await optionSetApi.getOptionGroups();
 
+  resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
   regionSelect.innerHTML = populateOptions(resRegion.options);
 
   regionSelect.addEventListener("change", e => {
@@ -194,6 +195,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       label: o.name,
       value: o.code
     }));
+
+    countries.sort((a, b) => a.label.localeCompare(b.label));
 
     countrySelect.innerHTML = populateOptions(countries);
   });

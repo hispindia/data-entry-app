@@ -10,6 +10,7 @@ const handleRegistration = async(userConfig) => {
     const resRegion = await optionSetApi.get(optionSet.region);
     const resOptionGroups = await optionSetApi.getOptionGroups();
 
+    resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
     document.getElementById("Region").innerHTML = populateOptions(resRegion.options);
     
     document.getElementById('Region').addEventListener('change', function (e) {
@@ -17,6 +18,7 @@ const handleRegistration = async(userConfig) => {
         const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
         if(optionGroup) {
             const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
+            region.sort((a, b) => a.label.localeCompare(b.label));
             document.getElementById("Countries").innerHTML = populateOptions(region);
         }
     })
@@ -35,6 +37,7 @@ const handleRegistration = async(userConfig) => {
         const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[region]);
         if(optionGroup) {
             const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
+            region.sort((a, b) => a.label.localeCompare(b.label));
             document.getElementById("Countries").innerHTML = populateOptions(region);
         }
     }
