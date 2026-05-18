@@ -60,18 +60,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const childHeaders = [
       { name: "Legal Name", color: "#1e558e", id: "UkQI1dWzZOv"}, 
-      { name: "Country of Registration", color: "#1e558e", id: "LZacnHsQJRs"}, //not found
-      { name: "Organisation Type", color: "#1e558e", id: "U7L75bi4oNF"}, //option set
-      { name: "Registration Number", color: "#1e558e", id: "qsASQ0NRTVA"}, 
-      { name: "Registered Address", color: "#1e558e", id: "o1vN3K6W1P4"}, 
-      { name: "Contact Email", color: "#1e558e", id: "IxhtGezsfWH"},
-      { name: "Website", color: "#1e558e", id: "gYzmXPZ88UI"},
-      { name: "Contact Number", color: "#1e558e",id: "QBtd98I0wfS"},
-      { name: "Country Code", color: "#1e558e", id: "xrbFQJaSOjc"},
-      { name: "Country Income Status", color: "#1e558e", id: "uA6aKCAdLYK"},
-      { name: "SOI-OAC Eligible", color: "#1e558e", id: ""}, //not exist
-      { name: "Board Member (President/Chairperson) – Designation", color: "#2e7e3c", id: "ar5OGNeliYf"},
-      { name: "Board Member (President/Chairperson) – Full Name", color: "#2e7e3c", id: "daG91uRV8pi"},
+      { name: "Bank Name - Bank Account 1", color: "#1e558e", id: "cvI0Tq2uPjC"}, //not found
+      { name: "Bank Address", color: "#1e558e", id: "HTnwbE6NjXT"}, //option set
+      { name: "Telephone", color: "#1e558e", id: "v3iHRfxpOlB"}, 
+      { name: "Account Number", color: "#1e558e", id: "o1vN3K6W1P4"}, 
+      { name: "Currency of Account", color: "#1e558e", id: "IxhtGezsfWH"},
+      { name: "SWIFT Code/BIC", color: "#1e558e", id: "gYzmXPZ88UI"},
+      { name: "IBAN", color: "#1e558e",id: "QBtd98I0wfS"},
+      { name: "Is the bank account name different than the registered name?", color: "#1e558e", id: "xrbFQJaSOjc"},
+      { name: "Name as per Bank Records", color: "#1e558e", id: "uA6aKCAdLYK"},
+      { name: "Reason for different affiliate names (in bank and legal name)", color: "#1e558e", id: ""}, //not exist
+      { name: "Do you want to add additional bank account details?", color: "#1e558e", id: "ar5OGNeliYf"},
+      { name: "Acuity Status", color: "#1e558e", id: "daG91uRV8pi"},
       { name: "Board Member (President/Chairperson) – Email", color: "#2e7e3c", id: "g4NwCcUEd9l"},
       { name: "Board Member (President/Chairperson) – Country Code", color: "#2e7e3c", id: "jHQLBkoqgt2"},
       { name: "Board Member (President/Chairperson) – Nationality", color: "#2e7e3c",id: "FisnLiX71jG"},

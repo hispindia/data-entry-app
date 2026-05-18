@@ -181,7 +181,11 @@ export const dataElements = {
     seniorManagementCEOAcuityStatus: "Y50Blcjw8r0",
     seniorManagementFinanceAcuityStatus: "PIIp2bOIoit",
     seniorManagementProgramsAcuityStatus: "EGNNQjCgf4m",
-    bankAcuityStatus: "Mm19QhgeESl"
+    bankAcuityStatus: "Mm19QhgeESl",
+
+    paymentFileFormatBa1: "VPHBgGSnGLB",
+    paymentFileFormatBa2: "oKam29mQNka",
+    paymentFileFormatBa3: "wka3cIbbtHY"
 
 }
 

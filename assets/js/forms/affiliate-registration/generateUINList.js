@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             continue;
         }
         const resultText = rec[rec.id];
-        if (designation === 'organisation') {
+        if (designation === 'Organisation') {
           orgName = name;
         }
 
@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           personMap.set(key, {
             name,
             designation,
-            date: new Date(rec.date).toLocaleString(),
+            date: rec.date ? formatDate(rec.date) : formatDate(new Date().toISOString()),
             flaggedCategories: new Set(),
             screeningResult: (resultText || 'No Records Found')
           });

@@ -181,9 +181,29 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   
   [...bankStageSections, ...completionBankSections].forEach(section => {
+    const hasPaymentFileFormat = section.items.some(el => 
+      el.code === dataElements.paymentFileFormatBa1 ||
+      el.code === dataElements.paymentFileFormatBa2 ||
+      el.code === dataElements.paymentFileFormatBa3
+    );
+    
+    let passedPaymentFileFormat = false;
+    
     section.items.forEach(element => {
-      if(!tei.values[element.code] || tei.values[element.code] === '') {
-        element.disabled = false;
+      if (hasPaymentFileFormat) {
+        if (
+          element.code === dataElements.paymentFileFormatBa1 ||
+          element.code === dataElements.paymentFileFormatBa2 ||
+          element.code === dataElements.paymentFileFormatBa3
+        ) {
+          passedPaymentFileFormat = true;
+        }
+
+        if (passedPaymentFileFormat) {
+          element.disabled = false;
+        } else {
+          element.disabled = true;
+        }
       }
     })
   })
