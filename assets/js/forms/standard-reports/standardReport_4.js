@@ -43,30 +43,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     const topRowHtml = `
       <tr style="background-color: #134b82; color: white; text-align: center;">
         <th rowspan="2" style="vertical-align: middle; background-color: #1e558e; color: #fff">S.No</th>
-        <th colspan="12" style="background-color: #1e558e; color: #fff">AFFILIATE / ORGANISATION INFO</th>
-        <th colspan="8" style="background-color: #2e7e3c; color: #fff">BOARD MEMBER – PRESIDENT / CHAIRPERSON</th>
-        <th colspan="8" style="background-color: #1e558e; color: #fff">BOARD MEMBER – VICE PRESIDENT / VICE CHAIRPERSON</th>
-        <th colspan="8" style="background-color: #006f60; color: #fff">BOARD MEMBER – SECRETARY</th>
-        <th colspan="8" style="background-color: #6f2c91; color: #fff">BOARD MEMBER – TREASURER</th>
-        <th colspan="8" style="background-color: #e35205; color: #fff">BOARD MEMBER – YOUTH</th>
-        <th colspan="8" style="background-color: #4b5e65; color: #fff">SENIOR MANAGEMENT – EXECUTIVE DIRECTOR / CEO / DIRECTOR GENERAL</th>
-        <th colspan="8" style="background-color: #1e558e; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF FINANCE / CHIEF FINANCE OFFICER</th>
-        <th colspan="4" style="background-color: #2e7e3c; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF PROGRAMS</th>
-        <th colspan="8" style="background-color: #006f60; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF HR</th>
-        <th colspan="4"  style="background-color: #6f2c91; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF ORGANISATION, LEARNING AND EVALUATION</th>
-         
+        <th colspan="12" style="background-color: #1e558e; color: #fff">Bank Details - Account 1</th>
+        <th colspan="8" style="background-color: #2e7e3c; color: #fff">Bank Details - Account 2</th>
+        <th colspan="8" style="background-color: #1e558e; color: #fff">Bank Details - Account 3</th>
       </tr>
     `;
 
     const childHeaders = [
       { name: "Legal Name", color: "#1e558e", id: "UkQI1dWzZOv"}, 
       { name: "Bank Name - Bank Account 1", color: "#1e558e", id: "cvI0Tq2uPjC"}, //not found
-      { name: "Bank Address", color: "#1e558e", id: "HTnwbE6NjXT"}, //option set
+      { name: "Bank Address", color: "#1e558e", id: "HTnwbE6NjXT"}, 
       { name: "Telephone", color: "#1e558e", id: "v3iHRfxpOlB"}, 
       { name: "Account Number", color: "#1e558e", id: "o1vN3K6W1P4"}, 
       { name: "Currency of Account", color: "#1e558e", id: "IxhtGezsfWH"},
-      { name: "SWIFT Code/BIC", color: "#1e558e", id: "gYzmXPZ88UI"},
-      { name: "IBAN", color: "#1e558e",id: "QBtd98I0wfS"},
+      { name: "SWIFT Code/BIC", color: "#1e558e", id: "fJUzYvak2Gg"},
+      { name: "IBAN", color: "#1e558e",id: "u5SxFrBVsEX"},
       { name: "Is the bank account name different than the registered name?", color: "#1e558e", id: "xrbFQJaSOjc"},
       { name: "Name as per Bank Records", color: "#1e558e", id: "uA6aKCAdLYK"},
       { name: "Reason for different affiliate names (in bank and legal name)", color: "#1e558e", id: ""}, //not exist

@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     })
   
   async function fetchAffiliateList() {
+
+    document.getElementById("searchResults").style.display = "none";
     const programUINControl = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
     const countryValue = document.getElementById("Countries").value;
@@ -76,10 +78,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, otherParam);
 
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({ status: 'Info', message: 'No affiliate found' });
+        toast({ status: 'INFO', message: 'No affiliate found', position: "center"});
         return;
       }
 
+      document.getElementById("searchResults").style.display = "block";
       const headerList = programUINControl.programTrackedEntityAttributes
         .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
         .map(attr => ({ id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name }));

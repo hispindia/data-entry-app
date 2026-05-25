@@ -327,12 +327,9 @@ export function fetchValueType({id, valueType, valueSet}, value, {href, file}, d
 export function populateOptions(options, value) {
     var optionSet = `<option ${(value=="" ? 'selected' : '')} value="">Select</option>`;
     if (options && Array.isArray(options)) {
-        const seen = new Set();
         options.forEach(opt => {
-            if (!seen.has(opt.value)) {
-                seen.add(opt.value);
-                optionSet += `<option ${(value == opt.value ? 'selected' : '')} value="${opt.value}">${opt.label}</option>`;
-            }
+          optionSet += `<option ${(value == opt.value ? 'selected' : '')} value="${opt.value}">${opt.label}</option>`;
+            
         });
     }
     return optionSet;

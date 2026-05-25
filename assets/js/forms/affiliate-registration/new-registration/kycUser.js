@@ -10,6 +10,7 @@ const newRegistration = async (userConfig) => {
     const url = new URL(window.location.href);
     const affiliate = url.searchParams.get('affiliate');
     tei.affiliate = '';
+    tei.isDuplicateLegalName = false;
     if(userConfig.user.includes('aoc')) document.getElementById('sendToAcuityBtn').style.display = 'block';
         
     var resAffiliate = { trackedEntities: [] };
@@ -68,6 +69,12 @@ const newRegistration = async (userConfig) => {
     })
 
     document.getElementById("saveAsDraft").addEventListener('click', async () => {
+        if (tei.isDuplicateLegalName) {
+            toast({ status: 'ERROR', message: 'Please use a different Legal Name'
+            });
+            document.querySelector(`input[id="${attributes.legalName}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
         var isEmpty = false;
         tei.attributes.forEach(attr => {
             if(tei.mandatoryList.includes(attr)) {
@@ -150,6 +157,12 @@ const newRegistration = async (userConfig) => {
     });
 
     document.getElementById("submitBtn").addEventListener("click", async () => {
+        if (tei.isDuplicateLegalName) {
+            toast({ status: 'ERROR', message: 'Please use a different Legal Name.'
+            });
+            document.querySelector(`input[id="${attributes.legalName}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
         for(let el in tei.metadata) {
             if(!tei.mandatoryList.includes(el) && tei.metadata[el].mandatory) tei.mandatoryList.push(el);
         }
@@ -292,9 +305,9 @@ const newRegistration = async (userConfig) => {
                     }
                 }
             }
-
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
             document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
+           
             flatpickr(".flatpickr-date-input", { 
                 dateFormat: "Y-m-d", 
                 disable: [
@@ -305,6 +318,16 @@ const newRegistration = async (userConfig) => {
             });
         }
     });
+    
+
+    function setLegalNameAndError(message = '') {
+        const errorDiv = document.getElementById(`error-${attributes.legalName}`);
+        if (!errorDiv) return;
+        errorDiv.innerHTML = message;
+        tei.isDuplicateLegalName = !!message;
+        document.getElementById('saveAsDraft').disabled = tei.isDuplicateLegalName || !document.getElementById('disclaimerCheck').checked;
+        document.getElementById('submitBtn').disabled = tei.isDuplicateLegalName || !document.getElementById('disclaimerCheck').checked;
+    }
 
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
     const affilateStage = await programStageApi.get(programStage.affiliateKyc);
@@ -343,6 +366,31 @@ const newRegistration = async (userConfig) => {
         
     document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
     document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
+    //event delegation -- 
+    document.getElementById("basicInformation").addEventListener('focusout', async function(e) {
+        const target = e.target;
+        if (target.matches("input") && target.id === attributes.legalName) {
+            console.log("Legal Name blur");
+
+            const legalName = target?.value?.trim();
+            if (!legalName) {
+                setLegalNameAndError("");
+                return;
+            }
+            const otherParam = `$filter=${attributes.legalName}:EQ:${legalName.trim()}`;
+            const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
+            console.log("Legal Name", response);
+
+            if (response.trackedEntities?.length > 0) {
+                setLegalNameAndError("Legal Name Already Exist");
+            } else {
+                setLegalNameAndError("");
+            }
+            
+        }
+    });
+    
+    // attachLegalNameBlurListener();
     flatpickr(".flatpickr-date-input", { 
         dateFormat: "Y-m-d", 
         disable: [

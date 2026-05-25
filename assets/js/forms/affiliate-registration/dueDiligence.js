@@ -13,19 +13,23 @@ document.addEventListener("DOMContentLoaded", async function () {
   const tabButtonConfig = {
     'tab-affiliate': {
       next: true,
-      submit: false
+      submit: false,
+      reject: false
     },
     'tab-bank': {
       next: true,
-      submit: true
+      submit: true,
+      reject: true
     },
     'tab-completion': {
       next: true,
-      submit: true
+      submit: true,
+      reject: false
     },
     'tab-affiliation': {
       next: false,
-      submit: true
+      submit: true,
+      reject: false
     },
   }
   
@@ -437,9 +441,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let backButtonHtml = '';
     let redButtonHtml = '';
+    let rejectButtonHtml = '';
 
     backButtonHtml += `
-      <div class="col-4 mb-2">
+       <div class="col-4 mb-2">
         <button type="button" class="btn btn-lg btn-block" id="searchButton" 
           style="background-color: #6a6a6a; color: white;">1.2 Eligibility Check & Manage Waivers</button>
       </div>
@@ -454,7 +459,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           </button>
         </div>
       `;
-    } else if (tabId == 'tab-bank' || tabId == 'tab-completion') {
+    } else if (tabId == 'tab-completion') {
       redButtonHtml = `
         <div class="col-4 mb-2">
           <button type="button" class="btn btn-lg btn-block" id="saveButton"
@@ -472,9 +477,37 @@ document.addEventListener("DOMContentLoaded", async function () {
           </button>
         </div>
       `;
-    }
+    } else if (tabId == 'tab-bank') {
+      redButtonHtml = `
+        <div class="col-4 mb-2">
+          <button type="button" class="btn btn-lg btn-block" id="saveButton"
+            style="background-color: rgb(235, 51, 0); color: white;">
+             Approve
+          </button>
+        </div>
+      `;
+      rejectButtonHtml = `
+        <div class="col-4 mb-2">
+          <button id= "reject-btn" type="button" class="btn btn-lg btn-block" id="saveButton"
+            style="background-color: rgb(235, 51, 0); color: white;">
+             Reject
+          </button>
+        </div>  
+      `;
+    } 
+  
+  document.getElementById('buttonContainer').innerHTML = redButtonHtml + backButtonHtml + rejectButtonHtml;
+  
+  // Add event listener for reject button after it's added to DOM
+  const rejectBtn = document.getElementById('reject-btn');
+  if (rejectBtn) {
+    rejectBtn.addEventListener('click', function() {
+      $('#actionModal').modal('show');
 
-  document.getElementById('buttonContainer').innerHTML = redButtonHtml + backButtonHtml;  
+
+      
+    });
+  }  
   
   const newNextButton = document.getElementById('nextButton');
   if (newNextButton) {

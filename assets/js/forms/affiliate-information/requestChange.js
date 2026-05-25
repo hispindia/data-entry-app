@@ -254,6 +254,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function fetchAffiliateList() {
+
+    document.getElementById("searchResults").style.display = "none";
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
     const regionValue = document.getElementById("Region").value;
     const countryValue = document.getElementById("Countries").value;
@@ -284,9 +286,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({status: 'INFO', message: 'No affiliate found'});
+        toast({status: 'INFO', message: 'No affiliate found', position: "center"});
         return;
       }
+      
+      document.getElementById("searchResults").style.display = "block";
       const headerList = programAffiliateKyc.programTrackedEntityAttributes
         .filter((trackedEntityAttr) => trackedEntityAttr.displayInList)
         .map((attr) => ({
