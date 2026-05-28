@@ -10,20 +10,21 @@ import {
   ROLE_ACUITY_DE,
   programSection,
   trackedEntityType,
-} from "../../constant.js";
+} from "../../../constant.js";
 
 import {
   optionSetApi,
   orgUnitsApi,
   programsApi,
   programStageApi,
-} from "../../api/metaDataApi.js";
+} from "../../../api/metaDataApi.js";
 
-import { populateOptions, convert, fetchValueType } from "../metadata.js";
-import { dataApi } from "../../api/DataApi.js";
-import { getUserConfig } from "../config.js";
-import { toast } from "../utils.js";
-import { createPayload } from "../../api/payload.js";
+import { populateOptions, convert, fetchValueType } from "../../metadata.js";
+import { dataApi } from "../../../api/DataApi.js";
+import { getUserConfig, userGroupConfig} from "../../config.js";
+import { toast } from "../../utils.js";
+import { createPayload } from "../../../api/payload.js";
+
 
 const ROLE_DISPLAY_FIELDS = {
   chairperson: {
@@ -139,158 +140,29 @@ const STAGE_MAPPING = {
   bank: programSection.bank
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const userConfig = await getUserConfig();
 
-  if (userConfig?.user) {
-    userConfig.user.forEach(u => $(`.${u}`).hide());
-  }
-
-  $(".sidebar-menu").show();
-
-  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
-
-  document.querySelectorAll(".nav-link").forEach(el => {
-    el.addEventListener("click", e => {
-      e.preventDefault();
-      const target =
-        el.getAttribute("data-target") ||
-        el.parentElement.getAttribute("data-target");
-      if (target) window.location.href = target;
-    });
-  });
-  const stageRes = await programStageApi.get(programStage.UINControlMaster);
-  const stage = convert.stage({ programStage: stageRes });
-
-  tei.programStages = stage.sections;
-  tei.dataElements = stage.dataElements;
-  tei.metadata = stage.metadata;
-  tei.fileType = new Set(stage.fileType);
-
-  const regionSelect = document.getElementById("Region");
-  const countrySelect = document.getElementById("Countries");
-
-  const resRegion = await optionSetApi.get(optionSet.region);
-  const resOptionGroups = await optionSetApi.getOptionGroups();
-
-  resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
-  regionSelect.innerHTML = populateOptions(resRegion.options);
-
-  regionSelect.addEventListener("change", e => {
-    const regionCode = e.target.value;
-    countrySelect.innerHTML = `<option value="">Select Country</option>`;
-    if (!regionCode) return;
-
-    const optionGroupId = programRules.hideCountry[regionCode];
-    const optionGroup = resOptionGroups.optionGroups.find(
-      g => g.id === optionGroupId
-    );
-
-    if (!optionGroup) return;
-
-    const countries = optionGroup.options.map(o => ({
-      label: o.name,
-      value: o.code
-    }));
-
-    countries.sort((a, b) => a.label.localeCompare(b.label));
-
-    countrySelect.innerHTML = populateOptions(countries);
-  });
-
-  document
-    .getElementById("searchButton")
-    .addEventListener("click", fetchAffiliateList);
-
-  const selectAllBtn = document.getElementById("selectAllAcuityBtn");
-  if (selectAllBtn) {
-    selectAllBtn.addEventListener("click", () => {
-      const checkboxes = document.querySelectorAll(".beautiful-checkbox");
-      if (checkboxes.length === 0) return;
-      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-      checkboxes.forEach(cb => cb.checked = !allChecked);
-    });
-  }
-
-  const submitAcuityBtn = document.getElementById("submitAcuityBtn");
-  if (submitAcuityBtn) {
-    submitAcuityBtn.addEventListener("click", async () => {
-      const selectedCheckboxes = document.querySelectorAll(".beautiful-checkbox:checked");
-      if (selectedCheckboxes.length === 0) {
-        toast({ status: "INFO", message: "Please select at least one affiliate for Acuity Check", position: 'bottomRight' });
-        return;
-      }
-
-      try {
-        submitAcuityBtn.disabled = true;
-        submitAcuityBtn.innerText = "Submitting...";
-
-        const trackedEntities = Array.from(selectedCheckboxes).map(cb => {
-          return {
-            trackedEntity: cb.getAttribute("data-tei-id"),
-            orgUnit: cb.getAttribute("data-org-unit"),
-            trackedEntityType: trackedEntityType,
-            attributes: [{ attribute: attributes.acuityCheck, value: "In Progress" }]
-          };
-        });
-
-        const payload = { trackedEntities };
-        await dataApi.postAttribute(payload);
-
-        toast({ status: "SUCCESS", message: "Request sent for Acuity check successfully", position: "bottomCenter" });
-        selectedCheckboxes.forEach(cb => cb.checked = false);
-        await fetchAffiliateList();
-      } catch (err) {
-        console.error("Failed to update acuity status:", err);
-        toast({ status: "ERROR", message: "Failed to update Acuity status. Please try again." });
-      } finally {
-        submitAcuityBtn.disabled = false;
-        submitAcuityBtn.innerText = "Submit Acuity";
-      }
-    });
-  }
-
-  async function fetchAffiliateList() {
-
-    document.getElementById("searchResults").style.display = "none";
+ $("#requestChange").css("display", "none");
+ fetchAffiliateList();
+ async function fetchAffiliateList() {
+    const userConfig = await getUserConfig();
+    $("#searchResults").css("display", "none");
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
-    const regionValue = document.getElementById("Region").value;
-    const countryValue = document.getElementById("Countries").value;
-    const ouRes = await orgUnitsApi.get({level: 2, filter: countryValue});
-    const matched = ouRes?.organisationUnits?.find(ou => ou.code === countryValue);    
-    if(matched) orgUnit.id = matched.id;
 
-    const name = document.getElementById("regName").value;
-    const uin = document.getElementById("uin").value;
-    let otherParam = "";
-    if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
-    if (!uin && !name && !regionValue) {
-      toast({ status: 'INFO', message: 'Please Enter UIN or Name or select Region and Country to Search.', position: 'center' });
-      return;
-    }
-    if (regionValue && !countryValue) {
-      toast({ status: 'INFO', message: 'Please Select Country!' });
-      return;
-    }
-    if (uin) otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`; 
-    if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
-    if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
-     
+    const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
+    const orgUnitId = "TNq7kpse3gA";
+  
       const affiliateList = await dataApi.get(
-        orgUnit.id,
+        orgUnitId,
         programs.UINControlMaster,
-        otherParam
+        filterParam
       );
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({status: 'INFO', message: 'No affiliate found', position: "center"});
+        toast({status: 'INFO', message: 'No affiliate Data found for Locked in User', position: "center"});
         return;
       }
-      
-      document.getElementById("searchResults").style.display = "block";
+
+      $("#searchResults").css("display", "block");
       const headerList = programAffiliateKyc.programTrackedEntityAttributes
         .filter((trackedEntityAttr) => trackedEntityAttr.displayInList)
         .map((attr) => ({
@@ -401,6 +273,104 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       });
     }
+}
+
+ const handleKycRequestChange = async(userConfig) => {
+
+  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+
+  const stageRes = await programStageApi.get(programStage.UINControlMaster);
+  const stage = convert.stage({ programStage: stageRes });
+
+  tei.programStages = stage.sections;
+  tei.dataElements = stage.dataElements;
+  tei.metadata = stage.metadata;
+  tei.fileType = new Set(stage.fileType);
+
+  const regionSelect = document.getElementById("Region");
+  const countrySelect = document.getElementById("Countries");
+
+  const resRegion = await optionSetApi.get(optionSet.region);
+  const resOptionGroups = await optionSetApi.getOptionGroups();
+
+  resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
+  regionSelect.innerHTML = populateOptions(resRegion.options);
+
+  regionSelect.addEventListener("change", e => {
+    const regionCode = e.target.value;
+    countrySelect.innerHTML = `<option value="">Select Country</option>`;
+    if (!regionCode) return;
+
+    const optionGroupId = programRules.hideCountry[regionCode];
+    const optionGroup = resOptionGroups.optionGroups.find(
+      g => g.id === optionGroupId
+    );
+
+    if (!optionGroup) return;
+
+    const countries = optionGroup.options.map(o => ({
+      label: o.name,
+      value: o.code
+    }));
+
+    countries.sort((a, b) => a.label.localeCompare(b.label));
+
+    countrySelect.innerHTML = populateOptions(countries);
+  });
+
+  document
+    .getElementById("searchButton")
+    .addEventListener("click", fetchAffiliateList);
+
+  const selectAllBtn = document.getElementById("selectAllAcuityBtn");
+  if (selectAllBtn) {
+    selectAllBtn.addEventListener("click", () => {
+      const checkboxes = document.querySelectorAll(".beautiful-checkbox");
+      if (checkboxes.length === 0) return;
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      checkboxes.forEach(cb => cb.checked = !allChecked);
+    });
+  }
+
+  const submitAcuityBtn = document.getElementById("submitAcuityBtn");
+  if (submitAcuityBtn) {
+    submitAcuityBtn.addEventListener("click", async () => {
+      const selectedCheckboxes = document.querySelectorAll(".beautiful-checkbox:checked");
+      if (selectedCheckboxes.length === 0) {
+        toast({ status: "INFO", message: "Please select at least one affiliate for Acuity Check", position: 'bottomRight' });
+        return;
+      }
+
+      try {
+        submitAcuityBtn.disabled = true;
+        submitAcuityBtn.innerText = "Submitting...";
+
+        const trackedEntities = Array.from(selectedCheckboxes).map(cb => {
+          return {
+            trackedEntity: cb.getAttribute("data-tei-id"),
+            orgUnit: cb.getAttribute("data-org-unit"),
+            trackedEntityType: trackedEntityType,
+            attributes: [{ attribute: attributes.acuityCheck, value: "In Progress" }]
+          };
+        });
+
+        const payload = { trackedEntities };
+        await dataApi.postAttribute(payload);
+
+        toast({ status: "SUCCESS", message: "Request sent for Acuity check successfully", position: "bottomCenter" });
+        selectedCheckboxes.forEach(cb => cb.checked = false);
+        await fetchAffiliateList();
+      } catch (err) {
+        console.error("Failed to update acuity status:", err);
+        toast({ status: "ERROR", message: "Failed to update Acuity status. Please try again." });
+      } finally {
+        submitAcuityBtn.disabled = false;
+        submitAcuityBtn.innerText = "Submit Acuity";
+      }
+    });
   }
 
   // Modal and Tabs Logic
@@ -693,4 +663,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.appendChild(modal);
     return modal;
   }
-});
+}
+
+
+
+export default handleKycRequestChange;

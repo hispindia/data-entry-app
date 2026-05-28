@@ -200,3 +200,8 @@ export const ROLE_ACUITY_DE = {
   seniorManagementPrograms: dataElements.seniorManagementProgramsAcuityStatus,
   bank: dataElements.bankAcuityStatus
 }
+
+export const stageSections = {
+    documentChecklist: "PY8SB39CqLY",
+    documents: "ums0sWZ9bTF"
+}

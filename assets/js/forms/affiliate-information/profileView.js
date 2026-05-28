@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js"
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, dataElements, optionSet, programStage, programs, tei } from "../../constant.js";
+import { attributes, dataElements, optionSet, programStage, programs, stageSections, tei } from "../../constant.js";
 import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const tabButtonConfig = {
     'tab-affiliate': {
-      next: true,
-      submit: false
+      next: false,
+      submit: true
     },
     'tab-bank': {
       next: true,
@@ -158,12 +158,26 @@ document.addEventListener("DOMContentLoaded", async function () {
   const bankStageSections = [];
   const affiliationStageSections = [];
 
+   
+
   uinStage.sections.forEach(section => {
     const cat = categorizeSection(section);
     if (cat === 'bank') bankStageSections.push(section);
     else if (cat === 'affiliation') affiliationStageSections.push(section);
     else affiliateStageSections.push(section);
   });
+
+  // Check if user is "ma" role and enable Additional Document sections
+  if (userConfig?.user) {
+    affiliateStageSections.forEach(section => {
+      console.log("section", section);
+      if (section.id === stageSections.documentChecklist || section.id === stageSections.documents) {
+        section.items.forEach(element => {
+          element.disabled = false;  // Enable all fields in these sections
+        });
+      }
+    });
+  }
   
   // Render into tab panels
   document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
@@ -212,8 +226,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("affiliateStage").innerHTML = renderSections(affiliateStageSections);
     document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections]);
 
+    // Show completion sections for users with write access OR "ma" users (for additional document submission)
     let completionHtml = '';
-    if (hasWriteAccess) {
+    if (hasWriteAccess || isMaUser) {
       completionHtml = renderSections(completionOnlySections);
     }
     document.getElementById("completionStage").innerHTML = completionHtml;
@@ -348,7 +363,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       let programStageToUpdate;
       let dataElementToUpdate;
 
-      if (activeTab === 'tab-bank') {
+      if (activeTab === 'tab-bank' ||  activeTab === 'tab-affiliate') {
         programStageToUpdate = programStage.UINControlMaster;
         dataElementToUpdate = tei.uinStageDataElements;
       }
@@ -387,6 +402,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         }
       }
+      
 
       const existingEvent = tei.affiliate.enrollments
       .find(enroll => enroll.program == programs.UINControlMaster)

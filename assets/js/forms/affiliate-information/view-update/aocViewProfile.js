@@ -1,27 +1,12 @@
-import { attributes,optionSet, orgUnit, programRules, programs } from "../../constant.js";
-import { optionSetApi,orgUnitsApi,programsApi } from "../../api/metaDataApi.js";
-import { populateOptions } from "../metadata.js"
-import { dataApi } from "../../api/DataApi.js"
-import { getUserConfig } from "../config.js";
-import { toast } from "../utils.js";
+import { attributes,optionSet, orgUnit, programRules, programs } from "../../../constant.js";
+import { optionSetApi,orgUnitsApi,programsApi } from "../../../api/metaDataApi.js";
+import { populateOptions } from "../../metadata.js"
+import { dataApi } from "../../../api/DataApi.js"
+import { getUserConfig } from "../../config.js";
+import { toast } from "../../utils.js";
 
-document.addEventListener("DOMContentLoaded", async function () {
-  const userConfig = await getUserConfig();
-  if (userConfig) {
-      userConfig.user.forEach(user => {
-      $(`.${user}`).hide();
-      });
-  }
-  $('.sidebar-menu').show();
-  document.querySelectorAll(".nav-link").forEach(function (element) {
-    element.addEventListener("click", function (event) {
-      event.preventDefault();
-      var targetPage = event.currentTarget.getAttribute("data-target") || event.currentTarget.parentElement.getAttribute("data-target");
-      if (targetPage) {
-        window.location.href = targetPage;
-      }
-    });
-  });
+const handleAocViewAndUpdate = async(userConfig) => {  
+  // document.getElementById('viewAndUpdate').style.display = 'none';
   const searchButton = document.getElementById('searchButton');
   const searchResults = document.getElementById('searchResults');
     if (searchButton) {
@@ -135,4 +120,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
     }
 
-});
+}
+
+export default handleAocViewAndUpdate;
