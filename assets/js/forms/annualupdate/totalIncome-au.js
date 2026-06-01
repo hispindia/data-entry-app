@@ -1,15 +1,17 @@
+import { dataSet } from "../../api/dataSet.js";
 import { createEvent, getEvents, getProgramStageEvents, getTEI, pushDataElement } from "../../api/func.js";
-import { dataElements, program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, unformatNumber, getYears } from "../func.js";
 
 var totalExpenses = '';
 const categoryIncome = [
   {
-    name: "Locally generated income",
-    code: "Locally generated income",
-    id: "AwylsBWgOEK",
+    name: "Actual locally generated income",
+    code: "Actual locally generated income",
+    shortName: 'localIncome',
     format: 'locally-generated',
+    id: "AwylsBWgOEK",
     options: [
       {
         "name": "Commodity sales (including contraceptive, other SRH and non-SRH supplies/products)",
@@ -30,6 +32,12 @@ const categoryIncome = [
         format: "services-rental"
       },
       {
+        "name": "Membership fees",
+        "code": "Membership fees",
+        "id": "QhSUed8nt0j",
+        format: "membership-fees"
+      },
+      {
         "name": "Local/national: government",
         "code": "Local/national: government",
         "id": "RGp6uJXqNOk",
@@ -40,12 +48,6 @@ const categoryIncome = [
         "code": "Local/national: non-government",
         "id": "aE0fJm2QDgh",
         format: "local-nongovernment"
-      },
-      {
-        "name": "Membership fees",
-        "code": "Membership fees",
-        "id": "QhSUed8nt0j",
-        format: "membership-fees"
       },
       {
         "name": "Non-operational income",
@@ -62,9 +64,10 @@ const categoryIncome = [
     ],
   },
   {
-    name: "International income (Non - IPPF)",
-    code: "International income (Non - IPPF)",
+    name: "Actual international income (Non - IPPF)",
+    code: "Actual international income (Non - IPPF)",
     id: "EbbYrTYLZNZ",
+    shortName: 'internationalIncome',
     format: 'international-income',
     options: [
       {
@@ -100,9 +103,10 @@ const categoryIncome = [
     ],
   },
   {
-    name: "IPPF income",
-    code: "IPPF income",
+    name: "Actual IPPF income",
+    code: "Actual IPPF income",
     id: "iKycH3397wP",
+    shortName: 'ippfIncome',
     format: 'ippf-income',
     options: [
       {
@@ -120,6 +124,15 @@ const categoryIncome = [
     ],
   },
 ];
+
+async function fetchDataSet(year) {
+  const values = {};
+    
+  const dataValuesQuantity = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
+  dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+  return values;
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -177,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchEvents() {
     tei.year.value = document.getElementById('year-update').value;
     
+    const dataSetValues = await fetchDataSet(tei.year.value);
     const data = await getTEI(tei.orgUnit);
 
     if (data.trackedEntityInstances && data.trackedEntityInstances.length > 0) {
@@ -209,10 +223,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
           tei.dataValues[tei.year.value] = {
             [tei.year.id]:tei.year.value,
+            'tGS8X8B4BtK': dataSetValues[dataElements.fullAllocation] ? dataSetValues[dataElements.fullAllocation] : '',
           }
           tei.event = await createEvent(data);
         } else {
           tei.event = tei.dataValues[tei.year.value]["event"];
+          if(dataSetValues[dataElements.fullAllocation]) tei.dataValues[tei.year.value]['tGS8X8B4BtK'] = dataSetValues[dataElements.fullAllocation];
+          
           var calculatedElements = loadCalculatedVariables(tei.dataValues[tei.year.value], {
             projectTotalIncome: dataElements.projectTotalIncome,
             restrictedIncome: dataElements.restrictedIncome,
@@ -399,6 +416,12 @@ document.addEventListener("DOMContentLoaded", function () {
               <th data-i18n="intro.total" class="text-center">Total</th>
               </tr>`
               category.options.forEach(option => {
+                var restrictedSelected = categoryIndex < 4 ? true : false;
+                var unrestrictedSelected = false;
+                if(option.format == "ippf-unrestricted") {
+                  restrictedSelected = true;
+                  unrestrictedSelected = true;
+                }
                 const restrictedId = dataElements.projectTotalIncome[categoryIndex].restricted;
                 const unrestrictedId = dataElements.projectTotalIncome[categoryIndex].unrestricted;
                 const restricted = dataValues && dataValues[restrictedId]  ? dataValues[restrictedId] : "";
@@ -413,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <input 
                     type="text" 
-                    ${tei.disabled ? 'disabled readonly': ''} 
+                    ${(tei.disabled ||  restrictedSelected) ? 'disabled readonly': ''} 
                     id="${restrictedId}"
                     name="${option.id}-restricted" 
                     value="${formatNumberInput(restricted)}" 
@@ -427,7 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <input 
                     type="text" 
-                    ${tei.disabled ? 'disabled readonly': ''} 
+                    ${(tei.disabled || unrestrictedSelected) ? 'disabled readonly': ''} 
                     id="${unrestrictedId}"
                     name="${option.id}-unrestricted"  
                     value="${formatNumberInput(unrestricted)}" 
