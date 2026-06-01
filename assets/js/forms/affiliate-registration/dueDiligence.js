@@ -439,73 +439,157 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById(tabId).style.display = 'block';
     document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
-    let backButtonHtml = '';
-    let redButtonHtml = '';
-    let rejectButtonHtml = '';
+    let buttonsHtml = '';
 
-    backButtonHtml += `
-       <div class="col-4 mb-2">
-        <button type="button" class="btn btn-lg btn-block" id="searchButton" 
-          style="background-color: #6a6a6a; color: white;">1.2 Eligibility Check & Manage Waivers</button>
-      </div>
-    `;
+      if (tabId == 'tab-affiliate') {
+        buttonsHtml = `
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="searchButton"
+              style="background-color: #6a6a6a; color: white;">
+              1.2 Eligibility Check & Manage Waivers
+            </button>
+          </div>
 
-    if (tabId == 'tab-affiliate') {
-      redButtonHtml = `
-        <div class="col-4 mb-2">
-          <button type="button" class="btn btn-lg btn-block" id="nextButton"
-            style="background-color: rgb(235, 51, 0); color: white;">
-            Next
-          </button>
-        </div>
-      `;
-    } else if (tabId == 'tab-completion') {
-      redButtonHtml = `
-        <div class="col-4 mb-2">
-          <button type="button" class="btn btn-lg btn-block" id="saveButton"
-            style="background-color: rgb(235, 51, 0); color: white;">
-            Save
-          </button>
-        </div>
-      `;
-    }  else if (tabId == 'tab-affiliation') {
-      redButtonHtml = `
-        <div class="col-4 mb-2">
-          <button type="button" class="btn btn-lg btn-block" id="submitButton"
-            style="background-color: rgb(235, 51, 0); color: white;">
-            Submit
-          </button>
-        </div>
-      `;
-    } else if (tabId == 'tab-bank') {
-      redButtonHtml = `
-        <div class="col-4 mb-2">
-          <button type="button" class="btn btn-lg btn-block" id="saveButton"
-            style="background-color: rgb(235, 51, 0); color: white;">
-             Approve
-          </button>
-        </div>
-      `;
-      rejectButtonHtml = `
-        <div class="col-4 mb-2">
-          <button id= "reject-btn" type="button" class="btn btn-lg btn-block" id="saveButton"
-            style="background-color: rgb(235, 51, 0); color: white;">
-             Reject
-          </button>
-        </div>  
-      `;
-    } 
-  
-  document.getElementById('buttonContainer').innerHTML = redButtonHtml + backButtonHtml + rejectButtonHtml;
-  
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="nextButton"
+              style="background-color: rgb(235, 51, 0); color: white;">
+              Next
+            </button>
+          </div>
+        `;
+
+      } else if (tabId == 'tab-completion') {
+        buttonsHtml = `
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="searchButton"
+              style="background-color: #6a6a6a; color: white;">
+              1.2 Eligibility Check & Manage Waivers
+            </button>
+          </div>
+
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="saveButton"
+              style="background-color: rgb(235, 51, 0); color: white;">
+              Save
+            </button>
+          </div>
+        `;
+
+      } else if (tabId == 'tab-affiliation') {
+        buttonsHtml = `
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="searchButton"
+              style="background-color: #6a6a6a; color: white;">
+              1.2 Eligibility Check & Manage Waivers
+            </button>
+          </div>
+
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="submitButton"
+              style="background-color: rgb(235, 51, 0); color: white;">
+              Submit
+            </button>
+          </div>
+        `;
+
+      } else if (tabId == 'tab-bank') { 
+        buttonsHtml = `
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="searchButton"
+              style="background-color: #6a6a6a; color: white;">
+              1.2 Eligibility Check & Manage Waivers
+            </button>
+          </div>
+
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="saveButton"
+              style="background-color: #008000; color: white;">
+              Approve
+            </button>
+          </div>
+
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="reject-btn"
+              style="background-color: rgb(235, 51, 0); color: white;">
+              Reject
+            </button>
+          </div>
+        `;
+      }
+
+      document.getElementById('buttonContainer').innerHTML = buttonsHtml;
+        
   // Add event listener for reject button after it's added to DOM
   const rejectBtn = document.getElementById('reject-btn');
   if (rejectBtn) {
     rejectBtn.addEventListener('click', function() {
       $('#actionModal').modal('show');
+    });
+  }
 
-
+  // Handle submit actions button inside the modal
+  const submitActionsBtn = document.getElementById('submitActions');
+  if (submitActionsBtn) {
+    submitActionsBtn.addEventListener('click', async function() {
+      const rejectReason = document.getElementById('rejectReason').value;
       
+      if (!rejectReason.trim()) {
+        toast({status: 'INFO', message: 'Please enter a rejection reason', position: 'center'});
+        return;
+      }
+      
+      tei.values[dataElements.rejectBankReason] = rejectReason;
+      
+      try {
+        const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
+        const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
+        
+        if (!orgUnitId || !enrollment) return;
+        
+        const existingEvent = tei.affiliate.enrollments
+          .find(enroll => enroll.program == programs.affiliateKyc)
+          ?.events.filter(event => event?.programStage && event.programStage == programStage.affiliateKyc && !event.deleted)
+          .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
+        
+        console.log("Existing Event:", existingEvent);
+        
+        if (!existingEvent) {
+          toast({status: 'INFO', message: 'No existing event found to update', position: 'center'});
+          return;
+        }
+        
+        const dataValues = [{
+          dataElement: dataElements.rejectBankReason,
+          value: rejectReason
+        }];
+        
+        console.log("dataValues", dataValues);
+        const originalDEs = tei.dataElements;
+        if (dataValues.length > 0) {
+            await dataApi.update({
+                events: [{
+                    event: existingEvent.event,
+                    orgUnit: orgUnitId,
+                    program: programs.affiliateKyc,
+                    programStage: existingEvent.programStage,
+                    enrollment: enrollment,
+                    trackedEntity: tei.affiliate.trackedEntity,
+                    occurredAt: new Date().toISOString(),
+                    status: "ACTIVE",
+                    dataValues
+                }]
+            });
+        }
+        
+        
+        tei.dataElements = originalDEs;
+        
+        toast({status: 'SUCCESS', message: 'Rejection submitted successfully', position: 'center'});
+        $('#actionModal').modal('hide');
+        window.location.href = './1.2-eligibility-check-and-manage-waivers.html';
+      } catch (error) {
+        toast({status: 'ERROR', message: 'Error submitting rejection: ' + error.message});
+      }
     });
   }  
   
@@ -704,7 +788,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const existingEvent = tei.affiliate.enrollments
         .find(enroll => enroll.program == programs.affiliateKyc)
         ?.events
-        .filter(event => event.programStage == programStageToUpdate && !event.deleted)
+        .filter(event =>
+           event.programStage == programStageToUpdate && !event.deleted)
         .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
 
       const existingValues = {};

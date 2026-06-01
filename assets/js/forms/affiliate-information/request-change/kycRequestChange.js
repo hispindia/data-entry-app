@@ -13,6 +13,7 @@ import {
 } from "../../../constant.js";
 
 import {
+  meApi,
   optionSetApi,
   orgUnitsApi,
   programsApi,
@@ -141,18 +142,39 @@ const STAGE_MAPPING = {
 };
 
 
- $("#requestChange").css("display", "none");
- fetchAffiliateList();
+ const handleKycRequestChange = async(userConfig) => {
+  $("#requestChange").css("display", "none");
+  $("#submitAcuityBtn").css("display", "none");
+  
+  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+
+  const stageRes = await programStageApi.get(programStage.UINControlMaster);
+  const stage = convert.stage({ programStage: stageRes });
+
+  tei.programStages = stage.sections;
+  tei.dataElements = stage.dataElements;
+  tei.metadata = stage.metadata;
+  tei.fileType = new Set(stage.fileType);
+
  async function fetchAffiliateList() {
     const userConfig = await getUserConfig();
     $("#searchResults").css("display", "none");
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
 
     const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
-    const orgUnitId = "TNq7kpse3gA";
+    const user = meApi.get();
   
-      const affiliateList = await dataApi.get(
-        orgUnitId,
+    if (user?.dataViewOrganisationUnits?.length > 0) {
+      const nonKycUnit = user.dataViewOrganisationUnits.find(unit => unit.name !== "KYC Affiliates");
+      if (nonKycUnit) {
+        orgUnit.id = nonKycUnit.id;
+      }
+    }  
+     const affiliateList = await dataApi.get(
+        orgUnit.id,
         programs.UINControlMaster,
         filterParam
       );
@@ -184,57 +206,7 @@ const STAGE_MAPPING = {
       headerList.forEach(
         (item) => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`
       );
-      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600; text-align: center;">Action</th><th style="padding: 12px 15px; font-weight: 600; text-align: center;"><div style="display: flex; justify-content: center; align-items: center; gap: 8px;">Schedule Acuity Check
-      <input type="checkbox" id="headerSelectAllBtn" class="beautiful-checkbox" title="Select All"></div></th>`;
-
-      if (!document.getElementById('beautiful-checkbox-style')) {
-        const style = document.createElement('style');
-        style.id = 'beautiful-checkbox-style';
-        style.innerHTML = `
-            .beautiful-checkbox {
-                appearance: none;
-                background-color: #fff;
-                margin: 0;
-                font: inherit;
-                color: currentColor;
-                width: 22px;
-                height: 22px;
-                border: 2px solid #cbd5e1;
-                border-radius: 6px;
-                display: grid;
-                place-content: center;
-                cursor: pointer;
-                transition: all 0.2s ease-in-out;
-            }
-            .beautiful-checkbox::before {
-                content: "";
-                width: 12px;
-                height: 12px;
-                clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-                transform: scale(0);
-                transform-origin: bottom left;
-                transition: 120ms transform ease-in-out;
-                background-color: white;
-            }
-            .beautiful-checkbox:checked {
-                background-color: #E93300;
-                border-color: #E93300;
-            }
-            .beautiful-checkbox:checked::before {
-                transform: scale(1);
-            }
-            .beautiful-checkbox:hover {
-                border-color: #E93300;
-                box-shadow: 0 0 0 3px rgba(233, 51, 0, 0.1);
-            }
-            .beautiful-checkbox:disabled {
-               cursor: not-allowed;      
-                opacity: 0.6;
-                filter: grayscale(100%);
-      }
-        `;
-        document.head.appendChild(style);
-      }
+      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th style="padding: 12px 15px; font-weight: 600; text-align: center;">Action</th>`;
 
       var tbodyAffiliateRow = "";
       affilitateAttrList.forEach((affiliate, index) => {
@@ -256,11 +228,6 @@ const STAGE_MAPPING = {
               </button>
             </div>
           </td>
-          <td style="padding: 15px; text-align: center; vertical-align: middle;">
-            <div style="display: flex; justify-content: center;">
-              <input type="checkbox" class="beautiful-checkbox" data-tei-id="${trackedEntityId}" data-org-unit="${orgUnitId}" title="Select for Acuity Check" ${acuityInProgress ? 'checked disabled' : ''}>
-            </div>
-          </td>
         </tr>`;
       });
       document.getElementById("tbody-affiliate").innerHTML = tbodyAffiliateRow;
@@ -273,22 +240,8 @@ const STAGE_MAPPING = {
         });
       });
     }
-}
-
- const handleKycRequestChange = async(userConfig) => {
-
-  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
-
-  const stageRes = await programStageApi.get(programStage.UINControlMaster);
-  const stage = convert.stage({ programStage: stageRes });
-
-  tei.programStages = stage.sections;
-  tei.dataElements = stage.dataElements;
-  tei.metadata = stage.metadata;
-  tei.fileType = new Set(stage.fileType);
+ }
+ fetchAffiliateList();
 
   const regionSelect = document.getElementById("Region");
   const countrySelect = document.getElementById("Countries");
@@ -335,43 +288,6 @@ const STAGE_MAPPING = {
     });
   }
 
-  const submitAcuityBtn = document.getElementById("submitAcuityBtn");
-  if (submitAcuityBtn) {
-    submitAcuityBtn.addEventListener("click", async () => {
-      const selectedCheckboxes = document.querySelectorAll(".beautiful-checkbox:checked");
-      if (selectedCheckboxes.length === 0) {
-        toast({ status: "INFO", message: "Please select at least one affiliate for Acuity Check", position: 'bottomRight' });
-        return;
-      }
-
-      try {
-        submitAcuityBtn.disabled = true;
-        submitAcuityBtn.innerText = "Submitting...";
-
-        const trackedEntities = Array.from(selectedCheckboxes).map(cb => {
-          return {
-            trackedEntity: cb.getAttribute("data-tei-id"),
-            orgUnit: cb.getAttribute("data-org-unit"),
-            trackedEntityType: trackedEntityType,
-            attributes: [{ attribute: attributes.acuityCheck, value: "In Progress" }]
-          };
-        });
-
-        const payload = { trackedEntities };
-        await dataApi.postAttribute(payload);
-
-        toast({ status: "SUCCESS", message: "Request sent for Acuity check successfully", position: "bottomCenter" });
-        selectedCheckboxes.forEach(cb => cb.checked = false);
-        await fetchAffiliateList();
-      } catch (err) {
-        console.error("Failed to update acuity status:", err);
-        toast({ status: "ERROR", message: "Failed to update Acuity status. Please try again." });
-      } finally {
-        submitAcuityBtn.disabled = false;
-        submitAcuityBtn.innerText = "Submit Acuity";
-      }
-    });
-  }
 
   // Modal and Tabs Logic
   const affiliateModal = document.getElementById('affiliateModal');

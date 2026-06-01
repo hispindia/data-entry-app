@@ -185,7 +185,9 @@ export const dataElements = {
 
     paymentFileFormatBa1: "VPHBgGSnGLB",
     paymentFileFormatBa2: "oKam29mQNka",
-    paymentFileFormatBa3: "wka3cIbbtHY"
+    paymentFileFormatBa3: "wka3cIbbtHY",
+
+    rejectBankReason: "QDEpw3i2Kqq"
 
 }
 

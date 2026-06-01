@@ -13,6 +13,7 @@ import {
 } from "../../../constant.js";
 
 import {
+  meApi,
   optionSetApi,
   orgUnitsApi,
   programsApi,
@@ -139,9 +140,23 @@ const STAGE_MAPPING = {
   bank: programSection.bank
 };
 
+ const handleAocRequestChange = async(userConfig) => {
   $("#requestChange").css("display", "block");
-  fetchAffiliateList();
- async function fetchAffiliateList() {
+
+  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+
+  const stageRes = await programStageApi.get(programStage.UINControlMaster);
+  const stage = convert.stage({ programStage: stageRes });
+
+  tei.programStages = stage.sections;
+  tei.dataElements = stage.dataElements;
+  tei.metadata = stage.metadata;
+  tei.fileType = new Set(stage.fileType);
+
+  async function fetchAffiliateList() {
 
     document.getElementById("searchResults").style.display = "none";
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
@@ -290,21 +305,6 @@ const STAGE_MAPPING = {
       });
     }
   }
-
- const handleAocRequestChange = async(userConfig) => {
-
-  ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
-
-  const stageRes = await programStageApi.get(programStage.UINControlMaster);
-  const stage = convert.stage({ programStage: stageRes });
-
-  tei.programStages = stage.sections;
-  tei.dataElements = stage.dataElements;
-  tei.metadata = stage.metadata;
-  tei.fileType = new Set(stage.fileType);
 
   const regionSelect = document.getElementById("Region");
   const countrySelect = document.getElementById("Countries");

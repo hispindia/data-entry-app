@@ -1,5 +1,5 @@
 import { attributes,optionSet, orgUnit, programRules, programs } from "../../../constant.js";
-import { optionSetApi,orgUnitsApi,programsApi } from "../../../api/metaDataApi.js";
+import { meApi, optionSetApi,orgUnitsApi,programsApi } from "../../../api/metaDataApi.js";
 import { populateOptions } from "../../metadata.js"
 import { dataApi } from "../../../api/DataApi.js"
 import { getUserConfig, userGroupConfig } from "../../config.js";
@@ -20,9 +20,16 @@ const handleKycViewProfile = async(userConfig) => {
 
     const programUINControl = await programsApi.get(programs.UINControlMaster);
     
-    const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`; 
-    const orgUnitId = "TNq7kpse3gA";
-    const affiliateList = await dataApi.get(orgUnitId, programs.UINControlMaster, filterParam);
+    const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
+
+    const user = meApi.get();
+    if (user?.dataViewOrganisationUnits?.length > 0) {
+    const nonKycUnit = user.dataViewOrganisationUnits.find(unit => unit.name !== "KYC Affiliates");
+    if (nonKycUnit) {
+      orgUnit.id = nonKycUnit.id;
+    }
+  }
+    const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, filterParam);
 
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
         toast({ status: 'INFO', message: 'No affiliate found for locked in username', position: "center"});
