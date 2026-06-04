@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js"
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, dataElements, optionSet, programStage, programs, stageSections, tei } from "../../constant.js";
+import { attributes, dataElements, optionSet, programStage, programs, stageSections, tei, trackedEntityType } from "../../constant.js";
 import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
 
   const programMetadata = await programsApi.get(programs.UINControlMaster);
-  const programAttributes = convert.attributes({ program: programMetadata, disabled: true });
+  const programAttributes = convert.attributes({ program: programMetadata, disabled: false });
   
   const resUINControlStage = await programStageApi.get(programStage.UINControlMaster);
   const resCompletionCheckList = await programStageApi.get(programStage.completionCheckList);
@@ -121,6 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   //saving for later use
   tei.completionCheckListDEs = completionCheckList.dataElements;
   tei.uinStage = uinStage;
+  tei.programAttributes = programAttributes;
   tei.programStages = [...programAttributes.sections, ...uinStage.sections, ...completionCheckList.sections];
   tei.values = {...programAttributes.values, ...uinStage.values, ...completionCheckList.values, ...dataValues};
   tei.completionCheckListDEs = completionCheckList.dataElements;
@@ -134,8 +135,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           element.disabled = false;
       }
     })
-  })
-  // ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+  }) //-- form enabled because of feedback
+  ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
 
   // --- Tab categorization helpers ---
   const bankKeywords = [
@@ -168,18 +169,26 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   // Check if user is "ma" role and enable Additional Document sections
-  if (userConfig?.user) {
+  // if (userConfig?.user) {
+  //   affiliateStageSections.forEach(section => {
+  //     console.log("section", section);
+  //     if (section.id === stageSections.documentChecklist || section.id === stageSections.documents) {
+  //       section.items.forEach(element => {
+  //         element.disabled = false;  // Enable all fields in these sections
+  //       });
+  //     }
+  //   });
+  // }
+  if (affiliateStageSections.length) {
     affiliateStageSections.forEach(section => {
-      console.log("section", section);
-      if (section.id === stageSections.documentChecklist || section.id === stageSections.documents) {
-        section.items.forEach(element => {
-          element.disabled = false;  // Enable all fields in these sections
-        });
-      }
-    });
+      section.items.forEach(element => {
+        element.disabled = false;
+      })
+    })
   }
   
   // Render into tab panels
+  ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
   document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
 
   // Also categorize completion checklist sections into tab buckets
@@ -232,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       completionHtml = renderSections(completionOnlySections);
     }
     document.getElementById("completionStage").innerHTML = completionHtml;
-
+   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
     document.getElementById("affiliationStage").innerHTML = renderSections(
       [...affiliationStageSections, ...completionAffiliationSections]
     );
@@ -269,12 +278,41 @@ document.addEventListener("DOMContentLoaded", async function () {
       tei.values[e.target.id] = value;
       let errorEl = document.getElementById(`error-${e.target.id}`);
       if (errorEl) errorEl.innerHTML = '';
-      // ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       renderTabContent();
     }
   });
 
+  document.querySelector("#tab-affiliate").addEventListener('change', function(e) {
+    if (e.target.matches("input, select, textarea")) {
+      if (e.target.type === "file") {
+        if (e.target.files.length > 0) {
+          tei.values[e.target.id] = e.target.files[0];
+        }
+        const blobUrl = URL.createObjectURL(e.target.files[0]);
+            const fileLink = document.getElementById(`${e.target.id}-link`);
+            if(fileLink){
+                fileLink.href = blobUrl;
+                fileLink.textContent = e.target.files[0].name;
+                fileLink.style.display = 'inline-block';
+                fileLink.target = '_blank';
+            }
 
+        let errorEl = document.getElementById(`error-${e.target.id}`);
+        if (errorEl)  errorEl.innerHTML = '';
+        return;
+      }
+
+      let value = e.target.type === 'checkbox' ? (e.target.checked ? 'true' : 'false') : e.target.value;
+      tei.values[e.target.id] = value;
+      let errorEl = document.getElementById(`error-${e.target.id}`);
+      if (errorEl) errorEl.innerHTML = '';
+      ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+      renderTabContent();
+    }
+  });
+
+  
   profileTabs.forEach(tab => {
       tab.addEventListener('click', function() {
         switchTab(this.getAttribute('data-tab'));
@@ -371,6 +409,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         programStageToUpdate = programStage.completionCheckList;
         dataElementToUpdate = tei.completionCheckListDEs;
       }
+      console.log("data elements to update", dataElementToUpdate);
 
       // for handling file error so that existing value will not collide with newly filled fields
       dataElementToUpdate.forEach(deUid => {
@@ -389,13 +428,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       // for new file Upload
       for (const deUid of dataElementToUpdate) {
         const file = tei.values[deUid];
-        if (file && typeof file !== "string") {
+        if (file instanceof File) {
           try {
             const formData = new FormData();
             formData.append('file', file);
             const res = await dataApi.uploadFile(formData);
             if (res.status === 'OK') {
               tei.values[deUid] = res.response.fileResource.id;
+            } else {
+              iziToast.error({message: "File uplaod Failed", position: "center"});
+              return;
             }
           } catch (error) {
             console.error("Error uploading file:", error);
@@ -422,32 +464,71 @@ document.addEventListener("DOMContentLoaded", async function () {
         return newVal.toString() !== oldVal.toString();
       });
 
-      if (changedDEs.length === 0) {
-        iziToast.info({ message: "No changes to submit", position: "center" });
-        return;
-      }
-
       const originalDEs = tei.dataElements;
       tei.dataElements = changedDEs;
       tei.eventId = existingEvent?.event;
 
-        const payload = createPayload.event({
-          tei,
-          event: tei.eventId,
-          orgUnit: orgUnitId,
-          enrollment,
-          program: programs.UINControlMaster,
-          programStage: programStageToUpdate,
-        })
-        await dataApi.enroll(payload);
-        tei.dataElements = originalDEs; 
+      const existingAttributeValues = {};
+      tei.affiliate.attributes.forEach(attr => {
+        existingAttributeValues[attr.attribute] = attr.value;
+      });
 
+      const attributeUIDs = tei.programAttributes.sections
+      .flatMap(section => section.items)
+      .map(item => item.code);
+
+      const changedAttributes = attributeUIDs
+      .filter(attrUid => {
+        const newVal = tei.values[attrUid] || "";
+        const oldVal = existingAttributeValues[attrUid] || "";
+        return newVal.toString() !== oldVal.toString();
+      })
+      .map(attrUid => ({
+        attribute: attrUid,
+        value: tei.values[attrUid] || ""
+      }));
+
+      const changedDataValues = changedDEs.map(deUid => ({
+        dataElement: deUid,
+        value: tei.values[deUid] || ""
+      }));
+
+      if (changedDEs.length === 0 && changedAttributes.length === 0) {
+        iziToast.info({ message: "No changes to submit", position: "center" });
+        return;
+      }
+
+      const payload = {
+        trackedEntities: [
+            {
+              trackedEntity: tei.affiliate.trackedEntity,
+              orgUnit: orgUnitId,
+              trackedEntityType: trackedEntityType, 
+              attributes: changedAttributes                       
+            }
+        ],
+        events: [
+          {
+            event: tei.eventId,
+            orgUnit: orgUnitId,
+            program: programs.UINControlMaster,
+            programStage: programStageToUpdate,
+            enrollment: enrollment,
+            trackedEntity: tei.affiliate.trackedEntity,
+            occurredAt: new Date().toISOString(),
+            status: "ACTIVE",
+            dataValues: changedDataValues 
+          }
+        ]
+      };
+
+      await dataApi.update(payload);
         iziToast.success({
             status: 'SUCCESS',
             message: "Details Submitted Successfully",
             position: "center",
         });
-        window.location.href = './2.1-view-and-update-profile.html';
+        // window.location.href = './2.1-view-and-update-profile.html';
         }
     });
    }

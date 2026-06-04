@@ -1,7 +1,7 @@
 import { dataApi } from "../../api/DataApi.js";
 import { optionSetApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
-import { attributes, dataElements, optionSet, programStage, programs, tei, trackedEntityType } from "../../constant.js";
+import { attributes, dataElements, optionSet, orgUnit, programStage, programs, tei, trackedEntityType } from "../../constant.js";
 import { configureRules, convert, fetchValueType, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 import { toast } from "../utils.js";
@@ -495,13 +495,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       } else if (tabId == 'tab-bank') { 
         buttonsHtml = `
           <div class="col-4 mb-2">
-            <button type="button" class="btn btn-lg btn-block" id="searchButton"
-              style="background-color: #6a6a6a; color: white;">
-              1.2 Eligibility Check & Manage Waivers
-            </button>
-          </div>
-
-          <div class="col-4 mb-2">
             <button type="button" class="btn btn-lg btn-block" id="saveButton"
               style="background-color: #008000; color: white;">
               Approve
@@ -512,6 +505,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             <button type="button" class="btn btn-lg btn-block" id="reject-btn"
               style="background-color: rgb(235, 51, 0); color: white;">
               Reject
+            </button>
+          </div>
+
+          <div class="col-4 mb-2">
+            <button type="button" class="btn btn-lg btn-block" id="searchButton"
+              style="background-color: #6a6a6a; color: white;">
+              1.2 Eligibility Check & Manage Waivers
             </button>
           </div>
         `;
@@ -543,17 +543,34 @@ document.addEventListener("DOMContentLoaded", async function () {
       try {
         const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.orgUnit;
         const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.affiliateKyc)?.enrollment;
+
         
         if (!orgUnitId || !enrollment) return;
         
-        const existingEvent = tei.affiliate.enrollments
-          .find(enroll => enroll.program == programs.affiliateKyc)
-          ?.events.filter(event => event?.programStage && event.programStage == programStage.affiliateKyc && !event.deleted)
-          .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
+        const stageEvents = {};
+
+        tei.affiliate.enrollments[0].events?.forEach(event => {
+          if (event?.programStage) {
+            if (event.programStage == programStage.affiliateKyc)
+              stageEvents.affiliateKyc = event.event;
+            if (event.programStage == programStage.dueDiligence)
+              stageEvents.dueDiligence = event.event;
+          }
+        });
+
+
+        // const existingEvent = tei.affiliate.enrollments
+        //   .find(enroll => enroll.program == programs.affiliateKyc)
+        //   // ?.events.filter(event => event?.programStage && event.programStage == programStage.dueDiligence && !event.deleted)
+        //   // .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))[0];
+        //   ?.events.forEach(event => {
+        //     console.log("...ye ek event hai..", event);
+        //   })
+
         
-        console.log("Existing Event:", existingEvent);
+        // console.log("Existing Event:", existingEvent);  //due diligence - affiliate kyc (event 1, event 2)
         
-        if (!existingEvent) {
+        if (!stageEvents) {
           toast({status: 'INFO', message: 'No existing event found to update', position: 'center'});
           return;
         }
@@ -563,21 +580,45 @@ document.addEventListener("DOMContentLoaded", async function () {
           value: rejectReason
         }];
         
-        console.log("dataValues", dataValues);
         const originalDEs = tei.dataElements;
         if (dataValues.length > 0) {
             await dataApi.update({
+              trackedEntities: [
+                {
+                  trackedEntity: tei.affiliate.trackedEntity,
+                  orgUnit: orgUnitId,
+                  trackedEntityType: trackedEntityType,
+                  attributes: [{
+                    attribute: attributes.acuityCheck,
+                    value: null
+                  },
+                     
+                ]
+
+                }
+              ],
                 events: [{
-                    event: existingEvent.event,
+                    event: stageEvents.dueDiligence,
                     orgUnit: orgUnitId,
                     program: programs.affiliateKyc,
-                    programStage: existingEvent.programStage,
+                    programStage: programStage.dueDiligence,
                     enrollment: enrollment,
                     trackedEntity: tei.affiliate.trackedEntity,
                     occurredAt: new Date().toISOString(),
                     status: "ACTIVE",
-                    dataValues
-                }]
+                    dataValues: dataValues
+                }, 
+                {
+                    event: stageEvents.affiliateKyc,
+                    orgUnit: orgUnitId,
+                    program: programs.affiliateKyc,
+                    programStage: programStage.affiliateKyc,
+                    enrollment: enrollment,
+                    trackedEntity: tei.affiliate.trackedEntity,
+                    occurredAt: new Date().toISOString(),
+                    status: "ACTIVE",
+                }
+              ]
             });
         }
         

@@ -38,12 +38,11 @@ const newRegistration = async (userConfig) => {
     
     const disclaimerCheck = document.getElementById('disclaimerCheck');
     disclaimerCheck.addEventListener('change', function(e) {
-        if (e.target.checked) {
-        
-        document.getElementById('submitBtn').disabled = false;
-        } else {
-        document.getElementById('submitBtn').disabled = true;
-        }
+       const isChecked = e.target.checked;
+       const isDuplicate = tei.isDuplicateLegalName;
+
+       document.getElementById('submitBtn').disabled = !isChecked || isDuplicate;
+       document.getElementById('saveAsDraft').disabled = !isChecked || isDuplicate;
     });
 
     document.getElementById("sendToAcuityBtn").addEventListener('click', async () => {
@@ -69,12 +68,6 @@ const newRegistration = async (userConfig) => {
     })
 
     document.getElementById("saveAsDraft").addEventListener('click', async () => {
-        if (tei.isDuplicateLegalName) {
-            toast({ status: 'ERROR', message: 'Please use a different Legal Name'
-            });
-            document.querySelector(`input[id="${attributes.legalName}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-            return;
-        }
         var isEmpty = false;
         tei.attributes.forEach(attr => {
             if(tei.mandatoryList.includes(attr)) {
