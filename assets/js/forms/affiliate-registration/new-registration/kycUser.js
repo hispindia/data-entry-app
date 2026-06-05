@@ -372,7 +372,7 @@ const newRegistration = async (userConfig) => {
             }
             const otherParam = `$filter=${attributes.legalName}:EQ:${legalName.trim()}`;
             const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
-            console.log("Legal Name", response);
+            // console.log("Legal Name", response);
 
             if (response.trackedEntities?.length > 0) {
                 setLegalNameAndError("Legal Name Already Exist");

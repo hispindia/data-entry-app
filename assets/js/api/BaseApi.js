@@ -1,4 +1,4 @@
-const baseUrl = '../..';
+const baseUrl = '../...';
 // const baseUrl = 'https://links.hispindia.org/ippf_uin_staging/api';
 
 const ApiToken = '';

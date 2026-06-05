@@ -29,6 +29,7 @@ const handleKycViewProfile = async(userConfig) => {
       orgUnit.id = nonKycUnit.id;
     }
   }
+    console.log("orgunit id check---", orgUnit.id);
     const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, filterParam);
 
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {

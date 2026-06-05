@@ -409,7 +409,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         programStageToUpdate = programStage.completionCheckList;
         dataElementToUpdate = tei.completionCheckListDEs;
       }
-      console.log("data elements to update", dataElementToUpdate);
 
       // for handling file error so that existing value will not collide with newly filled fields
       dataElementToUpdate.forEach(deUid => {
