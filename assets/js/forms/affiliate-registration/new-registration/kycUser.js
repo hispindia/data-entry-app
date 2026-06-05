@@ -11,8 +11,12 @@ const newRegistration = async (userConfig) => {
     const affiliate = url.searchParams.get('affiliate');
     tei.affiliate = '';
     tei.isDuplicateLegalName = false;
-    if(userConfig.user.includes('aoc')) document.getElementById('sendToAcuityBtn').style.display = 'block';
-        
+    if(userConfig.user.includes('aoc')) {
+        document.getElementById("saveAsDraft").style.display = 'none';
+        document.getElementById('sendToAcuityBtn').style.display = 'block';
+   }
+         
+
     var resAffiliate = { trackedEntities: [] };
     
     if(affiliate) resAffiliate = await dataApi.getTrackedEntity(affiliate);
@@ -68,6 +72,12 @@ const newRegistration = async (userConfig) => {
     })
 
     document.getElementById("saveAsDraft").addEventListener('click', async () => {
+        if (tei.isDuplicateLegalName) {
+            toast({ status: 'ERROR', message: 'Please use a different Legal Name'
+            });
+            document.querySelector(`input[id="${attributes.legalName}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
         var isEmpty = false;
         tei.attributes.forEach(attr => {
             if(tei.mandatoryList.includes(attr)) {
@@ -276,6 +286,20 @@ const newRegistration = async (userConfig) => {
             tei.values[e.target.id] = e.target.value;
             document.getElementById(`error-${e.target.id}`).innerHTML = '';
             if(e.target.type == "file") return;
+            if (e.target.id === attributes.legalName) {
+             tei.isDuplicateLegalName = false;
+             document.getElementById(`error-${e.target.id}`).innerHTML = 'Checking...';
+             const legalName = e.target?.value?.trim();
+             if (legalName) {
+                 const otherParam = `filter=${attributes.legalName}:EQ:${legalName.trim()}`;
+                 const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
+                 if (response.trackedEntities?.length > 0)  {
+                     tei.isDuplicateLegalName = true;
+                     document.getElementById(`error-${attributes.legalName}`).innerHTML = "Legal Name Already Exist";
+                 }
+             } 
+         }
+
 
             if (e.target.id === attributes.countryRegistration) {
                 const countryCode = e.target.value;
@@ -299,6 +323,8 @@ const newRegistration = async (userConfig) => {
                 }
             }
             ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
+            if(tei.isDuplicateLegalName) tei.metadata[attributes.legalName].error = "Legal Name Already Exist";
+
             document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
            
             flatpickr(".flatpickr-date-input", { 
@@ -311,16 +337,6 @@ const newRegistration = async (userConfig) => {
             });
         }
     });
-    
-
-    function setLegalNameAndError(message = '') {
-        const errorDiv = document.getElementById(`error-${attributes.legalName}`);
-        if (!errorDiv) return;
-        errorDiv.innerHTML = message;
-        tei.isDuplicateLegalName = !!message;
-        document.getElementById('saveAsDraft').disabled = tei.isDuplicateLegalName || !document.getElementById('disclaimerCheck').checked;
-        document.getElementById('submitBtn').disabled = tei.isDuplicateLegalName || !document.getElementById('disclaimerCheck').checked;
-    }
 
     const programAffiliateKyc = await programsApi.get(programs.affiliateKyc);
     const affilateStage = await programStageApi.get(programStage.affiliateKyc);
@@ -359,29 +375,6 @@ const newRegistration = async (userConfig) => {
         
     document.getElementById("basicInformation").innerHTML = renderSections(tei.attributeSection, tei.disabled);
     document.getElementById("addKycDetails").innerHTML = renderSections(tei.programStages, tei.disabled);
-    //event delegation -- 
-    document.getElementById("basicInformation").addEventListener('focusout', async function(e) {
-        const target = e.target;
-        if (target.matches("input") && target.id === attributes.legalName) {
-            console.log("Legal Name blur");
-
-            const legalName = target?.value?.trim();
-            if (!legalName) {
-                setLegalNameAndError("");
-                return;
-            }
-            const otherParam = `$filter=${attributes.legalName}:EQ:${legalName.trim()}`;
-            const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, otherParam);
-            // console.log("Legal Name", response);
-
-            if (response.trackedEntities?.length > 0) {
-                setLegalNameAndError("Legal Name Already Exist");
-            } else {
-                setLegalNameAndError("");
-            }
-            
-        }
-    });
     
     // attachLegalNameBlurListener();
     flatpickr(".flatpickr-date-input", { 
@@ -435,7 +428,7 @@ const newRegistration = async (userConfig) => {
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
                 ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, (disabled || el.disabled))}
-                <div id="error-${el.code}" style="color: red"></div>
+                <div id="error-${el.code}" style="color: red">${el?.error || ''}</div>
             `;
             rowDiv.appendChild(fieldWrapper);
         }
