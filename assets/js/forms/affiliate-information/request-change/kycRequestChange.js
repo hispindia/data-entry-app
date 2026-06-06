@@ -165,14 +165,15 @@ const STAGE_MAPPING = {
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
 
     const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
-    const user = meApi.get();
-  
-    if (user?.dataViewOrganisationUnits?.length > 0) {
-      const nonKycUnit = user.dataViewOrganisationUnits.find(unit => unit.name !== "KYC Affiliates");
+
+    const user = await meApi.get();
+    if (user?.organisationUnits?.length > 0) {
+      const nonKycUnit = user.organisationUnits.find(unit => unit.name !== "KYC Affiliates");
       if (nonKycUnit) {
         orgUnit.id = nonKycUnit.id;
       }
     }  
+    
      const affiliateList = await dataApi.get(
         orgUnit.id,
         programs.UINControlMaster,

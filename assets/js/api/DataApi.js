@@ -19,6 +19,24 @@ export const dataApi = {
       console.error("Error fetching user data:", error);
     }
   },
+  getUser: async (user) => {
+    const url = `users.json?query=${user}&fields=:all`;
+    try {
+      const response = await(await BaseApi({url, method:"GET"})).json();
+      return response;
+    } catch (error) {
+      console.error("Error while viewing user", error);
+    }
+  },
+  putUserOrgUnit: async (user, payload) => {
+    const url = `users/${user}.json`;
+    try {
+      const response = await(await BaseApi({url, method:"PUT", payload})).json();
+      return response;
+    } catch (error) {
+      console.error("Error while updating user", error);
+    }
+  },
   dataStore: async (payload) => {
     const url = `dataStore/${payload}`;
     try {

@@ -232,9 +232,29 @@ document.addEventListener("DOMContentLoaded", async function () {
           tei.values[attributes.uinCode] = nextOUCode;  
           if(neworgUnit.httpStatus == "OK" && neworgUnit.response.typeReports) {
             const orgUnitId = neworgUnit.response.typeReports[0].objectReports[0].uid;
+            const username = tei.affiliate.attributes.find(attr => attr.attribute==attributes.user)?.value;
+            const resUsers = await dataApi.getUser(username);
+            if(resUsers.users.length) {
+              const payload = {
+                ...resUsers.users[0],
+                organisationUnits: [
+                  ...resUsers.users[0].organisationUnits,
+                  { id: orgUnitId }
+                ],
+                dataViewOrganisationUnits: [
+                  ...resUsers.users[0].dataViewOrganisationUnits,
+                  { id: orgUnitId }
+                ],
+                teiSearchOrganisationUnits: [
+                  ...resUsers.users[0].teiSearchOrganisationUnits,
+                  { id: orgUnitId }
+                ],
+              }
+              await dataApi.putUserOrgUnit(resUsers.users[0].id, payload);
+            }
             await programsApi.postOU({orgUnit:orgUnitId, program: programs.UINControlMaster});
             const payloadEvent = createPayload.exchangeEvent(tei.values, orgUnitId, programs.UINControlMaster, tei.attributes, UINStages);
-           const teiId =  await dataApi.enroll(payloadEvent);
+            const teiId =  await dataApi.enroll(payloadEvent);
             await dataApi.postAttribute({
               "trackedEntities": [
                 {
@@ -251,6 +271,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
               ]
             })
+             
             const syncBtn = document.getElementById(`sync-uin-btn-${tei.affiliate.trackedEntity}`);
             if (syncBtn) {
               syncBtn.setAttribute('data-uin', nextOUCode);
