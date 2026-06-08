@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const resRuleVariables = await programsApi.ruleVariables(programs.UINControlMaster);
   const resOptionGroups = await optionSetApi.getOptionGroups();
   tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
-
+debugger;
   const programMetadata = await programsApi.get(programs.UINControlMaster);
   const programAttributes = convert.attributes({ program: programMetadata, disabled: false });
   
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     })
   }) //-- form enabled because of feedback
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-
+debugger;
   // --- Tab categorization helpers ---
   const bankKeywords = [
     'bank detail', 'bank account', 'additional bank',
@@ -280,6 +280,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (errorEl) errorEl.innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       renderTabContent();
+      debugger;
     }
   });
 
@@ -309,6 +310,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (errorEl) errorEl.innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       renderTabContent();
+      debugger;
     }
   });
 
@@ -554,7 +556,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     let container = "";
 
     for (const section of sections) {
-        if(section.hidden) continue;
+        const elements = section.items.filter(item => !item.hidden)
+        if(!elements.length) continue;
         const sectionDiv = document.createElement("div");
         sectionDiv.className = "card mb-4 p-3";
         sectionDiv.style.backgroundColor = "white";

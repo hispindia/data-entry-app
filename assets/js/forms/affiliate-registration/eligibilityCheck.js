@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
 
-    const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
+    // const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
     const userOUCode = user?.organisationUnits.map(ou => ou.code)?.filter(ou => ou);
-    const resAffiliateList = await dataApi.get(userOrgUnit.join(';'), programs.affiliateKyc, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}`);
+    const resAffiliateList = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}`);
     const resDataStore = await dataApi.dataStore(`accuityResponse`);
     
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
