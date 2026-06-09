@@ -22,13 +22,12 @@ const handleKycViewProfile = async(userConfig) => {
     
     const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
 
-    const user = await meApi.get();
-    if (user?.organisationUnits?.length > 0) {
-    const nonKycUnit = user.organisationUnits.find(unit => unit.name !== "KYC Affiliates");
-    if (nonKycUnit) {
-      orgUnit.id = nonKycUnit.id;
+    if (userConfig?.orgUnits?.length > 0) {
+      const nonKycUnit = userConfig.orgUnits.find(unit => unit.name !== "KYC Affiliates");
+      if (nonKycUnit) {
+        orgUnit.id = nonKycUnit.id;
+      }
     }
-  }
   
     const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, filterParam);
 

@@ -2,10 +2,14 @@ import { meApi } from '../api/metaDataApi.js';
 import { userGroup } from '../constant.js';
 
 export const userGroupConfig = (data) => {
-    const pages={
+    const pages = {
         username: data?.username,
         user: [],
         blockWaiver: false,
+        orgUnits: data?.organisationUnits,
+        viewOrgUnit: data?.dataViewOrganisationUnits,
+        searchOrgUnit: data?.teiSearchOrganisationUnits,
+        attributeValues: data?.attributeValues,
     };
     if (!data || !data.userGroups) {
         return pages;

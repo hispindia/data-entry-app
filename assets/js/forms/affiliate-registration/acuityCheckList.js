@@ -32,9 +32,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const url = new URL(window.location.href);
     const affiliate = url.searchParams.get('affiliate');
 
-    const user = await meApi.get();
-    const userOrgUnit = user?.organisationUnits.map(ou => ou.id);
-    const userOUCode = user?.organisationUnits.map(ou => ou.code)?.filter(ou => ou);
+    const userOrgUnit = userConfig?.orgUnits.map(ou => ou.id);
+    const userOUCode = userConfig?.orgUnits.map(ou => ou.code)?.filter(ou => ou);
     document.getElementById('process-first').innerHTML = "1) Fetching Affiliate's.";
     var resAffiliateList = [];
     if(affiliate) resAffiliateList = await dataApi.getTrackedEntity(affiliate);

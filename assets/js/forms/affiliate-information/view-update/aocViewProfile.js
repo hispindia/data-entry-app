@@ -18,16 +18,28 @@ const handleAocViewAndUpdate = async(userConfig) => {
 
     const resRegion = await optionSetApi.get(optionSet.region);
     const resOptionGroups = await optionSetApi.getOptionGroups();
-    resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
-    document.getElementById("Region").innerHTML = populateOptions(resRegion.options);
+
+    const userRegion = userConfig.attributeValues.find(attrValue => attrValue.attribute.id == "gfl4DSpDn3o");
+    if(userRegion) {
+        const selected = resRegion.options.filter(region => region.id == userRegion.value)
+                        .map(region => `<option value='${region.value}' selected> ${region.label} </option>`)
+        document.getElementById("Region").innerHTML = selected;
+    } else {
+        const list = resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
+        document.getElementById("Region").innerHTML = populateOptions(list);
+    }
     
     document.getElementById('Region').addEventListener('change', function (e) {
         const { value } = e.target;
         const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
         if(optionGroup) {
-            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
-            region.sort((a, b) => a.label.localeCompare(b.label));
-            document.getElementById("Countries").innerHTML = populateOptions(region);
+            const countries = optionGroup.options;
+            const UserCountry = userConfig.orgUnits
+                                .filter(country => countries.some(c => c.code == country.code))
+                                .map(option => ({label: option.name, value: option.code}))
+            
+            UserCountry.sort((a, b) => a.label.localeCompare(b.label));
+            document.getElementById("Countries").innerHTML = populateOptions(UserCountry);
         }
     })
   

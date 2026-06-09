@@ -2,13 +2,14 @@ import BaseApi from "./BaseApi.js";
 
 export const optionSetApi =  {
   get: async (id) => {
-    const url = `optionSets/${id}.json?fields=id,name,options[name,code]`
+    const url = `optionSets/${id}.json?fields=id,name,options[id,name,code]`
     try {
       const response = await BaseApi({url});
       const data =  await response.json();
       data.options = data.options.map(option => ({
         label: option.name,
         value: option.code,
+        id: option.id,
       }))
       return data;
     } catch (error) {
@@ -76,7 +77,7 @@ export const programsApi = {
 
 export const meApi = {
   get: async () => {
-    const url = `me.json?fields=id,name,username,userGroups[id,name,code],dataViewOrganisationUnits[id,name],organisationUnits[id,name,code]`;
+    const url = `me.json?fields=id,name,username,userGroups[id,name,code],dataViewOrganisationUnits[id,name],organisationUnits[id,name,code],teiSearchOrganisationUnits[id,name,code],attributeValues`;
     try{
         const response = await BaseApi({url});
         return response.json();

@@ -141,4 +141,13 @@ export const dataApi = {
       console.error("Error while creating events", error);
     }
   },
+  getIndicators: async (indicators) => {
+     const url = `analytics.json?dimension=dx:${indicators.join(';')}&filter=ou:USER_ORGUNIT,pe:THIS_YEAR`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }
 };

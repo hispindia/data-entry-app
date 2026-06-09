@@ -29,6 +29,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   });
+  try {
+    const resIndicators = await dataApi.getIndicators(['S6msdZhboGh', 'utf26AH07yp', 'g4ggRyOTydS']);
+    const data = {};
+    resIndicators.rows.forEach( row => data[row[0]] = Number(row[1]));
+    document.getElementById('total-uin').innerHTML = data['S6msdZhboGh'] ? data['S6msdZhboGh'] : 0;
+    document.getElementById('pending-approvals').innerHTML = data['utf26AH07yp'] ? data['utf26AH07yp'] : 0;
+    document.getElementById('active-affiliates').innerHTML = data['g4ggRyOTydS'] ? data['g4ggRyOTydS'] : 0;
+  }
+   catch(e) {
+    console.log(e)
+   }
   const searchButton = document.getElementById('searchButton');
   const searchResults = document.getElementById('searchResults');
   const addAffiliateForm = document.getElementById('addAffiliateForm');
@@ -39,10 +50,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   if(region) {
         document.getElementById("Region").value = region;
         const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[region]);
-        if(optionGroup) {
-            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
-            region.sort((a, b) => a.label.localeCompare(b.label));
-            document.getElementById("Countries").innerHTML = populateOptions(region);
+         if(optionGroup) {
+            const countries = optionGroup.options;
+            const UserCountry = userConfig.orgUnits
+                                .filter(country => countries.some(c => c.code == country.code))
+                                .map(option => ({label: option.name, value: option.code}))
+            
+            UserCountry.sort((a, b) => a.label.localeCompare(b.label));
+            document.getElementById("Countries").innerHTML = populateOptions(UserCountry);
         }
     }
     if(regName) document.getElementById("regName").value = regName;
@@ -81,16 +96,28 @@ document.addEventListener("DOMContentLoaded", async function () {
     const resRegion = await optionSetApi.get(optionSet.region);
     const resOptionGroups = await optionSetApi.getOptionGroups();
 
-    resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
-    document.getElementById("Region").innerHTML = populateOptions(resRegion.options);
+    const userRegion = userConfig.attributeValues.find(attrValue => attrValue.attribute.id == "gfl4DSpDn3o");
+    if(userRegion) {
+        const selected = resRegion.options.filter(region => region.id == userRegion.value)
+                        .map(region => `<option value='${region.value}' selected> ${region.label} </option>`)
+        document.getElementById("Region").innerHTML = selected;
+    } else {
+        const list = resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
+        document.getElementById("Region").innerHTML = populateOptions(list);
+    }
+    
     
     document.getElementById('Region').addEventListener('change', function (e) {
         const { value } = e.target;
         const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
-        if(optionGroup) {
-            const region = optionGroup.options.map(option => ({label: option.name, value: option.code}));
-            region.sort((a, b) => a.label.localeCompare(b.label));
-            document.getElementById("Countries").innerHTML = populateOptions(region);
+         if(optionGroup) {
+            const countries = optionGroup.options;
+            const UserCountry = userConfig.orgUnits
+                                .filter(country => countries.some(c => c.code == country.code))
+                                .map(option => ({label: option.name, value: option.code}))
+            
+            UserCountry.sort((a, b) => a.label.localeCompare(b.label));
+            document.getElementById("Countries").innerHTML = populateOptions(UserCountry);
         }
     })
 
