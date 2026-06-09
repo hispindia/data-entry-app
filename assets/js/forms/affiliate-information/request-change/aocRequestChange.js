@@ -306,36 +306,42 @@ const STAGE_MAPPING = {
     }
   }
 
-  const regionSelect = document.getElementById("Region");
-  const countrySelect = document.getElementById("Countries");
-
   const resRegion = await optionSetApi.get(optionSet.region);
   const resOptionGroups = await optionSetApi.getOptionGroups();
 
-  resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
-  regionSelect.innerHTML = populateOptions(resRegion.options);
 
-  regionSelect.addEventListener("change", e => {
-    const regionCode = e.target.value;
-    countrySelect.innerHTML = `<option value="">Select Country</option>`;
-    if (!regionCode) return;
+  const displayCountries = (value) => {
+        const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
+        if(optionGroup) {
+            const countries = optionGroup.options;
+            const UserCountry = userConfig.orgUnits
+                                .filter(country => countries.some(c => c.code == country.code))
+                                .map(option => ({label: option.name, value: option.code}))
+            
+            return UserCountry.sort((a, b) => a.label.localeCompare(b.label));
+        }
+        return [];
+  }
 
-    const optionGroupId = programRules.hideCountry[regionCode];
-    const optionGroup = resOptionGroups.optionGroups.find(
-      g => g.id === optionGroupId
-    );
+  const userRegion = userConfig.attributeValues.find(attrValue => attrValue.attribute.id == "gfl4DSpDn3o");
+  if(userRegion) {
+        const region = resRegion.options.filter(region => region.id == userRegion.value);
+                 
+        document.getElementById("Region").innerHTML = `<option value='${region[0].value}' selected> ${region[0].label} </option>`;
 
-    if (!optionGroup) return;
+        const countries = displayCountries(region[0].value);
+        document.getElementById("Countries").innerHTML = populateOptions(countries);
+  } else {
+        const list = resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
+        document.getElementById("Region").innerHTML = populateOptions(list);
+  }
 
-    const countries = optionGroup.options.map(o => ({
-      label: o.name,
-      value: o.code
-    }));
-
-    countries.sort((a, b) => a.label.localeCompare(b.label));
-
-    countrySelect.innerHTML = populateOptions(countries);
-  });
+    
+  document.getElementById('Region').addEventListener('change', function (e) {
+        const { value } = e.target;
+        const countries = displayCountries(value);
+        document.getElementById("Countries").innerHTML = populateOptions(countries);
+  })
 
   document
     .getElementById("searchButton")

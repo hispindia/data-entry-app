@@ -9,18 +9,7 @@ import { toast } from "../../utils.js";
 const handleRegistration = async(userConfig) => {
     const resRegion = await optionSetApi.get(optionSet.region);
     const resOptionGroups = await optionSetApi.getOptionGroups();
-    const userRegion = userConfig.attributeValues.find(attrValue => attrValue.attribute.id == "gfl4DSpDn3o");
-    if(userRegion) {
-        const selected = resRegion.options.filter(region => region.id == userRegion.value)
-                        .map(region => `<option value='${region.value}' selected> ${region.label} </option>`)
-        document.getElementById("Region").innerHTML = selected;
-    } else {
-        const list = resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
-        document.getElementById("Region").innerHTML = populateOptions(list);
-    }
-    
-    document.getElementById('Region').addEventListener('change', function (e) {
-        const { value } = e.target;
+    const displayCountries = (value) => {
         const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
         if(optionGroup) {
             const countries = optionGroup.options;
@@ -28,11 +17,30 @@ const handleRegistration = async(userConfig) => {
                                 .filter(country => countries.some(c => c.code == country.code))
                                 .map(option => ({label: option.name, value: option.code}))
             
-            UserCountry.sort((a, b) => a.label.localeCompare(b.label));
-            document.getElementById("Countries").innerHTML = populateOptions(UserCountry);
+            return UserCountry.sort((a, b) => a.label.localeCompare(b.label));
         }
-    })
+        return [];
+    }
 
+    const userRegion = userConfig.attributeValues.find(attrValue => attrValue.attribute.id == "gfl4DSpDn3o");
+    if(userRegion) {
+        const region = resRegion.options.filter(region => region.id == userRegion.value);
+                 
+        document.getElementById("Region").innerHTML = `<option value='${region[0].value}' selected> ${region[0].label} </option>`;
+
+        const countries = displayCountries(region[0].value);
+        document.getElementById("Countries").innerHTML = populateOptions(countries);
+    } else {
+        const list = resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
+        document.getElementById("Region").innerHTML = populateOptions(list);
+    }
+
+    
+    document.getElementById('Region').addEventListener('change', function (e) {
+        const { value } = e.target;
+        const countries = displayCountries(value);
+        document.getElementById("Countries").innerHTML = populateOptions(countries);
+    })
     document.getElementById('search-bar').style.display = "block";
     const searchResults = document.getElementById('searchResults');
     const addAffiliateForm = document.getElementById('addAffiliateForm');
