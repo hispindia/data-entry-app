@@ -145,6 +145,7 @@ const STAGE_MAPPING = {
  const handleKycRequestChange = async(userConfig) => {
   $("#requestChange").css("display", "none");
   $("#submitAcuityBtn").css("display", "none");
+  const name = " "
   
   ["affiliateModal", "detailModal", "approveModal"].forEach(id => {
     const el = document.getElementById(id);

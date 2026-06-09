@@ -43,15 +43,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       label: "IPPF DHIS2",
       api: "http://stage.hispindia.org:8000/orgunit-pro"
     },
-    {
-      label: "Kofax Unrestricted Funding Agreement",
-      api: ""
-    },
-    {
-      label: "NetSuite",
-      api: ""
-    }
-
  ]
       const DE_ROLE_MAP = {
         'UkQI1dWzZOv': 'organisation',

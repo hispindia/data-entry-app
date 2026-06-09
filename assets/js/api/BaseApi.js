@@ -1,6 +1,6 @@
 
 const baseUrl = '../..';
-// const baseUrl = 'https://links.hispindia.org/ippf_uin_staging/api';
+// const baseUrl = 'https://links.hispindia.org/ippf_uin/api';
 
 const ApiToken = '';
 
