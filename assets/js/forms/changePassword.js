@@ -1,5 +1,6 @@
 import { changePassword } from "../api/metaDataApi.js";
 import { getUserConfig } from "./config.js";
+import { toast } from "./utils.js"
 
 document.addEventListener("DOMContentLoaded", async function () {
     $('.sidebar-menu').show();
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         userConfig.user.forEach(user => {
         $(`.${user}`).hide();
         });
-    }debugger
+    }
 
     document.getElementById('username').value = userConfig.username;
 
@@ -33,17 +34,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if (newPassword !== confirmPassword) {
-            alert('Current Passwords do not match');
+            toast({ status: 'ERROR', message: 'Please Select Country!', position: 'center' });
             return;
         }
         const response = await changePassword.put({oldPassword, newPassword});
         if(response?.ok) {
-            alert('Password changed successfully. Please log in again with your new password.');
+            toast({ status: 'SUCCESS', message: 'Please Select Country!', position: 'center' });
             window.location.replace('../../../dhis-web-commons/security/login.action');
         } else {
             const resValue = await response.json();
             console.log(resValue);
-            if(resValue?.status == 'ERROR') alert(resValue.message);
+            if(resValue?.status == 'ERROR') toast({ status: 'ERROR', message: resValue.message, position: 'center' })
         }
     });    
 });

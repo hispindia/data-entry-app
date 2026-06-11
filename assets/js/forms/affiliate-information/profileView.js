@@ -1,6 +1,7 @@
 import { dataApi } from "../../api/DataApi.js"
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
+import { dataSet } from "../../api/dataSet.js"
 import { attributes, dataElements, optionSet, programStage, programs, stageSections, tei, trackedEntityType } from "../../constant.js";
 import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
 import { getUserConfig } from "../config.js";
@@ -284,8 +285,28 @@ debugger;
     }
   });
 
-  document.querySelector("#tab-affiliate").addEventListener('change', function(e) {
+  document.querySelector("#tab-affiliate").addEventListener('change', async function(e) {
     if (e.target.matches("input, select, textarea")) {
+        if (e.target.id === attributes.countryRegistration) {
+          const countryCode = e.target.value;
+            if (countryCode) {
+                 try {
+                    const orgUnitRes = await orgUnitsApi.get({ filter: countryCode });
+                    const countryOrgUnit = orgUnitRes.organisationUnits?.[0]?.id;
+                    const dataSetValues = await dataSet.getValues();
+                      if (dataSetValues && dataSetValues.dataValues) {
+                        const incomeStatusDV = dataSetValues.dataValues.find(dv => dv.orgUnit === countryOrgUnit);
+                          if (incomeStatusDV) {
+                            tei.values[dataElements.countryIncomeStatus] = incomeStatusDV.value;
+                            if(tei.metadata[dataElements.countryIncomeStatus]) tei.metadata[dataElements.countryIncomeStatus].disabled = true;
+                          }
+                      }
+                    } catch (err) {
+                      console.error("Failed to load country dataset values", err);
+                  }
+            }
+        }
+
       if (e.target.type === "file") {
         if (e.target.files.length > 0) {
           tei.values[e.target.id] = e.target.files[0];
@@ -310,7 +331,6 @@ debugger;
       if (errorEl) errorEl.innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       renderTabContent();
-      debugger;
     }
   });
 
@@ -413,39 +433,38 @@ debugger;
       }
 
       // for handling file error so that existing value will not collide with newly filled fields
-      dataElementToUpdate.forEach(deUid => {
-        const el = document.getElementById(deUid);
-        if (el) {
-          if (el.type === "file") {
-            if (el.files.length > 0) tei.values[deUid] = el.files[0];
-          } else if (el.type === "checkbox") {
-            tei.values[deUid] = el.checked;
-          } else {
-            tei.values[deUid] = el.value;
-          }
-        }
-      });
+      const fileUploads = {};
+      const valuesToSend = { ...tei.values };
 
-      // for new file Upload
       for (const deUid of dataElementToUpdate) {
-        const file = tei.values[deUid];
-        if (file instanceof File) {
-          try {
-            const formData = new FormData();
-            formData.append('file', file);
-            const res = await dataApi.uploadFile(formData);
-            if (res.status === 'OK') {
-              tei.values[deUid] = res.response.fileResource.id;
-            } else {
-              iziToast.error({message: "File uplaod Failed", position: "center"});
-              return;
-            }
-          } catch (error) {
-            console.error("Error uploading file:", error);
+        const el = document.getElementById(deUid);
+        if (!el) continue;
+
+        if (el.type === "file") {
+          if (el.files && el.files.length > 0) {
+            fileUploads[deUid] = el.files[0];
           }
+          continue;
+        } 
+        if (el.type === "checkbox") {
+          valuesToSend[deUid] = el.checked;
+        } 
+        else {
+          valuesToSend[deUid] = el.value;
         }
       }
       
+      // for new file Upload
+        for (const deUid in fileUploads) {
+          const formData = new FormData();
+          formData.append("file", fileUploads[deUid]);
+          const res = await dataApi.uploadFile(formData);
+          if (res.status !== "OK") {
+            iziToast.error({ message: "File upload failed", position: "center" });
+            return;
+          } 
+          valuesToSend[deUid] = res.response.fileResource.id;
+       }
 
       const existingEvent = tei.affiliate.enrollments
       .find(enroll => enroll.program == programs.UINControlMaster)
@@ -460,8 +479,12 @@ debugger;
       }
 
       const changedDEs = dataElementToUpdate.filter(deUid => {
-        const newVal = tei.values[deUid] || "";
+        const newVal = valuesToSend[deUid] || "";
         const oldVal = existingValues[deUid] || "";
+         const el = document.getElementById(deUid);
+        if (el?.type === "file") {
+          return deUid in fileUploads;
+        }
         return newVal.toString() !== oldVal.toString();
       });
 
@@ -480,18 +503,18 @@ debugger;
 
       const changedAttributes = attributeUIDs
       .filter(attrUid => {
-        const newVal = tei.values[attrUid] || "";
+        const newVal = valuesToSend[attrUid] || "";
         const oldVal = existingAttributeValues[attrUid] || "";
         return newVal.toString() !== oldVal.toString();
       })
       .map(attrUid => ({
         attribute: attrUid,
-        value: tei.values[attrUid] || ""
+        value: valuesToSend[attrUid] || ""
       }));
 
       const changedDataValues = changedDEs.map(deUid => ({
         dataElement: deUid,
-        value: tei.values[deUid] || ""
+        value: valuesToSend[deUid] || ""
       }));
 
       if (changedDEs.length === 0 && changedAttributes.length === 0) {
@@ -529,7 +552,7 @@ debugger;
             message: "Details Submitted Successfully",
             position: "center",
         });
-        // window.location.href = './2.1-view-and-update-profile.html';
+        window.location.href = './2.1-view-and-update-profile.html';
         }
     });
    }
