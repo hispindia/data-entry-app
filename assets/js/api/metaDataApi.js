@@ -113,3 +113,10 @@ export const dataElementsApi = {
     return response.json();
   }
 }
+export const changePassword = {
+  put: async ({ oldPassword, newPassword }) => {
+    var url = `me/changePassword`
+    const response = await BaseApi({url, method:"PUT", payload: { oldPassword, newPassword}});
+    return response;
+  }
+}
