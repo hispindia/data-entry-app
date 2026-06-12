@@ -1,5 +1,7 @@
 import { getUserConfig } from "../config.js";
 import BaseApi from "../../api/BaseApi.js";
+import { attributes } from "../../constant.js";
+
 
 document.addEventListener("DOMContentLoaded", async function () {
   showLoader();
@@ -47,8 +49,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     tableBody.innerHTML = "";
 
     const headers = [
+      "Region",
+      "Country of Registration",
+      "Legal Name",
       "UIN Code",
-      "Country",
+      "Organisation Type",
+      "Registered Address",
+      "Contact Email",
       "Audited annual financial statement, auditor’s annual report and management letter (if available)", 
       "Accounting Manual (if available)", 
       "Procurement Manual/(policy and process) (if available)", 
@@ -95,21 +102,21 @@ document.addEventListener("DOMContentLoaded", async function () {
         "Whistleblowing Policy (if available)": "FzoA7Cvhu9t"
       };
 
-      const ATTR_UIN_CODE = "qZcVhl6kfpc";
-      const ATTR_COUNTRY = "LZacnHsQJRs";
-
       trackedEntities.forEach(entity => {
         const row = document.createElement("tr");
+        const attrMap = Object.fromEntries(
+          entity.attributes?.map(a => [a.attribute, a.value])
+        );
 
-        // Extract Attributes
-        const attributes = entity.attributes || [];
-        const uinAttr = attributes.find(a => a.attribute === ATTR_UIN_CODE);
-        const countryAttr = attributes.find(a => a.attribute === ATTR_COUNTRY);
+        const region = attrMap[attributes.region] || "";
+        const countryOfRegistration = attrMap[attributes.countryRegistration] || "";
+        const legalName = attrMap[attributes.legalName] || "";
+        const uinCode = attrMap[attributes.uinCode] || "";
+        const organisationType = attrMap[attributes.organisationType] || "";
+        const registeredAddress = attrMap[attributes.RegisteredAddress] || "";
+        const contactEmail = attrMap[attributes.contactEmail] || "";
 
-        const uinCode = uinAttr ? uinAttr.value : " ";
-        
-        let country = countryAttr ? countryAttr.value : " ";
-
+        let country = "";
         // Mapping entity.orgUnit to country name using orgUnits list
         let parentOU = orgUnits.find(o => o.id === entity.orgUnit);
         if (parentOU) {
@@ -123,16 +130,18 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         }
 
-        // UIN Code Cell
-        const tdUIN = document.createElement("td");
-        tdUIN.innerText = uinCode;
-        tdUIN.style.whiteSpace = "nowrap";
-        row.appendChild(tdUIN);
+        const values = [
+          region,
+          countryOfRegistration,
+          legalName,
+          uinCode,
+          organisationType,
+          registeredAddress,
+          contactEmail
+        ]
 
-        // Country Cell
-        const tdCountry = document.createElement("td");
-        tdCountry.innerText = country;
-        row.appendChild(tdCountry);
+        row.innerHTML = values.map(v => `<td>${v}</td>`).join(" ");
+
 
         // Extract Data Elements from the most recent event
         let eventDataValues = [];

@@ -1,5 +1,6 @@
 import { getUserConfig } from "../config.js";
 import BaseApi from "../../api/BaseApi.js";
+import { attributes } from "../../constant.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
 
@@ -40,6 +41,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     tableBody.innerHTML = "";
 
     const headers = [
+      "Region",
+      "Country of Registration",
+      "Legal Name",
+      "Organisation Type",
+      "Registered Address",
+      "Contact Email",
       "BPCountry", 
       "Core_Grant_Receiving", 
       "DHIS2_Code Verified",
@@ -81,8 +88,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         })
       ]);
 
-      const ATTR_UIN_CODE = "qZcVhl6kfpc";
-      const ATTR_DHIS2_CODE_VERIFIED = "ATmUT1JYobI";
 
       const orgUnits = (await orgUnitResponse.json()).organisationUnits || [];
       const trackedEntities = (await teiResponse.json()).trackedEntities || [];
@@ -94,11 +99,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         let affiliationStatus = "";
         let affiliationType = "";
 
-        const uinAttributes = tei.attributes?.find(a => a.attribute === ATTR_UIN_CODE);
-        const uinCode = uinAttributes ? uinAttributes.value : " ";
-
-        const dhis2CodeAttr = tei.attributes?.find(codeAttr => codeAttr.attribute === ATTR_DHIS2_CODE_VERIFIED);
-        const dhis2CodeVerified = dhis2CodeAttr ? dhis2CodeAttr.value : " ";
+        const attrMap = Object.fromEntries(
+          tei?.attributes?.map(a => [a.attribute, a.value])
+        );
+        
+        const region = attrMap[attributes.region] || "";
+        const countryOfRegistration = attrMap[attributes.countryRegistration] || "";
+        const legalName = attrMap[attributes.legalName] || "";
+        const organisationType = attrMap[attributes.organisationType] || "";
+        const registeredAddress = attrMap[attributes.RegisteredAddress] || "";
+        const contactEmail = attrMap[attributes.contactEmail] || "";
+        const uinCode = attrMap[attributes.uinCode] || "";
+        const dhis2CodeVerified = attrMap[attributes.dhis2CodeVerified] || "";
+       
         tei.enrollments?.forEach(en => {
           const latestEvent = (en.events || []).sort(
             (a, b) => new Date(b.occurredAt) - new Date(a.occurredAt)
@@ -116,6 +129,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             affiliationType,
             uinCode,
             dhis2CodeVerified,
+            region,
+            countryOfRegistration,
+            legalName,
+            organisationType,
+            registeredAddress,
+            contactEmail
           };
         }
       });
@@ -128,15 +147,30 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (ou.children && ou.children.length > 0) {
           ou.children.forEach(child => {
             // Find data using child.id only (do not fallback to parent so each member gets its own UIN)
+        
             const trackerData = trackerDataMap[child.id] || {};
-            const affiliationStatus = trackerData.affiliationStatus || "Active";
-            const currentStatus = trackerData.affiliationType || "Active";
+            const affiliationStatus = trackerData.affiliationStatus;
+            const currentStatus = trackerData.affiliationType || " ";
             const uin = trackerData.uinCode || "--";
             const dhisCode = trackerData.dhis2CodeVerified || ou.code; // Use attribute, fallback to ou.code
+
+            const region = trackerData.region || "";                            
+            const countryOfRegistration = trackerData.countryOfRegistration || "";
+            const legalName = trackerData.legalName || "";
+            const organisationType = trackerData.organisationType || "";
+            const registeredAddress = trackerData.registeredAddress || "";
+            const contactEmail = trackerData.contactEmail || "";
+
 
             const tr = document.createElement("tr");
 
             tr.innerHTML = `
+              <td>${region}</td>
+              <td>${ou.name}</td>
+              <td>${legalName}</td>
+              <td>${organisationType}</td>
+              <td>${registeredAddress}</td>
+              <td>${contactEmail}</td>
               <td>${ou.name}</td>
               <td>Member</td>
               <td>${dhisCode}</td>
@@ -144,9 +178,17 @@ document.addEventListener("DOMContentLoaded", async function () {
               <td>${ou.name}</td>
               <td>${child.name}</td>
               <td>${child.name}</td>
-              <td>${affiliationStatus}</td>
+              <td>
+              ${ affiliationStatus == null || affiliationStatus === "" ? " " :
+                affiliationStatus === "Active" ? "Active" : "Inactive"
+              }
+              </td>
               <td>${currentStatus}</td>
-              <td></td>
+              <td>
+               ${ affiliationStatus == null || affiliationStatus === "" ? " " :
+                affiliationStatus === "Active" ? " " : affiliationStatus
+              }
+              </td>
               <td>${ou.name}</td>
               <td>IPPF</td>
               <td>${ou.name}</td>
@@ -156,8 +198,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
         } else {
           const trackerData = trackerDataMap[ou.id] || {};
-          const affiliationStatus = trackerData.affiliationStatus || "Active";
-          const currentStatus = trackerData.affiliationType || "Active";
+          const affiliationStatus = trackerData.affiliationStatus;
+          const currentStatus = trackerData.affiliationType;
           const uin = trackerData.uinCode || "--";
           const dhisCode = trackerData.dhis2CodeVerified || ou.code; // Use attribute, fallback to ou.code
 
@@ -171,10 +213,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             <td>${ou.name}</td>
             <td></td>
             <td></td>
-            <td>${affiliationStatus}</td>
+            <td>
+            ${ affiliationStatus == null || affiliationStatus === "" ? " " :
+                affiliationStatus === "Active" ? "Active" : "Inactive"
+              }
+            </td>
             <td>${currentStatus}</td>
             <td></td>
-            <td>${ou.name}</td>
+              <td>
+               ${ affiliationStatus == null || affiliationStatus === "" ? " " :
+                affiliationStatus === "Active" ? " " : affiliationStatus
+              }
+              </td>
             <td>IPPF</td>
             <td>${ou.name}</td>
           `;

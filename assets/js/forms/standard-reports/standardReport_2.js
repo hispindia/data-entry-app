@@ -59,12 +59,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     `;
 
     const childHeaders = [
-      { name: "Legal Name", color: "#1e558e", id: "UkQI1dWzZOv"}, 
-      { name: "Country of Registration", color: "#1e558e", id: "LZacnHsQJRs"}, //not found
-      { name: "Organisation Type", color: "#1e558e", id: "U7L75bi4oNF"}, //option set
-      { name: "Registration Number", color: "#1e558e", id: "qsASQ0NRTVA"}, 
-      { name: "Registered Address", color: "#1e558e", id: "o1vN3K6W1P4"}, 
-      { name: "Contact Email", color: "#1e558e", id: "IxhtGezsfWH"},
+      { name: "Region", color: "#1e558e", id: attributes.region},
+      { name: "Country of Registration", color: "#1e558e", id: attributes.countryRegistration}, //not found
+      { name: "Legal Name", color: "#1e558e", id: attributes.legalName}, 
+      { name: "Organisation Type", color: "#1e558e", id: attributes.organisationType}, //option set
+      { name: "Registration Number", color: "#1e558e", id: attributes.registrationNum}, 
+      { name: "Registered Address", color: "#1e558e", id: attributes.RegisteredAddress}, 
+      { name: "Contact Email", color: "#1e558e", id: attributes.contactEmail},
       { name: "Website", color: "#1e558e", id: "gYzmXPZ88UI"},
       { name: "Contact Number", color: "#1e558e",id: "QBtd98I0wfS"},
       { name: "Country Code", color: "#1e558e", id: "xrbFQJaSOjc"},

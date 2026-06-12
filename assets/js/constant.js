@@ -67,6 +67,10 @@ export const attributes = {
     user: "x1rcjWtOtI5",
     uinCode: "qZcVhl6kfpc",
     uinCodeAffiliate: "pkLdNynZWat",
+    RegisteredAddress: "o1vN3K6W1P4",
+    contactEmail: "IxhtGezsfWH",
+    organisationType: "U7L75bi4oNF",
+    dhis2CodeVerified: "ATmUT1JYobI"
 };
 
 export const tei = {

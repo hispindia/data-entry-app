@@ -49,8 +49,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     `;
 
     const childHeaders = [
+      { name: "Region", color: "#1e558e", id: attributes.region},
+      { name: "Country of Registration", color: "#1e558e", id: attributes.countryRegistration}, //not found
+      { name: "Legal Name", color: "#1e558e", id: attributes.legalName}, 
+      { name: "Organisation Type", color: "#1e558e", id: attributes.organisationType}, //option set
+      { name: "Registration Number", color: "#1e558e", id: attributes.registrationNum}, 
+      { name: "Registered Address", color: "#1e558e", id: attributes.RegisteredAddress}, 
+      { name: "Contact Email", color: "#1e558e", id: attributes.contactEmail},
       { name: "SUP - ID", color: "#1e558e", id: "juH6EvVHjW8"},
-      { name: "Legal Name", color: "#1e558e", id: "UkQI1dWzZOv"}, 
 
       { name: "Bank Name - Bank Account 1", color: "#1e558e", id: "cvI0Tq2uPjC"},
       { name: "Bank Address", color: "#1e558e", id: "HTnwbE6NjXT"}, 
