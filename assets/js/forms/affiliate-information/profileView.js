@@ -2,8 +2,8 @@ import { dataApi } from "../../api/DataApi.js"
 import { optionSetApi, orgUnitsApi, programStageApi, programsApi } from "../../api/metaDataApi.js";
 import { createPayload } from "../../api/payload.js";
 import { dataSet } from "../../api/dataSet.js"
-import { attributes, dataElements, optionSet, programStage, programs, stageSections, tei, trackedEntityType } from "../../constant.js";
-import { convert, fetchValueType, configureRules, ruleCallback } from "../metadata.js";
+import { attributes, dataElements, optionSet, programRules, programStage, programs, stageSections, tei, trackedEntityType } from "../../constant.js";
+import { convert, fetchValueType, configureRules, ruleCallback, populateOptions } from "../metadata.js";
 import { getUserConfig } from "../config.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -113,6 +113,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 debugger;
   const programMetadata = await programsApi.get(programs.UINControlMaster);
   const programAttributes = convert.attributes({ program: programMetadata, disabled: false });
+
   
   const resUINControlStage = await programStageApi.get(programStage.UINControlMaster);
   const resCompletionCheckList = await programStageApi.get(programStage.completionCheckList);
@@ -129,6 +130,15 @@ debugger;
   tei.uinStageDataElements = uinStage.dataElements;  
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
   tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
+
+  programAttributes.sections.forEach(section => {
+    section.items.forEach(element => {
+      if (element.code === attributes.uinCode) {
+          element.disabled = true;
+      }
+    })
+
+  });
 
   completionCheckList.sections.forEach(section => {
     section.items.forEach(element => {
@@ -191,6 +201,7 @@ debugger;
   // Render into tab panels
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
   document.getElementById("basicInformation").innerHTML = renderSections(programAttributes.sections);
+  handleRegionCountryFilter(resOptionGroups, userConfig);
 
   // Also categorize completion checklist sections into tab buckets
   const completionBankSections = [];
@@ -609,5 +620,37 @@ debugger;
         container += sectionDiv.outerHTML;
     }
     return container;
+    }
+
+      function handleRegionCountryFilter(resOptionGroups, userConfig) {
+        const regionEl = document.getElementById(attributes.region);
+        const countryEl = document.getElementById(attributes.countryRegistration);
+         if (!regionEl) return;
+
+          function displayCountries(regionValue) {
+            const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[regionValue]);
+            if (optionGroup) {
+              const countries = optionGroup.options;
+              return userConfig.orgUnits
+              .filter(c => countries.some(opt => opt.code == c.code))
+              .map(opt => ({label: opt.name, value: opt.code }))
+              .sort((a, b) => a.label.localeCompare(b.label));
+            }
+            return [];
+          }
+
+          const currentRegion = regionEl.value;
+          if (currentRegion) {
+              const countries = displayCountries(currentRegion);
+              countryEl.innerHTML = populateOptions(countries);
+
+              const savedCountries = tei.values[attributes.countryRegistration];
+              if (savedCountries) countryEl.value = savedCountries;
+
+              regionEl.addEventListener("change", function(e) {
+                const countries = displayCountries(e.target.value);
+                countryEl.innerHTML = populateOptions(countries);
+              });
+      }
     }
 })
