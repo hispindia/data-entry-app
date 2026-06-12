@@ -9,6 +9,7 @@ export const userGroupConfig = (data) => {
         orgUnits: data?.organisationUnits,
         viewOrgUnit: data?.dataViewOrganisationUnits,
         searchOrgUnit: data?.teiSearchOrganisationUnits,
+        userRoles: data?.userRoles,
         attributeValues: data?.attributeValues,
     };
     if (!data || !data.userGroups) {

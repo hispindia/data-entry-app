@@ -72,6 +72,10 @@ export const attributes = {
     organisationType: "U7L75bi4oNF",
     dhis2CodeVerified: "ATmUT1JYobI"
 };
+export const users = {
+    superUser: "yrB6vc5Ip3r",
+    adminUser: "rhii1gmT3vo"
+}
 
 export const tei = {
     affiliate: '',

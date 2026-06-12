@@ -1,7 +1,7 @@
 import { dataApi } from "../api/DataApi.js";
 import { populateOptions, convert, fetchValueType, ruleCallback, configureRules } from "./metadata.js";
 import { optionSetApi, programsApi, programStageApi } from "../api/metaDataApi.js";
-import { attributes, optionSet, orgUnit, programRules, programs,tei, programStage } from "../constant.js";
+import { attributes, optionSet, orgUnit, programRules, programs,tei, programStage, users } from "../constant.js";
 import { getUserConfig } from "./config.js";
 import { toast } from "./utils.js"
 
@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
   }
   $('.sidebar-menu').show();
-  if(!userConfig.user.includes('kyc'))  $('.maintenance').removeClass('d-none');
+    if (userConfig.userRoles !== users.superUser || userConfig.userRoles !== users.adminUser) {
+        $('.maintenance').removeClass('d-none');
+    }
 
   // Add event listener to 
   document.querySelectorAll(".nav-link").forEach(function (element) {
