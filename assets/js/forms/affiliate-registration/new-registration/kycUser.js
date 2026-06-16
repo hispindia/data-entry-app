@@ -220,10 +220,11 @@ const newRegistration = async (userConfig) => {
             }
         }
         try {
-
+            let affiliateId;
             if(!tei.affiliate) {
-                const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, eventStatus: 'COMPLETED'});
-                const affiliate = await dataApi.enroll(payload);
+                const enrollPayload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, eventStatus: 'COMPLETED'});
+                const affiliate = await dataApi.enroll(enrollPayload);
+                affiliateId = affiliate?.response?.importSummaries?.[0]?.trackedEntity;
                 toast({status: 'SUCCESS', message: 'Affiliate saved successfully!', affiliate});
             } else {
                 let eventId = '', enrollmentId = '';
@@ -237,10 +238,36 @@ const newRegistration = async (userConfig) => {
                     })
                 })
 
-                const payload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId, eventStatus: 'COMPLETED'});
-                dataApi.enroll(payload);
+                const enrollPayload = createPayload.newEnroll({tei, orgUnit: orgUnit.affiliateKYC, program: programs.affiliateKyc, programStage: programStage.affiliateKyc, trackedEntity, enrollment:enrollmentId, event:eventId, eventStatus: 'COMPLETED'});
+                dataApi.enroll(enrollPayload);
+                affiliateId = trackedEntity;
                 toast({status: 'SUCCESS', message: 'Affiliate saved successfully', affiliate: trackedEntity});
+
+                const emailPayload = {
+                to_email: tei.values[attributes.contactEmail],
+                legal_name: tei.values[attributes.legalName],
+                region_code: tei.values[attributes.region],
+                country: tei.values[attributes.countryRegistration],
+                registration_number: tei.values[attributes.registrationNum],
+                submission_date: new Date().toISOString().split('T')[0],                
+              };
+
+            try {
+                await fetch('https://stage.hispindia.org/send-registration-email', {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                    body: JSON.stringify(emailPayload)
+            });
+            } catch (e) {
+                toast({
+                    status: "WARNING",
+                    message: "Affiliate saved but email failed."
+                });
             }
+
+        }
         }
         catch(e) {
             toast({status: 'ERROR', message: `Error Occurred: ${e}`});

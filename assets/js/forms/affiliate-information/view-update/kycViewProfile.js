@@ -20,7 +20,6 @@ const handleKycViewProfile = async(userConfig) => {
 
     const programUINControl = await programsApi.get(programs.UINControlMaster);
     
-    const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
 
     if (userConfig?.orgUnits?.length > 0) {
       const nonKycUnit = userConfig.orgUnits.find(unit => unit.name !== "KYC Affiliates");
@@ -29,7 +28,7 @@ const handleKycViewProfile = async(userConfig) => {
       }
     }
   
-    const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, filterParam);
+    const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster);
 
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
         toast({ status: 'INFO', message: 'No affiliate found for locked in username', position: "center"});

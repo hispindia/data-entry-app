@@ -112,7 +112,7 @@ export const dataElements = {
     registeredAddress: "b6BcgDUCFog",
     countryIncomeStatus: "uA6aKCAdLYK",
     oecdDACEligible: "fxr7wKpqhtO",
-    affiliationType: "",
+    affiliationType: "gDI26Sq88pk",
 
 
     // Board Members

@@ -262,6 +262,31 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
               ]
             })
+
+             const emailPayload = {
+                to_email: tei.values[attributes.contactEmail],
+                affiliate_name: tei.values[attributes.legalName],
+                legal_name: tei.values[attributes.legalName],
+                uin_code: nextOUCode,
+                affiliation_type: tei.values[dataElements.affiliationType],
+                assignment_date: new Date().toISOString().split('T')[0],                
+              };
+
+            try {
+                await fetch('http://stage.hispindia.org:8000/send-uin-assignment-email', {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify(emailPayload)
+            });
+            } catch (e) {
+                toast({
+                    status: "WARNING",
+                    message: "Affiliate saved but email failed."
+                });
+            }
+
              
             const syncBtn = document.getElementById(`sync-uin-btn-${tei.affiliate.trackedEntity}`);
             if (syncBtn) {

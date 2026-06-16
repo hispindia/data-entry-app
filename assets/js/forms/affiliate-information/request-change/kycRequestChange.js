@@ -164,7 +164,6 @@ const STAGE_MAPPING = {
     $("#searchResults").css("display", "none");
     const programAffiliateKyc = await programsApi.get(programs.UINControlMaster);
 
-    const filterParam = `filter=${attributes.user}:EQ:${userConfig?.username}`;
 
     if (userConfig?.orgUnits?.length > 0) {
       const nonKycUnit = userConfig.orgUnits.find(unit => unit.name !== "KYC Affiliates");
@@ -175,8 +174,7 @@ const STAGE_MAPPING = {
     
      const affiliateList = await dataApi.get(
         orgUnit.id,
-        programs.UINControlMaster,
-        filterParam
+        programs.UINControlMaster
       );
       
       if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
