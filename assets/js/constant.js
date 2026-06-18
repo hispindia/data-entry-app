@@ -70,8 +70,10 @@ export const attributes = {
     RegisteredAddress: "o1vN3K6W1P4",
     contactEmail: "IxhtGezsfWH",
     organisationType: "U7L75bi4oNF",
-    dhis2CodeVerified: "ATmUT1JYobI"
+    dhis2CodeVerified: "ATmUT1JYobI",
+    syncUINAttribute: "QikmXaoT3Vf"
 };
+
 export const users = {
     superUser: "yrB6vc5Ip3r",
     adminUser: "rhii1gmT3vo"

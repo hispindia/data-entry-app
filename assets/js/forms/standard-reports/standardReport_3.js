@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
       const [orgUnitResponse, teiResponse] = await Promise.all([
         BaseApi({
-          url: "29/organisationUnitGroups/nDrAezMbLFS.json?fields=id,name,organisationUnits[id,name,code,children[id,name]]",
+          url: "organisationUnitGroups/nDrAezMbLFS.json?fields=id,name,organisationUnits[id,name,code,children[id,name]]",
           method: "GET"
         }),
         BaseApi({

@@ -243,14 +243,14 @@ const newRegistration = async (userConfig) => {
                 affiliateId = trackedEntity;
                 toast({status: 'SUCCESS', message: 'Affiliate saved successfully', affiliate: trackedEntity});
 
-                const emailPayload = {
-                to_email: tei.values[attributes.contactEmail],
-                legal_name: tei.values[attributes.legalName],
-                region_code: tei.values[attributes.region],
-                country: tei.values[attributes.countryRegistration],
-                registration_number: tei.values[attributes.registrationNum],
-                submission_date: new Date().toISOString().split('T')[0],                
-              };
+            //     const emailPayload = {
+            //     to_email: tei.values[attributes.contactEmail],
+            //     legal_name: tei.values[attributes.legalName],
+            //     region_code: tei.values[attributes.region],
+            //     country: tei.values[attributes.countryRegistration],
+            //     registration_number: tei.values[attributes.registrationNum],
+            //     submission_date: new Date().toISOString().split('T')[0],                
+            //   };
 
             try {
                 await fetch('https://stage.hispindia.org/send-registration-email', {

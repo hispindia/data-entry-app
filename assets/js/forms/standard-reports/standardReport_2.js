@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
       const [orgUnitResponse, teiResponse, uinMasterResponse] = await Promise.all([
         BaseApi({
-          url: "29/organisationUnitGroups/nDrAezMbLFS.json?fields=id,name,organisationUnits[id,name,code,children[id,name]]",
+          url: "organisationUnitGroups/nDrAezMbLFS.json?fields=id,name,organisationUnits[id,name,code,children[id,name]]",
           method: "GET"
         }),
         BaseApi({
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           method: "GET"
         }),
         BaseApi({
-          url: "/programStages/HsKUiY7RyeO.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]],programStageSections[id,name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]]",
+          url: "programStages/HsKUiY7RyeO.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]],programStageSections[id,name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]]",
           method: "GET"
         })
       ]);

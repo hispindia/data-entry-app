@@ -96,7 +96,7 @@ export function getNextCode(codes) {
   return String(next).padStart(3, '0');
 }
 
-export function toast({status, message, position, affiliate, nextOUCode, move}) {
+export function toast({status, message, position, affiliate, nextOUCode, syncUIN, move}) {
     iziToast.settings({
       timeout: 1500, 
       transitionIn: 'flipInX',
@@ -111,6 +111,7 @@ export function toast({status, message, position, affiliate, nextOUCode, move}) 
                 onClosed: function () {
                     if(affiliate) window.location.href = window.location.pathname + `?affiliate=${affiliate}`;
                     if(nextOUCode) window.location.reload();
+                    if(syncUIN) window.location.reload();
                     if(move) window.location.href = 'https://links.hispindia.org/ippf_uin/api/apps/IPPF-UIN/1.2-eligibility-check-and-manage-waivers.html';
                 }
             });

@@ -37,11 +37,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     const checkboxOptions = [
     {
       label: "Business Planning and Reporting Portal",
-      api: "http://stage.hispindia.org:8000/orgunit-bpr"
+      api: "https://stage.hispindia.org/orgunit-bpr"
     },
     {
       label: "IPPF DHIS2",
-      api: "http://stage.hispindia.org:8000/orgunit-pro"
+      api: "https://stage.hispindia.org/orgunit-pro"
     },
  ]
       const DE_ROLE_MAP = {
@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const UINStages = [UINControlMaster, completionCheckList];
 
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
+     
       const attributes = {
         id: trackedEntity.trackedEntity
       };
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return attributes;
     })
     //filter affiliate list based on the status:
-    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted] && !trackedEntity[attributes.uinCodeAffiliate]);
+    const approvedList = affilitateAttrList.filter(trackedEntity => trackedEntity[attributes.acuityCheck]=="Passed" && trackedEntity[attributes.submitted] && !trackedEntity[attributes.syncUINAttribute]);
 
     document.getElementById('approvedCount').innerHTML = approvedList.length;
   
@@ -115,6 +116,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         else tbodyAffiliateApprovedRow += `<td class="text-center" >${(affiliate[attr.id] ? affiliate[attr.id]: '')}</td>`
       });
+      const hasUIN = !!affiliate[attributes.uinCodeAffiliate];
       tbodyAffiliateApprovedRow += `
       <td class="text-center">  
       <button 
@@ -126,24 +128,31 @@ document.addEventListener("DOMContentLoaded", async function () {
       </button>
       </td>
       <td class="text-center">  
-      <button 
+      ${hasUIN ?  
+        `<button class="btn btn-sm row-btn" disabled style="background-color: rgb(170, 101, 82);  border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 10px; cursor:not-allowed;">Generated</button>` : 
+        `<button 
         data-affiliate="${affiliate.id}" 
         data-id="generate-uin"
         class="btn btn-sm row-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 10px;">
         Generate
-      </button>
+      </button>`
+    }
       </td>
       <td class="text-center">
       <button 
         data-affiliate="${affiliate.id}" 
         data-region="${affiliate[attributes.region] || ''}"
         data-name="${affiliate[attributes.legalName] || ''}"
+        data-uin="${hasUIN ? affiliate[attributes.uinCodeAffiliate] : ''}"
         data-id="sync-uin"
         id="sync-uin-btn-${affiliate.id}"
-        class="btn btn-sm row-btn open-popup-btn" style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 9px; opacity: 0.6; cursor: not-allowed; white-space: nowrap;">
+        class="btn btn-sm row-btn open-popup-btn" 
+        style="background-color: rgb(235, 51, 0); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 9px; white-space: nowrap;
+        ${hasUIN ? 'opacity: 1; cursor: pointer;' : 'opacity: 0.6; cursor: not-allowed;'}"
+        ${hasUIN ? '' : 'disabled'}>
         Sync UIN
       </button>
-      </td>
+        </td>
       </tr>`
     })
     
@@ -263,17 +272,17 @@ document.addEventListener("DOMContentLoaded", async function () {
               ]
             })
 
-             const emailPayload = {
-                to_email: tei.values[attributes.contactEmail],
-                affiliate_name: tei.values[attributes.legalName],
-                legal_name: tei.values[attributes.legalName],
-                uin_code: nextOUCode,
-                affiliation_type: tei.values[dataElements.affiliationType],
-                assignment_date: new Date().toISOString().split('T')[0],                
-              };
+            //  const emailPayload = {
+            //     to_email: tei.values[attributes.contactEmail],
+            //     affiliate_name: tei.values[attributes.legalName],
+            //     legal_name: tei.values[attributes.legalName],
+            //     uin_code: nextOUCode,
+            //     affiliation_type: tei.values[dataElements.affiliationType],
+            //     assignment_date: new Date().toISOString().split('T')[0],                 
+            //   };
 
             try {
-                await fetch('http://stage.hispindia.org:8000/send-uin-assignment-email', {
+                await fetch('https://stage.hispindia.org:8000/send-uin-assignment-email', {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json"
@@ -292,14 +301,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (syncBtn) {
               syncBtn.setAttribute('data-uin', nextOUCode);
               syncBtn.setAttribute('data-teiid', teiId);
+              syncBtn.setAttribute('data-affiliate', tei.affiliate.trackedEntity);
               syncBtn.style.opacity = '1';
               syncBtn.style.cursor = 'pointer';
             }
+            button.disabled = true;
             button.dataset.generated = "true";
             button.style.opacity = "0.6";
             button.style.cursor = "not-allowed";
             hideLoader();
-            toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`});
+            toast({status: 'SUCCESS', message: `UIN Generated Successfully!\nUIN No: ${nextOUCode}`, nextOUCode});
           }
         }                 
       } catch (error) {
@@ -311,7 +322,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       else if (id == "sync-uin") {
         const uinCode = button.getAttribute("data-uin");
-        const newTeiId = button.getAttribute("data-teiid");
+        const teiId = button.getAttribute("data-teiid");
+
+        const affiliateId = button.dataset.affiliate;
+        let newTeiId = button.dataset.teiid;
+        let affiliateData;
+        if (!newTeiId) {
+          const resAffiliate = await dataApi.getTrackedEntity(affiliateId);
+          affiliateData = resAffiliate.trackedEntities[0];
+          newTeiId = affiliateData.enrollments?.[0]?.enrollment;
+        }
 
         const selectedAffiliateData = {
           regionCode: button.getAttribute("data-region"),
@@ -337,7 +357,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const checked = $(".dynamic-checkbox:checked").length;
           $("#submitActions").prop("disabled", checked === 0);
         });
-
+        const syncUIN = affiliate[attributes.syncUINAttribute];
         $("#submitActions").off("click").on("click", async function () {
           const checkedBoxes = $(".dynamic-checkbox:checked");
           try {
@@ -352,7 +372,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 legal_name: selectedAffiliateData.legalName,
               };
 
-
               await fetch(api, {
                 method: "POST",
                 headers: {
@@ -362,7 +381,23 @@ document.addEventListener("DOMContentLoaded", async function () {
               });
             }
 
-            toast({ status: "SUCCESS", message: "UIN Synced Successfully", position:'topRight', nextOUCode: true});
+            await dataApi.postAttribute({
+              "trackedEntities": [
+                {
+                  trackedEntity: affiliateData?.trackedEntity,
+                  program: programAffiliateKyc,
+                  orgUnit: affiliateData?.orgUnit,
+                  trackedEntityType: trackedEntityType,
+                  "attributes": [
+                    {
+                      "attribute": attributes.syncUINAttribute,
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            });
+            toast({ status: "SUCCESS", message: "UIN Synced Successfully", position:'topRight', syncUIN : true});
             $("#actionModal").modal("hide");
 
           } catch (error) {
