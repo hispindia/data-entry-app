@@ -373,7 +373,7 @@
     { name:'Total Spend (%) \u2014 Focus Area', def:'The proportion of the total budget that has been spent, expressed as a percentage. Calculated as (Total Actual Expenses \u00f7 Total Budgeted Expenses) \u00d7 100.', sec:'sec4', tag:'4.1 Control' },
     // 4.2 Budget vs Actuals Table
     { name:'Focus Area', def:'One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.', sec:'sec4', tag:'4.2 Table' },
-    { name:'Budget (Focus Area)', def:'The planned or approved financial allocation for a specific focus area within a project for the reporting year, as set out in the Annual Business Plan or project agreement.', sec:'sec4', tag:'4.2 Table' },
+    { name:'Budget (Focus Area)', def:'The project budget broken down by the 11 IPPF Focus Areas. Fill in as many as are relevant. The total should match the project total in the other sections.', sec:'sec4', tag:'4.2 Table' },
     { name:'Actual Expenses (Focus Area)', def:'The amount spent within a specific focus area during the reporting year. Should reflect verified expenditure from the Affiliate\'s financial records.', sec:'sec4', tag:'4.2 Table' },
     { name:'Variance ($)', def:'The monetary difference between budgeted amount and actual expenses for a specific focus area. Calculated as Budget minus Actual Expenses. Positive = underspend; negative = overspend.', sec:'sec4', tag:'4.2 Table' },
     { name:'Total Spend (%)', def:'The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses \u00f7 Budget) \u00d7 100.', sec:'sec4', tag:'4.2 Table' },

@@ -88,8 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
             || enroll.program == program.auProjectBudget
             || enroll.program == program.auOrganisationDetails
             || enroll.program == program.arTotalIncome
+            || enroll.program == program.auIncomeDetails
           );
           
+          let dataValuesAI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: 2026}) //data values year wise
           let dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesPB = getProgramStageEvents(filteredPrograms, programStage.auProjectBudget, program.auProjectBudget, {id: tei.year.id, value: tei.year.value}) //data values year wise
@@ -103,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dataValuesPD,
             dataValuesPB,
             dataValuesTI,
+            dataValuesAI: dataValuesAI[2026] ? dataValuesAI[2026] : {},
           })
         }
       }
@@ -160,6 +163,96 @@ document.addEventListener("DOMContentLoaded", function () {
       id: 'Lv8wUjXV8fl',
       name: 'Affiliate Code',
       style: ''
+    },
+     {
+      category: "qrdiDKqQotg",
+      subCategory: "HpQbJhYuPM2",
+      restricted: "L8F8NMleQ74",
+      unrestricted: "tZ4fnmYUZrb",
+    },
+    {
+      category: "L89RPS2xzNl",
+      subCategory: "kuoG8PGLFuZ",
+      restricted: "Rx60jU8qcHK",
+      unrestricted: "VbMRlHYnXZe",
+    },
+    {
+      category: "mHacTCqp5St",
+      subCategory: "hnXbOHg5bro",
+      restricted: "Yvv5RdaSe8Y",
+      unrestricted: "anMZcNcHl9v",
+    },
+    {
+      category: "IOf1cgEwUVt",
+      subCategory: "l29xg2NekFC",
+      restricted: "c9uYmp6rphe",
+      unrestricted: "TNDxPT1BpdM",
+    },
+    {
+      category: "tK20oVQDvjE",
+      subCategory: "R9l35aWlXXL",
+      restricted: "rHcRF5msB6F",
+      unrestricted: "LkAuxtHZmCo",
+    },
+    {
+      category: "VJC9jDYrilT",
+      subCategory: "PMD1hE8SfTu",
+      restricted: "GkI0EQPqj68",
+      unrestricted: "oobsMxv6tVj",
+    },
+    {
+      category: "eF1Du2rscoA",
+      subCategory: "Fy86bwBQyAf",
+      restricted: "rIHCiiqb4BR",
+      unrestricted: "OmX5CsyCd3X",
+    },
+    {
+      category: "Yn7LiC5Zinj",
+      subCategory: "I2wg5Wk2xRs",
+      restricted: "wYq1TQYo9oR",
+      unrestricted: "IiPS5WeMiEZ",
+    },
+    {
+      category: "gcErTbOLAjF",
+      subCategory: "p2Q4pDa2qSY",
+      restricted: "OLa9Ivapl5M",
+      unrestricted: "CKxQ0nDgERP",
+    },
+    {
+      category: "n3IO1nKmHYf",
+      subCategory: "QjkTHjCBDFR",
+      restricted: "r9C5rfeYYhX",
+      unrestricted: "pDdaySWGkht",
+    },
+    {
+      category: "QGWY8yLtmhk",
+      subCategory: "k7LQxLjGrdW",
+      restricted: "u91tUbtItYw",
+      unrestricted: "wzYiQB2F4xY",
+    },
+    {
+      category: "uBN3PJRnDRJ",
+      subCategory: "PhQNT9g4t7w",
+      restricted: "UpT3ixVCHvq",
+      unrestricted: "UdO4L0WPCgU",
+    },
+    {
+      category: "zxRotHuBZ1U",
+      subCategory: "iA0kHSNW2aD",
+      restricted: "j8hW9UK68J0",
+      unrestricted: "FwF80sUq4se",
+    },
+    {
+      category: "HrH4reost9F",
+      subCategory: "XN3gKUfTbfN",
+      restricted: "lsdeQnuiFDT",
+      unrestricted: "tGS8X8B4BtK",
+    },
+    {
+      category: "T8nVKg8gGUf",
+      subCategory: "ItAOdoNz8J6",
+      restricted: "hgL1wdB6phE",
+      unrestricted: "rjpeljMpmzI",
     },
     // {
     //   id: 'budgetedIncome',
@@ -338,10 +431,10 @@ document.addEventListener("DOMContentLoaded", function () {
     //   name: 'Total Unrestricted Income 2024',
     //   style: 'background:#2596be;'
     // },
-    {
-      id: 'GbGunhHaiDt',
-      name: 'Submitted'
-    }
+    // {
+    //   id: 'GbGunhHaiDt',
+    //   name: 'Submitted'
+    // }
   ]
 
   var tableHead = `<tr><td style="font-weight:bold">Region</td><td style="font-weight:bold">Affiliate Name</td>`;
@@ -449,7 +542,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     deList.forEach((de,index) => {
       if(index<2) tableRow += `<td style="${de.style}">${values[de.id] ? values[de.id]: ''}</td>`
-      else  tableRow += `<td style="${de.style}">${item['dataValuesTI'][de.id] ? item['dataValuesTI'][de.id] : ''}</td>`
+      else  tableRow += `<td style="${de.style}"><span style="color:red">${item['dataValuesAI'][de?.restricted] ? item['dataValuesAI'][de?.restricted] : ''}</span><span style="color:yellow">${item['dataValuesAI'][de?.unrestricted] ? item['dataValuesAI'][de?.unrestricted] : ''}</span></td>`
     })
     tableRow += '</tr>'
     })

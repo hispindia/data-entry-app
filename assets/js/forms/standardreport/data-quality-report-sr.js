@@ -166,6 +166,99 @@ async function fetchDataSet(orgUnit, year) {
   }
 
   function displayBudgetTotals(level2OU, dataValues) {
+    const year = document.getElementById("year-update").value;
+     const projectTotalIncome = [
+    {
+      category: "qrdiDKqQotg",
+      subCategory: "HpQbJhYuPM2",
+      restricted: "L8F8NMleQ74",
+      unrestricted: "tZ4fnmYUZrb",
+    },
+    {
+      category: "L89RPS2xzNl",
+      subCategory: "kuoG8PGLFuZ",
+      restricted: "Rx60jU8qcHK",
+      unrestricted: "VbMRlHYnXZe",
+    },
+    {
+      category: "mHacTCqp5St",
+      subCategory: "hnXbOHg5bro",
+      restricted: "Yvv5RdaSe8Y",
+      unrestricted: "anMZcNcHl9v",
+    },
+    {
+      category: "IOf1cgEwUVt",
+      subCategory: "l29xg2NekFC",
+      restricted: "c9uYmp6rphe",
+      unrestricted: "TNDxPT1BpdM",
+    },
+    {
+      category: "tK20oVQDvjE",
+      subCategory: "R9l35aWlXXL",
+      restricted: "rHcRF5msB6F",
+      unrestricted: "LkAuxtHZmCo",
+    },
+    {
+      category: "VJC9jDYrilT",
+      subCategory: "PMD1hE8SfTu",
+      restricted: "GkI0EQPqj68",
+      unrestricted: "oobsMxv6tVj",
+    },
+    {
+      category: "eF1Du2rscoA",
+      subCategory: "Fy86bwBQyAf",
+      restricted: "rIHCiiqb4BR",
+      unrestricted: "OmX5CsyCd3X",
+    },
+    {
+      category: "Yn7LiC5Zinj",
+      subCategory: "I2wg5Wk2xRs",
+      restricted: "wYq1TQYo9oR",
+      unrestricted: "IiPS5WeMiEZ",
+    },
+    {
+      category: "gcErTbOLAjF",
+      subCategory: "p2Q4pDa2qSY",
+      restricted: "OLa9Ivapl5M",
+      unrestricted: "CKxQ0nDgERP",
+    },
+    {
+      category: "n3IO1nKmHYf",
+      subCategory: "QjkTHjCBDFR",
+      restricted: "r9C5rfeYYhX",
+      unrestricted: "pDdaySWGkht",
+    },
+    {
+      category: "QGWY8yLtmhk",
+      subCategory: "k7LQxLjGrdW",
+      restricted: "u91tUbtItYw",
+      unrestricted: "wzYiQB2F4xY",
+    },
+    {
+      category: "uBN3PJRnDRJ",
+      subCategory: "PhQNT9g4t7w",
+      restricted: "UpT3ixVCHvq",
+      unrestricted: "UdO4L0WPCgU",
+    },
+    {
+      category: "zxRotHuBZ1U",
+      subCategory: "iA0kHSNW2aD",
+      restricted: "j8hW9UK68J0",
+      unrestricted: "FwF80sUq4se",
+    },
+    {
+      category: "HrH4reost9F",
+      subCategory: "XN3gKUfTbfN",
+      restricted: "lsdeQnuiFDT",
+      unrestricted: "tGS8X8B4BtK",
+    },
+    {
+      category: "T8nVKg8gGUf",
+      subCategory: "ItAOdoNz8J6",
+      restricted: "hgL1wdB6phE",
+      unrestricted: "rjpeljMpmzI",
+    },
+  ];
 
     var tableHead = `<tr>
     <th style="background:#276696;color:white;text-align:center;border:1px solid black;">Member / collaborative Partner</th>
@@ -214,7 +307,8 @@ async function fetchDataSet(orgUnit, year) {
 
         var varianceECTIPercent = (totalECActual && totalECActual/totalIncomeAR!="Infinity" && totalECActual/totalIncomeAR) ? (totalECActual/totalIncomeAR*100): 0;
 
-        dataElements.projectTotalIncome.forEach(pti => {
+        const selProjectTotalIncome = year > 2025 ? dataElements.projectTotalIncome : projectTotalIncome;
+        selProjectTotalIncome.forEach(pti => {
           if (dataValues[ou.id]['auti'][pti.category] && dataValues[ou.id]['auti'][pti.restricted]) {
             totalIncome += Number(dataValues[ou.id]['auti'][pti.restricted]);
           }

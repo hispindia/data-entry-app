@@ -1,6 +1,7 @@
 import { eventApi } from '../../api/DataApi.js';
+import { dataSet } from '../../api/dataSet.js';
 import { getMeData, getOrganisationUnits, getProgramStageEvents, getProgramStagePeriodicity } from '../../api/func.js';
-import { tei, dataElements, program, programStage } from '../../constant.js';
+import { tei, dataElements, program, programStage, dataSetFunds } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
@@ -89,6 +90,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  async function fetchDataSet(orgUnit, year) {
+    const values = {};
+      
+    const dataValuesQuantity = await dataSet.getValues(dataSetFunds, orgUnit, year);
+    dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
+
+    return values;
+  }
+
   async function fetchEvents() {
     $("#project-export").hide();
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
@@ -105,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
 
+        const dataSetValues = await fetchDataSet(ou.id, tei.year.value);
         const event = await eventApi.get(ou.id);
 
         var attributes = {};
@@ -142,7 +153,10 @@ document.addEventListener("DOMContentLoaded", function () {
             dataValuesFA,
             dataValuesEC,
             dataValuesRO,
-            dataValuesTI,
+            dataValuesTI : {
+            ...dataValuesTI,
+            tGS8X8B4BtK: dataSetValues[dataElements.fullAllocation] ? dataSetValues[dataElements.fullAllocation] : '0'
+            },
           })
         }
       }
@@ -546,6 +560,99 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function getTotalIncome(dataValuesOU, level2OU){
     const year = document.getElementById("year-update").value;
+
+  const projectTotalIncome = [
+    {
+      category: "qrdiDKqQotg",
+      subCategory: "HpQbJhYuPM2",
+      restricted: "L8F8NMleQ74",
+      unrestricted: "tZ4fnmYUZrb",
+    },
+    {
+      category: "L89RPS2xzNl",
+      subCategory: "kuoG8PGLFuZ",
+      restricted: "Rx60jU8qcHK",
+      unrestricted: "VbMRlHYnXZe",
+    },
+    {
+      category: "mHacTCqp5St",
+      subCategory: "hnXbOHg5bro",
+      restricted: "Yvv5RdaSe8Y",
+      unrestricted: "anMZcNcHl9v",
+    },
+    {
+      category: "IOf1cgEwUVt",
+      subCategory: "l29xg2NekFC",
+      restricted: "c9uYmp6rphe",
+      unrestricted: "TNDxPT1BpdM",
+    },
+    {
+      category: "tK20oVQDvjE",
+      subCategory: "R9l35aWlXXL",
+      restricted: "rHcRF5msB6F",
+      unrestricted: "LkAuxtHZmCo",
+    },
+    {
+      category: "VJC9jDYrilT",
+      subCategory: "PMD1hE8SfTu",
+      restricted: "GkI0EQPqj68",
+      unrestricted: "oobsMxv6tVj",
+    },
+    {
+      category: "eF1Du2rscoA",
+      subCategory: "Fy86bwBQyAf",
+      restricted: "rIHCiiqb4BR",
+      unrestricted: "OmX5CsyCd3X",
+    },
+    {
+      category: "Yn7LiC5Zinj",
+      subCategory: "I2wg5Wk2xRs",
+      restricted: "wYq1TQYo9oR",
+      unrestricted: "IiPS5WeMiEZ",
+    },
+    {
+      category: "gcErTbOLAjF",
+      subCategory: "p2Q4pDa2qSY",
+      restricted: "OLa9Ivapl5M",
+      unrestricted: "CKxQ0nDgERP",
+    },
+    {
+      category: "n3IO1nKmHYf",
+      subCategory: "QjkTHjCBDFR",
+      restricted: "r9C5rfeYYhX",
+      unrestricted: "pDdaySWGkht",
+    },
+    {
+      category: "QGWY8yLtmhk",
+      subCategory: "k7LQxLjGrdW",
+      restricted: "u91tUbtItYw",
+      unrestricted: "wzYiQB2F4xY",
+    },
+    {
+      category: "uBN3PJRnDRJ",
+      subCategory: "PhQNT9g4t7w",
+      restricted: "UpT3ixVCHvq",
+      unrestricted: "UdO4L0WPCgU",
+    },
+    {
+      category: "zxRotHuBZ1U",
+      subCategory: "iA0kHSNW2aD",
+      restricted: "j8hW9UK68J0",
+      unrestricted: "FwF80sUq4se",
+    },
+    {
+      category: "HrH4reost9F",
+      subCategory: "XN3gKUfTbfN",
+      restricted: "lsdeQnuiFDT",
+      unrestricted: "tGS8X8B4BtK",
+    },
+    {
+      category: "T8nVKg8gGUf",
+      subCategory: "ItAOdoNz8J6",
+      restricted: "hgL1wdB6phE",
+      unrestricted: "rjpeljMpmzI",
+    },
+  ];
     var deList = [
       {
         id: 'OgPuoRimaat',
@@ -750,64 +857,64 @@ document.addEventListener("DOMContentLoaded", function () {
     }))
 
     tableRow += `<tr><td>${region}</td><td>${item.orgUnit}</td>`;
-
-    dataElements.projectTotalIncome.forEach(pti => {
+    const selProjectTotalIncome = year > 2025 ? dataElements.projectTotalIncome : projectTotalIncome;
+    selProjectTotalIncome.forEach(pti => {
+      
+        if(item.dataValuesID[year] && item.dataValuesID[year][pti.restricted]) {
+          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.restricted]);
+        }
+        if(item.dataValuesID[year] && item.dataValuesID[year][pti.unrestricted]) {
+          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.unrestricted]);
+        }
+    })
+    dataElements.projectTotalIncome.forEach((pti, index) => {
       
         if(item.dataValuesTI && item.dataValuesTI[pti.restricted]) {
+          values['totalIncomeRestricted'] += Number(item.dataValuesTI[pti.restricted]);
           values[pti.category] += Number(item.dataValuesTI[pti.restricted]);
           values['totalIncome'] += Number(item.dataValuesTI[pti.restricted]);
         }
         if(item.dataValuesTI && item.dataValuesTI[pti.unrestricted]) {
-          values[pti.category] += Number(item.dataValuesTI[pti.unrestricted]);
+          values['totalIncomeUnrestricted'] += Number(item.dataValuesTI[pti.unrestricted]);
+          if(pti.category!='T8nVKg8gGUf') values[pti.category] += Number(item.dataValuesTI[pti.unrestricted]);
           values['totalIncome'] += Number(item.dataValuesTI[pti.unrestricted]);
           values['ippfCore'] += Number(item.dataValuesTI[pti.unrestricted]);
+          if(index < dataElements.projectTotalIncome.length-2) {
+            values['nonIppfCore'] += Number(item.dataValuesTI[pti.unrestricted]);
+          } else  {
+            values['totalUnrestricted'] += Number(item.dataValuesTI[pti.unrestricted]);
+          }
         }
-
-        if(item.dataValuesID[year] && item.dataValuesID[year][pti.restricted]) {
-          values['totalIncomeRestricted'] += Number(item.dataValuesID[year][pti.restricted]);
-          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.restricted]);
-        }
-        if(item.dataValuesID[year] && item.dataValuesID[year][pti.unrestricted]) {
-          values['totalIncomeUnrestricted'] += Number(item.dataValuesID[year][pti.unrestricted]);
-          values['budgetedIncome'] += Number(item.dataValuesID[year][pti.unrestricted]);
-        }
-      
-
-      
     })
+    values['ippfPercentage'] = values['totalIncome'] && (values['totalUnrestricted']/values['totalIncome']) ? ((values['totalUnrestricted']/values['totalIncome'])*100).toFixed(2): ''
 
     values['ippfCorePer'] = values['ippfCore'] && values['totalIncome'] && (values['ippfCore']/values['totalIncome']) ? ((values['ippfCore']/values['totalIncome'])*100).toFixed(2)  : '';
     
     deList.forEach((de,index) => {
-      if(index>=9 && index<=16) {
+      if(index>=10 && index<=17) {
         values['totalLocallyGenerated'] += values[de.id];
         values['totalIncomeControl'] += values[de.id];
       }
-      if(index>=19 && index<=23) {
+      if(index>=20 && index<=24) {
         values['totalInternational'] += values[de.id];
         values['totalIncomeControl'] += values[de.id];
       }
-      if(index==26 || index==27) {
+      if(index==27 || index==28) {
         values['totalIppf'] += values[de.id];
         values['totalIncomeControl'] += values[de.id];
       }
     })
 
     values['percentLocallyGenerated'] = values['totalLocallyGenerated'] && values['totalIncome'] && (values['totalLocallyGenerated']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2) : '';
-    values['percentInternational'] = values['totalInternational'] && values['totalIncome'] && (values['totalInternational']/values['totalIncome']) ? ((values['totalLocallyGenerated']/values['totalIncome'])*100).toFixed(2)  : '';
+    values['percentInternational'] = values['totalInternational'] && values['totalIncome'] && (values['totalInternational']/values['totalIncome']) ? ((values['totalInternational']/values['totalIncome'])*100).toFixed(2)  : '';
     values['percentIppf'] = values['totalIppf'] && values['totalIncome'] && (values['totalIppf']/values['totalIncome']) ? ((values['totalIppf']/values['totalIncome'])*100).toFixed(2)  : '';
     values['totalIncomePer'] = values['totalIncome'] && values['totalIncomeControl'] && (values['totalIncomeControl']/values['totalIncome']) ? ((values['totalIncomeControl']/values['totalIncome'])*100).toFixed(2)  : '';
     
     values['totalCommodities'] = Number(values['internationalDonors']) + Number(values['localIncome']) + Number(values['inkindDonations']) + Number(values['otherincome']);
     if(values['totalCommodities'] && values['totalIncome']) values['percentTotalCommodities'] = (values['totalCommodities'] && values['totalIncome'] && values['totalCommodities']/values['totalIncome']) ? (( values['totalCommodities']/values['totalIncome'])*100).toFixed(2): '';
   
-    if(item.dataValuesOD && item.dataValuesOD[dataElements.yearAmount]) {
-      values['totalUnrestricted'] = Number(item.dataValuesOD[dataElements.yearAmount]);
-      values['ippfPercentage'] = values['totalIncome'] && (item.dataValuesOD[dataElements.yearAmount]/values['totalIncome']) ? ((item.dataValuesOD[dataElements.yearAmount]/values['totalIncome'])*100).toFixed(2): ''
-    }
-
-    if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
-    if(values['totalUnrestricted']) values['nonIppfCore'] -= values['totalUnrestricted'];
+    // if(values['ippfCore']) values['nonIppfCore'] = values['ippfCore'];
+    // if(values['totalUnrestricted']) values['nonIppfCore'] -= values['totalUnrestricted'];
     
     dataElements.arProjectExpenseCategory.forEach((pec, index) => {
       if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
