@@ -627,30 +627,35 @@ debugger;
         const countryEl = document.getElementById(attributes.countryRegistration);
          if (!regionEl) return;
 
-          function displayCountries(regionValue) {
-            const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[regionValue]);
-            if (optionGroup) {
-              const countries = optionGroup.options;
-              return userConfig.orgUnits
-              .filter(c => countries.some(opt => opt.code == c.code))
-              .map(opt => ({label: opt.name, value: opt.code }))
-              .sort((a, b) => a.label.localeCompare(b.label));
-            }
-            return [];
-          }
+        function displayCountries(regionValue) {
 
-          const currentRegion = regionEl.value;
+        const optionGroup = resOptionGroups.optionGroups.find(
+            group => group.id == programRules.hideCountry[regionValue]
+        );
+
+        const sorted = optionGroup.options
+          .map(opt => ({
+              label: opt.name,
+              value: opt.code
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
+          
+
+        return sorted;
+}
+
+        const currentRegion = regionEl.value;
           if (currentRegion) {
-              const countries = displayCountries(currentRegion);
-              countryEl.innerHTML = populateOptions(countries);
+          const countries = displayCountries(currentRegion);
 
-              const savedCountries = tei.values[attributes.countryRegistration];
-              if (savedCountries) countryEl.value = savedCountries;
+        countryEl.innerHTML = populateOptions(countries);
+        const savedCountry = tei.values[attributes.countryRegistration];
+        countryEl.value = savedCountry;
 
-              regionEl.addEventListener("change", function(e) {
+          regionEl.addEventListener("change", function(e) {
                 const countries = displayCountries(e.target.value);
                 countryEl.innerHTML = populateOptions(countries);
-              });
-      }
+          });
+        }
     }
 })

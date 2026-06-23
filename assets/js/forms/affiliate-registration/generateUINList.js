@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const checked = $(".dynamic-checkbox:checked").length;
           $("#submitActions").prop("disabled", checked === 0);
         });
-        const syncUIN = affiliate[attributes.syncUINAttribute];
+        
         $("#submitActions").off("click").on("click", async function () {
           const checkedBoxes = $(".dynamic-checkbox:checked");
           try {
