@@ -131,6 +131,26 @@ debugger;
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
   tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
 
+    tei.fileType = new Set();
+
+    [...uinStage.sections, ...completionCheckList.sections].forEach(section => {
+      section.items.forEach(item => {
+        if (item.valueType === "FILE_RESOURCE") {
+          tei.fileType.add(item.code);
+        }
+      });
+    });
+
+    for (let id of tei.fileType) {
+      if (tei.values[id]) {
+        try {
+          tei.values[`${id}-file`] = await dataApi.getFile(tei.values[id]);
+          console.log("File metadata", id, tei.values[`${id}-file`]);
+        } catch (e) {
+          console.error("Error loading file metadata", id, e);
+        }
+      }
+    }
   programAttributes.sections.forEach(section => {
     section.items.forEach(element => {
       if (element.code === attributes.uinCode) {
@@ -148,7 +168,6 @@ debugger;
     })
   }) //-- form enabled because of feedback
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
-debugger;
   // --- Tab categorization helpers ---
   const bankKeywords = [
     'bank detail', 'bank account', 'additional bank',
@@ -612,7 +631,8 @@ debugger;
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, (tei?.values[el.code] || ""), {}, el.disabled)}
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, (el.disabled))}
+
                 <div id="error-${el.code}" style="color: red"></div>
             `;
             rowDiv.appendChild(fieldWrapper);
