@@ -571,9 +571,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
        let hasError = false;
         let firstErrorEl = null;
-        tei.mandatoryList.forEach(attr => {
-          const value = valuesToSend[attr];
-          const errorEl = document.getElementById(`error-${attr}`);
+        Object.entries(tei.metadata).forEach(([uId, meta]) => {
+          if (!meta.mandatory) return;
+          const value = valuesToSend[uId];
+          const errorEl = document.getElementById(`error-${uId}`);
           if (!errorEl) return;
           if (!value || value.toString().trim() === "") {
             hasError = true;
@@ -585,7 +586,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         if (hasError) {
-          toast({ status: 'ERROR', message: 'Please fill Affiliate KYC & Risk Screening section!' });
+          toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
            if (firstErrorEl) {
             firstErrorEl.closest('.form-group')?.scrollIntoView({ 
               behavior: 'smooth', 
@@ -820,10 +821,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         let hasError = false;
         let firstErrorEl = null;
-        tei.mandatoryList.forEach(attr => {
-          const value = valuesToSend[attr];
-          const errorEl = document.getElementById(`error-${attr}`);
-          if (!errorEl) return;
+        Object.entries(tei.metadata).forEach(([uid, meta]) => {
+          if (!meta.mandatory) return;
+          const value = valuesToSend[uid];
+          const errorEl = document.getElementById(`error-${uid}`);
+          if (!errorEl) return; 
+
           if (!value || value.toString().trim() === "") {
             hasError = true;
             errorEl.innerHTML = "This field is required";
@@ -834,7 +837,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         if (hasError) {
-          toast({ status: 'ERROR', message: 'Please fill Affiliate KYC & Risk Screening section!' });
+          toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
            if (firstErrorEl) {
             firstErrorEl.closest('.form-group')?.scrollIntoView({ 
               behavior: 'smooth', 
