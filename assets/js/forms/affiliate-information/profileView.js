@@ -5,6 +5,8 @@ import { dataSet } from "../../api/dataSet.js"
 import { attributes, dataElements, optionSet, programRules, programStage, programs, stageSections, tei, trackedEntityType } from "../../constant.js";
 import { convert, fetchValueType, configureRules, ruleCallback, populateOptions } from "../metadata.js";
 import { getUserConfig } from "../config.js";
+import { toast } from "../utils.js";
+
 
 document.addEventListener("DOMContentLoaded", async function () {
   const profileTabs = document.querySelectorAll('.profile-tab');
@@ -13,19 +15,23 @@ document.addEventListener("DOMContentLoaded", async function () {
   const tabButtonConfig = {
     'tab-affiliate': {
       next: false,
-      submit: true
+      submit: true,
+      back: true
     },
     'tab-bank': {
       next: true,
-      submit: true
+      submit: true,
+      back: true
     },
     'tab-completion': {
       next: true,
-      submit: true
+      submit: true,
+      back: true
     },
     'tab-affiliation': {
       next: false,
-      submit: true
+      submit: true,
+      back: true
     },
   }
  const userConfig = await getUserConfig();
@@ -49,6 +55,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   fetchAffiliateList();
   async function fetchAffiliateList() {
+
+  // if (tei.values[dataElements.disclaimer] === "true") tei.disabled = true; 
   tei.mandatoryList = []
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
@@ -93,6 +101,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       event.dataValues.forEach(dv => {
         if (!dataValues.hasOwnProperty(dv.dataElement)) {
           dataValues[dv.dataElement] = dv.value;
+          dataValues[`${dv.dataElement}-event`] = event.event; 
         }
       });
     });
@@ -110,7 +119,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const resRuleVariables = await programsApi.ruleVariables(programs.UINControlMaster);
   const resOptionGroups = await optionSetApi.getOptionGroups();
   tei.programRules = configureRules(resRuleVariables.programRuleVariables, resRules.programRules, resOptionGroups.optionGroups);
-debugger;
   const programMetadata = await programsApi.get(programs.UINControlMaster);
   const programAttributes = convert.attributes({ program: programMetadata, disabled: false });
 
@@ -129,7 +137,6 @@ debugger;
   tei.completionCheckListDEs = completionCheckList.dataElements;
   tei.uinStageDataElements = uinStage.dataElements;  
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
-  tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
 
     tei.fileType = new Set();
 
@@ -144,8 +151,8 @@ debugger;
     for (let id of tei.fileType) {
       if (tei.values[id]) {
         try {
+          tei.values[`${id}-href`] = `../../events/files?eventUid=${tei.values[`${id}-event`]}&dataElementUid=${id}`;
           tei.values[`${id}-file`] = await dataApi.getFile(tei.values[id]);
-          console.log("File metadata", id, tei.values[`${id}-file`]);
         } catch (e) {
           console.error("Error loading file metadata", id, e);
         }
@@ -167,6 +174,10 @@ debugger;
       }
     })
   }) //-- form enabled because of feedback
+  tei.mandatoryList = [...programAttributes.mandatoryList, ...uinStage.mandatoryList, ...completionCheckList.mandatoryList];
+    if (tei.values[dataElements.disclaimer] === "true") {
+    tei.disabled = true;
+  }
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
   // --- Tab categorization helpers ---
   const bankKeywords = [
@@ -185,7 +196,7 @@ debugger;
   }
 
   // Separate UIN stage sections into tab buckets
-  const affiliateStageSections = [];
+  tei.affiliateStageSections = [];
   const bankStageSections = [];
   const affiliationStageSections = [];
 
@@ -195,22 +206,11 @@ debugger;
     const cat = categorizeSection(section);
     if (cat === 'bank') bankStageSections.push(section);
     else if (cat === 'affiliation') affiliationStageSections.push(section);
-    else affiliateStageSections.push(section);
+    else tei.affiliateStageSections.push(section);
   });
 
-  // Check if user is "ma" role and enable Additional Document sections
-  // if (userConfig?.user) {
-  //   affiliateStageSections.forEach(section => {
-  //     console.log("section", section);
-  //     if (section.id === stageSections.documentChecklist || section.id === stageSections.documents) {
-  //       section.items.forEach(element => {
-  //         element.disabled = false;  // Enable all fields in these sections
-  //       });
-  //     }
-  //   });
-  // }
-  if (affiliateStageSections.length) {
-    affiliateStageSections.forEach(section => {
+  if (tei.affiliateStageSections.length) {
+    tei.affiliateStageSections.forEach(section => {
       section.items.forEach(element => {
         element.disabled = false;
       })
@@ -263,7 +263,7 @@ debugger;
   })
 
   const renderTabContent = () => {
-    document.getElementById("affiliateStage").innerHTML = renderSections(affiliateStageSections);
+    document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections);
     document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections]);
 
     // Show completion sections for users with write access OR "ma" users (for additional document submission)
@@ -316,6 +316,7 @@ debugger;
   });
 
   document.querySelector("#tab-affiliate").addEventListener('change', async function(e) {
+     if (tei.disabled) return;
     if (e.target.matches("input, select, textarea")) {
         if (e.target.id === attributes.countryRegistration) {
           const countryCode = e.target.value;
@@ -389,6 +390,19 @@ debugger;
 
     if (tabId == 'tab-affiliate') {
       backButtonData = 'external';
+      if (userConfig?.user.includes('kyc') && tabId == 'tab-affiliate') {
+        tabButtonConfig['tab-affiliate'].submit = false;
+        tabButtonConfig['tab-affiliate'].back = false;
+        renderKycActions();
+        document.getElementById('disclaimerCheck').addEventListener('change', function(e) {
+          const isChecked = e.target.checked;
+          const isDuplicate = tei.isDuplicateLegalName;
+          document.getElementById('submitBtn').disabled = !isChecked;
+          document.getElementById('saveAsDraft').disabled = !isChecked;
+        });
+        document.getElementById('saveAsDraft').addEventListener('click', () => handleSaveAsDraft());
+        document.getElementById('submitBtn').addEventListener('click', () => handleSaveAsDraft());
+    }
     } else { 
        backButtonData = 'previous';
        const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
@@ -401,18 +415,21 @@ debugger;
           backButtonLabel = `Back to ${prevTabName}`;
        }
     }
-    buttonHtml += `
-      <div class="col-4 mb-2">
+  
+    if (config.back) {
+      buttonHtml += `
+        <div class="col-4 mb-2">
         <button type="button" class="btn btn-lg btn-block" id="searchButton" data-action="${backButtonData}"  
           style="background-color: #6a6a6a; color: white;">${backButtonLabel}</button>
       </div>
-    `;
+      `;
+    }
 
     if (config.submit) {
       buttonHtml += `
       <div class="col-4 mb-2">
         <button type="button" class="btn btn-lg btn-block generate-uin-btn" id="generateUIN"
-          style="background-color: rgb(235, 51, 0); color: white;">Submit</button>
+          style="background-color: rgb(235, 51, 0); color: white;" ${tei.disabled ? 'disabled' : ''}>Submit</button>
       </div>
     `;
     }
@@ -552,6 +569,32 @@ debugger;
         return;
       }
 
+       let hasError = false;
+        let firstErrorEl = null;
+        tei.mandatoryList.forEach(attr => {
+          const value = valuesToSend[attr];
+          const errorEl = document.getElementById(`error-${attr}`);
+          if (!errorEl) return;
+          if (!value || value.toString().trim() === "") {
+            hasError = true;
+            errorEl.innerHTML = "This field is required";
+            if (!firstErrorEl) firstErrorEl = errorEl;
+          } else {
+            errorEl.innerHTML = "";
+          }
+        });
+
+        if (hasError) {
+          toast({ status: 'ERROR', message: 'Please fill Affiliate KYC & Risk Screening section!' });
+           if (firstErrorEl) {
+            firstErrorEl.closest('.form-group')?.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
+          }
+          return; 
+        }
+
       const payload = {
         trackedEntities: [
             {
@@ -625,13 +668,13 @@ debugger;
             if(el.hidden) continue;
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-md-4 mb-2";
-
+            const isDisabled = tei.disabled ? true : el.disabled;
             fieldWrapper.innerHTML = `
                 <label>
                     ${el.name}
                     ${el.mandatory ? '<span class="text-danger">*</span>' : ''}
                 </label>
-                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, (el.disabled))}
+                ${fetchValueType({id: el.code, valueType: el.valueType, valueSet: el.valueSet}, tei.values[el.code], {href:(tei?.values[`${el.code}-href`] || ""), file: (tei?.values[`${el.code}-file`] || "")}, (isDisabled))}
 
                 <div id="error-${el.code}" style="color: red"></div>
             `;
@@ -642,7 +685,7 @@ debugger;
     return container;
     }
 
-      function handleRegionCountryFilter(resOptionGroups, userConfig) {
+    function handleRegionCountryFilter(resOptionGroups, userConfig) {
         const regionEl = document.getElementById(attributes.region);
         const countryEl = document.getElementById(attributes.countryRegistration);
          if (!regionEl) return;
@@ -678,4 +721,204 @@ debugger;
           });
         }
     }
+
+    function renderKycActions() {
+       document.getElementById('disclaimerCheckforKyc').innerHTML = `        
+          <div class="card mb-3" style="border-radius: 0.5rem; background-color: white; border: 1px solid #e3e6f0;">
+                <div class="card-body d-flex align-items-start">
+                  <div class="form-check mr-3">
+                    <input class="form-check-input" type="checkbox" id="disclaimerCheck">
+                  </div>
+                  <p class="mb-0 text-muted" style="font-size: 0.95rem; line-height: 1.5; color: #333;">
+                    <strong style="color:black">Disclaimer:</strong> The information requested, which may include
+                    sensitive personal and financial details,
+                    is being collected for due diligence, compliance, and internal verification purposes only. IPPF
+                    undertakes to process
+                    such data in accordance with applicable data protection laws, confidentiality agreements, and
+                    organizational policies.
+                    Access to this data will be strictly limited to authorized personnel, and it will not be disclosed
+                    to any third party
+                    without explicit authorization or legal obligation. By providing this information, you acknowledge
+                    and consent to its
+                    processing for the purposes stated herein.
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end align-items-center p-3"
+                style="border-radius: 0.5rem;">
+                <button type="button" class="btn mr-2" id="saveAsDraft" 
+                  style="background-color: transparent; color: #333; border: 1px solid #d0d0d0; font-weight: 500; transition: 0.2s;" disabled>
+                  Save as Draft
+                </button>
+                <button type="button" class="btn mr-2" id="submitBtn" style="background-color: #b768a7; color: #fff; font-weight: 500; transition: 0.2s;" disabled>
+                  Submit
+                </button>
+                <button type="button" class="btn" id="sendToAcuityBtn" style="display:none; background-color: #E93300; color: #fff; font-weight: 500; transition: 0.2s;">
+                  Send to Acuity
+                </button>
+              </div>
+        `;
+        if (tei.disabled) {
+        document.getElementById('saveAsDraft').disabled = true;
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('disclaimerCheck').disabled = true;
+        }
+    }
+
+   async function handleSaveAsDraft() {
+      try {
+        const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
+        const enrollment = tei.affiliate.enrollments.find(e => e.program === programs.UINControlMaster);
+        if (!orgUnitId || !enrollment) return;
+
+        const existingEvent = enrollment?.events.find(e => e.programStage === programStage.UINControlMaster);
+        if (!existingEvent) {
+          toast({ status: "ERROR", message: "Existing event not found" });
+          return;
+        }
+
+        const existingValues = {};
+        existingEvent.dataValues?.forEach(dv => {
+          existingValues[dv.dataElement] = dv.value;
+        });
+
+        const fileUploads = {};
+        const valuesToSend = { ...tei.values };
+
+        for (const deUid of tei.uinStageDataElements) {
+          const el = document.getElementById(deUid);
+          if (!el) continue;
+
+          if (el.type === "file") {
+            if (el.files && el.files.length > 0) {
+              fileUploads[deUid] = el.files[0];
+            } else {
+              valuesToSend[deUid] = existingValues[deUid] || ""; 
+            }
+            continue;
+          }
+
+          if (el.type === "checkbox") {
+            valuesToSend[deUid] = el.checked;
+          } else {
+            valuesToSend[deUid] = el.value;
+          }
+        }
+
+        const newlyUploadedFiles = new Set();
+        for (const deUid in fileUploads) {
+          const formData = new FormData();
+          formData.append("file", fileUploads[deUid]);
+          const res = await dataApi.uploadFile(formData);
+          if (res.status !== "OK") {
+            iziToast.error({ message: "File upload failed", position: "center" });
+            return;
+          }
+          valuesToSend[deUid] = res.response.fileResource.id;
+          newlyUploadedFiles.add(deUid);
+        }
+
+        let hasError = false;
+        let firstErrorEl = null;
+        tei.mandatoryList.forEach(attr => {
+          const value = valuesToSend[attr];
+          const errorEl = document.getElementById(`error-${attr}`);
+          if (!errorEl) return;
+          if (!value || value.toString().trim() === "") {
+            hasError = true;
+            errorEl.innerHTML = "This field is required";
+            if (!firstErrorEl) firstErrorEl = errorEl;
+          } else {
+            errorEl.innerHTML = "";
+          }
+        });
+
+        if (hasError) {
+          toast({ status: 'ERROR', message: 'Please fill Affiliate KYC & Risk Screening section!' });
+           if (firstErrorEl) {
+            firstErrorEl.closest('.form-group')?.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
+          }
+          return; 
+        }
+
+        const changedDataValues = tei.uinStageDataElements
+          .filter(deUid => {
+            const el = document.getElementById(deUid);
+            if (el && el.type === "file" && !newlyUploadedFiles.has(deUid)) return false;
+            const newVal = valuesToSend[deUid] || "";
+            const oldVal = existingValues[deUid] || "";
+            return newVal.toString() !== oldVal.toString();
+          })
+          .map(deUid => ({
+            dataElement: deUid,
+            value: valuesToSend[deUid] || ""
+          }));
+
+        const existingAttributeValues = {};
+        tei.affiliate.attributes.forEach(attr => {
+          existingAttributeValues[attr.attribute] = attr.value;
+        });
+
+        const attributeUIDs = tei.programAttributes.sections
+          .flatMap(section => section.items)
+          .map(item => item.code);
+
+        const changedAttributes = attributeUIDs
+          .filter(attrUid => {
+            const newVal = valuesToSend[attrUid] || "";
+            const oldVal = existingAttributeValues[attrUid] || "";
+            return newVal.toString() !== oldVal.toString();
+          })
+          .map(attrUid => ({
+            attribute: attrUid,
+            value: valuesToSend[attrUid] || ""
+          }));
+
+        if (!changedDataValues.length && !changedAttributes.length) {
+          toast({ status: "INFO", message: "No changes to Submit", position: "center" });
+          return;
+        }
+
+        const payload = {
+          trackedEntities: [{
+            trackedEntity: tei.affiliate.trackedEntity,
+            orgUnit: orgUnitId,
+            trackedEntityType: trackedEntityType,
+            attributes: changedAttributes,
+          }],
+          events: [{
+            event: existingEvent.event,
+            enrollment: enrollment.enrollment,
+            trackedEntity: tei.affiliate.trackedEntity,
+            orgUnit: enrollment.orgUnit,
+            program: programs.UINControlMaster,
+            programStage: programStage.UINControlMaster,
+            occurredAt: existingEvent.occurredAt,
+            status: "ACTIVE",
+            dataValues: [
+              ...changedDataValues,
+              { dataElement: dataElements.disclaimer, value: "true" }
+            ]
+          }]
+        };
+
+        await dataApi.update(payload);
+        toast({ status: "SUCCESS", message: "Affiliate updated successfully!" });
+        tei.disabled = true;
+        document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections);
+        const saveBtn = document.getElementById('saveAsDraft');
+        const submitBtn = document.getElementById('submitBtn');
+        const disclaimerCheck = document.getElementById('disclaimerCheck');
+        if (saveBtn) saveBtn.disabled = true;
+        if (submitBtn) submitBtn.disabled = true;
+        if (disclaimerCheck) disclaimerCheck.disabled = true;
+        window.location.href = './2.1-view-and-update-profile.html';
+      } catch (e) {
+        console.error(e);
+        toast({ status: "ERROR", message: `Error occurred: ${e.message || e}` });
+      }
+}
 })
