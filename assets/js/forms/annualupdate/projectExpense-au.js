@@ -171,6 +171,8 @@ const maxWords = 200;
     $('#totals').empty();
     $('#totals').append(totalsRow);
 
+    buildPivotSummary();
+
     $('.loader-container').addClass('d-none').removeClass('d-flex');
     $('.myContainer').show();
 
@@ -265,7 +267,7 @@ const maxWords = 200;
                   ${tei.disabled ? 'disabled readonly': ''}
                   value="${(dataValues[dataElements.projectExpenseCategory[index].personnel]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].personnel]) : ''}"
                   name="personnel-${dataElements.projectExpenseCategory[index].name}-${index}"
-                  class="form-control textValue currency"
+                  class="form-control textValue personnel-value currency"
                 />                
               </div>
               </td>
@@ -278,7 +280,7 @@ const maxWords = 200;
                         type="text"
                         ${tei.disabled ? 'disabled readonly': ''}
                       value="${(dataValues[dataElements.projectExpenseCategory[index].activities]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].activities]) : ''}"
-                      class="form-control textValue currency"
+                      class="form-control textValue activities-value currency"
                       name="activities-${dataElements.projectExpenseCategory[index].name}-${index}"
                     />
                 </div>
@@ -292,7 +294,7 @@ const maxWords = 200;
                       type="text"
                       ${tei.disabled ? 'disabled readonly': ''}
                       value="${(dataValues[dataElements.projectExpenseCategory[index].commodities]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].commodities]) : ''}"
-                      class="form-control textValue currency"
+                      class="form-control textValue commodities-value currency"
                       name="commodities-${dataElements.projectExpenseCategory[index].name}-${index}"
                     />
                 </div>
@@ -307,7 +309,7 @@ const maxWords = 200;
                       type="text"
                       ${tei.disabled ? 'disabled readonly': ''}
                       value="${(dataValues[dataElements.projectExpenseCategory[index].cost]) ? formatNumberInput(dataValues[dataElements.projectExpenseCategory[index].cost]) : ''}"
-                      class="form-control textValue  currency"
+                      class="form-control textValue costs-value currency"
                       name="cost-${dataElements.projectExpenseCategory[index].name}-${index}"
                     />
                 </div>
@@ -518,7 +520,33 @@ function calculateTotals(name) {
   pushDataElement( $(`input[name="variation-${ids[1]}"]`)[0].id, variation);
   pushDataElement($(`.totalBudget-total`)[0].id, value);
   pushDataElement($(`.difference-total`)[0].id, difference);
+  buildPivotSummary();
 }
+
+  function buildPivotSummary() {
+    var personnels = 0;
+    var activities = 0;
+    var commodities = 0;
+    var costs = 0;
+    $(`.personnel-value`).each((_, el) => personnels += unformatNumber(el.value));
+    $(`.activities-value`).each((_, el) => activities += unformatNumber(el.value));
+    $(`.commodities-value`).each((_, el) => commodities += unformatNumber(el.value));
+    $(`.costs-value`).each((_, el) => costs += unformatNumber(el.value));
+    const total = personnels + activities + commodities + costs;
+    const difference = tei.yearAmount - total;
+    debugger;
+    
+    $(`.personnel-total`).val(formatNumberInput(personnels));
+    $(`.activities-total`).val(formatNumberInput(activities));
+    $(`.commodities-total`).val(formatNumberInput(commodities));
+    $(`.costs-total`).val(formatNumberInput(costs));
+    $(`.totalExpense-total`).val(formatNumberInput(total));
+    $(`.differences-total`).val(formatNumberInput(difference));
+    if(difference >= 0) $(`.differences-total`)[0].style.setProperty('background','#C1E1C1', 'important')
+    else $(`.differences-total`)[0].style.setProperty('background','#FAA0A0', 'important')
+
+  }
+
 function submitProjects() {
   alert("Data Saved Successfully!")
 }

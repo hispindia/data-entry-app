@@ -317,6 +317,43 @@
                       </div>
                     </form>
                   </div>
+                  
+                  <!-- Pivot Summary by Expense Category -->
+                  <div class="budget-wrap mt-4 table-responsive" id="pivot-summary-wrap">
+                    <h6 class="title-main mb-2">Summary by Expense Category (All Projects)</h6>
+                    <table class="table table-striped table-md mb-0" width="100%">
+                      <thead>
+                        <tr>
+                          <th class="pivot-focus-area-name"><strong data-i18n="intro.personnel">Personnel</strong></th>
+                          <th class="pivot-focus-area-name"><strong data-i18n="intro.activities">Direct project activities</strong></th>
+                          <th class="pivot-focus-area-name"><strong data-i18n="intro.commodities">Commodities</strong></th>
+                          <th class="pivot-focus-area-name"><strong data-i18n="intro.indirect">Indirect/ support costs</strong></th>
+                          <th class="pivot-focus-area-name"><strong data-i18n="">Totals</strong></th>
+                          <th class="pivot-focus-area-name"><strong data-i18n="intro.difference">Difference</strong></th>
+                        </tr>
+                      </thead>
+                      <tbody id="pivot-summary">
+                        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+                          <input type="text" class="form-control personnel-total" disabled readonly></div>
+                        </td>
+                        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+                          <input type="text" class="form-control activities-total" disabled readonly></div>
+                        </td>
+                        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+                          <input type="text" class="form-control commodities-total" disabled readonly></div>
+                        </td>
+                        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+                          <input type="text" class="form-control costs-total" disabled readonly></div>
+                        </td>
+                        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+                          <input type="text" class="form-control totalExpense-total" disabled readonly></div>
+                        </td>
+                        <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
+                          <input type="text" class="form-control differences-total" disabled readonly></div>
+                        </td>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 </div>
               </div>
