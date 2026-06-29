@@ -819,14 +819,23 @@ document.addEventListener("DOMContentLoaded", async function () {
           newlyUploadedFiles.add(deUid);
         }
 
+        const affiliateTabUIDs = new Set([
+          ...tei.programAttributes.sections.flatMap(section => section.items.map(item => item.code)),
+          ...tei.affiliateStageSections.flatMap(section => section.items.map(item => item.code))
+        ]);
+
         let hasError = false;
         let firstErrorEl = null;
         Object.entries(tei.metadata).forEach(([uid, meta]) => {
           if (!meta.mandatory) return;
-          const value = valuesToSend[uid];
+          if (!affiliateTabUIDs.has(uid)) return;
           const errorEl = document.getElementById(`error-${uid}`);
           if (!errorEl) return; 
 
+          const fieldEl = document.getElementById(uid);
+          if (!fieldEl) return;
+
+          const value = valuesToSend[uid];
           if (!value || value.toString().trim() === "") {
             hasError = true;
             errorEl.innerHTML = "This field is required";
@@ -918,7 +927,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (saveBtn) saveBtn.disabled = true;
         if (submitBtn) submitBtn.disabled = true;
         if (disclaimerCheck) disclaimerCheck.disabled = true;
-        window.location.href = './2.1-view-and-update-profile.html';
+        // window.location.href = './2.1-view-and-update-profile.html';
       } catch (e) {
         console.error(e);
         toast({ status: "ERROR", message: `Error occurred: ${e.message || e}` });
