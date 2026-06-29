@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.trackedEntityInstances.length) {
           const filteredPrograms = event.trackedEntityInstances[0].enrollments.filter((enroll) =>
                enroll.program == program.arProjectFocusArea
+            || enroll.program == program.auProjectExpenseCategory
             || enroll.program == program.arProjectExpenseCategory
             || enroll.program == program.auProjectDescription
             || enroll.program == program.arOrganisationDetails
@@ -139,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
           let dataValuesRO = getProgramStagePeriodicity(filteredPrograms, program.reportFeedback, programStage.arROFeedback, { id: tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value: tei.periodicity.value });//data values year wise
           let dataValuesOD = getProgramStagePeriodicity(filteredPrograms, program.arOrganisationDetails, programStage.arMembershipDetails, { id: tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value: tei.periodicity.value });//data values year wise
           let dataValuesPD = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value}) //data values year wise
+          let dataValuesAUEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value}) //data values year wise
           let dataValuesEC = getProgramStagePeriodicity(filteredPrograms, program.arProjectExpenseCategory, programStage.arProjectExpenseCategory, { id: tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value: tei.periodicity.value }); //data values year wise
           let dataValuesTI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id:tei.periodicity.id, value: tei.periodicity.value });//data values year wise
           let dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, { id: tei.year.id, value: tei.year.value }) //data values year wise
@@ -151,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dataValuesPD,
             dataValuesID,
             dataValuesFA,
+            dataValuesAUEC,
             dataValuesEC,
             dataValuesRO,
             dataValuesTI : {
@@ -474,8 +477,6 @@ document.addEventListener("DOMContentLoaded", function () {
       values['expPer'] = 0;
       values['totalExp'] = 0;
 
-      values['expBudget'] = item.dataValuesEC['zGn5c7EZLr0']?displayValue(item.dataValuesEC['zGn5c7EZLr0']): '';
-
       dataElements.projectFocusAreaNew.forEach((pfa, index) => {
         pfa.focusAreas.forEach(fa => {
           if (item.dataValuesFA[fa] && item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
@@ -503,6 +504,16 @@ document.addEventListener("DOMContentLoaded", function () {
         })
       })
 
+
+      dataElements.projectExpenseCategory.forEach((pec, index) => {
+        if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
+          if(item.dataValuesAUEC[year] && item.dataValuesAUEC[year][pec.personnel]) values['expBudget']  +=  Number(item.dataValuesAUEC[year][pec.personnel]);
+          if(item.dataValuesAUEC[year] && item.dataValuesAUEC[year][pec.activities]) values['expBudget'] +=  Number(item.dataValuesAUEC[year][pec.activities]);
+          if(item.dataValuesAUEC[year] && item.dataValuesAUEC[year][pec.commodities]) values['expBudget']  +=  Number(item.dataValuesAUEC[year][pec.commodities]);
+          if(item.dataValuesAUEC[year] && item.dataValuesAUEC[year][pec.cost]) values['expBudget']  +=  Number(item.dataValuesAUEC[year][pec.cost]);
+        }      
+      })
+
       dataElements.arProjectExpenseCategory.forEach((pec, index) => {
         if(item.dataValuesPD[year] && item.dataValuesPD[year][dataElements.projectDescription[index]['name']]) {
           if( item.dataValuesEC[pec.actualExpense.personnel]) values['personnel'] +=  Number(item.dataValuesEC[pec.actualExpense.personnel]);
@@ -511,6 +522,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if( item.dataValuesEC[pec.actualExpense.cost]) values['cost'] +=  Number(item.dataValuesEC[pec.actualExpense.cost]);
         }      
       })
+
 
       values['personnelPer'] = (values['expBudget'] && values['personnel'] && values['personnel']/values['expBudget'] != "Infinity") ? (values['personnel']/values['expBudget']*100).toFixed(2): '';
       values['activitiesPer'] = (values['expBudget'] && values['activities'] && values['activities']/values['expBudget'] != "Infinity") ? (values['activities']/values['expBudget']*100).toFixed(2): '';
@@ -800,6 +812,11 @@ document.addEventListener("DOMContentLoaded", function () {
       name: 'IPPF RESTRICTED GRANT',
       style: 'background:#c00000;'
     },{
+      id: 'otherGrant',
+      code: 'IPPF Unrestricted Grant Other',
+      name: 'IPPF Unrestricted Grant Other',
+      style: 'background:#c00000;'
+    },{
       id: 'totalIppf',
       code: '',
       name: 'Total IPPF-sourced',
@@ -877,6 +894,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(item.dataValuesTI && item.dataValuesTI[pti.unrestricted]) {
           values['totalIncomeUnrestricted'] += Number(item.dataValuesTI[pti.unrestricted]);
           if(pti.category!='T8nVKg8gGUf') values[pti.category] += Number(item.dataValuesTI[pti.unrestricted]);
+          else values['otherGrant'] += Number(item.dataValuesTI[pti.unrestricted]);
           values['totalIncome'] += Number(item.dataValuesTI[pti.unrestricted]);
           values['ippfCore'] += Number(item.dataValuesTI[pti.unrestricted]);
           if(index < dataElements.projectTotalIncome.length-2) {
@@ -899,7 +917,7 @@ document.addEventListener("DOMContentLoaded", function () {
         values['totalInternational'] += values[de.id];
         values['totalIncomeControl'] += values[de.id];
       }
-      if(index==27 || index==28) {
+      if(index>=27 && index<=29) {
         values['totalIppf'] += values[de.id];
         values['totalIncomeControl'] += values[de.id];
       }
