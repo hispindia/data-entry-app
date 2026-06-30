@@ -579,7 +579,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       //     if (!value || value.toString().trim() === "") {
       //       hasError = true;
       //       errorEl.innerHTML = "This field is required";
-      //       if (!firstErrorEl) firstErrorEl = errorEl;
+      //       if (!firstErrorEl) firstErrorEl = errorEl;5
       //     } else {
       //       errorEl.innerHTML = "";
       //     }
@@ -761,179 +761,163 @@ document.addEventListener("DOMContentLoaded", async function () {
         `;
     }
 
-   async function handleForm(isSubmit) {
-      try {
-        const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
-        const enrollment = tei.affiliate.enrollments.find(e => e.program === programs.UINControlMaster);
-        if (!orgUnitId || !enrollment) return;
+    async function handleForm(isSubmit) {
+    try {
+    const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
+    const enrollment = tei.affiliate.enrollments.find(e => e.program === programs.UINControlMaster);
+    if (!orgUnitId || !enrollment) return;
 
-        const existingEvent = enrollment?.events.find(e => e.programStage === programStage.UINControlMaster);
-        if (!existingEvent) {
-          toast({ status: "ERROR", message: "Existing event not found" });
-          return;
+    const uinEvent = enrollment?.events.find(e => e.programStage === programStage.UINControlMaster);
+    const completionEvent = enrollment?.events.find(e => e.programStage === programStage.completionCheckList);
+
+    if (!uinEvent) {
+      toast({ status: "ERROR", message: "Existing event not found" });
+      return;
+    }
+
+    const uinExistingValues = {};
+    uinEvent.dataValues?.forEach(dv => { uinExistingValues[dv.dataElement] = dv.value; });
+
+    const completionExistingValues = {};
+    completionEvent?.dataValues?.forEach(dv => { completionExistingValues[dv.dataElement] = dv.value; });
+
+    const fileUploads = {};
+    const valuesToSend = { ...tei.values };
+
+    const allStageDataElements = [...tei.uinStageDataElements, ...tei.completionCheckListDEs];
+   
+    for (const deUid of allStageDataElements) {
+      const el = document.getElementById(deUid);
+      if (!el) continue;
+
+      if (el.type === "file") {
+        if (el.files && el.files.length > 0) {
+          fileUploads[deUid] = el.files[0];
+        } else {
+          const existingVal = uinExistingValues[deUid] ?? completionExistingValues[deUid] ?? "";
+          valuesToSend[deUid] = existingVal;
         }
-
-        const existingValues = {};
-        existingEvent.dataValues?.forEach(dv => {
-          existingValues[dv.dataElement] = dv.value;
-        });
-
-        const fileUploads = {};
-        const valuesToSend = { ...tei.values };
-
-        for (const deUid of tei.uinStageDataElements) {
-          const el = document.getElementById(deUid);
-          if (!el) continue;
-
-          if (el.type === "file") {
-            if (el.files && el.files.length > 0) {
-              fileUploads[deUid] = el.files[0];
-            } else {
-              valuesToSend[deUid] = existingValues[deUid] || ""; 
-            }
-            continue;
-          }
-
-          if (el.type === "checkbox") {
-            valuesToSend[deUid] = el.checked;
-          } else {
-            valuesToSend[deUid] = el.value;
-          }
-        }
-
-        const newlyUploadedFiles = new Set();
-        for (const deUid in fileUploads) {
-          const formData = new FormData();
-          formData.append("file", fileUploads[deUid]);
-          const res = await dataApi.uploadFile(formData);
-          if (res.status !== "OK") {
-            iziToast.error({ message: "File upload failed", position: "center" });
-            return;
-          }
-          valuesToSend[deUid] = res.response.fileResource.id;
-          newlyUploadedFiles.add(deUid);
-        }
-
-        // const affiliateTabUIDs = new Set([
-        //   ...tei.programAttributes.sections.flatMap(section => section.items.map(item => item.code)),
-        //   ...tei.affiliateStageSections.flatMap(section => section.items.map(item => item.code)),
-        //   ...tei.completionOnlySections.flatMap(section => section.items.map(item => item.code)) 
-        // ]);
-
-        // let hasError = false;
-        // let firstErrorEl = null;
-        // Object.entries(tei.metadata).forEach(([uid, meta]) => {
-        //   if (!meta.mandatory) return;
-        //   if (!affiliateTabUIDs.has(uid)) return;
-        //   const errorEl = document.getElementById(`error-${uid}`);
-        //   if (!errorEl) return; 
-
-        //   const fieldEl = document.getElementById(uid);
-        //   if (!fieldEl) return;
-
-        //   let value = valuesToSend[uid];
-        //   if (fieldEl.type === "file" && !value) {
-        //     value = tei.values[uid];
-        //   }
-
-        //   if (!value || value.toString().trim() === "") {
-        //     hasError = true;
-        //     errorEl.innerHTML = "This field is required";
-        //     if (!firstErrorEl) firstErrorEl = errorEl;
-        //   } else {
-        //     errorEl.innerHTML = "";
-        //   }
-        // });
-
-        // if (hasError) {
-        //   toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
-        //    if (firstErrorEl) {
-        //     firstErrorEl.closest('.form-group')?.scrollIntoView({ 
-        //       behavior: 'smooth', 
-        //       block: 'center' 
-        //     });
-        //   }
-        //   return; 
-        // }
-
-        const changedDataValues = tei.uinStageDataElements
-          .filter(deUid => {
-            const el = document.getElementById(deUid);
-            if (el && el.type === "file" && !newlyUploadedFiles.has(deUid)) return false;
-            const newVal = valuesToSend[deUid] || "";
-            const oldVal = existingValues[deUid] || "";
-            return newVal.toString() !== oldVal.toString();
-          })
-          .map(deUid => ({
-            dataElement: deUid,
-            value: valuesToSend[deUid] || ""
-          }));
-
-        const existingAttributeValues = {};
-        tei.affiliate.attributes.forEach(attr => {
-          existingAttributeValues[attr.attribute] = attr.value;
-        });
-
-        const attributeUIDs = tei.programAttributes.sections
-          .flatMap(section => section.items)
-          .map(item => item.code);
-
-        const changedAttributes = attributeUIDs
-          .filter(attrUid => {
-            const newVal = valuesToSend[attrUid] || "";
-            const oldVal = existingAttributeValues[attrUid] || "";
-            return newVal.toString() !== oldVal.toString();
-          })
-          .map(attrUid => ({
-            attribute: attrUid,
-            value: valuesToSend[attrUid] || ""
-          }));
-
-        if (!changedDataValues.length && !changedAttributes.length) {
-          toast({ status: "INFO", message: "No changes to Submit", position: "center" });
-          return;
-        }
-
-        const payload = {
-          trackedEntities: [{
-            trackedEntity: tei.affiliate.trackedEntity,
-            orgUnit: orgUnitId,
-            trackedEntityType: trackedEntityType,
-            attributes: changedAttributes,
-          }],
-          events: [{
-            event: existingEvent.event,
-            enrollment: enrollment.enrollment,
-            trackedEntity: tei.affiliate.trackedEntity,
-            orgUnit: enrollment.orgUnit,
-            program: programs.UINControlMaster,
-            programStage: programStage.UINControlMaster,
-            occurredAt: existingEvent.occurredAt,
-            status: "ACTIVE",
-            dataValues: [
-              ...changedDataValues,
-            ...(isSubmit ? [{ dataElement: dataElements.disclaimer, value: "true" }] : [])
-            ]
-          }]
-        };
-
-        await dataApi.update(payload);
-        toast({ status: "SUCCESS", message: isSubmit ? "Affiliate updated successfully!" : "Draft Saved Successfully"});
-        if (isSubmit) {
-          tei.disabled = true;
-          document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections, tei.disabled);
-          document.getElementById("basicInformation").innerHTML = renderSections(tei.programAttributes.sections, tei.disabled);
-          const saveBtn = document.getElementById('saveAsDraft');
-          const submitBtn = document.getElementById('submitBtn');
-          const disclaimerCheck = document.getElementById('disclaimerCheck');
-          if (saveBtn) saveBtn.disabled = true;
-          if (submitBtn) submitBtn.disabled = true;
-          if (disclaimerCheck) disclaimerCheck.disabled = true;
-        }
-        window.location.href = './2.1-view-and-update-profile.html';
-      } catch (e) {
-        console.error(e);
-        toast({ status: "ERROR", message: `Error occurred: ${e.message || e}` });
+        continue;
       }
+
+      if (el.type === "checkbox") {
+        valuesToSend[deUid] = el.checked;
+      } else {
+        valuesToSend[deUid] = el.value;
+      }
+    }
+
+    const newlyUploadedFiles = new Set();
+    for (const deUid in fileUploads) {
+      const formData = new FormData();
+      formData.append("file", fileUploads[deUid]);
+      const res = await dataApi.uploadFile(formData);
+      if (res.status !== "OK") {
+        iziToast.error({ message: "File upload failed", position: "center" });
+        return;
+      }
+      valuesToSend[deUid] = res.response.fileResource.id;
+      newlyUploadedFiles.add(deUid);
+    }
+
+    const changedUinDataValues = tei.uinStageDataElements
+      .filter(deUid => {
+        const el = document.getElementById(deUid);
+        if (el && el.type === "file" && !newlyUploadedFiles.has(deUid)) return false;
+        const newVal = valuesToSend[deUid] || "";
+        const oldVal = uinExistingValues[deUid] || "";
+        return newVal.toString() !== oldVal.toString();
+      })
+      .map(deUid => ({ dataElement: deUid, value: valuesToSend[deUid] || "" }));
+
+    const changedCompletionDataValues = tei.completionCheckListDEs
+      .filter(deUid => {
+        const el = document.getElementById(deUid);
+        if (!el) return false;
+        if (el.type === "file" && !newlyUploadedFiles.has(deUid)) return false;
+        const newVal = valuesToSend[deUid] || "";
+        const oldVal = completionExistingValues[deUid] || "";
+        return newVal.toString() !== oldVal.toString();
+      })
+      .map(deUid => ({ dataElement: deUid, value: valuesToSend[deUid] || "" }));
+
+    const existingAttributeValues = {};
+    tei.affiliate.attributes.forEach(attr => { existingAttributeValues[attr.attribute] = attr.value; });
+
+    const attributeUIDs = tei.programAttributes.sections.flatMap(s => s.items).map(i => i.code);
+    const changedAttributes = attributeUIDs
+      .filter(attrUid => {
+        const newVal = valuesToSend[attrUid] || "";
+        const oldVal = existingAttributeValues[attrUid] || "";
+        return newVal.toString() !== oldVal.toString();
+      })
+      .map(attrUid => ({ attribute: attrUid, value: valuesToSend[attrUid] || "" }));
+      
+    if (!changedUinDataValues.length && !changedCompletionDataValues.length && !changedAttributes.length) {
+      toast({ status: "INFO", message: "No changes to Submit", position: "center" });
+      return;
+    }
+
+    const events = [{
+      event: uinEvent.event,
+      enrollment: enrollment.enrollment,
+      trackedEntity: tei.affiliate.trackedEntity,
+      orgUnit: uinEvent.orgUnit,
+      program: programs.UINControlMaster,
+      programStage: programStage.UINControlMaster,
+      occurredAt: uinEvent.occurredAt,
+      status: "ACTIVE",
+      dataValues: [
+        ...changedUinDataValues,
+        ...(isSubmit ? [{ dataElement: dataElements.disclaimer, value: "true" }] : [])
+      ]
+    }];
+
+    if (completionEvent && changedCompletionDataValues.length > 0) {
+      events.push({
+        event: completionEvent.event,
+        enrollment: enrollment.enrollment,
+        trackedEntity: tei.affiliate.trackedEntity,
+        orgUnit: completionEvent.orgUnit,
+        program: programs.UINControlMaster,
+        programStage: programStage.completionCheckList,
+        occurredAt: completionEvent.occurredAt,
+        status: "ACTIVE",
+        dataValues: changedCompletionDataValues
+      });
+    }
+
+    const payload = {
+      trackedEntities: [{
+        trackedEntity: tei.affiliate.trackedEntity,
+        orgUnit: orgUnitId,
+        trackedEntityType: trackedEntityType,
+        attributes: changedAttributes,
+      }],
+      events: events
+    };
+
+    await dataApi.update(payload);
+    toast({ status: "SUCCESS", message: isSubmit ? "Affiliate updated successfully!" : "Draft Saved Successfully" });
+    // if (!isSubmit) {
+    //   window.location.reload();
+    // }
+
+    if (isSubmit) {
+      tei.disabled = true;
+      document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections, tei.disabled);
+      document.getElementById("basicInformation").innerHTML = renderSections(tei.programAttributes.sections, tei.disabled);
+      const saveBtn = document.getElementById('saveAsDraft');
+      const submitBtn = document.getElementById('submitBtn');
+      const disclaimerCheck = document.getElementById('disclaimerCheck');
+      if (saveBtn) saveBtn.disabled = true;
+      if (submitBtn) submitBtn.disabled = true;
+      if (disclaimerCheck) disclaimerCheck.disabled = true;
+      window.location.href = './2.1-view-and-update-profile.html';
+    }
+  } catch (e) {
+    console.error(e);
+    toast({ status: "ERROR", message: `Error occurred: ${e.message || e}` });
+  }
 }
 })

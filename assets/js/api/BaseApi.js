@@ -2,7 +2,8 @@
 const baseUrl = '../..';
 // const baseUrl = 'https://uin.ippf.org/api';
 
-const ApiToken = '';
+const ApiToken = ''; //RFHAF_UIN token
+// const ApiToken = 'd2p_fUhreuJ1uXWxIIJKNv5fRJzfKuATkYE9w4E5RqtKAM6H4OgnLe' //admin
 
 const BaseApi = async ({ url, method, payload, mode }) => {
     const REQUEST = {
