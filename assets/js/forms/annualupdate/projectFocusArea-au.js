@@ -377,6 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var totalsRow = displayTotals(dataValues);
     $("#totals").empty();
     $("#totals").append(totalsRow);
+    buildPivotSummary();
 
     $('.loader-container').addClass('d-none').removeClass('d-flex');
     $('.myContainer').show();
@@ -530,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             type="text" 
                             ${tei.disabled ? 'disabled readonly': ''}
                             id="${faId}" 
-                            class="form-control textValue currency"
+                            class="form-control textValue input-budget-${indexFA} currency"
                             value="${formatNumberInput(faValue.budget)}" 
                             data-index="${indexFA}"
                             name="${dataElements.projectFocusAreaNew[index].name}-${index}"
@@ -544,7 +545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             type="text" 
                             ${tei.disabled ? 'disabled readonly': ''}
                             id="${emptyFocusAreaIndex[indexFA]}" 
-                            class="form-control textValue currency"
+                            class="form-control textValue input-budget-${indexFA} currency"
                             value="" 
                             data-index="${indexFA}"
                             name="${dataElements.projectFocusAreaNew[index].name}-${index}"
@@ -639,6 +640,24 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
 });
+
+function buildPivotSummary() {
+  var totalValues = 0;
+  var tableRows = '';
+  focusAreaNames.forEach((name, index) => {
+    var value = 0;
+    $(`.input-budget-${index}`).each((_, el) => value += unformatNumber(el.value));
+    totalValues += value;
+    tableRows += `<tr><td>${name}</td><td><input type="text" disabled readonly class="form-control" value="${formatNumberInput(value)}" /></td></tr>`;
+  });
+  const difference = tei.yearAmount - totalValues;
+  tableRows += `<tr><td class="font-weight-bold" data-i18n="intro.total_budget">Total Annual Budget</td><td><input type="text" disabled readonly class="form-control font-weight-bold" value="${formatNumberInput(totalValues)}" /></td></tr>
+  <tr><td class="font-weight-bold" data-i18n="intro.difference">Difference</td><td><input type="text" disabled readonly  style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" class="form-control font-weight-bold" value="${formatNumberInput(difference)}" /></td></tr>`; 
+
+                            
+  $('#pivot-summary').html(tableRows);
+  $('#pivot-summary-wrap').show();
+}
   
 function submitProjectFocusArea() {
   var value = '';
@@ -750,6 +769,7 @@ function calculateTotals(name) {
   pushDataElement($(`.totalBudget`)[0].id, value);
   pushDataElement($(`input[name="variation-${ids[0]}"]`)[0].id, variation);
   pushDataElement($(`.difference`)[0].id, difference);
+  buildPivotSummary();
 }
 
 function submitProjects() {
