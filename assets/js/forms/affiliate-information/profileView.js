@@ -56,7 +56,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   fetchAffiliateList();
   async function fetchAffiliateList() {
 
-  // if (tei.values[dataElements.disclaimer] === "true") tei.disabled = true; 
   tei.mandatoryList = []
   const params = new URLSearchParams(window.location.search);
   const affiliate = params.get('affiliate');
@@ -233,6 +232,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     else if (cat === 'affiliation') completionAffiliationSections.push(section);
     else completionOnlySections.push(section);
   });
+  tei.completionOnlySections = completionOnlySections;
   
   [...bankStageSections, ...completionBankSections].forEach(section => {
     const hasPaymentFileFormat = section.items.some(el => 
@@ -263,8 +263,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   })
 
   const renderTabContent = () => {
-    document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections);
-    document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections]);
+    document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections, tei.disabled);
+    document.getElementById("bankStage").innerHTML = renderSections([...bankStageSections, ...completionBankSections], tei.disabled);
 
     // Show completion sections for users with write access OR "ma" users (for additional document submission)
     let completionHtml = '';
@@ -400,8 +400,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           document.getElementById('submitBtn').disabled = !isChecked;
           document.getElementById('saveAsDraft').disabled = !isChecked;
         });
-        document.getElementById('saveAsDraft').addEventListener('click', () => handleSaveAsDraft());
-        document.getElementById('submitBtn').addEventListener('click', () => handleSaveAsDraft());
+        document.getElementById('saveAsDraft').addEventListener('click', () => handleForm(false));
+        document.getElementById('submitBtn').addEventListener('click', () => handleForm(true));
     }
     } else { 
        backButtonData = 'previous';
@@ -569,32 +569,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
-       let hasError = false;
-        let firstErrorEl = null;
-        Object.entries(tei.metadata).forEach(([uId, meta]) => {
-          if (!meta.mandatory) return;
-          const value = valuesToSend[uId];
-          const errorEl = document.getElementById(`error-${uId}`);
-          if (!errorEl) return;
-          if (!value || value.toString().trim() === "") {
-            hasError = true;
-            errorEl.innerHTML = "This field is required";
-            if (!firstErrorEl) firstErrorEl = errorEl;
-          } else {
-            errorEl.innerHTML = "";
-          }
-        });
+      //  let hasError = false;
+      //   let firstErrorEl = null;
+      //   Object.entries(tei.metadata).forEach(([uId, meta]) => {
+      //     if (!meta.mandatory) return;
+      //     const value = valuesToSend[uId];
+      //     const errorEl = document.getElementById(`error-${uId}`);
+      //     if (!errorEl) return;
+      //     if (!value || value.toString().trim() === "") {
+      //       hasError = true;
+      //       errorEl.innerHTML = "This field is required";
+      //       if (!firstErrorEl) firstErrorEl = errorEl;
+      //     } else {
+      //       errorEl.innerHTML = "";
+      //     }
+      //   });
 
-        if (hasError) {
-          toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
-           if (firstErrorEl) {
-            firstErrorEl.closest('.form-group')?.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'center' 
-            });
-          }
-          return; 
-        }
+      //   if (hasError) {
+      //     toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
+      //      if (firstErrorEl) {
+      //       firstErrorEl.closest('.form-group')?.scrollIntoView({ 
+      //         behavior: 'smooth', 
+      //         block: 'center' 
+      //       });
+      //     }
+      //     return; 
+      //   }
 
       const payload = {
         trackedEntities: [
@@ -649,7 +649,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   }
 
-    function renderSections(sections) {
+    function renderSections(sections, forceDisbled=false) {
     let container = "";
 
     for (const section of sections) {
@@ -669,7 +669,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             if(el.hidden) continue;
             const fieldWrapper = document.createElement("div");
             fieldWrapper.className = "form-group col-md-4 mb-2";
-            const isDisabled = tei.disabled ? true : el.disabled;
+            const isDisabled = forceDisbled ? true : el.disabled;
             fieldWrapper.innerHTML = `
                 <label>
                     ${el.name}
@@ -759,14 +759,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 </button>
               </div>
         `;
-        if (tei.disabled) {
-        document.getElementById('saveAsDraft').disabled = true;
-        document.getElementById('submitBtn').disabled = true;
-        document.getElementById('disclaimerCheck').disabled = true;
-        }
     }
 
-   async function handleSaveAsDraft() {
+   async function handleForm(isSubmit) {
       try {
         const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
         const enrollment = tei.affiliate.enrollments.find(e => e.program === programs.UINControlMaster);
@@ -819,42 +814,47 @@ document.addEventListener("DOMContentLoaded", async function () {
           newlyUploadedFiles.add(deUid);
         }
 
-        const affiliateTabUIDs = new Set([
-          ...tei.programAttributes.sections.flatMap(section => section.items.map(item => item.code)),
-          ...tei.affiliateStageSections.flatMap(section => section.items.map(item => item.code))
-        ]);
+        // const affiliateTabUIDs = new Set([
+        //   ...tei.programAttributes.sections.flatMap(section => section.items.map(item => item.code)),
+        //   ...tei.affiliateStageSections.flatMap(section => section.items.map(item => item.code)),
+        //   ...tei.completionOnlySections.flatMap(section => section.items.map(item => item.code)) 
+        // ]);
 
-        let hasError = false;
-        let firstErrorEl = null;
-        Object.entries(tei.metadata).forEach(([uid, meta]) => {
-          if (!meta.mandatory) return;
-          if (!affiliateTabUIDs.has(uid)) return;
-          const errorEl = document.getElementById(`error-${uid}`);
-          if (!errorEl) return; 
+        // let hasError = false;
+        // let firstErrorEl = null;
+        // Object.entries(tei.metadata).forEach(([uid, meta]) => {
+        //   if (!meta.mandatory) return;
+        //   if (!affiliateTabUIDs.has(uid)) return;
+        //   const errorEl = document.getElementById(`error-${uid}`);
+        //   if (!errorEl) return; 
 
-          const fieldEl = document.getElementById(uid);
-          if (!fieldEl) return;
+        //   const fieldEl = document.getElementById(uid);
+        //   if (!fieldEl) return;
 
-          const value = valuesToSend[uid];
-          if (!value || value.toString().trim() === "") {
-            hasError = true;
-            errorEl.innerHTML = "This field is required";
-            if (!firstErrorEl) firstErrorEl = errorEl;
-          } else {
-            errorEl.innerHTML = "";
-          }
-        });
+        //   let value = valuesToSend[uid];
+        //   if (fieldEl.type === "file" && !value) {
+        //     value = tei.values[uid];
+        //   }
 
-        if (hasError) {
-          toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
-           if (firstErrorEl) {
-            firstErrorEl.closest('.form-group')?.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'center' 
-            });
-          }
-          return; 
-        }
+        //   if (!value || value.toString().trim() === "") {
+        //     hasError = true;
+        //     errorEl.innerHTML = "This field is required";
+        //     if (!firstErrorEl) firstErrorEl = errorEl;
+        //   } else {
+        //     errorEl.innerHTML = "";
+        //   }
+        // });
+
+        // if (hasError) {
+        //   toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
+        //    if (firstErrorEl) {
+        //     firstErrorEl.closest('.form-group')?.scrollIntoView({ 
+        //       behavior: 'smooth', 
+        //       block: 'center' 
+        //     });
+        //   }
+        //   return; 
+        // }
 
         const changedDataValues = tei.uinStageDataElements
           .filter(deUid => {
@@ -912,22 +912,25 @@ document.addEventListener("DOMContentLoaded", async function () {
             status: "ACTIVE",
             dataValues: [
               ...changedDataValues,
-              { dataElement: dataElements.disclaimer, value: "true" }
+            ...(isSubmit ? [{ dataElement: dataElements.disclaimer, value: "true" }] : [])
             ]
           }]
         };
 
         await dataApi.update(payload);
-        toast({ status: "SUCCESS", message: "Affiliate updated successfully!" });
-        tei.disabled = true;
-        document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections);
-        const saveBtn = document.getElementById('saveAsDraft');
-        const submitBtn = document.getElementById('submitBtn');
-        const disclaimerCheck = document.getElementById('disclaimerCheck');
-        if (saveBtn) saveBtn.disabled = true;
-        if (submitBtn) submitBtn.disabled = true;
-        if (disclaimerCheck) disclaimerCheck.disabled = true;
-        // window.location.href = './2.1-view-and-update-profile.html';
+        toast({ status: "SUCCESS", message: isSubmit ? "Affiliate updated successfully!" : "Draft Saved Successfully"});
+        if (isSubmit) {
+          tei.disabled = true;
+          document.getElementById("affiliateStage").innerHTML = renderSections(tei.affiliateStageSections, tei.disabled);
+          document.getElementById("basicInformation").innerHTML = renderSections(tei.programAttributes.sections, tei.disabled);
+          const saveBtn = document.getElementById('saveAsDraft');
+          const submitBtn = document.getElementById('submitBtn');
+          const disclaimerCheck = document.getElementById('disclaimerCheck');
+          if (saveBtn) saveBtn.disabled = true;
+          if (submitBtn) submitBtn.disabled = true;
+          if (disclaimerCheck) disclaimerCheck.disabled = true;
+        }
+        window.location.href = './2.1-view-and-update-profile.html';
       } catch (e) {
         console.error(e);
         toast({ status: "ERROR", message: `Error occurred: ${e.message || e}` });

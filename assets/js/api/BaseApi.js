@@ -1,6 +1,6 @@
 
-// const baseUrl = '../..';
-const baseUrl = 'https://uin.ippf.org/api';
+const baseUrl = '../..';
+// const baseUrl = 'https://uin.ippf.org/api';
 
 const ApiToken = '';
 
