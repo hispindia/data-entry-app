@@ -819,22 +819,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       valuesToSend[deUid] = res.response.fileResource.id;
       newlyUploadedFiles.add(deUid);
     }
-
-    const changedUinDataValues = tei.uinStageDataElements
+      const changedUinDataValues = tei.uinStageDataElements
       .filter(deUid => {
         const el = document.getElementById(deUid);
-        if (el && el.type === "file" && !newlyUploadedFiles.has(deUid)) return false;
+        if (el && el.type === "file") {
+          return newlyUploadedFiles.has(deUid); 
+        }
         const newVal = valuesToSend[deUid] || "";
         const oldVal = uinExistingValues[deUid] || "";
         return newVal.toString() !== oldVal.toString();
       })
       .map(deUid => ({ dataElement: deUid, value: valuesToSend[deUid] || "" }));
 
-    const changedCompletionDataValues = tei.completionCheckListDEs
+      const changedCompletionDataValues = tei.completionCheckListDEs
       .filter(deUid => {
         const el = document.getElementById(deUid);
         if (!el) return false;
-        if (el.type === "file" && !newlyUploadedFiles.has(deUid)) return false;
+
+        if (el.type === "file") {
+          return newlyUploadedFiles.has(deUid); 
+        }
+
         const newVal = valuesToSend[deUid] || "";
         const oldVal = completionExistingValues[deUid] || "";
         return newVal.toString() !== oldVal.toString();
@@ -852,7 +857,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return newVal.toString() !== oldVal.toString();
       })
       .map(attrUid => ({ attribute: attrUid, value: valuesToSend[attrUid] || "" }));
-      
+
     if (!changedUinDataValues.length && !changedCompletionDataValues.length && !changedAttributes.length) {
       toast({ status: "INFO", message: "No changes to Submit", position: "center" });
       return;
