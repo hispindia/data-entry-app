@@ -350,9 +350,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 fileLink.style.display = 'inline-block';
                 fileLink.target = '_blank';
             }
-
+        
         let errorEl = document.getElementById(`error-${e.target.id}`);
         if (errorEl)  errorEl.innerHTML = '';
+        e.target.value = "";
         return;
       }
 
@@ -395,6 +396,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         tabButtonConfig['tab-affiliate'].back = false;
         renderKycActions();
         document.getElementById('disclaimerCheck').addEventListener('change', function(e) {
+          if (tei.disabled) {
+            e.target.checked = true;
+            return;
+          }
           const isChecked = e.target.checked;
           const isDuplicate = tei.isDuplicateLegalName;
           document.getElementById('submitBtn').disabled = !isChecked;
@@ -789,24 +794,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     for (const deUid of allStageDataElements) {
       const el = document.getElementById(deUid);
       if (!el) continue;
-
       if (el.type === "file") {
-        if (el.files && el.files.length > 0) {
-          fileUploads[deUid] = el.files[0];
-        } else {
-          const existingVal = uinExistingValues[deUid] ?? completionExistingValues[deUid] ?? "";
-          valuesToSend[deUid] = existingVal;
-        }
+      const storedFiles = tei.values[deUid];
+      if (storedFiles instanceof File) {
+        fileUploads[deUid] = storedFiles;
+      } else {
+        const existingVal = uinExistingValues[deUid] ?? completionExistingValues[deUid] ?? " ";
+        valuesToSend[deUid] = existingVal;
+      }
         continue;
       }
-
+      
       if (el.type === "checkbox") {
         valuesToSend[deUid] = el.checked;
       } else {
         valuesToSend[deUid] = el.value;
       }
-    }
-
+    } 
+    
     const newlyUploadedFiles = new Set();
     for (const deUid in fileUploads) {
       const formData = new FormData();
@@ -857,12 +862,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         return newVal.toString() !== oldVal.toString();
       })
       .map(attrUid => ({ attribute: attrUid, value: valuesToSend[attrUid] || "" }));
-
-    if (!changedUinDataValues.length && !changedCompletionDataValues.length && !changedAttributes.length) {
+    
+    const disclaimerChanged = isSubmit && uinExistingValues[dataElements.disclaimer] !== "true"; 
+    if (!changedUinDataValues.length && !changedCompletionDataValues.length && !changedAttributes.length && !disclaimerChanged) {
       toast({ status: "INFO", message: "No changes to Submit", position: "center" });
       return;
     }
 
+    // if (disclaimerChanged) {
+    //   changedUinDataValues.push({
+    //     dataElement: dataElements.disclaimer,
+    //     value: "true"
+    //   });
+    // }
     const events = [{
       event: uinEvent.event,
       enrollment: enrollment.enrollment,
@@ -903,10 +915,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     await dataApi.update(payload);
-    toast({ status: "SUCCESS", message: isSubmit ? "Affiliate updated successfully!" : "Draft Saved Successfully" });
+    toast({ status: "SUCCESS", message: isSubmit ? "Affiliate updated successfully!" : "Draft Saved Successfully", position: "center"});
     // if (!isSubmit) {
     //   window.location.reload();
     // }
+    const refreshed = await dataApi.getTrackedEntity(tei.affiliate.trackedEntity);
+    if (refreshed.trackedEntities) {
+      tei.affiliate = refreshed.trackedEntities[0];
+    }
 
     if (isSubmit) {
       tei.disabled = true;
