@@ -471,7 +471,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.enrollment;
       if(!orgUnitId || !enrollment) return;
 
-      const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
+      // const activeTab = document.querySelector('.profile-tab.active').getAttribute('data-tab');
+      const activeTab = getActiveTab();
       let programStageToUpdate;
       let dataElementToUpdate;
 
@@ -569,37 +570,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         value: valuesToSend[deUid] || ""
       }));
 
+      const validationIds = getDraftMandatoryIdsForTab();
+      const firstErrorEl = validateFields(validationIds, valuesToSend);
+      if (firstErrorEl) {
+        toast({ status: 'ERROR', message: 'Please fill all required fields!' });
+        firstErrorEl.closest('.form-group')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
       if (changedDEs.length === 0 && changedAttributes.length === 0) {
         iziToast.info({ message: "No changes to submit", position: "center" });
         return;
       }
-
-      //  let hasError = false;
-      //   let firstErrorEl = null;
-      //   Object.entries(tei.metadata).forEach(([uId, meta]) => {
-      //     if (!meta.mandatory) return;
-      //     const value = valuesToSend[uId];
-      //     const errorEl = document.getElementById(`error-${uId}`);
-      //     if (!errorEl) return;
-      //     if (!value || value.toString().trim() === "") {
-      //       hasError = true;
-      //       errorEl.innerHTML = "This field is required";
-      //       if (!firstErrorEl) firstErrorEl = errorEl;5
-      //     } else {
-      //       errorEl.innerHTML = "";
-      //     }
-      //   });
-
-      //   if (hasError) {
-      //     toast({ status: 'ERROR', message: 'Please fill All the Required fields!' });
-      //      if (firstErrorEl) {
-      //       firstErrorEl.closest('.form-group')?.scrollIntoView({ 
-      //         behavior: 'smooth', 
-      //         block: 'center' 
-      //       });
-      //     }
-      //     return; 
-      //   }
 
       const payload = {
         trackedEntities: [
@@ -766,6 +748,45 @@ document.addEventListener("DOMContentLoaded", async function () {
         `;
     }
 
+    function getActiveTab() {
+    return document.querySelector('.profile-tab.active')?.getAttribute('data-tab');
+    }
+  
+    function getDraftMandatoryIdsForTab(tabId) {
+      const ids = new Set();
+      if (tabId === 'tab-affiliate') {
+        tei.programAttributes.sections.forEach(section => section.items.forEach(item => ids.add(item.code)));
+        tei.affiliateStageSections.forEach(section => section.items.forEach(item => ids.add(item.code)));
+      } else if (tabId === 'tab-bank') {
+        [...bankStageSections, ...completionBankSections].forEach(section => section.items.forEach(item => ids.add(item.code)));
+      } else if (tabId === 'tab-affiliation') {
+        [...affiliationStageSections, ...completionAffiliationSections].forEach(section => section.items.forEach(item => ids.add(item.code)));
+      } else if (tabId === 'tab-completion') {
+        completionOnlySections.forEach(section => section.items.forEach(item => ids.add(item.code)));
+      }
+
+      return [...ids].filter(id => !!tei.metadata[id] && tei.metadata[id].mandatory);
+    }
+
+    function validateFields(fieldIds, values) {
+    let firstError = null;
+      fieldIds.forEach(id => {
+        const errorEl = document.getElementById(`error-${id}`);
+        if (!errorEl) return;
+        const value = values[id];
+        const meta = tei.metadata[id];
+
+        const filled = value != null && (meta?.valueType === 'FILE_RESOURCE' ? value instanceof File || (typeof value === 'string' && value.trim())
+          : value.toString().trim());
+        errorEl.textContent = filled ? '' : 'This field is required';
+
+        if (!filled && !firstError) {
+          firstError = errorEl;
+        }
+      });
+      return firstError;
+    }
+
     async function handleForm(isSubmit) {
     try {
     const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program == programs.UINControlMaster)?.orgUnit;
@@ -862,6 +883,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         return newVal.toString() !== oldVal.toString();
       })
       .map(attrUid => ({ attribute: attrUid, value: valuesToSend[attrUid] || "" }));
+
+      const activeTab = getActiveTab();
+      const validationIds = getDraftMandatoryIdsForTab(activeTab);
+
+      const firstErrorEl = validateFields(validationIds, valuesToSend);
+      if (firstErrorEl) {
+        toast({ status: "ERROR", message: "Please fill all required fields!" });
+        firstErrorEl.closest('.form-group')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
     
     const disclaimerChanged = isSubmit && uinExistingValues[dataElements.disclaimer] !== "true"; 
     if (!changedUinDataValues.length && !changedCompletionDataValues.length && !changedAttributes.length && !disclaimerChanged) {
@@ -869,12 +900,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-    // if (disclaimerChanged) {
-    //   changedUinDataValues.push({
-    //     dataElement: dataElements.disclaimer,
-    //     value: "true"
-    //   });
-    // }
     const events = [{
       event: uinEvent.event,
       enrollment: enrollment.enrollment,
@@ -916,9 +941,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await dataApi.update(payload);
     toast({ status: "SUCCESS", message: isSubmit ? "Affiliate updated successfully!" : "Draft Saved Successfully", position: "center"});
-    // if (!isSubmit) {
-    //   window.location.reload();
-    // }
     const refreshed = await dataApi.getTrackedEntity(tei.affiliate.trackedEntity);
     if (refreshed.trackedEntities) {
       tei.affiliate = refreshed.trackedEntities[0];
