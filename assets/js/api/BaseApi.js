@@ -1,8 +1,9 @@
 
 const baseUrl = '../..';
-// const baseUrl = 'https://uin.ippf.org/api';
+// const baseUrl = 'https://links.hispindia.org/ippf_uin_staging/api';
 
 const ApiToken = ''; //RFHAF_UIN token
+// const ApiToken = 'd2p_nP1sdfsFQ7nmSPqyGM11Y6dnVFjBWlsmhkU8na0l6n2p41CZsk' //admin
 
 const BaseApi = async ({ url, method, payload, mode }) => {
     const REQUEST = {

@@ -476,11 +476,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       let programStageToUpdate;
       let dataElementToUpdate;
 
-      if (activeTab === 'tab-bank' ||  activeTab === 'tab-affiliate') {
+      if (activeTab === 'tab-affiliate') {
         programStageToUpdate = programStage.UINControlMaster;
         dataElementToUpdate = tei.uinStageDataElements;
       }
-     else if (activeTab === 'tab-completion' || activeTab === 'tab-affiliation') {
+     else if (activeTab === 'tab-completion' || activeTab === 'tab-affiliation' || activeTab == 'tab-bank') {
         programStageToUpdate = programStage.completionCheckList;
         dataElementToUpdate = tei.completionCheckListDEs;
       }
@@ -583,7 +583,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
-      const payload = {
+      if (activeTab == 'tab-affiliate') {
+        const payload = {
         trackedEntities: [
             {
               trackedEntity: tei.affiliate.trackedEntity,
@@ -606,15 +607,49 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         ]
       };
-
       await dataApi.update(payload);
-        iziToast.success({
-            status: 'SUCCESS',
-            message: "Details Submitted Successfully",
-            position: "center",
-        });
+    } else if (activeTab === 'tab-bank' || activeTab === 'tab-affiliation' || activeTab === 'tab-completion') {
+      
+      const existingDVMap = {};
+      existingEvent?.dataValues?.forEach(dv => {
+        existingDVMap[dv.dataElement] = dv.value;
+      });
+      changedDataValues.forEach(dv => {
+        existingDVMap[dv.dataElement] = dv.value;
+      });
+      const mergedDataValues = Object.entries(existingDVMap).map(([dataElement, value]) => ({
+        dataElement,
+        value
+      }));
+
+      const payload = {
+        trackedEntities: [{
+          trackedEntity: tei.affiliate.trackedEntity,
+          orgUnit: orgUnitId,
+          trackedEntityType: trackedEntityType,
+          attributes: changedAttributes
+        }],
+        events: [{
+          dataValues: mergedDataValues,
+          occurredAt: new Date().toISOString(),
+          enrollment: enrollment,
+          orgUnit: orgUnitId,
+          program: programs.UINControlMaster,
+          programStage: programStageToUpdate,
+          trackedEntity: tei.affiliate.trackedEntity,
+          status: "ACTIVE"
+        }]
+      };
+
+      await dataApi.enroll(payload);
+    }
+      iziToast.success({
+          status: 'SUCCESS',
+          message: "Details Submitted Successfully",
+          position: "center",
+      });
         window.location.href = './2.1-view-and-update-profile.html';
-        }
+    }
     });
    }
 
@@ -885,14 +920,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       .map(attrUid => ({ attribute: attrUid, value: valuesToSend[attrUid] || "" }));
 
       const activeTab = getActiveTab();
-      const validationIds = getDraftMandatoryIdsForTab(activeTab);
-
+      if (isSubmit) {
+       const validationIds = getDraftMandatoryIdsForTab(activeTab);
       const firstErrorEl = validateFields(validationIds, valuesToSend);
       if (firstErrorEl) {
         toast({ status: "ERROR", message: "Please fill all required fields!" });
         firstErrorEl.closest('.form-group')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
+    }
     
     const disclaimerChanged = isSubmit && uinExistingValues[dataElements.disclaimer] !== "true"; 
     if (!changedUinDataValues.length && !changedCompletionDataValues.length && !changedAttributes.length && !disclaimerChanged) {
