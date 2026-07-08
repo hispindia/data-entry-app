@@ -940,6 +940,12 @@ html.rtl-mode body > * {
     background-color: #4472c4;
     box-shadow: 30px 0 0 #fff;
   }
+  .loader-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:180px;
+}
   @keyframes rotate {
     0% { transform: rotate(0deg) scale(0.8) }
     50% { transform: rotate(360deg) scale(1.2) }

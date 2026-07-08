@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         requests.push({
                             legalName,
                             memberSelected: createdBy,
-                            requestedBy: createdBy,
+                            requestedBy: eventDataMap[dataElements.requestedBy] || "NA",
                             requestDate: event.occurredAt,
                             status: "Pending",
                             teiId: entity.trackedEntity,

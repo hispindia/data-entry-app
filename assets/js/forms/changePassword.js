@@ -34,12 +34,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if (newPassword !== confirmPassword) {
-            toast({ status: 'ERROR', message: 'Please Select Country!', position: 'center' });
+            toast({ status: 'ERROR', message: 'Old and New Password do not match!', position: 'center' });
             return;
         }
         const response = await changePassword.put({oldPassword, newPassword});
         if(response?.ok) {
-            toast({ status: 'SUCCESS', message: 'Please Select Country!', position: 'center' });
+            toast({ status: 'SUCCESS', message: 'Password Updated Sucessfully!', position: 'center' });
             window.location.replace('../../../dhis-web-commons/security/login.action');
         } else {
             const resValue = await response.json();

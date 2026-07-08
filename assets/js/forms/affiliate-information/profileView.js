@@ -138,7 +138,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   tei.metadata = {...programAttributes.metadata, ...uinStage.metadata, ...completionCheckList.metadata};
 
     tei.fileType = new Set();
-
+    if (tei.values[dataElements.countryIncomeStatus] &&
+    tei.metadata[dataElements.countryIncomeStatus]) {
+    tei.metadata[dataElements.countryIncomeStatus].disabled = true;
+  }
     [...uinStage.sections, ...completionCheckList.sections].forEach(section => {
       section.items.forEach(item => {
         if (item.valueType === "FILE_RESOURCE") {
@@ -215,6 +218,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
     })
   }
+    tei.affiliateStageSections.forEach(section => {
+    section.items.forEach(element => {
+      if (element.code === dataElements.countryIncomeStatus) {
+        element.disabled = true;
+      }
+    });
+  });
   
   // Render into tab panels
   ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);

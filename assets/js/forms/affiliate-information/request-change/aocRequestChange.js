@@ -424,7 +424,7 @@ const STAGE_MAPPING = {
   window.openAffiliateModal = async (mode, teiId) => {
     const modal = document.getElementById("affiliateModal");
     modal.style.display = "flex";
-
+    showRoleLoaders();
     const res = await dataApi.getTrackedEntity(teiId);
     tei.affiliate = res.trackedEntities[0];
 
@@ -566,15 +566,44 @@ const STAGE_MAPPING = {
     let fieldsHtml = "";
     fieldsToRender.forEach(meta => {
       const metaWithId = { ...meta, id: meta.code };
+      const fileMeta = {
+        href: tei.values[`${meta.code}-href`] || "",
+        file: tei.values[`${meta.code}-file`] || ""
+      };
       fieldsHtml += `
         <div class="col-md-6 mb-2">
           <label>${meta.name} ${meta.mandatory ? '<span class="text-danger">*</span>' : ''}</label>
-          ${fetchValueType(metaWithId, tei.values[meta.code] || "", {}, false)}
+          ${fetchValueType(metaWithId, tei.values[meta.code] || "", fileMeta, false)}
         </div>`;
     });
     row.innerHTML = fieldsHtml;
 
     body.appendChild(row);
+
+    const localFileSelections = {};
+    fieldsToRender.forEach(meta => {
+      const code = meta.code;
+      const el = document.getElementById(code);
+      if (!el || el.type !== "file") return;
+
+      el.addEventListener("change", (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        localFileSelections[code] = file;
+        const blobUrl = URL.createObjectURL(file);
+        let fileLink = document.getElementById(`${code}-link`);
+        if (!fileLink) {
+          fileLink = document.createElement("a");
+          fileLink.id = `${code}-link`;
+          fileLink.style.marginLeft = "8px";
+          el.insertAdjacentElement("afterend", fileLink);
+        }
+        fileLink.href = blobUrl;
+        fileLink.textContent = file.name;
+        fileLink.target = "_blank";
+        fileLink.style.display = "inline-block";
+      });
+    });
     
     if (window.flatpickr) {
         flatpickr(modal.querySelectorAll(".flatpickr-date-input"), { 
@@ -603,6 +632,15 @@ const STAGE_MAPPING = {
   modal.querySelector("#requestChangeSubmit").onclick = async () => {
   try {
 
+    const valuesToSend = { ...tei.values };
+    const fileUploads = {};
+
+    const existingEvent = tei?.affiliate?.enrollments?.[0]?.events.find(
+      e => e.programStage === programStage.UINControlMaster
+    );
+    const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program === programs.UINControlMaster)?.orgUnit;
+    const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program === programs.UINControlMaster)?.enrollment;
+
     fieldsToRender.forEach(meta => {
       const code = meta.code;
       const el = document.getElementById(code);
@@ -610,14 +648,30 @@ const STAGE_MAPPING = {
       if (!el) return;
 
       if (el.type === "file") {
-        if (el.files.length > 0) {
-          tei.values[code] = el.files[0];   
-        }
-      } else {
-        tei.values[code] = el.value;
+       if (localFileSelections[code]) {
+        fileUploads[code] = localFileSelections[code];
+       }
+      } else if (el.matches("select, textarea, input")) {
+      valuesToSend[code] = el.value;
       }
     });
 
+    for (const [code, file] of Object.entries(fileUploads)) {
+      const formData = new FormData();
+      formData.append("file", file, file.name || code);
+
+      const res = await dataApi.uploadFile(formData);
+      const uploadedFileId = res?.response?.fileResource?.id || res?.fileResource?.id;
+      if (res?.status !== "OK") {
+        throw new Error(`File upload failed for ${code}`);
+      }
+
+      valuesToSend[code] = uploadedFileId;
+      valuesToSend[`${code}-href`] =  `../../events/files?eventUid=${existingEvent?.event || ""}&dataElementUid=${code}`;
+      valuesToSend[`${code}-file`] = { name: file.name };
+
+    }
+    tei.values = { ...tei.values, ...valuesToSend };
      
     const acuityDeId = ROLE_ACUITY_DE[roleKey];
 
@@ -626,11 +680,11 @@ const STAGE_MAPPING = {
     }
 
     tei.values[acuityDeId] = "In-Progress";
-    const existingEvent = tei?.affiliate?.enrollments?.[0]?.events.find(
-      e => e.programStage === programStage.UINControlMaster
-    );
-    const orgUnitId = tei.affiliate.enrollments.find(enroll => enroll.program === programs.UINControlMaster)?.orgUnit;
-    const enrollment = tei.affiliate.enrollments.find(enroll => enroll.program === programs.UINControlMaster)?.enrollment;
+    valuesToSend[acuityDeId] = "In-Progress"
+    valuesToSend[dataElements.requestedBy] = userConfig?.username;
+    tei.values = { ...tei.values, ...valuesToSend };
+    tei.values[dataElements.requestedBy] = userConfig?.username;
+    tei.values = { ...tei.values, ...valuesToSend};
     const payload = createPayload.event({
       tei,
       event: existingEvent.event,
@@ -686,6 +740,26 @@ const STAGE_MAPPING = {
     document.body.appendChild(modal);
     return modal;
   }
+}
+function showRoleLoaders() {
+
+    const board = document.getElementById("tbody-board");
+    const senior = document.getElementById("tbody-senior");
+    const bank = document.getElementById("tbody-bank");
+
+    const loaderHtml = `
+          <tr>
+            <td colspan="7">
+                <div class="loader-wrapper">
+                  <div class="section-loader"></div>
+                </div>
+            </td>
+          </tr>
+    `;
+
+    board.innerHTML = loaderHtml;
+    senior.innerHTML = loaderHtml;
+    bank.innerHTML = loaderHtml;
 }
 
 
