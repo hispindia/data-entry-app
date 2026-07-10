@@ -21,49 +21,64 @@
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
-      <nav class="navbar navbar-expand-lg main-navbar">
-        <div class="form-inline">
-          <ul class="navbar-nav mr-3">
-                            <li>
-                              <a href="#" class="nav-link nav-link-lg" data-target="members-association.html" onclick="window.location.href=this.getAttribute('data-target'); return false;" title="Back to Dashboard">
-                                <svg class="icon icon--md" id="homeIcon"><use href="#icon-home"/></svg>
+        <nav class="navbar navbar-expand-lg main-navbar">
+                  <div class="form-inline">
+                      <ul class="navbar-nav mr-3">
+                          <li>
+                            <a href="#" class="nav-link nav-link-lg" data-target="members-association.html" onclick="window.location.href=this.getAttribute('data-target'); return false;" title="Back to Dashboard">
+                               <svg class="icon icon--md" id="homeIcon"><use href="#icon-home"/></svg>
                               </a>
                             </li>
-            <li>
-              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
-                <i class="fas"></i>
-                <img src="assets/images/toggle.png">
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                <svg class="icon icon--md" id="fullscreenIcon"><use href="#icon-expand"/></svg>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <ul class="navbar-nav navbar-right align-items-center ml-auto">
-          <li>
-            <div class="languag-wrap btn mr-1">
-              <span><i class="fa fa-globe" aria-hidden="true"></i> </span>
-              <select id="languageSwitcher"></select>
-            </div>
-          </li>
-          <li>
-            <a class="btn btn-secondary d-flex align-items-center ml-1">
-              <i class="fa fa-building-o" aria-hidden="true"></i>
-              <div id="facility">FACILITY</div>
-            </a>
-          </li>
-          <li>
-            <a class="btn btn-secondary d-flex align-items-center ml-1"
-              href="../../../dhis-web-commons-security/logout.action">
-              <i aria-hidden="true"></i>
-              <div>LOG OUT</div>
-            </a>
-          </li>
-        </ul>
-      </nav>
+                            <li id="sidebarToggle">
+                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                          <svg class="icon icon--md" id="sidebarCloseIcon"><use href="#icon-panel-left-close"/></svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                          <svg class="icon icon--md" id="fullscreenIcon"><use href="#icon-expand"/></svg>
+                        </a>
+                      </li>
+                      </ul>
+                  </div>
+
+                  <ul class="navbar-nav navbar-right align-items-center ml-auto">
+
+                    <li>
+                      <a class="btn d-flex align-items-center ml-1" id="facility">
+                      <i class="fa fa-building-o" aria-hidden="true"></i>
+                      <div id="facility">FACILITY</div>
+                      </a>
+                    </li>
+                      
+                    <li class="nav-item ml-3">
+                      <div class="languag-wrap lang-select-wrap">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <line x1="2" y1="12" x2="22" y2="12"/>
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10
+                                  15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                          </svg>
+                          <select id="languageSwitcher"></select>
+                          <span class="lang-chevron">▾</span>
+                    </div>
+                    </li>
+
+                    <li class="nav-item">
+                    <a href="../../../dhis-web-commons-security/logout.action"
+                          class="hdr-btn btn-ghost">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                          <polyline points="16 17 21 12 16 7"/>
+                          <line x1="21" y1="12" x2="9" y2="12"/>
+                          </svg>
+                          LOG OUT
+                    </a>
+                    </li>
+                  </ul>
+              </nav>
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">

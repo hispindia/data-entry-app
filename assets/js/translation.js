@@ -3642,7 +3642,7 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "submit_business_plan",
-        en: "Submit Business Plan",
+        en: "Complete Business Plan",
         sp: "Presentar Plan de Negocios",
         fr: "Soumettre le Plan d’Affaires ",
         ar: "تقديم خطة العمل"

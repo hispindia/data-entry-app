@@ -271,7 +271,13 @@ a{cursor:pointer;}
   background-color: hsl(var(--primary)) !important;
   color: #fff !important;
 }
-
+.required::after {
+    content: " *";
+    color: red;
+}
+.icon-red {
+    color: #d32f2f;
+}
 .stepperform {
   clear: both;
   display: none;
@@ -878,7 +884,7 @@ html.rtl-mode .bpr-milestone:last-child .bpr-milestone__content--below {
 }
 .toast-msg.show { opacity: 1; }
 .toast-msg.success { background: hsl(142, 71%, 45%); }
-.toast-msg.error { background: hsl(var(--primary)); }
+.toast-msg.error { background: hsl(0, 84%, 60%); }
 #sidebar-wrapper {
   width: 240px;
   min-height: 100vh;

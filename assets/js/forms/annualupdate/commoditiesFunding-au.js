@@ -3,11 +3,23 @@ import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther } from "
 import { dataElements, dataSetQuantity, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears, unformatNumber } from "../func.js";
+import { showToast } from "../../utils.js";
 
  const maxWords = 200
  var eventPD = '';
  var commoditiesEC='';
- 
+ let userHideReporting = [];
+
+  function normalizeHideReporting(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value.map(v => String(v).trim()).filter(Boolean);
+  }
+  if (typeof value === "string") {
+    return value.split(",").map(v => v.trim()).filter(Boolean);
+  }
+  return [];
+}
   document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
   document.querySelectorAll(".nav-link").forEach(function (element) {
@@ -19,7 +31,7 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
       }
     });
   });
-
+    let projectDescriptionValues = {};
     document
     .getElementById("year-update")
     .addEventListener("change", function (ev) {
@@ -36,7 +48,9 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
 
  async function configurePage() {
     const user = await getUserConfig();
-    tei.disabled = user.disabled;
+    const rawHideReporting = user.hideReporting ?? user.hide_reporting ?? user.permissions?.hideReporting ?? window.localStorage.getItem("hideReporting");
+    userHideReporting = normalizeHideReporting(rawHideReporting);
+    tei.disabled = Boolean(user.disabled);
 
     if (user.organisationUnits?.length) {
       tei.orgUnit = user.organisationUnits[0].id;
@@ -90,8 +104,8 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
       data.trackedEntityInstances[0].enrollments.filter(
         (enroll) => enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
       );
-
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
+      projectDescriptionValues = dataValuesPD[tei.year.value] || {};
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value]['event']) eventPD =dataValuesPD[tei.year.value]['event']
       if (dataValuesPD[tei.year.value]) {
         tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
@@ -118,15 +132,22 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
     
     $('#push-button').empty();
 
-    if(window.localStorage.getItem("hideReporting").includes('ed')) {
+    if(window.localStorage.getItem("hideReporting").includes('ed') || userHideReporting.includes('ma')) {
       const btn = document.createElement("button");
-      btn.innerHTML = `<span data-i18n="intro.submit_business_plan">Submit Business Plan </span> ${tei.year.value}`;
+      btn.innerHTML = `<span data-i18n="intro.submit_business_plan">Complete Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");
       if(tei.disabled) btn.setAttribute("disabled", "true");
       btn.addEventListener("click", async(event) => {
       event.preventDefault(); 
+      const missingFields = validateProjectDescriptionRequiredFields(projectDescriptionValues);
+      const errorBox = document.getElementById("mandatory-error");
+      if (errorBox) errorBox.style.display = "none"
+      if (missingFields.length) {
+        showMissingFieldsModal(missingFields);
+        return;
+      }
       if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
-      alert('Annual Update Submitted Successfully!');
+      showToast('Annual Update Submitted Successfully!', "success");
       });
       $('#push-button').append(btn);
     }
@@ -137,7 +158,7 @@ import { formatNumberInput, getYears, unformatNumber } from "../func.js";
       btn.addEventListener("click", async(event) => {
         event.preventDefault(); 
         if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,'', program.auProjectDescription, programStage.auProjectDescription, eventPD);
-        alert('Annual Update Reopened Successfully!');
+        showToast('Annual Update Reopened Successfully!',"success");
       });
       $('#push-button').append(btn);
     }
@@ -398,7 +419,130 @@ function checkProjects(projects, values) {
       if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
       else counter.textContent = `${maxWords} words remaining`;
     }
+  
+  function validateProjectDescriptionRequiredFields(values) {
+    const missingFields = [];
+    const projectConfigs = dataElements.projectDescription || [];
+
+    if(!values) return missingFields;
+    projectConfigs.forEach((proj, index) => {
+      const projectNumb = index + 1;
+      const hasProjData = 
+      String(values[proj.name]).trim() ||
+      String(values[proj.startDate]).trim() ||
+      String(values[proj.endDate]).trim() ||
+      String(values[proj.theme]).trim() ||
+      String(values[proj.funding]).trim() ||
+      String(values[proj.contract]).trim() ||
+      String(values[proj.donor]).trim() ||
+      String(values[proj.income]).trim() ||
+      String(values[proj.description]).trim() 
+    if (!hasProjData) return;
+
+    const requiredChecks = [
+      {key: proj.name, label: `Project ${projectNumb} - Project Name`},
+      {key: proj.startDate, label: `Project ${projectNumb} - Project Start Date`},
+      {key: proj.endDate, label: `Project ${projectNumb} - Project End Date`},
+      {key: proj.theme, label: `Project ${projectNumb} - Project Theme`},
+      {key: proj.funding, label: `Project ${projectNumb} - Project Funding`},
+      {key: proj.contract, label: `Project ${projectNumb} - Project Contract`},
+      {key: proj.donor, label: `Project ${projectNumb} - Project Donor`},
+      {key: proj.income, label: `Project ${projectNumb} - Project Income`},
+      {key: proj.description, label: `Project ${projectNumb} - Project Description`},
+    ];
+
+      requiredChecks.forEach(({key, label}) => {
+        if (!String(values[key] || "").trim()) {
+          missingFields.push(label);
+        }
+      });
+
+      const themeValue = String(values[proj.theme] || "").trim();
+      if (themeValue === "Other (please fill in)" && !String(values[proj.themeOther] || "").trim()) {
+        missingFields.push(`Project ${projectNumb} - Other Project Theme`);
+      }
+
+      const donorValue = String(values[proj.donor] || "").trim();
+      if (donorValue === "Other (please write below)" && !String(values[proj.donorOther] || "").trim()) {
+        missingFields.push(`Project ${projectNumb} - Other Project Donor`);
+      }
+
+    });
+    return [...new Set(missingFields)];
+  }
+  function showMissingFieldsModal(missingFields) {
+    $('#missingFieldsModal').remove();
+    const modalHtml = `
+      <div class="modal fade" id="missingFieldsModal" tabindex="-1" role="dialog" aria-labelledby="missingFieldsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content" style="border-radius:10px;border:none;overflow:hidden;">
+            <div class="modal-header" style="background:#FFF5F5;border-bottom:1px solid #FED7D7;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="
+                  display:inline-flex;
+                  align-items:center;
+                  justify-content:center;
+                  width:26px;height:26px;
+                  background:#E53E3E;
+                  color:#fff;
+                  border-radius:50%;
+                  font-size:15px;
+                  font-weight:bold;
+                  flex-shrink:0;
+                ">!</span>
+                <h5 class="modal-title" id="missingFieldsModalLabel" style="color:#C53030;margin:0;">
+                  Required Fields Missing
+                </h5>
+              </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="padding:20px 24px;">
+              <p style="color:#555;margin-bottom:16px;">
+                Please complete the following required fields in <strong>2.1 Project Description</strong> before submitting:
+              </p>
+              <ul style="
+                list-style:none;
+                margin:0;
+                padding:0;
+                display:grid;
+                grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+                gap:8px 12px;
+                max-height:50vh;
+                overflow-y:auto;
+              ">
+                ${missingFields.map(field => `
+                  <li style="
+                    color:#742A2A;
+                    font-size:13.5px;
+                    padding:8px 12px;
+                    background:#FFF5F5;
+                    border:1px solid #FED7D7;
+                    border-radius:6px;
+                  ">
+                    &bull;&nbsp; ${field}
+                  </li>
+                `).join("")}
+              </ul>
+            </div>
+            <div class="modal-footer" style="border-top:1px solid #eee;">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+  $('body').append(modalHtml);
+  $('#missingFieldsModal').modal('show');
+
+  // Clean up the DOM once the modal is dismissed
+  $('#missingFieldsModal').on('hidden.bs.modal', function () {
+    $(this).remove();
+  });
+}
     
   function submitProjects() {
-      alert("Data Saved Successfully!")
+      showToast("Data Saved Successfully!", "success")
   }
