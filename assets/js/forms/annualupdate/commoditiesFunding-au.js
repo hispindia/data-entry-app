@@ -1,5 +1,5 @@
 import { dataSet } from "../../api/dataSet.js";
-import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther } from "../../api/func.js";
+import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther, pushDataElement } from "../../api/func.js";
 import { dataElements, dataSetQuantity, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears, unformatNumber } from "../func.js";
@@ -82,6 +82,10 @@ import { showToast } from "../../utils.js";
     document.getElementById('year-update').innerHTML =years.map(year => `<option value="${year}" ${tei.year.selectedAnnual==year? 'selected': ''}>${year}</option>`).join('');
     if(user.annualYear) document.getElementById('year-update').value = user.annualYear;
 
+    tei.program = program.auOrganisationDetails;
+    tei.programStage = programStage.auMembershipDetails;
+    
+
     fetchEvents();    
   }
     async function fetchDataSet(year) {
@@ -102,7 +106,7 @@ import { showToast } from "../../utils.js";
       
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
+        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
       );
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       projectDescriptionValues = dataValuesPD[tei.year.value] || {};
@@ -131,10 +135,17 @@ import { showToast } from "../../utils.js";
   function populateProgramEvents(dataValues) {
     
     $('#push-button').empty();
-
+    document.querySelectorAll('.textValue').forEach((textVal) => {
+     if (dataValues[textVal.id]) {
+        if(textVal.type=="checkbox") textVal.checked = true;
+        else textVal.value = dataValues[textVal.id];   
+      } else {
+        textVal.value = '';
+      }
+    })
     if(window.localStorage.getItem("hideReporting").includes('ed') || userHideReporting.includes('ma')) {
       const btn = document.createElement("button");
-      btn.innerHTML = `<span data-i18n="intro.submit_business_plan">Complete Business Plan </span> ${tei.year.value}`;
+      btn.innerHTML = `<span data-i18n="intro.complete_business_plan">Complete Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");
       if(tei.disabled) btn.setAttribute("disabled", "true");
       btn.addEventListener("click", async(event) => {
@@ -188,6 +199,16 @@ import { showToast } from "../../utils.js";
     
     $('.loader-container').addClass('d-none').removeClass('d-flex');
     $('.myContainer').show();
+    document.querySelectorAll('.textValue').forEach((input)=> {
+      input.addEventListener("input", (ev) => {
+        const { id,value, type, checked } = ev.target;
+        if(type=="checkbox") {
+          if(checked) pushDataElementOther(id, true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
+          else pushDataElementOther(id, '', program.auProjectDescription, programStage.auProjectDescription, eventPD);
+        } else pushDataElementOther(id,value, program.auProjectDescription, programStage.auProjectDescription, eventPD);
+      })
+    });
+
       // Localize content
       $('body').localize();
            
@@ -425,18 +446,18 @@ function checkProjects(projects, values) {
     const projectConfigs = dataElements.projectDescription || [];
 
     if(!values) return missingFields;
-    projectConfigs.forEach((proj, index) => {
+    projectConfigs?.forEach((proj, index) => {
       const projectNumb = index + 1;
       const hasProjData = 
-      String(values[proj.name]).trim() ||
-      String(values[proj.startDate]).trim() ||
-      String(values[proj.endDate]).trim() ||
-      String(values[proj.theme]).trim() ||
-      String(values[proj.funding]).trim() ||
-      String(values[proj.contract]).trim() ||
-      String(values[proj.donor]).trim() ||
-      String(values[proj.income]).trim() ||
-      String(values[proj.description]).trim() 
+      String(values[proj.name] || "").trim() ||
+      String(values[proj.startDate] || "").trim() ||
+      String(values[proj.endDate] || "").trim() ||
+      String(values[proj.theme] || "").trim() ||
+      String(values[proj.funding] || "").trim() ||
+      String(values[proj.contract] || "").trim() ||
+      String(values[proj.donor] || "").trim() ||
+      String(values[proj.income] || "").trim() ||
+      String(values[proj.description] || "").trim() 
     if (!hasProjData) return;
 
     const requiredChecks = [

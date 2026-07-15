@@ -3641,11 +3641,11 @@ de productos (como se indica en la parte de abajo del formulario)
         ar: "مصدر التمويل"
     },
     {
-        id: "submit_business_plan",
-        en: "Complete Business Plan",
-        sp: "Presentar Plan de Negocios",
-        fr: "Soumettre le Plan d’Affaires ",
-        ar: "تقديم خطة العمل"
+    id: "complete_business_plan",
+    en: "Complete Business Plan",
+    es: "Presentar plan de negocio",
+    fr: "Soumettre le plan d’affaires",
+    ar: "تقديم خطة العمل"
     },
     {
         id: "reopen_business_plan",
