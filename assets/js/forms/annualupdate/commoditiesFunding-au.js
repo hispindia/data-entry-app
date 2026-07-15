@@ -143,7 +143,7 @@ import { showToast } from "../../utils.js";
         textVal.value = '';
       }
     })
-    if(window.localStorage.getItem("hideReporting").includes('ed') || userHideReporting.includes('ma')) {
+    if(localStorage.getItem("hideReporting").includes('ed')) {
       const btn = document.createElement("button");
       btn.innerHTML = `<span data-i18n="intro.complete_business_plan">Complete Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");
@@ -471,9 +471,9 @@ function checkProjects(projects, values) {
       {key: proj.income, label: `Project ${projectNumb} - Project Income`},
       {key: proj.description, label: `Project ${projectNumb} - Project Description`},
     ];
-
+      const groupFields = {};
       requiredChecks.forEach(({key, label}) => {
-        if (!String(values[key] || "").trim()) {
+        if (!String(values[key] || "").trim()) {          
           missingFields.push(label);
         }
       });
@@ -493,6 +493,21 @@ function checkProjects(projects, values) {
   }
   function showMissingFieldsModal(missingFields) {
     $('#missingFieldsModal').remove();
+    //dropping wise list 
+    const groupFields = {};
+    missingFields.forEach(field => {
+      const parts = field.split(' - ');
+      console.log("parts", parts);
+      if (parts.length >= 2) {
+        const proj = parts[0];
+        const filedName = parts.slice(1).join(" - ");
+
+        if (!groupFields[proj]) {
+          groupFields[proj] = [];
+        }
+        groupFields[proj].push(filedName);
+      }
+    })
     const modalHtml = `
       <div class="modal fade" id="missingFieldsModal" tabindex="-1" role="dialog" aria-labelledby="missingFieldsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -523,29 +538,46 @@ function checkProjects(projects, values) {
               <p style="color:#555;margin-bottom:16px;">
                 Please complete the following required fields in <strong>2.1 Project Description</strong> before submitting:
               </p>
-              <ul style="
-                list-style:none;
-                margin:0;
-                padding:0;
-                display:grid;
-                grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-                gap:8px 12px;
-                max-height:50vh;
-                overflow-y:auto;
-              ">
-                ${missingFields.map(field => `
-                  <li style="
-                    color:#742A2A;
-                    font-size:13.5px;
-                    padding:8px 12px;
-                    background:#FFF5F5;
-                    border:1px solid #FED7D7;
-                    border-radius:6px;
-                  ">
-                    &bull;&nbsp; ${field}
-                  </li>
-                `).join("")}
-              </ul>
+              <div style="max-height:55vh;overflow-y:auto;">
+
+            ${Object.entries(groupFields).map(([project, fields], index) => `
+                <div class="card mb-2" style="border:1px solid #FED7D7;">
+                    <div class="card-header"
+                        data-toggle="collapse"
+                        data-target="#project-${index}"
+                        style="
+                            cursor:pointer;
+                            background:#FFF5F5;
+                            font-weight:600;
+                            color:#C53030;
+                            font-weight:600;
+                            color:#C53030;
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                        ">
+                        ${project}
+                        <span class="badge badge-danger">
+                            ${fields.length}
+                        </span>
+                    </div>
+
+                    <div id="project-${index}"
+                        class="collapse ${index===0 ? 'show' : ''}">
+                        <ul class="list-group list-group-flush">
+
+                            ${fields.map(field=>`
+                                <li class="list-group-item"
+                                    style="border:none;padding:8px 18px;">
+                                    • ${field}
+                                </li>
+                            `).join("")}
+                        </ul>
+                    </div>
+                </div>
+            `).join("")}
+
+          </div>
             </div>
             <div class="modal-footer" style="border-top:1px solid #eee;">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
