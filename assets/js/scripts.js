@@ -639,6 +639,30 @@ $(function () {
     $('#mini_sidebar_setting').prop("checked", false);
   })
 
+  // Wrap data tables in a horizontal-scroll container so wide tables
+  // (fixed-width review columns) scroll sideways on small screens instead of
+  // breaking the layout. Runs again via MutationObserver because most form
+  // content is rendered later by the page modules in assets/js/forms/.
+  var wrapTables = function () {
+    $('.main-content table').each(function () {
+      var table = $(this);
+      if (table.parent().closest('.table-scroll, .table-responsive').length) return;
+      if (table.parents('table').length) return;
+      table.wrap('<div class="table-scroll"></div>');
+    });
+  };
+  wrapTables();
+  if (window.MutationObserver && $('.main-content').length) {
+    new MutationObserver(function (mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        if (mutations[i].addedNodes.length) {
+          wrapTables();
+          break;
+        }
+      }
+    }).observe($('.main-content')[0], { childList: true, subtree: true });
+  }
+
   //start up class add
 
   //add default class on body tag

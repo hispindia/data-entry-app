@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>IPPF: 2. Narrative report</title>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="assets/css/app.min.css">
@@ -13,6 +13,7 @@
     <!-- Custom style CSS -->
     <link rel="stylesheet" href="assets/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="stylesheet" href="assets/css/help-panel.css">
     <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
 </head>
@@ -342,94 +343,7 @@
                                     </div>
                                     <!---- quest ends here --->
 
-                                    <!-- SMART Outcomes Achievements REMOVED - hidden via display:none -->
-                                    <div class="box-from-inner" style="display:none;">
-
-                                        <div class="form-row">
-                                        <div class="form-group col-md-12 textbox-wrap">
-                                        <label for=""><span data-i18n="intro.smart_outcomes_report">4. SMART Outcomes Achievements</span>
-                                        </label>
-
-
-
-                                        <table class="table table-bordered smart-outcomes-table">
-                                          <thead>
-                                            <tr>
-                                              <th style="width:5%;">#</th>
-                                              <th style="width:47.5%;" data-i18n="intro.smart_outcomes_planned">SMART Outcomes Planned</th>
-                                              <th style="width:47.5%;" data-i18n="intro.smart_outcomes_achieved">SMART Outcomes Achieved</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <td class="smart-row-num">1</td>
-                                              <td>
-                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_1" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
-                                              </td>
-                                              <td>
-                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_1" placeholder="Enter achieved outcome..."></textarea>
-                                                <div class="char-counter form-text text-muted">
-                                                  <span id="counter_sa1">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td class="smart-row-num">2</td>
-                                              <td>
-                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_2" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
-                                              </td>
-                                              <td>
-                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_2" placeholder="Enter achieved outcome..."></textarea>
-                                                <div class="char-counter form-text text-muted">
-                                                  <span id="counter_sa2">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td class="smart-row-num">3</td>
-                                              <td>
-                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_3" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
-                                              </td>
-                                              <td>
-                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_3" placeholder="Enter achieved outcome..."></textarea>
-                                                <div class="char-counter form-text text-muted">
-                                                  <span id="counter_sa3">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td class="smart-row-num">4</td>
-                                              <td>
-                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_4" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
-                                              </td>
-                                              <td>
-                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_4" placeholder="Enter achieved outcome..."></textarea>
-                                                <div class="char-counter form-text text-muted">
-                                                  <span id="counter_sa4">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td class="smart-row-num">5</td>
-                                              <td>
-                                                <textarea class="form-control-resize textValue smart-cell-textarea" id="smart_plan_ar_5" placeholder="" readonly disabled style="background-color: #e9ecef; cursor: not-allowed;"></textarea>
-                                              </td>
-                                              <td>
-                                                <textarea class="form-control-resize textlimit textValue smart-cell-textarea" id="smart_achieve_ar_5" placeholder="Enter achieved outcome..."></textarea>
-                                                <div class="char-counter form-text text-muted">
-                                                  <span id="counter_sa5">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-
-                                        <div class="invalid-feedback"> Error here
-                                        </div>
-                                        </div>
-                                        </div>
-
-                                    </div>
+                                    
 
                                     <!---- quest start here --->
                                     <div class="box-from-inner">
@@ -460,18 +374,108 @@
                                     <div class="box-from-inner">
 
                                         <div class="form-row">
-                                        <div class="form-group col-md-12 textbox-wrap">
-                                        <label for=""><span data-i18n="intro.organisational_update">5. Organisational update</span>
+                                        <div class="form-group col-12 col-md-12 textbox-wrap">
+                                        <label for=""><span>5. SMART Outcomes</span> <i class="fas fa-info-circle"
+                                            data-toggle="collapse" data-target="#collapseSmart5" aria-expanded="false"
+                                            aria-controls="collapseSmart5"></i>
                                         </label>
-
-
-                                        <textarea class="form-control-resize textlimit textValue" id="dCgCuUsIJUi"
-                                            rows="5" 
-                                            cols="100"></textarea>
-                                        <div class="char-counter form-text text-muted">
-                                            <span id="counter8">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
-
+                                        <div class="collapse show" id="collapseSmart5">
+                                          <p>SMART: Specific, Measurable, Achievable, Relevant, and Time-bound Outcomes</p>
+                                          <p>Describe your medium term (3-year) expected strategic outcomes (up to five).</p>
+                                          <p class="text-danger">For example: IPPF Strat Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in four national regions.
+                                            <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseSmart5" aria-expanded="false" aria-controls="collapseSmart5"></i>
+                                          </p>
                                         </div>
+
+                                        <!-- TODO: replace placeholder ids (smart_plan_ar_N / smart_achieve_ar_N) with real DHIS2
+                                             data element UIDs and add the textValue class back so the pushDataElement wiring in
+                                             narrativeReport-ar.js picks them up. Until then values typed here do NOT persist. -->
+                                        <table class="table table-bordered smart-outcomes-table">
+                                          <thead>
+                                            <tr>
+                                              <th style="width:5%;">#</th>
+                                              <th style="width:47.5%;" data-i18n="intro.smart_outcomes_planned">SMART Outcomes Planned</th>
+                                              <th style="width:47.5%;" data-i18n="intro.smart_outcomes_achieved">SMART Outcomes Achieved</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td class="smart-row-num">1</td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_plan_ar_1" placeholder="Enter planned outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sp1">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_achieve_ar_1" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa1">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">2</td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_plan_ar_2" placeholder="Enter planned outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sp2">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_achieve_ar_2" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa2">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">3</td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_plan_ar_3" placeholder="Enter planned outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sp3">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_achieve_ar_3" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa3">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">4</td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_plan_ar_4" placeholder="Enter planned outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sp4">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_achieve_ar_4" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa4">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="smart-row-num">5</td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_plan_ar_5" placeholder="Enter planned outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sp5">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control-resize smart-cell-textarea" id="smart_achieve_ar_5" placeholder="Enter achieved outcome..."></textarea>
+                                                <div class="char-counter form-text text-muted">
+                                                  <span id="counter_sa5">50</span> <span data-i18n="intro.words_remaining">words remaining</span>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
 
                                         <div class="invalid-feedback"> Error here
                                         </div>
@@ -480,6 +484,7 @@
 
                                     </div>
                                     <!---- quest ends here --->
+
 
                                     <!---- quest start here --->
                                     <div class="box-from-inner">
@@ -494,7 +499,7 @@
                                             rows="5" 
                                             cols="100"></textarea>
                                         <div class="char-counter form-text text-muted" >
-                                            <span id="counter9">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
+                                            <span id="counter8">200 </span> <span data-i18n="intro.words_remaining">Words Remaining</span>
                                         </div>
 
                                         <div class="invalid-feedback"> Error here
@@ -557,6 +562,27 @@
   </script>
     <script src="assets/js/glossary_translations.js"></script>
     <script src="assets/js/help-panel.js"></script>
+    <script>
+      // SMART Outcomes table: per-cell 50-word limit + counters.
+      // TODO: wire saving once DHIS2 data element UIDs exist (see table markup TODO).
+      document.addEventListener('DOMContentLoaded', function () {
+        var SMART_MAX_WORDS = 50;
+        document.querySelectorAll('.smart-outcomes-table .smart-cell-textarea').forEach(function (textarea) {
+          var counter = textarea.parentElement.querySelector('.char-counter span');
+          var update = function () {
+            var words = textarea.value.trim().split(/\s+/).filter(Boolean);
+            if (words.length > SMART_MAX_WORDS) {
+              textarea.value = words.slice(0, SMART_MAX_WORDS).join(' ');
+              words = words.slice(0, SMART_MAX_WORDS);
+            }
+            counter.textContent = String(SMART_MAX_WORDS - words.length);
+          };
+          textarea.addEventListener('input', update);
+          update();
+        });
+      });
+    </script>
 </body>
+
 
 </html>                                                                      

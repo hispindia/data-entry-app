@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
   <title>IPPF: 5.1 TRT Review - Quality of Business Plan </title>
   <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/css/app.min.css">
@@ -13,72 +13,135 @@
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="assets/css/select2.min.css">
   <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
   <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+  <style>
+    /* Page-scoped: variant-B layout — Description under the criterion name,
+       Consult + gap columns widened, and the three inputs on one row.
+       .form-control-resize is shared by other pages — size it only here. */
+    .crit-cell {
+      width: 180px;
+      min-width: 160px;
+      vertical-align: top;
+    }
+    .crit-desc {
+      font-weight: 400;
+      margin-top: 8px;
+    }
+    /* Nested criteria table: Consult Section + the three gap columns */
+    .accordion-body table table td {
+      width: 30%;
+      vertical-align: top;
+    }
+    .accordion-body table table td:first-child {
+      width: 10%;
+    }
+    .stacked-comments-cell {
+      padding: 14px 18px;
+    }
+    .comments-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .comments-row .stacked-field {
+      flex: 1 1 0;
+      min-width: 0;
+      margin-bottom: 4px;
+    }
+    .comments-row .stacked-field.stacked-rating {
+      flex: 0 0 170px;
+    }
+    .stacked-label {
+      margin-bottom: 6px;
+    }
+    .stacked-field .form-control-resize {
+      min-height: 140px;
+      resize: vertical;
+    }
+    .stacked-rating .form-group.col-md-12 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .stacked-rating select.selectBox {
+      max-width: 170px;
+    }
+  </style>
 </head>
 
 <body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-log-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></symbol>
+    <symbol id="icon-panel-left-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></symbol>
+    <symbol id="icon-panel-left-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  </svg>
   <div class="loader"></div>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
-        <nav class="navbar navbar-expand-lg main-navbar">
-                  <div class="form-inline">
-                      <ul class="navbar-nav mr-3">
-                          <li>
-                            <a href="#" class="nav-link nav-link-lg" data-target="members-association.html" onclick="window.location.href=this.getAttribute('data-target'); return false;" title="Back to Dashboard">
-                               <svg class="icon icon--md" id="homeIcon"><use href="#icon-home"/></svg>
+                  <nav class="navbar navbar-expand-lg main-navbar">
+                <div class="form-inline">
+                    <ul class="navbar-nav mr-3">
+                    <li>
+                              <a href="#" class="nav-link nav-link-lg" data-target="members-association.html" onclick="window.location.href=this.getAttribute('data-target'); return false;" title="Back to Dashboard">
+                                <svg class="icon icon--md" id="homeIcon"><use href="#icon-home"/></svg>
                               </a>
                             </li>
                             <li id="sidebarToggle">
-                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
-                          <svg class="icon icon--md" id="sidebarCloseIcon"><use href="#icon-panel-left-close"/></svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                          <svg class="icon icon--md" id="fullscreenIcon"><use href="#icon-expand"/></svg>
-                        </a>
-                      </li>
-                      </ul>
-                  </div>
+                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+                        <svg class="icon icon--md" id="sidebarCloseIcon"><use href="#icon-panel-left-close"/></svg>
+                        <svg class="icon icon--md" id="sidebarOpenIcon" style="display:none"><use href="#icon-panel-left-open"/></svg>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                        <svg class="icon icon--md" id="fullscreenIcon"><use href="#icon-expand"/></svg>
+                    </a>
+                    </li>
+                    </ul>
+                </div>
 
-                  <ul class="navbar-nav navbar-right align-items-center ml-auto">
+                <ul class="navbar-nav navbar-right align-items-center ml-auto">
 
                     <li>
-                      <a class="btn d-flex align-items-center ml-1" id="facility">
-                      <i class="fa fa-building-o" aria-hidden="true"></i>
-                      <div id="facility">FACILITY</div>
-                      </a>
+                    <a class="btn d-flex align-items-center ml-1" id="facility">
+                    <i class="fa fa-building-o" aria-hidden="true"></i>
+                    <div id="facility">FACILITY</div>
+                    </a>
                     </li>
-                      
+                    
                     <li class="nav-item ml-3">
-                      <div class="languag-wrap lang-select-wrap">
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <circle cx="12" cy="12" r="10"/>
-                          <line x1="2" y1="12" x2="22" y2="12"/>
-                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10
-                                  15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                          </svg>
-                          <select id="languageSwitcher"></select>
-                          <span class="lang-chevron">▾</span>
+                    <div class="languag-wrap lang-select-wrap">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10
+                                15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <select id="languageSwitcher"></select>
+                        <span class="lang-chevron">▾</span>
                     </div>
                     </li>
 
                     <li class="nav-item">
                     <a href="../../../dhis-web-commons-security/logout.action"
-                          class="hdr-btn btn-ghost">
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                          <polyline points="16 17 21 12 16 7"/>
-                          <line x1="21" y1="12" x2="9" y2="12"/>
-                          </svg>
-                          LOG OUT
+                        class="hdr-btn btn-ghost">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        LOG OUT
                     </a>
                     </li>
-                  </ul>
-              </nav>
+                </ul>
+            </nav>
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
@@ -228,14 +291,14 @@
                               
                               <tbody>
                                 <tr>
-                                  <td style="border-left:none;width:30pt" rowspan="3">
+                                  <td class="crit-cell" style="border-left:none" rowspan="2">
                                     <strong>Country Context </strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Strategy and individual projects respond to country's social, economic, political, and health context.</div>
                                   </td>
                                   <td colspan="3">
                                       <table>
                                         <tr>
-                                          <td><span class="font-weight-bold">Description</span>:<br/>Strategy and individual projects respond to country's social, economic, political, and health context.</td>
-                                          <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                           <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy and projects fail to address one or more major elements of the country need (e.g., marginalized populations, political context).</td>
                                           <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy acknowledges elements of country need (e.g., marginalized populations, political circumstances, social change, etc.), but the individual projects do not properly address them.</td>
                                           <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy identifies most relevant factors within the country context (e.g., marginalized populations, political circumstances, social change, etc.) and MA projects respond to these.</td>
@@ -244,35 +307,32 @@
                                   </td>
                                     </tr>
                                     
-                                    <tr> 
-                                      <td class="text-center font-weight-bold">Regional staff comments</td>
-                                      <td class="text-center font-weight-bold">TRT comments/questions</td>
-                                      <td class="text-center font-weight-bold">TRT rating </td>
-                                    </tr>
                                     <tr>
-                                  <td style="border-left:none;width:120pt">
-                                    <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                       <textarea class="form-control-resize textValue aoc-values" id="Jd42IU5i9YI" 
                                        ></textarea>
                                       <div class="char-counter form-text text-muted"><span id="counter1">200</span> 
                                         <span data-i18n="intro.words_remaining">words remaining</span></div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
-                                  </td>
-
-                                  <td style="border-left:none;width:120pt">
-                                    <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                       <textarea class="form-control-resize textValue trt-values" id="M5y1fKem4SC" 
                                         ></textarea>
                                       <div class="char-counter form-text text-muted"><span id="counter2">200</span> 
                                       <span data-i18n="intro.words_remaining">words remaining</span></div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
-                                  </td>
-
-
-                                  <td style="border-left:none;width:120pt">
-                                    <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                      <select class="form-control textOption mt-1 selectBox" id ="oxL5NjKsg5s">
                                         <option value="">Select</option>
                                           <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -282,20 +342,20 @@
                                       </select>
                                       <div class="invalid-feedback">Error here </div>
                                     </div>
+                                    </div>
+                                    </div>
                                   </td>
-
                                 </tr>
 
                                 <tr>
-                                  <td style="border-left:none;width:30pt" rowspan="3">
+                                  <td class="crit-cell" style="border-left:none" rowspan="2">
                                     <strong>Compelling & <br/> ambitious strategy</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Strategy presents a bold approach to meeting local needs, and includes improvements from prior approaches.</div>
                                   </td>
-                                  
                                   <td colspan="3">
-                                    <table>
-                                      <tr>
-                                        <td><span class="font-weight-bold">Description</span>:<br/>Strategy presents a bold approach to meeting local needs, and includes improvements from prior approaches.</td>
-                                        <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                         <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy is not effectively addressing areas of highest need, and/or relies on outdated approaches.</td>
                                         <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy presents some strengths, but also has gaps in notable areas; might not represent a big step forward from prior approach .</td>
                                         <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy presents a compelling way to meet local needs, and shows improvements from past years' approaches.</td>
@@ -304,35 +364,32 @@
                                 </td>
                                   </tr>
                                   
-                                  <tr> 
-                                    <td class="text-center font-weight-bold">Regional staff comments</td>
-                                    <td class="text-center font-weight-bold">TRT comments/questions</td>
-                                    <td class="text-center font-weight-bold">TRT rating </td>
-                                  </tr>
                                   <tr>
-                                  <td>
-                                    <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                       <textarea class="form-control-resize textValue aoc-values" id="o1f7QI574P5" 
                                       ></textarea>
                                       <div class="char-counter form-text text-muted"><span id="counter3">200</span> 
                                         <span data-i18n="intro.words_remaining">words remaining</span></div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
-                                  </td>
-
-                                  <td>
-                                    <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                       <textarea class="form-control-resize textValue trt-values" id="wrJMaKXcf6d" 
                                        ></textarea>
                                       <div class="char-counter form-text text-muted"><span id="counter4">200</span>
                                          <span data-i18n="intro.words_remaining">words remaining</span></div>
                                       <div class="invalid-feedback"> Error here </div>
                                     </div>
-                                  </td>
-
-
-                                  <td>
-                                    <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                      <select class="form-control textOption mt-1 selectBox" id ="vl55Hml6fyv">
                                       <option value="">Select</option>
                                       <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -342,8 +399,9 @@
                                       </select>
                                       <div class="invalid-feedback">Error here </div>
                                     </div>
+                                    </div>
+                                    </div>
                                   </td>
-
                                 </tr>
 
                               </tbody>
@@ -379,15 +437,14 @@
                           <table class="table table-md mb-0 " style="background:#f9f9f9" width="100%">
                             <tbody>
                               <tr>
-                                <td style="border-left:none;width:120pt" rowspan="3">
-                                  <strong> External coherence</strong>
-                                </td>
-                                  
-                                <td colspan="3">
-                                  <table>
-                                    <tr>
-                                      <td><span class="font-weight-bold">Description</span>:<br/>Strategy complements the work of other organizations in the country, and seeks to partner with them effectively.</td>
-                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
+                                <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong> External coherence</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Strategy complements the work of other organizations in the country, and seeks to partner with them effectively.</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy does not include any meaningful coordination with other partners.</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy references external partners and other organizations, but does not show meaningful efforts towards working with them.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy shows intentional, deep coordination with other partners.</td>
@@ -396,14 +453,12 @@
                               </td>
                                 </tr>
                                 
-                                <tr> 
-                                  <td class="text-center font-weight-bold">Regional staff comments</td>
-                                  <td class="text-center font-weight-bold">TRT comments/questions</td>
-                                  <td class="text-center font-weight-bold">TRT rating </td>
-                                </tr>
                                 <tr>
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue aoc-values" id="lNHPbcSQxgA" 
                                       ></textarea>
                                     <div class="char-counter form-text text-muted"> <span id="counter5">200</span>
@@ -411,21 +466,20 @@
                                       </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue trt-values" id="n0Yq1RgQBYX" 
                                       ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter6">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                       </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-
-                                <td>
-                                  <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                    <select class="form-control textOption mt-1 selectBox" id ="DZiV13ZnM9s">
                                     <option value="">Select</option>
                                     <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -435,9 +489,10 @@
                                     </select>
                                     <div class="invalid-feedback">Error here </div>
                                   </div>
-                                </td>
-
-                              </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
 
 
@@ -473,14 +528,14 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td style="border-left:none;width:120pt" rowspan="3">
-                                  <strong> Project design</strong>
-                                </td>
-                                <td colspan="3">
-                                  <table>
-                                    <tr>
-                                      <td><span class="font-weight-bold">Description</span>:<br/>Projects are well described and link logically to the organisational strategy</td>
-                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>2.1</td>
+                                <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong> Project design</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Projects are well described and link logically to the organisational strategy</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>2.1</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Projects are badly described or not described at all, and give no sense of what is being implemented and how it relates to the strategy section.</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Projects are  described in some details and give some sense of what is being implemented and how it relates to the strategy section.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Projects well described  and give a clear sense of what is being implemented and how it relates to the strategy section.</td>
@@ -489,35 +544,32 @@
                               </td>
                                 </tr>
                                 
-                                <tr> 
-                                  <td class="text-center font-weight-bold">Regional staff comments</td>
-                                  <td class="text-center font-weight-bold">TRT comments/questions</td>
-                                  <td class="text-center font-weight-bold">TRT rating </td>
-                                </tr>
                                 <tr>
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue aoc-values" id="Sq19IN4weoA" 
                                     ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter7">200</span> <span data-i18n="intro.words_remaining">words remaining</span> 
                                      </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue trt-values" id="qWjyvmiiVUI" 
                                      ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter8">200</span> <span data-i18n="intro.words_remaining">words  remaining</span> 
                                      </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-
-                                <td>
-                                  <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                    <select class="form-control textOption mt-1 selectBox" id ="WD6eft8CJDN">
                                     <option value="">Select</option>
                                           <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -527,9 +579,10 @@
                                     </select>
                                     <div class="invalid-feedback">Error here </div>
                                   </div>
-                                </td>
-
-                              </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
 
 
@@ -562,14 +615,14 @@
                             <tbody>
 
                               <tr>
-                                <td style="border-left:none;width:120pt" rowspan="3">
-                                  <strong>Core Contributions</strong>
-                                </td>
-                                <td colspan="3">
-                                  <table>
-                                    <tr>
-                                      <td><span class="font-weight-bold">Description</span>:<br/>Has the IPPF Core grant been fully and strategically allocated in the BP (as either core grant or commodities)?</td>
-                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>2.2</td>
+                                <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Core Contributions</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Has the IPPF Core grant been fully and strategically allocated in the BP (as either core grant or commodities)?</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>2.2</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Not  all IPPF core funds have been allocated to the projects, and/or it has been allocated to projects that are not relevant to IPPF's strategy.</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>The IPPF core funds have been allocated to projects but there are small variances (less than 500) and/or projects do not appear to be relevant to IPPF's strategy.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>All IPPF core funds have been allocated to projects, and the projects are relevant to IPPF's strategy.</td>
@@ -578,35 +631,32 @@
                               </td>
                                 </tr>
                                 
-                                <tr> 
-                                  <td class="text-center font-weight-bold">Regional staff comments</td>
-                                  <td class="text-center font-weight-bold">TRT comments/questions</td>
-                                  <td class="text-center font-weight-bold">TRT rating </td>
-                                </tr>
                                 <tr>
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue aoc-values" id="dMcbpikuVth" 
                                     ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter9">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                      </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue trt-values" id="qHI23TPezZx" 
                                      ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter10">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                       </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-
-                                <td>
-                                  <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                    <select class="form-control textOption mt-1 selectBox" id ="zR2WxSGUJ2E">
                                     <option value="">Select</option>
                                     <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -616,20 +666,20 @@
                                     </select>
                                     <div class="invalid-feedback">Error here </div>
                                   </div>
-                                </td>
-
-                              </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
                               <tr>
-                                <td style="border-left:none;width:120pt" rowspan="3">
-                                  <strong>Expense logic</strong>
-                                </td>
-                            
-                                <td colspan="3">
-                                  <table>
-                                    <tr>
-                                      <td><span class="font-weight-bold">Description</span>:<br/>Spending by expense category (e.g., personnel, commodities) is reasonable and justified according to MA plans and strategy.</td>
-                                      <td><span class="font-weight-bold">Consult Section</span>:<br/>2.4</td>
+                                <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Expense logic</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Spending by expense category (e.g., personnel, commodities) is reasonable and justified according to MA plans and strategy.</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>2.4</td>
                                       <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Breakdown of expenses by expense type is very concerning and not properly justified .</td>
                                       <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Breakdown of expenses by expense type appears slightly concerning, and is not fully justified.</td>
                                       <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Breakdown of expenses by expense type appears reasonable and justified.</td>
@@ -638,35 +688,32 @@
                               </td>
                                 </tr>
                                 
-                                <tr> 
-                                  <td class="text-center font-weight-bold">Regional staff comments</td>
-                                  <td class="text-center font-weight-bold">TRT comments/questions</td>
-                                  <td class="text-center font-weight-bold">TRT rating </td>
-                                </tr>
                                 <tr>
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue aoc-values" id="ZQLuGZ1ZBpM" 
                                      ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter11">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                      </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-                                <td>
-                                  <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                     <textarea class="form-control-resize textValue trt-values" id="aWMkaWdYnLq" 
                                      ></textarea>
                                     <div class="char-counter form-text text-muted"><span id="counter12">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                       </div>
                                     <div class="invalid-feedback"> Error here </div>
                                   </div>
-                                </td>
-
-
-                                <td>
-                                  <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                    <select class="form-control textOption mt-1 selectBox" id ="kjpC984CLeq">
                                     <option value="">Select</option>
                                           <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -676,9 +723,10 @@
                                     </select>
                                     <div class="invalid-feedback">Error here </div>
                                   </div>
-                                </td>
-
-                              </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
 
 
@@ -717,15 +765,14 @@
                         <tbody>
 
                           <tr>
-                            <td style="border-left:none;width:120pt" rowspan="3">
-                              <strong>Project results</strong>
-                            </td>
-                            
-                            <td colspan="3">
-                              <table>
-                                <tr>
-                                  <td><span class="font-weight-bold">Description</span>:<br/>What strategic results (described as high level outcomes) do you expect to achieve over a three-year horizon?</td>
-                                  <td><span class="font-weight-bold">Consult Section</span>:<br/>2.3</td>
+                            <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Project results</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>What strategic results (described as high level outcomes) do you expect to achieve over a three-year horizon?</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>2.3</td>
                                   <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Expected Results are badly described (not high-level outcomes) or not described at all, and give no sense of what will be achieved in a three year horizon.</td>
                                   <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Expected Results are described as high-level outcomes but do not give a sense of what will be achieved in a three year horizon.</td>
                                   <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Expected Results are described as high-level outcomes and give a clear sense of what will be achieved in a three year horizon. </td>
@@ -734,34 +781,31 @@
                           </td>
                             </tr>
                             
-                            <tr> 
-                              <td class="text-center font-weight-bold">Regional staff comments</td>
-                              <td class="text-center font-weight-bold">TRT comments/questions</td>
-                              <td class="text-center font-weight-bold">TRT rating </td>
-                            </tr>
                             <tr>
-                            <td>
-                              <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                 <textarea class="form-control-resize textValue aoc-values" id="tKixEtodLyO"></textarea>
                                 <div class="char-counter form-text text-muted"><span id="counter13">200</span> <span data-i18n="intro.words_remaining">words  remaining</span> 
                                  </div>
                                 <div class="invalid-feedback"> Error here </div>
                               </div>
-                            </td>
-
-                            <td>
-                              <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                 <textarea class="form-control-resize textValue trt-values" id="Tz6HP5PDTw6"
                                 ></textarea>
                                 <div class="char-counter form-text text-muted"><span id="counter14">200</span> <span data-i18n="intro.words_remaining">words  remaining</span> 
                                 </div>
                                 <div class="invalid-feedback"> Error here </div>
                               </div>
-                            </td>
-
-
-                            <td>
-                              <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                <select class="form-control textOption mt-1 selectBox" id ="ErJLSBpqibp">
                                 <option value="">Select</option>
                                 <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -771,19 +815,20 @@
                                 </select>
                                 <div class="invalid-feedback">Error here </div>
                               </div>
-                            </td>
-
-                          </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
                           <tr>
-                            <td style="border-left:none;width:120pt" rowspan="3">
-                              <strong>Youth Leadership</strong>
-                            </td>
-                            <td colspan="3">
-                              <table>
-                                <tr>
-                                  <td><span class="font-weight-bold">Description</span>:<br/>At least 5% of the total IPPF Core budget must be decided by  youth in the organization. Has this been sufficiently and credibly explained?</td>
-                                  <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 2.1</td>
+                            <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Youth Leadership</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>At least 5% of the total IPPF Core budget must be decided by  youth in the organization. Has this been sufficiently and credibly explained?</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 2.1</td>
                                   <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>There is little or no explanation or evidence,  and /or the explanation does not give the impression that decisions were made by youth.</td>
                                   <td><span class="font-weight-bold">2: Some gaps</span>:<br/>There is some explanation or evidence, but it is difficult to ascertain whether the decisions was made by youth.</td>
                                   <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>There is credible explanation or evidence to indicate that the decisions was made by youth.</td>
@@ -792,34 +837,31 @@
                           </td>
                             </tr>
                             
-                            <tr> 
-                              <td class="text-center font-weight-bold">Regional staff comments</td>
-                              <td class="text-center font-weight-bold">TRT comments/questions</td>
-                              <td class="text-center font-weight-bold">TRT rating </td>
-                            </tr>
                             <tr>
-                            <td>
-                              <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                 <textarea class="form-control-resize textValue aoc-values" id="Ffa2YTl2Uxg"></textarea>
                                 <div class="char-counter form-text text-muted"><span id="counter15">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                   </div>
                                 <div class="invalid-feedback"> Error here </div>
                               </div>
-                            </td>
-
-                            <td>
-                              <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                                 <textarea class="form-control-resize textValue trt-values" id="e172QKxhz0W"
                                 ></textarea>
                                 <div class="char-counter form-text text-muted"><span id="counter16">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                   </div>
                                 <div class="invalid-feedback"> Error here </div>
                               </div>
-                            </td>
-
-
-                            <td>
-                              <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                                <select class="form-control textOption mt-1 selectBox" id ="FSPkOobr7az">
                                 <option value="">Select</option>
                                 <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -829,9 +871,10 @@
                                 </select>
                                 <div class="invalid-feedback">Error here </div>
                               </div>
-                            </td>
-
-                          </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
 
 
@@ -868,14 +911,14 @@
                       <tbody>
 
                         <tr>
-                          <td style="border-left:none;width:150pt" rowspan="3">
-                            <strong>Resource mobilization</strong>
-                          </td>
-                          <td colspan="3">
-                            <table>
-                              <tr>
-                                <td><span class="font-weight-bold">Description</span>:<br/>Strategy demonstrates ambitious resource-mobilization efforts and multi-year planning.</td>
-                                <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
+                          <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Resource mobilization</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Strategy demonstrates ambitious resource-mobilization efforts and multi-year planning.</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Strategy does not describe long-term resource mobilization plans.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Strategy describes elements of a long-term resource mobilization plan, but shows little evidence of its full implementation.</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Strategy describes a detailed plan for multi-year resource mobilization and demonstrates efforts to achieve it.</td>
@@ -884,35 +927,32 @@
                         </td>
                           </tr>
                           
-                          <tr> 
-                            <td class="text-center font-weight-bold">Regional staff comments</td>
-                            <td class="text-center font-weight-bold">TRT comments/questions</td>
-                            <td class="text-center font-weight-bold">TRT rating </td>
-                          </tr>
                           <tr>
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue aoc-values" id="VaUIQ4dhg56"></textarea>
                               <div class="char-counter form-text text-muted">
                                 <span id="counter17">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                               </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue trt-values" id="LT9hkApYOzJ"
                               ></textarea>
                               <div class="char-counter form-text text-muted"><span id="counter18">200</span> <span data-i18n="intro.words_remaining">words  remaining</span>
                                </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-
-                          <td>
-                            <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                              <select class="form-control textOption mt-1 selectBox" id ="bmVTRUZzMLS">
                               <option value="">Select</option>
                               <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -922,20 +962,20 @@
                               </select>
                               <div class="invalid-feedback">Error here </div>
                             </div>
-                          </td>
-
-                        </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
                         <tr>
-                          <td style="border-left:none;width:150pt" rowspan="3">
-                            <strong>Financial sustainability</strong>
-                          </td>
-
-                          <td colspan="3">
-                            <table>
-                              <tr>
-                                <td><span class="font-weight-bold">Description</span>:<br/>Income streams are balanced and reasonable across core, non-core, private, and public funding, and show potential for MA to become increasingly sustainable.</td>
-                                <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
+                          <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Financial sustainability</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Income streams are balanced and reasonable across core, non-core, private, and public funding, and show potential for MA to become increasingly sustainable.</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2, 3.1, 3.2, 3.3</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>MA is overly reliant on a small number of income sources and does not have plans to expand its funding sources or increase its sustainability.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>MA income streams are not sufficiently diversified, and MA is taking some steps, though insufficient, towards increasing its sustainability.</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>MA has diversified income streams and is actively working to increase sustainability.</td>
@@ -944,35 +984,32 @@
                         </td>
                           </tr>
                           
-                          <tr> 
-                            <td class="text-center font-weight-bold">Regional staff comments</td>
-                            <td class="text-center font-weight-bold">TRT comments/questions</td>
-                            <td class="text-center font-weight-bold">TRT rating </td>
-                          </tr>
                           <tr>
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue aoc-values" id="kkhV7rjblyV"></textarea>
                               <div class="char-counter form-text text-muted">
                                 <span id="counter19">200</span> <span data-i18n="intro.words_remaining">words remaining/span>
                               </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue trt-values" id="t5isnUnovje"
                               ></textarea>
                               <div class="char-counter form-text text-muted"><span id="counter20">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-
-                          <td>
-                            <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                              <select class="form-control textOption mt-1 selectBox" id ="fHYf8a7wFWb">
                               <option value="">Select</option>
                               <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -982,21 +1019,21 @@
                               </select>
                               <div class="invalid-feedback">Error here </div>
                             </div>
-                          </td>
-
-                        </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
 
                         <tr>
-                          <td style="border-left:none;width:150pt" rowspan="3">
-                            <strong>Operational sustainability</strong>
-                          </td>
-
-                          <td colspan="3">
-                            <table>
-                              <tr>
-                                <td><span class="font-weight-bold">Description</span>:<br/>Internal governance, procedures, staffing, and other capacities support long-term organizational success.</td>
-                                <td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
+                          <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Operational sustainability</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Internal governance, procedures, staffing, and other capacities support long-term organizational success.</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>1.2</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Fails to identify a major potential internal challenge (e.g., audit/finance systems, governance, leadership change), or identifies a challenge but the approach to addressing it is unlikely to meaningfully help.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Identifies at least some, if not all, potential internal challenges (e.g., audit/finance systems, governance, leadership change), but does not have a strong plan for addressing them .</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Identifies potential internal challenges, and has strong plans for addressing possible challenges.</td>
@@ -1005,35 +1042,32 @@
                         </td>
                           </tr>
                           
-                          <tr> 
-                            <td class="text-center font-weight-bold">Regional staff comments</td>
-                            <td class="text-center font-weight-bold">TRT comments/questions</td>
-                            <td class="text-center font-weight-bold">TRT rating </td>
-                          </tr>
                           <tr>
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue aoc-values" id="BNC6DHlVtrR"></textarea>
                               <div class="char-counter form-text text-muted">
                                 <span id="counter21">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                               </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue trt-values" id="dt2xm6BSoRQ"
                               ></textarea>
                               <div class="char-counter form-text text-muted"><span id="counter22">200</span> <span data-i18n="intro.words_remaining">words remaining</span> 
                                 </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-
-                          <td>
-                            <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                              <select class="form-control textOption mt-1 selectBox" id="IUopqmlWn4K">
                               <option value="">Select</option>
                               <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -1043,20 +1077,20 @@
                               </select>
                               <div class="invalid-feedback">Error here </div>
                             </div>
-                          </td>
-
-                        </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
 
                         <tr>
-                          <td style="border-left:none;width:150pt" rowspan="3">
-                            <strong>Budgetary soundness</strong>
-                          </td>
-
-                          <td colspan="3">
-                            <table>
-                              <tr>
-                                <td><span class="font-weight-bold">Description</span>:<br/>Project budgets are realistic and feasible on an individual and collective basis.</td>
-                                <td><span class="font-weight-bold">Consult Section</span>:<br/>2.2, 2.3, 2.4, 3.1, 3.2</td>
+                          <td class="crit-cell" style="border-left:none" rowspan="2">
+                                    <strong>Budgetary soundness</strong>
+                                    <div class="crit-desc"><span class="font-weight-bold">Description</span>:<br/>Project budgets are realistic and feasible on an individual and collective basis.</div>
+                                  </td>
+                                  <td colspan="3">
+                                      <table>
+                                        <tr>
+<td><span class="font-weight-bold">Consult Section</span>:<br/>2.2, 2.3, 2.4, 3.1, 3.2</td>
                                 <td><span class="font-weight-bold">1: Significant gaps</span>:<br/>Expense budgets are not consistent across sections and do not match total income. Little to no explanation is provided for the total and project-level.</td>
                                 <td><span class="font-weight-bold">2: Some gaps</span>:<br/>Expense budgets are consistent throughout sections and roughly add up to total income. There is insufficient or unconvincing explanation of total and project-level variances.</td>
                                 <td><span class="font-weight-bold">3: Satisfactory</span>:<br/>Expense budgets are identical across all sections. Budgets and income are at similar levels, or total and project-level variances are credibly explained.</td>
@@ -1065,14 +1099,12 @@
                         </td>
                           </tr>
                           
-                          <tr> 
-                            <td class="text-center font-weight-bold">Regional staff comments</td>
-                            <td class="text-center font-weight-bold">TRT comments/questions</td>
-                            <td class="text-center font-weight-bold">TRT rating </td>
-                          </tr>
                           <tr>
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                  <td colspan="3" class="stacked-comments-cell" style="border-left:none">
+                                    <div class="comments-row">
+<div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">Regional staff comments</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue aoc-values" id="sm9IRn1SZbC"></textarea>
                               <div class="char-counter form-text text-muted">
                                 <span id="counter23">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
@@ -1080,21 +1112,20 @@
                               </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-                          <td>
-                            <div class="form-group textbox-wrap mb-0">
+                                    </div>
+                                    <div class="stacked-field">
+                                      <div class="stacked-label font-weight-bold">TRT comments/questions</div>
+                                      <div class="form-group textbox-wrap mb-0">
                               <textarea class="form-control-resize textValue trt-values" id="ECyF2WSqpUT"
                               ></textarea>
                               <div class="char-counter form-text text-muted"><span id="counter24">200</span> <span data-i18n="intro.words_remaining">words remaining</span>
                                 </div>
                               <div class="invalid-feedback"> Error here </div>
                             </div>
-                          </td>
-
-
-                          <td>
-                            <div class="form-group col-md-12">
+                                    </div>
+                                    <div class="stacked-field stacked-rating">
+                                      <div class="stacked-label font-weight-bold">TRT rating</div>
+                                      <div class="form-group col-md-12">
                              <select class="form-control textOption mt-1 selectBox" id="y57oNCRc0F9">
                               <option value="">Select</option>
                               <option  style="color: #2dc937;" data-color='2dc937' value="Satisfactory">Satisfactory</option>
@@ -1104,9 +1135,10 @@
                               </select>
                               <div class="invalid-feedback">Error here </div>
                             </div>
-                          </td>
-
-                        </tr>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
                       </tbody>
                     </table>
                       </div>
@@ -1209,5 +1241,6 @@
 </script>
 
 </body>
+
 
 </html>

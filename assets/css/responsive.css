@@ -1,0 +1,207 @@
+/* ==========================================================================
+   responsive.css — responsive layer for the IPPF BPR App
+   Loaded after custom.css on every page. The Stisla template (style.css)
+   already ships mobile rules keyed to body.sidebar-show / body.sidebar-gone
+   at <=1024px (same breakpoint scripts.js uses); this file re-connects the
+   custom fixed sidebar/navbar in custom.css to that mechanism and fixes
+   hardcoded widths on smaller screens.
+   ========================================================================== */
+
+/* ---- All widths -------------------------------------------------------- */
+
+/* Horizontal scroll container for data tables (applied by scripts.js). Wide
+   review tables keep their fixed column widths and scroll sideways instead
+   of breaking the page. */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+.table-scroll > table {
+  min-width: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Navbar never wraps: the fixed 64px height means a wrapped second row
+   overflows on top of the page content. The MA-name badge (#facility) is
+   the only flexible item — long names truncate with an ellipsis. */
+.main-navbar {
+  flex-wrap: nowrap;
+}
+.main-navbar .form-inline {
+  flex-shrink: 0;
+}
+.main-navbar .navbar-nav.navbar-right {
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+.main-navbar .navbar-right > li {
+  flex-shrink: 0;
+}
+/* Only the MA-name badge shrinks; fixed items (language, logout) keep
+   their content width instead of overflowing their list item */
+.main-navbar .navbar-right > li:has(a#facility) {
+  flex-shrink: 1;
+  min-width: 0;
+}
+a#facility {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+a#facility div {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Inputs and selects inside scrollable tables keep a usable width; the
+   .table-scroll wrapper scrolls instead of the cells crushing them. */
+.table-scroll .form-control {
+  min-width: 150px;
+}
+
+/* ---- Tablet & below (matches the 1024px breakpoint in scripts.js) ------ */
+@media (max-width: 1024px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Navbar spans the full width once the sidebar is off-canvas */
+  .main-navbar {
+    left: 0;
+    width: 100vw;
+  }
+
+  /* custom.css pins #sidebar-wrapper at left:0 independent of its
+     .main-sidebar parent, so the template's sidebar-gone rule never moves
+     it. Slide the wrapper itself off-canvas; body.sidebar-show (toggled by
+     the existing [data-toggle='sidebar'] handler) brings it back. */
+  #sidebar-wrapper {
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+    z-index: 1045;
+  }
+  body.sidebar-show #sidebar-wrapper {
+    transform: translateX(0);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+  }
+  /* Lift the template backdrop (z-index 891) above the fixed navbar */
+  body.sidebar-show::before {
+    z-index: 1040;
+  }
+
+  /* Neutralize desktop offsets, including the sidebar-mini 60px margins
+     from custom.css (defensive: scripts.js drops sidebar-mini at <=1024) */
+  .main-wrapper,
+  .main-wrapper-1,
+  .main-content,
+  body.sidebar-mini .main-wrapper,
+  body.sidebar-mini .main-wrapper-1,
+  body.sidebar-mini .main-content {
+    margin-left: 0 !important;
+  }
+
+  #app.dashboard-page .dashboard-section {
+    padding: 0 1.5rem;
+  }
+}
+
+/* ---- Large phones ------------------------------------------------------ */
+@media (max-width: 767.98px) {
+  .main-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  #app.dashboard-page .dashboard-section {
+    padding: 0 1rem;
+  }
+
+  /* Hardcoded desktop widths from custom.css */
+  .card-wrap {
+    width: 100%;
+  }
+  .uploadicon {
+    width: 100%;
+    max-width: 400px;
+  }
+  .top-row h4 {
+    width: auto;
+  }
+  .top-row select {
+    width: 100%;
+  }
+  .top-row,
+  .card-header.top-row {
+    flex-wrap: wrap;
+  }
+  .card-header.top-row .btn {
+    width: auto;
+    margin-left: 0 !important;
+  }
+
+  /* Step wizard scrolls instead of wrapping oddly */
+  .steps {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  /* Tighter navbar so all actions fit */
+  .main-navbar {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .main-navbar .nav-link {
+    padding: 0 0.5rem;
+  }
+  .hdr-btn {
+    padding: 5px 8px;
+  }
+}
+
+/* ---- Phones ------------------------------------------------------------ */
+@media (max-width: 575.98px) {
+  h3 {
+    font-size: 18px;
+  }
+  h4 {
+    font-size: 16px;
+  }
+
+  /* Let buttons with long labels wrap instead of overflowing */
+  .btn {
+    height: auto;
+    min-height: 36px;
+    padding: 6px 12px;
+    white-space: normal;
+  }
+
+  /* Fullscreen makes no sense on phones and crowds the navbar */
+  .fullscreen-btn {
+    display: none;
+  }
+  a#facility {
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .toast-msg {
+    width: calc(100% - 32px);
+    text-align: center;
+  }
+
+  .top-detail-form {
+    padding: 12px 12px 0;
+  }
+  .box-from-inner {
+    padding: 12px 12px 0;
+  }
+  .card-content {
+    padding: 1rem;
+  }
+}
