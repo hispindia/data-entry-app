@@ -1,6 +1,6 @@
 import { getUserConfig } from "../config.js";
 import BaseApi from "../../api/BaseApi.js";
-import { attributes, tei } from "../../constant.js";
+import { attributes, dataElements, tei } from "../../constant.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   showLoader();
@@ -38,6 +38,35 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     tableHead.innerHTML = "";
     tableBody.innerHTML = "";
+    if (!document.getElementById("report-table-styles")) {
+      const style = document.createElement("style");
+      style.id = "report-table-styles";
+      style.textContent = `
+        .table-responsive {
+          max-height: 72vh;
+          overflow: auto;
+        }
+        #reportTable thead {
+          position: sticky;
+          top: 0;
+          z-index: 3;
+        }
+        #reportTable thead th {
+          position: sticky;
+          top: 0;
+          z-index: 3;
+          box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+        }
+        #reportTable {
+          border-collapse: collapse;
+        }
+        #reportTable td,
+        #reportTable th {
+          vertical-align: middle;
+        }
+      `;
+      document.head.appendChild(style);
+    }
 
     // 1. Create the Top Row (Group Headers)
     const topRowHtml = `
@@ -54,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <th colspan="4" style="background-color: #2e7e3c; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF PROGRAMS</th>
         <th colspan="8" style="background-color: #006f60; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF HR</th>
         <th colspan="4"  style="background-color: #6f2c91; color: #fff">SENIOR MANAGEMENT – DIRECTOR OF ORGANISATION, LEARNING AND EVALUATION</th>
-         
+        <th colspan="1" style="background-color: #4cd1c0; color: #fff">DETAILS SUBMITTED</th>
       </tr>
     `;
 
@@ -141,7 +170,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       { name: "Senior Management (Director of Organisation, Learning and Evaluation) – Relevant Position Available?", color: "#6f2c91"},
       { name: "Senior Management (Director of Organisation, Learning and Evaluation) – Full Name", color: "#6f2c91", id: "TfCXfVv6j2O", id: "TfCXfVv6j2O"},
       { name: "Senior Management (Director of Organisation, Learning and Evaluation) – UIN / Tax ID / National ID", color: "#6f2c91", id: "WY7Aao5rT82"},
-      { name: "Senior Management (Director of Organisation, Learning and Evaluation) – Justification for Vacant Position", color: "#6f2c91", id: ""} //not found
+      { name: "Senior Management (Director of Organisation, Learning and Evaluation) – Justification for Vacant Position", color: "#6f2c91", id: ""}, //not found
+      {name: "Submitted", color: "#4cd1c0", id: dataElements.disclaimer, type: "checkbox"},
+      {name: "Submission Status", color: "#4cd1c0", id: dataElements.disclaimer}
     ];
 
 
@@ -231,10 +262,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
               childHeaders.forEach(header => {
                 const td = document.createElement("td");
+                const isCheckboxColumn = header.type === "checkbox";
 
                 if (header.name == "Country of Registration") {
                   td.innerText = ou.name || "--No Data --";
-                } else if (!header.id) {
+                } else if (!header.id && !isCheckboxColumn) {
                   td.innerText = "";
                 } 
                 else {
@@ -247,11 +279,20 @@ document.addEventListener("DOMContentLoaded", async function () {
                 trackerData.attrMap[header.id] ??
                 trackerData.dataMap[header.id] ??
                 "";
-
-              td.innerText = value;
-                }
-                tr.appendChild(td);
-              });
+              
+              if (isCheckboxColumn) {
+                const normalizedValue = `${value}`.toLowerCase();
+                const isChecked = ["true", "1", "yes", "y", "checked", "t", "on"].includes(normalizedValue);
+                td.innerHTML = `<div class="text-center"><input type="checkbox" ${isChecked ? "checked" : ""} disabled style="width:18px;height:18px;accent-color:green;"></div>`;
+                td.style.textAlign = "center";
+              } else if (header.name === "Submission Status") {
+                td.innerText = value ? "Yes" : "No";
+              } else {
+                td.innerText = value;
+              }
+            }
+              tr.appendChild(td);
+            });
               tableBody.appendChild(tr);
             }); 
          }

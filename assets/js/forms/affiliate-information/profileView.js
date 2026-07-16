@@ -311,6 +311,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.head.appendChild(style);
     }
   };
+  await populateCountryIncomeStatus(tei.values[attributes.countryRegistration]);
   renderTabContent();
 
   document.querySelector("#tab-bank").addEventListener('change', function(e) {
@@ -329,23 +330,7 @@ document.addEventListener("DOMContentLoaded", async function () {
      if (tei.disabled) return;
     if (e.target.matches("input, select, textarea")) {
         if (e.target.id === attributes.countryRegistration) {
-          const countryCode = e.target.value;
-            if (countryCode) {
-                 try {
-                    const orgUnitRes = await orgUnitsApi.get({ filter: countryCode });
-                    const countryOrgUnit = orgUnitRes.organisationUnits?.[0]?.id;
-                    const dataSetValues = await dataSet.getValues();
-                      if (dataSetValues && dataSetValues.dataValues) {
-                        const incomeStatusDV = dataSetValues.dataValues.find(dv => dv.orgUnit === countryOrgUnit);
-                          if (incomeStatusDV) {
-                            tei.values[dataElements.countryIncomeStatus] = incomeStatusDV.value;
-                            if(tei.metadata[dataElements.countryIncomeStatus]) tei.metadata[dataElements.countryIncomeStatus].disabled = true;
-                          }
-                      }
-                    } catch (err) {
-                      console.error("Failed to load country dataset values", err);
-                  }
-            }
+          await populateCountryIncomeStatus(e.target.value);
         }
 
       if (e.target.type === "file") {
@@ -1009,4 +994,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     toast({ status: "ERROR", message: `Error occurred: ${e.message || e}` });
   }
 }
+   async function populateCountryIncomeStatus(countryCode) {
+     if (!countryCode) return;
+     try {
+       const orgUnitRes = await orgUnitsApi.get({filter: countryCode});
+       const countryOrgUnit = orgUnitRes.organisationUnits?.[0].id;
+
+       if (!countryOrgUnit) return;
+       const dataSetValues = await dataSet.getValues();
+       const incomeStatusDV = dataSetValues?.dataValues.find(
+        dv => dv.orgUnit === countryOrgUnit
+       );
+
+       if (incomeStatusDV) {
+        tei.values[dataElements.countryIncomeStatus] = incomeStatusDV.value;
+          if (tei.metadata[dataElements.countryIncomeStatus]) {
+          tei.metadata[dataElements.countryIncomeStatus].disabled = true;
+          }
+       }
+     } catch (err) {
+        console.error("Failed to load country dataset values", err);
+     }
+   }
 })
