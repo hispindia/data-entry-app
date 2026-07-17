@@ -142,15 +142,15 @@
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link ma-users aoc-users trt-users core-users" data-target="project-export-sr.html"><span>1. Annual Business Plan Update Export </span></a></li>
                                 <li><a class="nav-link ma-users aoc-users trt-users core-users" data-target="annual-semi-annual-report-sr.html"><span>2. Annual / Semi-Annual Report Export </span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="commodities-export-sr.html"><span>3. Commodities Export </span></a></li>
                                 <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="data-quality-export-sr.html"><span>4. Data Quality Report - Annual Business Plan</span></a></li>
                                 <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="data-quality-report-sr.html"><span>4.1 Data Quality Report - Annual Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="6.1-ippf-bpr-secretariat-export-annual-report-sr.html"><span>6.1 IPPF BPR Secretariat Export - Annual Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users trt-users core-users" data-target="9-ma-dashboard-annual-report-export.html"><span>9. MA dashbaord Annual Report Export</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="budget-overview-export-sr.html"><span>5. CFAR - Business Plan Report</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="bpr-export-sr.html"><span>6. IPPF Secretariat BPR Export</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="6.1-ippf-bpr-secretariat-export-annual-report-sr.html"><span>6.1 IPPF BPR Secretariat Export - Annual Report</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="9-ma-dashboard-annual-report-export.html"><span>9. MA dashbaord Annual Report Export</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -291,66 +291,152 @@
                     </div>
                     </div>
                 </section>
-                  <div class="cont-wrapper mt-2">
-                 <div class="form-row">
-                    <div class="col-sm-12">
-                        <h4 data-i18n="intro.commoduties_received">
-                            1. In this year will your MA receive (donated) commodities from (choose all that apply):
-                        </h4>
-                    </div>
+            <div class="cont-wrapper mt-3">
+                <h6 class="title-main mb-3">
+                    Commodities Sources
+                </h6>
+                <div class="cont-wrap-inner">
 
-                    <div class="form-group col-md-12">
-                        <div class="form-check">
+                    <!-- ================= Question 1 ================= -->
+                    <div class="mb-4">
+
+                        <h6 class="font-weight-bold mb-3"
+                            data-i18n="intro.commoduties_received">
+                            1. In this year will your MA receive (donated) commodities from (choose all that apply):
+                        </h6>
+
+                        <div class="form-check mb-2">
                             <input class="form-check-input textValue" type="checkbox" id="q4IYaNw0GPR">
-                            <label class="form-check-label" for="q4IYaNw0GPR" data-i18n="intro.ippf"> IPPF (see 3.4) </label>
+                            <label class="form-check-label" for="q4IYaNw0GPR" data-i18n="intro.ippf">
+                                IPPF (see 3.4)
+                            </label>
                         </div>
-                        <div class="form-check">
+
+                        <div class="form-check mb-2">
                             <input class="form-check-input textValue" type="checkbox" id="ZWZeFU8juUb">
-                            <label class="form-check-label" for="ZWZeFU8juUb" data-i18n="intro.ministry_health"> Ministry of Health (upload MoU) </label>
+                            <label class="form-check-label" for="ZWZeFU8juUb" data-i18n="intro.ministry_health">
+                                Ministry of Health (upload MoU)
+                            </label>
                         </div>
-                        <div class="form-check">
+
+                        <div class="form-check mb-2">
                             <input class="form-check-input textValue" type="checkbox" id="vUoHHvkozqZ">
-                            <label class="form-check-label" for="vUoHHvkozqZ" data-i18n="intro.unfpa_supplies"> UNFPA Supplies (upload IP Agreement) </label>
+                            <label class="form-check-label" for="vUoHHvkozqZ" data-i18n="intro.unfpa_supplies">
+                                UNFPA Supplies (upload IP Agreement)
+                            </label>
                         </div>
+
                         <div class="form-check">
                             <input class="form-check-input textValue" type="checkbox" id="sJriETukAZ4">
-                            <label class="form-check-label" for="sJriETukAZ4" data-i18n="intro.local_procurement"> Local Procurement </label>
+                            <label class="form-check-label" for="sJriETukAZ4" data-i18n="intro.local_procurement">
+                                Local Procurement
+                            </label>
                         </div>
-                    </div>
-                </div>
-                                            
-                <hr>
-                <div class="form-row">
-                    <div class="col-sm-12">
-                        <h4 data-i18n="intro.commudites_amount">
-                            What is the total value of commodities in USD you plan to access in this year from:
-                        </h4>
+
                     </div>
 
-                    <div class="form-group col-md-6">
-                            <label class="form-check-label" for="" data-i18n="intro.ippf"> IPPF </label>
-                            <input type="text" class="form-control textValue" id="o2b0WWqz2fD" />
+                    <hr class="my-4">
+
+                    <!-- ================= Question 2 ================= -->
+                    <div class="mb-4">
+
+                        <h6 class="font-weight-bold mb-3"
+                            data-i18n="intro.commudites_amount">
+                            What is the total value of commodities in USD you plan to access in this year from:
+                        </h6>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+                                <label data-i18n="intro.ippf">IPPF</label>
+                                <input type="text" class="form-control textValue" id="o2b0WWqz2fD">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label data-i18n="intro.ministry_health">Ministry of Health</label>
+                                <input type="text" class="form-control textValue" id="Bk9L40ChO5x">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label data-i18n="intro.unfpa_supplies">UNFPA Supplies</label>
+                                <input type="text" class="form-control textValue" id="PszXV7WFZU1">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label data-i18n="intro.local_procurement">Local Procurement</label>
+                                <input type="text" class="form-control textValue" id="XjgWddDUj6c">
+                            </div>
+
                         </div>
-                    <div class="form-group col-md-6">
-                            <label class="form-check-label" for="" data-i18n="intro.ministry_health"> Ministry of Health </label>
-                            <input type="text" class="form-control textValue" id="Bk9L40ChO5x" />
-                        </div>
-                    <div class="form-group col-md-6">
-                        <label class="form-check-label" for="" data-i18n="intro.unfpa_supplies"> UNFPA Supplies </label>
-                            <input type="text" class="form-control textValue" id="PszXV7WFZU1" />
-                        </div>
-                    <div class="form-group col-md-6">
-                            <label class="form-check-label" for="" data-i18n="intro.local_procurement"> Local Procurement </label>
-                            <input type="text" class="form-control textValue" id="XjgWddDUj6c" />
-                        </div>
-                </div>
-                   <!-- submit -->
-                <div class="row"><div class="col-md-12 text-right" id="push-button"></div></div>
-                <div class="row">
-                    <div class="col-md-12" style="padding-left: 270px">
-                        <div id="mandatory-error" class="mt-2" style="display:none;"></div>
+
                     </div>
-                </div>  
+
+                    <hr class="my-4">
+
+                    <!-- ================= Supporting Documents ================= -->
+                    <div>
+
+                        <h6 class="font-weight-bold mb-3">
+                            Supporting Documents
+                        </h6>
+
+                        <div class="form-group">
+                            <label data-i18n="intro.memorandum_understanding_upload">
+                                Please upload a valid Memorandum of Understanding with your Government, if in place and available.
+                            </label>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input class="form-control show-for-sr"
+                                        type="file"
+                                        id="NdNSoBMyK1S"
+                                        name="upload_memorandum[]">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <a class="link-success"
+                                    id="NdNSoBMyK1S-download"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label data-i18n="intro.partner_agreement_upload">
+                                Please upload a valid Implementing Partner Agreement with UNFPA (Supplies), if in place and available.
+                            </label>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input class="form-control show-for-sr"
+                                        type="file"
+                                        id="hmtY6HwBJqU"
+                                        name="upload_partner_agreement[]">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <a class="link-success"
+                                    id="hmtY6HwBJqU-download"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12 text-right" id="push-button"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="mandatory-error"
+                            class="mt-2"
+                            style="display:none;">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         </div>

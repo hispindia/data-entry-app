@@ -6,6 +6,7 @@ import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
 var level2OU = [];
+var trtUserOU = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -63,16 +64,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const orgUnitGroup = resOUGroup.organisationUnits;
            
      data.organisationUnits.forEach(orgUnits => {
-      if(orgUnits.level == 1) { 
+        if (user.hideReporting.includes('trt')) {
+          trtUserOU = [...user.organisationUnits]
+        } else {
+         if(orgUnits.level == 1) { 
          level2OU = orgUnits.children;
        } else if(orgUnits.level == 2) { 
          level2OU.push(orgUnits);
        } else if(orgUnits.parent) {
          level2OU.push(orgUnits.parent);
        }
+      }
      });
      level2OU.sort((a, b) => a.name.localeCompare(b.name));
      level2OU.forEach(headOU => {
+       headOU['children'] = [];
+       orgUnitGroup.forEach(ou => {
+         if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
+       })
+     })
+     trtUserOU.forEach(headOU => {
        headOU['children'] = [];
        orgUnitGroup.forEach(ou => {
          if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
@@ -99,9 +110,10 @@ async function fetchDataSet(orgUnit, year) {
     $("#loader").html('<div class="h2 text-center">Loading api...</div>');
 
     tei.year.value = $('#year-update').val();
-
+    const user = await getUserConfig();
     var dataElementOUValues = {};
-    for (let headOU of level2OU) {
+    const ouList = user?.hideReporting?.includes('trt') ? trtUserOU : level2OU;
+    for (let headOU of ouList) {
       headOU.children.sort((a, b) => a.name.localeCompare(b.name));
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
@@ -146,7 +158,7 @@ async function fetchDataSet(orgUnit, year) {
       }
     }
 
-    populateProgramEvents(level2OU, dataElementOUValues);
+    populateProgramEvents(ouList, dataElementOUValues);
 
   }
 

@@ -9,6 +9,9 @@ import { showToast } from "../../utils.js";
  var eventPD = '';
  var commoditiesEC='';
  let userHideReporting = [];
+ const programStageEvent = {
+  keyDetails: ''
+}
 
   function normalizeHideReporting(value) {
   if (!value) return [];
@@ -109,11 +112,32 @@ import { showToast } from "../../utils.js";
         (enroll) => enroll.program == tei.program || enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
       );
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
+      const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       projectDescriptionValues = dataValuesPD[tei.year.value] || {};
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value]['event']) eventPD =dataValuesPD[tei.year.value]['event']
       if (dataValuesPD[tei.year.value]) {
         tei.projects = checkProjects(dataElements.projectDescription, dataValuesPD[tei.year.value]);
       }
+      if (!dataValuesKD[tei.year.value]) {
+          programStageEvent['keyDetails'] = await createEventOther({
+            orgUnit: tei.orgUnit,
+            program: program.auOrganisationDetails,
+            programStage: programStage.auKeyDetails,
+            teiId: tei.id,
+            dataElements: [{
+              dataElement: tei.year.id,
+              value: tei.year.value
+            }]
+          })
+      }
+      else {
+        programStageEvent['keyDetails'] = dataValuesKD[tei.year.value]["event"];
+        tei.dataValues[tei.year.value] = {
+          ...tei.dataValues[tei.year.value],
+          ...dataValuesKD[tei.year.value]
+        }
+      }
+            
       const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value})//data vlaues period wise
         if(dataValuesEC && dataValuesEC[tei.year.value] && tei.projects.length) {
           commoditiesEC = calculateExpenseCategory(dataValuesEC[tei.year.value], tei.projects);
@@ -125,14 +149,14 @@ import { showToast } from "../../utils.js";
       
       tei.dataValues = await fetchDataSet(tei.year.value);
 
-      populateProgramEvents(tei.dataValues);
+      populateProgramEvents(tei.dataValues, dataValuesKD);
     } else {
       console.log("No data found for the organisation unit.");
     }
   }
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues) {
+  function populateProgramEvents(dataValues, dataValuesKD) {
     
     $('#push-button').empty();
     document.querySelectorAll('.textValue').forEach((textVal) => {
@@ -143,7 +167,7 @@ import { showToast } from "../../utils.js";
         textVal.value = '';
       }
     })
-    if(localStorage.getItem("hideReporting").includes('ed')) {
+    if(localStorage.getItem("hideReporting").includes('ed') || userHideReporting.includes("ma")) {
       const btn = document.createElement("button");
       btn.innerHTML = `<span data-i18n="intro.complete_business_plan">Complete Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");
@@ -196,7 +220,11 @@ import { showToast } from "../../utils.js";
     var totalsRow = displayTotals(dataValues);
     $('#totals').empty();
     $('#totals').append(totalsRow);
-    
+    document.querySelectorAll('.show-for-sr').forEach((textVal) => {
+      if (dataValuesKD[textVal.id]) {
+        getFileUpload(textVal.id,dataValuesKD[textVal.id]);
+      }
+    })
     $('.loader-container').addClass('d-none').removeClass('d-flex');
     $('.myContainer').show();
     document.querySelectorAll('.textValue').forEach((input)=> {
@@ -208,6 +236,28 @@ import { showToast } from "../../utils.js";
         } else pushDataElementOther(id,value, program.auProjectDescription, programStage.auProjectDescription, eventPD);
       })
     });
+    document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
+    fileUpload.addEventListener("change", function (ev) {
+      const formData = new FormData();
+      formData.append('file', ev.target.files[0]);
+      fetch('../../fileResources', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          linkFileResourceToEvent(ev.target.id, data.response.fileResource);
+      })
+      .catch(error => {
+          console.error('Error uploading file:', error);
+      })
+    })
+  });
 
       // Localize content
       $('body').localize();
@@ -536,7 +586,7 @@ function checkProjects(projects, values) {
             </div>
             <div class="modal-body" style="padding:20px 24px;">
               <p style="color:#555;margin-bottom:16px;">
-                Please complete the following required fields in <strong>2.1 Project Description</strong> before submitting:
+                Please complete the following required fields in <strong>2.1 Project Description <a href="2.1-project-description-au.html">Go to File</a></strong> before submitting:
               </p>
               <div style="max-height:55vh;overflow-y:auto;">
 
@@ -594,6 +644,53 @@ function checkProjects(projects, values) {
   $('#missingFieldsModal').on('hidden.bs.modal', function () {
     $(this).remove();
   });
+}
+
+async function getFileUpload(elementId,deValue) {
+  try{
+    const fileData = await fetchFileResource(deValue);
+   
+    if (fileData) {
+        fileData['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${elementId}`;
+        updateFileLabel(elementId, fileData.displayName, fileData.url);
+    }
+  }
+  catch(error) {
+    console.log('file upload error')
+  }
+}
+
+function updateFileLabel(elementId, fileName, fileUrl) {
+  const downloadLink = document.getElementById(`${elementId}-download`);
+  downloadLink.href = fileUrl;
+  downloadLink.textContent = fileName;
+  downloadLink.setAttribute('download', fileName); 
+  document.getElementById(`${elementId}-download`).style.display = 'block';
+}
+
+async function fetchFileResource(resourceId) {
+  const apiUrl = `../../fileResources/${resourceId}`;
+  try {
+      const response = await fetch(apiUrl, {
+          method: 'GET',
+      });
+
+      if (!response.ok) {
+          alert("error")
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+  }
+
+}
+
+async function linkFileResourceToEvent(id, fileResource) {
+  await pushDataElementOther(id,fileResource.id,program.auOrganisationDetails, programStage.auKeyDetails, programStageEvent['keyDetails']);
+  fileResource['url'] = `../../events/files?eventUid=${programStageEvent['keyDetails']}&dataElementUid=${id}`;
+  updateFileLabel(id, fileResource.displayName, fileResource.url);
 }
     
   function submitProjects() {
