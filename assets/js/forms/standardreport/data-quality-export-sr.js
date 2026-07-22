@@ -6,7 +6,6 @@ import { getUserConfig } from '../config.js';
 import { formatNumberInput, getYears } from '../func.js';
 
 var level2OU = [];
-var trtUserOU = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -72,32 +71,31 @@ document.addEventListener("DOMContentLoaded", function () {
      const orgUnitGroup = resOUGroup.organisationUnits;
      
      data.organisationUnits.forEach(orgUnits => {
-       if (user.hideReporting.includes("trt")) {
-         trtUserOU = [...user.organisationUnits];
-       } else {
-          if(orgUnits.level == 1) { 
+      if(orgUnits.level == 1) { 
          level2OU = orgUnits.children;
-       } else if(orgUnits.level == 2) { 
+      } else if(orgUnits.level == 2) { 
          level2OU.push(orgUnits);
-       } else if(orgUnits.parent) {
-         level2OU.push(orgUnits.parent);
-       }    
+      } else {
+        if(!level2OU.some(ou => ou.id == orgUnits.parent.id)) level2OU.push({...orgUnits.parent, assigned: true, children: []});
+        const parentIndex = level2OU.findIndex(ou => ou.id == orgUnits.parent.id);
+        level2OU[parentIndex].children.push(orgUnits);
       }
      });
      level2OU.sort((a, b) => a.name.localeCompare(b.name));
      level2OU.forEach(headOU => {
-       headOU['children'] = [];
-       orgUnitGroup.forEach(ou => {
-         if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
-       })
+      if(headOU.assigned) {
+        headOU.children = headOU.children.filter(child =>
+          orgUnitGroup.some(orgUnit => orgUnit.id === child.id)
+        );
+      }
+      else {
+        headOU['children'] = [];
+        orgUnitGroup.forEach(ou => {
+          if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
+        })
+      }
      })
-    trtUserOU.forEach(headOU => {
-       headOU['children'] = [];
-       orgUnitGroup.forEach(ou => {
-         if (ou.path.includes(headOU.id)) headOU['children'].push(ou)
-       })
-     })
-         
+        
     fetchEvents();
     } catch (error) {
       console.error("Error fetching organization unit:", error);
@@ -112,8 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const user = await getUserConfig();
 
     var dataElementOUValues = {};
-    const ouList = user.hideReporting.includes('trt') ? trtUserOU : level2OU;
-    for (let headOU of ouList) {
+    for (let headOU of level2OU) {
       headOU?.children.sort((a, b) => a.name.localeCompare(b.name));
       for (let ou of headOU.children) {
         $("#loader").html(`<div><h5 class="text-center">Loading</h5> <h5 class="text-center">${ou.name}</h5></div>`);
@@ -151,7 +148,10 @@ document.addEventListener("DOMContentLoaded", function () {
           if (dataValuesFA && dataValuesFA[tei.year.value]) dataElementOUValues[ou.id]['fa'] = dataValuesFA[tei.year.value]
 
           const dataValuesTI = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
-          if (dataValuesTI && dataValuesTI[tei.year.value]) dataElementOUValues[ou.id]['ti'] = dataValuesTI[tei.year.value]
+          if (dataValuesTI && dataValuesTI[tei.year.value]) dataElementOUValues[ou.id]['ti'] = {
+            ...dataValuesTI[tei.year.value],
+            tGS8X8B4BtK: dataSet[dataElements.fullAllocation] ? dataSet[dataElements.fullAllocation] : 0
+          }
 
           const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value}) //data values year wise
           if (dataValuesID) dataElementOUValues[ou.id]['id'] = dataValuesID
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    populateProgramEvents(ouList, dataElementOUValues);
+    populateProgramEvents(level2OU, dataElementOUValues);
 
   }
 

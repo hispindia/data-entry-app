@@ -1,4 +1,4 @@
-import { createEvent, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
+import { createEvent, getProgramStageEvents, getProgramStagePeriodicity, getTEI, pushDataElement } from '../../api/func.js';
 import { tei, dataElements, program, programStage } from '../../constant.js';
 import { getUserConfig } from '../config.js';
 import { disableAll, getYears } from '../func.js';
@@ -71,14 +71,15 @@ const maxWords = 300;
 
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == tei.program  ||  enroll.program == program.arTotalIncome 
+        (enroll) => enroll.program == tei.program  ||  enroll.program == program.arTotalIncome ||  enroll.program == program.auOrganisationDetails
       );
-
       const dataValuesAI = getProgramStagePeriodicity(filteredPrograms, program.arTotalIncome, programStage.arTotalIncome, { id: tei.year.id, value: tei.year.value }, { id: tei.periodicity.id, value: tei.periodicity.value }); //data vlaues period wise
       if(dataValuesAI && dataValuesAI[dataElements.submitAnnualUpdate])  tei.disabled = true;
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
 
+
+      const dataValuesNP = getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, {id:tei.year.id, value: tei.year.value}) //data vlaues year wise
       const dataValues = getProgramStagePeriodicity(filteredPrograms, tei.program, tei.programStage, {id:tei.year.id, value: tei.year.value}, {id:tei.periodicity.id, value:tei.periodicity.value}); //data vlaues period wise
       
         if(!dataValues) {
@@ -98,7 +99,7 @@ const maxWords = 300;
         tei.dataValues = dataValues;
       }
     
-      populateProgramEvents(tei.dataValues);
+      populateProgramEvents(tei.dataValues, (dataValuesNP[tei.year.value]?dataValuesNP[tei.year.value]:{}));
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -106,9 +107,20 @@ const maxWords = 300;
 
 
   // Function to populate program events data
-  function populateProgramEvents(dataValues) {
+  function populateProgramEvents(dataValues, dataValuesNP) {
    //disable feilds
     if(tei.disabled) disableAll();
+    
+    document.querySelectorAll('.textDisplay').forEach((textVal,index) => {
+      if(dataValuesNP[textVal.id]) {
+        textVal.value = dataValuesNP[textVal.id];
+        $(`#counter_sp${index+1}`).text(`${(50- (textVal.value ? textVal.value.trim().split(/\s+/).length: 0))}`)
+      }
+      else {
+        textVal.value = '';
+        $(`#counter_sp${index+1}`).text(`${50}`)
+      }
+    })
 
     document.querySelectorAll('.textValue').forEach((textVal,index) => {
       if(dataValues[textVal.id]) {
