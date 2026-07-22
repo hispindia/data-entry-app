@@ -1,5 +1,5 @@
 import { dataSet } from "../../api/dataSet.js";
-import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther, pushDataElement } from "../../api/func.js";
+import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther, pushDataElement, createEventOther } from "../../api/func.js";
 import { dataElements, dataSetQuantity, program, programStage, tei } from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears, unformatNumber } from "../func.js";
@@ -113,6 +113,25 @@ import { showToast } from "../../utils.js";
       );
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
+      const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, {id:tei.year.id,value:tei.year.value});
+      if (!dataValuesMD[tei.year.value]) {
+        tei.dataValues[tei.year.value] = {}
+          let data = [{
+            dataElement: tei.year.id,
+            value: tei.year.value
+          }];
+          tei.event = await createEvent(data);
+          data.forEach(element => {
+            tei.dataValues[tei.year.value][element.dataElement] = element.value;
+          })
+        } else  {
+          tei.event = dataValuesMD[tei.year.value]['event'];
+          tei.dataValues[tei.year.value] = {
+            ...tei.dataValues[tei.year.value],
+            ...dataValuesMD[tei.year.value]
+          }
+        }
+              
       projectDescriptionValues = dataValuesPD[tei.year.value] || {};
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value]['event']) eventPD =dataValuesPD[tei.year.value]['event']
       if (dataValuesPD[tei.year.value]) {
@@ -147,9 +166,12 @@ import { showToast } from "../../utils.js";
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
       
-      tei.dataValues = await fetchDataSet(tei.year.value);
-
-      populateProgramEvents(tei.dataValues, dataValuesKD);
+      const dataSetValues = await fetchDataSet(tei.year.value);
+      tei.dataValues[tei.year.value] = {
+        ...tei.dataValues[tei.year.value],
+        ...dataSetValues
+      };
+      populateProgramEvents(tei.dataValues[tei.year.value], dataValuesKD);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -221,8 +243,9 @@ import { showToast } from "../../utils.js";
     $('#totals').empty();
     $('#totals').append(totalsRow);
     document.querySelectorAll('.show-for-sr').forEach((textVal) => {
-      if (dataValuesKD[textVal.id]) {
-        getFileUpload(textVal.id,dataValuesKD[textVal.id]);
+      const kdValues = dataValuesKD[tei.year.value] || {};
+      if (kdValues[textVal.id]) {
+        getFileUpload(textVal.id, kdValues[textVal.id]);
       }
     })
     $('.loader-container').addClass('d-none').removeClass('d-flex');
@@ -231,9 +254,9 @@ import { showToast } from "../../utils.js";
       input.addEventListener("input", (ev) => {
         const { id,value, type, checked } = ev.target;
         if(type=="checkbox") {
-          if(checked) pushDataElementOther(id, true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
-          else pushDataElementOther(id, '', program.auProjectDescription, programStage.auProjectDescription, eventPD);
-        } else pushDataElementOther(id,value, program.auProjectDescription, programStage.auProjectDescription, eventPD);
+          if(checked) pushDataElementOther(id, true, program.auOrganisationDetails, programStage.auMembershipDetails, tei.event);
+          else pushDataElementOther(id, '', program.auOrganisationDetails, programStage.auMembershipDetails, tei.event);
+        } else pushDataElementOther(id,value, program.auOrganisationDetails, programStage.auMembershipDetails, tei.event);
       })
     });
     document.querySelectorAll('.show-for-sr').forEach(fileUpload => {
@@ -586,7 +609,7 @@ function checkProjects(projects, values) {
             </div>
             <div class="modal-body" style="padding:20px 24px;">
               <p style="color:#555;margin-bottom:16px;">
-                Please complete the following required fields in <strong>2.1 Project Description <a href="2.1-project-description-au.html">Go to File</a></strong> before submitting:
+                Please complete the following required fields in <strong>2.1 Project Description <a href="2.1-project-description-au.html">Go to Pag</a></strong> before submitting:
               </p>
               <div style="max-height:55vh;overflow-y:auto;">
 
