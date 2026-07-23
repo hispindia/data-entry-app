@@ -386,6 +386,18 @@ a{cursor:pointer;}
   color: hsl(var(--foreground));
   background: hsl(var(--background));
 }
+.selectgroup-item.help-selectgroup-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+}
+
+.selectgroup-item .help-field-icon--after-option {
+  margin: 0;
+  position: relative;
+  top: -8px;
+}
 
 .lang-chevron {
   position: absolute;

@@ -1,6 +1,6 @@
-const baseUrl = '../..';
-// const baseUrl = 'https://links.hispindia.org/ippf_co/api';
-const ApiToken = '';
+// const baseUrl = '../..';
+const baseUrl = 'https://links.hispindia.org/ippf_co/api';
+const ApiToken = 'd2pat_qXe9qy7u9MvQ2vHbXqnelAtRcha8XwK72068580573';
 
 const BaseApi = async ({ url, method, payload, mode }) => {
     const REQUEST = {

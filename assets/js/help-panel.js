@@ -801,8 +801,8 @@
       // Section 1: Hide Instructions & Glossary tabs; rename Walkthrough to "Instructions"
       if (tabInstructions) tabInstructions.style.display = 'none';
       if (paneInstructions) { paneInstructions.style.display = 'none'; paneInstructions.classList.remove('active'); }
-      if (tabGlossary) tabGlossary.style.display = 'none';
-      if (paneGlossary) paneGlossary.style.display = 'none';
+      // if (tabGlossary) tabGlossary.style.display = 'none';
+      // if (paneGlossary) paneGlossary.style.display = 'none';
       if (tabWalkthrough) {
         tabWalkthrough.textContent = getUILabel('Instructions');
         tabWalkthrough.classList.add('active');
@@ -1027,6 +1027,7 @@
   (function buildLookup() {
     // Map of common label text -> glossary term name (for fuzzy matching)
     var labelAliases = {
+      'year': 'Reporting Year',
       'reporting year': 'Reporting Year',
       'reporting periodicity': 'Reporting Periodicity',
       'ippf region': 'IPPF Region',
@@ -1546,8 +1547,18 @@
       })(qIcon, match.name, match.def);
 
       // Insert ? icon right after the label text
-      label.appendChild(document.createTextNode(' '));
-      label.appendChild(qIcon);
+      // label.appendChild(document.createTextNode(' '));
+      // label.appendChild(qIcon);
+      var optionButton = label.classList.contains('selectgroup-item') ? label.querySelector('.selectgroup-button') : null;
+      if (optionButton) {
+        label.classList.add('help-selectgroup-item');
+        qIcon.classList.add('help-field-icon--after-option');
+        label.appendChild(qIcon); 
+      } else {
+         label.appendChild(document.createTextNode(' '));
+         label.appendChild(qIcon);
+      }
+
 
     });
   }
