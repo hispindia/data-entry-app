@@ -67,10 +67,11 @@ export const dataApi = {
   dataStoreDelete: async (namespace, key, payload) => {
     const url = `dataStore/${namespace}/${key}`;
     try {
-      const response = await(await BaseApi({url, method:"DELETE"})).json();
+      const response = await(await BaseApi({url, method:"DELETE"}));
       return response;
     } catch (error) {
-      console.error("Error while creating events", error);
+      console.error("Error deleting dataStore entry", error);
+      throw error;
     }
   },
   enroll: async (payload) => {

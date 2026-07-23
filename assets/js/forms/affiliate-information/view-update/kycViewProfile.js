@@ -80,7 +80,7 @@ const handleKycViewProfile = async(userConfig) => {
         const affiliate = button.dataset.affiliate.split("_");
         if(affiliate[1]=="waiver")  {
           if(!affiliate[0]) return;
-          const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, `filter=pkLdNynZWat:EQ:${affiliate[0]}`);
+          const response = await dataApi.get(orgUnit.affiliateKYC, programs.UINControlMaster, `filter=pkLdNynZWat:EQ:${affiliate[0]}`);
           if(!response.trackedEntities.length) return;
           window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${response.trackedEntities[0]['trackedEntity']}`;
         }

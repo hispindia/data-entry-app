@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const userOUCode = user?.organisationUnits.map(ou => ou.code)?.filter(ou => ou);
     const resAffiliateList = await dataApi.get(userOrgUnit.join(';'), programs.UINControlMaster, `filter=${attributes.countryRegistration}:in:${userOUCode.join(';')}`);
     const resDataStore = await dataApi.dataStore(`accuityResponse`);
+    if (resDataStore.includes(attributes.id)) attributes.store = true;
     
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
@@ -149,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       tbodyAffiliateRow += `
       <td class="text-center">  
       <button 
-        data-affiliate="${affiliate.id}-waiver" 
+        data-affiliate="${affiliate.id}-waiver" data-store="${affiliate.store}" 
         class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
         onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
         > Generate Report
@@ -178,6 +179,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       if(!button) return;
       const { id } = button.dataset;
       const affiliate = button.dataset.affiliate.split("-");
+      const hasStore = button.dataset.store === "true";
+      if (!hasStore) {
+        console.log("hello ji");
+        toast({status:"INFO", message:"Acuity data is not available.", position: "center"});
+        return;
+      }
       if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`;
       else if(affiliate[1]=="dueDiligence") window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate[0]}`;
 

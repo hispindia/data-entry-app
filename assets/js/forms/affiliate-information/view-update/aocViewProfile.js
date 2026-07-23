@@ -133,9 +133,7 @@ const handleAocViewAndUpdate = async(userConfig) => {
         const affiliate = button.dataset.affiliate.split("_");
         if(affiliate[1]=="waiver")  {
           if(!affiliate[0]) return;
-          const response = await dataApi.get(orgUnit.affiliateKYC, programs.affiliateKyc, `filter=pkLdNynZWat:EQ:${affiliate[0]}`);
-          if(!response.trackedEntities.length) return;
-          window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${response.trackedEntities[0]['trackedEntity']}`;
+          window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliateList.trackedEntities[0].trackedEntity}`;
         }
         else if(affiliate[1]=="view") window.location.href = `./2.1-1-view-profile.html?affiliate=${affiliate[0]}`;
       })

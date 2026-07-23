@@ -369,7 +369,20 @@ const STAGE_MAPPING = {
       try {
         submitAcuityBtn.disabled = true;
         submitAcuityBtn.innerText = "Submitting...";
-
+        const teiIds = Array.from(selectedCheckboxes).map(cb =>
+        cb.getAttribute("data-tei-id")
+      );
+      await Promise.all(
+        teiIds.map(async (teiId) => {
+          try {
+            await dataApi.dataStoreDelete("accuityResponse", teiIds);
+          } catch (err) {
+            if (err.status !== 404) {
+              throw err;
+            }
+          }
+        })
+      );
         const trackedEntities = Array.from(selectedCheckboxes).map(cb => {
           return {
             trackedEntity: cb.getAttribute("data-tei-id"),
