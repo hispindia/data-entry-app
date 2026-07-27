@@ -149,6 +149,7 @@
     'Other IPPF Grant': { nid:'ippf-restricted', tid:'other_ippf_grant' },
     'Largest Contributor': { nid:'organisation_contributor', tid:'largest_contributor' },
     'How Much Income Did They Provide?': { nid:'income_provided', tid:'how_much_income_did_they_provide' },
+
   };
 
   function _getCurrentLang() {
@@ -277,7 +278,7 @@
   const GLOSSARY = [
     // ── Section 1: Organisational Info ──
     // 1.1 Membership Details
-    { name:'Membership Details', def:'Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Membership Details', def:'Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.', scopes: ['annual-business-plan:1.1', 'annual-report:1', 'semi-annual-report:1'], sec:'sec1', tag:'1.1 Membership' },
     { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.', sec:'sec1', tag:'1.1 Membership' },
     { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.', sec:'sec1', tag:'1.1 Membership' },
     { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).', sec:'sec1', tag:'1.1 Membership' },
@@ -473,6 +474,7 @@
     { name:'Serious Risk Identified', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
     { name:'Identified Risk', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
     { name:'Comment (Serious Risks)', def:'A free-text field of up to 200 words paired with each Identified Risk, where the AOC provides a detailed description of the risk, its potential impact on the affiliate\'s operations and any recommended follow-up actions or support measures. This comment forms part of the formal AOC review record and may be used by IPPF Secretariat to determine next steps, including escalation, capacity support, or compliance review.', sec:'sec7', tag:'7.3 Serious Risks' },
+    {name: 'Donor Name', def: 'hi',  sec: 'sec6', page: '3.1', tag: '3.1 Total Income'},
   ];
 
   // ── WALKTHROUGH DATA ──
@@ -544,6 +546,12 @@
     '3.1': { title:'Section 3.1 \u2014 Total Income', subtitle:'Income details by source', steps:[
       { label:'Income Sources', desc:'Enter all income received during the reporting year, broken down by category and funding type.' },
     ]},
+    '1.1': { title:'Section 1 \u2014 Organisation Details', subtitle:'Membership details, contacts, institutional data, and key documents', steps:[
+      { label:'Membership Details', desc:'Verify your Reporting Year, Reporting Periodicity, IPPF Region, Affiliate Code, Organisation Name, Country of Operation, and Primary Contact.' },
+      { label:'Contact Information', desc:'Provide your registered address and details for key contacts \u2014 Executive Director, Board Chair, Finance Lead, Youth Board Member, and Programmatic Leads. Put N/A in case the position is vacant.' },
+      { label:'Organisation Data', desc:'Enter Board Term start/end years and other institutional governance data.' },
+      { label:'Key Documents', desc:'Upload the Management Letter (Audit Report) from your external auditor for the reporting year.' },
+    ]},
     'default': { title:'Help & Guidance', subtitle:'Navigate through sections to see guidance', steps:[
       { label:'Select a Section', desc:'Use the sidebar navigation to go to a section, then click the ? icon for contextual help.' },
     ]},
@@ -563,6 +571,7 @@
   }
 
   function placeToggleButton() {
+    if (['3.2', '3.3', '3.4', '3.5'].indexOf(detectCurrentSection()) !== -1) return;
     // Only show the help icon on pages that have a section title
     var titleEl = document.querySelector('.title-main');
     if (!titleEl) return; // No section title — skip (e.g. dashboard/index page)
@@ -760,23 +769,39 @@
       btn.classList.add('active');
       // Auto-select the glossary section filter matching the current page
       autoSelectGlossarySection();
+      switchTab('glossary', document.querySelector('.help-tab[data-tab="glossary"]'));
     }
   }
 
+  // function autoSelectGlossarySection() {
+  //   var pageSection = detectCurrentSection();
+  //   if (!pageSection || pageSection === 'default') return;
+  //   // Extract the major section number (e.g. "1.2" -> "1", "3" -> "3")
+  //   var majorSec = pageSection.split('.')[0];
+  //   var secFilterValue = 'sec' + majorSec;
+  //   // Find the matching filter tag and click it
+  //   var tags = document.querySelectorAll('.g-filter-tag');
+  //   tags.forEach(function(tag) {
+  //     var onclick = tag.getAttribute('onclick') || '';
+  //     if (onclick.indexOf("'" + secFilterValue + "'") !== -1) {
+  //       filterBySection(secFilterValue, tag);
+  //     }
+  //   });
+  // }
   function autoSelectGlossarySection() {
     var pageSection = detectCurrentSection();
     if (!pageSection || pageSection === 'default') return;
-    // Extract the major section number (e.g. "1.2" -> "1", "3" -> "3")
-    var majorSec = pageSection.split('.')[0];
-    var secFilterValue = 'sec' + majorSec;
-    // Find the matching filter tag and click it
-    var tags = document.querySelectorAll('.g-filter-tag');
-    tags.forEach(function(tag) {
+
+    currentGlossaryScope = getGlossaryScope();
+    currentSecFilter = 'sec' + pageSection.split('.')[0];
+
+    document.querySelectorAll('.g-filter-tag').forEach(function(tag) {
       var onclick = tag.getAttribute('onclick') || '';
-      if (onclick.indexOf("'" + secFilterValue + "'") !== -1) {
-        filterBySection(secFilterValue, tag);
-      }
+      tag.classList.toggle('active', onclick.indexOf("'" + currentSecFilter + "'") !== -1);
     });
+
+    var searchInput = document.getElementById('helpGSearch');
+    filterGlossary(searchInput ? searchInput.value : '');
   }
 
   // ═══════════════════════════════
@@ -958,10 +983,24 @@
     return 'default';
   }
 
+  // A scope identifies the reporting module and the specific form page.
+  // Example: "annual-business-plan:1.1".
+  function getGlossaryScope() {
+    var file = window.location.pathname.split('/').pop().toLowerCase();
+    var page = detectCurrentSection();
+
+    if (file.indexOf('-au.html') !== -1) return 'annual-business-plan:' + page;
+    if (file.indexOf('-ar.html') !== -1) return 'annual-report:' + page;
+    if (file.indexOf('-sr.html') !== -1) return 'semi-annual-report:' + page;
+
+    return 'default';
+  }
+
   // ═══════════════════════════════
   //  GLOSSARY
   // ═══════════════════════════════
   var currentSecFilter = '';
+  var currentGlossaryScope = '';
 
   function buildGlossaryFilters() {
     var container = document.getElementById('helpGFilter');
@@ -994,7 +1033,11 @@
       var tDef = getTranslatedDef(t.name, t.def).toLowerCase();
       var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || tName.indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1 || tDef.indexOf(s) !== -1;
       var matchSec = !currentSecFilter || t.sec === currentSecFilter;
-      return matchQ && matchSec;
+      // Terms without a scopes array remain visible until they are mapped.
+      // Once a term has scopes, it is shown only on its listed module/page.
+      var matchScope = !currentGlossaryScope || !Array.isArray(t.scopes) ||
+        t.scopes.indexOf(currentGlossaryScope) !== -1;
+      return matchQ && matchSec && matchScope;
     });
     renderGlossary(filtered);
   }

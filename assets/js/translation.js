@@ -1146,7 +1146,7 @@ const translation_mapping = [
     },
     {
         id: "total_contract_value",
-        en: "Total Contract Value",
+        en: "Total Project Lifetime Value",
         sp: "Valor total del contrato",
         fr: "Valeur totale du contrat",
         ar: "القيمة الإجمالية للعقد"
@@ -2350,7 +2350,7 @@ const translation_mapping = [
     //Project Description
     {
         id: "project_description_info",
-        en: '<p class="mb-1">Please list all of the projects you plan to carry out in the three-year cycle (this should include all projects, both funded by restricted and unrestricted funds).</p><p class="mb-0">Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p>',
+        en: '<p class="mb-1">Please list all the projects you plan to carry out in year of the business plan.</p><p class="mb-0">Most projects are likely to have restricted funding. These have a donor agreement with clear deliverables and timelines. Please do not separate donor-funded projects into separate projects. One donor contract equals one project.</p><p class="mt-1">Some projects are implemented with unrestricted funding. This funding can be sourced from a donor, or from income generation activities such as social enterprise, sale of services, donations, etc.</p><p class="mb-0">check</p>',
         sp: "Enumere todos los proyectos que planifican llevar a cabo en el ciclo de tres años (se deben incluir todos los proyectos, tanto los de fondos restringidos (restricted funds) como los de fondos no restringidos (unrestricted funds)). Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Para cada proyecto, indique su nombre y ofrezca una breve descripción de no más de 250 palabras. En la descripción, mencione el donante o la fuente de financiamiento; las regiones o provincias en las que se implementará; los usuarios o la audiencia meta, y los resultados previstos. Para actualizaciones, agregue todo proyecto nuevo no incluido en el plan de negocio de 3 años. No es necesario completar todas las filas.",
         fr: "Veuillez énumérer tous les projets que vous prévoyez de porter à exécution au cours du cycle de trois ans (incluez tous les projets, financés à la fois par des fonds avec restrictions et des fonds sans restrictions). Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiserVeuillez accompagner chaque projet d’une brève description de pas plus de 250 mots. Dans la description, veuillez mentionner le bailleur de fonds/la source de financement, les régions/provinces où il sera mis en œuvre, le public cible/les clients et ses réalisations/résultats escomptés. Pour les mises à jour, veuillez ajouter tout nouveau projet non inclus dans le plan d'activité de 3 ans. Il n’est pas obligatoire de remplir toutes les lignes.",
         ar: "<p>نرجو إعداد قائمة بجميع المشاريع التي تخططون لتنفيذها في دورة الثلاث سنوات (ينبغي أن تشمل جميع المشاريع التي تمولها الصناديق المقيدة وغير المقيدة).</p><p>بالنسبة للسنة الثانية: يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد). </p>"
@@ -3562,17 +3562,7 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "commodities_funding_title_info",
-        en: `<p>Please fill in complete data for Year 1 at the start of the cycle. Near the end
-        of each year, you will be asked to provide information for the following year.
-         <p>List your total expected commodities for the upcoming year, broken down by the
-        following categories.</p>
-    <p class="mb-0">The sum of all of these categories should equal your total
-        commodities listed in project expenses. As above, please only include sources
-        that have at least an 80% chance of being secured.
-        <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse"
-            data-target="#collapseExample1" aria-expanded="true"
-            aria-controls="collapseExample"></i>
-    </p>`,
+        en: `<p class="mb-1">This section includes additional information / data relating to commodities. This section is relevant for all organisations that procure and disseminate commodities. Please fill out all the sections fully.</p>`,
         sp: "Se deben aportar los datos completos para el Año 1 al inicio del ciclo. Cuando se acerque el final de cada año, se le pedirá que ofrezca información para el año siguiente.Indique los productos totales previstos para el próximo año, desglosados según las siguientes categorías. La suma de todas estas categorías debería ser igual a los productos totales indicados en los gastos del proyecto. Como antes, solo se deben incluir fuentes cuya probabilidad de otorgar realmente los fondos sea de al menos un 80 %.",
         fr: "Veuillez indiquer les données complètes pour l’Année 1 au début du cycle. Vers la fin de chaque année, il vous sera demandé de fournir des informations pour l’année suivante.Dressez la liste de vos produits de base prévus pour l’année à venir, répartis en fonction des catégories suivantes. La somme de toutes ces catégories doit correspondre au montant total de vos produits indiqué dans vos dépenses de projet. Comme plus haut, veuillez indiquer uniquement les sources de recettes ayant au moins 80 % de chances d’être obtenues.",
         ar: "<p>يرجى ملء البيانات كاملة للسنة الأولى في بداية الدورة. ومع اقتراب نهاية كل سنة، سوف يُطلب منك بيانات عن السنة التالية</p><p> أعِد قائمة بإجمالي السلع الطبية المتوقعة للسنة القادمة، مع تقسيمها حسب الفئات التالية.</p><p>ينبغي أن يتساوي مجموع هذه الفئات كلها مع إجمالي السلع الطبية الذي أدرجته في نفقات المشروع. وعلى النحو المبين أعلاه، يرجى إدراج المصادر التي لا تقل فرصة تأمينها عن 80٪.</p>"

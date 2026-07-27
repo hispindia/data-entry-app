@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.contract}" class="required"><span data-i18n="intro.total_contract_value">Total Contract Value</span>: </label>
+            <label for="${project.contract}" class="required"><span data-i18n="intro.total_contract_value">Total Project Lifetime Value</span>: </label>
             <input type="text" id="${project.contract}"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textValue"

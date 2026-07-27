@@ -8,6 +8,8 @@ import { showToast } from "../../utils.js";
  const maxWords = 200
  var eventPD = '';
  var commoditiesEC='';
+ var focusAreaValues = {};
+ var expenseCategoryValues = {};
  let userHideReporting = [];
  const programStageEvent = {
   keyDetails: ''
@@ -109,9 +111,13 @@ import { showToast } from "../../utils.js";
       
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectExpenseCategory ||  enroll.program == program.auProjectDescription
+        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectExpenseCategory || enroll.program == program.auProjectDescription || enroll.program == program.auProjectFocusArea
       );
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
+      const dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value});
+      const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value});
+      focusAreaValues = dataValuesPFA[tei.year.value] || {};
+      expenseCategoryValues = dataValuesEC[tei.year.value] || {};
       const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       if (!dataValuesMD[tei.year.value]) {
@@ -157,10 +163,9 @@ import { showToast } from "../../utils.js";
         }
       }
             
-      const dataValuesEC =  getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value})//data vlaues period wise
-        if(dataValuesEC && dataValuesEC[tei.year.value] && tei.projects.length) {
-          commoditiesEC = calculateExpenseCategory(dataValuesEC[tei.year.value], tei.projects);
-        }
+      if(dataValuesEC[tei.year.value] && tei.projects.length) {
+        commoditiesEC = calculateExpenseCategory(dataValuesEC[tei.year.value], tei.projects);
+      }
 
       if(dataValuesPD[tei.year.value] && dataValuesPD[tei.year.value][dataElements.submitAnnualUpdate])  tei.disabled = true;
       else if(tei.userDisabled == "true") tei.disabled = true;
@@ -197,10 +202,20 @@ import { showToast } from "../../utils.js";
       btn.addEventListener("click", async(event) => {
       event.preventDefault(); 
       const missingFields = validateProjectDescriptionRequiredFields(projectDescriptionValues);
+      const projectsWithFocusAreaVariance = getProjectsWithVariance(
+        projectDescriptionValues,
+        focusAreaValues,
+        dataElements.projectFocusAreaNew
+      );
+      const projectsWithExpenseAreaVariance = getProjectsWithVariance(
+        projectDescriptionValues,
+        expenseCategoryValues,
+        dataElements.projectExpenseCategory
+      );
       const errorBox = document.getElementById("mandatory-error");
       if (errorBox) errorBox.style.display = "none"
-      if (missingFields.length) {
-        showMissingFieldsModal(missingFields);
+      if (missingFields.length || projectsWithFocusAreaVariance.length || projectsWithExpenseAreaVariance.length) {
+        showMissingFieldsModal(missingFields, projectsWithFocusAreaVariance, projectsWithExpenseAreaVariance);
         return;
       }
       if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
@@ -486,12 +501,32 @@ function calculateExpenseCategory(dataValues, projects) {
   return value ? value: 0;
 }
 
+function hasValidVariance(rawVariance) {
+  return rawVariance !== '' &&
+    rawVariance !== undefined &&
+    rawVariance !== null &&
+    !Number.isNaN(Number(rawVariance)) &&
+    Number(rawVariance) >= 0;
+}
+
+function getProjectVariance(rawValues, projectConfigs, index) {
+  return rawValues[projectConfigs[index].variation];
+}
+
 function checkProjects(projects, values) {
   var prevEmptyNames = [];
   var names= [];
   if(values) {
-    projects.forEach(project => {
-      if(values[project.name]) {
+    projects.forEach((project, index) => {
+      const existingMandatoryCondition = Boolean(values[project.name]);
+      const hasFocusAreaVariance = hasValidVariance(
+        getProjectVariance(focusAreaValues, dataElements.projectFocusAreaNew, index)
+      );
+      const hasExpenseCategoryVariance = hasValidVariance(
+        getProjectVariance(expenseCategoryValues, dataElements.projectExpenseCategory, index)
+      );
+
+      if(existingMandatoryCondition || hasFocusAreaVariance || hasExpenseCategoryVariance) {
         names = [...names, ...prevEmptyNames, values[project.name]];
         prevEmptyNames = [];
       } else {
@@ -521,7 +556,7 @@ function checkProjects(projects, values) {
     if(!values) return missingFields;
     projectConfigs?.forEach((proj, index) => {
       const projectNumb = index + 1;
-      const hasProjData = 
+    const hasProjData =
       String(values[proj.name] || "").trim() ||
       String(values[proj.startDate] || "").trim() ||
       String(values[proj.endDate] || "").trim() ||
@@ -531,7 +566,14 @@ function checkProjects(projects, values) {
       String(values[proj.donor] || "").trim() ||
       String(values[proj.income] || "").trim() ||
       String(values[proj.description] || "").trim() 
-    if (!hasProjData) return;
+    const hasFocusAreaVariance = hasValidVariance(
+      getProjectVariance(focusAreaValues, dataElements.projectFocusAreaNew, index)
+    );
+    const hasExpenseCategoryVariance = hasValidVariance(
+      getProjectVariance(expenseCategoryValues, dataElements.projectExpenseCategory, index)
+    );
+
+    if (!hasProjData && !hasFocusAreaVariance && !hasExpenseCategoryVariance) return;
 
     const requiredChecks = [
       {key: proj.name, label: `Project ${projectNumb} - Project Name`},
@@ -564,7 +606,41 @@ function checkProjects(projects, values) {
     });
     return [...new Set(missingFields)];
   }
-  function showMissingFieldsModal(missingFields) {
+  function getProjectsWithVariance(values, varianceValues, varianceConfigs) {
+    return (dataElements.projectDescription || []).reduce((projects, project, index) => {
+      const rawVariance = getProjectVariance(varianceValues, varianceConfigs, index);
+
+      if (hasValidVariance(rawVariance)) {
+        projects.push({
+          number: index + 1,
+          name: values[project.name] || `Project ${index + 1}`,
+          variance: Number(rawVariance),
+        });
+      }
+
+      return projects;
+    }, []);
+  }
+
+  function renderVarianceSection(title, pageUrl, projects) {
+    if (!projects.length) return '';
+
+    return `
+      <p style="color:#555;margin:20px 0 16px;">
+        Please check the budget difference in <strong>${title} <a href="${pageUrl}">Go to Page</a></strong> before submitting:
+      </p>
+      ${projects.map(project => `
+        <div class="card mb-2" style="border:1px solid #FED7D7;">
+          <div class="card-header" style="background:#FFF5F5;font-weight:600;color:#C53030;display:flex;justify-content:space-between;align-items:center;">
+            Project ${project.number}: ${project.name}
+            <span class="badge badge-danger">Difference: ${formatNumberInput(project.variance)}</span>
+          </div>
+        </div>
+      `).join("")}
+    `;
+  }
+
+  function showMissingFieldsModal(missingFields, projectsWithFocusAreaVariance = [], projectsWithExpenseAreaVariance = []) {
     $('#missingFieldsModal').remove();
     //dropping wise list 
     const groupFields = {};
@@ -600,7 +676,7 @@ function checkProjects(projects, values) {
                   flex-shrink:0;
                 ">!</span>
                 <h5 class="modal-title" id="missingFieldsModalLabel" style="color:#C53030;margin:0;">
-                  Required Fields Missing
+                  ${missingFields.length ? 'Required Fields Missing' : 'Project Budget Difference'}
                 </h5>
               </div>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -608,9 +684,9 @@ function checkProjects(projects, values) {
               </button>
             </div>
             <div class="modal-body" style="padding:20px 24px;">
-              <p style="color:#555;margin-bottom:16px;">
-                Please complete the following required fields in <strong>2.1 Project Description <a href="2.1-project-description-au.html">Go to Pag</a></strong> before submitting:
-              </p>
+              ${missingFields.length ? `<p style="color:#555;margin-bottom:16px;">
+                Please complete the following required fields in <strong>2.1 Project Description <a href="2.1-project-description-au.html">Go to Page</a></strong> before submitting:
+              </p>` : ''}
               <div style="max-height:55vh;overflow-y:auto;">
 
             ${Object.entries(groupFields).map(([project, fields], index) => `
@@ -631,7 +707,7 @@ function checkProjects(projects, values) {
                         ">
                         ${project}
                         <span class="badge badge-danger">
-                            ${fields.length}
+                            Missing fields:${fields.length}
                         </span>
                     </div>
 
@@ -650,6 +726,8 @@ function checkProjects(projects, values) {
                 </div>
             `).join("")}
 
+            ${renderVarianceSection('2.3 Budget by Focus Area', '2.3-breakdown-by-focus-area-au.html', projectsWithFocusAreaVariance)}
+            ${renderVarianceSection('2.4 Budget by Expense Category','2.4-breakdown-by-expense-category-au.html',projectsWithExpenseAreaVariance)}
           </div>
             </div>
             <div class="modal-footer" style="border-top:1px solid #eee;">
