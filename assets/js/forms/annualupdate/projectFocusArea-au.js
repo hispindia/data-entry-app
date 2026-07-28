@@ -642,17 +642,44 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function buildPivotSummary() {
-  var totalValues = 0;
   var tableRows = '';
-  focusAreaNames.forEach((name, index) => {
+  var values =  focusAreaNames.map((_, index) => {
     var value = 0;
     $(`.input-budget-${index}`).each((_, el) => value += unformatNumber(el.value));
-    totalValues += value;
-    tableRows += `<tr><td>${name}</td><td><input type="text" disabled readonly class="form-control" value="${formatNumberInput(value)}" /></td></tr>`;
+    return value;
+  })
+
+  var totalValues = values.reduce((sum, current) => sum + current, 0);
+
+  focusAreaNames.forEach((name, index) => {
+    tableRows += `<tr>
+    <td>${name}</td>
+    <td>
+      <div class="input-group"><div class="input-group-prepend">
+      <div class="input-group-text">$</div></div>
+      <input type="text" disabled readonly class="form-control" value="${formatNumberInput(values[index])}" />
+      </div>
+    </td>
+    <td>
+      <div class="input-group"><div class="input-group-prepend">
+      <div class="input-group-text">%</div></div>
+      <input type="text" disabled readonly class="form-control" value="${formatNumberInput(Number.isFinite(values[index] / totalValues) ? (values[index]  / totalValues) * 100 : 0)}" />
+      </div>
+    </td>
+    </tr>`;
   });
   const difference = tei.yearAmount - totalValues;
-  tableRows += `<tr><td class="font-weight-bold" data-i18n="intro.total_budget">Total Annual Budget</td><td><input type="text" disabled readonly class="form-control font-weight-bold" value="${formatNumberInput(totalValues)}" /></td></tr>
-  <tr><td class="font-weight-bold" data-i18n="intro.difference">Difference</td><td><input type="text" disabled readonly  style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" class="form-control font-weight-bold" value="${formatNumberInput(difference)}" /></td></tr>`; 
+  tableRows += `<tr><td class="font-weight-bold" data-i18n="intro.total_budget">Total Annual Budget</td><td>
+  <div class="input-group"><div class="input-group-prepend">
+  <div class="input-group-text">$</div></div>
+  <input type="text" disabled readonly class="form-control font-weight-bold" value="${formatNumberInput(totalValues)}" />
+  </div>
+  </td></tr>
+  <tr><td class="font-weight-bold" data-i18n="intro.difference">Difference</td><td>
+      <div class="input-group"><div class="input-group-prepend">
+      <div class="input-group-text">$</div></div>
+      <input type="text" disabled readonly  style="background:${difference >=0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" class="form-control font-weight-bold" value="${formatNumberInput(difference)}" />
+  </div></td></tr>`; 
 
                             
   $('#pivot-summary').html(tableRows);

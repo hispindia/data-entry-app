@@ -542,6 +542,12 @@ function calculateTotals(name) {
     $(`.costs-total`).val(formatNumberInput(costs));
     $(`.totalExpense-total`).val(formatNumberInput(total));
     $(`.differences-total`).val(formatNumberInput(difference));
+
+    $(`.personnel-percentage`).val(formatNumberInput(Number.isFinite(personnels / total) ? (personnels / total) * 100 : 0));
+    $(`.activities-percentage`).val(formatNumberInput(Number.isFinite(activities / total) ? (activities / total) * 100 : 0));
+    $(`.commodities-percentage`).val(formatNumberInput(Number.isFinite(commodities / total) ? (commodities / total) * 100 : 0));
+    $(`.costs-percentage`).val(formatNumberInput(Number.isFinite(costs / total) ? (costs / total) * 100 : 0));
+
     if(difference >= 0) $(`.differences-total`)[0].style.setProperty('background','#C1E1C1', 'important')
     else $(`.differences-total`)[0].style.setProperty('background','#FAA0A0', 'important')
 
