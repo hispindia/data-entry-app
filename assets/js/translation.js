@@ -2382,59 +2382,7 @@ const translation_mapping = [
     
     {
         id: "project_budget_info",
-        en: ` <p>
-        Please complete all of the budget data in USD, using the exchange rate provided by IPPF. Please
-        break down annual funds based on calendar years (Jan - Dec).
-      </p><p><strong>Note:</strong> Please update data for year 2 & 3. We request full detail on the upcoming
-        year's plans (Year 2), and less detail on Year 3, as noted below.</p>
-      <p>Near the end of next year, you will be asked to update your budgets and provide additional detail for the following year.</p>
-      <p>Please included each project's budget; the total budget of all of your projects should equal your entire organisational budget (we assume that indirect/support costs and senior management costs are incorporated within each project; if there are additional indirect/support costs not captured in the projects, please add a separate project for them called "Indirect/Support").
-      </p>
-
-      <p class="mb-0">
-        Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.
-      </p>
-      <p class="mt-2">
-        <strong>Guidance for estimating budgets:</strong>
-      </p>
-      <p>
-        <strong>For Year 1:</strong> You will not be allowed to make any changes to the budgets.
-      </p>
-      <p>
-        <strong>For Year 2:</strong> Only include projects where funding is either confirmed or has an 80%+ chance of coming through (for example, a donor that has funded you in prior years and you are in talks for extending that funding, or a donor where you are far along in the process and have been given indications funding is likely even though it’s not signed yet).
-      </p>
-      <p>
-        <strong>For Year 3:</strong> Include all projects you realistically plan to carry out, even if you do not yet know the donor who will fund them. As a result, it is OK if many of the projects in Year 3 are "uncertain." For each project, put your best guess of the likely budget, even if the exact amount is not confirmed, or if you might need multiple donors to fund it (e.g., if you expect your project to cost between 40,000 and 80,000, you can list the average, 60,000, as your estimate). You can then select from three options to indicate the likelihood of funding for that project:
-      </p>
-      <p>
-        <strong>Confirmed:</strong> There is a firm commitment for the funding and project (can include explicit written or verbal commitments, even if a multi-year contract is not signed).
-      </p>
-      <p>
-        <strong>Likely (over 80%):</strong> You estimate a greater than 80% chance the project will come
-        through (for example, a donor that has funded you in prior years and you are in talks for extending
-        that funding, or a donor where you are far along in the process and have been given indications
-        funding is likely even though it’s not signed yet).
-      </p>
-      <p>
-        <strong>Uncertain:</strong> There is a less than 80% chance of the project and funding coming
-        through. Please only include projects you think there is a realistic chance you will carry out,
-        rather than including a full wish-list of unlikely projects (for example, if you organization has
-        typically carried out 5-6 projects per year with a total budget of $2M, do not list 12 “uncertain”
-        projects with a total budget of $4M).
-      </p>
-      <p>
-        Projects may end in the middle of the three-year period; if so, put "0" for their budget in the
-        years they are finished.
-      </p>
-      <p>
-        Note that for the upcoming year (Year 2), we are also requesting a breakdown of how much of the core
-        unrestricted grant will go to each project. We realize this might change throughout the year as
-        funding needs change; however, we would like your best estimate as of now. You do not need to
-        specify exactly how core funding will be spend in Year 3, though it should still count towards your
-        total amount. Not all rows must be filled.<i class="far fa-arrow-alt-circle-up ml-1"
-          data-toggle="collapse" data-target="#collapseExample1" aria-expanded="true"
-          aria-controls="collapseExample1"></i>
-      </p>`,
+        en: `<p class="mb-4">Please complete all of the budget data in USD, using the exchange rate provided by IPPF.<br>Please break down annual funds based on calendar years (Jan - Dec).</p><p class="mb-4">Please included each project's budget. The total budget of all of your projects should equal your entire organisational budget (we assume that indirect/support costs and senior management costs are incorporated within each project; if there are additional indirect/support costs not captured in the projects, please add a separate project for them called "Indirect/Support").</p><p class="mb-0">Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project, please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p>`,
         sp: "Todos los datos del presupuesto deben indicarse en USD utilizando la tasa de cambio que proporcione IPPF. Desglose los fondos anuales en base a los años naturales (de enero a diciembre).	Incluya el presupuesto de cada proyecto; el presupuesto total de todos los proyectos debe ser igual al presupuesto entero de la organización. Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Está bien si muchos de los proyectos del Año 3 tienen un % mayor de incertidumbre. El año próximo tendrá la oportunidad de actualizar el Plan de negocio.",
         fr: "Veuillez indiquer toutes les données budgétaires en USD, en utilisant le taux de change fourni par l’IPPF. Veuillez ventiler les fonds annuels en fonction des années civiles (de janvier à décembre).	Veuillez indiquer le budget de chaque projet. Le budget total de tous vos projets doit correspondre au total du budget de votre organisation. Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiser Il est donc acceptable qu’un grand nombre de projets pour l’Année 3 présentent un plus fort pourcentage d'incertitude. L'occasion vous sera donnée l'an prochain d'actualiser le budget du projet.",
         ar: `<p>يرجى إكمال جميع البيانات الخاصة بالميزانية بالدولار الأمريكي، مع تطبيق سعر الصرف الذي حدده اتحاد IPPF. ويرجى توزيع التمويلات السنوية حسب التقويم الميلادي (يناير - ديسمبر)</p><p>ملاحظة: يرجى تحديث البيانات للسنة الثانية والثالثة. نرجو تزويدنا بتفاصيل كاملة عن خطط السنة القادمة (السنة الثانية)، وتفاصيل أقل للسنة الثالثة كما هو موضح أدناه.</p><p>في نهاية العام المقبل، سيُطلب منك تحديث الميزانيات وتقديم تفاصيل إضافية للسنة التالية.</p><p>يرجى تضمين ميزانية كل مشروع؛ يجب أن يكون إجمالي ميزانيات جميع مشاريعكم مساوياً للميزانية الكاملة للمنظمة (نفترض أن التكاليف غير المباشرة/دعم الإدارة وتكاليف الإدارة العليا مدرجة ضمن كل مشروع؛ وإذا كانت هناك تكاليف غير مباشرة/دعم إضافية غير مدرجة في المشاريع، يرجى إضافة مشروع منفصل لها بعنوان "تكاليف غير مباشرة/دعم").</p><p>يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر. لكل مشروع، يرجى إدخال الاسم ووصف مختصر يشمل المانح/مصدر التمويل، المناطق/المحافظات التي سيتم تنفيذ المشروع فيها، الجمهور المستهدف/المستفيدين، والنتائج/الأهداف المرجوة.</p><p>إرشادات لتقدير الميزانيات</p><p>بالنسبة للسنة الأولى: لن يُسمح لك بإجراء أي تغييرات على الميزانيات.</p><p>بالنسبة للسنة الثانية: يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد).</p><p>بالنسبة للسنة الثالثة: يرجى إدراج جميع المشاريع التي تخططون لتنفيذها بشكل واقعي، حتى وإن لم تعرفوا بعد الجهة المانحة التي ستمولها. لذلك، من المقبول أن يكون العديد من المشاريع في السنة الثالثة "غير مؤكدة". لكل مشروع، قدم أفضل تقدير لديك للميزانية المتوقعة، حتى لو لم يتم تأكيد المبلغ الدقيق، أو إذا كنتم قد تحتاجون إلى تمويل من عدة جهات مانحة (على سبيل المثال، إذا كنت تتوقع أن تكلفتك للمشروع تتراوح بين 40,000 و80,000، يمكنك ذكر المتوسط وهو 60,000 كتقدير). بعد ذلك، يمكنك اختيار أحد الخيارات الثلاثة للإشارة إلى احتمال تمويل ذلك المشروع:</p><p>مؤكد: يوجد التزام ثابت بالتمويل والمشروع (يمكن أن يشمل التزامات مكتوبة أو شفوية صريحة، حتى لو لم يتم توقيع عقد متعدد السنوات).</p><p>محتمل (أكثر من 80%): تقدّر أن هناك فرصة تزيد عن 80% لتحقيق تمويل المشروع (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد).**</p>
@@ -2538,25 +2486,11 @@ const translation_mapping = [
     {
         id: "project_focusarea_info",
         en: ` <p>
-        Please fill in data for the upcoming year only (Year 2). Near the end of each year, you will be
-        asked to provide information for the following year.
-        </p><p>
-        If there are projects you listed that will only be active in Year 3, you can leave the rows for them
-        blank below.
-        </p><p>For each project, provide a division of the costs by the Project Focus Areas used (selected from
-        the drop-down menu). </p>
-        <p><strong>A single project can have multiple Project Focus Areas. Please use a new row for each
-        Project Focus Area that is directly relevant within a project (e.g., a single project that has
-        both Mobile Clinic and Static Clinic would get two rows).</strong>
-        <p></p> Please estimate the cost for
-        work within each Project Focus Area; given that staff time might be split across multiple Project
-        Focus Areas, please use your best estimate of the share of time spent on different Project Focus
-        Areas to reach the cost breakdown. Kindly ensure that the project focus area assigned to a project
-        in 2023 is not changed in 2024.
-        </p><p class="mb-0">The reference table at the right (column Q, row 17) shows how much of each project's
-        Year 2 budget you have allocated to Project Focus Areas, so you know if there is more to allocate <i
-        class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-        aria-expanded="true" aria-controls="collapseExample"></i></p>`,
+        Please fill in your total organisational expense budget by focus area. The focus areas are pre-defined. Please do this for every project you have submitted under Section 2.1. 
+        </p><p><strong>
+        A single project can have multiple Project Focus Areas. Use any that are relevant to the project. 
+       </strong>
+        </p><p>Please use your best estimate. For multi-year projects, please consider the breakdown of cost that you submitted in previous years.</p>`,
         sp: "Para cada proyecto, divida su presupuesto según las áreas prioritarias de IPPF (seleccione del menú desplegable). Un solo proyecto puede tener varias Áreas prioritarias. Utilice una fila nueva para cada área prioritaria del proyecto que sea directamente pertinente dentro de cada proyecto. Haga la mejor estimación posible para calcular los gastos presupuestados para cada área prioritaria del proyecto. La tabla de referencia en la derecha (columna Q, fila 17) indica qué cantidad del presupuesto del Año 2 de cada proyecto se ha asignado a Áreas prioritarias del proyecto, de ese modo sabrá si se puede asignar más. No es necesario completar todas las filas.",
         fr: "Pour chaque projet, veuillez diviser votre budget en fonction des domaines d'intervention de l'IPPF (sélectionnés dans le menu déroulant). Un même projet peut avoir plusieurs volets d’intervention. Veuillez utiliser une ligne pour chaque volet d'intervention qui est directement pertinent au projet en question Veuillez utiliser vos estimations les plus précises pour décider des dépenses budgétisées par volet d'intervention du projet. Le tableau de référence à droite (colonne Q, ligne 17) indique pour chaque projet la part du budget pour l'Année 2 que vous avez allouée aux volets d'intervention, afin de connaître le montant qu'il vous reste à allouer, le cas échéant Il n’est pas obligatoire de remplir toutes les lignes.",
         ar: "<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>لكل مشروع، يرجى تقديم توزيع للتكاليف حسب مجالات تركيز المشروع المستخدمة (يتم اختيارها من القائمة المنسدلة).</p><p>يمكن أن يحتوي المشروع الواحد على عدة مجالات تركيز. يرجى استخدام صف جديد لكل مجال تركيز مرتبط مباشرة بالمشروع (على سبيل المثال، المشروع الذي يشمل كلًا من العيادة المتنقلة والعيادة الثابتة يجب أن يُدرج في صفّين).</p><p>يرجى تقدير تكلفة العمل ضمن كل مجال تركيز في المشروع؛ ونظرًا لأن وقت الموظفين قد يكون موزعًا بين عدة مجالات تركيز، يرجى استخدام أفضل تقدير لديك لنسبة الوقت المخصص لكل مجال تركيز للوصول إلى توزيع التكلفة. نرجو التأكد من عدم تغيير مجال التركيز المخصص لأي مشروع في عام 2023 عند تحديثه لعام 2024.</p><p>يوضح الجدول المرجعي على اليمين (العمود Q، الصف 17) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب مجالات التركيز، بحيث يمكنك معرفة ما إذا كان لا يزال هناك جزء لم يتم تخصيصه بعد.</p>"
@@ -2734,17 +2668,8 @@ const translation_mapping = [
     },
     {
         id: "project_expense_info",
-        en: `<p> Please fill in data for the upcoming year only (Year 2).
-        Near the end of next year, you will be asked to provide
-        information for the following year.
-      </p> <p>
-        If there are projects you listed that will only be active
-        in Year 3, you can leave the rows for them blank below.
-      </p> <p>
-        Please list your expenses by project by expense category.
-        As above, this table should cover your entire
-        organizational budget.
-      </p> <p>
+        en: `<p> Please list your expenses by expense category per project. Please include all expenses so that your totals are the same as the total of section 2.3. Expense Budget by Focus Area.
+      </p><p>
         <strong >Cost categories are defined as follows: </strong>
       </p> <p>
         <strong>Personnel:</strong> Includes ALL costs for staff
@@ -2783,18 +2708,7 @@ const translation_mapping = [
         above categories.This can include both recurring and
         capital expenditures. No personnel costs should be
         included here.
-      </p> <p>
-        The reference table at the right (column L, row 25) shows
-        how much of each project's Year 2 budget you have
-        allocated to Expense Categories, so you know if there is
-        more to allocate Not all rows must be filled.
-        <i
-          class="far fa-arrow-alt-circle-up ml-1"
-          data-toggle="collapse"
-          data-target="#collapseExample1"
-          aria-expanded="true"
-          aria-controls="collapseExample"
-        ></i></p>`,
+      </p>`,
         sp:`Para cada proyecto, enumere los gastos presupuestados por categoría de gasto de IPPF. Como en las tablas anteriores, esta tabla debe abarcar el presupuesto entero de su organización.	
         <strong>Las categorías de costos se definen del siguiente modo:</strong>	
             <strong>Personal:</strong> Incluye TODOS los costos de personal asignados a este proyecto. Para cada proyecto, esto también debería incluir un porcentaje de costos de personal de apoyo (p. ej., contabilidad, RR. HH., equipo directivo superior).
@@ -3094,22 +3008,11 @@ const translation_mapping = [
     {
         id: "income_donor_info",
         en: `<p>
-        Please fill in complete data for all three years, using your best estimates.
-        Near the end of the next year, you will be able to update the numbers for the
-        following year.
-    </p><p class="mb-0">
-        <strong>Please include all donors who either fund an entire project, or who fund
-            at least 10% of your entire budget.</strong> You do not have to include all
-        smaller donors.
-        These income estimates should be the most likely scenario (e.g., 80% likely),
-        not the best case scenario.
-        Not all rows must be filled. <i class="far fa-arrow-alt-circle-up ml-1"
-            data-toggle="collapse" data-target="#collapseExample1" aria-expanded="true"
-            aria-controls="collapseExample1"></i>
+        Please fill in your annual income by donor. The donor is defined as the entity providing the income. Please provide a clear breakdown that matches the full income reported under Section 3.1. In cases where the income is autogenerated, e.g. through social enterprise, or sale of services, please indicate your organisational name as the donor. 
     </p>`,
-        sp: "Proporcione datos completos para los tres años, aplicando cálculos lo más precisos posibles.<strong> Incluya todos los donantes que o bien financian un proyecto completo, o que financian al menos un 10 % de su presupuesto total. </strong>Estas previsiones de ingresos deben basarse en la situación más probable (p. ej., un 80 % de probabilidad), no en la mejor situación posible. No es necesario completar todas las filas.",
-        fr: "Veuillez remplir les données complètes pour les trois années, en utilisant vos estimations les plus précises. <strong>Veuillez inclure tous les bailleurs de fonds qui soit financent un projet dans son intégralité, soit financent au moins 10 % de l’ensemble de votre budget.</strong> Ces estimations de recettes doivent correspondre au scénario le plus probable (plus de 80 % de probabilité) et non au scénario fondé sur les hypothèses les plus favorables. Il n’est pas obligatoire de remplir toutes les lignes.",
-        ar: "<p>يرجى تعبئة البيانات كاملة لجميع السنوات الثلاث، باستخدام أفضل تقديراتكم. في نهاية العام القادم، ستتمكنون من تحديث الأرقام للسنة التالية.</p><p>يرجى تضمين جميع المانحين الذين يمولون مشروعًا كاملاً أو الذين يمولون ما لا يقل عن 10% من إجمالي ميزانيتكم. ليس من الضروري تضمين جميع المانحين الصغار. يجب أن تعكس تقديرات الدخل السيناريو الأكثر احتمالاً (مثل 80% احتمالاً)، وليس السيناريو الافضل . ليس من الضروري تعبئة جميع الصفوف.</p>"
+        sp: "<p>Indica tus ingresos anuales por donante. Se entiende por «donante» la entidad que proporciona los ingresos. Facilita un desglose claro que coincida con los ingresos totales declarados en la sección 3.1. En los casos en que los ingresos se generen, por ejemplo, a través de una empresa social o de la venta de servicios, indica el nombre de tu organización como donante.</p>",
+        fr: "<p>Veuillez indiquer vos revenus annuels par donateur. On entend par « donateur » l'entité qui génère ces revenus. Veuillez fournir une ventilation claire qui corresponde à l'intégralité des revenus déclarés à la section 3.1. Lorsque les revenus proviennent, par exemple, d'une entreprise sociale ou de la vente de services, veuillez indiquer le nom de votre organisation en tant que donateur.",
+        ar: "<p>يرجى إدخال دخلك السنوي حسب الجهة المانحة. تُعرّف الجهة المانحة بأنها الكيان الذي يوفر الدخل. يرجى تقديم تفصيل واضح يتطابق مع إجمالي الدخل المبلغ عنه في القسم 3.1. وفي الحالات التي يتم فيها توليد الدخل من خلال، على سبيل المثال، مشروع اجتماعي أو بيع خدمات، يرجى الإشارة إلى اسم مؤسستك باعتبارها الجهة المانحة.</p>" 
     },
     {
         id: "total_anticipated",

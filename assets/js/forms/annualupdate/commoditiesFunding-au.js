@@ -8,6 +8,7 @@ import { showToast } from "../../utils.js";
  const maxWords = 200
  var eventPD = '';
  var commoditiesEC='';
+ var projectBudgetValues = {};
  var focusAreaValues = {};
  var expenseCategoryValues = {};
  let userHideReporting = [];
@@ -111,13 +112,15 @@ import { showToast } from "../../utils.js";
       
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectExpenseCategory || enroll.program == program.auProjectDescription || enroll.program == program.auProjectFocusArea
+        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectBudget || enroll.program == program.auProjectExpenseCategory || enroll.program == program.auProjectDescription || enroll.program == program.auProjectFocusArea
       );
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
+      const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, {id: tei.year.id, value: tei.year.value});
       const dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value});
       const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value});
       focusAreaValues = dataValuesPFA[tei.year.value] || {};
       expenseCategoryValues = dataValuesEC[tei.year.value] || {};
+      projectBudgetValues = dataValuesPB[tei.year.value] || {};
       const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       if (!dataValuesMD[tei.year.value]) {
@@ -204,11 +207,13 @@ import { showToast } from "../../utils.js";
       const missingFields = validateProjectDescriptionRequiredFields(projectDescriptionValues);
       const projectsWithFocusAreaVariance = getProjectsWithVariance(
         projectDescriptionValues,
+        projectBudgetValues,
         focusAreaValues,
         dataElements.projectFocusAreaNew
       );
       const projectsWithExpenseAreaVariance = getProjectsWithVariance(
         projectDescriptionValues,
+        projectBudgetValues,
         expenseCategoryValues,
         dataElements.projectExpenseCategory
       );
@@ -506,7 +511,7 @@ function hasValidVariance(rawVariance) {
     rawVariance !== undefined &&
     rawVariance !== null &&
     !Number.isNaN(Number(rawVariance)) &&
-    Number(rawVariance) >= 0;
+    Number(rawVariance) !== 0;
 }
 
 function getProjectVariance(rawValues, projectConfigs, index) {
@@ -606,14 +611,18 @@ function checkProjects(projects, values) {
     });
     return [...new Set(missingFields)];
   }
-  function getProjectsWithVariance(values, varianceValues, varianceConfigs) {
+  function getProjectsWithVariance(values, budgetValues, varianceValues, varianceConfigs) {
     return (dataElements.projectDescription || []).reduce((projects, project, index) => {
       const rawVariance = getProjectVariance(varianceValues, varianceConfigs, index);
 
       if (hasValidVariance(rawVariance)) {
+        const totalExpenseBudget = Number(budgetValues[dataElements.projectBudget[index].budget]) || 0;
+        const breakdownBudget = totalExpenseBudget - Number(rawVariance);
         projects.push({
           number: index + 1,
           name: values[project.name] || `Project ${index + 1}`,
+          totalExpenseBudget,
+          breakdownBudget,
           variance: Number(rawVariance),
         });
       }
@@ -622,18 +631,20 @@ function checkProjects(projects, values) {
     }, []);
   }
 
-  function renderVarianceSection(title, pageUrl, projects) {
+  function renderVarianceSection(config, projects) {
     if (!projects.length) return '';
 
     return `
-      <p style="color:#555;margin:20px 0 16px;">
-        Please check the budget difference in <strong>${title} <a href="${pageUrl}">Go to Page</a></strong> before submitting:
-      </p>
+      <h6 style="color:#C53030;margin:20px 0 12px;font-weight:700;">${config.heading}</h6>
       ${projects.map(project => `
         <div class="card mb-2" style="border:1px solid #FED7D7;">
-          <div class="card-header" style="background:#FFF5F5;font-weight:600;color:#C53030;display:flex;justify-content:space-between;align-items:center;">
-            Project ${project.number}: ${project.name}
-            <span class="badge badge-danger">Difference: ${formatNumberInput(project.variance)}</span>
+          <div class="card-header" style="background:#FFF5F5;font-weight:600;color:#C53030;">
+            Budget mismatch detected in ${project.name}
+          </div>
+          <div class="card-body" style="color:#555;padding:14px 16px;">
+            <p style="margin-bottom:8px;">The Total Expense Budget entered in <strong>2.2 Project Details</strong> ($${formatNumberInput(project.totalExpenseBudget)}) does not match the Total Expense Budget by ${config.breakdownLabel} in <strong>${config.sectionTitle}</strong> ($${formatNumberInput(project.breakdownBudget)}).</p>
+            <p style="margin-bottom:12px;"><strong>Difference: $${formatNumberInput(Math.abs(project.variance))}</strong>. Please review and ensure both totals are equal before submitting.</p>
+            <a class="btn btn-sm btn-outline-danger" href="${config.pageUrl}">Go to ${config.sectionTitle} &rarr;</a>
           </div>
         </div>
       `).join("")}
@@ -726,8 +737,18 @@ function checkProjects(projects, values) {
                 </div>
             `).join("")}
 
-            ${renderVarianceSection('2.3 Budget by Focus Area', '2.3-breakdown-by-focus-area-au.html', projectsWithFocusAreaVariance)}
-            ${renderVarianceSection('2.4 Budget by Expense Category','2.4-breakdown-by-expense-category-au.html',projectsWithExpenseAreaVariance)}
+            ${renderVarianceSection({
+              heading: 'Budget by Focus Area mismatch:',
+              sectionTitle: '2.3 Budget by Focus Area',
+              breakdownLabel: 'Focus Area',
+              pageUrl: '2.3-breakdown-by-focus-area-au.html'
+            }, projectsWithFocusAreaVariance)}
+            ${renderVarianceSection({
+              heading: 'Budget by Expense Category mismatch:',
+              sectionTitle: '2.4 Budget by Expense Category',
+              breakdownLabel: 'Expense Category',
+              pageUrl: '2.4-breakdown-by-expense-category-au.html'
+            }, projectsWithExpenseAreaVariance)}
           </div>
             </div>
             <div class="modal-footer" style="border-top:1px solid #eee;">
