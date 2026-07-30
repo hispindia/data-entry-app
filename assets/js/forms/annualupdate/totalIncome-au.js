@@ -401,7 +401,7 @@ debugger;
       value="${formatNumberInput(totalIncome)}" class="form-control input-budget currency" disabled></td>
     </tr>
       <tr>
-      <td colspan="3" align="right" data-i18n="intro.actual_expense_EC">Total Actual Expenses (by Expense Categories)</td>
+      <td colspan="3" align="right" data-i18n="intro.actual_expense_EC">Total Budgeted Expenses (by Expense Categories)</td>
       <td> <input type="text" 
       id='actual-expenses'
       value="${formatNumberInput(totalExpenses)}" class="form-control input-budget currency" disabled></td>

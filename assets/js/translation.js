@@ -3785,7 +3785,7 @@ de productos (como se indica en la parte de abajo del formulario)
     },
     {
         id: "actual_expense_EC",
-        en: "Total Actual Expenses (by Expense Categories)",
+        en: "Total Budgeted Expenses (by Expense Categories)",
         sp: "Gastos reales",
         fr: "Dépenses réelles",
         ar: "النفقات الفعلية"
