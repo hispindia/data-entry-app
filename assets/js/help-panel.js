@@ -234,7 +234,7 @@
   };
   var GLOSSARY_FILE_SCOPE_CONFIG = {
    '1-ma-info-ar.html': 'annual-report:1',
-   '2-narrative-report-ar': 'annual-report:2',
+   '2-narrative-report-ar.html': 'annual-report:2',
    '3-add-new-project.html': 'annual-report:3',
    '4-budget-vs-actual-focus-area-wise.html': 'annual-report:4'
 };
@@ -304,17 +304,17 @@
   const GLOSSARY = [
     // ── Section 1: Organisational Info ──
     // 1.1 Membership Details
-    { name:'Membership Details', def:'Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.', scopes: ['annual-business-plan:1.1', 'annual-report:1', 'semi-annual-report:1'], sec:'sec1', tag:'1.1 Membership' },
-    { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Affiliate', def:'A national organisation that is a formal member or collaborative partner of IPPF. The affiliate is the entity submitting the report.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Country of Operation', def:'The country in which the Affiliate is legally registered and primarily operates.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Affiliate Code', def:'The short-form or abbreviated code assigned to the Affiliate for use within the IPPF reporting system (e.g. APPA (401)).', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Organisation Name (English)', def:'The official name of the Affiliate written in English, as registered with IPPF.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Organisation Name (Original Language)', def:'The official name of the Affiliate in the preferred IPPF language, if different from English.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Primary Point of Contact', def:'The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.', sec:'sec1', tag:'1.1 Membership' },
-    { name:'Contact Email', def:'The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.', sec:'sec1', tag:'1.1 Membership' },
+    { name:'Membership Details', def:'Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.', scopes: ['annual-business-plan:1.1', 'annual-report:1'], sec:'sec1', tag:'1.1 Membership' },
+    { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Affiliate', def:'A national organisation that is a formal member or collaborative partner of IPPF. The affiliate is the entity submitting the report.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Country of Operation', def:'The country in which the Affiliate is legally registered and primarily operates.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Affiliate Code', def:'The short-form or abbreviated code assigned to the Affiliate for use within the IPPF reporting system (e.g. APPA (401)).',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Organisation Name (English)', def:'The official name of the Affiliate written in English, as registered with IPPF.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Organisation Name (Original Language)', def:'The official name of the Affiliate in the preferred IPPF language, if different from English.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Primary Point of Contact', def:'The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
+    { name:'Contact Email', def:'The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.',scopes: ['annual-business-plan:1.1', 'annual-report:1'],  sec:'sec1', tag:'1.1 Membership' },
     // 1.2 Institutional Data
     { name:'Institutional Data', def:'Core organisational and governance information about the affiliate, including address, leadership contacts, board details, and key management roles used for oversight and follow-up.', scopes:['annual-report:1'], sec:'sec1', tag:'1.2 Institutional' },
     { name:'Contact Information', def:'Core organisational and governance information about the affiliate, including address, leadership contacts, board details, and key management roles used for oversight and follow-up.', scopes:['annual-report:1'], sec:'sec1', tag:'1.2 Institutional' },
@@ -372,7 +372,7 @@
     // 2.1 Context Shifts and Operational Environment
     { name:'Context Shifts and Operational Environment', def:'A narrative description of significant external events or developments during the reporting year that influenced the Affiliate\'s operating environment. This includes changes in the political or legal landscape, shifts in public opinion, opposition movements, or other country-level developments relevant to Sexual and Reproductive Health and Rights (SRHR).',scopes:['annual-report:2'], sec:'sec2', tag:'2.1 Context' },
     // 2.2 Results & Achievements
-    { name:'Results & Achievements', def:'A summary of the main outcomes and accomplishments of the Affiliate during the reporting period, organised by IPPF Strategic Pillar. Affiliates are requested to highlight how actual results compare with planned expectations and to emphasise work with youth and marginalised populations.',scopes:['semi-annual-report:1'], sec:'sec2', tag:'2.2 Results' },
+    { name:'Results & Achievements', def:'A summary of the main outcomes and accomplishments of the Affiliate during the reporting period, organised by IPPF Strategic Pillar. Affiliates are requested to highlight how actual results compare with planned expectations and to emphasise work with youth and marginalised populations.',scopes:['annual-report:2'], sec:'sec2', tag:'2.2 Results' },
     { name:'Strategic Pillar', def:'One of the core thematic areas of IPPF\'s organisational strategy. Current pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.',scopes:['annual-report:2'], sec:'sec2', tag:'2.2 Results' },
     { name:'Center Care on People', def:'IPPF Strategic Pillar focused on placing the needs, rights, and experiences of individuals \u2014 especially those most marginalised \u2014 at the heart of service delivery.',scopes:['annual-report:2'], sec:'sec2', tag:'2.2 Results' },
     { name:'Move the Sexuality Agenda', def:'IPPF Strategic Pillar centred on advocacy, rights-based approaches, and shifting norms to advance sexual rights and CSE.',scopes:['annual-report:2'], sec:'sec2', tag:'2.2 Results' },
@@ -479,91 +479,115 @@
     {name: 'Total Annual Budget', def: "The total planned budget for the project for the annual period, automatically calculated as the sum of Basic Project Budget and IPPF Core Funding Allocated. This field is read-only and system-calculated. Expressed in USD.", scopes:['annual-business-plan:2.2'], sec: "sec4", tag: '2.2 table'},
     {name: 'Estimated Likelihood', def: "The Affiliate's assessment of how likely the project is to proceed as planned: <p><strong>Confirmed</strong> — Fully approved and funded; will proceed as planned.</p><p><strong>Likely</strong> — Expected to proceed but funding or approval not yet fully secured.</p><p><strong>Unlikely</strong> — May not proceed due to uncertainty around funding or other factors.</p>", scopes:['annual-business-plan:2.2'], sec: "sec4", tag: '2.2 table'},
     {name: 'Comments (optional)', def: "A free-text field (up to 200 words) for any additional context about the project budget, funding status, or assumptions made in the financial planning.", scopes:['annual-business-plan:2.2'], sec: "sec4", tag: '2.2 table'},
+    //annual business plan - 2.3
+    { name:'Control Cells (Focus Area)', def:'A summary row at the top of the Budget vs Actuals section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.1 Control' },
+    { name:'Total Budgeted Expenses (by Focus Areas)', def:'The sum of all budgeted amounts across all focus areas and all projects in the reporting year, as originally planned in the Annual Business Plan. Serves as the baseline for variance analysis.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.1 Control' },
+    { name:'Total Actual Expenses (by Focus Areas)', def:'The sum of all actual expenditure recorded across all focus areas and all projects during the reporting year. Reflects real spending as opposed to planned spending.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.1 Control' },
+    { name:'Variance ($) \u2014 Focus Area', def:'The difference between Total Budgeted Expenses and Total Actual Expenses, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.1 Control' },
+    { name:'Total Spend (%) \u2014 Focus Area', def:'The proportion of the total budget that has been spent, expressed as a percentage. Calculated as (Total Actual Expenses \u00f7 Total Budgeted Expenses) \u00d7 100.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.1 Control' },
+    // 4.2 Budget vs Actuals Table
+    { name:'Focus Area', def:'One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Budget (Focus Area)', def:'The project budget broken down by the 11 IPPF Focus Areas. Fill in as many as are relevant. The total should match the project total in the other sections.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Actual Expenses (Focus Area)', def:'The amount spent within a specific focus area during the reporting year. Should reflect verified expenditure from the Affiliate\'s financial records.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.2 Table' },
+    { name:'Variance ($)', def:'The monetary difference between budgeted amount and actual expenses for a specific focus area. Calculated as Budget minus Actual Expenses. Positive = underspend; negative = overspend.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Total Spend (%)', def:'The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses \u00f7 Budget) \u00d7 100.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Project Total (Focus Area)', def:'The sum row at the bottom of each project\'s focus area table, showing total budgeted amount, total actual expenses, total variance, and overall spend percentage across all focus areas.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Remarks', def:'A free-text field (up to 200 words) at the end of each project\'s budget vs actuals table, where the Affiliate can provide explanations for significant variances, delays, reallocation of funds, or any other context relevant to the project\'s financial performance.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    // Reuse the Section 3 focus-area glossary terms here so they also appear under Section 4.
+    { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.2 Table' },
+    { name:'Care: Outreach, Mobile Clinic, Community-based Delivery', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Care: Other Services, Enabled or Referred', def:'SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Care: Social Marketing Services', def:'Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.2 Table' },
+    { name:'Care: Digital Health Intervention and Selfcare', def:'SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider, using tools or commodities independently.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Advocacy', def:'Activities aimed at influencing policies, laws, social norms, or public opinion in support of SRHR. Advocacy work may target government bodies, decision-makers, communities, or the wider public.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'CSE (Comprehensive Sexuality Education)', def:'A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based, equipping young people with the knowledge and skills to make informed decisions about their health and relationships.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'CSE Online, including Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Partnerships and Movements', def:'Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.',scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'4.2 Table' },
+    { name:'Knowledge, Research, Evidence, Innovation', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.',scopes:['annual-business-plan:2.3'], sec:'sec5',  tag:'4.2 Table' },
     // ── Section 5: Budget vs Actuals by Expense Category ──
     // 5.1 Control Cells
     { name:'Control Cells (Expense Category)', def:'A summary row at the top of the section that automatically aggregates total financial figures across all projects and expense categories for the entire Affiliate. System-calculated, providing an organisation-wide financial snapshot.', scopes:['annual-report:5'], sec:'sec5', tag:'5.1 Control' },
-    { name:'Control Cells (Focus Area)', def:"A summary row at the top of the budget section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.",scopes:['annual-business-plan:2.3'], sec:'sec5', tag:'5.1 Control' },
+    { name:'Control Cells (Focus Area)', def:"A summary row at the top of the budget section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.",scopes:['annual-report:5'], sec:'sec5', tag:'5.1 Control' },
     { name:'Total MA Budgeted Expense', def:'The total planned expenditure for the Affiliate across all projects and all expense categories for the reporting year. Drawn from the Annual Business Plan.',scopes:['annual-report:5'], sec:'sec5', tag:'5.1 Control' },
     { name:'Total MA Actuals by Expense Category', def:'The total actual expenditure recorded by the Affiliate across all projects and all expense categories during the reporting year. Represents verified real-world spending at the organisational level.', scopes:['annual-report:5'], sec:'sec5', tag:'5.1 Control' },
     { name:'Variance ($) \u2014 Expense Category', def:'The difference between Total MA Budgeted Expense and Total MA Actuals by Expense Category, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.',scopes:['annual-report:5'], sec:'sec5', tag:'5.1 Control' },
-    { name:'Total Spend (%) \u2014 Expense Category', def:'The overall budget utilisation rate for the Affiliate, calculated as (Total MA Actuals \u00f7 Total MA Budgeted Expense) \u00d7 100. Gives an organisation-wide view of financial performance against plan.', sec:'sec5', tag:'5.1 Control' },
+    { name:'Total Spend (%) \u2014 Expense Category', def:'The overall budget utilisation rate for the Affiliate, calculated as (Total MA Actuals \u00f7 Total MA Budgeted Expense) \u00d7 100. Gives an organisation-wide view of financial performance against plan.',scopes:['annual-report:5'], sec:'sec5', tag:'5.1 Control' },
     // 5.2 Budget vs Actuals Table by Expense Category
-    { name:'Expense Budget (including IPPF Core)', def:'The planned expenditure for a project, inclusive of any core funding received from IPPF.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Expense Budget (including IPPF Core)', def:'The planned expenditure for a project, inclusive of any core funding received from IPPF.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
     { name:'Actual (including IPPF Core)', def:'The actual expenditure recorded for a specific expense category within a project, inclusive of IPPF core funds.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
-    { name:'IPPF Core', def:'Strategic funding provided by IPPF to the Affiliate as core support. The IPPF Core grant is unrestricted and can be used across various projects. The amount is based on a transparent formula considering criteria mostly based on SRHR need.', sec:'sec5', tag:'5.2 Table' },
+    { name:'IPPF Core', def:'Strategic funding provided by IPPF to the Affiliate as core support. The IPPF Core grant is unrestricted and can be used across various projects. The amount is based on a transparent formula considering criteria mostly based on SRHR need.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
     { name:'Variance ($) \u2014 Expense', def:'The monetary difference between the budgeted amount and actual expenses for a specific expense category within a project. Positive = underspend; negative = overspend.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
     { name:'Total Spend (%) \u2014 Expense', def:'The percentage of the budgeted amount that has been spent for a specific expense category within a project. Calculated as (Actual \u00f7 Budget) \u00d7 100.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
-    { name:'Project Total (Expense Category)', def:'The sum row at the bottom of each project\'s expense category table, aggregating the budget, actuals, variance, and total spend percentage across all four expense categories.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Project Total (Expense Category)', def:'The sum row at the bottom of each project\'s expense category table, aggregating the budget, actuals, variance, and total spend percentage across all four expense categories.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
     { name:'Variance Explanation', def:'A free-text field (up to 200 words) provided at the end of each project\'s expense category table, where the Affiliate can explain the reasons behind significant budget variances.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
     // Reuse the expense-category glossary terms here so they also appear under Section 5.
-    { name:'Personnel', def:'Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.', sec:'sec5', tag:'5.2 Table' },
-    { name:'Direct Project Activities', def:'Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.', sec:'sec5', tag:'5.2 Table' },
-    { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.', sec:'sec5', tag:'5.2 Table' },
-    { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.', sec:'sec5', tag:'5.2 Table' },
+    { name:'Personnel', def:'Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
+    { name:'Direct Project Activities', def:'Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
+    { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
+    { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.',scopes:['annual-report:5'], sec:'sec5', tag:'5.2 Table' },
 
     // ── Section 6: Actual Income Details ──
     // 6.1 Income Summary
     { name:'Actual Income Details', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
     { name:'Total Budgeted Expenses', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).',scopes:['annual-business-plan:3.1'], sec:'sec6', tag:'6.1 Summary' },
-    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Actual Locally Generated Income, Actual International Income (Non-IPPF), and Actual IPPF Income.', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Restricted (Income)', def:'Funding that has been designated by the donor for a specific purpose, project, activity, or population. May only be used in accordance with the donor\'s conditions.', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Unrestricted (Income)', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities.', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Actual Locally Generated, Actual International Non-IPPF, and Actual IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Total Actual Expenses (by Expense Categories)', def:'The total verified expenditure of the Affiliate during the reporting year, drawn from the expense category data entered in Section 5. Displayed to enable direct comparison with total income.', sec:'sec6', tag:'6.1 Summary' },
-    { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. Positive = surplus; negative = deficit. System-calculated.', sec:'sec6', tag:'6.1 Summary' },
+    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Actual Locally Generated Income, Actual International Income (Non-IPPF), and Actual IPPF Income.',scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
+    { name:'Restricted (Income)', def:'Funding that has been designated by the donor for a specific purpose, project, activity, or population. May only be used in accordance with the donor\'s conditions.',scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
+    { name:'Unrestricted (Income)', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities.',scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
+    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Actual Locally Generated, Actual International Non-IPPF, and Actual IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.',scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
+    { name:'Total Actual Expenses (by Expense Categories)', def:'The total verified expenditure of the Affiliate during the reporting year, drawn from the expense category data entered in Section 5. Displayed to enable direct comparison with total income.',scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
+    { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. Positive = surplus; negative = deficit. System-calculated.',scopes:['annual-report:6'], sec:'sec6', tag:'6.1 Summary' },
     // 6.2 Actual Locally Generated Income
     { name:'Actual Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
     { name:'Budgeted Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.',scopes:['annual-business-plan:2.4'], sec:'sec5', tag:'6.2 Local' },
-    { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Local/National: Government', def:'Grants, subsidies, contracts, or other financial support received from local or national government bodies within the Affiliate\'s country of operation.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Local/National: Non-Government', def:'Donations, grants, or other income received from local or national non-governmental sources, such as national foundations, trusts, businesses, or private donors based within the country.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Membership Fees', def:'Income collected from individuals or organisations who pay a fee to become members of the Affiliate, often granting them certain rights, services, or participation in the organisation\'s governance.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Non-operational Income', def:'Income that does not arise from the MA\'s core programmatic or service delivery activities. This may include interest earned on bank accounts, investment returns, or other incidental financial gains.', sec:'sec6', tag:'6.2 Local' },
-    { name:'Other National Income', def:'Any locally generated income that does not fit into the other defined sub-categories. Used for miscellaneous or atypical domestic income sources.', sec:'sec6', tag:'6.2 Local' },
+    { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Local/National: Government', def:'Grants, subsidies, contracts, or other financial support received from local or national government bodies within the Affiliate\'s country of operation.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Local/National: Non-Government', def:'Donations, grants, or other income received from local or national non-governmental sources, such as national foundations, trusts, businesses, or private donors based within the country.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Membership Fees', def:'Income collected from individuals or organisations who pay a fee to become members of the Affiliate, often granting them certain rights, services, or participation in the organisation\'s governance.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Non-operational Income', def:'Income that does not arise from the MA\'s core programmatic or service delivery activities. This may include interest earned on bank accounts, investment returns, or other incidental financial gains.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
+    { name:'Other National Income', def:'Any locally generated income that does not fit into the other defined sub-categories. Used for miscellaneous or atypical domestic income sources.',scopes:['annual-report:6'], sec:'sec6', tag:'6.2 Local' },
     // 6.3 Actual International Income (Non-IPPF)
-    { name:'Actual International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.', sec:'sec6', tag:'6.3 International' },
-    { name:'Multilateral Agencies and Organisations', def:'International bodies funded and governed by multiple member states or governments, such as UN agencies (e.g. UNFPA, UNICEF, WHO) or the World Bank.', sec:'sec6', tag:'6.3 International' },
-    { name:'Foreign Governments', def:'Direct funding received from the government of a country other than the MA\'s own country of operation, typically through bilateral aid programs or government development agencies.', sec:'sec6', tag:'6.3 International' },
-    { name:'International Trusts and Foundations / NGOs', def:'Grants or donations received from internationally operating private foundations, charitable trusts, or non-governmental organisations headquartered outside the MA\'s country of operation.', sec:'sec6', tag:'6.3 International' },
-    { name:'Corporate / Business Sector', def:'Income received from private sector companies or business entities, whether as direct donations, sponsorships, corporate social responsibility (CSR) contributions, or contractual payments for services.', sec:'sec6', tag:'6.3 International' },
-    { name:'Other International Income', def:'Any international income not captured by the above sub-categories. Used for atypical or miscellaneous income from overseas sources.', sec:'sec6', tag:'6.3 International' },
+    { name:'Actual International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.',scopes:['annual-report:6'], sec:'sec6', tag:'6.3 International' },
+    { name:'Multilateral Agencies and Organisations', def:'International bodies funded and governed by multiple member states or governments, such as UN agencies (e.g. UNFPA, UNICEF, WHO) or the World Bank.',scopes:['annual-report:6'], sec:'sec6', tag:'6.3 International' },
+    { name:'Foreign Governments', def:'Direct funding received from the government of a country other than the MA\'s own country of operation, typically through bilateral aid programs or government development agencies.',scopes:['annual-report:6'], sec:'sec6', tag:'6.3 International' },
+    { name:'International Trusts and Foundations / NGOs', def:'Grants or donations received from internationally operating private foundations, charitable trusts, or non-governmental organisations headquartered outside the MA\'s country of operation.',scopes:['annual-report:6'], sec:'sec6', tag:'6.3 International' },
+    { name:'Corporate / Business Sector', def:'Income received from private sector companies or business entities, whether as direct donations, sponsorships, corporate social responsibility (CSR) contributions, or contractual payments for services.',scopes:['annual-report:6'], sec:'sec6', tag:'6.3 International' },
+    { name:'Other International Income', def:'Any international income not captured by the above sub-categories. Used for atypical or miscellaneous income from overseas sources.',scopes:['annual-report:6'], sec:'sec6', tag:'6.3 International' },
     // 6.4 Actual IPPF Income
-    { name:'Actual IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.', sec:'sec6', tag:'6.4 IPPF' },
-    { name:'IPPF Core Grant', def:'The strategic funding allocation provided by IPPF to the Affiliate without restrictions. This amount is auto-populated.', sec:'sec6', tag:'6.4 IPPF' },
-    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support. Please enter vouchers and opportunity grants as restricted income.', sec:'sec6', tag:'6.4 IPPF' },
+    { name:'Actual IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.',scopes:['annual-report:6'], sec:'sec6', tag:'6.4 IPPF' },
+    { name:'IPPF Core Grant', def:'The strategic funding allocation provided by IPPF to the Affiliate without restrictions. This amount is auto-populated.',scopes:['annual-report:6'], sec:'sec6', tag:'6.4 IPPF' },
+    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support. Please enter vouchers and opportunity grants as restricted income.',scopes:['annual-report:6'], sec:'sec6', tag:'6.4 IPPF' },
     // 6.5 Largest Contributor
-    { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.', sec:'sec6', tag:'6.5 Contributor' },
-    { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.', sec:'sec6', tag:'6.5 Contributor' },
+    { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.',scopes:['annual-report:6'], sec:'sec6', tag:'6.5 Contributor' },
+    { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.',scopes:['annual-report:6'], sec:'sec6', tag:'6.5 Contributor' },
 
     // ── Section 7: AOC Review Form ──
     // 7.0 AOC Review — General
-    { name:'Review Outcome', def:'The overall rating on completion of the review. This rating is used by AOCs to inform follow-up actions.', sec:'sec7', tag:'7.0 AOC Review' },
-    { name:'Flag Colour', def:'A visual indicator of the review outcome. A red \'flag\' indicates significant concerns requiring follow-up with the affiliate. A green flag indicates the report is approved with no follow-up actions required.', sec:'sec7', tag:'7.0 AOC Review' },
-    { name:'Comments', def:'A free-text field of up to 200 words available for each criterion, allowing the AOC to provide context, observations, or recommended actions, e.g. to raise concerns, point out partial compliance, or highlight areas requiring follow-up.', sec:'sec7', tag:'7.0 AOC Review' },
-    { name:'AOC Comments / Remedial Actions', def:'A dedicated field where the AOC records their overall observations on the affiliate\'s Annual Report and specifies any concrete remedial actions that the affiliate is required to take following the review. Remedial actions should be clearly stated, time-bound where possible, and directly linked to the specific deficiencies or risks identified during the review. This field forms part of the official AOC review record and is visible to the IPPF Secretariat.', sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'Review Outcome', def:'The overall rating on completion of the review. This rating is used by AOCs to inform follow-up actions.',scopes:['annual-report:7'], sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'Flag Colour', def:'A visual indicator of the review outcome. A red \'flag\' indicates significant concerns requiring follow-up with the affiliate. A green flag indicates the report is approved with no follow-up actions required.',scopes:['annual-report:7'], sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'Comments', def:'A free-text field of up to 200 words available for each criterion, allowing the AOC to provide context, observations, or recommended actions, e.g. to raise concerns, point out partial compliance, or highlight areas requiring follow-up.',scopes:['annual-report:7'], sec:'sec7', tag:'7.0 AOC Review' },
+    { name:'AOC Comments / Remedial Actions', def:'A dedicated field where the AOC records their overall observations on the affiliate\'s Annual Report and specifies any concrete remedial actions that the affiliate is required to take following the review. Remedial actions should be clearly stated, time-bound where possible, and directly linked to the specific deficiencies or risks identified during the review. This field forms part of the official AOC review record and is visible to the IPPF Secretariat.',scopes:['annual-report:7'], sec:'sec7', tag:'7.0 AOC Review' },
     // 7.1 General Requirements
-    { name:'General Requirements', def:'The first section of the AOC Review Form, covering quality criteria. AOCs must assess each criterion independently and provide comments where a "No" response is given or where additional context is needed. More than a certain number of "NOs" will give a Red Flag outcome of the review.', sec:'sec7', tag:'7.1 General Req.' },
-    { name:'Question 1. Was the report submitted on time?', def:'An assessment of whether the affiliate submitted its Annual Report by the official deadline set by IPPF for the reporting year. A "Yes" response confirms timely submission. A "No" response should be accompanied by a comment explaining the delay and any prior communication with the affiliate regarding the late submission.', sec:'sec7', tag:'7.1 General Req.' },
-    { name:'Question 2. Has the affiliate consulted with the AOC?', def:'An assessment of whether the affiliate engaged with the AOC during the preparation of the Annual Report, for example, by seeking guidance on data entry, narrative content, or financial reporting. A "Yes" response indicates active consultation. A "No" response signifies that there was no support requested or given before the reporting deadline.', sec:'sec7', tag:'7.1 General Req.' },
-    { name:'Question 3. Is the report done to the required standard?', def:'An assessment of whether the Annual Report meets the minimum quality standards, e.g. whether all required fields are completed, narrative responses are substantive and understandable, and financial data is coherent and consistent. A "No" response should specify which sections or fields fall below the required standard, or have been left blank.', sec:'sec7', tag:'7.1 General Req.' },
-    { name:'Question 4. Tangible results in at least two Strategic Pillars?', def:'An assessment of whether the affiliate has reported clear results under at least two of the four IPPF Strategic Pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.', sec:'sec7', tag:'7.1 General Req.' },
-    { name:'Question 5. Meaningful reflection on challenges and learnings?', def:'An assessment of whether the affiliate has provided substantive, reflective responses in the Challenges, Most Effective Strategies, Organisational Update, and Learning sub-sections of the Narrative Report. Responses should demonstrate genuine reflection. A "No" response should indicate which sub-sections lack sufficient depth.', sec:'sec7', tag:'7.1 General Req.' },
-    { name:'Question 6. Total expense Section 4 equals Section 5?', def:'A financial consistency check confirming that the total expenditure reported in Section 4 (Budget vs Actuals by Focus Area) matches the total reported in Section 5 (Budget vs Actuals by Expense Category). These two figures must be equal as they represent the same expenditure from different analytical dimensions. A "No" response indicates a discrepancy that requires the affiliate to review and correct its financial data before final submission.', sec:'sec7', tag:'7.1 General Req.' },
+    { name:'General Requirements', def:'The first section of the AOC Review Form, covering quality criteria. AOCs must assess each criterion independently and provide comments where a "No" response is given or where additional context is needed. More than a certain number of "NOs" will give a Red Flag outcome of the review.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 1. Was the report submitted on time?', def:'An assessment of whether the affiliate submitted its Annual Report by the official deadline set by IPPF for the reporting year. A "Yes" response confirms timely submission. A "No" response should be accompanied by a comment explaining the delay and any prior communication with the affiliate regarding the late submission.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 2. Has the affiliate consulted with the AOC?', def:'An assessment of whether the affiliate engaged with the AOC during the preparation of the Annual Report, for example, by seeking guidance on data entry, narrative content, or financial reporting. A "Yes" response indicates active consultation. A "No" response signifies that there was no support requested or given before the reporting deadline.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 3. Is the report done to the required standard?', def:'An assessment of whether the Annual Report meets the minimum quality standards, e.g. whether all required fields are completed, narrative responses are substantive and understandable, and financial data is coherent and consistent. A "No" response should specify which sections or fields fall below the required standard, or have been left blank.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 4. Tangible results in at least two Strategic Pillars?', def:'An assessment of whether the affiliate has reported clear results under at least two of the four IPPF Strategic Pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 5. Meaningful reflection on challenges and learnings?', def:'An assessment of whether the affiliate has provided substantive, reflective responses in the Challenges, Most Effective Strategies, Organisational Update, and Learning sub-sections of the Narrative Report. Responses should demonstrate genuine reflection. A "No" response should indicate which sub-sections lack sufficient depth.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
+    { name:'Question 6. Total expense Section 4 equals Section 5?', def:'A financial consistency check confirming that the total expenditure reported in Section 4 (Budget vs Actuals by Focus Area) matches the total reported in Section 5 (Budget vs Actuals by Expense Category). These two figures must be equal as they represent the same expenditure from different analytical dimensions. A "No" response indicates a discrepancy that requires the affiliate to review and correct its financial data before final submission.',scopes:['annual-report:7'], sec:'sec7', tag:'7.1 General Req.' },
     // 7.2 Critical Requirements
-    { name:'Critical Requirements', def:'The second section of the AOC Review Form, covering financial criteria that are considered essential for the integrity and validity of the Annual Report. Unlike General Requirements, the criteria in this section relate specifically to audit status, financial position, and budget variance explanations. Any negative answer in this section will raise a red flag in the final review.', sec:'sec7', tag:'7.2 Critical Req.' },
-    { name:'Question 7. Status of the audit report?', def:'An assessment of whether the affiliate\'s external audit report for the reporting year carries an unqualified or qualified opinion. This field uses "Unqualified / Qualified" rather than "Yes / No". This question applies only to Annual Reports; half-year reports do not have this requirement.', sec:'sec7', tag:'7.2 Critical Req.' },
-    { name:'Unqualified (Audit Opinion)', def:'An audit opinion issued by an external auditor indicating that the affiliate\'s financial statements are presented fairly and in accordance with the applicable accounting standards, with no material misstatements or scope limitations. An unqualified opinion is the expected and preferred outcome for a financially compliant affiliate.', sec:'sec7', tag:'7.2 Critical Req.' },
-    { name:'Qualified (Audit Opinion)', def:'An audit opinion issued by an external auditor indicating that the auditor has found material concerns such as limitations in scope, disagreements on accounting treatment, or significant internal control weaknesses that prevent a fully clean opinion. Affiliates with qualified audits require AOC follow-up and may be subject to additional IPPF oversight.', sec:'sec7', tag:'7.2 Critical Req.' },
-    { name:'Question 8. Negative variances sufficiently explained?', def:'An assessment of whether project-level negative variance (where actual expenditure exceeded the budgeted amount for a given expense category) is accompanied by a sufficient explanation. Negative variances are highlighted in red in the portal. A "Yes" response confirms that all red variances across all projects have been adequately explained. A "No" response should identify which specific projects or expense categories have unexplained overspends. This question applies only to Annual Reports.', sec:'sec7', tag:'7.2 Critical Req.' },
-    { name:'Question 9. Surplus or balanced budget?', def:'An assessment of whether the affiliate\'s Deficit / Surplus figure in Section 6 is positive or neutral \u2014 meaning total income is equal to or greater than total actual expenses. A "Yes" response (shown in green in the portal) confirms a financially healthy position. A "No" response indicates a deficit where expenditure has exceeded income, which is a critical finding requiring a comment explaining the cause and the affiliate\'s plan to address the shortfall. This question applies only to Annual Reports.', sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Critical Requirements', def:'The second section of the AOC Review Form, covering financial criteria that are considered essential for the integrity and validity of the Annual Report. Unlike General Requirements, the criteria in this section relate specifically to audit status, financial position, and budget variance explanations. Any negative answer in this section will raise a red flag in the final review.',scopes:['annual-report:7'], sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Question 7. Status of the audit report?', def:'An assessment of whether the affiliate\'s external audit report for the reporting year carries an unqualified or qualified opinion. This field uses "Unqualified / Qualified" rather than "Yes / No". This question applies only to Annual Reports; half-year reports do not have this requirement.',scopes:['annual-report:7'], sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Unqualified (Audit Opinion)', def:'An audit opinion issued by an external auditor indicating that the affiliate\'s financial statements are presented fairly and in accordance with the applicable accounting standards, with no material misstatements or scope limitations. An unqualified opinion is the expected and preferred outcome for a financially compliant affiliate.',scopes:['annual-report:7'], sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Qualified (Audit Opinion)', def:'An audit opinion issued by an external auditor indicating that the auditor has found material concerns such as limitations in scope, disagreements on accounting treatment, or significant internal control weaknesses that prevent a fully clean opinion. Affiliates with qualified audits require AOC follow-up and may be subject to additional IPPF oversight.',scopes:['annual-report:7'], sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Question 8. Negative variances sufficiently explained?', def:'An assessment of whether project-level negative variance (where actual expenditure exceeded the budgeted amount for a given expense category) is accompanied by a sufficient explanation. Negative variances are highlighted in red in the portal. A "Yes" response confirms that all red variances across all projects have been adequately explained. A "No" response should identify which specific projects or expense categories have unexplained overspends. This question applies only to Annual Reports.',scopes:['annual-report:7'], sec:'sec7', tag:'7.2 Critical Req.' },
+    { name:'Question 9. Surplus or balanced budget?', def:'An assessment of whether the affiliate\'s Deficit / Surplus figure in Section 6 is positive or neutral \u2014 meaning total income is equal to or greater than total actual expenses. A "Yes" response (shown in green in the portal) confirms a financially healthy position. A "No" response indicates a deficit where expenditure has exceeded income, which is a critical finding requiring a comment explaining the cause and the affiliate\'s plan to address the shortfall. This question applies only to Annual Reports.',scopes:['annual-report:7'], sec:'sec7', tag:'7.2 Critical Req.' },
     // 7.3 Serious Risks Identified
-    { name:'Serious Risks Identified', def:'A free-text section at the end of the AOC Review Form where the AOC formally documents any significant risks identified during the review of the affiliate\'s Annual Report that require IPPF Secretariat\'s attention. This section is distinct from the criteria-based sections above. It allows the AOC to flag concerns that may not be captured by the Yes/No criteria, such as governance failures, safeguarding concerns, financial sustainability issues, or programme delivery risks.', sec:'sec7', tag:'7.3 Serious Risks' },
-    { name:'Serious Risk Identified', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
-    { name:'Identified Risk', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.', sec:'sec7', tag:'7.3 Serious Risks' },
-    { name:'Comment (Serious Risks)', def:'A free-text field of up to 200 words paired with each Identified Risk, where the AOC provides a detailed description of the risk, its potential impact on the affiliate\'s operations and any recommended follow-up actions or support measures. This comment forms part of the formal AOC review record and may be used by IPPF Secretariat to determine next steps, including escalation, capacity support, or compliance review.', sec:'sec7', tag:'7.3 Serious Risks' },
-    {name: 'Donor Name', def: 'hi',  sec: 'sec6', page: '3.1', tag: '3.1 Total Income'},
+    { name:'Serious Risks Identified', def:'A free-text section at the end of the AOC Review Form where the AOC formally documents any significant risks identified during the review of the affiliate\'s Annual Report that require IPPF Secretariat\'s attention. This section is distinct from the criteria-based sections above. It allows the AOC to flag concerns that may not be captured by the Yes/No criteria, such as governance failures, safeguarding concerns, financial sustainability issues, or programme delivery risks.',scopes:['annual-report:7'], sec:'sec7', tag:'7.3 Serious Risks' },
+    { name:'Serious Risk Identified', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.',scopes:['annual-report:7'], sec:'sec7', tag:'7.3 Serious Risks' },
+    { name:'Identified Risk', def:'A concise title or label for a specific serious risk identified by the AOC during the review. This should name the nature of the risk clearly and briefly, for example, "Qualified Audit for Second Consecutive Year", "Board Governance Breakdown", or "Significant Unexplained Deficit". Each identified risk is paired with a Comment field where the AOC provides further detail. Additional risks can be added using the + button.',scopes:['annual-report:7'], sec:'sec7', tag:'7.3 Serious Risks' },
+    { name:'Comment (Serious Risks)', def:'A free-text field of up to 200 words paired with each Identified Risk, where the AOC provides a detailed description of the risk, its potential impact on the affiliate\'s operations and any recommended follow-up actions or support measures. This comment forms part of the formal AOC review record and may be used by IPPF Secretariat to determine next steps, including escalation, capacity support, or compliance review.',scopes:['annual-report:7'], sec:'sec7', tag:'7.3 Serious Risks' },
   ];
 
   // Accept the legacy singular `scope` key, but flag it so future edits use
@@ -878,6 +902,7 @@
   // ═══════════════════════════════
   function toggleHelpPanel() {
     var panel = document.getElementById('helpPanelOverlay');
+    console.log("toggleHelpPanel called");
     var btn = document.getElementById('helpToggleBtn');
     var backdrop = document.getElementById('helpPanelBackdrop');
     if (!panel) return;
@@ -894,40 +919,29 @@
     }
   }
 
-  // function autoSelectGlossarySection() {
-  //   var pageSection = detectCurrentSection();
-  //   if (!pageSection || pageSection === 'default') return;
-  //   // Extract the major section number (e.g. "1.2" -> "1", "3" -> "3")
-  //   var majorSec = pageSection.split('.')[0];
-  //   var secFilterValue = 'sec' + majorSec;
-  //   // Find the matching filter tag and click it
-  //   var tags = document.querySelectorAll('.g-filter-tag');
-  //   tags.forEach(function(tag) {
-  //     var onclick = tag.getAttribute('onclick') || '';
-  //     if (onclick.indexOf("'" + secFilterValue + "'") !== -1) {
-  //       filterBySection(secFilterValue, tag);
-  //     }
-  //   });
-  // }
-  function autoSelectGlossarySection() {
+   function autoSelectGlossarySection() {
     var pageSection = detectCurrentSection();
     if (!pageSection || pageSection === 'default') return;
 
-    currentGlossaryScope = getGlossaryScope();
+    var scope = getGlossaryScope();
+    var secFilter = getDefaultGlossarySection(scope, pageSection);
 
-    currentSecFilter = 'sec' + pageSection.split('.')[0];
+    // Keep the shared state in sync too (other callers like filterBySection
+    // and the search input still read these), but don't depend on it —
+    // pass the fresh values straight into filterGlossary below.
+    currentGlossaryScope = scope;
+    currentSecFilter = secFilter;
 
-    currentSecFilter = getDefaultGlossarySection(currentGlossaryScope, pageSection);
-
+    console.log('[IPPF-DEBUG] autoSelectGlossarySection:', { pageSection: pageSection, scope: scope, secFilter: secFilter });
 
     document.querySelectorAll('.g-filter-tag').forEach(function(tag) {
       var onclick = tag.getAttribute('onclick') || '';
-      tag.classList.toggle('active', onclick.indexOf("'" + currentSecFilter + "'") !== -1);
+      tag.classList.toggle('active', onclick.indexOf("'" + secFilter + "'") !== -1);
     });
 
     var searchInput = document.getElementById('helpGSearch');
-    filterGlossary(searchInput ? searchInput.value : '');
-  }
+    filterGlossary(searchInput ? searchInput.value : '', scope, secFilter);
+}
 
   // ═══════════════════════════════
   //  SECTION-SPECIFIC TAB CONFIGURATION
@@ -1014,7 +1028,7 @@
     if (el) el.classList.add('active');
   }
 
-  // ═══════════════════════════════
+  // ════════════════════════════ ═══
   //  INSTRUCTIONS — show field help
   // ═══════════════════════════════
   function showFieldHelp(name, definition, example, avoidList, section) {
@@ -1120,16 +1134,13 @@
   // Example: "annual-business-plan:1.1".
   function getGlossaryScope() {
     var file = window.location.pathname.split('/').pop().toLowerCase();
-    var page = detectCurrentSection();
 
     if (GLOSSARY_FILE_SCOPE_CONFIG[file]) {
       return GLOSSARY_FILE_SCOPE_CONFIG[file];
     }
 
-    if (file.indexOf('-au.html') !== -1) return 'annual-business-plan:' + page;
-    if (file.indexOf('-ar.html') !== -1) return 'annual-report:' + page;
-    if (file.indexOf('-sr.html') !== -1) return 'semi-annual-report:' + page;
-
+    if (file.indexOf('-au.html') !== -1) return 'annual-business-plan:' + detectCurrentSection();
+    if (file.indexOf('-ar.html') !== -1) return 'annual-report:' + detectCurrentSection();
     return 'default';
   }
 
@@ -1163,29 +1174,37 @@
     }).join('');
   }
 
-  function filterGlossary(query) {
+  function filterGlossary(query, scopeOverride, secOverride) {
     var s = (query || '').toLowerCase();
+
+    // Prefer explicitly passed values over the shared module-level state —
+    // this avoids bugs where currentGlossaryScope/currentSecFilter haven't
+    // been set yet (or were reset) by the time this runs.
+    var activeScope = (scopeOverride !== undefined) ? scopeOverride : currentGlossaryScope;
+    var activeSec = (secOverride !== undefined) ? secOverride : currentSecFilter;
+
     var filtered = GLOSSARY.filter(function(t) {
       var tName = getTranslatedName(t.name).toLowerCase();
       var tDef = getTranslatedDef(t.name, t.def).toLowerCase();
       var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || tName.indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1 || tDef.indexOf(s) !== -1;
-      var matchSec = !currentSecFilter || t.sec === currentSecFilter;
-      // Terms without a scopes array remain visible until they are mapped.
-      // Once a term has scopes, it is shown only on its listed module/page.
-      var matchScope = !currentGlossaryScope || !Array.isArray(t.scopes) ||
-        t.scopes.indexOf(currentGlossaryScope) !== -1;
+      var matchSec = !activeSec || t.sec === activeSec;
+      var matchScope = !activeScope || !Array.isArray(t.scopes) ||
+        t.scopes.indexOf(activeScope) !== -1;
       return matchQ && matchSec && matchScope;
     });
+
+    console.log('[IPPF-DEBUG] filterGlossary:', { query: query, activeScope: activeScope, activeSec: activeSec, resultsCount: filtered.length });
+
     renderGlossary(filtered);
-  }
+}
 
   function filterBySection(sec, el) {
     currentSecFilter = sec;
     document.querySelectorAll('.g-filter-tag').forEach(function(t) { t.classList.remove('active'); });
     if (el) el.classList.add('active');
     var searchInput = document.getElementById('helpGSearch');
-    filterGlossary(searchInput ? searchInput.value : '');
-  }
+    filterGlossary(searchInput ? searchInput.value : '', currentGlossaryScope, sec);
+}
 
   function openGlossaryTerm(termName) {
     switchTab('glossary', document.querySelector('.help-tab[data-tab="glossary"]'));
