@@ -17,7 +17,8 @@
   // Section 7 entries are omitted — they stay English-only
   var GLOSSARY_TRANS_MAP = {
     // Section 1
-    'Reporting Year': { nid:'reporting_year' },
+    // Section 1.
+    'Reporting Year': { nid:'reporting_year', tid:'reporting_year_definition' },
     'Reporting Periodicity': { nid:'reporting_periodicity' },
     'IPPF Region': { nid:'ippf_region', tid:'ippf_region' },
     'Affiliate': { nid:'organisation_name', tid:'affiliate' },
@@ -42,6 +43,7 @@
     'Key Documents': { nid:'key_document', tid:'key_documents_section' },
     'Key Annual Report Documents': { nid:'key_document', tid:'key_annual_report_documents_definition' },
     'Management Letter (Audit Report)': { nid:'key_management', tid:'management_letter_audit_report_definition' },
+    'Other 1': { nid:'other1', tid:'other1_definition' },
     // Section 2
     'Context Shifts and Operational Environment': { nid:'context_events', tid:'context_events' },
     'Results & Achievements': { nid:'results_achivements', tid:'results_and_achievements' },
@@ -183,11 +185,14 @@
 
   // Get translated DEFINITION for a glossary term (from glossary_translations.js)
   function getTranslatedDef(glossaryName, fallbackDef) {
+    debugger;
     var lang = _getCurrentLang();
     if (lang === 'en') return fallbackDef;
     var mapping = GLOSSARY_TRANS_MAP[glossaryName];
+    debugger;
     if (!mapping || !mapping.tid) return fallbackDef;
     if (typeof translation_mapping_ar_glossary === 'undefined') return fallbackDef;
+    debugger; 
     return _lookupInArray(translation_mapping_ar_glossary, mapping.tid, lang) || fallbackDef;
   }
 
@@ -360,6 +365,7 @@ const GLOSSARY = [
     {name: "Current Audit Report (PDF)", def: "The most recent external audit report for the Affiliate, submitted in PDF format, providing an independent assessment of its financial statements and compliance with accounting standards.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     {name: "Key Audit Reports Documents", def: "Any additional audit-related documents supporting the Affiliate's financial accountability. If the most recent audit report was already submitted in the 2024 Annual Reporting cycle, this field can be left unchanged.",sec: "sec1", scopes: ['annual-business-plan'], tag: "organization data"},
     {name: "Other 1", def: "An optional upload field for any additional supporting document relevant to the Affiliate's business plan submission that does not fall under the other defined document categories.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
+    {name: "Other 1", def: "An optional upload field for any additional supporting document relevant to the Affiliate's business plan submission that does not fall under the other defined document categories.", nid: 'other1', tid: 'other1_definition', scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     {name: "Other 2", def: "A second optional upload field for any further supporting document relevant to the Affiliate's business plan submission.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     
     // 1.3 Key Documents

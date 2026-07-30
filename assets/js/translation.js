@@ -2399,8 +2399,8 @@ const translation_mapping = [
         ar: 'سنة'
     },
     {
-        id: "budget",
-        en: "Budget",
+        id: "Total Budget",
+        en: "Total Budget",
         sp: "Presupuesto",
         fr: "Budget",
         ar: 'الميزانية'
@@ -3638,7 +3638,7 @@ de productos (como se indica en la parte de abajo del formulario)
     //Narrative Report
     {
         id: "context_events",
-        en: "1. Context Shifts and Operational Environment",
+        en: "Strategic Context and Results",
         sp: "1. Hechos del contexto",
         fr: "1. Événements contextuels",
         ar: 'سياق الاحداث '
