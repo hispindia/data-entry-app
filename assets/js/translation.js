@@ -820,9 +820,9 @@ const translation_mapping = [
     },
     {
         id: "key_audits",
-        en: "Please upload key audits reports documents (if the most recent audit reports was submitted in 2024 Annual Reporting, please leave it as is)",
-        sp: "Por favor, cargue los documentos clave de los informes de auditoría (si el informe de auditoría más reciente fue presentado en el Informe Anual 2024, déjelo tal como está).",
-        fr: "Veuillez télécharger les documents clés des rapports d’audit (si le rapport d’audit le plus récent a été soumis dans le rapport annuel 2024, laissez-le tel quel).",
+        en: "Please upload key audits reports documents (if the most recent audit reports was submitted in 2025 Annual Reporting, please leave it as is)",
+        sp: "Por favor, cargue los documentos clave de los informes de auditoría (si el informe de auditoría más reciente fue presentado en el Informe Anual 2025, déjelo tal como está).",
+        fr: "Veuillez télécharger les documents clés des rapports d’audit (si le rapport d’audit le plus récent a été soumis dans le rapport annuel 2025, laissez-le tel quel).",
         ar: "يرجى رفع مستندات تقارير التدقيق الرئيسية (إذا تم تقديم أحدث تقارير التدقيق ضمن التقرير السنوي لعام 2024، يُرجى تركها كما هي)."
     },
     {
@@ -993,7 +993,7 @@ const translation_mapping = [
     },
     {
         id: "challenges_opportunities",
-        en: "Challenges and opportunitties",
+        en: "Challenges and opportunities",
         sp: "Desafíos y oportunidades",
         fr: "Défis et opportunités",
         ar: 'التحديات والفرص '
@@ -2859,23 +2859,23 @@ const translation_mapping = [
     },
     {
         id: "locally-generated",
-        en: "Actual locally generated income",
+        en: "Locally generated income",
         sp: "Ingresos generados de forma local",
         fr: "Revenus générés localement",
         ar: "الدخل من مصادر محلية"
     },
     {
         id: "international-income",
-        en: "Actual international income (Non - IPPF)",
-        sp: "Ingresos internacionales (no procedentes de la IPPF)",
-        fr: "Revenus internationaux (hors IPPF)",
+        en: "International income (Non - IPPF)",
+        sp: "Internacionales (no procedentes de la IPPF)",
+        fr: "Internationaux (hors IPPF)",
         ar: "الدخل الدولي (من غير IPPF)"
     },
     {
         id: "ippf-income",
-        en: "Actual IPPF income",
-        sp: "Ingresos de la IPPF",
-        fr: "Revenus de l’IPPF",
+        en: "IPPF income",
+        sp: "de la IPPF",
+        fr: "de l’IPPF",
         ar: "دخل اتحاد IPPF"
     },
     {

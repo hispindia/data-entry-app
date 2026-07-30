@@ -301,12 +301,11 @@
   // ═══════════════════════════════
   //  GLOSSARY DATA — from BPR v1.6
   // ═══════════════════════════════
- const GLOSSARY = [
+const GLOSSARY = [
     // ── Section 1: Organisational Info ──
     // 1.1 Membership Details
     { name:'Membership Details', def:'Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.', scopes: ['annual-business-plan', 'annual-report'], sec:'sec1', tag:'1.1 Membership' },
     { name:'Reporting Year', def:'The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.',scopes: ['annual-business-plan', 'annual-report'],  sec:'sec1', tag:'1.1 Membership' },
-    { name:'Reporting Periodicity', def:'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.',scopes: ['annual-business-plan', 'annual-report'],  sec:'sec1', tag:'1.1 Membership' },
     { name:'IPPF Region', def:'The IPPF region in which the Affiliate is located (e.g. ACR \u2014 Americas and Caribbean Region).',scopes: ['annual-business-plan', 'annual-report'],  sec:'sec1', tag:'1.1 Membership' },
     { name:'Affiliate', def:'A national organisation that is a formal member or collaborative partner of IPPF. The affiliate is the entity submitting the report.',scopes: ['annual-business-plan', 'annual-report'],  sec:'sec1', tag:'1.1 Membership' },
     { name:'Country of Operation', def:'The country in which the Affiliate is legally registered and primarily operates.',scopes: ['annual-business-plan', 'annual-report'],  sec:'sec1', tag:'1.1 Membership' },
@@ -479,20 +478,12 @@
     {name: 'Total Annual Budget', def: "The total planned budget for the project for the annual period, automatically calculated as the sum of Basic Project Budget and IPPF Core Funding Allocated. This field is read-only and system-calculated. Expressed in USD.", scopes: ['annual-business-plan'], sec: "sec4", tag: '2.2 table'},
     {name: 'Estimated Likelihood', def: "The Affiliate's assessment of how likely the project is to proceed as planned: <p><strong>Confirmed</strong> — Fully approved and funded; will proceed as planned.</p><p><strong>Likely</strong> — Expected to proceed but funding or approval not yet fully secured.</p><p><strong>Unlikely</strong> — May not proceed due to uncertainty around funding or other factors.</p>", scopes: ['annual-business-plan'], sec: "sec4", tag: '2.2 table'},
     {name: 'Comments (optional)', def: "A free-text field (up to 200 words) for any additional context about the project budget, funding status, or assumptions made in the financial planning.", scopes: ['annual-business-plan'], sec: "sec4", tag: '2.2 table'},
-    //annual business plan - 2.3
-    { name:'Control Cells (Focus Area)', def:'A summary row at the top of the Budget vs Actuals section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.',scopes: ['annual-business-plan'], sec:'sec5', tag:'4.1 Control' },
-    { name:'Total Budgeted Expenses (by Focus Areas)', def:'The sum of all budgeted amounts across all focus areas and all projects in the reporting year, as originally planned in the Annual Business Plan. Serves as the baseline for variance analysis.',scopes: ['annual-business-plan'], sec:'sec5', tag:'4.1 Control' },
-    { name:'Total Actual Expenses (by Focus Areas)', def:'The sum of all actual expenditure recorded across all focus areas and all projects during the reporting year. Reflects real spending as opposed to planned spending.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.1 Control' },
-    { name:'Variance ($) \u2014 Focus Area', def:'The difference between Total Budgeted Expenses and Total Actual Expenses, expressed in monetary value. Positive = underspend; negative = overspend. System-calculated.',scopes: ['annual-business-plan'], sec:'sec5', tag:'4.1 Control' },
-    { name:'Total Spend (%) \u2014 Focus Area', def:'The proportion of the total budget that has been spent, expressed as a percentage. Calculated as (Total Actual Expenses \u00f7 Total Budgeted Expenses) \u00d7 100.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.1 Control' },
+    //annual business plan - 2.3 - section - 5
+    { name:'Control Cells (Focus Area)', def:'A summary row at the top of the Budget vs Actuals section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.',scopes: ['annual-business-plan'], sec:'sec5', tag:'5.1 Control' },
     // 4.2 Budget vs Actuals Table
-    { name:'Focus Area', def:'One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
-    { name:'Budget (Focus Area)', def:'The project budget broken down by the 11 IPPF Focus Areas. Fill in as many as are relevant. The total should match the project total in the other sections.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
-    { name:'Actual Expenses (Focus Area)', def:'The amount spent within a specific focus area during the reporting year. Should reflect verified expenditure from the Affiliate\'s financial records.',scopes: ['annual-business-plan'], sec:'sec5', tag:'4.2 Table' },
-    { name:'Variance ($)', def:'The monetary difference between budgeted amount and actual expenses for a specific focus area. Calculated as Budget minus Actual Expenses. Positive = underspend; negative = overspend.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
-    { name:'Total Spend (%)', def:'The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses \u00f7 Budget) \u00d7 100.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
+    { name:'Focus Area', def:'One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'5.2 Table' },
+    { name:'Budget (Focus Area)', def:'The project budget broken down by the 11 IPPF Focus Areas. Fill in as many as are relevant. The total should match the project total in the other sections.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'5.2 Table' },
     { name:'Project Total (Focus Area)', def:'The sum row at the bottom of each project\'s focus area table, showing total budgeted amount, total actual expenses, total variance, and overall spend percentage across all focus areas.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
-    { name:'Remarks', def:'A free-text field (up to 200 words) at the end of each project\'s budget vs actuals table, where the Affiliate can provide explanations for significant variances, delays, reallocation of funds, or any other context relevant to the project\'s financial performance.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
     // Reuse the Section 3 focus-area glossary terms here so they also appear under Section 4.
     { name:'Care: Static Clinic', def:'Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.',scopes: ['annual-business-plan'], sec:'sec5', tag:'4.2 Table' },
     { name:'Care: Outreach, Mobile Clinic, Community-based Delivery', def:'Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
@@ -504,6 +495,7 @@
     { name:'CSE Online, including Social Media', def:'Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
     { name:'Partnerships and Movements', def:'Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.',scopes: ['annual-business-plan'], sec:'sec5', tag:'4.2 Table' },
     { name:'Knowledge, Research, Evidence, Innovation', def:'Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.',scopes: ['annual-business-plan'], sec:'sec5',  tag:'4.2 Table' },
+
     // ── Section 5: Budget vs Actuals by Expense Category ──
     // 5.1 Control Cells
     { name:'Control Cells (Expense Category)', def:'A summary row at the top of the section that automatically aggregates total financial figures across all projects and expense categories for the entire Affiliate. System-calculated, providing an organisation-wide financial snapshot.', scopes: ['annual-report'], sec:'sec5', tag:'5.1 Control' },
@@ -526,6 +518,14 @@
     { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.',scopes: ['annual-report'], sec:'sec5', tag:'5.2 Table' },
     { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.',scopes: ['annual-report'], sec:'sec5', tag:'5.2 Table' },
 
+    //----------- sec 6 for annual business plan -----------------
+    { name:'Control Cells (Expense Category)', def:'A summary row at the top of the section that automatically aggregates total financial figures across all projects and expense categories for the entire Affiliate. System-calculated, providing an organisation-wide financial snapshot.', scopes: ['annual-business-plan'], sec:'sec6', tag:'5.1 Control' },
+    { name:'IPPF Core', def:'Strategic funding provided by IPPF to the Affiliate as core support. The IPPF Core grant is unrestricted and can be used across various projects. The amount is based on a transparent formula considering criteria mostly based on SRHR need.', scopes: ['annual-business-plan'], sec:'sec6', tag:'5.2 Table' },
+    { name:'Personnel', def:'Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.', scopes: ['annual-business-plan'], sec:'sec6', tag:'5.2 Table' },
+    { name:'Direct Project Activities', def:'Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.', scopes: ['annual-business-plan'], sec:'sec6', tag:'5.2 Table' },
+    { name:'Commodities', def:'The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.', scopes: ['annual-business-plan'], sec:'sec6', tag:'5.2 Table' },
+    { name:'Indirect / Support Costs', def:'Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.', scopes: ['annual-business-plan'], sec:'sec6', tag:'5.2 Table' },
+        
     // ── Section 6: Actual Income Details ──
     // 6.1 Income Summary
     { name:'Actual Income Details', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', scopes: ['annual-report'], sec:'sec6', tag:'6.1 Summary' },
@@ -538,7 +538,7 @@
     { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. Positive = surplus; negative = deficit. System-calculated.',scopes: ['annual-report'], sec:'sec6', tag:'6.1 Summary' },
     // 6.2 Actual Locally Generated Income
     { name:'Actual Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.',scopes: ['annual-report'], sec:'sec6', tag:'6.2 Local' },
-    { name:'Budgeted Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.',scopes: ['annual-business-plan'], sec:'sec5', tag:'6.2 Local' },
+    { name:'Budgeted Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.',scopes: ['annual-business-plan'], sec:'sec6', tag:'6.2 Local' },
     { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.',scopes: ['annual-report'], sec:'sec6', tag:'6.2 Local' },
     { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.',scopes: ['annual-report'], sec:'sec6', tag:'6.2 Local' },
     { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.',scopes: ['annual-report'], sec:'sec6', tag:'6.2 Local' },
@@ -561,6 +561,41 @@
     // 6.5 Largest Contributor
     { name:'Largest Contributor', def:'The single organisation \u2014 whether a government, trust, foundation, IPPF, or other donor \u2014 that provided the greatest amount of income to the Affiliate during the reporting year.',scopes: ['annual-report'], sec:'sec6', tag:'6.5 Contributor' },
     { name:'How Much Income Did They Provide?', def:'The total monetary value of funding received from the largest contributing organisation during the reporting year, expressed in the reporting currency.',scopes: ['annual-report'], sec:'sec6', tag:'6.5 Contributor' },
+
+    // sec 7 annual busines plan 
+    { name:'Income Details', def:'A comprehensive record of all budgeted income  by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+    { name:'Total Budgeted Expenses', def:'A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+    { name:'Income Category', def:'The top-level classification of income sources. The three income categories are: Locally Generated Income, International Income (Non-IPPF), and IPPF Income.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+    { name:'Restricted (Income)', def:'Funding that has been designated by the donor for a specific purpose, project, activity, or population. May only be used in accordance with the donor\'s conditions.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+    { name:'Unrestricted (Income)', def:'Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+    { name:'Total Income', def:'The sum of all income received by the Affiliate across all income categories (Actual Locally Generated, Actual International Non-IPPF, and Actual IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+    { name:'Deficit / Surplus', def:'The net financial position of the Affiliate for the reporting year, calculated as Total Expense Budget minus Total Budgeted Income. Positive = surplus; negative = deficit. System-calculated.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.1 Summary' },
+
+    { name:'Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Budgeted Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Commodity Sales', def:'Revenue generated from the sale of health products/commodities, including contraceptives, other sexual and reproductive health supplies, and any non-SRH products sold by the Affiliate.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Client / Patient Fees', def:'Income collected directly from clients or patients in exchange for health services provided by the Affiliate. This may be full fees, co-payments, or nominal charges.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Training, Education, Professional Services', def:'Income earned by the Affiliate through delivering training programs, educational services, professional consultancy, or by renting out facilities or equipment to external parties.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Local/National: Government', def:'Grants, subsidies, contracts, or other financial support received from local or national government bodies within the Affiliate\'s country of operation.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Local/National: Non-Government', def:'Donations, grants, or other income received from local or national non-governmental sources, such as national foundations, trusts, businesses, or private donors based within the country.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.',scopes: ['annual-business-plan'], sec:'sec7', tag:'6.4 IPPF' },
+    { name:'Membership Fees', def:'Income collected from individuals or organisations who pay a fee to become members of the Affiliate, often granting them certain rights, services, or participation in the organisation\'s governance.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Non-operational Income', def:'Income that does not arise from the MA\'s core programmatic or service delivery activities. This may include interest earned on bank accounts, investment returns, or other incidental financial gains.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Other National Income', def:'Any locally generated income that does not fit into the other defined sub-categories. Used for miscellaneous or atypical domestic income sources.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+
+    { name:'International Income (Non-IPPF)', def:'All income received from international donors and sources outside the MA\'s country of operation, excluding funds channeled through IPPF. Includes bilateral and multilateral donors, foreign governments, international NGOs, and global foundations.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.3 International' },
+    { name:'Multilateral Agencies and Organisations', def:'International bodies funded and governed by multiple member states or governments, such as UN agencies (e.g. UNFPA, UNICEF, WHO) or the World Bank.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.3 International' },
+    { name:'Foreign Governments', def:'Direct funding received from the government of a country other than the MA\'s own country of operation, typically through bilateral aid programs or government development agencies.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.3 International' },
+    { name:'International Trusts and Foundations / NGOs', def:'Grants or donations received from internationally operating private foundations, charitable trusts, or non-governmental organisations headquartered outside the MA\'s country of operation.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.3 International' },
+    { name:'Corporate / Business Sector', def:'Income received from private sector companies or business entities, whether as direct donations, sponsorships, corporate social responsibility (CSR) contributions, or contractual payments for services.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.3 International' },
+    { name:'Other International Income', def:'Any international income not captured by the above sub-categories. Used for atypical or miscellaneous income from overseas sources.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.3 International' },
+
+    { name:'IPPF Income', def:'All funds received directly from IPPF, whether as a core grant, Stream 2 or 3 grants, or through restricted grants. Captures the full extent of IPPF\'s financial contribution to the MA in the reporting year.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.4 IPPF' },
+    { name:'IPPF Core Grant', def:'The strategic funding allocation provided by IPPF to the Affiliate without restrictions. This amount is auto-populated.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.4 IPPF' },
+    { name:'Locally Generated Income', def:'All income earned or raised by the Affiliate within its own country of operation, from sources other than IPPF or international donors. Includes service fees, commodity sales, government grants, and other domestically sourced revenue.',scopes: ['annual-business-plan'], sec:'sec7', tag:'6.2 Local' },
+    { name:'Other IPPF Grant', def:'Any additional funding received from IPPF beyond the Core Grant. This may include grants for specific programs, emergency funding, innovation funds, or other targeted financial support. Please enter vouchers and opportunity grants as restricted income.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.4 IPPF' },
+
+    { name:'Largest Contributor', def:'The single organisation — whether a government, trust, foundation, IPPF, or other donor — that provided the greatest amount of income to the Affiliate during the reporting year.', scopes: ['annual-business-plan'], sec:'sec7', tag:'6.5 Contributor' },
 
     // ── Section 7: AOC Review Form ──
     // 7.0 AOC Review — General
@@ -1188,9 +1223,9 @@
       var tName = getTranslatedName(t.name).toLowerCase();
       var tDef = getTranslatedDef(t.name, t.def).toLowerCase();
       var matchQ = !query || t.name.toLowerCase().indexOf(s) !== -1 || tName.indexOf(s) !== -1 || t.def.toLowerCase().indexOf(s) !== -1 || tDef.indexOf(s) !== -1;
-      var matchSec = !activeSec || t.sec === activeSec;
-      var matchScope = t?.scopes?.includes(activeScope)
-      return matchQ && !!matchSec && !!matchScope;
+      var matchSec =  t.sec === activeSec;
+      var matchScope = t?.scopes?.find(scope => scope == activeScope)
+      return matchQ && matchSec && matchScope;
     });
 
     console.log('[IPPF-DEBUG] filterGlossary:', { query: query, activeScope: activeScope, activeSec: activeSec, resultsCount: filtered.length });
@@ -1226,6 +1261,11 @@
   (function buildLookup() {
     // Map of common label text -> glossary term name (for fuzzy matching)
     var labelAliases = {
+      'year': 'Reporting Year',
+      'year of reporting': 'Reporting Year',
+      'year of business plan update': 'Reporting Year',
+      'reporting period': 'Reporting Periodicity',
+      'other 1': 'Other 1',
       'reporting year': 'Reporting Year',
       'reporting periodicity': 'Reporting Periodicity',
       'ippf region': 'IPPF Region',
