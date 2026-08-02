@@ -32,22 +32,56 @@
     'Institutional Data': { nid:'institutional_data', tid:'institutional_data_section' },
     'Address': { nid:'physical_address', tid:'address_definition' },
     'Key Contacts': { nid:'key_contacts', tid:'key_contacts_definition' },
-    'Executive Director / CEO': { nid:'executive_director', tid:'executive_director_definition' },
+    'Vice-Chair / Vice-President (or equivalent)': {nid: 'vice_chair', tid:'vice_chair_definition'},
+    'Secretary (or equivalent)': {nid_g: 'secretary', tid:'secretary_definition'},
+    'Executive Director / CEO (or equivalent)': { nid:'executive_director', tid:'executive_director_definition' },
     'Board Chair / President': { nid:'board_chair', tid:'board_chair_definition' },
     'Officer of the Board': { nid:'officer_of_the_board1', tid:'officer_of_the_board_definition' },
     'Treasurer': { nid:'treasurer_equivalent', tid:'treasurer' },
+    'Treasurer (or equivalent)': { nid:'treasurer_equivalent', tid:'treasurer_equivalent_definition' },  
     'Youth Board Member': { nid:'youth_board_member', tid:'youth_board_member_definition' },
     'Programmatic Lead(s)': { nid:'programmatic_lead', tid:'programmatic_lead_definition' },
     'Finance Lead': { nid:'finance_lead', tid:'finance_lead_definition' },
+    'Director of Programmes (or equivalent)': { nid:'director_programmes', tid:'director_programmes_definition' },
     'Director of Finance': { nid:'director_finance', tid:'director_of_finance' },
+    'Director of Finance (or equivalent)': { nid_g:'director_finance_equivalent', tid:'director_finance_equivalent_definition' },
+    'Director of Resource Mobilisation (or equivalent)': { nid:'director_resource_mobilisation', tid:'director_resource_mobilisation_definition' },
     'Key Documents': { nid:'key_document', tid:'key_documents_section' },
     'Key Annual Report Documents': { nid:'key_document', tid:'key_annual_report_documents_definition' },
     'Management Letter (Audit Report)': { nid:'key_management', tid:'management_letter_audit_report_definition' },
-    'Other 1': { nid:'other1', tid:'other1_definition' },
+    'Other 1': { nid:'other1', tid:'def_other_1' },
+    'Primary Focus Area': { nid_g:'primary_focus_area', tid:'def_primary_focus_area' },
+    'Secondary Focus Area': { nid_g:'secondary_focus_area', tid:'def_secondary_focus_area' },
+    'Youth Group or Networks': { nid_g:'youth_group_or_networks', tid:'def_youth_group_or_networks' },
+    'Advocacy Priority 1': { nid_g:'advocacy_priority_1', tid:'def_advocacy_priority_1'},
+    'Advocacy Priority 2': { nid_g:'advocacy_priority_2', tid:'def_advocacy_priority_2'},
+    'Branches': { nid_g:'branches', tid:'def_branches' },
+    'Key Documents': { nid_g:'key_documents', tid:'def_key_documents' },
+    'Key Strategy Documents': { nid_g:'key_strategy_documents', tid:'def_key_strategy_documents' },
+    'Current Audit Report (PDF)': { nid_g:'current_audit_report_pdf', tid:'def_current_audit_report_pdf' },
+    'Key Audit Reports Documents': { nid_g:'key_audit_reports_documents', tid:'def_key_audit_reports_documents' },
+    'Other 2': { nid_g:'other_2', tid:'def_other_2' }, 
+    
     // Section 2
     'Context Shifts and Operational Environment': { nid:'context_events', tid:'context_events' },
     'Results & Achievements': { nid:'results_achivements', tid:'results_and_achievements' },
     'Strategic Pillar': { nid_g:'name_strategic_pillar', tid:'def_strategic_pillar' },
+    'Strategic Period': { nid:'strategic_period', tid:'strategic_period_definition'},
+    'Total Number of Fixed Staff': { nid_g:'total_number_fixed_staff', tid:'def_total_number_fixes_staff'},
+    'Total Number of Volunteers (excluding governance)': { nid_g:'total_number_volunteers', tid:'def_total_number_volunteers'},
+    'Type of Organisation': { nid_g:'type_of_org', tid:'def_type_of_org'},
+    'Q1 — Country Context': { nid_g:'q1_country_context', tid:'def_q1_country_context'},
+    'Q2 — Strategy': { nid_g:'q2_strategy', tid:'def_q2_strategy'},
+    'Q3 — Landscape of Other Actors': { nid_g:'q3_landscape_of_other_actors', tid:'def_q3_landscape_of_other_actors'},
+    'Q4 — External Risks and Risk Mitigation': { nid_g:'q4_external_risks_and_risk_mitigation', tid:'def_q4_external_risks_and_risk_mitigation'},
+    'Q5 — SMART Outcomes': { nid_g:'q5_smart_outcomes', tid:'def_q5_smart_outcomest'},
+    'Institutional': { nid_g:'institutional', tid:'def_institutional'},
+    'Operational': { nid_g:'operational', tid:'def_operational'},
+    'Programmatic': { nid_g:'programmatic', tid:'def_programmatic'},
+    'Financial': { nid_g:'financial', tid:'def_financial'},
+    'Sustainability Challenges': { nid_g:'sustainability_challenges', tid:'def_sustainability_challenges'},
+    'Main Technical Assistance / Capacity': { nid_g:'main_technical_assistance_capacity', tid:'def_main_technical_assistance_capacity'},
+    'Organisational Areas of Expertise / Capacity': { nid_g:'organisational_areas_of_expertise_capacity', tid:'def_organisational_areas_of_expertise_capacity'},
     'Center Care on People': { nid:'center_people', tid:'centre_care_on_people' },
     'Move the Sexuality Agenda': { nid:'move_sexuality_agenda', tid:'move_the_sexuality_agenda' },
     'Solidarity for Change': { nid:'solidarity', tid:'solidarity_for_change' },
@@ -59,6 +93,12 @@
     'Good Practice': { nid_g:'name_good_practice', tid:'good_practice' },
     'Organisational Update': { nid:'organisational_update', tid:'organisational_update' },
     'Learning': { nid:'learning', tid:'learning' },
+    'Narrative Plan': { nid:'narrative_plan', tid:'def_narrative_plan'},
+    'Country Context and Theory of Change': { nid_g:'country_context_and_theory_of_change', tid:'def_country_context_and_theory_of_change'},
+    'Organisational Status': { nid:'organisational_status', tid:'def_organisational_status'},
+    'Technical Assistance': { nid_g:'technical_assistance', tid:'def_technical_assistance'},
+
+
     // Section 3
     'New Project': { nid:'new_project', tid:'new_project' },
     'Add new project': { nid:'new_project', tid:'new_project' },
@@ -87,10 +127,23 @@
     'Knowledge, Research, Evidence, Innovation': { nid_g:'name_knowledge_research', tid:'knowledge_research_evidence_innovation_and_publishing' },
     'Internal MA Infrastructure': { nid_g:'name_internal_ma_infrastructure', tid:'internal_ma_infrastructure_organisational_development' },
     'Project by Expense Category': { nid:'project_expense_category', tid:'project_by_expense_category' },
-    'Personnel': { nid:'personnel', tid:'personnel' },
+    'Personnel': { nid:'personnel', tid:'def_personnel' },
     'Direct Project Activities': { nid:'activities', tid:'direct_project_activities' },
     'Commodities': { nid:'commodities', tid:'commodities' },
-    'Indirect / Support Costs': { nid:'indirect', tid:'indirect_support_costs' },
+    'New Project': { nid_g:'new_project_2.1', tid:'def_new_project' },
+    'Project Name': { nid:'project_name', tid:'def_project_name' },
+    'Start Date': { nid_g:'start_date_2.1', tid:'def_start_date' },
+    'End Date': { nid_g:'end_date_2.1', tid:'def_end_date' },
+    'Project Theme': { nid:'project_theme', tid:'def_project_theme' },
+    'Project Donor': { nid_g:'project_donor_2.1', tid:'def_project_donor' },
+    'Funding Type': { nid:'funding_type_2.1', tid:'def_funding_type' },
+    'Restricted': { nid_g:'restricted_2.1', tid:'def_restricted' },
+    'Unrestricted': { nid_g:'unrestricted_2.1', tid:'def_unrestricted' },
+    'Total Contract Value': { nid:'total_contract_value', tid:'def_total_contract_value' },
+    'Total Project Lifetime Value': { nid_g:'total_project_lifetime_value', tid:'def_total_project_lifetime_value' },
+    'Annual Project Income': { nid_g:'annual_project_income_name_2.1', tid:'def_annual_project_income' },
+    'Description of Project': { nid_g:'description_of_project_name_2.1', tid:'def_description_of_project' },
+
     // Section 4
     'Control Cells (Focus Area)': { nid:'control_cells', tid:'control_cells' },
     'Total Budgeted Expenses (by Focus Areas)': { nid:'total_budget_area', tid:'total_budgeted_expenses_by_focus_areas' },
@@ -103,7 +156,12 @@
     'Variance ($)': { nid:'variation', tid:'variance' },
     'Total Spend (%)': { nid:'total_spend', tid:'total_spend' },
     'Project Total (Focus Area)': { nid:'project_total', tid:'project_total' },
-    'Remarks': { nid:'remarks', tid:'remarks' },
+    'Basic Project Budget': { nid:'basic_project_budget', tid:'def_basic_project_budget' },
+    'IPPF Core Funding Allocated': { nid_g:'ippf_core_funding_allocated', tid:'def_ippf_core_funding_allocated' },
+    'Total Annual Budget': { nid_g:'total_annual_budget', tid:'def_total_annual_budget' },
+    'Estimated Likelihood': { nid:'estimated_likelihood', tid:'def_estimated_likelihood' },
+    'Comments (optional)': { nid:'comments', tid:'def_comments' },
+    
     // Section 5
     'Control Cells (Expense Category)': { nid:'control_cells', tid:'control_cells_sec5' },
     'Total MA Budgeted Expense': { nid:'total_ma_budget_expense', tid:'total_ma_budgeted_expense' },
@@ -117,6 +175,11 @@
     'Total Spend (%) \u2014 Expense': { nid:'total_spend', tid:'total_spend_sec5' },
     'Project Total (Expense Category)': { nid:'project_total', tid:'project_total_sec5' },
     'Variance Explanation': { nid:'variance_explanation', tid:'variance_explanation' },
+    'Control Cells (Focus Area)': { nid_g:'control_cell_focus_area', tid:'def_control_cell_focus_area' },
+    'Focus Area': { nid:'focus_area', tid:'def_focus_area' },
+    'Budget (Focus Area)': { nid_g:'budget_focus_area_2.3', tid:'def_budget_focus_area' },
+    'Project Total (Focus Area)': { nid_g:'project_total(focus area)', tid:'def_project_total(focus area)' },
+
     // Section 6
     'Actual Income Details': { nid:'income_details', tid:'actual_income_details' },
     'Actual income': { nid:'income_details', tid:'actual_income_details' },
@@ -151,7 +214,15 @@
     'Other IPPF Grant': { nid:'ippf-restricted', tid:'other_ippf_grant' },
     'Largest Contributor': { nid:'organisation_contributor', tid:'largest_contributor' },
     'How Much Income Did They Provide?': { nid:'income_provided', tid:'how_much_income_did_they_provide' },
+    'Control Cells (Expense Category)': { nid_g:'control_cells(exp_category)', tid:'def_control_cells(exp_category)' },
+    'IPPF Core': { nid_g:'ippf_core_2.3', tid:'def_ippf_core' },
+    'Direct Project Activities': { nid_g:'direct_project_activities_2.4', tid:'def_direct_project_activities' },
+    'Commodities': { nid_g:'commodities_2.3', tid:'def_commodities' },
+    'Indirect / Support Costs': { nid_g:'indirect_support_costs_2.3', tid:'def_indirect_support_costs' },
+    'Total Budgeted Expenses': { nid_g:'total_budgeted_expenses', tid:'def_total_budgeted_expensest' },
 
+    // sec 7
+    'Income Details': { nid_g:'income_details', tid:'def_income_details' },
   };
 
   function _getCurrentLang() {
@@ -185,14 +256,13 @@
 
   // Get translated DEFINITION for a glossary term (from glossary_translations.js)
   function getTranslatedDef(glossaryName, fallbackDef) {
-    debugger;
+    
     var lang = _getCurrentLang();
     if (lang === 'en') return fallbackDef;
     var mapping = GLOSSARY_TRANS_MAP[glossaryName];
-    debugger;
     if (!mapping || !mapping.tid) return fallbackDef;
     if (typeof translation_mapping_ar_glossary === 'undefined') return fallbackDef;
-    debugger; 
+     
     return _lookupInArray(translation_mapping_ar_glossary, mapping.tid, lang) || fallbackDef;
   }
 
@@ -344,7 +414,7 @@ const GLOSSARY = [
     {name: 'Youth Board Member', def: "A designated board member representing the interests and perspectives of young people within the Affiliate's governance structure.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
     {name: 'Executive Director / CEO (or equivalent)', def: "The senior-most staff member responsible for the day-to-day management and strategic leadership of the Affiliate.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
     {name: 'Director of Programmes (or equivalent)', def: "The senior staff member responsible for overseeing the design, delivery, and monitoring of the Affiliate's programmatic activities.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
-    {name: 'Director of Resource Mobilisation (or equivalent).', def: "The senior staff member responsible for leading fundraising, donor relations, and income generation strategies for the Affiliate.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
+    {name: 'Director of Resource Mobilisation (or equivalent)', def: "The senior staff member responsible for leading fundraising, donor relations, and income generation strategies for the Affiliate.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
     {name: 'Programmatic Lead(s)', def: "Staff members who lead specific programme areas or thematic workstreams within the Affiliate.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
     {name: 'Director of Finance (or equivalent)', def: "The senior staff member responsible for financial management, budgeting, reporting, and compliance within the Affiliate.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
 
@@ -365,7 +435,6 @@ const GLOSSARY = [
     {name: "Current Audit Report (PDF)", def: "The most recent external audit report for the Affiliate, submitted in PDF format, providing an independent assessment of its financial statements and compliance with accounting standards.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     {name: "Key Audit Reports Documents", def: "Any additional audit-related documents supporting the Affiliate's financial accountability. If the most recent audit report was already submitted in the 2024 Annual Reporting cycle, this field can be left unchanged.",sec: "sec1", scopes: ['annual-business-plan'], tag: "organization data"},
     {name: "Other 1", def: "An optional upload field for any additional supporting document relevant to the Affiliate's business plan submission that does not fall under the other defined document categories.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
-    {name: "Other 1", def: "An optional upload field for any additional supporting document relevant to the Affiliate's business plan submission that does not fall under the other defined document categories.", nid: 'other1', tid: 'other1_definition', scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     {name: "Other 2", def: "A second optional upload field for any further supporting document relevant to the Affiliate's business plan submission.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     
     // 1.3 Key Documents
@@ -1303,7 +1372,7 @@ const GLOSSARY = [
       'treasurer': 'Treasurer',
       'youth board member': 'Youth Board Member',
       'finance lead': 'Finance Lead',
-      'director of finance (or equivalent)': 'Director of Finance',
+      'director of finance (or equivalent)': 'Director of finance (or equivalent)',
       'director of finance': 'Director of Finance',
       'programmatic lead': 'Programmatic Lead(s)',
       'programmatic lead(s)': 'Programmatic Lead(s)',

@@ -1541,7 +1541,7 @@ const translation_mapping = [
     },
     {
         id: "standard_reports",
-        en: "Standard Report Generation from the BP Portal",
+        en: "Reports and Exports",
         sp: "Generación de informes estándar desde el portal BP",
         fr: "Génération de rapports standard à partir du portail BP",
         ar: 'إنشاء التقارير القياسية من بوابة BP'

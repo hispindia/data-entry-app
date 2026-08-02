@@ -18,6 +18,48 @@ const translation_mapping_ar_glossary = [
         ar: "هو الرمز المختصر أو الموجز الذي تُعرَّف به الجهة التابعة ويشير إليها في نظام الإبلاغ الخاص بالاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، APPA (401)).",
     },
     {
+        id: "reporting_year_definition",
+        en: "The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.",
+        sp: "El año calendario al que se refiere el Informe Anual (por ejemplo, 2027). Todos los datos, actividades e información financiera que figuran en el informe deben corresponder a este año.",
+        fr: "L'année civile à laquelle se rapporte le rapport annuel (par exemple, 2027). Toutes les données, activités et informations financières figurant dans le rapport doivent correspondre à cette année.",
+        ar: "السنة التقويمية التي يُقدَّم التقرير السنوي بشأنها (على سبيل المثال: 2027). يجب أن تتوافق جميع البيانات والأنشطة والمعلومات المالية الواردة في التقرير مع هذه السنة."
+    },
+    {
+        id: "membership_details_section",
+        en: "Basic affiliate identity and registration information for the reporting entity, including country of operation, affiliate code, IPPF region, organisation names, and the main contact person for follow-up.",
+        sp: "Información básica sobre la identidad y el registro de la filial de la entidad informante, incluyendo el país de operación, el código de la filial, la región de la IPPF, los nombres de las organizaciones y la persona de contacto principal para el seguimiento.",
+        fr: "Informations de base relatives à l'identité et à l'enregistrement de la filiale de l'entité déclarante, notamment le pays d'activité, le code de la filiale, la région de l'IPPF, les noms des organisations et le nom de la personne à contacter pour le suivi.",
+        ar: "المعلومات الأساسية المتعلقة بهوية الكيان التابع وتسجيله بالنسبة للكيان المُبلغ، بما في ذلك بلد العمل، ورمز الكيان التابع، ومنطقة IPPF، وأسماء المنظمات، والشخص الرئيسي المسؤول عن المتابعة."
+    },
+    {
+        id: "vice_chair",
+        en: "Vice-Chair / Vice-President (or equivalent)",
+        sp: "Vicepresidente (o cargo equivalente)",
+        fr: "Vice-président (ou équivalent)",
+        ar: "نائب الرئيس (أو ما يعادله)"
+    },
+    {
+        id: "secretary",
+        en: "Secretary (or equivalent)",
+        sp: "Secretario (o cargo equivalente)",
+        fr: "Secrétaire (ou poste équivalent)",
+        ar: "سكرتير (أو ما يعادله)"
+    },
+    {
+        id: "secretary_definition",
+        en: "The board officer responsible for maintaining records, correspondence, and official documentation of the Affiliate.",
+        sp: "El miembro de la junta directiva encargado de llevar los registros, la correspondencia y la documentación oficial de la filial.)",
+        fr: "Le membre du conseil d'administration chargé de la gestion des archives, de la correspondance et des documents officiels de l'affilié.",
+        ar: "المسؤول في مجلس الإدارة المكلف بحفظ السجلات والمراسلات والوثائق الرسمية للفرع."
+    },
+    {
+        id: "vice_chair_definition",
+        en: "The deputy board leader who supports the Board Chair and assumes their responsibilities in their absence.",
+        sp: "El vicepresidente de la junta directiva, quien apoya al presidente de la junta y asume sus responsabilidades en su ausencia.",
+        fr: "Le vice-président du conseil d'administration, qui assiste le président du conseil et assume ses responsabilités en son absence.",
+        ar: "نائب رئيس مجلس الإدارة الذي يدعم رئيس المجلس ويتولى مهامه في غيابه."
+    },
+    {
         id: "country_of_operation",
         en: "The country in which the Affiliate is legally registered and primarily operates.",
         sp: "El país en el que la Entidad afiliada está legalmente registrada y opera principalmente.",
@@ -96,11 +138,103 @@ const translation_mapping_ar_glossary = [
         ar: "عضو منتخب أو معيّن في مجلس الإدارة، يتولى الإشراف على السلامة المالية للجمعية العضو، وضمان حوكمة مالية سليمة، ومراجعة التقارير المالية، وتحقيق المساءلة على مستوى المجلس فيما يخص أموال المنظمة.",
     },
     {
+        id: "primary_focus_area",
+        en: "Primary Focus Area",
+        sp: "Área de enfoque principal",
+        fr: "Domaine d'intervention principal",
+        ar: "مجال التركيز الرئيسي"
+    },
+    {
+        id: "secondary_focus_area",
+        en: "Secondary Focus Area",
+        sp: "Área de interés secundaria",
+        fr: "Domaine d'intérêt secondaire",
+        ar: "مجال التركيز الثانوي"
+    },
+    {
+        id: "treasurer_equivalent",
+        en: "Treasurer (or equivalent)",
+        sp: "Tesorero (o cargo equivalente)",
+        fr: "Trésorier (ou fonction équivalente)",
+        ar: "أمين الصندوق (أو ما يعادله)"
+    },   
+    {
+        id: "treasurer_equivalent_definition",
+        en: "The board officer responsible for overseeing the financial affairs and accounts of the Affiliate.",
+        sp: "El miembro de la junta directiva encargado de supervisar los asuntos financieros y la contabilidad de la filial.",
+        fr: "Le membre du conseil d'administration chargé de superviser les affaires financières et la comptabilité de la filiale.",
+        ar: "المسؤول في مجلس الإدارة المكلف بالإشراف على الشؤون المالية وحسابات الشركة التابعة."
+    },   
+    {
+        id: "executive_director",
+        en: "Executive Director / CEO (or equivalent)",
+        sp: "Director Ejecutivo / Director General (o cargo equivalente)",
+        fr: "Directeur général / PDG (ou équivalent)",
+        ar: "المدير التنفيذي / الرئيس التنفيذي (أو ما يعادله)"
+    },
+    {
+        id: "executive_director_definition",
+        en: "The senior-most staff member responsible for the day-to-day management and strategic leadership of the Affiliate.",
+        sp: "El miembro del personal de mayor rango a cargo de la administración diaria y el liderazgo estratégico de la filial.",
+        fr: "Le cadre le plus haut placé chargé de la gestion quotidienne et de la direction stratégique de la filiale.",
+        ar: "أعلى موظف مسؤول عن الإدارة اليومية والقيادة الاستراتيجية للفرع."
+    },
+    {
+        id: "director_programmes",
+        en: "Director of Programmes (or equivalent)",
+        sp: "Director de Programas (o cargo equivalente)",
+        fr: "Directeur des programmes (ou poste équivalent)",
+        ar: "أعلى موظف مسؤول عن الإدارة اليومية والقيادة الاستراتيجية للفرع."
+    },
+     {
+        id: "director_programmes_definition",
+        en: "The senior staff member responsible for overseeing the design, delivery, and monitoring of the Affiliate's programmatic activities.",
+        sp: "El miembro del personal de alto rango encargado de supervisar el diseño, la ejecución y el seguimiento de las actividades programáticas de la filial.",
+        fr: "Le cadre supérieur chargé de superviser la conception, la mise en œuvre et le suivi des activités programmatiques de l'affilié.",
+        ar: "الموظف رفيع المستوى المسؤول عن الإشراف على تصميم أنشطة البرامج التابعة للمنظمة وتنفيذها ومتابعتها."
+    },
+    {
         id: "director_of_finance",
         en: "The senior staff member responsible for overseeing the financial management of the Affiliate, including budgeting, financial reporting, audit processes, internal controls, and compliance with donor and regulatory requirements.",
         sp: "El/la miembro senior del personal responsable de supervisar la gestión financiera de la Asociación Miembro, incluyendo la elaboración de presupuestos, los informes financieros, los procesos de auditoría, los controles internos y el cumplimiento de los requisitos de los donantes y de la normativa vigente.",
         fr: "Le/la membre senior du personnel responsable de la supervision de la gestion financière de l’Association Membre, notamment la budgétisation, les rapports financiers, les processus d’audit, les contrôles internes et la conformité aux exigences des bailleurs de fonds et des réglementations en vigueur.",
         ar: "العضو الأقدم في الفريق الوظيفي المسؤول عن الإشراف على الإدارة المالية للجمعية العضو، بما يشمل إعداد الميزانيات، وإعداد التقارير المالية، وعمليات التدقيق، والرقابة الداخلية، والامتثال لمتطلبات الجهات المانحة والأطر التنظيمية المعمول بها.",
+    },
+    {
+        id: "director_of_finance",
+        en: "Director of Resource Mobilisation (or equivalent).",
+        sp: "Director de Movilización de Recursos (o cargo equivalente).",
+        fr: "Directeur de la mobilisation des ressources (ou poste équivalent).",
+        ar: "مدير تعبئة الموارد (أو ما يعادل هذا المنصب)."
+    },
+    {
+        id: "director_finance_equivalent",
+        en: "Director of Finance (or equivalent)",
+        sp: "Director de Finanzas (o cargo equivalente)",
+        fr: "Directeur financier (ou poste équivalent)",
+        ar: "مدير الشؤون المالية (أو ما يعادله)"
+    },
+    {
+        id: "director_finance_equivalent_definition",
+        en: "The senior staff member responsible for financial management, budgeting, reporting, and compliance within the Affiliate.",
+        sp: "El miembro del personal de alto nivel a cargo de la gestión financiera, la elaboración de presupuestos, la presentación de informes y el cumplimiento normativo dentro de la filial.",
+        fr: "Le cadre supérieur chargé de la gestion financière, de la budgétisation, de l'établissement des rapports et de la conformité au sein de la filiale.",
+        ar: "المسؤول الإداري الرفيع المستوى المكلف بالإدارة المالية، وإعداد الميزانية، وإعداد التقارير، والامتثال للقوانين واللوائح داخل المؤسسة التابعة."
+    },
+    
+    {
+        id: "director_resource_mobilisation",
+        en: "Director of Resource Mobilisation (or equivalent).",
+        sp: "Director de Movilización de Recursos (o cargo equivalente).",
+        fr: "Directeur de la mobilisation des ressources (ou poste équivalent).",
+        ar: "مدير تعبئة الموارد (أو ما يعادل هذا المنصب)."
+    },
+    {
+        id: "director_resource_mobilisation_definition",
+        en: "The senior staff member responsible for leading fundraising, donor relations, and income generation strategies for the Affiliate.",
+        sp: "El miembro del personal de alto nivel encargado de dirigir las estrategias de recaudación de fondos, relaciones con los donantes y generación de ingresos para la filial.",
+        fr: "Le cadre supérieur chargé de diriger les activités de collecte de fonds, les relations avec les donateurs et les stratégies de génération de revenus pour l'affilié.",
+        ar: "المسؤول التنفيذي الرفيع المستوى المكلف بقيادة جهود جمع التبرعات، والعلاقات مع المانحين، واستراتيجيات توليد الإيرادات للفرع."
     },
     {
         id: "youth_board_member_definition",
@@ -175,6 +309,14 @@ const translation_mapping_ar_glossary = [
         fr: "Il s'agit du quatrième pilier stratégique de l'IPPF, dont l'objectif est de renouveler la fédération et d'en prendre soin en s'appuyant sur une base de valeurs commune et libérer notre puissance collective pour un plus fort impact.",
         ar: "هذه هي الركيزة الاستراتيجية الرابعة من ركائز الاتحاد الدولي لتنظيم الأسرة (IPPF)، وهدفها تعزيز وتنمية الاتحاد بقاعدة من القيم المشتركة وإطلاق العنان لقوتنا الجماعية لتحقيق تأثير أكبر.",
     },
+    {
+    id: "country_context_and_theory_of_change",
+    en: "Country Context and Theory of Change",
+    sp: "Contexto del país y teoría del cambio",
+    fr: "Contexte national et théorie du changement",
+    ar: "السياق القطري ونظرية التغيير",
+    },
+
     // 2.2 Results & Achievements
     {
         id: "results_and_achievements",
@@ -310,6 +452,107 @@ const translation_mapping_ar_glossary = [
         fr: "Résumé de la finalité du projet, de sa population cible, de sa portée géographique et de ses principales activités clés. Cette description doit fournir suffisamment d'informations pour permettre au Secrétariat de l'IPPF de comprendre la nature du projet et les bénéficiaires visés.",
         ar: "بيان موجز يُحدد فيه الهدف من المشروع، والفئة المستهدفة، والنطاق الجغرافي، والأنشطة الرئيسية. وينبغي أن يوضح سياق المشروع بالقدر الذي يتيح لسكرتاريا الاتحاد الدولي لتنظيم الأسرة فهمه ووجه الاستفادة منه.",
     },
+    {
+    id: "basic_project_budget",
+    en: "Basic Project Budget",
+    sp: "Presupuesto básico del proyecto",
+    fr: "Budget de base du projet",
+    ar: "الميزانية الأساسية للمشروع",
+    },
+    {
+    id: "description_of_project_name_2.1",
+    en: "Description of Project",
+    sp: "Descripción del proyecto",
+    fr: "Description du projet",
+    ar: "وصف المشروع",
+    },
+    {
+    id: "annual_project_income_name_2.1",
+    en: "Annual Project Income",
+    sp: "Ingresos anuales del proyecto",
+    fr: "Recettes annuelles du projet",
+    ar: "الدخل السنوي للمشروع",
+    },
+    {
+    id: "total_project_lifetime_value",
+    en: "Total Project Lifetime Value",
+    sp: "Valor total del proyecto a lo largo de su vida útil",
+    fr: "Valeur totale sur la durée de vie du projet",
+    ar: "القيمة الإجمالية للمشروع على مدى عمره",
+    },
+    {
+    id: "total_contract_value",
+    en: "Total Contract Value",
+    sp: "Valor total del contrato",
+    fr: "Valeur totale du contrat",
+    ar: "القيمة الإجمالية للعقد",
+    },
+    {
+    id: "unrestricted_2.1",
+    en: "Unrestricted",
+    sp: "Sin restricciones",
+    fr: "Non affectés",
+    ar: "غير المقيدة",
+    },
+    {
+    id: "restricted_2.1",
+    en: "Restricted",
+    sp: "Restringidos",
+    fr: "Affectés",
+    ar: "مقيدة",
+    },
+    {
+    id: "funding_type_2.1",
+    en: "Funding Type",
+    sp: "Tipo de financiamiento",
+    fr: "Type de financement",
+    ar: "نوع التمويل",
+    },
+    {
+    id: "project_donor_2.1",
+    en: "Project Donor",
+    sp: "Donante del proyecto",
+    fr: "Donateur du projet",
+    ar: "الجهة المانحة للمشروع",
+    },
+    {
+    id: "project_theme",
+    en: "Project Theme",
+    sp: "Tema del proyecto",
+    fr: "Thème du projet",
+    ar: "موضوع المشروع",
+    },
+    {
+    id: "end_date_2.1",
+    en: "End Date",
+    sp: "Fecha de finalización",
+    fr: "Date de fin",
+    ar: "تاريخ الانتهاء",
+    },
+    {
+    id: "project_name",
+    en: "Project Name",
+    sp: "Nombre del proyecto",
+    fr: "Nom du projet",
+    ar: "اسم المشروع",
+    },
+    {
+    id: "start_date_2.1",
+    en: "Start Date",
+    sp: "Fecha de inicio",
+    fr: "Date de début",
+    ar: "تاريخ البدء",
+    },
+    {
+    id: "new_project_2.1",
+    en: "New Project",
+    sp: "Proyecto nuevo",
+    fr: "Nouveau projet",
+    ar: "مشروع جديد",
+    },
+
+
+
     // 3.2 Project Focus Area
     {
         id: "project_focus_area",
@@ -466,6 +709,105 @@ const translation_mapping_ar_glossary = [
         fr: "Frais généraux ou administratifs d'appui au projet, mais qui non directement liés à une activité spécifique. Il peut s'agir d'une partie du loyer, des services publics, du temps de gestion, des dépenses informatiques et d'autres coûts d'exploitation de l'organisation attribués au projet.",
         ar: "هي التكاليف العامة أو الإدارية التي تتعلق بدعم المشروع ولكنها لا ترتبط ارتباطًا مباشرًا بنشاط معين. وقد تشمل هذه التكاليف نسبة من الإيجار، والمرافق، ووقت الإدارة، وتكنولوجيا المعلومات، وغيرها من تكاليف التشغيل التنظيمي التي تتعلق بالمشروع.",
     },
+    {
+    id: "def_new_project",
+    en: "A project added by the Affiliate during the Annual Reporting process that was not included in the original Annual Business Plan for the reporting year. This may include newly secured grants, emergency-response initiatives, or opportunistic partnerships that arose after the business plan was finalised.",
+    sp: "Un proyecto agregado por la filial durante el proceso de presentación de informes anuales que no se incluyó en el Plan de Negocios Anual original para el año de referencia. Esto puede incluir subvenciones recién obtenidas, iniciativas de respuesta a emergencias o alianzas oportunistas que surgieron después de que se finalizara el plan de negocios.",
+    fr: "Projet ajouté par l’affilié au cours du processus de rapport annuel et qui ne figurait pas dans le plan d’activité annuel initial pour l’année de référence. Il peut s’agir de subventions récemment obtenues, d’initiatives d’intervention d’urgence ou de partenariats opportunistes apparus après la finalisation du plan d’activité.",
+    ar: "مشروع أضافه الفرع خلال عملية إعداد التقرير السنوي ولم يكن مدرجًا في خطة العمل السنوية الأصلية للسنة المشمولة بالتقرير. وقد يشمل ذلك المنح التي تم الحصول عليها حديثًا، أو مبادرات الاستجابة للطوارئ، أو الشراكات الاستغلالية التي نشأت بعد الانتهاء من وضع خطة العمل.",
+    },
+    {
+    id: "def_project_name",
+    en: "The official or working title of the project as agreed with the donor or as used internally by the Affiliate.",
+    sp: "El título oficial o provisional del proyecto, tal como se acordó con el donante o como lo utiliza internamente la filial.",
+    fr: "Intitulé officiel ou provisoire du projet, tel qu’il a été convenu avec le donateur ou tel qu’il est utilisé en interne par l’affilié.",
+    ar: "العنوان الرسمي أو المؤقت للمشروع كما تم الاتفاق عليه مع الجهة المانحة أو كما يستخدمه الفرع داخليًّا.",
+    },
+    {
+    id: "def_start_date",
+    en: "The date on which the project officially commenced implementation, formatted as DD/MM/YYYY.",
+    sp: "La fecha en la que el proyecto comenzó oficialmente su ejecución, en el formato DD/MM/AAAA.",
+    fr: "Date à laquelle la mise en œuvre du projet a officiellement commencé, au format JJ/MM/AAAA.",
+    ar: "التاريخ الذي بدأ فيه تنفيذ المشروع رسميًا، بتنسيق يوم/شهر/سنة.",
+    },
+    {
+    id: "def_end_date",
+    en: "The date on which the project is scheduled to conclude or has concluded, formatted as DD/MM/YYYY.",
+    sp: "La fecha en la que está previsto que el proyecto concluya o haya concluido, en el formato DD/MM/AAAA.",
+    fr: "Date à laquelle le projet doit prendre fin ou a pris fin, au format JJ/MM/AAAA.",
+    ar: "التاريخ المقرر لانتهاء المشروع أو الذي انتهى فيه بالفعل، بتنسيق يوم/شهر/سنة.",
+    },
+    {
+    id: "def_project_theme",
+    en: "The primary thematic area or program focus that the project addresses. Selected from a predefined list aligned with IPPF's strategic priorities (e.g. SRHR services, advocacy, CSE).",
+    sp: "El área temática principal o el enfoque del programa que aborda el proyecto. Se selecciona de una lista predefinida alineada con las prioridades estratégicas de la IPPF (p. ej., servicios de salud y derechos sexuales y reproductivos, incidencia política, educación sexual integral).",
+    fr: "Le domaine thématique principal ou l’axe prioritaire du programme sur lequel porte le projet. Sélectionné à partir d’une liste prédéfinie alignée sur les priorités stratégiques de l’IPPF (par exemple, services de santé et de droits sexuels et reproductifs, plaidoyer, éducation sexuelle complète).",
+    ar: "المجال المواضيعي الرئيسي أو محور البرنامج الذي يتناوله المشروع. يتم اختياره من قائمة محددة مسبقًا تتوافق مع الأولويات الاستراتيجية للاتحاد الدولي لتنظيم الأسرة (IPPF) (مثل خدمات الصحة والحقوق الجنسية والإنجابية، والدعوة، والتربية الجنسية الشاملة).",
+    },
+    {
+    id: "def_project_donor",
+    en: "The external organisation, institution, or government body that is providing funding for the project. Selected from a predefined list; if not listed, the donor can be specified under \"Other\".",
+    sp: "La organización externa, institución u organismo gubernamental que proporciona financiamiento para el proyecto. Se selecciona de una lista predefinida; si no figura en la lista, el donante puede especificarse en la sección «Otro».",
+    fr: "L’organisation externe, l’institution ou l’organisme gouvernemental qui finance le projet. Sélectionné à partir d’une liste prédéfinie ; s’il ne figure pas dans la liste, le donateur peut être précisé dans la rubrique « Autre ».",
+    ar: "المنظمة الخارجية أو المؤسسة أو الهيئة الحكومية التي تقدم التمويل للمشروع. يتم اختيارها من قائمة محددة مسبقًا؛ وإذا لم تكن مدرجة في القائمة، يمكن تحديد الجهة المانحة تحت بند «أخرى».",
+    },
+    {
+    id: "def_funding_type",
+    en: "The classification of funds as either restricted or unrestricted (core). Restricted funds have clear restrictions for their use; Unrestricted funds may be allocated flexibly.",
+    sp: "La clasificación de los fondos como restringidos o no restringidos (básicos). Los fondos restringidos tienen restricciones claras en cuanto a su uso; los fondos no restringidos pueden asignarse de manera flexible.",
+    fr: "Classification des fonds en deux catégories : les fonds affectés et les fonds non affectés (de base). Les fonds affectés sont soumis à des restrictions d’utilisation claires ; les fonds non affectés peuvent être alloués de manière flexible.",
+    ar: "تصنيف الأموال إلى مقيدة أو غير مقيدة (أساسية). تخضع الأموال المقيدة لقيود واضحة على استخدامها؛ أما الأموال غير المقيدة فيمكن تخصيصها بمرونة.",
+    },
+    {
+    id: "def_restricted",
+    en: "Funding that has been received from a donor with clear restrictions for its use. Restricted funds may only be used in accordance with the donor's conditions and cannot be redirected without donor approval.",
+    sp: "Financiamiento recibido de un donante con restricciones claras en cuanto a su uso. Los fondos restringidos solo pueden utilizarse de acuerdo con las condiciones del donante y no pueden reasignarse sin la aprobación de este.",
+    fr: "Financement reçu d’un donateur et soumis à des restrictions d’utilisation claires. Les fonds affectés ne peuvent être utilisés que conformément aux conditions fixées par le donateur et ne peuvent être réaffectés sans l’accord de ce dernier.",
+    ar: "تمويل تم تلقيه من جهة مانحة مع قيود واضحة على استخدامه. لا يجوز استخدام الأموال المقيدة إلا وفقًا لشروط الجهة المانحة ولا يمكن إعادة توجيهها دون موافقتها.",
+    },
+    {
+    id: "def_unrestricted",
+    en: "Funding that has not been tied to a specific purpose by the donor, giving the Affiliate flexibility to allocate it according to its own strategic priorities and operational needs.",
+    sp: "Fondos que el donante no ha vinculado a un propósito específico, lo que le da a la filial flexibilidad para asignarlos de acuerdo con sus propias prioridades estratégicas y necesidades operativas.",
+    fr: "Financements qui n’ont pas été affectés à un objectif spécifique par le donateur, ce qui laisse à l’affilié la flexibilité de les allouer en fonction de ses propres priorités stratégiques et de ses besoins opérationnels.",
+    ar: "التمويل الذي لم يربطه المانح بغرض محدد، مما يمنح الجهة التابعة المرونة في تخصيصه وفقًا لأولوياتها الاستراتيجية واحتياجاتها التشغيلية.",
+    },
+    {
+    id: "def_total_contract_value",
+    en: "The full monetary value of the project contract or grant agreement with the donor, covering the entire project period. Expressed in USD.",
+    sp: "El valor monetario total del contrato del proyecto o del acuerdo de subvención con el donante, que abarca todo el período del proyecto. Expresado en USD.",
+    fr: "Valeur monétaire totale du contrat de projet ou de la convention de subvention conclu(e) avec le donateur, couvrant l’ensemble de la durée du projet. Exprimée en USD.",
+    ar: "القيمة النقدية الكاملة لعقد المشروع أو اتفاقية المنحة المبرمة مع المانح، والتي تغطي كامل فترة المشروع. تُعبَّر عنها بالدولار الأمريكي.",
+    },
+    {
+    id: "def_total_project_lifetime_value",
+    en: "The full monetary value of the project contract or grant agreement with the donor, covering the entire project period. Expressed in USD.",
+    sp: "El valor monetario total del contrato del proyecto o del acuerdo de subvención con el donante, que abarca todo el período del proyecto. Expresado en USD.",
+    fr: "Valeur monétaire totale du contrat de projet ou de la convention de subvention conclu(e) avec le donateur, couvrant l’ensemble de la durée du projet. Exprimée en USD.",
+    ar: "القيمة النقدية الكاملة لعقد المشروع أو اتفاقية المنحة المبرمة مع المانح، والتي تغطي كامل فترة المشروع. تُعبَّر عنها بالدولار الأمريكي.",
+    },
+    {
+    id: "def_annual_project_income",
+    en: "The portion of the total project funding that was received (or recognised as income) during the specific reporting year. This may differ from the total contract value if the project spans multiple years.",
+    sp: "La parte de la financiación total del proyecto que se recibió (o se reconoció como ingreso) durante el año específico del informe. Esto puede diferir del valor total del contrato si el proyecto abarca varios años.",
+    fr: "Partie du financement total du projet qui a été reçue (ou comptabilisée en recettes) au cours de l’année de référence spécifique. Ce montant peut différer de la valeur totale du contrat si le projet s’étend sur plusieurs années.",
+    ar: "الجزء من إجمالي تمويل المشروع الذي تم استلامه (أو الاعتراف به كدخل) خلال سنة التقرير المحددة. وقد يختلف هذا عن القيمة الإجمالية للعقد إذا كان المشروع يمتد لعدة سنوات.",
+    },
+    {
+    id: "def_description_of_project",
+    en: "A summary of the project's purpose, target population, geographic scope, and key activities. Should provide enough context for the IPPF Secretariat to understand what the project entails and who it benefits.",
+    sp: "Un resumen del propósito del proyecto, la población objetivo, el alcance geográfico y las actividades clave. Debe proporcionar suficiente contexto para que la Secretaría de la IPPF comprenda en qué consiste el proyecto y a quién beneficia.",
+    fr: "Résumé de l’objectif du projet, de la population cible, de la portée géographique et des activités clés. Doit fournir suffisamment de contexte pour permettre au Secrétariat de l’IPPF de comprendre en quoi consiste le projet et à qui il profite.",
+    ar: "ملخص لغرض المشروع، والفئة المستهدفة، والنطاق الجغرافي، والأنشطة الرئيسية. يجب أن يوفر سياقًا كافيًا لأمانة الاتحاد الدولي لتنظيم الأسرة (IPPF) لفهم ما ينطوي عليه المشروع ومن يستفيد منه.",
+    },
+    {
+    id: "def_basic_project_budget",
+    en: "The planned expenditure for the project from all funding sources excluding IPPF Core funding. Entered in USD.",
+    sp: "El gasto previsto para el proyecto procedente de todas las fuentes de financiamiento, excluyendo el financiamiento básico de la IPPF. Se ingresa en USD.",
+    fr: "Dépenses prévues pour le projet, toutes sources de financement confondues, à l'exclusion du financement de base de l'IPPF. Saisi en USD.",
+    ar: "النفقات المخطط لها للمشروع من جميع مصادر التمويل باستثناء التمويل الأساسي من صندوق IPPF. تُدخل بالدولار الأمريكي.",
+    },
+
     // ─────────────────────────────────────────────
     // Section 4: Budget vs Actuals by Focus Area
     // ─────────────────────────────────────────────
@@ -505,6 +847,35 @@ const translation_mapping_ar_glossary = [
         fr: "Proportion du budget total effectivement dépensé, exprimée en pourcentage. Ce ratio est calculé selon la formule (total des dépenses réelles ÷ total des dépenses budgétées) × 100. Il fournit un indicateur synthétique de l'utilisation globale du budget à travers l'ensemble des volets d'intervention.",
         ar: "نسبة ما تم إنفاقه من إجمالي الميزانية، وتُحدد كنسبة مئوية. وتُحسب على النحو التالي: (إجمالي النفقات الفعلية ÷ إجمالي النفقات المدرجة في الميزانية) × 100. وهذا يُعد مؤشراً سريعاً على وجوه استخدام الميزانية الإجمالي على مستوى مجالات التركيز كلها.",
     },
+    {
+        id: "comments",
+        en: "Comments (optional)",
+        sp: "Comentarios (opcional)",
+        fr: "Commentaires (facultatif)",
+        ar: "تعليقات (اختياري)",
+    },
+    {
+        id: "estimated_likelihood",
+        en: "Estimated Likelihood",
+        sp: "Probabilidad estimada",
+        fr: "Probabilité estimée",
+        ar: "احتمالية التنفيذ المقدرة",
+    },
+    {
+        id: "total_annual_budget",
+        en: "Total Annual Budget",
+        sp: "Presupuesto anual total",
+        fr: "Budget annuel total",
+        ar: "إجمالي الميزانية السنوية",
+    },
+    {
+        id: "ippf_core_funding_allocated",
+        en: "IPPF Core Funding Allocated",
+        sp: "Financiamiento básico de la IPPF asignado",
+        fr: "Financement de base de l'IPPF alloué",
+        ar: "التمويل الأساسي المخصص من صندوق IPPF",
+    },
+
     // 4.2 Budget vs Actuals Table by Focus Area
     {
         id: "total_budgeted_vs_actual_by_focus_areas",
@@ -562,6 +933,55 @@ const translation_mapping_ar_glossary = [
         fr: "Champ en texte libre (jusqu'à 200 mots) situé à la fin du Tableau comparatif budget/chiffres réels pour chaque projet. L'affilié y fournit des explications sur les écarts significatifs, les retards, les réaffectations de fonds ou toute autre information pertinente relative aux résultats financiers du projet.",
         ar: "خانة الإيضاح (حوالي 200 كلمة) في نهاية الجدول المخصص لمقارنة الميزانية مقابل المبالغ الفعلية لكل مشروع، وتشرح فيها الجهة التابعة أسباب الفوارق الكبيرة أو التأخيرات أو إعادة تخصيص الأموال أو أي سياق آخر يتعلق بالأداء المالي للمشروع.",
     },
+    {
+    id: "def_ippf_core_funding_allocated",
+    en: "The portion of the Affiliate's IPPF Core Grant assigned to this specific project for the reporting year. This amount is included in the Total Annual Budget. Entered in USD.",
+    sp: "La parte de la subvención básica de la IPPF de la filial asignada a este proyecto específico para el año de referencia. Este monto se incluye en el presupuesto anual total. Se ingresa en USD.",
+    fr: "Part de la subvention de base de l'IPPF accordée à l'affilié et affectée à ce projet spécifique pour l'année de référence. Ce montant est inclus dans le budget annuel total. Saisi en USD.",
+    ar: "الجزء المخصص من المنحة الأساسية التي حصلت عليها المنظمة التابعة من صندوق IPPF لهذا المشروع المحدد خلال سنة التقرير. يُدرج هذا المبلغ في «إجمالي الميزانية السنوية». تُدخل بالدولار الأمريكي.",
+    },
+    {
+    id: "def_total_annual_budget",
+    en: "The total planned budget for the project for the annual period, automatically calculated as the sum of Basic Project Budget and IPPF Core Funding Allocated. This field is read-only and system-calculated. Expressed in USD.",
+    sp: "El presupuesto total previsto para el proyecto durante el período anual, calculado automáticamente como la suma del presupuesto básico del proyecto y la financiación básica de la IPPF asignada. Este campo es de solo lectura y lo calcula el sistema. Se expresa en dólares estadounidenses (USD).",
+    fr: "Budget total prévu pour le projet pour la période annuelle, calculé automatiquement comme la somme du budget de base du projet et du financement de base de l’IPPF alloué. Ce champ est en lecture seule et calculé par le système. Exprimé en USD.",
+    ar: "إجمالي الميزانية المخططة للمشروع للفترة السنوية، ويتم حسابه تلقائيًا على أنه مجموع «الميزانية الأساسية للمشروع» و«التمويل الأساسي المخصص من الاتحاد الدولي لتنظيم الأسرة (IPPF)». هذا الحقل مخصص للقراءة فقط ويتم حسابه بواسطة النظام. يُعبَّر عنه بالدولار الأمريكي.",
+    },
+    {
+    id: "def_estimated_likelihood",
+    en: `
+        <p>The Affiliate's assessment of how likely the project is to proceed as planned:</p>
+        <p><strong>Confirmed</strong> — Fully approved and funded; will proceed as planned.</p>
+        <p><strong>Likely</strong> — Expected to proceed but funding or approval not yet fully secured.</p>
+        <p><strong>Unlikely</strong> — May not proceed due to uncertainty around funding or other factors.</p>
+    `,
+    sp: `
+        <p>La evaluación de la filial sobre la probabilidad de que el proyecto se lleve a cabo según lo planeado:</p>
+        <p><strong>Confirmado</strong> — Totalmente aprobado y financiado; se llevará a cabo según lo planeado.</p>
+        <p><strong>Probable</strong> — Se espera que se lleve a cabo, pero la financiación o la aprobación aún no están totalmente aseguradas.</p>
+        <p><strong>Improbable</strong> — Es posible que no se lleve a cabo debido a la incertidumbre en torno a la financiación u otros factores.</p>
+    `,
+    fr: `
+        <p>Évaluation par l’affilié de la probabilité que le projet se déroule comme prévu :</p>
+        <p><strong>Confirmé</strong> — Entièrement approuvé et financé ; se déroulera comme prévu.</p>
+        <p><strong>Probable</strong> — Devrait se dérouler comme prévu, mais le financement ou l’approbation ne sont pas encore entièrement garantis.</p>
+        <p><strong>Peu probable</strong> — Risque de ne pas se dérouler comme prévu en raison d’incertitudes concernant le financement ou d’autres facteurs.</p>
+    `,
+    ar: `
+        <p>تقييم الفرع لمدى احتمالية تنفيذ المشروع كما هو مخطط له:</p>
+        <p><strong>مؤكد</strong> — تمت الموافقة عليه وتمويله بالكامل؛ سيتم تنفيذه كما هو مخطط له.</p>
+        <p><strong>محتمل</strong> — من المتوقع أن يتم تنفيذه ولكن التمويل أو الموافقة لم يتم تأمينهما بالكامل بعد.</p>
+        <p><strong>غير محتمل</strong> — قد لا يتم تنفيذه بسبب عدم اليقين بشأن التمويل أو عوامل أخرى.</p>
+    `,
+    },
+    {
+    id: "def_comments",
+    en: "A free-text field (up to 200 words) for any additional context about the project budget, funding status, or assumptions made in the financial planning.",
+    sp: "Un campo de texto libre (hasta 200 palabras) para cualquier información adicional sobre el presupuesto del proyecto, el estado de la financiación o las suposiciones realizadas en la planificación financiera.",
+    fr: "Champ de texte libre (200 mots maximum) permettant d’ajouter des informations supplémentaires sur le budget du projet, l’état du financement ou les hypothèses retenues dans la planification financière.",
+    ar: "حقل نص حر (بحد أقصى 200 كلمة) لأي سياق إضافي حول ميزانية المشروع، أو حالة التمويل، أو الافتراضات التي تم وضعها في التخطيط المالي.",
+    },
+
     // ─────────────────────────────────────────────
     // Section 5: Budget vs Actuals by Expense Category
     // ─────────────────────────────────────────────
@@ -601,6 +1021,36 @@ const translation_mapping_ar_glossary = [
         fr: "Taux d'utilisation global du budget pour l'affilié, calculé selon la formule (total des dépenses réelles de l'association membre ÷ total des dépenses budgétées de l'association membre) × 100. Ce ratio exprimé en pourcentage donne une vue à l'échelle de l'organisation des résultats financiers par rapport au plan.",
         ar: "معدل استخدام الجهة التابعة للميزانية الإجمالية، ويحسب على النحو التالي: (إجمالي المبالغ الفعلية التي أنفقتها الجمعية العضو ÷ إجمالي النفقات المدرجة في ميزانية الجمعية العضو) × 100. ويُحدد في صورة نسبة مئوية، ويقدم صورة شاملة عن الأداء المالي للمنظمة مقارنةً بالمدرج في خطتها.",
     },
+    {
+        id: "control_cell_focus_area",
+        en: "Control Cells (Focus Area)",
+        sp: "Celdas de control (Área de enfoque)",
+        fr: "Cellules de contrôle (domaine prioritaire)",
+        ar: "خلايا المراقبة (مجال التركيز)",
+    },
+    {
+        id: "focus_area",
+        en: "Focus Area",
+        sp: "Área de enfoque",
+        fr: "Domaine prioritaire",
+        ar: "مجال التركيز",
+    },
+    {
+        id: "budget_focus_area_2.3",
+        en: "Budget (Focus Area)",
+        sp: "Presupuesto (Área de enfoque)",
+        fr: "Budget (domaine prioritaire)",
+        ar: "الميزانية (مجال التركيز)",
+    },
+    {
+        id: "project_total(focus area)",
+        en: "Project Total (Focus Area)",
+        sp: "Total del proyecto (Área de enfoque)",
+        fr: "Total du projet (domaine d’intervention)",
+        ar: "إجمالي المشروع (مجال التركيز)",
+    },
+
+
     // 5.2 Budget vs Actuals Table by Expense Category
     {
         id: "total_budgeted_vs_actual_by_expense_category",
@@ -658,6 +1108,34 @@ const translation_mapping_ar_glossary = [
         fr: "Champ en texte libre (jusqu'à 200 mots) situé à la fin du tableau des catégories de dépenses de chaque projet, où l'affilié peut expliquer les raisons des écarts budgétaires importants. Il peut s'agir ainsi d'activités retardées, de réaffectation des fonds entre les catégories, de coûts imprévus ou de facteurs externes qui se répercutent sur les dépenses.",
         ar: "خانة الإيضاح (حوالي 200 كلمة) في نهاية الجدول المخصص لفئات الإنفاق في كل مشروع، وتشرح فيها الجهة التابعة أسباب وجود فوارق كبيرة في الميزانية. وقد تشمل الأنشطة التي تأخرت فيها، أو الأموال التي أعيد تخصيصها على مستوى الفئات، أو التكاليف التي لم تدرج في الخطة، أو العوامل الخارجية التي أثرت على وجوه الإنفاق.",
     },
+    {
+        id: "def_control_cell_focus_area",
+        en: "A summary row at the top of the Budget vs Actuals section that automatically aggregates key financial figures across all projects and focus areas. Control cells provide an at-a-glance financial overview and are system-calculated.",
+        sp: "Una fila de resumen en la parte superior de la sección «Presupuesto vs. Realizado» que agrega automáticamente las cifras financieras clave de todos los proyectos y áreas de enfoque. Las celdas de control ofrecen una visión general financiera de un solo vistazo y son calculadas por el sistema.",
+        fr: "Ligne récapitulative située en haut de la section « Budget vs Réel » qui regroupe automatiquement les chiffres financiers clés de l’ensemble des projets et des domaines prioritaires. Les cellules de contrôle offrent une vue d’ensemble financière en un coup d’œil et sont calculées automatiquement par le système.",
+        ar: "صف ملخص في أعلى قسم «الميزانية مقابل الأرقام الفعلية» يقوم تلقائيًا بتجميع الأرقام المالية الرئيسية عبر جميع المشاريع ومجالات التركيز. توفر خلايا المراقبة نظرة عامة مالية سريعة ويتم حسابها بواسطة النظام.",
+    },
+    {
+        id: "def_focus_area",
+        sp: "Una de las categorías programáticas estandarizadas bajo las cuales se reportan los presupuestos de los proyectos y los gastos reales. Para mantener la coherencia, aquí se utilizan las mismas áreas de enfoque que en la configuración del proyecto.",
+        fr: "L’une des catégories programmatiques standardisées sous lesquelles sont déclarés les budgets des projets et les dépenses réelles. Les mêmes domaines prioritaires que ceux utilisés lors de la configuration du projet sont repris ici par souci de cohérence.",
+        ar: "إحدى الفئات البرنامجية الموحدة التي يتم في إطارها الإبلاغ عن ميزانيات المشاريع والنفقات الفعلية. يتم استخدام مجالات التركيز نفسها المستخدمة في إعداد المشروع هنا من أجل الاتساق.",
+    },
+    {
+        id: "def_budget_focus_area",
+        en: "The project budget broken down by the 11 IPPF Focus Areas. Fill in as many as are relevant. The total should match the project total in the other sections.",
+        sp: "El presupuesto del proyecto desglosado por las 11 áreas de enfoque de la IPPF. Llene tantas como sean relevantes. El total debe coincidir con el total del proyecto en las otras secciones.",
+        fr: "Le budget du projet ventilé selon les 11 domaines prioritaires de l’IPPF. Remplissez autant de champs que nécessaire. Le total doit correspondre au total du projet indiqué dans les autres sections.",
+        ar: "ميزانية المشروع مقسمة حسب مجالات التركيز الـ 11 الخاصة بـ IPPF. قم بملء ما يناسب من هذه المجالات. يجب أن يتطابق الإجمالي مع إجمالي المشروع في الأقسام الأخرى.",
+    },
+    {
+        id: "def_project_total(focus area)",
+        en: "The sum row at the bottom of each project's focus area table, showing total budgeted amount, total actual expenses, total variance, and overall spend percentage across all focus areas.",
+        sp: "La fila de totales al final de la tabla de áreas de enfoque de cada proyecto, que muestra el monto total presupuestado, el total de gastos reales, la variación total y el porcentaje de gasto general en todas las áreas de enfoque.",
+        fr: "Ligne de totalisation située au bas du tableau des domaines d’intervention de chaque projet, indiquant le montant total budgété, le total des dépenses réelles, l’écart total et le pourcentage global des dépenses pour l’ensemble des domaines d’intervention.",
+        ar: "صف المجموع في أسفل جدول مجالات التركيز لكل مشروع، ويُظهر إجمالي المبلغ المدرج في الميزانية، وإجمالي النفقات الفعلية، وإجمالي الفرق، والنسبة المئوية الإجمالية للإنفاق عبر جميع مجالات التركيز.",
+    },
+
     // ─────────────────────────────────────────────
     // Section 6: Actual Income Details
     // ─────────────────────────────────────────────
@@ -862,6 +1340,115 @@ const translation_mapping_ar_glossary = [
         fr: "Valeur totale du financement reçu de la plus grande organisation contributrice au cours de l'année de déclaration, libellée dans la monnaie de déclaration.",
         ar: "إجمالي قيمة التمويل المتحصل نقدًا من أكبر منظمة مساهمة خلال السنة المشمولة بالتقرير، ويُذكر بالعملة المحددة في التقرير.",
     },
+    {
+    id: "control_cells(exp_category)",
+    en: "Control Cells (Expense Category)",
+    sp: "Celdas de control (Categoría de gastos)",
+    fr: "Cellules de contrôle (catégorie de dépenses)",
+    ar: "خلايا التحكم (فئة النفقات)",
+    },
+    {
+    id: "def_control_cells(exp_category)",
+    en: "A summary row at the top of the section that automatically aggregates total financial figures across all projects and expense categories for the entire Affiliate. System-calculated, providing an organisation-wide financial snapshot.",
+    sp: "Una fila de resumen en la parte superior de la sección que agrega automáticamente las cifras financieras totales de todos los proyectos y categorías de gastos de toda la filial. Calculada por el sistema, proporciona una visión general financiera de toda la organización.",
+    fr: "Ligne récapitulative située en haut de la section qui regroupe automatiquement les chiffres financiers totaux de l’ensemble des projets et des catégories de dépenses pour l’ensemble de l’affilié. Calculée par le système, elle fournit un aperçu financier à l’échelle de l’organisation.",
+    ar: "صف تلخيصي في أعلى القسم يقوم تلقائيًا بتجميع الأرقام المالية الإجمالية عبر جميع المشاريع وفئات النفقات للفرع بأكمله. يتم حسابه بواسطة النظام، ويقدم لمحة مالية شاملة على مستوى المنظمة.",
+    },
+    {
+    id: "ippf_core_2.3",
+    en: "IPPF Core",
+    sp: "Fondos básicos de la IPPF",
+    fr: "Fonds de base de l’IPPF",
+    ar: "التمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF)",
+    },
+    {
+    id: "def_ippf_core",
+    en: "Strategic funding provided by IPPF to the Affiliate as core support. The IPPF Core grant is unrestricted and can be used across various projects. The amount is based on a transparent formula considering criteria mostly based on SRHR need.",
+    sp: "Financiamiento estratégico proporcionado por la IPPF a la filial como apoyo básico. La subvención de fondos básicos de la IPPF no tiene restricciones y puede utilizarse en diversos proyectos. El monto se basa en una fórmula transparente que toma en cuenta criterios basados principalmente en las necesidades de salud y derechos sexuales y reproductivos (SRHR).",
+    fr: "Financement stratégique fourni par l’IPPF à l’affilié à titre de soutien de base. La subvention de base de l’IPPF n’est soumise à aucune restriction et peut être utilisée pour divers projets. Son montant est calculé selon une formule transparente tenant compte de critères principalement liés aux besoins en matière de santé et de droits sexuels et reproductifs.",
+    ar: "تمويل استراتيجي يقدمه الاتحاد الدولي لتنظيم الأسرة (IPPF) للمنظمة التابعة كدعم أساسي. منحة التمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF) غير مقيدة ويمكن استخدامها في مختلف المشاريع. ويستند المبلغ إلى صيغة شفافة تأخذ في الاعتبار معايير تعتمد في الغالب على احتياجات الصحة والحقوق الجنسية والإنجابية.",
+    },
+    
+    {
+    id: "def_personnel",
+    en: "Costs related to staff and human resources including salaries, benefits, consultancy fees, and other staff-related expenses.",
+    sp: "Costos relacionados con el personal y los recursos humanos, incluidos salarios, prestaciones, honorarios de consultoría y otros gastos relacionados con el personal.",
+    fr: "Coûts liés au personnel et aux ressources humaines, y compris les salaires, les avantages sociaux, les honoraires de consultants et autres dépenses liées au personnel.",
+    ar: "التكاليف المتعلقة بالموظفين والموارد البشرية، بما في ذلك الرواتب والمزايا وأتعاب الاستشارات والمصروفات الأخرى المتعلقة بالموظفين.",
+    },
+    {
+    id: "direct_project_activities_2.4",
+    en: "Direct Project Activities",
+    sp: "Actividades directas del proyecto",
+    fr: "Activités directes du projet",
+    ar: "أنشطة المشروع المباشرة",
+    },
+    {
+    id: "def_direct_project_activities",
+    en: "Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.",
+    sp: "Costos incurridos en la implementación de las actividades centrales del proyecto, tales como eventos de capacitación, movilización comunitaria, campañas de prestación de servicios y otros costos programáticos directamente vinculados a los resultados del proyecto.",
+    fr: "Coûts engagés pour la mise en œuvre des activités principales du projet, telles que les formations, la mobilisation communautaire, les campagnes de prestation de services et autres coûts programmatiques directement liés aux résultats du projet.",
+    ar: "التكاليف المتكبدة في تنفيذ الأنشطة الأساسية للمشروع، مثل فعاليات التدريب، وتعبئة المجتمع المحلي، وحملات تقديم الخدمات، والتكاليف البرنامجية الأخرى المرتبطة مباشرة بمخرجات المشروع.",
+    },
+    {
+    id: "commodities_2.3",
+    en: "Commodities",
+    sp: "Bienes y suministros",
+    fr: "Biens et fournitures",
+    ar: "السلع",
+    },
+    {
+    id: "def_commodities",
+    en: "The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.",
+    sp: "El costo de los bienes físicos y suministros utilizados en la implementación del proyecto, tales como anticonceptivos, suministros médicos, materiales educativos u otros artículos consumibles directamente relacionados con la prestación de servicios.",
+    fr: "Coût des biens et fournitures physiques utilisés dans la mise en œuvre du projet, tels que les contraceptifs, les fournitures médicales, le matériel pédagogique ou d’autres consommables directement liés à la prestation de services.",
+    ar: "تكلفة السلع المادية واللوازم المستخدمة في تنفيذ المشروع، مثل وسائل منع الحمل، واللوازم الطبية، والمواد التعليمية، أو غيرها من المواد الاستهلاكية المرتبطة مباشرة بتقديم الخدمات.",
+    },
+    {
+    id: "indirect_support_costs_2.3",
+    en: "Indirect / Support Costs",
+    sp: "Costos indirectos / de apoyo",
+    fr: "Coûts indirects / de soutien",
+    ar: "التكاليف غير المباشرة / تكاليف الدعم",
+    },
+    {
+    id: "def_indirect_support_costs",
+    en: "Overhead or administrative costs that support the project but are not directly tied to a specific activity. These may include a proportion of rent, utilities, management time, IT, and other organisational running costs.",
+    sp: "Costos generales o administrativos que respaldan el proyecto, pero que no están directamente vinculados a una actividad específica. Estos pueden incluir una parte del alquiler, los servicios públicos, el tiempo de gestión, la tecnología de la información y otros gastos operativos de la organización.",
+    fr: "Frais généraux ou administratifs qui soutiennent le projet mais ne sont pas directement liés à une activité spécifique. Ceux-ci peuvent inclure une partie du loyer, des charges, du temps de gestion, des coûts informatiques et d’autres frais de fonctionnement de l’organisation.",
+    ar: "التكاليف العامة أو الإدارية التي تدعم المشروع ولكنها غير مرتبطة مباشرة بنشاط معين. وقد تشمل هذه التكاليف نسبة من الإيجار، والمرافق، ووقت الإدارة، وتكنولوجيا المعلومات، وتكاليف التشغيل التنظيمية الأخرى.",
+    },
+    {
+    id: "total_budgeted_expenses",
+    en: "Total Budgeted Expenses",
+    sp: "Gastos totales presupuestados",
+    fr: "Total des dépenses budgétisées",
+    ar: "إجمالي النفقات المدرجة في الميزانية",
+    },
+    {
+    id: "def_total_budgeted_expenses",
+    en: "A comprehensive record of all income received by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).",
+    sp: "Un registro exhaustivo de todos los ingresos recibidos por la filial durante el año de referencia, desglosados por categoría de ingresos, subcategoría y tipo de financiamiento (restringido frente a no restringido).",
+    fr: "Relevé complet de l’ensemble des recettes perçues par l’affilié au cours de l’année de référence, ventilées par catégorie de recettes, sous-catégorie et type de financement (soumis à des restrictions ou sans restrictions).",
+    ar: "سجل شامل لجميع الإيرادات التي حصلت عليها الجهة التابعة خلال السنة المشمولة بالتقرير، موزعة حسب فئة الإيرادات، والفئة الفرعية، ونوع التمويل (المقيد مقابل غير المقيد).",
+    },
+    //section - 7
+    {
+    id: "income_details",
+    en: "Income Details",
+    sp: "Detalles de los ingresos",
+    fr: "Détail des recettes",
+    ar: "تفاصيل الإيرادات",
+    },
+    {
+    id: "def_income_details",
+    en: "A comprehensive record of all budgeted income by the Affiliate during the reporting year, broken down by income category, sub-category, and funding type (Restricted vs Unrestricted).",
+    sp: "Un registro exhaustivo de todos los ingresos presupuestados por la filial durante el año de referencia, desglosados por categoría de ingresos, subcategoría y tipo de financiamiento (restringido frente a no restringido).",
+    fr: "Relevé exhaustif de l’ensemble des recettes budgétisées par l’affilié au cours de l’année de référence, ventilées par catégorie de recettes, sous-catégorie et type de financement (affecté ou non affecté).",
+    ar: "سجل شامل لجميع الإيرادات المدرجة في الميزانية التي حصلت عليها المنظمة التابعة خلال السنة المشمولة بالتقرير، مصنفة حسب فئة الإيرادات، والفئة الفرعية، ونوع التمويل (المقيد مقابل غير المقيد).",
+    },
+
+
     // ─────────────────────────────────────────────
     // Page 1: Organisation Details — Instructions Panel
     // ─────────────────────────────────────────────
@@ -1382,6 +1969,188 @@ const translation_mapping_ar_glossary = [
         ar: "الركيزة الاستراتيجية",
     },
     {
+        id: "strategic_period",
+        en: "Strategic Period",
+        sp: "Período estratégico",
+        fr: "Période stratégique",
+        ar: "الفترة الاستراتيجية"
+    },
+    {
+        id: "total_number_fixed_staff",
+        en: "Total Number of Fixed Staff",
+        sp: "Número total de empleados fijos",
+        fr: "Nombre total d'employés permanents",
+        ar: "العدد الإجمالي للموظفين الدائمين"
+    },
+    {
+        id: "type_of_org",
+        en: "Type of Organisation",
+        sp: "Tipo de organización",
+        fr: "Type d'organisations",
+        ar:"نوع المنظمة"
+    },
+    {
+    id: "q1_country_context",
+    en: "Q1 — Country Context",
+    sp: "P1 — Contexto del país",
+    fr: "Q1 — Contexte national",
+    ar: "السؤال 1 — السياق القطري",
+    },
+    {
+    id: "q2_strategy",
+    en: "Q2 — Strategy",
+    sp: "Pregunta 2 — Estrategia",
+    fr: "Q2 — Stratégie",
+    ar: "السؤال 2 — الاستراتيجية",
+    },
+    {
+    id: "q3_landscape_of_other_actors",
+    en: "Q3 — Landscape of Other Actors",
+    sp: "Pregunta 3 — Panorama de otros actores",
+    fr: "Q3 — Paysage des autres acteurs",
+    ar: "السؤال 3 — المشهد العام للجهات الفاعلة الأخرى",
+    },
+    {
+    id: "q4_external_risks_and_risk_mitigation",
+    en: "Q4 — External Risks and Risk Mitigation",
+    sp: "Pregunta 4 — Riesgos externos y mitigación de riesgos",
+    fr: "Q4 — Risques externes et atténuation des risques",
+    ar: "السؤال 4 — المخاطر الخارجية وتخفيف المخاطر",
+    },
+    {
+    id: "q5_smart_outcomes",
+    en: "Q5 — SMART Outcomes",
+    sp: "Pregunta 5 — Resultados SMART",
+    fr: "Q5 — Résultats SMART",
+    ar: "السؤال 5 — النتائج وفق معايير SMART",
+    },
+    {
+    id: "main_technical_assistance_capacity",
+    en: "Main Technical Assistance / Capacity",
+    sp: "Asistencia técnica principal / Capacidad",
+    fr: "Principaux domaines d’assistance technique / de renforcement des capacités",
+    ar: "المجالات الرئيسية للمساعدة الفنية / بناء القدرات",
+    },
+    {
+    id: "sustainability_challenges",
+    en: "Sustainability Challenges",
+    sp: "Desafíos de sostenibilidad",
+    fr: "Défis en matière de viabilité",
+    ar: "تحديات الاستدامة",
+    },
+    {
+    id: "financial",
+    en: "Financial",
+    sp: "Financieros",
+    fr: "Financiers",
+    ar: "المالية",
+    },
+    {
+    id: "programmatic",
+    en: "Programmatic",
+    sp: "Programático",
+    fr: "Programmatique",
+    ar: "البرنامجية",
+    },
+    {
+    id: "operational",
+    en: "Operational",
+    sp: "Operativo",
+    fr: "Opérationnel",
+    ar: "التشغيلية",
+    },
+    {
+    id: "institutional",
+    en: "Institutional",
+    sp: "Institucional",
+    fr: "Institutionnel",
+    ar: "المؤسسية",
+    },
+    {
+    id: "organisational_areas_of_expertise_capacity",
+    en: "Organisational Areas of Expertise / Capacity",
+    sp: "Áreas de especialización y capacidad organizativas",
+    fr: "Domaines d’expertise / de capacités organisationnelles",
+    ar: "مجالات الخبرة / القدرات التنظيمية",
+    },
+    {
+    id: "youth_group_or_networks",
+    en: "Youth Group or Networks",
+    sp: "Grupos o redes juveniles",
+    fr: "Groupes ou réseaux de jeunes",
+    ar: "مجموعات أو شبكات الشباب",
+    },
+    {
+    id: "branches",
+    en: "Branches",
+    sp: "Sucursales",
+    fr: "Succursales",
+    ar: "الفروع",
+    },
+    {
+    id: "key_documents",
+    en: "Key Documents",
+    sp: "Documentos principales",
+    fr: "Principaux documents",
+    ar: "الوثائق الرئيسية",
+    },
+    {
+    id: "key_strategy_documents",
+    en: "Key Strategy Documents",
+    sp: "Documentos estratégicos clave",
+    fr: "Documents stratégiques clés",
+    ar: "الوثائق الاستراتيجية الرئيسية",
+    },
+    {
+    id: "current_audit_report_pdf",
+    en: "Current Audit Report (PDF)",
+    sp: "Informe de auditoría actual (PDF)",
+    fr: "Rapport d'audit actuel (PDF)",
+    ar: "تقرير التدقيق الحالي (PDF)",
+    },
+    {
+    id: "key_audit_reports_documents",
+    en: "Key Audit Reports Documents",
+    sp: "Documentos clave de informes de auditoría",
+    fr: "Documents relatifs aux rapports d'audit clés",
+    ar: "الوثائق الرئيسية لتقارير التدقيق",
+    },
+    {
+    id: "other_1_1.1",
+    en: "Other 1",
+    sp: "Otro 1",
+    fr: "Encore 1",
+    ar: "واحد آخر",
+    },
+    {
+    id: "def_other_1",
+    en: "An optional upload field for any additional supporting document relevant to the Affiliate's business plan submission that does not fall under the other defined document categories.",
+    sp: "Un campo opcional para subir cualquier documento de respaldo adicional relevante para la presentación del plan de negocios del afiliado que no se incluya en las demás categorías de documentos definidas.",
+    fr: "Champ facultatif permettant de télécharger tout document justificatif supplémentaire en rapport avec le dossier de présentation du plan d'affaires de l'affilié et n'entrant pas dans les autres catégories de documents définies.",
+    ar: "حقل تحميل اختياري لأي مستندات داعمة إضافية ذات صلة بخطة العمل المقدمة من الشريك التابع، والتي لا تندرج ضمن فئات المستندات الأخرى المحددة.",
+    },
+    {
+    id: "other_2",
+    en: "Other 2",
+    sp: "Otros 2",
+    fr: "Autres 2",
+    ar: "أخرى 2",
+    },
+    {
+    id: "advocacy_priority_2",
+    en: "Advocacy Priority 2",
+    sp: "Prioridad de incidencia 2",
+    fr: "Priorité n° 2 en matière de plaidoyer",
+    ar: "أولوية الدعوة رقم 2",
+    },
+    {
+        id: "total_number_volunteers",
+        en: "Total Number of Volunteers (excluding governance)",
+        sp: "Número total de voluntarios (sin contar a los miembros de la junta directiva)",
+        fr: "Nombre total de bénévoles (hors instances dirigeantes)",
+        ar: "العدد الإجمالي للمتطوعين (باستثناء أعضاء مجلس الإدارة)"
+    },
+    {
         id: "name_marginalised_populations",
         en: "Marginalised Populations",
         sp: "Poblaciones marginadas",
@@ -1402,9 +2171,248 @@ const translation_mapping_ar_glossary = [
         fr: "Bonnes pratiques",
         ar: "الممارسات الجيدة",
     },
+    {
+    id: "narrative_plan",
+    en: "Narrative Plan",
+    sp: "Plan narrativo",
+    fr: "Plan narratif",
+    ar: "خطة السرد",
+    },
+
     // ─────────────────────────────────────────────
     // Section 2: Glossary definition translations (tid)
     // ─────────────────────────────────────────────
+    {
+        id: "strategic_period_definition",
+        en: "The multi-year timeframe covered by the Affiliate's current strategic plan, defined by a start year and an end year.",
+        sp: "El plazo plurianual que abarca el plan estratégico actual de la filial, definido por un año de inicio y un año de finalización.",
+        fr: "La période pluriannuelle couverte par le plan stratégique actuel de l'affilié, définie par une année de début et une année de fin.",
+        ar: "الإطار الزمني متعدد السنوات الذي تغطيه الخطة الاستراتيجية الحالية للشركة التابعة، والمحدد بسنة بدء وسنة انتهاء."
+    },
+    {
+    id: "def_narrative_plan",
+    en: "The written section of the Annual Business Plan in which the Affiliate describes its strategic context, organisational status, and any technical assistance needs for the planning period. It provides qualitative context that complements the financial and programmatic data entered elsewhere in the portal.",
+    sp: "La sección escrita del Plan de Negocios Anual en la que la filial describe su contexto estratégico, su situación organizativa y cualquier necesidad de asistencia técnica para el período de planificación. Proporciona un contexto cualitativo que complementa los datos financieros y programáticos ingresados en otras secciones del portal.",
+    fr: "Partie écrite du plan d'activité annuel dans laquelle l'organisme affilié décrit son contexte stratégique, sa situation organisationnelle et ses éventuels besoins en matière d'assistance technique pour la période de planification. Elle fournit un contexte qualitatif qui complète les données financières et programmatiques saisies ailleurs sur le portail.",
+    ar: "الجزء المكتوب من «خطة العمل السنوية» الذي تصف فيه المنظمة التابعة سياقها الاستراتيجي، ووضعها التنظيمي، وأي احتياجات للمساعدة الفنية خلال فترة التخطيط. ويوفر هذا الجزء سياقًا نوعيًا يكمل البيانات المالية والبرنامجية التي يتم إدخالها في أجزاء أخرى من البوابة الإلكترونية.",
+    },
+    {
+    id: "def_technical_assistance",
+    en: "A description of any technical support, capacity building, or expert guidance that the Affiliate is requesting from IPPF or other partners to strengthen its organisational or programmatic capacity during the business plan period.",
+    sp: "Una descripción de cualquier tipo de apoyo técnico, desarrollo de capacidades u orientación de expertos que la filial solicite a la IPPF u otros socios para fortalecer su capacidad organizativa o programática durante el período del plan de negocios.",
+    fr: "Description de toute forme d’assistance technique, de renforcement des capacités ou de conseils d’experts que l’affilié sollicite auprès de l’IPPF ou d’autres partenaires afin de renforcer ses capacités organisationnelles ou programmatiques au cours de la période couverte par le plan d’activité.",
+    ar: "وصف لأي دعم فني أو بناء قدرات أو توجيه من الخبراء يطلبه الفرع من الاتحاد الدولي لتنظيم الأسرة (IPPF) أو شركاء آخرين لتعزيز قدراته التنظيمية أو البرنامجية خلال فترة خطة العمل.",
+    },
+    {
+    id: "def_country_context_and_theory_of_change",
+    en: "A narrative description of the political, social, legal, and demographic environment in which the Affiliate operates, and an explanation of how the Affiliate's planned work is expected to bring about change in SRHR outcomes. The theory of change outlines the causal logic connecting the Affiliate's inputs and activities to its intended results.",
+    sp: "Una descripción narrativa del entorno político, social, legal y demográfico en el que opera la filial, así como una explicación de cómo se espera que el trabajo planificado por la filial genere cambios en los resultados relacionados con la salud y los derechos sexuales y reproductivos. La teoría del cambio describe la lógica causal que vincula los insumos y las actividades de la filial con los resultados previstos.",
+    fr: "Une description narrative du contexte politique, social, juridique et démographique dans lequel l'affilié exerce ses activités, ainsi qu'une explication de la manière dont les actions prévues par l'affilié devraient entraîner des changements en matière de santé et de droits sexuels et reproductifs. La théorie du changement expose la logique causale reliant les apports et les activités de l'affilié aux résultats escomptés.",
+    ar: "وصف سردي للبيئة السياسية والاجتماعية والقانونية والديموغرافية التي تعمل فيها المنظمة التابعة، وشرح لكيفية توقع أن يؤدي العمل المخطط له من قبل المنظمة التابعة إلى إحداث تغيير في النتائج المتعلقة بالصحة والحقوق الجنسية والإنجابية. وتحدد «نظرية التغيير» المنطق السببي الذي يربط بين مدخلات المنظمة التابعة وأنشطتها والنتائج المرجوة منها.",
+    },
+    {
+    id: "def_organisational_status",
+    en: "A summary of the Affiliate's current organisational health, including any significant internal developments, governance changes, capacity constraints, or institutional strengths relevant to the delivery of the business plan.",
+    sp: "Un resumen del estado actual de la organización de la filial, incluyendo cualquier acontecimiento interno significativo, cambios en la gobernanza, limitaciones de capacidad o fortalezas institucionales relevantes para la ejecución del plan de negocios.",
+    fr: "Un résumé de la santé organisationnelle actuelle de l'affilié, y compris tout développement interne significatif, tout changement en matière de gouvernance, toute contrainte de capacité ou tout atout institutionnel pertinent pour la mise en œuvre du plan d'activité.",
+    ar: "ملخص للحالة التنظيمية الحالية للمنظمة التابعة، بما في ذلك أي تطورات داخلية مهمة، أو تغييرات في الحوكمة، أو قيود على القدرات، أو نقاط القوة المؤسسية ذات الصلة بتنفيذ خطة العمل.",
+    },
+    {
+    id: "technical_assistance",
+    en: "Technical Assistance",
+    sp: "Asistencia técnica",
+    fr: "Assistance technique",
+    ar: "المساعدة الفنية",
+    },
+    {
+        id: "def_primary_focus_area",
+        en: "The main thematic area that best describes the Affiliate's core programmatic work. Selected from: Abortion Care; General SRHR or FP; Advocacy & Norms Shifting; Humanitarian SRHR; Youth Care or CSE; HIV Prevention or Care; LGBTQ+ Care..",
+        sp: "El área temática principal que mejor describe el trabajo programático fundamental de la organización afiliada. Seleccionar una de las siguientes opciones: Atención al aborto; Salud y derechos sexuales y reproductivos (SDSR) o planificación familiar (PF) en general; Promoción y cambio de normas; SDSR en contextos humanitarios; Atención a la juventud o explotación y abuso sexual infantil (EASI); Prevención o atención del VIH; Atención a la comunidad LGBTQ+.",
+        fr: "Le domaine thématique principal qui décrit le mieux l'activité programmatique principale de l'organisme affilié. À choisir parmi : prise en charge de l'avortement ; santé et droits sexuels et reproductifs (SDSR) ou planification familiale (PF) en général ; plaidoyer et évolution des normes ; SDSR dans le contexte humanitaire ; prise en charge des jeunes ou exploitation sexuelle des enfants ; prévention ou prise en charge du VIH ; prise en charge des personnes LGBTQ+.",
+        ar: "المجال المواضيعي الرئيسي الذي يصف على أفضل وجه العمل البرنامجي الأساسي للمنظمة الشريكة. يتم الاختيار من بين: رعاية حالات الإجهاض؛ الصحة والحقوق الجنسية والإنجابية العامة أو تنظيم الأسرة؛ الدعوة وتغيير المعايير الاجتماعية؛ الصحة والحقوق الجنسية والإنجابية في السياقات الإنسانية؛ رعاية الشباب أو الاستغلال الجنسي للأطفال؛ الوقاية من فيروس نقص المناعة البشرية أو رعاية المصابين به؛ رعاية مجتمع LGBTQ+."
+    },
+    {
+        id: "def_youth_group_or_networks",
+        en: "An indication of whether the Affiliate operates a dedicated youth group or network. If yes, the number of youth volunteers is required.",
+        sp: "Indique si la filial cuenta con un grupo o una red dedicada a los jóvenes. En caso afirmativo, se debe indicar el número de jóvenes voluntarios.",
+        fr: "Indiquez si l'organisme affilié gère un groupe ou un réseau dédié aux jeunes. Si oui, veuillez préciser le nombre de jeunes bénévoles.",
+        ar: "بيان ما إذا كانت المنظمة الشريكة تدير مجموعة أو شبكة مخصصة للشباب. في حالة الإجابة بـ«نعم»، يُطلب ذكر عدد المتطوعين من الشباب.",
+    },
+    {
+    id: "def_branches",
+    en: "An indication of whether the Affiliate operates regional or local branch offices. If yes, the total number of branches is required.",
+    sp: "Una indicación de si la filial cuenta con sucursales regionales o locales. En caso afirmativo, se debe indicar el número total de sucursales.",
+    fr: "Indiquez si l'affilié dispose de succursales régionales ou locales. Si oui, veuillez préciser le nombre total de succursales.",
+    ar: "بيان ما إذا كان الشريك التابع يدير فروعًا إقليمية أو محلية. في حالة الإجابة بـ«نعم»، يُطلب ذكر العدد الإجمالي للفروع.",
+    },
+    {
+    id: "def_key_documents",
+    en: "Supporting files required as part of the report submission, such as audit-related documents and other key records used to validate organisational and financial reporting.",
+    sp: "Archivos de respaldo necesarios como parte de la presentación del informe, tales como documentos relacionados con la auditoría y otros registros clave utilizados para validar los informes organizacionales y financieros.",
+    fr: "Les pièces justificatives requises dans le cadre de la soumission du rapport, telles que les documents liés à l'audit et autres pièces comptables essentielles utilisées pour valider les rapports organisationnels et financiers.",
+    ar: "الملفات الداعمة المطلوبة كجزء من عملية تقديم التقرير، مثل الوثائق المتعلقة بالتدقيق والسجلات الرئيسية الأخرى المستخدمة للتحقق من صحة التقارير التنظيمية والمالية.",
+    },
+    {
+    id: "def_current_audit_report_pdf",
+    en: "The most recent external audit report for the Affiliate, submitted in PDF format, providing an independent assessment of its financial statements and compliance with accounting standards.",
+    sp: "El informe de auditoría externa más reciente de la filial, presentado en formato PDF, que ofrece una evaluación independiente de sus estados financieros y del cumplimiento de las normas contables.",
+    fr: "Le dernier rapport d'audit externe de la filiale, transmis au format PDF, qui présente une évaluation indépendante de ses états financiers et de sa conformité aux normes comptables.",
+    ar: "أحدث تقرير مراجعة خارجية للشركة التابعة، المقدم بصيغة PDF، والذي يقدم تقييماً مستقلاً لبياناتها المالية وامتثالها للمعايير المحاسبية.",
+    },
+    {
+    id: "def_key_audit_reports_documents",
+    en: "Any additional audit-related documents supporting the Affiliate's financial accountability. If the most recent audit report was already submitted in the 2024 Annual Reporting cycle, this field can be left unchanged.",
+    sp: "Cualquier documento adicional relacionado con la auditoría que respalde la rendición de cuentas financiera de la filial. Si el informe de auditoría más reciente ya se presentó en el ciclo de informes anuales de 2024, este campo puede dejarse sin modificar.",
+    fr: "Tout document supplémentaire lié à l'audit et justifiant la responsabilité financière de l'affilié. Si le dernier rapport d'audit a déjà été fourni dans le cadre du cycle de rapport annuel 2024, ce champ peut rester inchangé.",
+    ar: "أي مستندات إضافية متعلقة بالتدقيق تدعم المساءلة المالية للجهة التابعة. إذا كان تقرير التدقيق الأحدث قد تم تقديمه بالفعل في دورة التقارير السنوية لعام 2024، فيمكن ترك هذا الحقل دون تغيير.",
+    },
+    {
+    id: "def_other_2",
+    en: "A second optional upload field for any further supporting document relevant to the Affiliate's business plan submission.",
+    sp: "Un segundo campo opcional para subir cualquier otro documento de respaldo relevante para la presentación del plan de negocios del afiliado.",
+    fr: "Un deuxième champ facultatif permettant de joindre tout autre document justificatif pertinent pour le dossier de présentation du plan d'affaires de l'affilié.",
+    ar: "حقل تحميل اختياري ثانٍ لأي مستندات داعمة إضافية ذات صلة بخطة العمل التي يقدمها الشريك التابع.",
+    },
+    {
+    id: "def_key_strategy_documents",
+    en: "The Affiliate's current strategic plan or equivalent document outlining its mission, vision, strategic objectives, and priorities for the planning period.",
+    sp: "El plan estratégico actual del afiliado o documento equivalente en el que se describan su misión, visión, objetivos estratégicos y prioridades para el período de planificación.",
+    fr: "Le plan stratégique actuel de l'organisme affilié ou tout autre document équivalent décrivant sa mission, sa vision, ses objectifs stratégiques et ses priorités pour la période de planification.",
+    ar: "الخطة الاستراتيجية الحالية للجهة التابعة أو الوثيقة المماثلة التي تحدد مهمتها ورؤيتها وأهدافها الاستراتيجية وأولوياتها لفترة التخطيط.",
+    },
+    {
+    id: "def_advocacy_priority_1",
+    en: "The primary advocacy theme or policy area that the Affiliate plans to prioritise during the business plan period. Selected from a predefined list.",
+    sp: "El tema principal de incidencia o el área de políticas a la que la filial planea dar prioridad durante el período del plan de negocios. Se selecciona de una lista predefinida.",
+    fr: "Thème principal de plaidoyer ou domaine d'action sur lequel l'affilié prévoit de se concentrer en priorité pendant la période couverte par le plan d'activité. Sélectionné à partir d'une liste prédéfinie.",
+    ar: "الموضوع الرئيسي للدعوة أو المجال السياساتي الذي تخطط المنظمة التابعة لإعطائه الأولوية خلال فترة خطة العمل. يتم اختياره من قائمة محددة مسبقًا.",
+    },
+    {
+    id: "def_advocacy_priority_2",
+    en: "The secondary advocacy theme or policy area that the Affiliate plans to focus on during the business plan period. Selected from a predefined list.",
+    sp: "El tema secundario de defensa o área de políticas en el que la filial planea enfocarse durante el período del plan de negocios. Se selecciona de una lista predefinida.",
+    fr: "Thème secondaire de plaidoyer ou domaine d'action sur lequel l'affilié prévoit de se concentrer pendant la période couverte par le plan d'activité. Sélectionné à partir d'une liste prédéfinie.",
+    ar: "الموضوع الثانوي للدعوة أو المجال السياساتي الذي تخطط المنظمة التابعة للتركيز عليه خلال فترة خطة العمل. يتم اختياره من قائمة محددة مسبقًا.",
+    },
+    {
+    id: "def_organisational_areas_of_expertise_capacity",
+    en: "The areas where the Affiliate has sufficient expertise to share knowledge, tools, or training with other Affiliates or partners. Up to 5 areas can be selected.",
+    sp: "Las áreas en las que la filial cuenta con la experiencia suficiente para compartir conocimientos, herramientas o capacitación con otras filiales o socios. Se pueden seleccionar hasta 5 áreas.",
+    fr: "Les domaines dans lesquels l’affilié dispose d’une expertise suffisante pour partager ses connaissances, ses outils ou ses formations avec d’autres affiliés ou partenaires. Il est possible de sélectionner jusqu’à 5 domaines.",
+    ar: "المجالات التي تمتلك فيها المنظمة التابعة خبرة كافية لمشاركة المعرفة أو الأدوات أو التدريب مع المنظمات التابعة الأخرى أو الشركاء. يمكن اختيار ما يصل إلى 5 مجالات.",
+    },
+    {
+    id: "advocacy_priority_1",
+    en: "Advocacy Priority 1",
+    sp: "Prioridad de incidencia 1",
+    fr: "Priorité n° 1 en matière de plaidoyer",
+    ar: "أولوية الدعوة رقم 1",
+    },
+    {
+        id: "def_secondary_focus_area",
+        en: "The secondary thematic area that complements the Affiliate's primary programmatic focus. Selected from the same list as the Primary Focus Area.",
+        sp: "El área temática secundaria que complementa el enfoque programático principal de la filial. Se selecciona de la misma lista que el área de enfoque principal.",
+        fr: "Domaine thématique secondaire qui vient compléter l'axe programmatique principal de l'affilié. Sélectionné à partir de la même liste que l'axe principal.",
+        ar: "المجال المواضيعي الثانوي الذي يكمل المحور البرنامجي الرئيسي للمنظمة التابعة. يتم اختياره من نفس القائمة التي تم اختيار مجال التركيز الرئيسي منها."
+    },
+    {
+        id: "def_type_of_org",
+        en: "The legal or structural classification of the Affiliate. Options include: Not-for-Profit NGO or Charity; Not-for-profit Membership Organisation or Network; Parastatal / State Joint Venture; For-profit Organisation; Community-based Organisation; Other.",
+        sp: "La clasificación jurídica o estructural de la entidad afiliada. Las opciones son: ONG sin fines de lucro u organización benéfica; organización o red de miembros sin fines de lucro; empresa paraestatal o empresa conjunta estatal; organización con fines de lucro; organización de base comunitaria; otra.",
+        fr: "Le statut juridique ou la structure de l'organisme affilié. Les options sont les suivantes : ONG ou organisme caritatif à but non lucratif ; organisation ou réseau associatif à but non lucratif ; entreprise parapublique / coentreprise publique ; organisation à but lucratif ; organisation communautaire ; autre.",
+        ar: "التصنيف القانوني أو الهيكلي للجهة التابعة. وتشمل الخيارات ما يلي: منظمة غير حكومية غير ربحية أو مؤسسة خيرية؛ منظمة أو شبكة عضوية غير ربحية؛ مؤسسة شبه حكومية / مشروع مشترك حكومي؛ منظمة ربحية؛ منظمة مجتمعية؛ خيارات أخرى."
+    },
+    {
+    id: "def_q1_country_context",
+    en: "Describe the Affiliate's country context as it relates to SRHR. Identify the main SRHR gaps and the social or political factors that need to be addressed during the IPPF strategic period — including unmet need, service gaps, political environment, laws, policies, social norms, national health and education programmes, innovations, and opposition movements. Use updated and verified statistics where possible and reference marginalised groups as relevant.",
+    sp: "Describa el contexto del país de la filial en lo que se refiere a la salud y los derechos sexuales y reproductivos (SHSR). Identifique las principales brechas en materia de SHSR y los factores sociales o políticos que deben abordarse durante el período estratégico de la IPPF, incluyendo las necesidades no satisfechas, las brechas en los servicios, el entorno político, las leyes, las políticas, las normas sociales, los programas nacionales de salud y educación, las innovaciones y los movimientos de oposición. Utilice estadísticas actualizadas y verificadas siempre que sea posible y haga referencia a los grupos marginados según sea pertinente.",
+    fr: "Décrivez le contexte national de l’affilié en matière de santé et de droits sexuels et reproductifs (SDSR). Identifiez les principales lacunes en matière de SDSR ainsi que les facteurs sociaux ou politiques qui doivent être pris en compte au cours de la période stratégique de l’IPPF — notamment les besoins non satisfaits, les lacunes en matière de services, l’environnement politique, les lois, les politiques, les normes sociales, les programmes nationaux de santé et d’éducation, les innovations et les mouvements d’opposition. Utilisez, dans la mesure du possible, des statistiques actualisées et vérifiées, et mentionnez les groupes marginalisés le cas échéant.",
+    ar: "صف السياق القطري للمنظمة التابعة من حيث صلته بالصحة والحقوق الجنسية والإنجابية. حدد الثغرات الرئيسية في مجال الصحة والحقوق الجنسية والإنجابية والعوامل الاجتماعية أو السياسية التي يجب معالجتها خلال الفترة الاستراتيجية للاتحاد الدولي لتنظيم الأسرة (IPPF) — بما في ذلك الاحتياجات غير الملباة، والثغرات في الخدمات، والبيئة السياسية، والقوانين، والسياسات، والأعراف الاجتماعية، والبرامج الوطنية للصحة والتعليم، والابتكارات، وحركات المعارضة. استخدم إحصاءات محدثة وموثقة حيثما أمكن، وأشر إلى الفئات المهمشة حسب الاقتضاء.",
+    },
+    {
+    id: "def_q2_strategy",
+    en: "Describe the Affiliate's current high-level strategy or theory of change. Explain how it responds to the local needs and context described in Q1, outline its key components and activities, and describe how it will be operationalised. Show alignment with IPPF's strategic framework, identify specific target groups, and highlight any new approaches that differ from past business plans.",
+    sp: "Describa la estrategia general actual o la teoría del cambio de la filial. Explique cómo responde a las necesidades y al contexto locales descritos en la Pregunta 1, resuma sus componentes y actividades clave, y describa cómo se pondrá en práctica. Demuestre la alineación con el marco estratégico de la IPPF, identifique grupos objetivo específicos y destaque cualquier enfoque nuevo que difiera de los planes de negocios anteriores.",
+    fr: "Décrivez la stratégie générale actuelle ou la théorie du changement de l’affilié. Expliquez en quoi elle répond aux besoins et au contexte locaux décrits dans la question 1, présentez ses principaux éléments et activités, et décrivez comment elle sera mise en œuvre. Montrez l’alignement avec le cadre stratégique de l’IPPF, identifiez les groupes cibles spécifiques et mettez en avant toute nouvelle approche qui diffère des plans d’activité antérieurs.",
+    ar: "صف الاستراتيجية الحالية للفرع على مستوى عالٍ أو «نظرية التغيير» التي يتبناها. اشرح كيف تستجيب هذه الاستراتيجية للاحتياجات والسياق المحليين الموصوفين في السؤال 1، وحدد مكوناتها وأنشطتها الرئيسية، ووصف كيفية تنفيذها عمليًّا. أظهر التوافق مع الإطار الاستراتيجي للاتحاد الدولي لتنظيم الأسرة (IPPF)، وحدد الفئات المستهدفة المحددة، وسلط الضوء على أي نُهج جديدة تختلف عن خطط العمل السابقة.",
+    },
+    {
+    id: "def_q3_landscape_of_other_actors",
+    en: "Provide an overview of other key actors working to advance SRHR in the Affiliate's country and region — including civil society organisations, social movements, government ministries, parliamentarians, and the private sector. Describe how the Affiliate partners with these actors, how those partnerships are operationalised, and whether it has partnerships outside the SRHR sector.",
+    sp: "Proporcione una visión general de otros actores clave que trabajan para promover la salud y los derechos sexuales y reproductivos (SHSR) en el país y la región de la filial, incluyendo organizaciones de la sociedad civil, movimientos sociales, ministerios gubernamentales, parlamentarios y el sector privado. Describa cómo la filial se asocia con estos actores, cómo se ponen en práctica esas alianzas y si cuenta con alianzas fuera del sector de la SHSR.",
+    fr: "Donnez un aperçu des autres acteurs clés œuvrant à la promotion de la santé et des droits sexuels et reproductifs (SDSR) dans le pays et la région de l’affilié — notamment les organisations de la société civile, les mouvements sociaux, les ministères, les parlementaires et le secteur privé. Décrivez comment l’affilié établit des partenariats avec ces acteurs, comment ces partenariats sont mis en œuvre, et s’il entretient des partenariats en dehors du secteur de la SDSR.",
+    ar: "قدم لمحة عامة عن الجهات الفاعلة الرئيسية الأخرى التي تعمل على النهوض بالصحة والحقوق الجنسية والإنجابية في بلد المنظمة التابعة ومنطقتها — بما في ذلك منظمات المجتمع المدني، والحركات الاجتماعية، والوزارات الحكومية، وأعضاء البرلمان، والقطاع الخاص. صِف كيف تتعاون المنظمة التابعة مع هذه الجهات الفاعلة، وكيف يتم تفعيل هذه الشراكات، وما إذا كانت لديها شراكات خارج قطاع الصحة والحقوق الجنسية والإنجابية.",
+    },
+    {
+    id: "def_q4_external_risks_and_risk_mitigation",
+    en: "Describe the critical external risks and challenges that could affect the delivery of the Business Plan over a three-year period, including political, economic, and other contextual factors. Also describe the measures the Affiliate has in place or plans to implement to address and mitigate these risks.",
+    sp: "Describa los riesgos y desafíos externos críticos que podrían afectar la ejecución del Plan de Negocios durante un período de tres años, incluyendo factores políticos, económicos y otros factores contextuales. Describa también las medidas que la filial tiene en vigor o planea implementar para abordar y mitigar estos riesgos.",
+    fr: "Décrivez les risques externes critiques et les défis susceptibles d’affecter la mise en œuvre du plan d’activité sur une période de trois ans, y compris les facteurs politiques, économiques et autres facteurs contextuels. Décrivez également les mesures que l’affilié a mises en place ou prévoit de mettre en œuvre pour faire face à ces risques et les atténuer.",
+    ar: "صف المخاطر والتحديات الخارجية الحاسمة التي قد تؤثر على تنفيذ خطة العمل على مدى فترة ثلاث سنوات، بما في ذلك العوامل السياسية والاقتصادية والعوامل السياقية الأخرى. واصف أيضًا التدابير التي اتخذتها المنظمة التابعة أو تخطط لتنفيذها لمعالجة هذه المخاطر وتخفيفها.",
+    },
+    {
+    id: "def_q5_smart_outcomes",
+    en: "Up to five medium-term (3-year) expected strategic outcomes, each written in SMART format — Specific, Measurable, Achievable, Relevant, and Time-bound. Each outcome should reference the relevant IPPF Strategic Pillar and specify a measurable result by a defined date.",
+    sp: "Hasta cinco resultados estratégicos esperados a mediano plazo (3 años), cada uno redactado en formato SMART — Específico, Medible, Alcanzable, Relevante y con Plazo definido. Cada resultado debe hacer referencia al pilar estratégico pertinente de la IPPF y especificar un resultado medible para una fecha definida.",
+    fr: "Jusqu’à cinq résultats stratégiques attendus à moyen terme (3 ans), chacun rédigé selon le format SMART — Spécifique, Mesurable, Atteignable, Pertinent et Limité dans le temps. Chaque résultat doit faire référence au pilier stratégique pertinent de l’IPPF et préciser un résultat mesurable à une date définie.",
+    ar: "ما يصل إلى خمس نتائج استراتيجية متوقعة على المدى المتوسط (3 سنوات)، تُكتب كل منها وفق معايير SMART — محددة، وقابلة للقياس، وقابلة للتحقيق، وذات صلة، ومحددة زمنياً. يجب أن تشير كل نتيجة إلى الركيزة الاستراتيجية ذات الصلة للاتحاد الدولي لتنظيم الأسرة (IPPF) وأن تحدد نتيجة قابلة للقياس بحلول تاريخ محدد.",
+    },
+    {
+    id: "def_institutional",
+    en: "Challenges and opportunities related to governance structures, board effectiveness, leadership capacity, human resources, and internal systems and processes.",
+    sp: "Desafíos y oportunidades relacionados con las estructuras de gobernanza, la eficacia de la junta directiva, la capacidad de liderazgo, los recursos humanos y los sistemas y procesos internos.",
+    fr: "Défis et opportunités liés aux structures de gouvernance, à l’efficacité du conseil d’administration, aux capacités de direction, aux ressources humaines, ainsi qu’aux systèmes et processus internes.",
+    ar: "التحديات والفرص المتعلقة بهياكل الحوكمة، وفعالية مجلس الإدارة، والقدرات القيادية، والموارد البشرية، والأنظمة والعمليات الداخلية.",
+    },
+    {
+    id: "def_operational",
+    en: "Challenges and opportunities related to day-to-day operations, including administrative processes, logistics, supply chain management, and client demand for services.",
+    sp: "Desafíos y oportunidades relacionados con las operaciones cotidianas, incluidos los procesos administrativos, la logística, la gestión de la cadena de suministro y la demanda de servicios por parte de los clientes.",
+    fr: "Défis et opportunités liés aux opérations quotidiennes, notamment les processus administratifs, la logistique, la gestion de la chaîne d’approvisionnement et la demande de services de la part des clients.",
+    ar: "التحديات والفرص المتعلقة بالعمليات اليومية، بما في ذلك العمليات الإدارية، واللوجستيات، وإدارة سلسلة التوريد، وطلب العملاء على الخدمات.",
+    },
+    {
+    id: "def_programmatic",
+    en: "Challenges and opportunities related to programme design and delivery, including service quality, monitoring and evaluation systems, delivery capacity, and client engagement.",
+    sp: "Desafíos y oportunidades relacionados con el diseño y la ejecución de programas, incluida la calidad del servicio, los sistemas de seguimiento y evaluación, la capacidad de ejecución y la participación de los clientes.",
+    fr: "Défis et opportunités liés à la conception et à la mise en œuvre des programmes, notamment la qualité des services, les systèmes de suivi et d’évaluation, les capacités de mise en œuvre et l’engagement des clients.",
+    ar: "التحديات والفرص المتعلقة بتصميم البرامج وتنفيذها، بما في ذلك جودة الخدمة، وأنظمة الرصد والتقييم، والقدرة على التنفيذ، ومشاركة العملاء.",
+    },
+    {
+    id: "def_financial",
+    en: "Challenges and opportunities related to the Affiliate's financial health, including audit findings, management letter recommendations, financial management capacity, and financial systems.",
+    sp: "Desafíos y oportunidades relacionados con la salud financiera de la filial, incluyendo los hallazgos de auditoría, las recomendaciones de la carta de gestión, la capacidad de gestión financiera y los sistemas financieros.",
+    fr: "Défis et opportunités liés à la santé financière de l’affilié, notamment les conclusions d’audit, les recommandations de la lettre de recommandation, les capacités de gestion financière et les systèmes financiers.",
+    ar: "التحديات والفرص المتعلقة بالوضع المالي للفرع، بما في ذلك نتائج التدقيق، وتوصيات خطاب الإدارة، والقدرة على الإدارة المالية، والأنظمة المالية.",
+    },
+    {
+    id: "def_sustainability_challenges",
+    en: "Challenges and opportunities related to long-term financial sustainability, including efforts to diversify income, develop social enterprise models, and increase domestic financing.",
+    sp: "Desafíos y oportunidades relacionados con la sostenibilidad financiera a largo plazo, incluyendo esfuerzos para diversificar los ingresos, desarrollar modelos de empresa social y aumentar el financiamiento nacional.",
+    fr: "Défis et opportunités liés à la viabilité financière à long terme, notamment les efforts visant à diversifier les sources de revenus, à développer des modèles d’entreprise sociale et à accroître le financement national.",
+    ar: "التحديات والفرص المتعلقة بالاستدامة المالية على المدى الطويل، بما في ذلك الجهود الرامية إلى تنويع مصادر الدخل، وتطوير نماذج المشاريع الاجتماعية، وزيادة التمويل المحلي.",
+    },
+    {
+    id: "def_main_technical_assistance_capacity",
+    en: "The areas where the Affiliate requires external technical support or capacity building from IPPF or partners. Up to 5 areas can be selected and ranked in priority order.",
+    sp: "Las áreas en las que la filial requiere apoyo técnico externo o desarrollo de capacidades por parte de la IPPF o sus socios. Se pueden seleccionar hasta 5 áreas y clasificarlas por orden de prioridad.",
+    fr: "Domaines dans lesquels l’affilié a besoin d’un soutien technique externe ou d’un renforcement des capacités de la part de l’IPPF ou de ses partenaires. Il est possible de sélectionner jusqu’à 5 domaines et de les classer par ordre de priorité.",
+    ar: "المجالات التي تحتاج فيها المنظمة التابعة إلى دعم فني خارجي أو بناء قدرات من الاتحاد الدولي لتنظيم الأسرة (IPPF) أو شركائه. يمكن اختيار ما يصل إلى 5 مجالات وترتيبها حسب الأولوية.",
+    },
+    {
+        id: "def_total_number_fixes_staff",
+        en: "The total count of paid employees on a formal employment contract with the Affiliate at the time of reporting.",
+        sp: "El número total de empleados remunerados que cuentan con un contrato de trabajo formal con la filial al momento de la presentación del informe.",
+        fr: "Le nombre total de salariés rémunérés ayant un contrat de travail officiel avec la filiale à la date du rapport.",
+        ar: "العدد الإجمالي للموظفين الذين يتقاضون رواتب بموجب عقد عمل رسمي مع الشركة التابعة في وقت إعداد التقرير."
+    },
+    {
+        id: "def_total_number_volunteers",
+        en: "The total count of unpaid volunteers actively contributing to the Affiliate's work, excluding board and governance member",
+        sp: "El número total de voluntarios no remunerados que contribuyen activamente al trabajo de la filial, sin incluir a los miembros de la junta directiva ni a los de los órganos de gobierno",
+        fr: "Le nombre total de bénévoles non rémunérés contribuant activement aux activités de l'affilié, à l'exclusion des membres du conseil d'administration et des instances de gouvernance",
+        ar: "العدد الإجمالي للمتطوعين غير المأجورين الذين يساهمون بنشاط في عمل الفرع، باستثناء أعضاء مجلس الإدارة وأعضاء هيئة الحوكمة"
+    },
     {
         id: "def_strategic_pillar",
         en: "One of the core thematic areas of IPPF's organisational strategy. Current pillars: Center Care on People, Move the Sexuality Agenda, Solidarity for Change, and Nurture our Federation.",
