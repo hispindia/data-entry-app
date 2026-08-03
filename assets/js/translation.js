@@ -856,7 +856,7 @@ const translation_mapping = [
      //Narrative Plan
     {
         id: "country_context",
-        en: "Country context and theory of change",
+        en: "Strategic Context and Results",
         sp: "Contexto nacional y teoría del cambio",
         fr: "Contexte national et théorie du changement",
         ar: 'سياق الدولة ونظرية التغيير'
@@ -1000,10 +1000,10 @@ const translation_mapping = [
     },
     {
         id: "challenges",
-        en: "3. Challenges",
-        sp: "3. Desafíos",
-        fr: "3. Problèmes",
-        ar: '3. التحديات'
+        en: "Challenges",
+        sp: "Desafíos",
+        fr: "Problèmes",
+        ar: 'التحديات'
     },
     {
         id: "opportunities",
@@ -2196,6 +2196,13 @@ const translation_mapping = [
         sp: "Por favor, cargue la carta de gestión recibida junto con el informe de auditoría.",
         fr: "Veuillez télécharger la lettre de gestion reçue avec le rapport d'audit",
         ar: 'يرجى تحميل خطاب الإدارة المستلم مع تقرير التدقيق'
+    },
+    {
+        id: "other_upload_narrative",
+        en: "If relevant, please upload any research reports conducted or published in the calendar year.",
+        sp: "Si corresponde, por favor, sube cualquier informe de investigación que se haya realizado o publicado durante el año calendario.",
+        fr: "Le cas échéant, veuillez mettre en ligne les rapports de recherche réalisés ou publiés au cours de l'année civile.",
+        ar: "إذا كان ذلك مناسبًا، يرجى تحميل أي تقارير بحثية تم إجراؤها أو نشرها خلال السنة التقويمية."
     },
    
    

@@ -219,7 +219,7 @@
     'Direct Project Activities': { nid_g:'direct_project_activities_2.4', tid:'def_direct_project_activities' },
     'Commodities': { nid_g:'commodities_2.3', tid:'def_commodities' },
     'Indirect / Support Costs': { nid_g:'indirect_support_costs_2.3', tid:'def_indirect_support_costs' },
-    'Total Budgeted Expenses': { nid_g:'total_budgeted_expenses', tid:'def_total_budgeted_expensest' },
+    'Total Budgeted Expenses': { nid_g:'total_budgeted_expenses', tid:'def_total_budgeted_expenses' },
 
     // sec 7
     'Income Details': { nid_g:'income_details', tid:'def_income_details' },
@@ -1359,6 +1359,9 @@ const GLOSSARY = [
       'primary contact person': 'Primary Point of Contact',
       'primary point of contact for follow-up on business plan': 'Primary Point of Contact',
       'primary point of contact': 'Primary Point of Contact',
+      // 'Opportunities': "Opportunities",
+      // 'الفرص': 'Opportunities',
+      // 'Oportunidades': 'Opportunities',
       'persona de contacto para el plan de negocio': 'Primary Point of Contact',
       'personne de contact principale': 'Primary Point of Contact',
       'مسؤول التواصل بشأن خطة الأعمال (الاسم والدور المكلف به)': 'Primary Point of Contact',
@@ -1390,7 +1393,6 @@ const GLOSSARY = [
       'results & achievements': 'Results & Achievements',
       '2. results & achievements': 'Results & Achievements',
       'challenges': 'Challenges',
-      '3. challenges': 'Challenges',
       'most effective strategies / approaches': 'Most Effective Strategies / Approaches',
       '4. most effective strategies / approaches': 'Most Effective Strategies / Approaches',
       'organisational update': 'Organisational Update',
@@ -1412,6 +1414,9 @@ const GLOSSARY = [
       'project theme': 'Project Theme',
       'project donor': 'Project Donor',
       'funding type': 'Funding Type',
+      'Tipo de financiamiento': 'Funding Type',
+      'Type de financement': 'Funding Type',
+      "نوع التمويل": 'Funding Type',
       'total contract value': 'Total Contract Value',
       'annual project income': 'Annual Project Income',
       'description of project': 'Description of Project',
@@ -1795,12 +1800,13 @@ const GLOSSARY = [
 
   function injectFieldHelpIcons() {
     // Process all labels, h3/h4 section headers, and focus area spans in tables
-    var selectors = '.form-group label, .form-row label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td[data-i18n], td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"], .listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong, th[data-i18n], th > span[data-i18n]';
+    var selectors = '.form-group label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td[data-i18n], td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"], .listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong, th[data-i18n], th > span[data-i18n]';
     var labels = document.querySelectorAll(selectors);
 
     labels.forEach(function(label) {
       // Skip if already has a help icon (prevents duplicates from MutationObserver re-runs)
       if (label.querySelector('.help-field-icon')) return;
+      if (label.closest('th')) return;       
 
       // Get visible text (strip any existing icons)
       var rawText = '';

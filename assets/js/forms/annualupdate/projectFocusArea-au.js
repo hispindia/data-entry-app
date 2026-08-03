@@ -653,7 +653,7 @@ function buildPivotSummary() {
 
   focusAreaNames.forEach((name, index) => {
     tableRows += `<tr>
-    <td>${name}</td>
+    <td data-i18n="intro.${focusAreaTranslation[name]}">${name}</td>
     <td>
       <div class="input-group"><div class="input-group-prepend">
       <div class="input-group-text">$</div></div>

@@ -81,6 +81,14 @@ const translation_mapping_ar_glossary = [
         ar: "الاسم الرسمي للجهة التابعة مكتوبًا باللغة الإنجليزية، كما هو مسجل لدى الاتحاد الدولي لتنظيم الأسرة.",
     },
     {
+        id: "primary_contact_person",
+        en: "The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.",
+        sp: "La persona designada dentro de la organización responsable de responder consultas, aclaraciones o acciones de seguimiento relacionadas con la presentación del Plan o Informe Anual de Negocios.",
+        fr: "La personne désignée au sein de l'organisation chargée de répondre aux questions, aux demandes de clarification ou aux actions de suivi liées à la soumission du Plan d'affaires annuel ou du Rapport annuel.",
+        ar: "الشخص المُعيَّن داخل المؤسسة والمسؤول عن الرد على الاستفسارات، أو طلبات التوضيح، أو إجراءات المتابعة المتعلقة بتقديم خطة الأعمال السنوية أو التقرير السنوي."
+    },
+
+    {
         id: "organisation_name_original",
         en: "The official name of the Affiliate in the preferred IPPF language, if different from English.",
         sp: "El nombre oficial de la Entidad afiliada en el idioma preferido de la IPPF, si es diferente del inglés.",
