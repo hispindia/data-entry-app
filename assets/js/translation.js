@@ -1574,6 +1574,7 @@ const translation_mapping = [
         fr: "Bienvenue sur le <strong>Portail de planification et de rapports de l’IPPF</strong>. Ce portail est votre guichet unique pour téléverser vos plans d’activités annuels, soumettre vos rapports annuels et semestriels, ainsi que pour télécharger des rapports et autres documents pertinents.",
         ar: "مرحبًا بكم في <strong>بوابة التخطيط وإعداد التقارير التابعة لـ IPPF</strong>. تُعد البوابة منصتكم الموحدة لرفع خطط الأعمال السنوية، وتقديم التقارير السنوية ونصف السنوية، أو تنزيل التقارير والوثائق ذات الصلة."
     },
+
     {
         id: "timeline_title",
         en: "MA BPR Timelines: 2026",
@@ -1806,18 +1807,32 @@ const translation_mapping = [
         ar: "التقارير السنوية"
     },
     {
-        id: "mas_commenced",
+        id: "mas_commenced_2027",
         en: "MAs Commenced",
-        sp: "MAs Iniciadas",
-        fr: "AM commencÃ©es",
-        ar: "الجمعيات التي بدأت"
+        sp: "Inicio de las evaluaciones de impacto ambiental",
+        fr: "Lancement des missions d’évaluation",
+        ar: "بدء تنفيذ الأنشطة الإدارية"
+    },
+    {
+        id: "final_business_plan",
+        en: "Final Business Plan Submitted",
+        sp: "Presentación del plan de negocios definitivo",
+        fr: "Soumission du plan d’activité définitif",
+        ar: "تقديم خطة العمل النهائية"
+    },
+     {
+        id: "mas_commenced_2026",
+        en: "MAs Commenced",
+        sp: "Inicio de las evaluaciones de impacto ambiental",
+        fr: "Lancement des missions d’évaluation",
+        ar: "بدء تنفيذ الأنشطة الإدارية"
     },
     {
         id: "finalized_reporting",
         en: "Finalized Reporting",
-        sp: "Informe Finalizado",
-        fr: "Rapport finalisÃ©",
-        ar: "تم الانتهاء من التقارير"
+        sp: "Presentación del informe definitivo",
+        fr: "Soumission du rapport final",
+        ar:"تقديم التقرير النهائي"
     },
     {
         id: "notice_board",
