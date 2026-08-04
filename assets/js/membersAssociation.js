@@ -25,6 +25,27 @@ document.addEventListener("DOMContentLoaded", function () {
     if (typeof saveOrgUnit === 'function') saveOrgUnit(false);
   });
 
+  document.getElementById('languageSwitcher').addEventListener("change", async function (ev) {
+      const noticeBoardIds = {
+        en: { id: "lNR63q5GkXj", name: "notice-english" },
+        fr: { id: "upQA8yJuVKx", name: "notice-french" },
+        sp: { id: "bZlXa1FiHG3", name: "notice-spanish" },
+        ar: { id: "HCSaa6Kdof1", name: "notice-arabic" }
+      };
+      const resNoticeBoard = await getConstants(`id:eq:${noticeBoardIds[ev.target.value].id}`);
+      document.querySelectorAll(".notice-language-entry").forEach(entry => {
+        entry.style.display = "none";
+        
+    });
+
+      const selected = document.querySelector(`.notice-language-entry[data-lang="${ev.target.value}"]`);
+      if (selected) selected.style.display = "block";
+      if (resNoticeBoard?.constants?.length) {
+        document.getElementById(noticeBoardIds[ev.target.value].name).innerHTML = resNoticeBoard.constants[0].description;
+      }
+
+  })
+
   async function fetchOrganizationUnitUid() {
     try {  
       const noticeBoardIds = {
