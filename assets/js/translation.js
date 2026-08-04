@@ -1828,6 +1828,20 @@ const translation_mapping = [
         ar: "بدء تنفيذ الأنشطة الإدارية"
     },
     {
+        id: "annual_business_plan_2027",
+        en: "Annual Business Plan 2027",
+        sp: "Plan de negocios anual 2027",
+        fr: "Plan d’activité annuel 2027",
+        ar: "خطة العمل السنوية لعام 2027"
+    },
+    {
+        id: "half_yearly_2026",
+        en: "Half-Yearly Report 2026",
+        sp: "Informe semestral 2026",
+        fr: "Rapport semestriel 2026",
+        ar: "التقرير نصف السنوي لعام 2026"
+    },
+    {
         id: "finalized_reporting",
         en: "Finalized Reporting",
         sp: "Presentación del informe definitivo",
