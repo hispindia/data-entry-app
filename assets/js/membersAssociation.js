@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
       const maCommenced = await getCommencedLength();
       const finalisedReport = await eventApi.getEvents();
+      const businessPlanReport = await eventApi.getEventBusinessPlan();
       const language = localStorage.getItem("i18nextLng") || "en";
       const resNoticeBoard = await getConstants(`id:eq:${noticeBoardIds[language].id}`);
       document.querySelectorAll(".notice-language-entry").forEach(entry => {
@@ -67,15 +68,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const maCommencedLength = maCommenced.listGrid?.rows?.length || 0;
       const finalisedReportLen = finalisedReport.events?.length || 0;
+      const businessPlanReportLen = businessPlanReport.events?.length || 0;
 
       const totalOrgUnits = resOUGroup.organisationUnits?.length || 0;
       const percentage = totalOrgUnits > 0 ? (maCommencedLength / totalOrgUnits) * 100 : 0;
       const percentageOfReporting = totalOrgUnits > 0 ? (finalisedReportLen / totalOrgUnits) * 100 : 0;
+      const percentageOfBusinessPlan = totalOrgUnits > 0 ? (businessPlanReportLen / totalOrgUnits) * 100 : 0;
       
       document.getElementById('mas_commenced').innerHTML = `${maCommencedLength}`;
       document.getElementById('finalized_reporting').innerHTML = `${finalisedReportLen}`;
+      document.getElementById('finalized_business').innerHTML = `${businessPlanReportLen}`;
       document.querySelector('.progress-bar').style.width = percentage + '%';
       document.querySelector('.reporting').style.width = percentageOfReporting + '%';
+      document.querySelector('.businessPlan-per').style.width = percentageOfBusinessPlan + '%';
 
       // noticeBoardIds.forEach(boardId => {
       //   const board = resNoticeBoard.constants.find(noticeBoard => noticeBoard.id == boardId.id);

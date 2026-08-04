@@ -10,8 +10,17 @@ export const eventApi = {
       console.error("Error fetching user data:", error);
     }
   },
+  getEventBusinessPlan: async () => {
+    const url = `events.json?skipPaging=true&filter=GbGunhHaiDt:EQ:true&filter=rpQi6D8L58H:EQ:2027&paging=false&programStage=hMclSv5L1pV&fields=event`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  },
   getEvents: async () => {
-    const url = `events.json?skipPaging=true&filter=GbGunhHaiDt:EQ:true&filter=rpQi6D8L58H:EQ:2025&filter=T1poFhLsB2S:EQ:Annual%20Reporting&paging=false&programStage=V9OmnYWiC2j&fields=event`;
+    const url = `events.json?skipPaging=true&filter=GbGunhHaiDt:EQ:true&filter=rpQi6D8L58H:EQ:2026&filter=T1poFhLsB2S:EQ:Semi-Annual%20Reporting&paging=false&programStage=V9OmnYWiC2j&fields=event`;
     try {
       const response = await BaseApi({url, method:"GET"});
       return response.json();
