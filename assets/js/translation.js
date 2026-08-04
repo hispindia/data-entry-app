@@ -2356,12 +2356,12 @@ const translation_mapping = [
     },
     //Project Description
     {
-        id: "project_description_info",
-        en: '<p class="mb-4">Please list all the projects you plan to carry out in year of the business plan.</p><p class="mb-4">Most projects are likely to have restricted funding. These have a donor agreement with clear deliverables and timelines. Please do not separate donor-funded projects into separate projects. One donor contract equals one project.</p><p class="mb-4">Some projects are implemented with unrestricted funding. This funding can be sourced from a donor, or from income generation activities such as social enterprise, sale of services, donations, etc.</p><p class="mb-4">For each project, please enter the name and a brief description including regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p><p class="mb-0">Please do not separate projects into thematic programmes. Please fill in all cells. They are mandatory, and the business plan cannot be submitted if they are not filled in.</p>',
-        sp: "Enumere todos los proyectos que planifican llevar a cabo en el ciclo de tres años (se deben incluir todos los proyectos, tanto los de fondos restringidos (restricted funds) como los de fondos no restringidos (unrestricted funds)). Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Para cada proyecto, indique su nombre y ofrezca una breve descripción de no más de 250 palabras. En la descripción, mencione el donante o la fuente de financiamiento; las regiones o provincias en las que se implementará; los usuarios o la audiencia meta, y los resultados previstos. Para actualizaciones, agregue todo proyecto nuevo no incluido en el plan de negocio de 3 años. No es necesario completar todas las filas.",
-        fr: "Veuillez énumérer tous les projets que vous prévoyez de porter à exécution au cours du cycle de trois ans (incluez tous les projets, financés à la fois par des fonds avec restrictions et des fonds sans restrictions). Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiserVeuillez accompagner chaque projet d’une brève description de pas plus de 250 mots. Dans la description, veuillez mentionner le bailleur de fonds/la source de financement, les régions/provinces où il sera mis en œuvre, le public cible/les clients et ses réalisations/résultats escomptés. Pour les mises à jour, veuillez ajouter tout nouveau projet non inclus dans le plan d'activité de 3 ans. Il n’est pas obligatoire de remplir toutes les lignes.",
-        ar: "<p>نرجو إعداد قائمة بجميع المشاريع التي تخططون لتنفيذها في دورة الثلاث سنوات (ينبغي أن تشمل جميع المشاريع التي تمولها الصناديق المقيدة وغير المقيدة).</p><p>بالنسبة للسنة الثانية: يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد). </p>"
-    },
+    id: "project_description_info",
+    en: '<p class="mb-4">Please list all the projects you plan to carry out in year of the business plan.</p><p class="mb-4">Most projects are likely to have restricted funding. These have a donor agreement with clear deliverables and timelines. Please do not separate donor-funded projects into separate projects. One donor contract equals one project.</p><p class="mb-4">Some projects are implemented with unrestricted funding. This funding can be sourced from a donor, or from income generation activities such as social enterprise, sale of services, donations, etc.</p><p class="mb-4">For each project, please enter the name and a brief description including regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p><p class="mb-0">Please do not separate projects into thematic programmes. Please fill in all cells. <span style="color: red">They are mandatory, and the business plan cannot be submitted if they are not filled in.</span></p>',
+    sp: '<p class="mb-4">Enumere todos los proyectos que tiene previsto ejecutar durante el año del plan de negocio.</p><p class="mb-4">La mayoría de los proyectos probablemente contarán con financiación restringida. Estos proyectos tienen un acuerdo con el donante que establece entregables y plazos claros. No divida los proyectos financiados por un mismo donante en varios proyectos. Un contrato con un donante equivale a un proyecto.</p><p class="mb-4">Algunos proyectos se ejecutan con financiación no restringida. Esta financiación puede provenir de un donante o de actividades de generación de ingresos, como empresas sociales, prestación de servicios, donaciones, etc.</p><p class="mb-4">Para cada proyecto, introduzca el nombre y una breve descripción que incluya las regiones o provincias donde se implementará, el público objetivo o los beneficiarios y los resultados previstos.</p><p class="mb-0">No separe los proyectos en programas temáticos. Complete todas las celdas. <span style="color: red">Son obligatorias y el plan de negocio no podrá enviarse si no están completas.</span></p>',
+    fr: '<p class="mb-4">Veuillez énumérer tous les projets que vous prévoyez de mettre en œuvre au cours de l’année couverte par le plan d’activité.</p><p class="mb-4">La plupart des projets sont susceptibles d’être financés par des fonds affectés. Ces projets sont régis par un accord avec un bailleur de fonds précisant clairement les livrables et les échéances. Veuillez ne pas diviser un projet financé par un bailleur en plusieurs projets. Un contrat avec un bailleur de fonds correspond à un projet.</p><p class="mb-4">Certains projets sont mis en œuvre grâce à des fonds non affectés. Ces fonds peuvent provenir d’un bailleur de fonds ou d’activités génératrices de revenus, telles qu’une entreprise sociale, la vente de services, des dons, etc.</p><p class="mb-4">Pour chaque projet, veuillez saisir son nom ainsi qu’une brève description comprenant les régions/provinces où il sera mis en œuvre, le public cible/les bénéficiaires et les résultats attendus.</p><p class="mb-0">Veuillez ne pas regrouper les projets en programmes thématiques. Veuillez remplir toutes les cellules. <span style="color: red">Elles sont obligatoires et le plan d’activité ne pourra pas être soumis si elles ne sont pas remplies.</span></p>',
+    ar: '<p class="mb-4">يرجى إدراج جميع المشاريع التي تخططون لتنفيذها خلال سنة خطة العمل.</p><p class="mb-4">من المرجح أن تكون معظم المشاريع ممولة من خلال تمويل مقيّد. وتخضع هذه المشاريع لاتفاقية مع الجهة المانحة تتضمن مخرجات وجداول زمنية واضحة. يرجى عدم تقسيم المشروع الممول من جهة مانحة واحدة إلى عدة مشاريع، إذ يُعد كل عقد مع جهة مانحة مشروعًا واحدًا.</p><p class="mb-4">يتم تنفيذ بعض المشاريع باستخدام تمويل غير مقيّد. وقد يأتي هذا التمويل من جهة مانحة أو من أنشطة توليد الدخل مثل المشاريع الاجتماعية، أو بيع الخدمات، أو التبرعات، وغيرها.</p><p class="mb-4">لكل مشروع، يرجى إدخال اسم المشروع ووصف موجز يتضمن المناطق/المحافظات التي سيتم تنفيذه فيها، والفئة المستهدفة/المستفيدين، والنتائج أو المخرجات المتوقعة.</p><p class="mb-0">يرجى عدم تقسيم المشاريع إلى برامج موضوعية. يرجى تعبئة جميع الخانات. <span style="color: red">جميع الخانات إلزامية، ولا يمكن تقديم خطة العمل إذا لم يتم استكمالها.</span></p>'
+   },
     {
         id: "description_project",
         en: "Description of Project",
@@ -2387,17 +2387,13 @@ const translation_mapping = [
     },
     //Project Budget
     
-    {
-        id: "project_budget_info",
-        en: `<p class="mb-4">Please complete all of the budget data in USD, using the exchange rate provided by IPPF.<br>Please break down annual funds based on calendar years (Jan - Dec).</p><p class="mb-4">Please included each project's budget. The total budget of all of your projects should equal your entire organisational budget (we assume that indirect/support costs and senior management costs are incorporated within each project; if there are additional indirect/support costs not captured in the projects, please add a separate project for them called "Indirect/Support").</p><p class="mb-0">Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project, please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p>`,
-        sp: "Todos los datos del presupuesto deben indicarse en USD utilizando la tasa de cambio que proporcione IPPF. Desglose los fondos anuales en base a los años naturales (de enero a diciembre).	Incluya el presupuesto de cada proyecto; el presupuesto total de todos los proyectos debe ser igual al presupuesto entero de la organización. Incluya solo proyectos en los que el financiamiento esté confirmado o tenga más de un 80 % de probabilidades de obtenerse. Está bien si muchos de los proyectos del Año 3 tienen un % mayor de incertidumbre. El año próximo tendrá la oportunidad de actualizar el Plan de negocio.",
-        fr: "Veuillez indiquer toutes les données budgétaires en USD, en utilisant le taux de change fourni par l’IPPF. Veuillez ventiler les fonds annuels en fonction des années civiles (de janvier à décembre).	Veuillez indiquer le budget de chaque projet. Le budget total de tous vos projets doit correspondre au total du budget de votre organisation. Veuillez indiquer uniquement les projets pour lesquels le financement est confirmé ou a plus de 80 % de chances de se concrétiser Il est donc acceptable qu’un grand nombre de projets pour l’Année 3 présentent un plus fort pourcentage d'incertitude. L'occasion vous sera donnée l'an prochain d'actualiser le budget du projet.",
-        ar: `<p>يرجى إكمال جميع البيانات الخاصة بالميزانية بالدولار الأمريكي، مع تطبيق سعر الصرف الذي حدده اتحاد IPPF. ويرجى توزيع التمويلات السنوية حسب التقويم الميلادي (يناير - ديسمبر)</p><p>ملاحظة: يرجى تحديث البيانات للسنة الثانية والثالثة. نرجو تزويدنا بتفاصيل كاملة عن خطط السنة القادمة (السنة الثانية)، وتفاصيل أقل للسنة الثالثة كما هو موضح أدناه.</p><p>في نهاية العام المقبل، سيُطلب منك تحديث الميزانيات وتقديم تفاصيل إضافية للسنة التالية.</p><p>يرجى تضمين ميزانية كل مشروع؛ يجب أن يكون إجمالي ميزانيات جميع مشاريعكم مساوياً للميزانية الكاملة للمنظمة (نفترض أن التكاليف غير المباشرة/دعم الإدارة وتكاليف الإدارة العليا مدرجة ضمن كل مشروع؛ وإذا كانت هناك تكاليف غير مباشرة/دعم إضافية غير مدرجة في المشاريع، يرجى إضافة مشروع منفصل لها بعنوان "تكاليف غير مباشرة/دعم").</p><p>يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر. لكل مشروع، يرجى إدخال الاسم ووصف مختصر يشمل المانح/مصدر التمويل، المناطق/المحافظات التي سيتم تنفيذ المشروع فيها، الجمهور المستهدف/المستفيدين، والنتائج/الأهداف المرجوة.</p><p>إرشادات لتقدير الميزانيات</p><p>بالنسبة للسنة الأولى: لن يُسمح لك بإجراء أي تغييرات على الميزانيات.</p><p>بالنسبة للسنة الثانية: يرجى إدراج المشاريع التي تم تأكيد تمويلها فقط أو التي لديها فرصة تحقيق تمويل بنسبة 80% أو أكثر (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد).</p><p>بالنسبة للسنة الثالثة: يرجى إدراج جميع المشاريع التي تخططون لتنفيذها بشكل واقعي، حتى وإن لم تعرفوا بعد الجهة المانحة التي ستمولها. لذلك، من المقبول أن يكون العديد من المشاريع في السنة الثالثة "غير مؤكدة". لكل مشروع، قدم أفضل تقدير لديك للميزانية المتوقعة، حتى لو لم يتم تأكيد المبلغ الدقيق، أو إذا كنتم قد تحتاجون إلى تمويل من عدة جهات مانحة (على سبيل المثال، إذا كنت تتوقع أن تكلفتك للمشروع تتراوح بين 40,000 و80,000، يمكنك ذكر المتوسط وهو 60,000 كتقدير). بعد ذلك، يمكنك اختيار أحد الخيارات الثلاثة للإشارة إلى احتمال تمويل ذلك المشروع:</p><p>مؤكد: يوجد التزام ثابت بالتمويل والمشروع (يمكن أن يشمل التزامات مكتوبة أو شفوية صريحة، حتى لو لم يتم توقيع عقد متعدد السنوات).</p><p>محتمل (أكثر من 80%): تقدّر أن هناك فرصة تزيد عن 80% لتحقيق تمويل المشروع (على سبيل المثال، مانح سبق أن موّل مشاريعكم في السنوات السابقة وأنتم في مفاوضات لتمديد التمويل، أو مانح أنتم متقدمون في إجراءات التمويل لديه مؤشرات على احتمالية الحصول على التمويل رغم عدم توقيع العقد بعد).**</p>
-        <p>غير مؤكد: هناك احتمال أقل من 80% لتنفيذ المشروع والحصول على التمويل. يرجى إدراج المشاريع التي تعتقدون أن هناك فرصة واقعية لتنفيذها فقط، وليس قائمة أمنيات لمشاريع غير مرجحة (على سبيل المثال، إذا كانت منظمتكم تنفذ عادةً 5 إلى 6 مشاريع سنويًا بميزانية إجمالية تبلغ 2 مليون دولار، فلا تقم بإدراج 12 مشروعًا "غير مؤكد" بميزانية إجمالية تبلغ 4 ملايين دولار).</p><p>
-قد تنتهي بعض المشاريع في منتصف الفترة الممتدة لثلاث سنوات؛ إذا حدث ذلك، يرجى وضع "0" في الميزانية للسنوات التي ينتهي فيها المشروع.</p> <p>
-يرجى ملاحظة أنه بالنسبة للسنة القادمة (السنة الثانية)، نطلب أيضًا تفصيلًا لكيفية توزيع المنحة الأساسية غير المقيّدة على كل مشروع. نحن ندرك أن هذا التوزيع قد يتغير خلال العام مع تغيّر احتياجات التمويل؛ ومع ذلك، نرغب في الحصول على أفضل تقدير لديكم في الوقت الحالي. لا تحتاجون إلى تحديد كيفية صرف التمويل الأساسي في السنة الثالثة بدقة، ولكن يجب أن يُحتسب ضمن المبلغ الإجمالي. ليس من الضروري تعبئة جميع الصفوف.
-</p>`
-    }, 
+   {
+    id: "project_budget_info",
+    en: `<p class="mb-4">Please complete all of the budget data in USD, using the exchange rate provided by IPPF.<br>Please break down annual funds based on calendar years (Jan - Dec).</p><p class="mb-4">Please included each project's budget. The total budget of all of your projects should equal your entire organisational budget (we assume that indirect/support costs and senior management costs are incorporated within each project; if there are additional indirect/support costs not captured in the projects, please add a separate project for them called "Indirect/Support").</p><p class="mb-0">Only include projects where funding is either confirmed or has an 80%+ chance of materialising. For each project, please enter the name and brief description including donor/funding source, regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p>`,
+    sp: `<p class="mb-4">Por favor, complete todos los datos presupuestarios en dólares estadounidenses (USD), utilizando el tipo de cambio proporcionado por la IPPF. Desglose los fondos anuales por años calendario (enero - diciembre).</p><p class="mb-4">Incluya el presupuesto de cada proyecto. El presupuesto total de todos sus proyectos debe equivaler al presupuesto total de su organización (suponemos que los costos indirectos/de apoyo y los costos de la alta dirección están incorporados en cada proyecto; si hay costos indirectos/de apoyo adicionales que no están incluidos en los proyectos, agregue un proyecto aparte para ellos llamado «Indirectos/Apoyo»).</p><p class="mb-0">Incluya únicamente los proyectos cuya financiación esté confirmada o que tengan una probabilidad de más del 80 % de concretarse. Para cada proyecto, ingrese el nombre y una breve descripción que incluya el donante o la fuente de financiamiento, las regiones o provincias donde se implementará, el público objetivo o los clientes y los resultados previstos.</p>`,
+    fr: `<p class="mb-4">Veuillez indiquer toutes les données budgétaires en dollars américains (USD), en utilisant le taux de change fourni par l'IPPF. Veuillez ventiler les fonds annuels par année civile (janvier à décembre).</p><p class="mb-4">Veuillez inclure le budget de chaque projet. Le budget total de l’ensemble de vos projets doit correspondre au budget global de votre organisation (nous partons du principe que les frais indirects/de soutien et les frais liés à la direction sont intégrés dans chaque projet ; s’il existe des frais indirects/de soutien supplémentaires non pris en compte dans les projets, veuillez leur consacrer un projet distinct intitulé « Frais indirects/de soutien »).</p><p class="mb-0">N’incluez que les projets dont le financement est soit confirmé, soit susceptible de se concrétiser à plus de 80 %. Pour chaque projet, veuillez indiquer le nom et une brève description, y compris le donateur ou la source de financement, les régions ou provinces où il sera mis en œuvre, le public cible ou les clients, ainsi que les résultats escomptés.</p>`,
+    ar: `<p class="mb-4">يرجى ملء جميع بيانات الميزانية بالدولار الأمريكي، باستخدام سعر الصرف المقدم من الاتحاد الدولي لتنظيم الأسرة (IPPF). يرجى توزيع الأموال السنوية على أساس السنوات التقويمية (يناير - ديسمبر).</p><p class="mb-4">يرجى تضمين ميزانية كل مشروع. يجب أن يساوي إجمالي ميزانية جميع مشاريعكم ميزانية منظمتكم بالكامل (نفترض أن التكاليف غير المباشرة/تكاليف الدعم وتكاليف الإدارة العليا مدرجة ضمن كل مشروع؛ إذا كانت هناك تكاليف غير مباشرة/تكاليف دعم إضافية لم يتم تضمينها في المشاريع، يرجى إضافة مشروع منفصل لها باسم "التكاليف غير المباشرة/تكاليف الدعم").</p><p class="mb-0">يرجى تضمين المشاريع التي تم تأكيد تمويلها أو التي تبلغ احتمالية تحقق تمويلها 80% أو أكثر فقط. بالنسبة لكل مشروع، يرجى إدخال الاسم ووصفًا موجزًا يتضمن الجهة المانحة/مصدر التمويل، والمناطق/المحافظات التي سيتم تنفيذه فيها، والجمهور المستهدف/العملاء، والنتائج/المخرجات المرجوة.</p>`
+   },
     {
         id: "project_year",
         en: "Year",
@@ -2492,15 +2488,10 @@ const translation_mapping = [
     },
     {
         id: "project_focusarea_info",
-        en: ` <p>
-        Please fill in your total organisational expense budget by focus area. The focus areas are pre-defined. Please do this for every project you have submitted under Section 2.1. 
-        </p><p><strong>
-        A single project can have multiple Project Focus Areas. Use any that are relevant to the project. 
-       </strong>
-        </p><p>Please use your best estimate. For multi-year projects, please consider the breakdown of cost that you submitted in previous years.</p>`,
-        sp: "Para cada proyecto, divida su presupuesto según las áreas prioritarias de IPPF (seleccione del menú desplegable). Un solo proyecto puede tener varias Áreas prioritarias. Utilice una fila nueva para cada área prioritaria del proyecto que sea directamente pertinente dentro de cada proyecto. Haga la mejor estimación posible para calcular los gastos presupuestados para cada área prioritaria del proyecto. La tabla de referencia en la derecha (columna Q, fila 17) indica qué cantidad del presupuesto del Año 2 de cada proyecto se ha asignado a Áreas prioritarias del proyecto, de ese modo sabrá si se puede asignar más. No es necesario completar todas las filas.",
-        fr: "Pour chaque projet, veuillez diviser votre budget en fonction des domaines d'intervention de l'IPPF (sélectionnés dans le menu déroulant). Un même projet peut avoir plusieurs volets d’intervention. Veuillez utiliser une ligne pour chaque volet d'intervention qui est directement pertinent au projet en question Veuillez utiliser vos estimations les plus précises pour décider des dépenses budgétisées par volet d'intervention du projet. Le tableau de référence à droite (colonne Q, ligne 17) indique pour chaque projet la part du budget pour l'Année 2 que vous avez allouée aux volets d'intervention, afin de connaître le montant qu'il vous reste à allouer, le cas échéant Il n’est pas obligatoire de remplir toutes les lignes.",
-        ar: "<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>لكل مشروع، يرجى تقديم توزيع للتكاليف حسب مجالات تركيز المشروع المستخدمة (يتم اختيارها من القائمة المنسدلة).</p><p>يمكن أن يحتوي المشروع الواحد على عدة مجالات تركيز. يرجى استخدام صف جديد لكل مجال تركيز مرتبط مباشرة بالمشروع (على سبيل المثال، المشروع الذي يشمل كلًا من العيادة المتنقلة والعيادة الثابتة يجب أن يُدرج في صفّين).</p><p>يرجى تقدير تكلفة العمل ضمن كل مجال تركيز في المشروع؛ ونظرًا لأن وقت الموظفين قد يكون موزعًا بين عدة مجالات تركيز، يرجى استخدام أفضل تقدير لديك لنسبة الوقت المخصص لكل مجال تركيز للوصول إلى توزيع التكلفة. نرجو التأكد من عدم تغيير مجال التركيز المخصص لأي مشروع في عام 2023 عند تحديثه لعام 2024.</p><p>يوضح الجدول المرجعي على اليمين (العمود Q، الصف 17) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب مجالات التركيز، بحيث يمكنك معرفة ما إذا كان لا يزال هناك جزء لم يتم تخصيصه بعد.</p>"
+        en: `<p>Please fill in your total organisational expense budget by focus area. The focus areas are pre-defined. Please do this for every project you have submitted under Section 2.1.</p><p><strong>A single project can have multiple Project Focus Areas. Use any that are relevant to the project.</strong></p><p>Please use your best estimate. For multi-year projects, please consider the breakdown of cost that you submitted in previous years.</p>`,
+        sp: `<p>Por favor, indica el presupuesto total de gastos de tu organización por área de enfoque.</p><p>Las áreas de enfoque están predefinidas. Hazlo para cada proyecto que hayas presentado en la Sección 2.1.</p><p><strong>Un mismo proyecto puede tener varias áreas de enfoque. Utiliza aquellas que sean relevantes para el proyecto.</strong></p><p>Por favor, utiliza tu mejor estimación. En el caso de proyectos de varios años, toma en cuenta el desglose de costos que presentaste en años anteriores.</p>`,
+        fr: `<p>Veuillez indiquer le budget total de votre organisation par domaine d'intervention.</p><p>Les domaines d'intervention sont prédéfinis. Veuillez remplir cette rubrique pour chaque projet que vous avez soumis au titre de la section 2.1.</p><p><strong>Un même projet peut relever de plusieurs domaines d'intervention. Sélectionnez ceux qui sont pertinents pour votre projet.</strong></p><p>Veuillez fournir votre meilleure estimation. Pour les projets pluriannuels, veuillez vous référer à la ventilation des coûts que vous avez soumise les années précédentes.</p>`,
+        ar: `<p>يرجى إدخال إجمالي ميزانية نفقات مؤسستكم حسب مجالات التركيز.</p><p>مجالات التركيز محددة مسبقًا. يرجى القيام بذلك لكل مشروع قمتم بتقديمه ضمن القسم 2.1.</p><p><strong>يمكن أن يشمل مشروع واحد عدة مجالات تركيز. استخدموا أي مجالات ذات صلة بالمشروع.</strong></p><p>يرجى استخدام أفضل تقدير لديكم. بالنسبة للمشاريع متعددة السنوات، يرجى مراعاة تفاصيل التكاليف التي قدمتموها في السنوات السابقة.</p>`
     },
     {
        
@@ -2672,77 +2663,95 @@ const translation_mapping = [
         sp: "2.4 Desglose según categoría",
         fr: "2.4 Breakdown by expense category",
         ar: '2.4 التقسيم حسب فئة النفقات'
-    },
+    }, 
     {
-        id: "project_expense_info",
-        en: `<p> Please list your expenses by expense category per project. Please include all expenses so that your totals are the same as the total of section 2.3. Expense Budget by Focus Area.
-      </p><p>
-        <strong >Cost categories are defined as follows: </strong>
-      </p> <p>
-        <strong>Personnel:</strong> Includes ALL costs for staff
-        allocated to this project. For each project, this should
-        also include a share of support staff personnel costs
-        (e.g., accounting, HR, senior leadership) No staff costs
-        should appear in “direct project activities” nor in
-        “indirect/support costs.” We realize this will make
-        personnel appear higher than it appears in other reports,
-        and that is fine.
-      </p> <p>
-        Staff costs include Salaries, Benefits, Sessional Fees,
-        Severance/Redundancy, Retirement/Pension, Recruitment,
-        Other personnel expenses.Includes temporary workers,
-        interns, uniforms, insurance, taxes, and other fiscal
-        personnel charges. If the MA employs consultants to serve
-        as ongoing service providers (instead of employees),
-        include their fees as well.
-      </p> <p>
-        <strong>Direct project activities:</strong> This includes
-        any direct costs that are not captured under personnel or
-        commodity costs. Can include equipment, professional
-        services,travel, media and print materials, etc. This can
-        include both recurring and capital expenditures. No
-        personnel costs should be included here.
-      </p> <p>
-        <strong>Commodities:</strong> Commodities: This includes
-        the cost of purchasing medical supplies or contraceptives
-        required for delivery of SRH services. The value of
-        donated commodities should be listed both as an expense
-        and as a source of income (below).
-      </p> <p>
-        <strong>Indirect and support costs:</strong> This includes
-        occupancy costs, utilities, and other support functions
-        that are not direct project costs and not captured in the
-        above categories.This can include both recurring and
-        capital expenditures. No personnel costs should be
-        included here.
+    id: "project_expense_info",
+    en: `<p>
+        Please list your expenses by expense category per project. Please include all expenses so that your totals are the same as the total of section 2.3. Expense Budget by Focus Area.
+      </p>
+      <p>
+        <strong>Cost categories are defined as follows:</strong>
+      </p>
+      <p>
+        <strong>Personnel:</strong> Includes ALL costs for staff allocated to this project. For each project, this should also include a share of support staff personnel costs (e.g., accounting, HR, senior leadership). No staff costs should appear in "direct project activities" nor in "indirect/support costs." We realize this will make personnel appear higher than it appears in other reports, and that is fine.
+      </p>
+      <p>
+        Staff costs include Salaries, Benefits, Sessional Fees, Severance/Redundancy, Retirement/Pension, Recruitment, Other personnel expenses. Includes temporary workers, interns, uniforms, insurance, taxes, and other fiscal personnel charges. If the MA employs consultants to serve as ongoing service providers (instead of employees), include their fees as well.
+      </p>
+      <p>
+        <strong>Direct project activities:</strong> This includes any direct costs that are not captured under personnel or commodity costs. Can include equipment, professional services, travel, media and print materials, etc. This can include both recurring and capital expenditures. No personnel costs should be included here.
+      </p>
+      <p>
+        <strong>Commodities:</strong> This includes the cost of purchasing medical supplies or contraceptives required for delivery of SRH services. The value of donated commodities should be listed both as an expense and as a source of income (below).
+      </p>
+      <p>
+        <strong>Indirect and support costs:</strong> This includes occupancy costs, utilities, and other support functions that are not direct project costs and not captured in the above categories. This can include both recurring and capital expenditures. No personnel costs should be included here.
       </p>`,
-        sp:`Para cada proyecto, enumere los gastos presupuestados por categoría de gasto de IPPF. Como en las tablas anteriores, esta tabla debe abarcar el presupuesto entero de su organización.	
-        <strong>Las categorías de costos se definen del siguiente modo:</strong>	
-            <strong>Personal:</strong> Incluye TODOS los costos de personal asignados a este proyecto. Para cada proyecto, esto también debería incluir un porcentaje de costos de personal de apoyo (p. ej., contabilidad, RR. HH., equipo directivo superior).
-            No se deben incluir costos de personal en «costos directos de actividades del proyecto» ni en «costos indirectos/de apoyo». Sabemos que esto hará que los costos de personal parezcan más elevados que en otros informes; esto no es un problema.
-            Los costos de personal incluyen salarios, prestaciones, honorarios por sesiones, indemnizaciones por despido/reducción de personal, jubilación/pensiones, contratación y otros gastos de personal. 
-            Incluye a trabajadores temporales, pasantes, uniformes, seguros, impuestos y otros gastos fiscales de personal. Si la AM utiliza consultores para que presten servicios como proveedores 
-            de forma continua (en vez de empleados), se deben incluir también sus honorarios.
-            <strong>Costos directos de actividades del proyecto:</strong> Incluyen todos los costos directos que no estén contemplados en costos de personal o de productos. Pueden ser costos de equipos, servicios profesionales, 
-            viajes, medios audiovisuales y materiales de impresión, etc. Pueden incluir tanto costos recurrentes como inversiones de capital. No se deben incluir aquí costos de personal.
-            <strong>Productos:</strong> Incluyen los costos de la compra de suministros médicos o anticonceptivos necesarios para la prestación de servicios de SSR. 
-            El valor de los productos donados debería registrarse como gasto y, al mismo tiempo, como fuente de ingresos (abajo).
-            <strong>Costos indirectos y de apoyo:</strong> Incluyen costos de alquiler, servicios públicos, y otras funciones de apoyo que no sean costos directos del proyecto y que no estén registrados en las categorías anteriores. 
-            Pueden incluir tanto costos recurrentes como inversiones de capital. No se deben incluir aquí costos de personal.`,
-        fr: `Pour chaque projet, veuillez énumérer vos dépenses budgétisées par catégorie de dépenses de l'IPPF. Comme pour les tableaux précédents, ce tableau doit couvrir le budget de l'ensemble de votre organisation.	
-        <strong>Les catégories de coût sont définies comme suit : </strong>	
-        <strong>Personnel :</strong> Inclut TOUS LES frais du personnel affecté à ce projet. Pour chaque projet, il convient également d’inclure une part des frais du personnel de soutien (par ex. comptabilité, RH, haute direction)
-            Aucuns frais de personnel ne doivent figurer à la rubrique « Activités directes du projet » et « Coûts indirects/de soutien ». Nous sommes conscients que les frais de personnel sembleront plus élevés que ceux qui figurent dans d’autres rapports et il n’y a pas de problème à cela.
-            Les frais de personnel comprennent les salaires, les avantages sociaux, les indemnités de session, les indemnités de départ/de licenciement, les régimes de retraite/pension, les frais de recrutement et les autres dépenses de personnel. 
-            Sont inclus les frais des travailleurs temporaires, des stagiaires, les uniformes, les assurances, les impôts, et autres frais budgétaires du personnel. Si l’AM emploie des consultants à titre de prestataires de service permanents 
-            (au lieu de salariés), leurs honoraires doivent également être ajoutés.
-            <strong>Activités directes du projet :</strong> Sont inclus tous les coûts directs qui ne sont pas comptabilisés dans les frais de personnel ou les coûts des produits. Peuvent inclure le matériel, les services professionnels, 
-            les frais de déplacement, les annonces médiatiques et les frais d’impression, etc. Il peut s’agir de dépenses récurrentes et de dépenses en capital. Aucuns frais de personnel ne doivent être inclus ici.
-            <strong>Produits :</strong> Est inclus le coût de l’achat de fournitures médicales ou de contraceptifs nécessaires à la prestation des services de SSR. 
-            Le montant des dons de produits doit être comptabilisé à la fois comme dépense et comme source de revenu (ci-dessous).
-            <strong>Coûts indirects et de soutien :</strong> Sont inclus les coûts d’occupation, des services publics et d’autres fonctions de soutien qui ne sont pas des coûts directs du projet et qui ne sont pas compris dans les catégories ci-dessus. 
-            Il peut s’agir de dépenses récurrentes et de dépenses en capital. Aucuns frais de personnel ne doivent être inclus ici.`,
-        ar: '<p>يرجى تعبئة البيانات الخاصة بالسنة القادمة فقط (السنة الثانية). في نهاية كل عام، سيُطلب منكم تقديم المعلومات الخاصة بالسنة التالية.</p><p>إذا كانت هناك مشاريع قمت بإدراجها ولن تكون نشطة إلا في السنة الثالثة، يمكنك ترك الصفوف الخاصة بها فارغة أدناه.</p><p>يرجى سرد مصروفاتكم لكل مشروع حسب فئة المصروفات. كما هو موضح أعلاه، يجب أن يشمل هذا الجدول ميزانية المنظمة بالكامل.</p><p><strong>تصنف فئات التكلفة كما يلي:</strong></p><p>الموظفون: تشمل جميع التكاليف الخاصة بالموظفين المخصصين لهذا المشروع. لكل مشروع، يجب أن يتضمن ذلك أيضًا حصة من تكاليف موظفي الدعم (مثل المحاسبة، الموارد البشرية، القيادة العليا). لا ينبغي أن تظهر تكاليف الموظفين ضمن "أنشطة المشروع المباشرة" أو "التكاليف غير المباشرة/دعم". نحن ندرك أن هذا قد يجعل تكاليف الموظفين تبدو أعلى مقارنة بالتقارير الأخرى، وهذا مقبول.</p><p>تشمل تكاليف الموظفين الرواتب، والمزايا، وأتعاب الجلسات، والتعويضات/المكافآت عند الفصل، والتقاعد/المعاشات، والتوظيف، ونفقات أخرى تتعلق بالموظفين. وتشمل أيضًا العمالة المؤقتة، والمتدربين، والزي الرسمي، والتأمين، والضرائب، وغيرها من التكاليف المالية المتعلقة بالموظفين. إذا كانت المنظمة التنفيذية توظف مستشارين كمقدمي خدمات مستمرة (بدلاً من الموظفين)، فيجب أيضًا تضمين أتعابهم.</p><p>الأنشطة المباشرة للمشروع: تشمل أي تكاليف مباشرة لا تندرج تحت تكاليف الموظفين أو السلع. يمكن أن تشمل المعدات، الخدمات المهنية، السفر، المواد الإعلامية والطباعة، وغيرها. يمكن أن تشمل النفقات المتكررة والنفقات الرأسمالية. لا يجب تضمين تكاليف الموظفين هنا.</p><p>السلع: تشمل تكاليف شراء المستلزمات الطبية أو وسائل منع الحمل المطلوبة لتقديم خدمات الصحة الجنسية والإنجابية. يجب إدراج قيمة السلع المتبرع بها كمصروفات وكمصدر دخل (أدناه).</p><p>التكاليف غير المباشرة وتكاليف الدعم: تشمل تكاليف الإشغال والمرافق والوظائف الداعمة الأخرى التي ليست تكاليف مباشرة للمشروع وليست مغطاة في الفئات السابقة. يمكن أن تشمل النفقات المتكررة والنفقات الرأسمالية. لا يجب تضمين تكاليف الموظفين هنا.</p><p>يوضح الجدول المرجعي على اليمين (العمود L، الصف 25) مقدار الميزانية المخصصة من السنة الثانية لكل مشروع حسب فئات المصروفات، بحيث يمكنك معرفة ما إذا كان لا يزال هناك مبلغ لم يتم تخصيصه بعد. ليس من الضروري تعبئة جميع الصفوف.</p>'
+
+    sp: `<p>
+        Por favor, enumera tus gastos por categoría de gasto por proyecto. Incluye todos los gastos para que tus totales coincidan con el total de la sección 2.3. Presupuesto de gastos por área de enfoque.
+      </p>
+      <p>
+        <strong>Las categorías de costos se definen de la siguiente manera:</strong>
+      </p>
+      <p>
+        <strong>Personal:</strong> Incluye TODOS los costos del personal asignado a este proyecto. Para cada proyecto, esto también debe incluir una parte de los costos de personal de apoyo (por ejemplo, contabilidad, recursos humanos, alta dirección). Ningún costo de personal debe aparecer en «actividades directas del proyecto» ni en «costos indirectos/de apoyo». Somos conscientes de que esto hará que los gastos de personal parezcan más elevados de lo que aparecen en otros informes, y eso está bien.
+      </p>
+      <p>
+        Los costos de personal incluyen salarios, prestaciones, honorarios por período de trabajo, indemnizaciones por despido o reducción de personal, jubilación o pensión, reclutamiento y otros gastos de personal. Incluye trabajadores temporales, pasantes, uniformes, seguros, impuestos y otros cargos fiscales relacionados con el personal. Si la MA contrata a consultores para que presten servicios de forma continua (en lugar de empleados), incluya también sus honorarios.
+      </p>
+      <p>
+        <strong>Actividades directas del proyecto:</strong> Esto incluye cualquier costo directo que no se contemple en los costos de personal o de bienes. Puede incluir equipo, servicios profesionales, viajes, medios de comunicación y materiales impresos, etc. Esto puede abarcar tanto gastos recurrentes como de capital. No se deben incluir aquí costos de personal.
+      </p>
+      <p>
+        <strong>Productos básicos:</strong> Esto incluye el costo de adquisición de suministros médicos o anticonceptivos necesarios para la prestación de servicios de salud sexual y reproductiva. El valor de los productos básicos donados debe registrarse tanto como gasto como fuente de ingresos (más abajo).
+      </p>
+      <p>
+        <strong>Costos indirectos y de apoyo:</strong> Esto incluye los costos de ocupación, los servicios públicos y otras funciones de apoyo que no son costos directos del proyecto y que no se incluyen en las categorías anteriores. Esto puede incluir tanto gastos recurrentes como de capital. No se deben incluir aquí los costos de personal.
+      </p>`,
+
+    fr: `<p>
+        Veuillez répertorier vos dépenses par catégorie de dépenses et par projet. Veuillez inclure toutes les dépenses afin que vos totaux correspondent au total de la section 2.3. « Budget des dépenses par domaine d'intervention ».
+      </p>
+      <p>
+        <strong>Les catégories de coûts sont définies comme suit :</strong>
+      </p>
+      <p>
+        <strong>Personnel :</strong> comprend TOUS les coûts liés au personnel affecté à ce projet. Pour chaque projet, cela doit également inclure une part des coûts de personnel de soutien (par exemple, comptabilité, RH, direction). Aucun coût de personnel ne doit apparaître dans les « activités directes du projet » ni dans les « coûts indirects/de soutien ». Nous sommes conscients que cela fera apparaître les coûts de personnel plus élevés que dans d’autres rapports, et cela ne pose aucun problème.
+      </p>
+      <p>
+        Les frais de personnel comprennent les salaires, les avantages sociaux, les honoraires des intervenants ponctuels, les indemnités de licenciement/de départ, les cotisations de retraite/pension, les frais de recrutement et les autres dépenses liées au personnel. Cela inclut les travailleurs temporaires, les stagiaires, les uniformes, les assurances, les charges sociales et autres charges fiscales liées au personnel. Si l’organisme gestionnaire (MA) fait appel à des consultants pour fournir des services de manière continue (au lieu d’employés), incluez également leurs honoraires.
+      </p>
+      <p>
+        <strong>Activités directes du projet :</strong> Cette rubrique comprend tous les coûts directs qui ne sont pas pris en compte dans les coûts de personnel ou de biens et services. Elle peut inclure le matériel, les services professionnels, les frais de déplacement, les supports médiatiques et les documents imprimés, etc. Elle peut inclure à la fois des dépenses courantes et des dépenses d’investissement. Aucun coût de personnel ne doit être inclus ici.
+      </p>
+      <p>
+        <strong>Produits :</strong> Cette rubrique comprend le coût d’achat des fournitures médicales ou des contraceptifs nécessaires à la prestation des services de santé sexuelle et reproductive. La valeur des produits donnés doit être indiquée à la fois comme une dépense et comme une source de revenus (ci-dessous).
+      </p>
+      <p>
+        <strong>Coûts indirects et de soutien :</strong> Cette rubrique comprend les frais liés aux locaux, aux services publics et aux autres fonctions de soutien qui ne constituent pas des coûts directs du projet et ne sont pas pris en compte dans les catégories ci-dessus. Elle peut inclure à la fois des dépenses courantes et des dépenses d’investissement. Aucun coût de personnel ne doit être inclus ici.
+      </p>`,
+    ar: `<p>
+        يرجى سرد نفقاتك حسب فئة النفقات لكل مشروع. يرجى تضمين جميع النفقات بحيث تتطابق إجمالياتك مع إجمالي القسم 2.3. «ميزانية النفقات حسب مجال التركيز».
+      </p>
+      <p>
+        <strong>يتم تعريف فئات التكاليف على النحو التالي:</strong>
+      </p>
+      <p>
+        <strong>الموظفون:</strong> تشمل جميع تكاليف الموظفين المخصصين لهذا المشروع. وبالنسبة لكل مشروع، ينبغي أن يشمل ذلك أيضًا حصة من تكاليف موظفي الدعم (مثل المحاسبة، والموارد البشرية، والقيادة العليا). ولا ينبغي أن تظهر أي تكاليف للموظفين في بند «أنشطة المشروع المباشرة» ولا في بند «التكاليف غير المباشرة/تكاليف الدعم». ونحن ندرك أن هذا سيجعل تكاليف الموظفين تبدو أعلى مما تظهر في التقارير الأخرى، ولا بأس بذلك.
+      </p>
+      <p>
+        تشمل تكاليف الموظفين الرواتب، والمزايا، وأتعاب العمل المؤقت، ومكافآت إنهاء الخدمة/التسريح، والتقاعد/المعاشات، والتوظيف، ونفقات الموظفين الأخرى. وتشمل العمال المؤقتين، والمتدربين، والزي الرسمي، والتأمين، والضرائب، والمصاريف المالية الأخرى المتعلقة بالموظفين. إذا استعانت الجهة المنفذة (MA) بمستشارين للعمل كمقدمي خدمات مستمرين (بدلاً من الموظفين)، فيجب إدراج أتعابهم أيضًا.
+      </p>
+      <p>
+        <strong>أنشطة المشروع المباشرة:</strong> تشمل أي تكاليف مباشرة لا يتم إدراجها ضمن تكاليف الموظفين أو تكاليف السلع. ويمكن أن تشمل المعدات، والخدمات المهنية، والسفر، ووسائل الإعلام والمواد المطبوعة، وما إلى ذلك. ويمكن أن تشمل هذه التكاليف كلاً من النفقات المتكررة ونفقات رأس المال. ولا ينبغي إدراج أي تكاليف للموظفين هنا.
+      </p>
+      <p>
+        <strong>السلع:</strong> تشمل هذه البند تكلفة شراء المستلزمات الطبية أو وسائل منع الحمل اللازمة لتقديم خدمات الصحة الجنسية والإنجابية. وينبغي إدراج قيمة السلع المتبرع بها كنفقة وكمصدر للدخل (أدناه).
+      </p>
+      <p>
+        <strong>التكاليف غير المباشرة وتكاليف الدعم:</strong> تشمل هذه التكاليف تكاليف الإيجار والمرافق والوظائف الداعمة الأخرى التي لا تُعد تكاليف مباشرة للمشروع ولا تندرج ضمن الفئات المذكورة أعلاه. ويمكن أن تشمل هذه التكاليف النفقات المتكررة ونفقات رأس المال. ولا ينبغي إدراج أي تكاليف متعلقة بالموظفين هنا.
+      </p>`
     },
     {
         id: "project_based_category",
@@ -3012,14 +3021,57 @@ const translation_mapping = [
         fr: "3.2 Recettes anticipées par bailleur de fonds",
         ar: "2.3 الدخل المتوقع حسب الجهة المانحة"
     },
+   {
+    id: "value_add_core_funding",
+    en: "<p>This section is about unlocking of additional funding as a result of having access to IPPF core funding. Please only fill in where relevant. Please do not assume that all other funding you receive is a result of IPPF core funding. Please be specific about what funds you will have in the implementing period that you would not have had if not for access to IPPF core funding.</p><p>Examples might include a donor that will only give you a grant to cover programmatic costs if you can cover salary costs, and you used the core funding to cover those salary costs. Other examples might include a donor that requires you to co-fund 10% of salary costs, and you used core funding to cover those salary costs.</p>",
+    sp: "<p>Esta sección trata sobre la obtención de financiamiento adicional como resultado de tener acceso al financiamiento básico de la IPPF. Por favor, completa solo los campos que sean pertinentes. No des por sentado que todo el resto del financiamiento que recibas sea resultado del financiamiento básico de la IPPF. Sé específico sobre qué fondos contarás durante el período de ejecución que no hubieras tenido de no ser por el acceso al financiamiento básico de la IPPF.</p><p>Algunos ejemplos podrían ser un donante que solo te otorgue una subvención para cubrir los costos del programa si puedes cubrir los costos salariales, y tú utilizaste la financiación básica para cubrir esos costos salariales. Otros ejemplos podrían incluir un donante que te exija cofinanciar el 10 % de los costos salariales, y tú utilizaste la financiación básica para cubrir esos costos salariales.</p>",
+    fr: "<p>Cette section porte sur l’obtention de financements supplémentaires grâce à l’accès au financement de base de l’IPPF. Veuillez ne remplir cette section que si cela s’applique à votre cas. Ne partez pas du principe que tous les autres financements que vous recevez découlent du financement de base de l’IPPF. Précisez clairement quels sont les fonds dont vous disposerez pendant la période de mise en œuvre et que vous n’auriez pas obtenus sans l’accès au financement de base de l’IPPF.</p><p>Par exemple, un bailleur de fonds peut vous accorder une subvention destinée à couvrir les coûts programmatiques uniquement si vous prenez en charge les coûts salariaux, et vous avez utilisé le financement de base pour couvrir ces coûts salariaux. Autre exemple : un bailleur de fonds peut exiger que vous cofinanciez 10 % des coûts salariaux, et vous avez utilisé le financement de base pour couvrir ces coûts salariaux.</p>",
+    ar: "<p>يتناول هذا القسم مسألة الحصول على تمويل إضافي نتيجةً للحصول على التمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF). يرجى ملء البيانات فقط في الحالات ذات الصلة. يرجى عدم الافتراض بأن جميع أشكال التمويل الأخرى التي تتلقاها هي نتيجة للتمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF). يرجى التحديد بدقة للأموال التي ستتوفر لديك خلال فترة التنفيذ والتي ما كنت لتحصل عليها لولا حصولك على التمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF).</p><p>ومن الأمثلة على ذلك، أن يمنحك أحد المانحين منحة لتغطية تكاليف البرنامج فقط إذا تمكنت من تغطية تكاليف الرواتب، وقمت باستخدام التمويل الأساسي لتغطية تلك التكاليف. ومن الأمثلة الأخرى، أن يشترط أحد المانحين أن تشارك في تمويل 10% من تكاليف الرواتب، وقمت باستخدام التمويل الأساسي لتغطية تلك التكاليف.</p>"
+    },
     {
-        id: "income_donor_info",
-        en: `<p>
-        Please fill in your annual income by donor. The donor is defined as the entity providing the income. Please provide a clear breakdown that matches the full income reported under Section 3.1. In cases where the income is autogenerated, e.g. through social enterprise, or sale of services, please indicate your organisational name as the donor. 
-    </p>`,
-        sp: "<p>Indica tus ingresos anuales por donante. Se entiende por «donante» la entidad que proporciona los ingresos. Facilita un desglose claro que coincida con los ingresos totales declarados en la sección 3.1. En los casos en que los ingresos se generen, por ejemplo, a través de una empresa social o de la venta de servicios, indica el nombre de tu organización como donante.</p>",
-        fr: "<p>Veuillez indiquer vos revenus annuels par donateur. On entend par « donateur » l'entité qui génère ces revenus. Veuillez fournir une ventilation claire qui corresponde à l'intégralité des revenus déclarés à la section 3.1. Lorsque les revenus proviennent, par exemple, d'une entreprise sociale ou de la vente de services, veuillez indiquer le nom de votre organisation en tant que donateur.",
-        ar: "<p>يرجى إدخال دخلك السنوي حسب الجهة المانحة. تُعرّف الجهة المانحة بأنها الكيان الذي يوفر الدخل. يرجى تقديم تفصيل واضح يتطابق مع إجمالي الدخل المبلغ عنه في القسم 3.1. وفي الحالات التي يتم فيها توليد الدخل من خلال، على سبيل المثال، مشروع اجتماعي أو بيع خدمات، يرجى الإشارة إلى اسم مؤسستك باعتبارها الجهة المانحة.</p>" 
+    id: "income_donor_info",
+    en: `<p>
+        Please fill in your annual income by donor. The donor is defined as the entity providing the income. Please provide a clear breakdown that matches the full income reported under Section 3.1. In cases where the income is autogenerated, e.g. through social enterprise, or sale of services, please indicate your organisational name as the donor.
+      </p>`,
+    sp: `<p>
+        Indica tus ingresos anuales por donante. Se entiende por «donante» la entidad que proporciona los ingresos. Facilita un desglose claro que coincida con los ingresos totales declarados en la sección 3.1. En los casos en que los ingresos se generen, por ejemplo, a través de una empresa social o de la venta de servicios, indica el nombre de tu organización como donante.
+      </p>`,
+    fr: `<p>
+        Veuillez indiquer vos revenus annuels par donateur. On entend par « donateur » l'entité qui génère ces revenus. Veuillez fournir une ventilation claire qui corresponde à l'intégralité des revenus déclarés à la section 3.1. Lorsque les revenus proviennent, par exemple, d'une entreprise sociale ou de la vente de services, veuillez indiquer le nom de votre organisation en tant que donateur.
+      </p>`,
+    ar: `<p>
+        يرجى إدخال دخلك السنوي حسب الجهة المانحة. تُعرَّف الجهة المانحة بأنها الكيان الذي يوفر الدخل. يرجى تقديم تفصيل واضح يتطابق مع إجمالي الدخل المُبلغ عنه في القسم 3.1. وفي الحالات التي يتم فيها توليد الدخل من خلال، على سبيل المثال، مشروع اجتماعي أو بيع خدمات، يرجى الإشارة إلى اسم مؤسستك باعتبارها الجهة المانحة.
+      </p>`
+    },
+    {
+    id: "additional_funding_info",
+    en: `<p>
+        This section is about unlocking additional funding as a result of having access to IPPF core funding. Please only complete this section where relevant. Please do not assume that all other funding you receive is a result of IPPF core funding. Please be specific about what funds you will have during the implementation period that you would not have had without access to IPPF core funding.
+      </p>
+      <p class="mb-0">
+        Examples might include a donor that will only provide you with a grant to cover programme costs if you can cover salary costs, and you used the core funding to cover those salary costs. Another example might be a donor that requires you to co-fund 10% of salary costs, and you used the core funding to cover those salary costs.
+      </p>`,
+
+    sp: `<p>
+        Esta sección trata sobre la obtención de financiamiento adicional como resultado de tener acceso al financiamiento básico de la IPPF. Por favor, completa solo los campos que sean pertinentes. No des por sentado que todo el resto del financiamiento que recibas sea resultado del financiamiento básico de la IPPF. Sé específico sobre qué fondos contarás durante el período de ejecución que no hubieras tenido de no ser por el acceso al financiamiento básico de la IPPF.
+      </p>
+      <p class="mb-0">
+        Algunos ejemplos podrían ser un donante que solo te otorgue una subvención para cubrir los costos del programa si puedes cubrir los costos salariales, y tú utilizaste la financiación básica para cubrir esos costos salariales. Otros ejemplos podrían incluir un donante que te exija cofinanciar el 10 % de los costos salariales, y tú utilizaste la financiación básica para cubrir esos costos salariales.
+      </p>`,
+
+    fr: `<p>
+        Cette section porte sur l’obtention de financements supplémentaires grâce à l’accès au financement de base de l’IPPF. Veuillez ne remplir cette section que si cela s’applique à votre cas. Ne partez pas du principe que tous les autres financements que vous recevez découlent du financement de base de l’IPPF. Précisez clairement quels sont les fonds dont vous disposerez pendant la période de mise en œuvre et que vous n’auriez pas obtenus sans l’accès au financement de base de l’IPPF.
+      </p>
+      <p class="mb-0">
+        Par exemple, un bailleur de fonds peut vous accorder une subvention destinée à couvrir les coûts programmatiques uniquement si vous prenez en charge les coûts salariaux, et vous avez utilisé le financement de base pour couvrir ces coûts salariaux. Autre exemple : un bailleur de fonds peut exiger que vous cofinanciez 10 % des coûts salariaux, et vous avez utilisé le financement de base pour couvrir ces coûts salariaux.
+      </p>`,
+
+    ar: `<p>
+        يتناول هذا القسم مسألة الحصول على تمويل إضافي نتيجةً للحصول على التمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF). يرجى ملء البيانات فقط في الحالات ذات الصلة. يرجى عدم الافتراض بأن جميع أشكال التمويل الأخرى التي تتلقاها هي نتيجة للتمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF). يرجى التحديد بدقة للأموال التي ستتوفر لديك خلال فترة التنفيذ والتي ما كنت لتحصل عليها لولا حصولك على التمويل الأساسي من الاتحاد الدولي لتنظيم الأسرة (IPPF).
+      </p>
+      <p class="mb-0">
+        ومن الأمثلة على ذلك، أن يمنحك أحد المانحين منحة لتغطية تكاليف البرنامج فقط إذا تمكنت من تغطية تكاليف الرواتب، وقمت باستخدام التمويل الأساسي لتغطية تلك التكاليف. ومن الأمثلة الأخرى، أن يشترط أحد المانحين أن تشارك في تمويل 10% من تكاليف الرواتب، وقمت باستخدام التمويل الأساسي لتغطية تلك التكاليف.
+      </p>`
     },
     {
         id: "total_anticipated",
@@ -3470,13 +3522,13 @@ de productos (como se indica en la parte de abajo del formulario)
         fr: "Résumé des produits de base par source de financement par rapport aux dépenses du projet pour les produits de base",
         ar: "ملخص السلع حسب مصدر التمويل مقابل نفقات المشروع للسلع"
     },
-    {
-        id: "commodities_funding_title_info",
-        en: `<p class="mb-1">This section includes additional information / data relating to commodities. This section is relevant for all organisations that procure and disseminate commodities. Please fill out all the sections fully.</p>`,
-        sp: "Se deben aportar los datos completos para el Año 1 al inicio del ciclo. Cuando se acerque el final de cada año, se le pedirá que ofrezca información para el año siguiente.Indique los productos totales previstos para el próximo año, desglosados según las siguientes categorías. La suma de todas estas categorías debería ser igual a los productos totales indicados en los gastos del proyecto. Como antes, solo se deben incluir fuentes cuya probabilidad de otorgar realmente los fondos sea de al menos un 80 %.",
-        fr: "Veuillez indiquer les données complètes pour l’Année 1 au début du cycle. Vers la fin de chaque année, il vous sera demandé de fournir des informations pour l’année suivante.Dressez la liste de vos produits de base prévus pour l’année à venir, répartis en fonction des catégories suivantes. La somme de toutes ces catégories doit correspondre au montant total de vos produits indiqué dans vos dépenses de projet. Comme plus haut, veuillez indiquer uniquement les sources de recettes ayant au moins 80 % de chances d’être obtenues.",
-        ar: "<p>يرجى ملء البيانات كاملة للسنة الأولى في بداية الدورة. ومع اقتراب نهاية كل سنة، سوف يُطلب منك بيانات عن السنة التالية</p><p> أعِد قائمة بإجمالي السلع الطبية المتوقعة للسنة القادمة، مع تقسيمها حسب الفئات التالية.</p><p>ينبغي أن يتساوي مجموع هذه الفئات كلها مع إجمالي السلع الطبية الذي أدرجته في نفقات المشروع. وعلى النحو المبين أعلاه، يرجى إدراج المصادر التي لا تقل فرصة تأمينها عن 80٪.</p>"
-    },
+   {
+    id: "commodities_funding_title_info",
+    en: `<p class="mb-1">This section includes additional information / data relating to commodities. This section is relevant for all organisations that procure and disseminate commodities. Please fill out all the sections fully.</p>`,
+    sp: `<p class="mb-1">Esta sección incluye información y datos adicionales relacionados con los productos básicos. Esta sección es relevante para todas las organizaciones que adquieren y distribuyen productos básicos. Por favor, complete todas las secciones en su totalidad.</p>`,
+    fr: `<p class="mb-1">Cette section contient des informations et des données supplémentaires concernant les produits de base. Elle s'adresse à toutes les organisations qui achètent et distribuent des produits de base. Veuillez remplir intégralement toutes les rubriques.</p>`,
+    ar: `<p class="mb-1">يتضمن هذا القسم معلومات/بيانات إضافية تتعلق بالسلع الأساسية. ويُعتبر هذا القسم ذا صلة بجميع المؤسسات التي تقوم بشراء السلع الأساسية وتوزيعها. يرجى ملء جميع الأقسام بالكامل.</p>`
+   },
     {
         id: "total_amount_funding",
         en: "Total Amount (USD) as per Commodities by Funding Source",

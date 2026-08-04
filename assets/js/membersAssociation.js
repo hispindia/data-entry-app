@@ -27,12 +27,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchOrganizationUnitUid() {
     try {  
-      const noticeBoardIds = [{ id:'lNR63q5GkXj', name:'notice-english'}, {id:'upQA8yJuVKx', name: 'notice-french'}, {id: 'bZlXa1FiHG3', name: 'notice-spanish'}, {id: 'HCSaa6Kdof1', name: 'notice-arabic'}];
+      const noticeBoardIds = {
+        en: { id: "lNR63q5GkXj", name: "notice-english" },
+        fr: { id: "upQA8yJuVKx", name: "notice-french" },
+        es: { id: "bZlXa1FiHG3", name: "notice-spanish" },
+        ar: { id: "HCSaa6Kdof1", name: "notice-arabic" }
+      };
       const data = await getMeData();
       const resOUGroup = await getOrganisationUnits("mwQWyy8TGZv");
       const maCommenced = await getCommencedLength();
       const finalisedReport = await eventApi.getEvents();
-      const resNoticeBoard = await getConstants(`id:in:[${noticeBoardIds.map(board => board.id).join(',')}]`);
+      const language = localStorage.getItem("i18nextLng") || "en";
+      const resNoticeBoard = await getConstants(`id:eq:${noticeBoardIds[language].id}`);
+      document.querySelectorAll(".notice-language-entry").forEach(entry => {
+        entry.style.display = "none";
+    });
+      // const resNoticeBoard = await getConstants(`id:in:[${noticeBoardIds.map(board => board.id).join(',')}]`);
 
       const maCommencedLength = maCommenced.listGrid?.rows?.length || 0;
       const finalisedReportLen = finalisedReport.events?.length || 0;
@@ -46,11 +56,15 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelector('.progress-bar').style.width = percentage + '%';
       document.querySelector('.reporting').style.width = percentageOfReporting + '%';
 
-
-      noticeBoardIds.forEach(boardId => {
-        const board = resNoticeBoard.constants.find(noticeBoard => noticeBoard.id == boardId.id);
-        if(board) document.getElementById(boardId.name).innerHTML = board.description;
-      })
+      // noticeBoardIds.forEach(boardId => {
+      //   const board = resNoticeBoard.constants.find(noticeBoard => noticeBoard.id == boardId.id);
+      //   if(board) document.getElementById(boardId.name).innerHTML = board.description;
+      // })
+      const selected = document.querySelector(`.notice-language-entry[data-lang="${language}"]`);
+      if (selected) selected.style.display = "block";
+      if (resNoticeBoard?.constants?.length) {
+        document.getElementById(noticeBoardIds[language].name).innerHTML = resNoticeBoard.constants[0].description;
+      }
 
       const userConfig = userGroupConfig(data);
       tei.disabled = userConfig.disabled;

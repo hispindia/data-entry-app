@@ -1729,12 +1729,19 @@ p.subheading{font-size:16px; line-height:20px;}
 
 .tooltip-inner{max-width:50%}
 .collapse p{line-height:16px; font-style:italic;}
-.info-boxwrap{padding: 16px;
+.info-boxwrap{
+    padding: 16px;
     background: #ffffffad;
     border-radius: 10px;
-    font-style:italic;
-  }
-.info-boxwrap p{line-height:16px;}
+    font-style: italic;
+}
+.info-boxwrap p{
+    line-height: 1.5;
+    margin: 0 0 10px;
+}
+.info-boxwrap p:last-child {
+    margin-bottom: 0;
+}
 .cont-wrapper{
     padding:15px;
     background:#fff;
