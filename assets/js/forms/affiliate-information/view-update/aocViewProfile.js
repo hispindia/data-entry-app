@@ -112,7 +112,7 @@ const handleAocViewAndUpdate = async(userConfig) => {
         tbodyAffiliateRow += `
         <td class="text-center">  
         <button 
-          data-affiliate="${uinCode}_waiver" 
+          data-affiliate="${trackedEntityId}_generate" 
           class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
           onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
           > Generate Report
@@ -130,10 +130,9 @@ const handleAocViewAndUpdate = async(userConfig) => {
       document.getElementById("tbody-affiliate").addEventListener('click', async (e)=> {
         const button = e.target.closest('.row-btn');
         if(!button) return;
-        const affiliate = button.dataset.affiliate.split("_");
-        if(affiliate[1]=="waiver")  {
-          if(!affiliate[0]) return;
-          window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliateList.trackedEntities[0].trackedEntity}`;
+        const affiliate = button.dataset.affiliate.split("_");        
+        if(affiliate[1]=="generate") {
+          window.open(`../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`,'_blank');
         }
         else if(affiliate[1]=="view") window.location.href = `./2.1-1-view-profile.html?affiliate=${affiliate[0]}`;
       })
