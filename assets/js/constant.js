@@ -39,6 +39,8 @@ export const programSection = {
     seniorManagementFinance: "dkybztKm1Kr",
     seniorManagementPrograms: "Vww9954RV4Z", 
     bank: "L0jPilLQIns", 
+    bank2: "ABOM9rNWTZI",
+    bank3: "Uhc5nbWiqMu"
 }
 export const userGroup = {
     disabledAOCGroup : "jrCxIJzq4eE",
@@ -182,6 +184,22 @@ export const dataElements = {
     bankAccountCurrency: "TbN2rRfJxGs",
     bankSwift: "ACstTNRg27W",
     bankIBAN: "z7sYWdtwtZo",
+
+    bank2Name: "CkulnRpyanv", 
+    bank2Address: "APTLXMxA1cm", 
+    bank2Telephone: "IaSgvhtlcAz",
+    bank2AccountNumber: 'Y3leCd2J2zI', 
+    bank2AccountCurrency: "rJlKFCAvTtc",
+    bank2Swift: "fJUzYvak2Gg",
+    bank2IBAN: "WRmtb175yV9",
+
+    bank3Name: "OHPBCB8PgSo", 
+    bank3Address: "jcGWLrmhrZx", 
+    bank3Telephone: "dGy35iFBaGR",
+    bank3AccountNumber: 'aeWIoe8xqwj', 
+    bank3AccountCurrency: "QkWu6JUm2hw",
+    bank3Swift: "GiP09GH9Cde",
+    bank3IBAN: "u5SxFrBVsEX",
     
     presidentAcuityStatus: "wDAC1CBloZz",
     viceChairPersonAcuityStatus: "jAM5Uh3AmLc",
@@ -192,6 +210,8 @@ export const dataElements = {
     seniorManagementFinanceAcuityStatus: "PIIp2bOIoit",
     seniorManagementProgramsAcuityStatus: "EGNNQjCgf4m",
     bankAcuityStatus: "Mm19QhgeESl",
+    bankAcuityStatus2: "rDYI9L8NkYy",
+    bankAcuityStatus3: "D4eo4Z6N5Ow",
 
     paymentFileFormatBa1: "VPHBgGSnGLB",
     paymentFileFormatBa2: "oKam29mQNka",
@@ -212,7 +232,9 @@ export const ROLE_ACUITY_DE = {
   seniorManagementCEO: dataElements.seniorManagementCEOAcuityStatus,
   seniorManagementFinance: dataElements.seniorManagementFinanceAcuityStatus,
   seniorManagementPrograms: dataElements.seniorManagementProgramsAcuityStatus,
-  bank: dataElements.bankAcuityStatus
+  bank: dataElements.bankAcuityStatus,
+  bank2: dataElements.bankAcuityStatus2,
+  bank3: dataElements.bankAcuityStatus3,
 }
 
 export const stageSections = {

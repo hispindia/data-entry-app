@@ -126,7 +126,29 @@ const ROLE_DISPLAY_FIELDS = {
       dataElements.bankSwift,
       dataElements.bankIBAN
     ]
-  }
+  },
+  bank2: {
+    label: "Bank Details 2",
+    fields: [
+      dataElements.bank2Name,
+      dataElements.bank2Address,
+      dataElements.bank2AccountNumber,
+      dataElements.bank2AccountCurrency,
+      dataElements.bank2Swift,
+      dataElements.bank2IBAN
+    ]
+  },
+  bank3: {
+    label: "Bank Details 3",
+    fields: [
+      dataElements.bank3Name,
+      dataElements.bank3Address,
+      dataElements.bank3AccountNumber,
+      dataElements.bank3AccountCurrency,
+      dataElements.bank3Swift,
+      dataElements.bank3IBAN
+    ]
+  },
 };
 
 const STAGE_MAPPING = {
@@ -138,7 +160,9 @@ const STAGE_MAPPING = {
   seniorManagementCEO: programSection.seniorManagement,
   seniorManagementFinance: programSection.seniorManagementFinance,
   seniorManagementPrograms: programSection.seniorManagementPrograms,
-  bank: programSection.bank
+  bank: programSection.bank,
+  bank2: programSection.bank2,
+  bank3: programSection.bank3,
 };
 
 
@@ -378,6 +402,7 @@ const STAGE_MAPPING = {
     board.innerHTML = senior.innerHTML = bank.innerHTML = "";
     const addRow = (tbody, rolekey) => {
       const roleConfig = ROLE_DISPLAY_FIELDS[rolekey];
+      debugger;
       if (!roleConfig) return;
 
       const { label, fields } = roleConfig;
@@ -410,6 +435,8 @@ const STAGE_MAPPING = {
     addRow(senior, "seniorManagementPrograms");
 
     addRow(bank, "bank");
+    addRow(bank, "bank2");
+    addRow(bank, "bank3");
   }
 
   window.openRequestChangeModal = async roleKey => {
