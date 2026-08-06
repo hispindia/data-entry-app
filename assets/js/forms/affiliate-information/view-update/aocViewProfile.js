@@ -1,125 +1,116 @@
-import { attributes,optionSet, orgUnit, programRules, programs } from "../../../constant.js";
+import { attributes,optionSet, orgUnit, programRules, programs, source } from "../../../constant.js";
 import { optionSetApi,orgUnitsApi,programsApi } from "../../../api/metaDataApi.js";
 import { populateOptions } from "../../metadata.js"
 import { dataApi } from "../../../api/DataApi.js"
 import { getUserConfig } from "../../config.js";
 import { toast } from "../../utils.js";
 
-const handleAocViewAndUpdate = async(userConfig) => {  
-  // document.getElementById('viewAndUpdate').style.display = 'none';
-  const searchButton = document.getElementById('searchButton');
-  const searchResults = document.getElementById('searchResults');
-    if (searchButton) {
-      searchButton.addEventListener('click', function () {
-        fetchAffiliateList();
-        searchResults.style.display = 'block';
-      });
-    }
+const displayCountries = (userConfig, optionGroups, value) => {
+  const optionGroup = optionGroups.find(group => group.id == programRules.hideCountry[value]);
+  if (optionGroup) {
+    const countries = optionGroup.options;
+    const UserCountry = userConfig.orgUnits
+      .filter(country => countries.some(c => c.code == country.code))
+      .map(option => ({ label: option.name, value: option.code }))
 
+    return UserCountry.sort((a, b) => a.label.localeCompare(b.label));
+  }
+  return [];
+}
+
+const handleAocViewAndUpdate = async(userConfig) => {  
     const resRegion = await optionSetApi.get(optionSet.region);
     const resOptionGroups = await optionSetApi.getOptionGroups();
-
-    const displayCountries = (value) => {
-        const optionGroup = resOptionGroups.optionGroups.find(group => group.id == programRules.hideCountry[value]);
-        if(optionGroup) {
-            const countries = optionGroup.options;
-            const UserCountry = userConfig.orgUnits
-                                .filter(country => countries.some(c => c.code == country.code))
-                                .map(option => ({label: option.name, value: option.code}))
-            
-            return UserCountry.sort((a, b) => a.label.localeCompare(b.label));
-        }
-        return [];
-    }
 
     const userRegion = userConfig.attributeValues.find(attrValue => attrValue.attribute.id == "gfl4DSpDn3o");
     if(userRegion) {
         const region = resRegion.options.filter(region => region.id == userRegion.value);
-                 
         document.getElementById("Region").innerHTML = `<option value='${region[0].value}' selected> ${region[0].label} </option>`;
 
-        const countries = displayCountries(region[0].value);
+        const countries = displayCountries(userConfig, resOptionGroups?.optionGroups, region[0].value);
         document.getElementById("Countries").innerHTML = populateOptions(countries);
     } else {
         const list = resRegion.options.sort((a, b) => a.label.localeCompare(b.label));
         document.getElementById("Region").innerHTML = populateOptions(list);
     }
 
-    
     document.getElementById('Region').addEventListener('change', function (e) {
         const { value } = e.target;
-        const countries = displayCountries(value);
+        const countries = displayCountries(userConfig, resOptionGroups?.optionGroups, value);
         document.getElementById("Countries").innerHTML = populateOptions(countries);
     })
+   
+    document.getElementById('searchButton').addEventListener('click', function () {
+      document.getElementById("searchResults").style.display = "none";
+      fetchAffiliateList();
+      document.getElementById('searchResults').style.display = 'block';
+    });
   
   async function fetchAffiliateList() {
-
-    document.getElementById("searchResults").style.display = "none";
-    const programUINControl = await programsApi.get(programs.UINControlMaster);
+    const uin = document.getElementById("uin").value;
+    const name = document.getElementById("regName").value;
     const regionValue = document.getElementById("Region").value;
     const countryValue = document.getElementById("Countries").value;
+
+    const programUINControl = await programsApi.get(programs.UINControlMaster);
     const ouRes = await orgUnitsApi.get({ level: 2, filter: countryValue });
     const matched = ouRes?.organisationUnits?.find(ou => ou.code === countryValue);
-    if (matched) orgUnit.id = matched.id;
+    if (matched) source.orgUnit = matched.id;
+    else source.orgUnit = '';
 
-    const name = document.getElementById("regName").value;
-    const uin = document.getElementById("uin").value;
-
-    let otherParam = "";
-
-    if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
     if (!uin && !name && !regionValue) {
+      document.getElementById("searchResults").style.display = "none";
       toast({ status: 'INFO', message: 'Please Enter UIN or Name or select Region and Country to search.', position: 'center' });
       return;
     }
     if (regionValue && !countryValue) {
+      document.getElementById("searchResults").style.display = "none";
       toast({ status: 'INFO', message: 'Please Select Country!' });
       return;
     }
+
+    var otherParam = "";
     if (uin) otherParam += `&filter=${attributes.uinCode}:EQ:${uin.trim()}`; 
+    if (name) otherParam += `&filter=${attributes.legalName}:LIKE:${name.trim()}`;
     if (regionValue) otherParam += `&filter=${attributes.region}:EQ:${regionValue}`;
     if (countryValue) otherParam += `&filter=${attributes.countryRegistration}:EQ:${countryValue}`;
      
+      const affiliateList = await dataApi.get(source.orgUnit, programs.UINControlMaster, otherParam);
 
-      const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster, otherParam);
-
-      if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
+      if (!affiliateList?.trackedEntities?.length) {
         toast({ status: 'INFO', message: 'No affiliate found', position: "center"});
         return;
       }
 
-      document.getElementById("searchResults").style.display = "block";
       const headerList = programUINControl.programTrackedEntityAttributes
         .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
         .map(attr => ({ id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name }));
 
-      const affilitateAttrList = affiliateList.trackedEntities.map(trackedEntity => {
-        const attributesObj = {};
-        trackedEntity.attributes.forEach(attr => attributesObj[attr.attribute] = attr.value);
+      const affilitateAttrList = affiliateList.trackedEntities.map(entity => {
+        const attributesObj = { trackedEntity: entity.trackedEntity };
+        entity.attributes.forEach(attr => attributesObj[attr.attribute] = attr.value);
         return attributesObj;
       });
-
+      
       let theadAffiliateRow = "";
       headerList.forEach(item => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
       document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th colspan="2" style="padding: 12px 15px; font-weight: 600;text-align: center">Action</th>`;
 
       let tbodyAffiliateRow = "";
       affilitateAttrList.forEach((affiliate, index) => {
-        const trackedEntityId = affiliateList.trackedEntities[index].trackedEntity;
-        const uinCode = affiliate[attributes.uinCode] ? affiliate[attributes.uinCode] : "";
         tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
         headerList.forEach(attr => tbodyAffiliateRow += `<td style="padding: 15px;">${affiliate[attr.id] ? affiliate[attr.id] : ""}</td>`);
         tbodyAffiliateRow += `
         <td class="text-center">  
         <button 
-          data-affiliate="${trackedEntityId}_generate" 
+          data-affiliate="${affiliate.trackedEntity}_generate" 
           class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
           onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
           > Generate Report
         </button>
         </td>
         <td style="padding: 15px;">
-        <button data-affiliate="${trackedEntityId}_view" class="btn btn-primary row-btn">
+        <button data-affiliate="${affiliate.trackedEntity}_view" class="btn btn-primary row-btn">
           View
         </button>
         </td></tr>`;
