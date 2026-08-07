@@ -1,90 +1,33 @@
-import { attributes,optionSet, orgUnit, programRules, programs } from "../../../constant.js";
+import { attributes,optionSet, orgUnit, programRules, programs, source } from "../../../constant.js";
 import { meApi, optionSetApi,orgUnitsApi,programsApi } from "../../../api/metaDataApi.js";
 import { populateOptions } from "../../metadata.js"
 import { dataApi } from "../../../api/DataApi.js"
 import { getUserConfig, userGroupConfig } from "../../config.js";
 import { toast } from "../../utils.js";
+import { displayAffiliateList } from "./common.js";
 
 const handleKycViewProfile = async(userConfig) => {
-  
   document.getElementById('viewAndUpdate').style.display = 'none';
-  fetchAffiliateList();
+  document.getElementById("searchResults").style.display = "none";
+
+  if (userConfig?.orgUnits?.length) {
+    const nonKycUnit = userConfig.orgUnits.find(unit => unit.name !== "KYC Affiliates");
+    if (nonKycUnit) source.orgUnit = nonKycUnit.id;
+  }
+
+  const programUINControl = await programsApi.get(programs.UINControlMaster);
+  const affiliateList = await dataApi.get(source.orgUnit, programs.UINControlMaster);
   
-  async function fetchAffiliateList() {
-    document.getElementById("searchResults").style.display = "none";
-        
-    if (!userConfig?.username) {
-      toast({ status: 'INFO', message: 'No Data Exist', position: 'center' });
-      return;
-    }
-
-    const programUINControl = await programsApi.get(programs.UINControlMaster);
-    
-
-    if (userConfig?.orgUnits?.length > 0) {
-      const nonKycUnit = userConfig.orgUnits.find(unit => unit.name !== "KYC Affiliates");
-      if (nonKycUnit) {
-        orgUnit.id = nonKycUnit.id;
-      }
-    }
+  if (!affiliateList?.trackedEntities?.length) {
+    toast({ status: 'INFO', message: 'No affiliate found', position: "center"});
+    return;
+  }
   
-    const affiliateList = await dataApi.get(orgUnit.id, programs.UINControlMaster);
-
-      if (!affiliateList?.trackedEntities || affiliateList.trackedEntities.length === 0) {
-        toast({ status: 'INFO', message: 'No affiliate found for locked in username', position: "center"});
-        return;
-      }
-
-      document.getElementById("searchResults").style.display = "block";
-      const headerList = programUINControl.programTrackedEntityAttributes
-        .filter(trackedEntityAttr => trackedEntityAttr.displayInList)
-        .map(attr => ({ id: attr.trackedEntityAttribute.id, name: attr.trackedEntityAttribute.name }));
-
-      const affilitateAttrList = affiliateList.trackedEntities.map(trackedEntity => {
-        const attributesObj = {};
-        trackedEntity.attributes.forEach(attr => attributesObj[attr.attribute] = attr.value);
-        return attributesObj;
-      });
-
-      let theadAffiliateRow = "";
-      headerList.forEach(item => theadAffiliateRow += `<th style="padding: 12px 15px; font-weight: 600;">${item.name}</th>`);
-      document.getElementById("thead-affiliate").innerHTML = `${theadAffiliateRow}<th colspan="2" style="padding: 12px 15px; font-weight: 600;text-align: center">Action</th>`;
-
-      let tbodyAffiliateRow = "";
-      affilitateAttrList.forEach((affiliate, index) => {
-        const trackedEntityId = affiliateList.trackedEntities[index].trackedEntity;
-        const uinCode = affiliate[attributes.uinCode] ? affiliate[attributes.uinCode] : "";
-        tbodyAffiliateRow += `<tr style="background-color: #ffffff; border-bottom: 1px solid #f0f0f5;">`;
-        headerList.forEach(attr => tbodyAffiliateRow += `<td style="padding: 15px;">${affiliate[attr.id] ? affiliate[attr.id] : ""}</td>`);
-        tbodyAffiliateRow += `
-        <td class="text-center">  
-        <button 
-          data-affiliate="${trackedEntityId}_generate" 
-          class="btn btn-sm row-btn" style="background-color: rgb(153, 27, 27); color: white; border: none; border-radius: 6px; font-weight: 500; font-size: 0.85rem; padding: 6px 16px; transition: background-color 0.2s ease-in-out;"
-          onmouseover="this.style.backgroundColor='#a2161b' "onmouseout="this.style.backgroundColor='rgb(153, 27, 27)'"
-          > Generate Report
-        </button>
-        </td>
-        <td style="padding: 15px;">
-        <button data-affiliate="${trackedEntityId}_view" class="btn btn-primary row-btn">
-          View
-        </button>
-        </td></tr>`;
-      });
-
-      document.getElementById("tbody-affiliate").innerHTML = tbodyAffiliateRow;
-
-      document.getElementById("tbody-affiliate").addEventListener('click', async (e)=> {
-        const button = e.target.closest('.row-btn');
-        if(!button) return;
-        const affiliate = button.dataset.affiliate.split("_");        
-        if(affiliate[1]=="generate") {
-          window.open(`../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`,'_blank');
-        }
-        else if(affiliate[1]=="view") window.location.href = `./2.1-1-view-profile.html?affiliate=${affiliate[0]}`;
-      })
-    }
-
+  const affiliateRows = displayAffiliateList(programUINControl.programTrackedEntityAttributes, affiliateList?.trackedEntities);
+      
+  document.getElementById("thead-affiliate").innerHTML = affiliateRows.theadAffiliate;
+  document.getElementById("tbody-affiliate").innerHTML = affiliateRows.tbodyAffiliate;
+  document.getElementById("searchResults").style.display = "block";
 }
 
 export default handleKycViewProfile;
