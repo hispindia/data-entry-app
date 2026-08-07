@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const noticeBoardIds = {
         en: { id: "lNR63q5GkXj", name: "notice-english" },
         fr: { id: "upQA8yJuVKx", name: "notice-french" },
-        es: { id: "bZlXa1FiHG3", name: "notice-spanish" },
+        sp: { id: "bZlXa1FiHG3", name: "notice-spanish" },
         ar: { id: "HCSaa6Kdof1", name: "notice-arabic" }
       };
       const data = await getMeData();

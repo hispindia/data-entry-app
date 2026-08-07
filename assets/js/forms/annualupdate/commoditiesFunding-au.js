@@ -1,6 +1,6 @@
 import { dataSet } from "../../api/dataSet.js";
 import { getEvents, getProgramStageEvents, getTEI, pushDataElementOther, pushDataElement, createEventOther } from "../../api/func.js";
-import { dataElements, dataSetQuantity, program, programStage, tei } from "../../constant.js";
+import { dataElements, dataSetQuantity, program, programStage, tei, dataSetFunds} from "../../constant.js";
 import { getUserConfig } from "../config.js";
 import { formatNumberInput, getYears, unformatNumber } from "../func.js";
 import { showToast } from "../../utils.js";
@@ -8,9 +8,17 @@ import { showToast } from "../../utils.js";
  const maxWords = 200
  var eventPD = '';
  var commoditiesEC='';
+ var totalIncome = 0;
+ var projectIncome = 0;
+ var anticipatedIncome = 0;
  var projectBudgetValues = {};
  var focusAreaValues = {};
  var expenseCategoryValues = {};
+ var projectDescriptionTotal = {};
+ var narrativePlanValues = {};
+ var organisationDetailsValues = {};
+ var totalIncomeAndProjDes = {};
+ var incomeByDonor = {};
  let userHideReporting = [];
  const programStageEvent = {
   keyDetails: ''
@@ -94,12 +102,10 @@ import { showToast } from "../../utils.js";
 
     fetchEvents();    
   }
-    async function fetchDataSet(year) {
+    async function fetchDataSet(dataSetToTake, year) {
       const values = {};
-      
-      const dataValuesQuantity = await dataSet.getValues(dataSetQuantity, tei.orgUnit, year);
+      const dataValuesQuantity = await dataSet.getValues(dataSetToTake, tei.orgUnit, year);
       dataValuesQuantity.dataValues.forEach(dv => values[dv.dataElement] = dv.value);
-  
       return values;
     }
 
@@ -112,15 +118,26 @@ import { showToast } from "../../utils.js";
       
       const filteredPrograms =
       data.trackedEntityInstances[0].enrollments.filter(
-        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectBudget || enroll.program == program.auProjectExpenseCategory || enroll.program == program.auProjectDescription || enroll.program == program.auProjectFocusArea
+        (enroll) => enroll.program == tei.program || enroll.program == program.auProjectBudget || enroll.program == program.auProjectExpenseCategory || enroll.program == program.auProjectDescription 
+        || enroll.program == program.auProjectFocusArea || enroll.program == program.auOrganisationDetails || enroll.program == program.auIncomeDetails
       );
       const dataValuesPD = getEvents(filteredPrograms, program.auProjectDescription,  {id: tei.year.id, value: tei.year.value});
       const dataValuesPB = getEvents(filteredPrograms, program.auProjectBudget, {id: tei.year.id, value: tei.year.value});
       const dataValuesPFA = getEvents(filteredPrograms, program.auProjectFocusArea, {id: tei.year.id, value: tei.year.value});
+      const dataValuesNP = getProgramStageEvents(filteredPrograms, programStage.auNarrativePlan, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value});
+      const dataValuesOD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, program.auOrganisationDetails, {id: tei.year.id, value: tei.year.value});
       const dataValuesEC = getProgramStageEvents(filteredPrograms, programStage.auProjectExpenseCategory, program.auProjectExpenseCategory, {id: tei.year.id, value: tei.year.value});
+      const dataValuesTC = getProgramStageEvents(filteredPrograms, programStage.auTotalIncome, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value});
+      const dataValuesID = getProgramStageEvents(filteredPrograms, programStage.auIncomeByDonor, program.auIncomeDetails, {id: tei.year.id, value: tei.year.value});
+      const dataValuesPDWithProgStage = getProgramStageEvents(filteredPrograms, programStage.auProjectDescription, program.auProjectDescription, {id: tei.year.id, value: tei.year.value});
       focusAreaValues = dataValuesPFA[tei.year.value] || {};
       expenseCategoryValues = dataValuesEC[tei.year.value] || {};
       projectBudgetValues = dataValuesPB[tei.year.value] || {};
+      narrativePlanValues = dataValuesNP[tei.year.value] || {};
+      organisationDetailsValues = dataValuesOD[tei.year.value] || {};
+      totalIncomeAndProjDes = dataValuesTC[tei.year.value] || {};
+      incomeByDonor = dataValuesID[tei.year.value] || {};
+      projectDescriptionTotal = dataValuesPDWithProgStage[tei.year.value] || {};
       const dataValuesKD = getProgramStageEvents(filteredPrograms, programStage.auKeyDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       const dataValuesMD = getProgramStageEvents(filteredPrograms, programStage.auMembershipDetails, tei.program, {id:tei.year.id,value:tei.year.value});
       if (!dataValuesMD[tei.year.value]) {
@@ -174,12 +191,29 @@ import { showToast } from "../../utils.js";
       else if(tei.userDisabled == "true") tei.disabled = true;
       else tei.disabled = false;
       
-      const dataSetValues = await fetchDataSet(tei.year.value);
+      const dataSetValues = await fetchDataSet(dataSetQuantity,tei.year.value);
       tei.dataValues[tei.year.value] = {
         ...tei.dataValues[tei.year.value],
         ...dataSetValues
       };
-      populateProgramEvents(tei.dataValues[tei.year.value], dataValuesKD);
+       dataElements.projectTotalIncome.forEach(pti => {
+          if (totalIncomeAndProjDes[pti.restricted]) {
+            totalIncome += Number(totalIncomeAndProjDes[pti.restricted]);
+          }
+          if (totalIncomeAndProjDes[pti.unrestricted]) {
+            totalIncome += Number(totalIncomeAndProjDes[pti.unrestricted]);
+          }
+        })
+
+        const dataSet = await fetchDataSet(dataSetFunds,tei.year.value);
+        totalIncome += Number(dataSet[dataElements.fullAllocation]);
+
+        dataElements.projectDescription.forEach(pd => {
+          if(projectDescriptionTotal[pd.income]) projectIncome += Number(projectDescriptionTotal[pd.income]);
+        })
+        anticipatedIncome = incomeByDonor[dataElements.anticipatedIncome];
+
+        populateProgramEvents(tei.dataValues[tei.year.value], dataValuesKD);
     } else {
       console.log("No data found for the organisation unit.");
     }
@@ -197,14 +231,45 @@ import { showToast } from "../../utils.js";
         textVal.value = '';
       }
     })
-    if(localStorage.getItem("hideReporting").includes('ed') || userHideReporting.includes("ma")) {
+    if(localStorage.getItem("hideReporting").includes('ma')) {
       const btn = document.createElement("button");
       btn.innerHTML = `<span data-i18n="intro.complete_business_plan">Complete Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");
-      if(tei.disabled) btn.setAttribute("disabled", "true");
       btn.addEventListener("click", async(event) => {
       event.preventDefault(); 
       const missingFields = validateProjectDescriptionRequiredFields(projectDescriptionValues);
+      const technicalFieldValidation = validateMinimumSelections(
+      narrativePlanValues,
+        [
+          {
+            ids: ["Isf6HLsoA8C", "kkZnSBQ4vTm"],
+            min: 2,
+            message: "Select at least two Main Technical Assistance options."
+          },
+          {
+            ids: ["HtIAWk0c0q2", "ospBjbSOXvH"],
+            min: 2,
+            message: "Select at least two Organisation Areas of Expertise options."
+          }
+        ]
+      );
+      const conditionalFieldsValidation = validateConditionalFields(
+      organisationDetailsValues,  
+       [
+        {
+          ifId: "ttOZ4zaMXji",
+          ifValue: "true",
+          thenId: "dQgZIHO74q5",
+          message: "Please provide Input for Question As you have selected <b>Yes</b>: <strong>Does your organisation have a youth group or networks?</strong>"
+        },
+        {
+          ifId: "UaETNe6k15k",
+          ifValue: "true",
+          thenId: "OvbPe9nCJOd",
+          message: "Please provide Input for Question As you have selected <b>Yes</b>: <strong>Does the MA have branches?</strong>"
+        }
+    ]
+  );
       const projectsWithFocusAreaVariance = getProjectsWithVariance(
         projectDescriptionValues,
         projectBudgetValues,
@@ -217,12 +282,114 @@ import { showToast } from "../../utils.js";
         expenseCategoryValues,
         dataElements.projectExpenseCategory
       );
+      const incomeVariance = getIncomeVariance(totalIncome, projectIncome);
+      const incomeVarianceOfTotalIncomeAndIncomeByDonor = Math.abs(totalIncome - anticipatedIncome);
       const errorBox = document.getElementById("mandatory-error");
       if (errorBox) errorBox.style.display = "none"
-      if (missingFields.length || projectsWithFocusAreaVariance.length || projectsWithExpenseAreaVariance.length) {
-        showMissingFieldsModal(missingFields, projectsWithFocusAreaVariance, projectsWithExpenseAreaVariance);
+      const sections = [];
+      if (missingFields.length) {
+        sections.push({
+          order: 3,
+          type: "projectDes",
+          title: "2.1 Project Description",
+          page: "2.1-project-description-au.html",
+          fields: missingFields
+        })
+      }
+      if (technicalFieldValidation.length) {
+        sections.push({
+          order: 2,
+          type: "narrativePlan",
+          title: "1.2 Narrative Plan",
+          page: "1.2-narrative-plan-au.html",
+          fields: technicalFieldValidation
+        })
+      }
+      if (conditionalFieldsValidation.length) {
+        sections.push({
+          order: 1,
+          type: "organisation Details",
+          title: "1. Organizational details",
+          page: "1.1-organization-details-au.html",
+          fields: conditionalFieldsValidation
+        })
+      }
+      if (projectsWithFocusAreaVariance.length) {
+        sections.push({
+          order: 4,
+          type: "focusArea",
+          title: "2.3 Breakdown by focus area",
+          heading: 'Budget by Focus Area mismatch:',
+          breakdownLabel: 'Focus Area',
+          sectionTitle: '2.4 Budget by Focus Area',
+          page: "2.3-breakdown-by-focus-area-au.html",
+          fields: projectsWithFocusAreaVariance
+        })
+      }
+      if (projectsWithExpenseAreaVariance.length) {
+        sections.push({
+          order: 5,
+          type: "expenseArea",
+          title: "2.4 Breakdown by expense category",
+          heading: 'Budget by Expense Category mismatch:',
+          breakdownLabel: 'Expense Category',
+          sectionTitle: '2.4 Budget by Expense Category',
+          page: "2.4-breakdown-by-expense-category-au.html",
+          fields: projectsWithExpenseAreaVariance
+        })
+      }
+      if (incomeVariance) {
+        sections.push({
+          order: 6,
+          type: "incomeVariance",
+          heading: "Project and Total Income Mismatch",
+          leftLabel: "Total Income",
+          rightLabel: "Total Project Income",
+          page: [
+            "3.1-total-income-au.html",
+            "2.1-project-description-au.html"
+          ],
+          fields: {
+            leftValue: totalIncome,
+            rightValue: projectIncome,
+            variance: totalIncome - projectIncome
+          }
+        });
+      }
+      if (incomeVarianceOfTotalIncomeAndIncomeByDonor) {
+        sections.push({
+          order: 7,
+          type: "anticipatedIncome",
+          heading: "3.1 & 3.2 Total Income Difference",
+          leftLabel: "Total Income",
+          rightLabel: "Income by Donor",
+          page: [
+            "3.1-total-income-au.html",
+            "3.2-income-by-donor-au.html"
+          ],
+          fields: {
+            leftValue: totalIncome,
+            rightValue: anticipatedIncome,
+            variance: totalIncome - anticipatedIncome
+          }
+        });
+      }
+      if (sections.length) {
+        showMissingFieldsModal(sections);
         return;
       }
+      if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
+      showToast('Annual Update Submitted Successfully!', "success");
+      });
+      $('#push-button').append(btn);
+    }
+    if(localStorage.getItem("hideReporting").includes('ed')) {
+      const btn = document.createElement("button");
+      btn.innerHTML = `<span data-i18n="intro.complete_business_plan">Complete Business Plan </span> ${tei.year.value}`;
+      btn.classList.add("btn", "btn-success", "p-2", "m-2");
+      if(tei.disabled) btn.setAttribute("disabled", "true");
+      btn.addEventListener("click", async(event) => {
+      event.preventDefault(); 
       if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD);
       showToast('Annual Update Submitted Successfully!', "success");
       });
@@ -541,6 +708,7 @@ function checkProjects(projects, values) {
   }
   return names;
 }
+  //text area validation
  function checkWords(event) {
       const counter = document.getElementById('counter');
       const { value } = event;
@@ -552,8 +720,8 @@ function checkProjects(projects, values) {
       }
       if (value) counter.textContent = `${(maxWords - words.length)} words remaining`;
       else counter.textContent = `${maxWords} words remaining`;
-    }
-  
+  }
+  //for 2.1 project description mandatory check
   function validateProjectDescriptionRequiredFields(values) {
     const missingFields = [];
     const projectConfigs = dataElements.projectDescription || [];
@@ -611,6 +779,29 @@ function checkProjects(projects, values) {
     });
     return [...new Set(missingFields)];
   }
+
+  function validateMinimumSelections(values, rules) {
+    const errors = [];
+    rules.forEach(rule => {
+      const count = rule.ids.filter(id => values[id]).length;
+      if (count < rule.min) {
+        errors.push(rule.message);
+      }
+    });
+   return errors;
+  }
+
+  function validateConditionalFields(values, rules) {
+    const errors = [];
+    rules.forEach(rule => {
+      if (values[rule.ifId] === rule.ifValue && !values[rule.thenId]) {
+        errors.push(rule.message);
+      }
+    });
+    return errors;
+  }
+  
+  //for 2.2 page - budet diff
   function getProjectsWithVariance(values, budgetValues, varianceValues, varianceConfigs) {
     return (dataElements.projectDescription || []).reduce((projects, project, index) => {
       const rawVariance = getProjectVariance(varianceValues, varianceConfigs, index);
@@ -630,55 +821,112 @@ function checkProjects(projects, values) {
       return projects;
     }, []);
   }
-
-  function renderVarianceSection(config, projects) {
-    if (!projects.length) return '';
-
-    return `
-      <h6 style="color:#C53030;margin:20px 0 12px;font-weight:700;">${config.heading}</h6>
-      ${projects.map(project => `
-        <div class="card mb-2" style="border:1px solid #FED7D7;">
-          <div class="card-header" style="background:#FFF5F5;font-weight:600;color:#C53030;">
-            Budget mismatch detected in ${project.name}
-          </div>
-          <div class="card-body" style="color:#555;padding:14px 16px;">
-            <p style="margin-bottom:8px;">The Total Expense Budget entered in <strong>2.2 Project Details</strong> ($${formatNumberInput(project.totalExpenseBudget)}) does not match the Total Expense Budget by ${config.breakdownLabel} in <strong>${config.sectionTitle}</strong> ($${formatNumberInput(project.breakdownBudget)}).</p>
-            <p style="margin-bottom:12px;"><strong>Difference: $${formatNumberInput(Math.abs(project.variance))}</strong>. Please review and ensure both totals are equal before submitting.</p>
-            <a class="btn btn-sm btn-outline-danger" href="${config.pageUrl}">Go to ${config.sectionTitle} &rarr;</a>
-          </div>
-        </div>
-      `).join("")}
-    `;
+  //for 3.1 and 2.2 proj - diff
+  function getIncomeVariance(totalIncome, projectIncome) {
+    const variance = Number(totalIncome) - Number(projectIncome);
+    if (variance === 0) return null;
+    return { totalIncome, projectIncome, variance};
   }
 
-  function showMissingFieldsModal(missingFields, projectsWithFocusAreaVariance = [], projectsWithExpenseAreaVariance = []) {
-    $('#missingFieldsModal').remove();
-    //dropping wise list 
-    const groupFields = {};
-    missingFields.forEach(field => {
-      const parts = field.split(' - ');
-      console.log("parts", parts);
-      if (parts.length >= 2) {
-        const proj = parts[0];
-        const filedName = parts.slice(1).join(" - ");
+  //for 2.2 page and 2.3 page render variance - budget diff
+  function renderVarianceSection(section) {
+    const { heading, page, sectionTitle, breakdownLabel, fields} = section;
+    if (!fields.length) return "";
+    return `
+        <h6 style="color:#C53030;margin:20px 0 12px;font-weight:700;">
+          ${heading}
+        </h6>
+        ${fields.map((project, index) => `
+              <div class="card mb-2" style="border:1px solid #FED7D7;">
+                 <div class="card-header" data-toggle="collapse"
+                    data-target="#variance-${section.order}-${index}"
+                    style="cursor:pointer; background:#FFF5F5; font-weight:600;
+                      color:#C53030;">
+                    Budget mismatch detected in ${project.name}
+                  </div>
+                  <div id="variance-${section.order}-${index}" class="collapse">
+                    <div class="card-body">
+                    <p>
+                      The Total Expense Budget entered in
+                      <strong>2.2 Project Details</strong>
+                      ($${formatNumberInput(project.totalExpenseBudget)})
+                      does not match the Total Expense Budget by
+                      ${breakdownLabel}
+                      in <strong>${sectionTitle}</strong>
+                      ($${formatNumberInput(project.breakdownBudget)}).
+                    </p>
+                    <p>
+                      <strong>Difference:
+                      $${formatNumberInput(Math.abs(project.variance))}</strong>
+                    </p>
+                    <a href="${page}">Go to ${sectionTitle}</a>
+                  </div>
+                  </div>
 
-        if (!groupFields[proj]) {
-          groupFields[proj] = [];
-        }
-        groupFields[proj].push(filedName);
-      }
-    })
+            </div>
+        `).join("")}
+    `;
+}
+// for 3.1 and 2.2 proj descrp variance display
+  function renderIncomeVariance(section) {
+
+      const {heading, leftLabel, rightLabel, page, fields} = section;
+      const {leftValue, rightValue, variance} = fields;
+      return `
+          <h6 style="color:#C53030;margin:20px 0 12px;font-weight:700;">
+            ${heading}  
+          </h6>
+            <div class="card mb-2" style="border:1px solid #FED7D7;">
+                   <div class="card-header" data-toggle="collapse"
+                      data-target="#variance-${section.order}"
+                      style="cursor:pointer; background:#FFF5F5; font-weight:600;
+                      color:#C53030;" style="background:#FFF5F5;font-weight:600;color:#C53030;">
+                      Income totals do not match
+                    </div>
+                <div class="collapse" id="variance-${section.order}">
+                  <div class="card-body">
+                      <p>
+                        ${leftLabel}:
+                        <strong>$${formatNumberInput(leftValue)}</strong>
+                        <a href="${page[0]}">Go to Page</a>
+                      </p>
+                      <p>
+                        ${rightLabel}:
+                        <strong>$${formatNumberInput(rightValue)}</strong>
+                        <a href="${page[1]}">Go to Page</a>
+                      </p>
+                      <p>
+                        Difference:
+                        <strong>$${formatNumberInput(Math.abs(variance))}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+      `;
+  }
+  //for 2.2 page and 2.3 page render variance - budget diff
+  function showMissingFieldsModal(
+    sections,
+    projectsWithFocusAreaVariance = [],
+    projectsWithExpenseAreaVariance = []
+) {
+
+    $('#missingFieldsModal').remove();
+    const totalErrors = sections.length + projectsWithFocusAreaVariance.length + projectsWithExpenseAreaVariance.length;
+    sections.sort((a, b) => a.order - b.order);
     const modalHtml = `
       <div class="modal fade" id="missingFieldsModal" tabindex="-1" role="dialog" aria-labelledby="missingFieldsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div class="modal-content" style="border-radius:10px;border:none;overflow:hidden;">
-            <div class="modal-header" style="background:#FFF5F5;border-bottom:1px solid #FED7D7;">
+
+            <div class="modal-header" style="background:#FFF5F5;border-bottom:1px solid #FED7D7;">             
               <div style="display:flex;align-items:center;gap:10px;">
                 <span style="
                   display:inline-flex;
                   align-items:center;
                   justify-content:center;
-                  width:26px;height:26px;
+                  width:26px;
+                  height:26px;
                   background:#E53E3E;
                   color:#fff;
                   border-radius:50%;
@@ -687,86 +935,117 @@ function checkProjects(projects, values) {
                   flex-shrink:0;
                 ">!</span>
                 <h5 class="modal-title" id="missingFieldsModalLabel" style="color:#C53030;margin:0;">
-                  ${missingFields.length ? 'Required Fields Missing' : 'Project Budget Difference'}
+                  The Annual Business Plan contains <strong>${totalErrors}</strong> validation issue(s).
+                  Please complete the required fields before submitting.
                 </h5>
               </div>
+
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
+
             </div>
+
             <div class="modal-body" style="padding:20px 24px;">
-              ${missingFields.length ? `<p style="color:#555;margin-bottom:16px;">
-                Please complete the following required fields in <strong>2.1 Project Description <a href="2.1-project-description-au.html">Go to Page</a></strong> before submitting:
-              </p>` : ''}
               <div style="max-height:55vh;overflow-y:auto;">
+              ${sections.map(section => {
+                  switch (section.type) {
 
-            ${Object.entries(groupFields).map(([project, fields], index) => `
-                <div class="card mb-2" style="border:1px solid #FED7D7;">
-                    <div class="card-header"
-                        data-toggle="collapse"
-                        data-target="#project-${index}"
-                        style="
-                            cursor:pointer;
-                            background:#FFF5F5;
-                            font-weight:600;
-                            color:#C53030;
-                            font-weight:600;
-                            color:#C53030;
-                            display:flex;
-                            justify-content:space-between;
-                            align-items:center;
-                        ">
-                        ${project}
-                        <span class="badge badge-danger">
-                            Missing fields:${fields.length}
-                        </span>
-                    </div>
+                    case "focusArea":
+                    case "expenseArea":
+                    return renderVarianceSection(section);
 
-                    <div id="project-${index}"
-                        class="collapse ${index===0 ? 'show' : ''}">
-                        <ul class="list-group list-group-flush">
+                    case "incomeVariance":
+                    case "anticipatedIncome":
+                    return renderIncomeVariance(section);
 
-                            ${fields.map(field=>`
-                                <li class="list-group-item"
-                                    style="border:none;padding:8px 18px;">
-                                    • ${field}
-                                </li>
-                            `).join("")}
-                        </ul>
-                    </div>
-                </div>
-            `).join("")}
+                    default:
+                    return renderMandatorySection(section);
+                  }
+                }).join("")}
 
-            ${renderVarianceSection({
-              heading: 'Budget by Focus Area mismatch:',
-              sectionTitle: '2.3 Budget by Focus Area',
-              breakdownLabel: 'Focus Area',
-              pageUrl: '2.3-breakdown-by-focus-area-au.html'
-            }, projectsWithFocusAreaVariance)}
-            ${renderVarianceSection({
-              heading: 'Budget by Expense Category mismatch:',
-              sectionTitle: '2.4 Budget by Expense Category',
-              breakdownLabel: 'Expense Category',
-              pageUrl: '2.4-breakdown-by-expense-category-au.html'
-            }, projectsWithExpenseAreaVariance)}
-          </div>
+              </div>
             </div>
+
             <div class="modal-footer" style="border-top:1px solid #eee;">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
             </div>
+
           </div>
         </div>
       </div>
     `;
 
-  $('body').append(modalHtml);
-  $('#missingFieldsModal').modal('show');
+    $('body').append(modalHtml);
+    $('#missingFieldsModal').modal('show');
 
-  // Clean up the DOM once the modal is dismissed
-  $('#missingFieldsModal').on('hidden.bs.modal', function () {
-    $(this).remove();
-  });
+    $('#missingFieldsModal').on('hidden.bs.modal', function () {
+        $(this).remove();
+    });
 }
+  function renderMandatorySection(sections) {
+      const {title, page, fields} = sections;
+      if (!fields.length) return "";
+      const groupFields = {};
+
+      fields.forEach(field => {
+          const parts = field.split(" - ");
+          if (parts.length >= 2) {
+              const group = parts[0];
+              const fieldName = parts.slice(1).join(" - ");
+              if (!groupFields[group]) {
+                  groupFields[group] = [];
+              }
+              groupFields[group].push(fieldName);
+          }
+          else {
+              if (!groupFields[title]) {
+                groupFields[title] = [];
+              }
+              groupFields[title].push(field);
+          }
+      });
+
+      return `
+          <div class="mb-4">
+              <p style="color:#555;margin-bottom:16px;">
+                  Please complete the following required fields in
+                  <strong>${title}
+                      <a href="${page}">Go to Page</a>
+                  </strong>
+                  before submitting:
+              </p>
+              ${Object.entries(groupFields).map(([group, items], index) => `
+                  <div class="card mb-2" style="border:1px solid #FED7D7;">
+                        <div class="card-header"
+                          data-toggle="collapse"
+                          data-target="#mandatory-${title.replace(/\W/g,'')}-${index}"
+                          style="cursor:pointer; background:#FFF5F5;font-weight:600; color:#C53030;
+                            display:flex; justify-content:space-between;align-items:center;">
+                            ${group}
+                          <span class="badge badge-danger">
+                            Missing fields: ${items.length}
+                          </span>
+                       </div>
+                        <div
+                          id="mandatory-${title.replace(/\W/g,'')}-${index}"
+                          class="collapse">
+                          <ul class="list-group list-group-flush">
+                              ${items.map(item => `
+                                  <li class="list-group-item"
+                                    style="border:none;padding:8px 18px;">
+                                    • ${item}
+                                  </li>
+                              `).join("")}
+                          </ul>
+                        </div>
+                  </div>
+              `).join("")}
+          </div>
+      `;
+  }
 
 async function getFileUpload(elementId,deValue) {
   try{
