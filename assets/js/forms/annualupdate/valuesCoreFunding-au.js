@@ -186,26 +186,26 @@ document.addEventListener("DOMContentLoaded", function () {
       })
     })
     
-    var projectRows = `<thead><tr><th data-i18n="intro.donor_details">Donor Details</th><th style="text-align:center">${tei.year.value}</th>`;
+    var projectRows = `<thead><tr><th data-i18n="intro.donor_details">Name of Donor</th><th data-i18n="intro.duration_details" style="text-align:center">Duration of grant</th><th><span data-i18n="intro.total_funding_donor" style="text-align:center">Total added funding from donor- </span>${tei.year.value}</th>`;
     projectRows += `</thead><tbody id="donor-details">`;
 
     const donors =  checkDonors(dataElements.valuesCoreFunding.donors, dataValues);
     if(donors.length) {
       donors.forEach((_,index) => {
-        projectRows += addRow(dataElements.valuesCoreFunding.donors[index], dataValues);
+        projectRows += addRow(dataElements.valuesCoreFunding.donors[index],  dataElements.valuesCoreFunding.durations[index], dataValues);
         donorCount++; 
       });
       for(let rowAdd = 0; rowAdd < 10-donors.length; rowAdd++)  {
-      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues);
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount],dataElements.valuesCoreFunding.duration[donorCount],dataValues);
       donorCount++; 
       }
       if(donors.length >= 10 && donors.length <=14) {
-      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount], dataValues);
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[donorCount],dataElements.valuesCoreFunding.duration[donorCount],dataValues);
       donorCount++; 
       }
     } else {
       for(let rowAdd = 0; rowAdd < 10; rowAdd++)  {
-      projectRows += addRow(dataElements.valuesCoreFunding.donors[rowAdd], dataValues);
+      projectRows += addRow(dataElements.valuesCoreFunding.donors[rowAdd], dataElements.valuesCoreFunding.duration[rowAdd], dataValues);
       donorCount++; 
       }
     }
@@ -223,12 +223,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-  function addRow(donor, dataValues) {
+  function addRow(donor, duration, dataValues) {
     const amountLocked = dataValues && dataValues[donor.amountLocked]
           ? dataValues[donor.amountLocked]: "";
+    const durationValue = dataValues?.[duration.name] ?? "";
     var row = `<tr>
     <td>
     <input type="text"  ${tei.disabled ? 'disabled readonly': ''} value="${dataValues && dataValues[donor.name]? dataValues[donor.name]: ""}"  id="${donor.name}" class="form-control textContent">
+    </td>
+    <td>
+    <input type="text"  ${tei.disabled ? 'disabled readonly': ''} value="${durationValue}"  id="${duration.name}" class="form-control textContent">
     </td>
     <td>
         <div class="input-group">
@@ -275,7 +279,7 @@ alert("Data Saved Successfully!")
 
 $(".plus").click(function (e) {
   e.preventDefault();
-  var projectRows = addRow(dataElements.valuesCoreFunding.donors[donorCount], {})
+  var projectRows = addRow(dataElements.valuesCoreFunding.donors[donorCount],dataElements.valuesCoreFunding.duration[donorCount],{})
   donorCount++;
   $("#donor-details").append(projectRows);
   // Localize content

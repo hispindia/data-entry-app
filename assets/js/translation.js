@@ -587,10 +587,10 @@ const translation_mapping = [
     },
     {
         id: "organisation_networks",
-        en: "Does your organisation have a youth group or networks?",
-        sp: "¿Tiene su organización una red o grupo juvenil?",
-        fr: "Votre organisation dispose-t-elle d'un groupe ou d'un réseau de jeunes ?",
-        ar: 'هل لديكم في منظمتكم مجموعة أو شبكة للشباب؟'
+        en: "Does your organisation have a dedicated youth group or a youth network?",
+        sp: "¿Tu organización cuenta con un grupo específico para jóvenes o una red juvenil?",
+        fr: "Votre organisation dispose-t-elle d'un groupe dédié aux jeunes ou d'un réseau de jeune?",
+        ar: "هل توجد في منظمتكم مجموعة شبابية مخصصة أو شبكة شبابية؟"
   },
   {
         id: "YES",
@@ -615,10 +615,10 @@ const translation_mapping = [
     },
     {
         id: "ma_branches",
-        en: "Does the MA have branches?",
-        sp: "¿La AM tiene sucursales?",
-        fr: "L'AM a-t-elle des succursales ?`",
-        ar: 'هل توجد فروع للجمعية العضو؟'
+        en: "Does your organisation have branches?",
+        sp: "¿Tu organización tiene sucursales?",
+        fr: "Votre organisation possède-t-elle des succursales ?",
+        ar: 'هل تمتلك مؤسستكم فروعًا؟هل تمتلك مؤسستكم فروعًا؟'
     },
     {
         id: "number_of_branches",
@@ -806,24 +806,24 @@ const translation_mapping = [
     },
     {
         id: "key_strategy",
-        en: "Please upload key strategy documents",
-        sp: "Cargue documentos estratégicos clave",
-        fr: "Veuillez télécharger les documents stratégiques clés",
-        ar: 'يرجى تحميل وثائق الاستراتيجية الرئيسية'
+        en: "Please upload you current strategy document",
+        sp: "Por favor, sube tu documento de estrategia actual",
+        fr: "Veuillez télécharger votre document stratégique actuel",
+        ar: "يرجى تحميل وثيقة الاستراتيجية الحالية الخاصة بكم"
     },
     {
         id: "key_annual",
-        en: "Please upload the current audit report in PDF",
-        sp: "Cargue los documentos clave del informe anual",
-        fr: "Veuillez télécharger les principaux documents du rapport d’audit en format PDF.",
-        ar: 'يرجى تحميل وثائق التقرير السنوي الرئيسية'
+        en: "Please upload the latest audit report in PDF (if not alredy uploaded)",
+        sp: "Por favor, sube el último informe de auditoría en formato PDF (si aún no lo has subido)",
+        fr: "Veuillez télécharger le dernier rapport d'audit au format PDF (s'il n'a pas encore été téléchargé)",
+        ar: "يرجى تحميل أحدث تقرير تدقيق بصيغة PDF (إن لم يكن قد تم تحميله بالفعل)"
     },
     {
         id: "key_audits",
-        en: "Please upload key audits reports documents (if the most recent audit reports was submitted in 2025 Annual Reporting, please leave it as is)",
-        sp: "Por favor, cargue los documentos clave de los informes de auditoría (si el informe de auditoría más reciente fue presentado en el Informe Anual 2025, déjelo tal como está).",
-        fr: "Veuillez télécharger les documents clés des rapports d’audit (si le rapport d’audit le plus récent a été soumis dans le rapport annuel 2025, laissez-le tel quel).",
-        ar: "يرجى رفع مستندات تقارير التدقيق الرئيسية (إذا تم تقديم أحدث تقارير التدقيق ضمن التقرير السنوي لعام 2024، يُرجى تركها كما هي)."
+        en: "Please upload your latest annual organisational report (if not already uploaded)",
+        sp: "Por favor, sube tu último informe anual de la organización (si aún no lo has subido).",
+        fr: "Veuillez télécharger votre dernier rapport annuel d'activité (s'il n'a pas encore été téléchargé).",
+        ar: "يرجى تحميل أحدث تقرير سنوي لمنظمتكم (إن لم يكن قد تم تحميله بالفعل)"
     },
     {
         id: "memorandum_understanding_upload",
@@ -847,11 +847,25 @@ const translation_mapping = [
         ar: "غير ذلك 1"
     },
     {
+        id: "other1(Res Report)",
+        en: "Other 1 (e.g. research report, organisational plan, publications, or similar)",
+        sp: "Otro 1 (p. ej., informe de investigación, plan organizativo, publicaciones o similar)",
+        fr: "Autre 1 (par exemple : rapport de recherche, organigramme, publications ou autres documents similaires)",
+        ar: "أخرى 1 (مثل: تقرير بحثي، أو خطة تنظيمية، أو منشورات، أو ما شابه)"
+    },
+    {
         id: "other2",
         en: "Other 2",
         sp: "Otro 2",
         fr: "Autre 2",
         ar: "آخر 2"
+    },
+    {
+        id: "other2_(Res report, org Plan)",
+        en: "Other 2 (e.g. research report, organisational plan, publications, or similar)",
+        sp: "Autre 2 (par exemple : rapport de recherche, organigramme, publications ou autres documents similaires)",
+        fr: "Otro 2 (p. ej., informe de investigación, plan organizativo, publicaciones o similar)",
+        ar: "أخرى 2 (مثل: تقرير بحثي، أو خطة تنظيمية، أو منشورات، أو ما شابه)"
     },
      //Narrative Plan
     {
@@ -954,13 +968,6 @@ const translation_mapping = [
         sp: "SMART: Resultados específicos, medibles, alcanzables, relevantes y con plazos determinados",
         fr: "Résultats SMART : spécifiques, mesurables, atteignables, réalistes et limités dans le temps",
         ar: "SMART: واضحة وقابلة للقياس ويمكن تحقيقها ووثيقة الصلة ومحددة بوقت"
-    },
-    {
-        id: "describe_youth_leadership_para2",
-        en: "Describe your medium term (3-year) expected strategic outcomes (up to five).",
-        sp: "Describa los resultados estratégicos esperados (hasta cinco) a mediano plazo (3 años).",
-        fr: "Décrivez vos résultats stratégiques (5 au maximum) attendus à moyen terme (3 ans).",
-        ar: "وضح النتائج الاستراتيجية التي تتوقعون تحقيقها على المدى المتوسط (3 سنوات) (حتى خمس سنوات)."
     },
     {
         id: "start_pillar_1",
@@ -2384,13 +2391,14 @@ const translation_mapping = [
         ar: 'الكلمات المتبقية'
     },
     //Project Description
+    
     {
-    id: "project_description_info",
-    en: '<p class="mb-4">Please list all the projects you plan to carry out in year of the business plan.</p><p class="mb-4">Most projects are likely to have restricted funding. These have a donor agreement with clear deliverables and timelines. Please do not separate donor-funded projects into separate projects. One donor contract equals one project.</p><p class="mb-4">Some projects are implemented with unrestricted funding. This funding can be sourced from a donor, or from income generation activities such as social enterprise, sale of services, donations, etc.</p><p class="mb-4">For each project, please enter the name and a brief description including regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p><p class="mb-0">Please do not separate projects into thematic programmes. Please fill in all cells. <span style="color: red">They are mandatory, and the business plan cannot be submitted if they are not filled in.</span></p>',
-    sp: '<p class="mb-4">Enumere todos los proyectos que tiene previsto ejecutar durante el año del plan de negocio.</p><p class="mb-4">La mayoría de los proyectos probablemente contarán con financiación restringida. Estos proyectos tienen un acuerdo con el donante que establece entregables y plazos claros. No divida los proyectos financiados por un mismo donante en varios proyectos. Un contrato con un donante equivale a un proyecto.</p><p class="mb-4">Algunos proyectos se ejecutan con financiación no restringida. Esta financiación puede provenir de un donante o de actividades de generación de ingresos, como empresas sociales, prestación de servicios, donaciones, etc.</p><p class="mb-4">Para cada proyecto, introduzca el nombre y una breve descripción que incluya las regiones o provincias donde se implementará, el público objetivo o los beneficiarios y los resultados previstos.</p><p class="mb-0">No separe los proyectos en programas temáticos. Complete todas las celdas. <span style="color: red">Son obligatorias y el plan de negocio no podrá enviarse si no están completas.</span></p>',
-    fr: '<p class="mb-4">Veuillez énumérer tous les projets que vous prévoyez de mettre en œuvre au cours de l’année couverte par le plan d’activité.</p><p class="mb-4">La plupart des projets sont susceptibles d’être financés par des fonds affectés. Ces projets sont régis par un accord avec un bailleur de fonds précisant clairement les livrables et les échéances. Veuillez ne pas diviser un projet financé par un bailleur en plusieurs projets. Un contrat avec un bailleur de fonds correspond à un projet.</p><p class="mb-4">Certains projets sont mis en œuvre grâce à des fonds non affectés. Ces fonds peuvent provenir d’un bailleur de fonds ou d’activités génératrices de revenus, telles qu’une entreprise sociale, la vente de services, des dons, etc.</p><p class="mb-4">Pour chaque projet, veuillez saisir son nom ainsi qu’une brève description comprenant les régions/provinces où il sera mis en œuvre, le public cible/les bénéficiaires et les résultats attendus.</p><p class="mb-0">Veuillez ne pas regrouper les projets en programmes thématiques. Veuillez remplir toutes les cellules. <span style="color: red">Elles sont obligatoires et le plan d’activité ne pourra pas être soumis si elles ne sont pas remplies.</span></p>',
-    ar: '<p class="mb-4">يرجى إدراج جميع المشاريع التي تخططون لتنفيذها خلال سنة خطة العمل.</p><p class="mb-4">من المرجح أن تكون معظم المشاريع ممولة من خلال تمويل مقيّد. وتخضع هذه المشاريع لاتفاقية مع الجهة المانحة تتضمن مخرجات وجداول زمنية واضحة. يرجى عدم تقسيم المشروع الممول من جهة مانحة واحدة إلى عدة مشاريع، إذ يُعد كل عقد مع جهة مانحة مشروعًا واحدًا.</p><p class="mb-4">يتم تنفيذ بعض المشاريع باستخدام تمويل غير مقيّد. وقد يأتي هذا التمويل من جهة مانحة أو من أنشطة توليد الدخل مثل المشاريع الاجتماعية، أو بيع الخدمات، أو التبرعات، وغيرها.</p><p class="mb-4">لكل مشروع، يرجى إدخال اسم المشروع ووصف موجز يتضمن المناطق/المحافظات التي سيتم تنفيذه فيها، والفئة المستهدفة/المستفيدين، والنتائج أو المخرجات المتوقعة.</p><p class="mb-0">يرجى عدم تقسيم المشاريع إلى برامج موضوعية. يرجى تعبئة جميع الخانات. <span style="color: red">جميع الخانات إلزامية، ولا يمكن تقديم خطة العمل إذا لم يتم استكمالها.</span></p>'
-   },
+        id:"project_description_info",
+        en:'<p class="mb-4">Please list all the projects you plan to carry out in year of the business plan.</p><p class="mb-4">Most projects are likely to have restricted funding. These have a donor agreement with clear deliverables and timelines. Please do not separate donor-funded projects into separate projects. One donor contract equals one project</p><p class="mb-4">Some projects are implemented with unrestricted funding. This funding can be sourced from a donor, or from income generation activities such as social enterprise, sale of services, donations, etc.</p><p class="mb-4">For each project, please enter the name and a brief description including regions/provinces where it will be implemented, the target audience/clients and its intended outcomes/results.</p><p class="mb-0"> Please fill in all cells. <span style="color: red">They are mandatory, and the business plan cannot be submitted if they are not filled in.</span></p>',
+        sp:'<p class="mb-4">Enumere todos los proyectos que tiene previsto ejecutar durante el año del plan de negocio.</p><p class="mb-4">La mayoría de los proyectos probablemente contarán con financiación restringida. Estos proyectos tienen un acuerdo con el donante que establece entregables y plazos claros. No separe los proyectos financiados por un mismo donante en varios proyectos. Un contrato con un donante equivale a un proyecto.</p><p class="mb-4">Algunos proyectos se ejecutan con financiación no restringida. Esta financiación puede provenir de un donante o de actividades de generación de ingresos, como empresas sociales, prestación de servicios, donaciones, etc.</p><p class="mb-4">Para cada proyecto, introduzca el nombre y una breve descripción que incluya las regiones o provincias donde se implementará, el público objetivo o los beneficiarios y los resultados previstos.</p><p class="mb-0">Complete todas las celdas. <span style="color: red">Son obligatorias y el plan de negocio no podrá enviarse si no están completas.</span></p>',
+        fr:'<p class="mb-4">Veuillez énumérer tous les projets que vous prévoyez de mettre en œuvre au cours de l’année couverte par le plan d’activité.</p><p class="mb-4">La plupart des projets sont susceptibles d’être financés par des fonds affectés. Ces projets sont régis par un accord avec un bailleur de fonds précisant clairement les livrables et les échéances. Veuillez ne pas diviser un projet financé par un bailleur en plusieurs projets. Un contrat avec un bailleur de fonds correspond à un projet.</p><p class="mb-4">Certains projets sont mis en œuvre grâce à des fonds non affectés. Ces fonds peuvent provenir d’un bailleur de fonds ou d’activités génératrices de revenus, telles qu’une entreprise sociale, la vente de services, des dons, etc.</p><p class="mb-4">Pour chaque projet, veuillez saisir son nom ainsi qu’une brève description comprenant les régions/provinces où il sera mis en œuvre, le public cible/les bénéficiaires et les résultats attendus.</p><p class="mb-0">Veuillez remplir toutes les cellules. <span style="color: red">Elles sont obligatoires et le plan d’activité ne pourra pas être soumis si elles ne sont pas remplies.</span></p>',
+        ar:'<p class="mb-4">يرجى إدراج جميع المشاريع التي تخططون لتنفيذها خلال سنة خطة العمل.</p><p class="mb-4">من المرجح أن تكون معظم المشاريع ممولة من خلال تمويل مقيّد. وتخضع هذه المشاريع لاتفاقية مع الجهة المانحة تتضمن مخرجات وجداول زمنية واضحة. يرجى عدم تقسيم المشروع الممول من جهة مانحة واحدة إلى عدة مشاريع، إذ يُعد كل عقد مع جهة مانحة مشروعًا واحدًا.</p><p class="mb-4">يتم تنفيذ بعض المشاريع باستخدام تمويل غير مقيّد. وقد يأتي هذا التمويل من جهة مانحة أو من أنشطة توليد الدخل مثل المشاريع الاجتماعية، أو بيع الخدمات، أو التبرعات، وغيرها.</p><p class="mb-4">لكل مشروع، يرجى إدخال اسم المشروع ووصف موجز يتضمن المناطق/المحافظات التي سيتم تنفيذه فيها، والفئة المستهدفة/المستفيدين، والنتائج أو المخرجات المتوقعة.</p><p class="mb-0">يرجى تعبئة جميع الخانات. <span style="color: red">جميع الخانات إلزامية، ولا يمكن تقديم خطة العمل إذا لم يتم استكمالها.</span></p>'
+    },
     {
         id: "description_project",
         en: "Description of Project",
@@ -3111,11 +3119,26 @@ const translation_mapping = [
     },
     {
         id: "donor_details",
-        en: "Donor Details",
-        sp: "Donante",
-        fr: "Nom du bailleur de fonds",
-        ar: 'تفاصيل الجهة المانحة'
+        en: "Name of Donor",
+        sp: "Nombre del donante",
+        fr: "Nom du donateur",
+        ar:'اسم المتبرع'
     },
+    {
+        id: "duration_details",
+        en: "Duration of grant",
+        sp: "Duración de la subvención",
+        fr: "Durée de la subvention",
+        ar: "مدة المنحة"
+    },
+    {
+        id: "total_funding_donor",
+        en: "Total added funding from donor -",
+        sp: "Financiamiento total aportado por el donante -",
+        fr: "Montant total du financement supplémentaire apporté par le donateur -",
+        ar: "إجمالي التمويل الإضافي المقدم من الجهة المانحة -"
+    },
+
     {
         id: "add_new_donor",
         en: "Add New Donor",
@@ -3744,6 +3767,27 @@ de productos (como se indica en la parte de abajo del formulario)
         sp: "2. Resultados y logros",
         fr: "2. Résultats et réalisations",
         ar: '2. النتائج والإنجازات'
+    },
+    {
+        id: "smart_outcomes_heading",
+        en: "SMART: Specific, Measurable, Achievable, Relevant, and Time-bound Outcomes",
+        sp: "SMART: Resultados específicos, medibles, alcanzables, relevantes y con plazos definidos",
+        fr: "SMART : Objectifs spécifiques, mesurables, réalisables, pertinents et assortis d'un délai",
+        ar: "SMART: النتائج المحددة، القابلة للقياس، القابلة للتحقيق، ذات الصلة، والمحددة زمنياً"
+    },
+    {
+        id: "smart_outcomes_desc",
+        en: "Review and update (if required) your medium term (3-year) expected strategic outcomes (up to five).",
+        sp: "Revisa y actualiza (si es necesario) tus resultados estratégicos esperados a mediano plazo (3 años) (hasta cinco).",
+        fr: "Passez en revue et mettez à jour (si nécessaire) vos résultats stratégiques attendus à moyen terme (3 ans) (cinq au maximum).",
+        ar: "يرجى مراجعة وتحديث (إذا لزم الأمر) النتائج الاستراتيجية المتوقعة على المدى المتوسط (3 سنوات) (بحد أقصى خمس نتائج)."
+    },
+    {
+        id: "smart_outcomes_pillar",
+        en: "For example: IPPF Strat Pillar 1: By December 2026, rolled out at least three national Digital Health Interventions in four national regions.",
+        sp: "Por ejemplo: Pilar estratégico 1 de la IPPF: Para diciembre de 2026, haber implementado al menos tres intervenciones nacionales de salud digital en cuatro regiones del país.",
+        fr: "Par exemple : Pilier stratégique n° 1 de l'IPPF : d'ici décembre 2026, déployer au moins trois interventions nationales en matière de santé numérique dans quatre régions du pays.",
+        ar: "على سبيل المثال: الركيزة الاستراتيجية الأولى للاتحاد الدولي لتنظيم الأسرة (IPPF): بحلول ديسمبر 2026، تنفيذ ما لا يقل عن ثلاثة تدخلات وطنية في مجال الصحة الرقمية في أربع مناطق وطنية."
     },
     {
         id: "results_achivement_info",

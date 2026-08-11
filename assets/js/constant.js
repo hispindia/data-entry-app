@@ -378,7 +378,25 @@ export const dataElements = {
       { name: "CEwCkPApu7b", amountLocked: "zSLaVt7nTng" },
       { name: "pMwyOhApjhE", amountLocked: "PojFwEUFcwL" },
     ],
+    duration: [
+      {name: "F4Bz2p15xUu"},
+      {name: "vC3UeEJZzVo"},
+      {name: "JfscwHUjQhw"},
+      {name: "ir9vJM31fXK"},
+      {name: "fCDBPd00SJ5"},
+      {name: "db9KKxJV8FG"},
+      {name: "ygl7sHKcqFE"},
+      {name: "MYLGr5awHxY"},
+      {name: "ZlEmQyqauAa"},
+      {name: "JNOzHM2eTVj"},
+      {name: "xDpyIBdzIcw"},
+      {name: "d0O3plQoDP6"},
+      {name: "Zvdm6hhmYca"},
+      {name: "ZjR0XXkLfDQ"},
+      {name: "gCmWr73qcqG"},
+    ]
   },
+
   seriousRisk: [
     { name: "RjUbLBU2k8l", comment: "gisGa5OLedD" },
     { name: "S2ZTyifVF3P", comment: "LitWNOXmHZc" },
