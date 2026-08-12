@@ -3195,19 +3195,19 @@ const translation_mapping = [
         en: `  <p>Note:</p>
         <ul class="list">
           <li>
-            -Scroll below and fill this form if you are ordering commodities from IPPF using your IPPF grant; otherwise, it can remain blank.
+            Scroll below and fill this form if you are ordering commodities from IPPF using your IPPF grant; otherwise, it can remain blank.
           </li>
           <li>
-            -The value of the commodities you order below will affect how much of your IPPF grant you will receive in cash versus commodities (as shown at the bottom of the form).
+            The value of the commodities you order below will affect how much of your IPPF grant you will receive in cash versus commodities (as shown at the bottom of the form).
           </li>
           <li>
-            -Please only make a request for commodities you are allowed to import into your country. Our contracted manufacturers will require you to confirm the certainty of obtaining an import waiver for the requested commodities, should the commodities not be registered in your country.
+            Please only make a request for commodities you are allowed to import into your country. Our contracted manufacturers will require you to confirm the certainty of obtaining an import waiver for the requested commodities, should the commodities not be registered in your country.
           </li>
           <li>
             Please review the notes below the product you want to order.
             <ul>
               <li>
-                Prices for products can be subject to your country’s World Bank Classification. <a href="../../documents/yB4XF1ps5uX/data">Click on this link to find your country’s status</a>.
+                Prices for products can be subject to your country’s World Bank Classification. <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Click on this link to find your country’s status</a>.
               </li>
               <li>
                 Products can be subject to mandatory order multiples. The order form will only allow you to enter these mandatory quantities.
@@ -3230,7 +3230,7 @@ const translation_mapping = [
               40% value of your commodity order if your product request has a value between $5,000 and $9,999.
             </li>
             <li>
-              o30% value of your commodity order if your product request has a value higher than $10,000.
+              30% value of your commodity order if your product request has a value higher than $10,000.
             </li>
           </ul>
           </li>
@@ -3245,10 +3245,7 @@ const translation_mapping = [
           </li>
         </ul>
     
-        <p class="mb-0">We cannot accept cancellations or changes to your request once your order is finalised and confirmed by the SCM team. 
-          <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-            aria-expanded="true" aria-controls="collapseExample"></i>
-        </p>`,
+        <p class="mb-0">We cannot accept cancellations or changes to your request once your order is finalised and confirmed by the SCM team. </p>`,
         sp:`<p>Nota:</p>
         <ul class="list">
           <li>
@@ -3270,7 +3267,7 @@ de productos (como se indica en la parte de abajo del formulario)
             <ul>
               <li>
               Los precios de los productos pueden estar sujetos a la 
-              Clasificación del Banco Mundial de su país. <a href="../../documents/yB4XF1ps5uX/data">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
+              Clasificación del Banco Mundial de su país. <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
               </li>
               <li>
               Es posible que los pedidos de productos estén sujetos a múltiplos obligatorios. El formulario de pedido solo permitirá introducir esas cantidades obligatorias</li>
@@ -3343,7 +3340,7 @@ de productos (como se indica en la parte de abajo del formulario)
               Les prix des produits peuvent être soumis au statut de votre 
               pays en fonction de la classification de la Banque mondiale. 
              
-              <a href="../../documents/yB4XF1ps5uX/data"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
+              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
               </li>
               <li>
               Les produits peuvent être soumis à des multiples de commande 
@@ -3411,7 +3408,7 @@ de productos (como se indica en la parte de abajo del formulario)
           يرجى مراجعة الملاحظات أسفل المنتج المطلوب.
             <ul>
               <li>
-              <a href="../../documents/yB4XF1ps5uX/data">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </a></li>
+              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </a></li>
               <li>
               تتأثر المنتجات بمضاعفات بنود الطلب الإجبارية. تسمح لكم استمارة الطلب بإدخال هذه الكميات الإجبارية فقط.</li>
             </ul>

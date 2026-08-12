@@ -24,6 +24,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document
+    .getElementById("year-update")
+    .addEventListener("change", function (ev) {
+      $('.loader-container').addClass('d-flex').removeClass('d-none');
+      $('.myContainer').hide();
+      window.localStorage.setItem("annualYear", ev.target.value);
+      fetchEvents();
+  });
+  
+  $('.details').on('input', async function() {
+    const dataElement = $(this).attr('id');
+    const value = $(this).val();
+    debugger;
+    
+    await dataSet.post({
+      dataSetId: dataSetQuantity, 
+      co: "HllvX50cXC0", 
+      orgUnit: tei.orgUnit, 
+      period:  tei.year.value, 
+      dataElement,
+      value
+    });
+  });
+
 configurePage()
 async function configurePage() {
     const user = await getUserConfig();
@@ -143,6 +167,14 @@ async function configurePage() {
   function populateProgramEvents(dataSet, productCodeIds) {
     $("#accordion").empty();
 
+    //Shipment Details
+    $('.details').each(function() {
+      const id = $(this).attr('id');
+      debugger;
+      const value = dataSet.values[id] ? dataSet.values[id] : '';
+      $(this).val(value);
+    });
+    
     let projectRows = displayOrderprojectCommodities(dataSet, productCodeIds);
     $("#accordion").html(projectRows);
 
@@ -156,7 +188,7 @@ async function configurePage() {
     var totalsRow = displayTotals();
     $('#total-cost').empty();
     $('#total-cost').append(totalsRow);
-
+debugger;
     var totalsRow = displayCombinedCost();
     $('#combined-cost').empty();
     $('#combined-cost').append(totalsRow);
@@ -354,15 +386,6 @@ async function configurePage() {
   </tr>`;
     return row;
   }
-
-  document
-    .getElementById("year-update")
-    .addEventListener("change", function (ev) {
-      $('.loader-container').addClass('d-flex').removeClass('d-none');
-      $('.myContainer').hide();
-      window.localStorage.setItem("annualYear", ev.target.value);
-      fetchEvents();
-  });
 
 });
 
