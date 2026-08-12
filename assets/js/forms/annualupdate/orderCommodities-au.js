@@ -386,16 +386,11 @@ async function pushEvent(id, quantity, formula, notes) {
   const price = $(`input[name="${id}-price"]`)[0].id;
   const rate = $(`input[name="${id}-rate"]`).val();
 
-  if(formula) {
-    if(formula == '512' || formula == '72') {
+  if(formula) { 
+    if(formula == '1008' ||  formula == '1000' || formula == '972' || 
+       formula == '960' ||  formula == '240' || formula == '512' || 
+       formula == '128' || formula == '72' || formula=='10') {
       let value = quantity%formula;
-      if(value) {
-        $(`#${id}`).val('');
-        quantity=0;
-        alert(notes)
-      }
-    } else if(formula == '10') {
-      let value = quantity%10;
       if(value) {
         $(`#${id}`).val('');
         quantity=0;

@@ -3195,14 +3195,13 @@ const translation_mapping = [
         en: `  <p>Note:</p>
         <ul class="list">
           <li>
-            Scroll below and fill this form if you are ordering commodities from IPPF using your IPPF grant; otherwise, it can remain blank.
-    
+            -Scroll below and fill this form if you are ordering commodities from IPPF using your IPPF grant; otherwise, it can remain blank.
           </li>
           <li>
-            The value of the commodities you order below will affect how much of your IPPF grant you will receive in cash versus commodities (as shown at the bottom of the form).
+            -The value of the commodities you order below will affect how much of your IPPF grant you will receive in cash versus commodities (as shown at the bottom of the form).
           </li>
           <li>
-            Please only make a request for commodities you are allowed to import into your country. Our contracted manufacturers will require you to confirm the certainty of obtaining an import waiver for the requested commodities, should the commodities not be registered in your country.
+            -Please only make a request for commodities you are allowed to import into your country. Our contracted manufacturers will require you to confirm the certainty of obtaining an import waiver for the requested commodities, should the commodities not be registered in your country.
           </li>
           <li>
             Please review the notes below the product you want to order.
@@ -3213,34 +3212,40 @@ const translation_mapping = [
               <li>
                 Products can be subject to mandatory order multiples. The order form will only allow you to enter these mandatory quantities.
               </li>
+              <li>
+                Product can be subject to a Minimum Order Quantity. Only if the combined order quantities from all MAs meet this threshold, we can confirm to supply the product you request.
+              </li>
             </ul>
           </li>
           <li>
             Transport costs will be added to the total costs when shipments are ready. For budgeting purposes only, the form works with following estimated standard rates:
           <ul>
             <li>
-              100% value of your commodity order if your product request has a value between $0 and $1,000.
+              100% value of your commodity order if your product request has a value between $0 and $1,999.
             </li>
             <li>
-              40% value of your commodity order if your product request has a value between $1,000 and $5,000
+              50% value of your commodity order if your product request has a value between $2,000 and $4,999.
             </li>
             <li>
-              25% value of your commodity order if your product request has a value higher than $5,000
+              40% value of your commodity order if your product request has a value between $5,000 and $9,999.
+            </li>
+            <li>
+              o30% value of your commodity order if your product request has a value higher than $10,000.
             </li>
           </ul>
           </li>
           <li>
-            This is an indicative budgeting exercise only, commodities quantification for 2026 will be finalized in October 2025 per the initiative of the supply chain team.
+            This is an indicative budgeting exercise only, commodities quantification for 2027 will be finalized in October 2026 per the initiative of the supply chain management (SCM) team.
           </li>
           <li>
-            If you wish to procure products from IPPF that are funded by a different grant (e.g.,restricted project), please email the supply chain team (hlynds@ippf.org &amp;sheath@ippf.org).
+            If you wish to procure products from IPPF that are funded by a different grant (e.g., restricted project), please email the supply chain team (sheath@ippf.org).
           </li>
           <li>
-            If you wish to procure products that are not listed below (e.g., medical equipment,medical consumables, generic medicines), email the supply chain team(hlynds@ippf.org &amp; sheath@ippf.org).
+            If you wish to procure products that are not listed below (e.g., medical equipment, medical consumables, generic medicines), email the supply chain team (sheath@ippf.org).
           </li>
         </ul>
     
-        <p class="mb-0">We cannot accept cancellations or changes to your request upon order release.
+        <p class="mb-0">We cannot accept cancellations or changes to your request once your order is finalised and confirmed by the SCM team. 
           <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
             aria-expanded="true" aria-controls="collapseExample"></i>
         </p>`,
