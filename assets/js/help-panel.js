@@ -18,14 +18,14 @@
   var GLOSSARY_TRANS_MAP = {
     // Section 1
     // Section 1.
-    'Reporting Year': { nid:'reporting_year', tid:'reporting_year_definition' },
-    'Reporting Periodicity': { nid:'reporting_periodicity' },
+    'Reporting Year': { nid:'reporting_year', tid:'help_reporting_year_definition' },
+    'Reporting Periodicity': { nid:'reporting_periodicity', tid: 'help_reporting_periodicity' },
     'IPPF Region': { nid:'ippf_region', tid:'ippf_region' },
     'Affiliate': { nid:'organisation_name', tid:'affiliate' },
     'Country of Operation': { nid:'country_of_operation', tid:'country_of_operation' },
     'Affiliate Code': { nid:'organisation_code', tid:'affiliate_code' },
     'Membership Details': { nid:'membership_details', tid:'membership_details_section' },
-    'Organisation Name (English)': { nid:'organisation_name', tid:'organisation_name_english' },
+    'Organisation Name (english)': { nid:'organisation_name', tid:'def_organisation_name_english' },
     'Organisation Name (Original Language)': { nid:'organisation_name_original', tid:'organisation_name_original' },
     'Primary Point of Contact': { nid:'primary_contact_person', tid:'primary_contact_person' },
     'Contact Email': { nid:'contact_email', tid:'contact_email' },
@@ -116,7 +116,7 @@
     'Project Focus Area': { nid:'project_focus_area', tid:'project_focus_area' },
     'Expense Budget (per Focus Area)': { nid_g:'name_expense_budget_per_focus_area', tid:'expense_budget_per_focus_area' },
     'Care: Static Clinic': { nid:'focus_area_1', tid:'care_static_clinic' },
-    'Care: Outreach, Mobile Clinic, Community-based Delivery': { nid:'focus_area_2', tid:'care_outreach_mobile_clinic_community_based_delivery' },
+    '2. Care: Outreach, mobile clinic, Community-based, delivery': { nid:'focus_area_2', tid:'def_care_outreach_mobile_clinic_community_based_delivery' },
     'Care: Other Services, Enabled or Referred': { nid:'focus_area_3', tid:'care_other_services_enabled_or_referred' },
     'Care: Social Marketing Services': { nid:'focus_area_4', tid:'care_social_marketing_services' },
     'Care: Digital Health Intervention and Selfcare': { nid:'focus_area_5', tid:'care_digital_health_intervention_and_selfcare' },
@@ -132,8 +132,8 @@
     'Commodities': { nid:'commodities', tid:'commodities' },
     'New Project': { nid_g:'new_project_2.1', tid:'def_new_project' },
     'Project Name': { nid:'project_name', tid:'def_project_name' },
-    'Start Date': { nid_g:'start_date_2.1', tid:'def_start_date' },
-    'End Date': { nid_g:'end_date_2.1', tid:'def_end_date' },
+    'Start Date:': { nid:'start_date', tid:'def_start_date' },
+    'End Date:': { nid:'end_date', tid:'def_end_date' },
     'Project Theme': { nid:'project_theme', tid:'def_project_theme' },
     'Project Donor': { nid_g:'project_donor_2.1', tid:'def_project_donor' },
     'Funding Type': { nid:'funding_type_2.1', tid:'def_funding_type' },
@@ -218,12 +218,196 @@
     'IPPF Core': { nid_g:'ippf_core_2.3', tid:'def_ippf_core' },
     'Direct Project Activities': { nid_g:'direct_project_activities_2.4', tid:'def_direct_project_activities' },
     'Commodities': { nid_g:'commodities_2.3', tid:'def_commodities' },
-    'Indirect / Support Costs': { nid_g:'indirect_support_costs_2.3', tid:'def_indirect_support_costs' },
+    'Indirect / Support Costs': { nid:'indirect_support_costs_2.3', tid:'def_indirect_support_costs' },
     'Total Budgeted Expenses': { nid_g:'total_budgeted_expenses', tid:'def_total_budgeted_expenses' },
 
     // sec 7
     'Income Details': { nid_g:'income_details', tid:'def_income_details' },
   };
+  var TOOLTIP_TRANS_MAP = {
+    '1. Care: Static Clinic': { nid:'focus_area_1', tid:'def_care_static_clinic' },
+    '10. Knowledge, research, evidence, innovation, and publishing, including peer-review articles': { nid:'name_knowledge_research', tid:'def_knowledge_research_evidence_innovation_and_publishing' },
+    '11. Internal MA infrastructure, Organisational Development, Capacity Development, values, processes, and procedures': { nid_g:'name_internal_ma_infrastructure', tid:'def_internal_ma_infrastructure_organisational_development' },
+    '2. Care: Outreach, mobile clinic, Community-based, delivery': { nid:'focus_area_2', tid:'def_care_outreach_mobile_clinic_community_based_delivery' },
+    '2. Results & Achievements': { nid:'results_achivements', tid:'def_results_and_achievements' },
+    '3. Care: Other Services, enabled or referred (associated clinics)': { nid:'focus_area_3', tid:'def_care_other_services_enabled_or_referred' },
+    '4. Care: Social Marketing Services': { nid:'focus_area_4', tid:'def_care_social_marketing_services' },
+    '4. Most Effective Strategies / Approaches': { nid:'most_effective', tid:'def_most_effective_strategies_approaches' },
+    '5. Care: Digital Health Intervention and Selfcare': { nid:'focus_area_5', tid:'def_care_digital_health_intervention_and_selfcare' },
+    '6. Advocacy': { nid:'focus_area_6', tid:'def_advocacy' },
+    '6. Learning': { nid:'learning', tid:'def_learning' },
+    '7. CSE': { nid:'focus_area_7', tid:'def_cse_comprehensive_sexuality_education' },
+    '8. CSE Online, including social media': { nid:'focus_area_8', tid:'def_cse_online_including_social_media' },
+    '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting': { nid:'name_partnerships_and_movements', tid:'def_partnerships_and_movements' },
+
+    'Actual (including IPPF Core)': { nid:'actual_including_ippf', tid:'actual_including_ippf_core' },
+    'Actual Expenses (Focus Area)': { nid:'actual_expense', tid:'actual_expenses' },
+    'Actual income': { nid:'income_details', tid:'actual_income_details' },
+    'Actual Income Details': { nid:'income_details', tid:'actual_income_details' },
+    'Actual International Income (Non - IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
+    // 'Actual International Income (Non-IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
+    'Actual IPPF Income': { nid:'ippf-income', tid:'ippf_income' },
+    'Actual Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
+    'Add new project': { nid:'new_project', tid:'new_project' },
+    'Address': { nid:'address_name', tid:'address_definition' },
+    'Advocacy Priority 1': { nid:'advocacy_priority_1', tid:'def_advocacy_priority_1' },
+    'Advocacy Priority 2': { nid:'advocacy_priority_2', tid:'def_advocacy_priority_2' },
+    'Affiliate': { nid:'affiliate_term', tid:'affiliate' },
+    'Affiliate Code': { nid:'organisation_code', tid:'affiliate_code' },
+    'Annual Project Income': { nid:'annual_project_income_name_2.1', tid:'def_annual_project_income' },
+    'Basic Project Budget': { nid:'basic_project_budget', tid:'def_basic_project_budget' },
+    'Board Chair / President': { nid:'board_chair', tid:'board_chair_definition' },
+    'Branches': { nid:'branches', tid:'def_branches' },
+    'Budget (Focus Area)': { nid:'budget_focus_area_2.3', tid:'def_budget_focus_area' },
+    'Center Care on People:': { nid:'center_people', tid:'def_centre_care_on_people' },
+    'Challenges': { nid:'challenges', tid:'challenges' },
+    'Client / Patient Fees': { nid:'client-fees', tid:'client_patient_fees' },
+    'Comments (optional)': { nid:'comments', tid:'def_comments' },
+    'Commodities': { nid:'commodities', tid:'def_commodities' },
+    'Commodity Sales': { nid:'commodity-sales', nid:'name_commodity_sales', tid:'commodity_sales' },
+    'Contact Email': { nid:'contact_email', tid:'def_contact_email' },
+    'Control Cell: Total Spend (%)': { nid:'total_spend', tid:'def_control_cell_total_spend' },
+    'Control Cell: Variance ($)': { nid:'variation', tid:'def_control_cell_variance' },
+    'Control Cells (Expense Category)': { nid:'control_cells', tid:'control_cells_sec5' },
+    'Control Cells (Expense Category)': { nid:'control_cells(exp_category)', tid:'def_control_cells(exp_category)' },
+    'Control Cells (Focus Area)': { nid:'control_cells', tid:'control_cells' },
+    'Control Cells (Focus Area)': { nid:'control_cell_focus_area', tid:'def_control_cell_focus_area' },
+    'Corporate / Business Sector': { nid:'corporate-sector', tid:'corporate_business_sector' },
+    'Country Context and Theory of Change': { nid:'country_context_and_theory_of_change', tid:'def_country_context_and_theory_of_change' },
+    'Country of Operation': { nid:'country_of_operation', tid:'def_country_of_operation' },
+    'Current Audit Report (PDF)': { nid:'current_audit_report_pdf', tid:'def_current_audit_report_pdf' },
+    'Deficit/Surplus': { nid:'deficit', tid:'def_deficit_surplus' },
+    'Description of Project': { nid:'description_project', tid:'description_of_project' },
+    'Description of Project': { nid:'description_of_project_name_2.1', tid:'def_description_of_project' },
+    'Direct Project Activities': { nid:'activities', tid:'def_direct_project_activities' },
+    'Direct Project Activities': { nid:'direct_project_activities_2.4', tid:'def_direct_project_activities' },
+
+    'Director of Finance': { nid:'director_finance', tid:'director_of_finance' },
+    'Director of Finance (or equivalent)': { nid_g:'director_finance_equivalent', tid:'director_finance_equivalent_definition' },
+    'Director of Programmes (or equivalent)': { nid:'director_programmes', tid:'director_programmes_definition' },
+    'Director of Resource Mobilisation (or equivalent)': { nid:'director_resource_mobilisation', tid:'director_resource_mobilisation_definition' },
+    'Difference': {nid: 'difference', tid: ''},
+    'End Date': { nid:'end_date', tid:'end_date' },
+    'End Date': { nid_g:'end_date_2.1', tid:'def_end_date' },
+    'End Date:': { nid:'end_date', tid:'def_end_date' },
+    'Estimated Likelihood': { nid:'estimated_likelihood', tid:'def_estimated_likelihood' },
+    'Executive Director / CEO (or equivalent)': { nid:'executive_director', tid:'executive_director_definition' },
+    'Expense Budget (including IPPF Core)': { nid:'budget_including_ippf', tid:'expense_budget_including_ippf_core' },
+    'Expense Budget (per Focus Area)': { nid_g:'name_expense_budget_per_focus_area', tid:'expense_budget_per_focus_area' },
+    'Finance Lead': { nid:'finance_lead', tid:'finance_lead_definition' },
+    'Financial': { nid_g:'financial', tid:'def_financial' },
+    'Focus Area': { nid:'focus_area', tid:'def_focus_area' },
+    'Focus Area': { nid:'focus_area', tid:'def_focus_area' },
+    'Foreign Governments': { nid:'foriegn-governments', tid:'foreign_governments' },
+    'Funding Type': { nid:'funding_type_2.1', tid:'def_funding_type' },
+    'Funding Type:': { nid:'funding_type_2.1', tid:'def_funding_type' },
+    'Good Practice': { nid_g:'name_good_practice', tid:'good_practice' },
+    'How Much Income Did They Provide?': { nid:'income_provided', tid:'how_much_income_did_they_provide' },
+    'Income Category': { nid:'income_category', tid:'income_category' },
+    'Income Details': { nid_g:'income_details', tid:'def_income_details' },
+    'Indirect/support costs': { nid_g:'indirect_support_costs_2.3', tid:'def_indirect_support_costs' },
+    'Institutional': { nid_g:'institutional', tid:'def_institutional' },
+    'Institutional Data': { nid:'institutional_data', tid:'institutional_data_section' },
+    'International Income (Non-IPPF)': { nid:'international-income', tid:'international_income_non_ippf' },
+    'International Trusts and Foundations / NGOs': { nid:'interational-trusts', tid:'international_trusts_and_foundations_ngos' },
+    'IPPF Core': { nid:'ippf_core_2.3', tid:'def_ippf_core' },
+    'IPPF Core Funding Allocated': { nid_g:'ippf_core_funding_allocated', tid:'def_ippf_core_funding_allocated' },
+    'IPPF Core Grant': { nid:'ippf-unrestricted', tid:'ippf_core_grant' },
+    'IPPF Income': { nid:'ippf-income', tid:'ippf_income' },
+    'Key Annual Report Documents': { nid:'key_document', tid:'key_annual_report_documents_definition' },
+    'Key Audit Reports Documents': { nid_g:'key_audit_reports_documents', tid:'def_key_audit_reports_documents' },
+    'Key contacts': { nid:'key_contacts', tid:'key_contacts_definition' },
+    'Key Documents': { nid_g:'key_documents', tid:'def_key_documents' },
+    'Key Strategy Documents': { nid_g:'key_strategy_documents', tid:'def_key_strategy_documents' },
+    'Largest Contributor': { nid:'organisation_contributor', tid:'largest_contributor' },
+    'Local/National: Government': { nid:'local-government', tid:'local_national_government' },
+    'Local/National: Non-Government': { nid:'local-nongovernment', tid:'local_national_non_government' },
+    'Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
+    'MA': { nid:'MA_Name', tid:'affiliate' },
+    'MA-ID': { nid:'organisation_code', tid:'affiliate_code' },
+    'Main Technical Assistance / Capacity': { nid_g:'main_technical_assistance_capacity', tid:'def_main_technical_assistance_capacity' },
+    'Management Letter (Audit Report)': { nid:'key_management', tid:'management_letter_audit_report_definition' },
+    'Marginalised Populations': { nid_g:'name_marginalised_populations', tid:'def_marginalised_populations' },
+    'Membership Details': { nid:'membership_details', tid:'membership_details_section' },
+    'Membership Fees': { nid:'membership-fees', tid:'membership_fees' },
+    'Move the Sexuality Agenda:': { nid:'move_sexuality_agenda', tid:'def_move_the_sexuality_agenda' },
+    'Multilateral Agencies and Organisations': { nid:'multinational-agencies', tid:'multilateral_agencies_and_organisations' },
+    'Narrative Plan': { nid:'narrative_plan', tid:'def_narrative_plan' },
+    'New Project': { nid:'new_project_2.1', tid:'def_new_project' },
+    'Non-operational Income': { nid:'nonoperational-income', tid:'non_operational_income' },
+    'Nurture our Federation:': { nid:'nurture', tid:'def_nurture_our_federation' },
+    'Officer of the Board': { nid:'officer_of_the_board1', tid:'officer_of_the_board_definition' },
+    'Operational': { nid_g:'operational', tid:'def_operational' },
+    'Organisation Name (english)': { nid:'organisation_name', tid:'def_organisation_name_english' },
+    'Organisation Name (original lang)': { nid:'organisation_name_original', tid:'def_organisation_name_original' },
+    'Organisational Areas of Expertise / Capacity': { nid_g:'organisational_areas_of_expertise_capacity', tid:'def_organisational_areas_of_expertise_capacity' },
+    'Organisational Status': { nid:'organisational_status', tid:'def_organisational_status' },
+    'Organisational Update': { nid:'organisational_update', tid:'organisational_update' },
+    'Other 1': { nid:'other1', tid:'def_other_1' },
+    'Other 2': { nid_g:'other_2', tid:'def_other_2' },
+    'Other International Income': { nid:'other-international-income', tid:'other_international_income' },
+    'Other IPPF Grant': { nid:'ippf-restricted', tid:'other_ippf_grant' },
+    'Other National Income': { nid:'other-income', tid:'other_national_income' },
+    'Personnel': { nid:'personnel', tid:'def_personnel' },
+    'Primary Focus Area': { nid_g:'primary_focus_area', tid:'def_primary_focus_area' },
+    'Primary point of contact for follow-up on business plan': { nid:'primary_contact_person', tid:'def_primary_contact_person' },
+    'Programmatic': { nid_g:'programmatic', tid:'def_programmatic' },
+    'Programmatic Lead(s)': { nid:'programmatic_lead', tid:'programmatic_lead_definition' },
+    'Project by Expense Category': { nid:'project_expense_category', tid:'project_by_expense_category' },
+    'Project Donor': { nid:'project_donor_2.1', tid:'def_project_donor' },
+    'Project Focus Area': { nid:'project_focus_area', tid:'project_focus_area' },
+    'Project Name': { nid:'project_name', tid:'def_project_name' },
+    'Project Theme': { nid:'project_theme', tid:'def_project_theme' },
+    'Project Total (Expense Category)': { nid:'project_total', tid:'project_total_sec5' },
+    'Project Total (Focus Area)': { nid:'project_total', tid:'def_project_total(focus area)' },
+    // 'Project Total (Focus Area)': { nid_g:'project_total(focus area)', tid:'def_project_total(focus area)' },
+    'Q1 — Country Context': { nid_g:'q1_country_context', tid:'def_q1_country_context' },
+    'Q2 — Strategy': { nid_g:'q2_strategy', tid:'def_q2_strategy' },
+    'Q3 — Landscape of Other Actors': { nid_g:'q3_landscape_of_other_actors', tid:'def_q3_landscape_of_other_actors' },
+    'Q4 — External Risks and Risk Mitigation': { nid_g:'q4_external_risks_and_risk_mitigation', tid:'def_q4_external_risks_and_risk_mitigation' },
+    'Q5 — SMART Outcomes': { nid_g:'q5_smart_outcomes', tid:'def_q5_smart_outcomest' },
+    'Region': { nid:'ippf_region', tid:'def_ippf_region' },
+    'Reporting Period': { nid:'reporting_periodicity',tid: 'help_reporting_periodicity_definition' },
+    'Reporting Year': { nid:'reporting_year', tid:'help_reporting_year_definition' },
+    'Restricted': { nid:'restricted', tid:'def_restricted' },
+    'Restricted (Income)': { nid:'restricted', tid:'restricted_sec6' },
+    'Secondary Focus Area': { nid_g:'secondary_focus_area', tid:'def_secondary_focus_area' },
+    '1. Strategic Context and Results': { nid:'context_events', tid:'def_contexts_events' },
+    'Secretary (or equivalent)': {nid_g: 'secretary', tid:'secretary_definition' },
+    'Serious Risk Identified': { nid:'serious_risk_identified', tid:'serious_risk_identified' },
+    'Solidarity for Change:': { nid:'solidarity', tid:'def_solidarity_for_change' },
+    'Start Date:': { nid:'start_date', tid:'def_start_date' },
+    'Strategic Period': { nid:'strategic_period', tid:'strategic_period_definition' },
+    'Strategic Pillar': { nid_g:'name_strategic_pillar', tid:'def_strategic_pillar' },
+    'Sustainability Challenges': { nid_g:'sustainability_challenges', tid:'def_sustainability_challenges' },
+    'Technical Assistance': { nid_g:'technical_assistance', tid:'def_technical_assistance' },
+    'Total Actual Expenses (by Expense Categories)': { nid:'actual_expense_EC', tid:'total_actual_expenses_by_expense_categories' },
+    'Total Actual Expenses (by Focus Areas)': { nid:'actual_expense_FA', tid:'def_total_actual_expenses_by_focus_areas' },
+    'Total Annual Budget': { nid_g:'total_annual_budget', tid:'def_total_annual_budget' },
+    'Total Budgeted Expenses': { nid_g:'total_budgeted_expenses', tid:'def_total_budgeted_expenses' },
+    'Total Budgeted Expenses (by Focus Areas)': { nid:'total_budget_area', tid:'def_total_budgeted_expenses_by_focus_areas' },
+    'Total Contract Value:': {nid: 'total_contract_value', tid: 'def_total_project_lifetime_value' },
+    'Total Income': { nid:'total_income_ar', tid:'def_total_income' },
+    'Total MA Actuals by Expense Category': { nid:'total_ma_actuals', tid:'total_ma_actuals_by_expense_category' },
+    'Total MA Budgeted Expense': { nid:'total_ma_budget_expense', tid:'total_ma_budgeted_expense' },
+    'Total Number of Fixed Staff': { nid_g:'total_number_fixed_staff', tid:'def_total_number_fixes_staff' },
+    'Total Number of Volunteers (excluding governance)': { nid_g:'total_number_volunteers', tid:'def_total_number_volunteers' },
+    'Total Project Lifetime Value': { nid_g:'total_project_lifetime_value', tid:'def_total_project_lifetime_value' },
+    'Total Spend (%)': { nid:'total_spend', tid:'def_total_spend' },
+    'Training, Education, Professional Services': { nid:'services-rental', tid:'training_education_professional_services_and_rentals' },
+    'Treasurer': { nid:'treasurer_equivalent', tid:'treasurer' },
+    'Treasurer (or equivalent)': { nid:'treasurer_equivalent', tid:'treasurer_equivalent_definition' },
+    'Type of Organisation': { nid:'type_of_org', tid:'def_type_of_org' },
+    'Unrestricted': { nid:'unrestricted_2.1', tid:'def_unrestricted' },
+    'Unrestricted (Income)': { nid:'unrestricted', tid:'unrestricted_sec6' },
+    'Variance ($)': { nid:'variation', tid:'def_variance' },
+    'Variance Explanation': { nid:'variance_explanation', tid:'variance_explanation' },
+    'Vice-Chair / Vice - President (or equivalent)': {nid: 'vice_chair', tid:'vice_chair_definition' },
+    'Youth': { nid_g:'name_youth', tid:'def_youth' },
+    'Year': { nid: 'year', tid: 'def_year'},
+    'Youth Board Member': { nid:'youth_board_member', tid:'youth_board_member_definition' },
+    'Youth Group or Networks': { nid_g:'youth_group_or_networks', tid:'def_youth_group_or_networks' },
+};
 
   function _getCurrentLang() {
     // Read language at display time, not build time
@@ -266,6 +450,25 @@
     return _lookupInArray(translation_mapping_ar_glossary, mapping.tid, lang) || fallbackDef;
   }
 
+  function getTranslatedTooltipDef(name, fallbackDef) {
+    var mapping = TOOLTIP_TRANS_MAP[name];
+    var lang = _getCurrentLang();
+
+    if (!mapping || !mapping.tid) {
+      return fallbackDef;
+    }
+    if (typeof tool_tip_glossary === 'undefined') {
+      return fallbackDef;
+    }
+
+    var result = _lookupInArray(
+      tool_tip_glossary,
+      mapping.tid,
+      lang
+    );
+
+    return result || fallbackDef;
+  }
   // Get translated NAME for a glossary term
   // First checks translation.js (nid), then glossary_translations.js (nid_g)
   function getTranslatedName(glossaryName) {
@@ -281,6 +484,23 @@
     // Fallback to glossary_translations (nid_g)
     if (mapping.nid_g && typeof translation_mapping_ar_glossary !== 'undefined') {
       var result2 = _lookupInArray(translation_mapping_ar_glossary, mapping.nid_g, lang);
+      if (result2) return result2;
+    }
+    return glossaryName;
+  }
+  function getTranslatedTooltipName(glossaryName) {
+    var lang = _getCurrentLang();
+    if (lang === 'en') return glossaryName;
+    var mapping = TOOLTIP_TRANS_MAP[glossaryName];
+    if (!mapping) return glossaryName;
+    // Try translation_mapping first (nid)
+    if (mapping.nid && typeof translation_mapping !== 'undefined') {
+      var result = _lookupInArray(translation_mapping, mapping.nid, lang);
+      if (result) return result;
+    }
+    // Fallback to glossary_translations (nid_g)
+    if (mapping.nid && typeof tool_tip_glossary !== 'undefined') {
+      var result2 = _lookupInArray(tool_tip_glossary, mapping.nid, lang);
       if (result2) return result2;
     }
     return glossaryName;
@@ -460,7 +680,7 @@ const GLOSSARY = [
     {name: 'Organisational Status', def: "A summary of the Affiliate's current organisational health, including any significant internal developments, governance changes, capacity constraints, or institutional strengths relevant to the delivery of the business plan.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
     {name: 'Technical Assistance', def: "A description of any technical support, capacity building, or expert guidance that the Affiliate is requesting from IPPF or other partners to strengthen its organisational or programmatic capacity during the business plan period.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
     {name: 'Q1 — Country Context', def: "Describe the Affiliate's country context as it relates to SRHR. Identify the main SRHR gaps and the social or political factors that need to be addressed during the IPPF strategic period — including unmet need, service gaps, political environment, laws, policies, social norms, national health and education programmes, innovations, and opposition movements. Use updated and verified statistics where possible and reference marginalised groups as relevant.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
-    {name: 'Q2 — Strategy', def: "Describe the Affiliate's current high-level strategy or theory of change. Explain how it responds to the local needs and context described in Q1, outline its key components and activities, and describe how it will be operationalised. Show alignment with IPPF's strategic framework, identify specific target groups, and highlight any new approaches that differ from past business plans.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
+    {name: 'Q2 — Strategy', def: "Describe the strategic measures you will adopt to address the challenges you have identified in the previous section (Country Context). Describe the types of activities that will be necessary to achieve the desired change. (Also consider how these relate to your long-term SMART results listed below.)", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
     {name: 'Q3 — Landscape of Other Actors', def: "Provide an overview of other key actors working to advance SRHR in the Affiliate's country and region — including civil society organisations, social movements, government ministries, parliamentarians, and the private sector. Describe how the Affiliate partners with these actors, how those partnerships are operationalised, and whether it has partnerships outside the SRHR sector.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
     {name: 'Q4 — External Risks and Risk Mitigation', def: "Describe the critical external risks and challenges that could affect the delivery of the Business Plan over a three-year period, including political, economic, and other contextual factors. Also describe the measures the Affiliate has in place or plans to implement to address and mitigate these risks.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
     {name: 'Q5 — SMART Outcomes', def: "Up to five medium-term (3-year) expected strategic outcomes, each written in SMART format — Specific, Measurable, Achievable, Relevant, and Time-bound. Each outcome should reference the relevant IPPF Strategic Pillar and specify a measurable result by a defined date.", scopes: ['annual-business-plan'], sec:'sec2', tag:'2.1 narrative terms'},
@@ -1041,7 +1261,6 @@ const GLOSSARY = [
     currentGlossaryScope = scope;
     currentSecFilter = secFilter;
 
-    console.log('[IPPF-DEBUG] autoSelectGlossarySection:', { pageSection: pageSection, scope: scope, secFilter: secFilter });
 
     document.querySelectorAll('.g-filter-tag').forEach(function(tag) {
       var onclick = tag.getAttribute('onclick') || '';
@@ -1147,8 +1366,8 @@ const GLOSSARY = [
     if (!idle || !content) return;
 
     // Translate at display time
-    var displayName = getTranslatedName(name);
-    var displayDef = getTranslatedDef(name, definition);
+    var displayName = getTranslatedTooltipName(name);
+    var displayDef = getTranslatedTooltipDef(name, definition);
 
     idle.style.display = 'none';
     content.style.display = 'block';
@@ -1302,8 +1521,6 @@ const GLOSSARY = [
       return matchQ && matchSec && matchScope;
     });
 
-    console.log('[IPPF-DEBUG] filterGlossary:', { query: query, activeScope: activeScope, activeSec: activeSec, resultsCount: filtered.length });
-
     renderGlossary(filtered);
 }
 
@@ -1343,7 +1560,7 @@ const GLOSSARY = [
       'reporting year': 'Reporting Year',
       'reporting periodicity': 'Reporting Periodicity',
       'ippf region': 'IPPF Region',
-      'region': 'IPPF Region',
+      // 'region': 'IPPF Region',
       'country of operation': 'Country of Operation',
       'organisation code': 'Affiliate Code',
       'organization code': 'Affiliate Code',
@@ -1708,6 +1925,25 @@ const GLOSSARY = [
 
     return null;
   }
+  function findTooltipMatch(labelText) {
+  var clean = normalizeLabelText(labelText);
+  var tooltipNames = Object.keys(TOOLTIP_TRANS_MAP);
+
+  for (var i = 0; i < tooltipNames.length; i++) {
+    var tooltipName = tooltipNames[i];
+
+    if (normalizeLabelText(tooltipName) === clean) {
+      var mapping = TOOLTIP_TRANS_MAP[tooltipName];
+
+      return {
+        name: tooltipName,
+        def: mapping.def || ''
+      };
+    }
+  }
+
+  return null;
+}
 
   // ============================================
   //  Global body-appended tooltip (shared by all ? icons)
@@ -1730,8 +1966,8 @@ const GLOSSARY = [
     var tt = createGlobalTooltip();
 
     // Translate at display time
-    var displayName = getTranslatedName(termName);
-    var displayDef = getTranslatedDef(termName, termDef);
+    var displayName = getTranslatedTooltipName(termName);
+    var displayDef = getTranslatedTooltipDef(termName, termDef);
 
     // Set content
     tt.querySelector('.tooltip-term').textContent = displayName;
@@ -1788,88 +2024,124 @@ const GLOSSARY = [
   var processedLabels = new WeakSet();
 
   // Re-inject help icons after language change (localize() wipes them out)
-  function reinjectFieldHelpIcons() {
-    // Remove all existing help icons
-    var existingIcons = document.querySelectorAll('.help-field-icon');
-    existingIcons.forEach(function(icon) { icon.parentNode.removeChild(icon); });
-    // Reset the processed set so labels can be re-processed
+  var isReinjecting = false;
+ function reinjectFieldHelpIcons() {
+    if (isReinjecting) return;
+
+    isReinjecting = true;
+
+    document.querySelectorAll('.help-field-icon').forEach(function(icon) {
+        icon.remove();
+    });
+
     processedLabels = new WeakSet();
-    // Re-inject
     injectFieldHelpIcons();
-  }
+
+    setTimeout(function() {
+        isReinjecting = false;
+    }, 100);
+}
+function fixBudgetHeaderIcons() {
+    document.querySelectorAll(
+        'th[data-tooltip-key="Budget (Focus Area)"], ' +
+        'th[data-tooltip-key="Actual Expenses (Focus Area)"], ' +
+        'th[data-tooltip-key="Variance ($)"], ' +
+        'th[data-tooltip-key="Total Spend (%)"]'
+    ).forEach(function(th) {
+
+        const icons = th.querySelectorAll('.help-field-icon');
+
+        for (let i = 1; i < icons.length; i++) {
+            icons[i].remove();
+        }
+    });
+}
+
 
   function injectFieldHelpIcons() {
-    // Process all labels, h3/h4 section headers, and focus area spans in tables
-    var selectors = '.form-group label, .box-from-inner label, .top-detail-form label, .accordion-body h3, .accordion-body h4, .cont-wrap-inner label, td[data-i18n], td > span[id^="projectArea"], td > span[data-i18n*="focus_area"], td > span[id$="-area"], .listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong, th[data-i18n], th > span[data-i18n]';
-    var labels = document.querySelectorAll(selectors);
+  var selectors =
+  '.form-group label, .box-from-inner label, .top-detail-form label, ' +
+  '.accordion-body h3, .accordion-body h4, .cont-wrap-inner label, ' +
+  'td[data-i18n], td > span[id^="projectArea"], ' +
+  'td > span[data-i18n*="focus_area"], td > span[id$="-area"], ' +
+  '.listnum > div, .cont-wrap-inner h6.title-main, .budget-wrap strong, ' +
+  'th[data-i18n], th > span[data-i18n]';
 
-    labels.forEach(function(label) {
-      // Skip if already has a help icon (prevents duplicates from MutationObserver re-runs)
-      if (label.querySelector('.help-field-icon')) return;
-      if (label.closest('th')) return;       
+  var labels = document.querySelectorAll(selectors);
+  
+  // if (label.querySelector('.help-field-icon')) return;
 
-      // Get visible text (strip any existing icons)
+  labels.forEach(function(label) {
+     if (label.getAttribute('data-disable-tooltip') === 'true') {
+        return;
+    }
+    if (label.querySelector('.help-field-icon')) return;
+    var tooltipKey = label.getAttribute('data-tooltip-key');
+    var match;
+
+    if (tooltipKey && TOOLTIP_TRANS_MAP[tooltipKey]) {
+      match = { name: tooltipKey, def: '' };
+    } else {
       var rawText = '';
+
       label.childNodes.forEach(function(node) {
-        if (node.nodeType === 3) { // Text node
+        if (node.nodeType === 3) {
           rawText += node.textContent;
-        } else if (node.nodeType === 1 && node.tagName !== 'I' && !node.classList.contains('help-field-icon') && node.tagName !== 'BUTTON') {
+        } else if (
+          node.nodeType === 1 &&
+          node.tagName !== 'I' &&
+          !node.classList.contains('help-field-icon') &&
+          node.tagName !== 'BUTTON'
+        ) {
           rawText += node.textContent;
         }
       });
+
       rawText = rawText.replace(/\s+/g, ' ').trim();
 
       if (!rawText || rawText.length < 2) return;
 
-      var match = findGlossaryMatch(rawText);
+      match = findTooltipMatch(rawText);
       if (!match) return;
 
-      processedLabels.add(label);
+      tooltipKey = match.name;
+      label.setAttribute('data-tooltip-key', tooltipKey);
+    }
 
-      // Remove any existing fa-info-circle toggle icons from the label
-      var infoIcons = label.querySelectorAll('.fa-info-circle');
-      infoIcons.forEach(function(icon) {
-        icon.parentNode.removeChild(icon);
-      });
-
-      // Create the ? icon (no child tooltip — uses global body-appended tooltip)
-      var qIcon = document.createElement('span');
-      qIcon.className = 'help-field-icon';
-      qIcon.setAttribute('role', 'button');
-      qIcon.setAttribute('tabindex', '0');
-      qIcon.innerHTML = '?';
-      qIcon.setAttribute('data-help-term', match.name);
-      qIcon.setAttribute('data-help-def', match.def);
-
-      // Click → no action (glossary only opens via main green icon)
-      qIcon.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      };
-
-      // Hover → show body-appended tooltip (no sidebar)
-      (function(icon, termName, termDef) {
-        icon.addEventListener('mouseenter', function() {
-          showTooltip(icon, termName, termDef);
-        });
-        icon.addEventListener('mouseleave', function() {
-          hideTooltip();
-        });
-        // Keyboard accessibility: show on focus, hide on blur
-        icon.addEventListener('focus', function() {
-          showTooltip(icon, termName, termDef);
-        });
-        icon.addEventListener('blur', function() {
-          hideTooltip();
-        });
-      })(qIcon, match.name, match.def);
-
-      // Insert ? icon right after the label text
-      label.appendChild(document.createTextNode(' '));
-      label.appendChild(qIcon);
-
+    var infoIcons = label.querySelectorAll('.fa-info-circle');
+    infoIcons.forEach(function(icon) {
+      icon.remove();
     });
-  }
+
+    var qIcon = document.createElement('span');
+    qIcon.className = 'help-field-icon';
+    qIcon.setAttribute('role', 'button');
+    qIcon.setAttribute('tabindex', '0');
+    qIcon.textContent = '?';
+    qIcon.setAttribute('data-help-term', tooltipKey);
+
+    qIcon.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    qIcon.addEventListener('mouseenter', function() {
+      showTooltip(qIcon, tooltipKey, '');
+    });
+
+    qIcon.addEventListener('mouseleave', hideTooltip);
+
+    qIcon.addEventListener('focus', function() {
+      showTooltip(qIcon, tooltipKey, '');
+    });
+
+    qIcon.addEventListener('blur', hideTooltip);
+
+    label.appendChild(document.createTextNode(' '));
+    label.appendChild(qIcon);
+  });
+  fixBudgetHeaderIcons();
+}
 
   // Also handle the Narrative Report collapse pattern:
   // Make collapse descriptions always visible (remove toggle behavior)
@@ -1897,6 +2169,7 @@ const GLOSSARY = [
   function observeForFieldLabels() {
     // Observe for dynamically loaded content (forms appear after API calls)
     var fieldObserver = new MutationObserver(function() {
+      if (isReinjecting) return;
       injectFieldHelpIcons();
       fixNarrativeCollapses();
     });

@@ -891,11 +891,25 @@ const translation_mapping = [
         ar: "نرجو توضيح الوضع في بلدكم فيما يتعلق بالحقوق والصحة الجنسية والإنجابية. ما هي الثغرات الرئيسية في مجال الحقوق والصحة الجنسية والإنجابية والعوامل الاجتماعية أو السياسية التي ينبغي معالجتها في الفترة الاستراتيجية المتبقية للاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، الاحتياجات غير الملباة، فجوات الخدمة، البيئة السياسية، القوانين، السياسات، الأعراف الاجتماعية، الابتكارات والبرامج الصحية/التعليمية الوطنية، المعارضة، إلخ). نرجو الاستناد إلى إحصاءات حديثة ومُوثّقة، كلما أمكن، مع ذكر الفئات المهمّشة ذات الصلة (بحد أقصى 500 كلمة)"
     },
     {
+        id: "smart_outcomes_planned",
+        en: "SMART Outcomes Planned",
+        fr: "Resultados SMART previstos",
+        sp: "Résultats SMART prévus",
+        ar: "النتائج المخطط تحقيقها في إطار مبادرة SMART"
+    },
+    {
+        id: "smart_outcomes_achieved",
+        en: "Achievements To Date",
+        fr: "Logros hasta la fecha",
+        sp: "Réalisations à ce jour",
+        ar: "الإنجازات المحققة حتى الآن"
+    },
+    {
         id: "strategy",
-        en: "Ques 2. Strategy",
-        sp: "2. Estrategia",
-        fr: "Ques 2. Stratégie",
-        ar: 'السؤال الاول : الاستراتيجية'
+        en: "Ques 2. Strategic Actions",
+        sp: "2. : Acciones estratégicas",
+        fr: "Ques 2. Mesures stratégiques",
+        ar:'الإجراءات الاستراتيجية'
     },
     {
         id: "des_curr_high_level",
@@ -3751,7 +3765,7 @@ de productos (como se indica en la parte de abajo del formulario)
     //Narrative Report
     {
         id: "context_events",
-        en: "Strategic Context and Results",
+        en: "1. Strategic Context and Results",
         sp: "1. Hechos del contexto",
         fr: "1. Événements contextuels",
         ar: 'سياق الاحداث '

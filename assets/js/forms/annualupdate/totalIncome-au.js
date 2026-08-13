@@ -305,6 +305,23 @@ debugger;
     $('.myContainer').show();
       // Localize content
       $('body').localize();
+      setTimeout(function() {
+      var tooltipKeyMap = [
+        // th headers
+        { selector: 'th[data-i18n="intro.restricted"]',           key: 'Restricted (Income)' },
+        { selector: 'th[data-i18n="intro.unrestricted"]',         key: 'Unrestricted (Income)' },
+        { selector: 'th[data-i18n="intro.total"]',                key: 'Total Contract Value' },
+        // td category headers
+        { selector: 'td[data-i18n="intro.locally-generated"]',    key: 'Actual Locally Generated Income' },
+        { selector: 'td[data-i18n="intro.international-income"]', key: 'Actual International Income (Non-IPPF)' },
+        { selector: 'td[data-i18n="intro.ippf-income"]',          key: 'Actual IPPF Income' }
+    ];
+      tooltipKeyMap.forEach(function(item) {
+        document.querySelectorAll(item.selector).forEach(function(el) {
+           el.setAttribute('data-tooltip-key', item.key);
+      });
+    });
+}, 150);
   }
   function displayContributor(dataValues) {
     let rows = ''

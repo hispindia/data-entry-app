@@ -280,10 +280,10 @@ const maxWords = 200;
           <thead>
             <tr>
               <th></th>
-              <th data-i18n="intro.budget_including_ippf">Budget (including IPPF Core)</th>
-              <th data-i18n="intro.actual_including_ippf"> (including IPPF Core)</th>
-              <th><span data-i18n="intro.variation">Variation </span> ($)</th>
-              <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
+              <th data-i18n="intro.budget_including_ippf" data-tooltip-key="Budget (Focus Area)">Budget (including IPPF Core)</th>
+              <th data-i18n="intro.actual_including_ippf" data-tooltip-key="Actual (including IPPF Core)">Actual (including IPPF Core)</th>
+              <th><span data-i18n="intro.variation" data-tooltip-key="Variance ($)">Variation </span> ($)</th>
+              <th><span data-i18n="intro.total_spend" data-tooltip-key="Total Spend (%)">Total Spend </span> (%)</th>
             </tr>
           </thead>
         <tbody>`
@@ -389,16 +389,16 @@ const maxWords = 200;
         rowIndex++;
       }
       projectRows += `<tr>
-                <td><strong data-i18n="intro.personnel">Personnel</strong></td>
+                <td><strong data-i18n="intro.personnel" data-tooltip-key="Personnel">Personnel</strong></td>
                 ${rows[0]}
                 </tr><tr>
-                <td><strong data-i18n="intro.activities">Direct project activities</strong></td>
+                <td><strong data-i18n="intro.activities" data-tooltip-key="Direct Project Activities">Direct project activities</strong></td>
                 ${rows[1]}
                 </tr><tr>
-                <td><strong data-i18n="intro.commodities">Commodities</strong></td>
+                <td><strong data-i18n="intro.commodities" data-tooltip-key="Commodities">Commodities</strong></td>
                 ${rows[2]}
                 </tr><tr>
-                <td><strong  data-i18n="intro.indirect">Indirect/ support costs</strong></td>
+                <td><strong  data-i18n="intro.indirect" data-tooltip-key="Indirect/support costs">Indirect/ support costs</strong></td>
                 ${rows[3]}
                 </tr></tr>
                 <td><strong  data-i18n="intro.project_total">Project Total</strong></td>`
@@ -436,7 +436,7 @@ const maxWords = 200;
                           </div>
                           <div class="form-row">
                           <div class="form-group col-md-12 textbox-wrap">
-                            <label for="" data-i18n="intro.variance_explanation">
+                            <label for="" data-i18n="intro.variance_explanation" data-tooltip-key="Variance Explanation">
                             Variance Explanation
                             </label>
                             <textarea 

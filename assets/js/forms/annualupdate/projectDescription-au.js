@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <div class="form-row project-list data-row" id="project-list-${count}">
 
     <div class="form-group col-md-12 textbox-wrap my-2">
-        <label for="${project.name}"><span data-i18n="intro.project_name">Project Name</span> <span>${count}</span> </label>
+        <label for="${project.name}" data-tooltip-key="Project Name"><span data-i18n="intro.project_name">Project Name</span> <span>${count}</span> </label>
         <input type="text" ${tei.disabled ? 'disabled readonly': ''} class="form-control textContent" id="${
           project.name
         }" value="${values['name']}">
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <tbody>
         <tr>
           <td>
-            <label for="${project.startDate}"><span data-i18n="intro.start_date">Start Date</span></span> </label>
+            <label for="${project.startDate}" data-tooltip-key="Start Date:"><span data-i18n="intro.start_date">Start Date</span></span> </label>
             <input type="date" id="${project.startDate}"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textContent"
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.theme}"><span data-i18n="intro.project_theme">Project Theme</span></label>
+            <label for="${project.theme}" data-tooltip-key="Project Theme"><span data-i18n="intro.project_theme">Project Theme</span></label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.theme}" name="${project.themeOther}" >
                 <option ${(values['theme']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
                 <option ${(values['theme']=="Abortion Care") ? "selected": ''} value="Abortion Care" data-i18n="intro.p_1">Abortion Care</option>
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-          <label for="${project.funding}"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
+          <label for="${project.funding}" data-tooltip-key="Funding Type"><span data-i18n="intro.funding_type">Funding Type</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.funding}">
                 <option ${(values['funding']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
                 <option ${(values['funding']=="Restricted") ? "selected": ''} value="Restricted" data-i18n="intro.restricted">Restricted</option>
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.contract}"><span data-i18n="intro.total_contract_value">Total Project Lifetime Value</span>: </label>
+            <label for="${project.contract}" data-tooltip-key="Total Project Lifetime Value"><span data-i18n="intro.total_contract_value">Total Project Lifetime Value</span>:</label>
             <input type="text" id="${project.contract}"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textValue"
@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </tr>
         <tr>
           <td>
-            <label for="${project.endDate}"><span data-i18n="intro.end_date">End Date:</span> </label>
+            <label for="${project.endDate}" data-tooltip-key="End Date"><span data-i18n="intro.end_date">End Date:</span> </label>
             <input type="date" id="${project.endDate}"  max="${tei.year.end+3}-12-31"
               ${tei.disabled ? 'disabled readonly': ''}
               class="w-100 form-control textContent" 
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td> 
           <td>
-            <label for="${project.donor}"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
+            <label for="${project.donor}" data-tooltip-key="Project Donor"><span data-i18n="intro.project_donor">Project Donor</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="${project.donor}" name="${project.donorOther}" >
                 <option ${(values['donor']=="") ? "selected": ''} value="" data-i18n="intro.choose">Choose</option>
                 <option ${(values['donor']=="Government of Australia / DFAT") ? "selected": ''} value="Government of Australia / DFAT" data-i18n="intro.g_aus">Government of Australia / DFAT</option>
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback"> Error here </div>
           </td>
           <td>
-            <label for="${project.income}"><span data-i18n="intro.annual_proj_income">Annual Project Income</span>: </label>
+            <label for="${project.income}" data-tooltip-key="Annual Project Income"><span data-i18n="intro.annual_proj_income">Annual Project Income</span></label>
             <input type="text" id="${project.income}" 
               ${tei.disabled ? 'disabled readonly': ''}  
               class="w-100 form-control textValue"
@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </tbody>
     </table>
     <div class="form-group col-md-12 textbox-wrap">
-        <label for="${project.description}"><span data-i18n="intro.description_project">Description of Project </span> ${count} </label>
+        <label for="${project.description}" data-tooltip-key="Description of Project"><span data-i18n="intro.description_project">Description of Project </span> ${count} </label>
         <textarea 
         class="form-control-resize textlimit" 
         id="${project.description}" 

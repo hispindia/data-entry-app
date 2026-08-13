@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function createProjectDescription() {
         return `
             <div class="form-group col-md-12 textbox-wrap">
-                <label for="projectName" data-i18n="intro.project_name">Project Name</label>
+                <label for="projectName" data-i18n="intro.project_name" data-tooltip-key="Project Name">Project Name</label>
                 <input type="text" class="form-control textContent" id="projectName"  ${tei.disabled ? 'disabled readonly': ''} >
                 <div class="invalid-feedback" id="projectName-error"> Error here </div>
             </div>
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <tbody>
         <tr>
           <td>
-            <label for="startDate"><span data-i18n="intro.start_date">Start Date:</span> </label>
+            <label for="startDate" data-tooltip-key="Start Date"><span data-i18n="intro.start_date">Start Date:</span> </label>
             <input type="date" id="startDate"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control textContent"
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback" id="startDate-error"> Error here </div>
           </td>
           <td>
-            <label for="projectTheme"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
+            <label for="projectTheme" data-tooltip-key="Project Theme"><span data-i18n="intro.project_theme">Project Theme:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectTheme" name="projectThemeOther" >
                 <option value="" data-i18n="intro.choose">Choose</option>
                 <option value="Abortion Care" data-i18n="intro.p_1">Abortion Care</option>
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback" id="projectTheme-error"> Error here </div>
           </td>
           <td>
-          <label for="projectFunding"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
+          <label for="projectFunding" data-tooltip-key="Funding Type:"><span data-i18n="intro.funding_type">Funding Type:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''} id="projectFunding">
                 <option value="" data-i18n="intro.choose">Choose</option>
                 <option value="Restricted" data-i18n="intro.restricted">Restricted</option>
@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback" id="projectFunding-error"> Error here </div>
           </td>
           <td>
-            <label for="projectContract"><span data-i18n="intro.total_contract_value">Total Contract Value:</span> </label>
+            <label for="projectContract" data-tooltip-key="Total Contract Value:"><span data-i18n="intro.total_contract_value">Total Project Lifetime Value </span> </label>
             <input type="text" id="projectContract"  
               ${tei.disabled ? 'disabled readonly': ''} 
               class="w-100 form-control input-budget "
@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </tr>
         <tr>
           <td>
-            <label for="endDate"><span data-i18n="intro.end_date">End Date:</span> </label>
+            <label for="endDate" data-tooltip-key="End Date:"><span data-i18n="intro.end_date">End Date:</span> </label>
             <input type="date" id="endDate"  max="${tei.year.end+3}-12-31"
               ${tei.disabled ? 'disabled readonly': ''}
               class="w-100 form-control textContent" 
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback" id="endDate-error"> Error here </div>
           </td> 
           <td>
-            <label for="projectDonor"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
+            <label for="projectDonor" data-tooltip-key="Project Donor:"><span data-i18n="intro.project_donor">Project Donor:</span> </label>
               <select class="form-control textContent" ${tei.disabled ? 'disabled readonly': ''}  id="projectDonor" name="projectDonorOther" >
                 <option value="" data-i18n="intro.choose">Choose</option>
                 <option value="Government of Australia / DFAT" data-i18n="intro.g_aus">Government of Australia / DFAT</option>
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="invalid-feedback" id="projectDonor-error"> Error here </div>
           </td>
           <td>
-            <label for="projectIncome"><span data-i18n="intro.annual_proj_income">Annual Project Income:</span> </label>
+            <label for="projectIncome" data-tooltip-key="Annual Project Income:"><span data-i18n="intro.annual_proj_income">Annual Project Income:</span> </label>
             <input type="text" id="projectIncome" 
               ${tei.disabled ? 'disabled readonly': ''}  
               class="w-100 form-control input-budget"
@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </tbody>
     </table>
             <div class="form-group col-md-12 textbox-wrap">
-                <label for="projectDescription" data-i18n="intro.description_project">Description of Project </label>
+                <label for="projectDescription" data-i18n="intro.description_project" data-tooltip-key="Description of Project">Description of Project</label>
                 <textarea class="form-control-resize textlimit" id="projectDescription" ${tei.disabled ? 'disabled readonly': ''}></textarea>
                 <div class="char-counter form-text text-muted"><span id="counter1">250</span> <span data-i18n="intro.words_remaining">Words Remaining</span></div>
                 <div class="invalid-feedback"> Error here </div>
@@ -363,8 +363,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var projectRows = `<table class="table table-striped table-md mb-0" width="100%">
         <thead>
         <tr>
-          <th data-i18n="intro.focus_area">Focus Area</th>
-          <th data-i18n="intro.budget">Budget</th>
+          <th data-i18n="intro.focus_area" data-tooltip-key="Focus Area">Focus Area</th>
+          <th data-i18n="intro.budget" data-tooltip-key="Budget (Focus Area)">Budget</th>
         </tr>
         </thead>
         <tbody>`;
@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 budget: '',
             };
             projectRows += `<tr>
-            <td><span id="projectArea-${index}" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+            <td><span id="projectArea-${index}" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}" data-tooltip-key="${focusAreaVal.area}">${focusAreaVal.area}</span></td>
             <td>
                 <div class="input-group">
                 <div class="input-group-prepend">
@@ -403,10 +403,10 @@ document.addEventListener("DOMContentLoaded", function () {
       >
         <thead id="project-head">
           <tr>
-            <th data-i18n="intro.personnel">Personnel</th>
-            <th data-i18n="intro.activities">Direct project activities</th>
-            <th data-i18n="intro.commodities">Commodities</th>
-            <th data-i18n="intro.indirect">Indirect/support costs</th>
+            <th data-i18n="intro.personnel" data-tooltip-key="Personnel">Personnel</th>
+            <th data-i18n="intro.activities" data-tooltip-key="Direct Project Activities">Direct project activities</th>
+            <th data-i18n="intro.commodities" data-tooltip-key="Commodities">Commodities</th>
+            <th data-i18n="intro.indirect" data-tooltip-key="Indirect/support costs">Indirect/support costs</th>
             </tr>
         </thead>
         <tbody>

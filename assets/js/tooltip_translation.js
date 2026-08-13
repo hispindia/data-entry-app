@@ -1,4 +1,4 @@
-const translation_mapping_ar_glossary = [
+const tool_tip_glossary = [
     // ─────────────────────────────────────────────
     // Section 1: Organisational Info
     // ─────────────────────────────────────────────
@@ -18,7 +18,36 @@ const translation_mapping_ar_glossary = [
         ar: "هو الرمز المختصر أو الموجز الذي تُعرَّف به الجهة التابعة ويشير إليها في نظام الإبلاغ الخاص بالاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، APPA (401)).",
     },
     {
-        id: "reporting_year_definition",
+        id: "org_code_name",
+        en: "Affiliate code",
+        sp: "",
+        fr: "",
+        ar: ""
+    },
+    {
+        id: "help_reporting_periodicity_definition",
+        en: 'The frequency or cycle of reporting. "Annual Reporting" indicates that the submission covers a full 12-month period, as opposed to half-yearly reporting cycles which is a 6-month period.',
+        sp: 'La frecuencia o ciclo de presentación de informes. "Informe Anual" indica que la presentación cubre un período completo de 12 meses, a diferencia de los ciclos de presentación de informes semestrales, que abarcan un período de 6 meses.',
+        fr: 'La fréquence ou le cycle de déclaration. « Rapport annuel » indique que la soumission couvre une période complète de 12 mois, par opposition aux cycles de déclaration semestriels qui correspondent à une période de 6 mois.',
+        ar: 'وتيرة أو دورة الإبلاغ. يشير "الإبلاغ السنوي" إلى أن التقرير المقدم يغطي فترة 12 شهرًا كاملة، على عكس دورات الإبلاغ النصف سنوية التي تغطي فترة 6 أشهر.'
+    },
+    {
+        id: "affiliate_term",
+        en: "Affiliate",
+        sp: "Entidad afiliada",
+        fr: "Affilié",
+        ar: "الجهة التابعة"
+    },
+    {
+        id: "def_affiliate_code",
+        en: "The short-form or abbreviated code assigned to the Affiliate for use within the IPPF reporting system (e.g., APPA (401)).",
+        sp: "La abreviatura del código asignado a la Entidad afiliada para su uso en el sistema de informes de la IPPF (p. ej., APPA (401)).",
+        fr: "Code abrégé attribué à l'affilié à utiliser dans le système de déclaration de données de l'IPPF (par ex. APPA (401)).",
+        ar: "هو الرمز المختصر أو الموجز الذي تُعرَّف به الجهة التابعة ويشير إليها في نظام الإبلاغ الخاص بالاتحاد الدولي لتنظيم الأسرة (على سبيل المثال، APPA (401)).",
+    },
+    
+    {
+        id: "help_reporting_year_definition",
         en: "The calendar year for which the Annual Report is being submitted (e.g. 2025). All data, activities, and financial information in the report should correspond to this year.",
         sp: "El año calendario al que se refiere el Informe Anual (por ejemplo, 2027). Todos los datos, actividades e información financiera que figuran en el informe deben corresponder a este año.",
         fr: "L'année civile à laquelle se rapporte le rapport annuel (par exemple, 2027). Toutes les données, activités et informations financières figurant dans le rapport doivent correspondre à cette année.",
@@ -33,7 +62,7 @@ const translation_mapping_ar_glossary = [
     },
     {
         id: "vice_chair",
-        en: "Vice-Chair / Vice-President (or equivalent)",
+        en: "Vice-Chair / Vice - President (or equivalent",
         sp: "Vicepresidente (o cargo equivalente)",
         fr: "Vice-président (ou équivalent)",
         ar: "نائب الرئيس (أو ما يعادله)"
@@ -60,28 +89,28 @@ const translation_mapping_ar_glossary = [
         ar: "نائب رئيس مجلس الإدارة الذي يدعم رئيس المجلس ويتولى مهامه في غيابه."
     },
     {
-        id: "country_of_operation",
+        id: "def_country_of_operation",
         en: "The country in which the Affiliate is legally registered and primarily operates.",
         sp: "El país en el que la Entidad afiliada está legalmente registrada y opera principalmente.",
         fr: "Le pays dans lequel l'affilié est légalement enregistré et exerce principalement ses activités.",
         ar: "البلد الذي تكون فيه الجهة التابعة مسجلة قانونيًا وتعمل فيه بشكل رئيسي.",
     },
     {
-        id: "ippf_region",
+        id: "def_ippf_region",
         en: "The IPPF region in which the Affiliate is located (e.g. ACR — Americas and Caribbean Region).",
         sp: "La región de la IPPF en la que se encuentra la Entidad afiliada (p. ej., ACR — Región de las Américas y el Caribe).",
         fr: "La région de l'IPPF dans laquelle l'affilié est situé (par ex. ACR — Région des Amériques et des Caraïbes).",
         ar: "إقليم الاتحاد الدولي لتنظيم الأسرة الذي تقع فيه الجهة التابعة (على سبيل المثال، ACR — إقليم الأمريكتين والكاريبي).",
     },
     {
-        id: "organisation_name_english",
+        id: "def_organisation_name_english",
         en: "The official name of the Affiliate written in English, as registered with IPPF.",
         sp: "El nombre oficial de la Entidad afiliada escrito en inglés, tal como está registrado en la IPPF.",
         fr: "Le nom officiel de l'affilié rédigé en anglais, tel qu'enregistré auprès de l'IPPF.",
         ar: "الاسم الرسمي للجهة التابعة مكتوبًا باللغة الإنجليزية، كما هو مسجل لدى الاتحاد الدولي لتنظيم الأسرة.",
     },
     {
-        id: "primary_contact_person",
+        id: "def_primary_contact_person",
         en: "The designated individual within the organisation responsible for responding to queries, clarifications, or follow-up actions related to the Annual Business Plan or Report submission.",
         sp: "La persona designada dentro de la organización responsable de responder consultas, aclaraciones o acciones de seguimiento relacionadas con la presentación del Plan o Informe Anual de Negocios.",
         fr: "La personne désignée au sein de l'organisation chargée de répondre aux questions, aux demandes de clarification ou aux actions de suivi liées à la soumission du Plan d'affaires annuel ou du Rapport annuel.",
@@ -89,20 +118,27 @@ const translation_mapping_ar_glossary = [
     },
 
     {
-        id: "organisation_name_original",
+        id: "def_organisation_name_original",
         en: "The official name of the Affiliate in the preferred IPPF language, if different from English.",
         sp: "El nombre oficial de la Entidad afiliada en el idioma preferido de la IPPF, si es diferente del inglés.",
         fr: "Le nom officiel de l'affilié dans la langue préférée de l'IPPF, s'il diffère de l'anglais.",
         ar: "الاسم الرسمي للجهة التابعة بلغة الاتحاد الدولي لتنظيم الأسرة المفضلة، إذا كان مختلفًا عن الإنجليزية.",
     },
     {
-        id: "contact_email",
+        id: "def_contact_email",
         en: "The official email address of the primary point of contact, used for all formal correspondence regarding the submitted report or business plan.",
         sp: "La dirección de correo electrónico oficial del punto de contacto principal, utilizada para toda la correspondencia formal relativa al informe o plan de negocio presentado.",
         fr: "L'adresse électronique officielle du point de contact principal, utilisée pour toute correspondance formelle concernant le rapport ou le plan d'activités soumis.",
         ar: "عنوان البريد الإلكتروني الرسمي لجهة الاتصال الرئيسية، المستخدم في جميع المراسلات الرسمية المتعلقة بالتقرير أو خطة العمل المقدمة.",
     },
     // ─────────────────────────────────────────────
+    {
+        id: "address_name",
+        en: "Address",
+        sp: "DIRECCIÓN",
+        fr: "Adresse",
+        ar: "عنوان"
+    },
     {
         id: "address_definition",
         en: "The registered physical or postal address of the Affiliate's main office or headquarters.",
@@ -290,28 +326,28 @@ const translation_mapping_ar_glossary = [
         ar: "وصف توضيحي للفعاليات أو التطورات الخارجية الهامة التي شهدتها خلال السنة المشمولة بالتقرير وأثَّرت على بيئة العمل في الجهة التابعة. وتشمل ما يحدث في المشهد السياسي أو القانوني من تغيرات، وتحولات الرأي العام، وحركات المعارضة، أو غيرها من تطورات على مستوى الدولة ذات الصلة بالحقوق والصحة الجنسية والإنجابية.",
     },
     {
-        id: "centre_care_on_people",
+        id: "def_centre_care_on_people",
         en: "This is IPPF's first strategic pillar; the goal of this pillar is to provide quality person-centred care to more people, in more places.",
         sp: "Es el primer pilar estratégico de la IPPF; su objetivo es ofrecer atención de calidad centrada en las necesidades de las personas a un mayor número de personas y en más lugares.",
         fr: "Il s'agit du premier pilier stratégique de l'IPPF, dont l'objectif est de dispenser des soins de qualité centrés sur la personne, à un plus grand nombre et dans plus d'endroits.",
         ar: "هذه هي أولى الركائز الاستراتيجية للاتحاد الدولي لتنظيم الأسرة (IPPF)، وهدفها تقديم رعاية ذات جودة تركز على الفرد لأكبر عدد ممكن من الأفراد، وفي أكثر الأماكن التي تحتاج إليها.",
     },
     {
-        id: "move_the_sexuality_agenda",
+        id: "def_move_the_sexuality_agenda",
         en: "This is IPPF's second strategic pillar; the goal of this pillar is to bring societal and legislative change for universal sexual and reproductive rights.",
         sp: "Es el segundo pilar estratégico de la IPPF; su objetivo es impulsar cambios sociales y legislativos a favor de los derechos sexuales y reproductivos universales.",
         fr: "Il s'agit du deuxième pilier stratégique de l'IPPF, dont l'objectif est d'apporter des changements sociétaux et législatifs en faveur de droits sexuels et reproductifs universels.",
         ar: "هذه هي الركيزة الاستراتيجية الثانية من ركائز الاتحاد الدولي لتنظيم الأسرة (IPPF)؛ وهدفها إحداث التغيير المجتمعي والتشريعي الذي يكفل إعمال الحقوق الجنسية والإنجابية للجميع.",
     },
     {
-        id: "solidarity_for_change",
+        id: "def_solidarity_for_change",
         en: "This is IPPF's third strategic pillar; the goal of this pillar is to amplify impact by building bridges, shaping discourse, and connecting communities, movements, and sectors.",
         sp: "Es el tercer pilar estratégico de la IPPF; su objetivo es amplificar la repercusión al tender puentes, dar forma al discurso y conectar a comunidades, movimientos y sectores.",
         fr: "Il s'agit du troisième pilier stratégique de l'IPPF, dont l'objectif est d'amplifier l'impact en jetant des ponts, en donnant corps au débat, en créant des liens entre les communautés, les mouvements et les secteurs.",
         ar: "هذه هي الركيزة الاستراتيجية الثالثة من ركائز الاتحاد الدولي لتنظيم الأسرة (IPPF)، وهدفها تعظيم التأثير بمد الجسور وتطوير الخطاب والربط بين المجتمعات المدنية والحركات والقطاعات المختلفة.",
     },
     {
-        id: "nurture_our_federation",
+        id: "def_nurture_our_federation",
         en: "This is IPPF's fourth strategic pillar; the goal of this pillar is to replenish and nurture the federation from a common value base and unleash our collective power for greater impact.",
         sp: "Es el cuarto pilar estratégico de la IPPF; su objetivo es revitalizar y nutrir a la Federación a partir de una base de principios comunes y explotar todo nuestro potencial colectivo para lograr una mayor repercusión.",
         fr: "Il s'agit du quatrième pilier stratégique de l'IPPF, dont l'objectif est de renouveler la fédération et d'en prendre soin en s'appuyant sur une base de valeurs commune et libérer notre puissance collective pour un plus fort impact.",
@@ -327,7 +363,7 @@ const translation_mapping_ar_glossary = [
 
     // 2.2 Results & Achievements
     {
-        id: "results_and_achievements",
+        id: "def_results_and_achievements",
         en: "A summary of the main outcomes and accomplishments of the Affiliate during the reporting period, organised by IPPF Strategic Pillar. The Affiliates are requested to highlight how actual results compare with planned expectations and to emphasise work with youth and marginalised populations.",
         sp: "Un resumen de los principales resultados y logros de la Entidad afiliada durante el periodo del informe, organizados según el pilar estratégico correspondiente de la IPPF. Las Entidades afiliadas deben comparar los resultados reales con los planificados y enfatizar el trabajo realizado con jóvenes y poblaciones marginadas.",
         fr: "Résumé des principaux résultats et réalisations de l'affilié au cours de la période de déclaration, organisé selon les piliers stratégiques de l'IPPF. Les affiliés sont tenus de comparer explicitement les résultats obtenus avec ceux attendus et de mettre en avant les actions menées avec les jeunes et les populations marginalisées.",
@@ -343,7 +379,7 @@ const translation_mapping_ar_glossary = [
     },
     // 2.4 Most Effective Strategies / Approaches
     {
-        id: "most_effective_strategies_approaches",
+        id: "def_most_effective_strategies_approaches",
         en: "A reflective account of the methods, interventions, or programmatic approaches that proved most successful in achieving results during the reporting period. Affiliates are encouraged to share examples of good practice and important learnings that could benefit the wider federation.",
         sp: "Un recuento reflexivo de los métodos, las intervenciones o los planteamientos programáticos que demostraron ser más efectivos para lograr resultados durante el periodo del informe. Se recomienda a las Entidades afiliadas que comuniquen ejemplos de buenas prácticas y aprendizajes importantes que pudiesen beneficiar a la Federación en general.",
         fr: "Réflexion sur les méthodes, les interventions ou les approches programmatiques qui se sont révélées les plus efficaces pour atteindre des résultats au cours de la période de déclaration. Les affiliés sont incités à faire part d'exemples de bonnes pratiques et d'enseignements importants qui pourraient bénéficier à l'ensemble de la fédération.",
@@ -366,7 +402,7 @@ const translation_mapping_ar_glossary = [
     },
     // 2.6 Learning
     {
-        id: "learning",
+        id: "def_learning",
         en: "Key insights, lessons, or knowledge gained by the Affiliate through its work during the reporting period. This may include what worked well, what did not work, unexpected outcomes, or reflections that will inform future planning and programming. Sharing learnings supports organisational improvement and contributes to the collective knowledge of the federation.",
         sp: "Percepciones, lecciones o conocimientos importantes obtenidos por la Entidad afiliada a través de su trabajo durante el periodo del informe. Puede incluir lo que funcionó bien, lo que no funcionó, resultados imprevistos, o reflexiones que servirán para planificaciones y programaciones futuras. Difundir el aprendizaje respalda la mejora de las organizaciones y contribuye al conocimiento colectivo de la Federación.",
         fr: "Principaux éclairages, apprentissages ou connaissances acquis par l'affilié dans le cadre de ses activités au cours de la période de déclaration. Ils peuvent porter sur les succès, les échecs, les résultats inattendus ou des réflexions susceptibles d'orienter la planification et la programmation futures. Le partage de ces enseignements favorise l'amélioration continue de l'organisation et enrichit le savoir collectif de la Fédération.",
@@ -531,13 +567,6 @@ const translation_mapping_ar_glossary = [
     ar: "موضوع المشروع",
     },
     {
-    id: "end_date_2.1",
-    en: "End Date",
-    sp: "Fecha de finalización",
-    fr: "Date de fin",
-    ar: "تاريخ الانتهاء",
-    },
-    {
     id: "project_name",
     en: "Project Name",
     sp: "Nombre del proyecto",
@@ -545,7 +574,7 @@ const translation_mapping_ar_glossary = [
     ar: "اسم المشروع",
     },
     {
-    id: "start_date_2.1",
+    id: "start_date",
     en: "Start Date",
     sp: "Fecha de inicio",
     fr: "Date de début",
@@ -584,63 +613,70 @@ const translation_mapping_ar_glossary = [
         ar: "مبلغ يُخصص من تمويل المشروع لكل مجال من مجالات التركيز المحددة، ويُذكر بالعملة المعتمدة في التقرير. وينبغي أن يتطابق مجموع الميزانيات المرصودة لجميع مجالات التركيز مع إجمالي الميزانية المرصودة للمشروع.",
     },
     {
-        id: "care_static_clinic",
+        id: "def_care_static_clinic",
         en: "Services delivered through a fixed, permanent facility such as a clinic or health centre operated by the Affiliate. This includes all SRHR services provided on-site at a designated location.",
         sp: "Servicios prestados a través de una instalación fija y permanente, como una clínica o un centro de salud operado por la Entidad afiliada. Se incluyen todos los servicios de DSSR prestados in situ en una ubicación nombrada.",
         fr: "Services fournis par l'intermédiaire d'un établissement fixe et permanent tel qu'une clinique ou un centre de santé exploité par l'affilié. Y sont inclus tous les services de SDSR fournis sur place à un endroit désigné.",
         ar: "الخدمات التي يقدمها مرفق صحي بمقر ثابت ودائم سواء كان عيادة أو مركز صحي تديره الجهة التابعة. وهذا يشمل جميع الخدمات المتعلقة بالحقوق والصحة الجنسية والإنجابية التي تقدم في مقره الكائن في موقع محدد.",
     },
     {
-        id: "care_outreach_mobile_clinic_community_based_delivery",
+        id: "def_care_outreach_mobile_clinic_community_based_delivery",
         en: "Services delivered outside of a fixed facility, reaching clients in their communities through outreach workers, mobile clinics, or community-based service providers.",
         sp: "Servicios prestados fuera de una instalación fija, que se llevan a clientes en sus propias comunidades a través de personal de información, clínicas móviles o proveedores de servicios en la comunidad.",
         fr: "Services fournis en dehors d'un établissement fixe, atteignant les clients dans leurs communautés par l'intermédiaire d'agents de proximité, de cliniques mobiles ou de prestataires de services communautaires.",
         ar: "هي الخدمات التي تُقدم خارج مقر مرفق الرعاية الصحية الثابت إلى المستفيدين والمستفيدات داخل مجتمعاتهم من خلال العاملين الميدانيين أو العيادات المتنقلة أو مقدمي الخدمات المجتمعية.",
     },
     {
-        id: "care_other_services_enabled_or_referred",
+        id: "Personnel",
+        en: "Personnel",
+        sp: "Personal",
+        fr: "Personnel",
+        ar: 'الأفراد'
+    },
+    {
+        id: "def_care_other_services_enabled_or_referred",
         en: "SRHR services that the Affiliate facilitates or enables through referral pathways to associated clinics or partner clinics, rather than delivering directly.",
         sp: "Servicios de DSSR que la Entidad afiliada facilita o habilita a través de vías de referencia a clínicas asociadas o clínicas socias, en vez de prestarlos directamente.",
         fr: "Les services de SDSR que l'affilié facilite ou rend possibles au moyen de voies d'orientation vers des cliniques associées ou partenaires, plutôt que de les dispenser directement.",
         ar: "الخدمات المتعلقة بالحقوق والصحة الجنسية والإنجابية التي تسهلها أو توفرها الجهة التابعة من خلال مسارات الإحالة إلى العيادات ذات التبعية غير المباشرة أو العيادات الشريكة، بدلاً من تقديمها مباشرة.",
     },
     {
-        id: "care_social_marketing_services",
+        id: "def_care_social_marketing_services",
         en: "Health services or products (such as contraceptives) distributed through commercial or social marketing channels, often at subsidised prices, to increase access and uptake in the community.",
         sp: "Servicios o productos de salud (como anticonceptivos) distribuidos a través de canales comerciales o sociales, a menudo con precios subsidiados, para incrementar el acceso a ellos y su uso en la comunidad.",
         fr: "Services ou produits de santé (p. ex. des contraceptifs) distribués par des canaux de marketing commercial ou social, souvent à des prix subventionnés, afin d'en accroître l'accès et l'adoption dans la communauté.",
         ar: "الخدمات أو المنتجات الصحية (مثل وسائل منع الحمل) التي تُوزَّع من خلال قنوات التسويق التجاري أو الاجتماعي، غالباً بأسعار مدعومة، بهدف تعزيز إمكانية الوصول إليها والإقبال عليها في المجتمع.",
     },
     {
-        id: "care_digital_health_intervention_and_selfcare",
+        id: "def_care_digital_health_intervention_and_selfcare",
         en: "SRHR services, information, or support delivered through digital platforms such as apps, websites, SMS, or online consultations. Selfcare refers to individuals managing their own health with or without the support of a health provider, using tools or commodities independently.",
         sp: "Servicios de DSSR, información o apoyo prestados a través de plataformas digitales como aplicaciones, sitios web, mensajes de texto o consultas en línea. La autoatención se refiere a personas que gestionan su propia salud con o sin el apoyo de un proveedor sanitario, y utilizando herramientas o productos de forma independiente.",
         fr: "Services, informations ou assistance en matière de SDSR fournis sur des plateformes numériques telles que des applications, des sites Web, des SMS ou des cyber-consultations. Le terme « autosoins » fait référence aux personnes qui gèrent leur propre santé avec ou sans le soutien d'un prestataire de soins de santé, en utilisant des outils ou des fournitures de manière indépendante.",
         ar: "الدعم أو الخدمات أو المعلومات المتعلقة بالحقوق والصحة الجنسية والإنجابية، التي تُقدم من خلال المنصات الرقمية مثل التطبيقات، والمواقع الإلكترونية، والرسائل النصية القصيرة، أو الاستشارات التي تُقدم عبر الإنترنت. يشير مصطلح الرعاية الذاتية إلى قيام الأفراد برعاية أنفسهم صحيًّا، سواء بدعم من مقدم الرعاية الصحية أو بدونه، باستخدام الأدوات أو السلع الصحية بشكل مستقل.",
     },
     {
-        id: "advocacy",
+        id: "def_advocacy",
         en: "Activities aimed at influencing policies, laws, social norms, or public opinion in support of SRHR. Advocacy work may target government bodies, decision-makers, communities, or the wider public.",
         sp: "Actividades dirigidas a influir sobre las políticas, leyes y normas sociales, o sobre la opinión pública a favor de DSSR. El trabajo de incidencia política puede dirigirse a organismos oficiales, responsables de decisiones, comunidades o al público en general.",
         fr: "Activités destinées à influer sur les politiques publiques, les lois, les normes sociales ou l'opinion publique à l'appui de la SDSR. Le travail de plaidoyer peut cibler des organismes publics, des décideurs publics, des communautés ou le grand public.",
         ar: "هي الأنشطة التي تهدف إلى التأثير على السياسات والقوانين والأعراف الاجتماعية أو الرأي العام لدعم الحقوق والصحة الجنسية والإنجابية. وقد تستهدف جهود الدعوة الهيئات الحكومية، أو صناع القرار، أو المجتمعات المحلية، أو الناس عمومًا.",
     },
     {
-        id: "cse_comprehensive_sexuality_education",
+        id: "def_cse_comprehensive_sexuality_education",
         en: "A curriculum-based process of teaching and learning about the cognitive, emotional, physical, and social aspects of sexuality. CSE is evidence-informed and rights-based, equipping young people with the knowledge and skills to make informed decisions about their health and relationships.",
         sp: "Un proceso basado en un currículo de enseñanza y aprendizaje sobre los aspectos cognitivo, emocional, físico y social de la sexualidad. La EIS se basa en los derechos y en la evidencia, dota a las personas jóvenes con los conocimientos y las aptitudes que necesitan para tomar decisiones informadas sobre su salud y sus relaciones.",
         fr: "Processus d'enseignement-apprentissage, intégré au cursus scolaire, couvrant les dimensions cognitives, émotionnelles, physiques et sociales de la sexualité. Fondée sur des données probantes et ancrée dans une approche fondée sur les droits, l'ECS vise à doter les jeunes des connaissances et compétences nécessaires pour prendre des décisions éclairées sur leur santé sexuelle et leurs relations.",
         ar: "عملية تعليمية وتربوية قائمة على مناهج دراسية تتناول الجانب المعرفي والعاطفي والجسدي والاجتماعي للحياة الجنسية. والتثقيف الجنسي الشامل عملية مبنية على الأدلة وقائمة على الحقوق، لأنها تزود الشباب بالمعرفة والمهارات اللازمة لاتخاذ قرارات مستنيرة بشأن صحتهم وعلاقاتهم.",
     },
     {
-        id: "cse_online_including_social_media",
+        id: "def_cse_online_including_social_media",
         en: "Comprehensive Sexuality Education content and programs delivered through digital channels, including websites, social media platforms, and online learning environments.",
         sp: "Contenido y programas de Educación integral en sexualidad transmitidos a través de canales digitales, incluidos sitios web, plataformas de redes sociales y entornos de aprendizaje en línea.",
         fr: "Contenus et programmes d'éducation complète à la sexualité, diffusés par des canaux numériques, notamment des sites Web, des plateformes de réseaux sociaux et des environnements d'apprentissage en ligne.",
         ar: "يشير إلى محتوى التثقيف الجنسي الشامل وبرامجه التي تُقدم عبر القنوات الإعلامية الإلكترونية، بما في ذلك مواقع الويب ومنصات التواصل الاجتماعي وبيئات التعلم عبر الإنترنت.",
     },
     {
-        id: "name_partnerships_and_movements",
+        id: "def_name_partnerships_and_movements",
         en: "Partnerships and Movements",
         sp: "Alianzas y Movimientos",
         fr: "Partenariats et Mouvements",
@@ -661,21 +697,21 @@ const translation_mapping_ar_glossary = [
         ar: "البنية التحتية الداخلية للجمعية العضو",
     },
     {
-        id: "partnerships_and_movements",
+        id: "def_partnerships_and_movements",
         en: "Activities that strengthen the wider SRHR movement through collaboration, including building the capacity of partner organisations, amplifying advocacy messages, and distributing sub-grants to civil society organisations.",
         sp: "Actividades que refuerzan el movimiento general de DSSR mediante la colaboración y que incluyen el desarrollo de capacidades de organizaciones socias, la amplificación de mensajes de incidencia política, y el reparto de subvenciones en cascada a organizaciones de la sociedad civil.",
         fr: "Activités de renforcement du mouvement plus large de la SDSR par la collaboration, notamment le renforcement des capacités des organisations partenaires, l'amplification des messages de plaidoyer et la distribution de sous-subventions à des organisations de la société civile.",
         ar: "تشير إلى الأنشطة التي تعزز حركة الحقوق والصحة الجنسية والإنجابية على نطاق أوسع من خلال تعزيز التعاون، بما في ذلك بناء قدرات المنظمات الشريكة، وتعظيم تأثير رسائل الدعوة، وتوزيع المنح الفرعية على منظمات المجتمع المدني.",
     },
     {
-        id: "knowledge_research_evidence_innovation_and_publishing",
+        id: "def_knowledge_research_evidence_innovation_and_publishing",
         en: "Activities focused on generating, synthesising, or disseminating evidence related to SRHR. This includes research studies, evaluations, innovations in service delivery, and publication of findings including peer-reviewed articles.",
         sp: "Actividades centradas en generar, sintetizar o difundir evidencia relacionada con los DSSR. Incluyen estudios de investigación, evaluaciones, innovaciones en la prestación de servicios, y publicación de hallazgos, incluidos artículos revisados por pares.",
         fr: "Activités axées sur la production, la synthèse ou la diffusion de données probantes liées à la SDSR. Il s'agit notamment d'études de recherche, d'évaluations, d'innovations dans la prestation de services et de la publication de résultats, y compris des articles évalués par des pairs.",
         ar: "أنشطة تركز على استخلاص وتجميع ونشر الأدلة التي تتعلق بالحقوق والصحة الجنسية والإنجابية. وهذا يشمل الدراسات البحثية والتقييمات والابتكارات التي تعزز تقديم الخدمات ونشر النتائج، بما فيها المقالات التي يراجعها الأقران.",
     },
     {
-        id: "internal_ma_infrastructure_organisational_development",
+        id: "def_internal_ma_infrastructure_organisational_development",
         en: "Resources and activities directed towards strengthening the Affiliate's own organisational capacity, systems, governance, workforce development, and institutional culture, rather than direct programme delivery.",
         sp: "Recursos y actividades dirigidos a reforzar la capacidad organizativa propia de la Entidad afiliada, sus sistemas, su gobernanza, el desarrollo de su personal, y su cultura institucional, en vez de a la ejecución directa de programas.",
         fr: "Ressources et activités ayant vocation à renforcer la capacité organisationnelle, les systèmes, la gouvernance, le développement du personnel et la culture institutionnelle de l'affilié, plutôt que l'exécution directe du programme.",
@@ -697,14 +733,14 @@ const translation_mapping_ar_glossary = [
         ar: "التكاليف المتعلقة بالموظفين والموارد البشرية بما فيها رواتبهم والمزايا التي تُقدم لهم ورسوم الاستشارات وغيرها من النفقات التي تتعلق بالموظفين.",
     },
     {
-        id: "direct_project_activities",
+        id: "def_direct_project_activities",
         en: "Costs incurred in implementing the core activities of the project, such as training events, community mobilisation, service delivery campaigns, and other programmatic costs directly tied to project outputs.",
         sp: "Costos en los que se incurre al ejecutar las actividades principales del proyecto, como eventos de formación, movilización de la comunidad, campañas de prestación de servicios, y otros costos programáticos con un vínculo directo a los productos del proyecto.",
         fr: "Coûts engagés dans la mise en œuvre des activités de base du projet (p. ex. formations, mobilisation communautaire, campagnes de prestation de services) et autres coûts programmatiques directement liés aux résultats du projet.",
         ar: "التكاليف المترتبة على تنفيذ أنشطة المشروع الأساسية، مثل الفعاليات التدريبية، والحشد المجتمعي، وحملات ترويج الخدمات، وتكاليف البرامج الأخرى التي ترتبط بمخرجات المشروع ارتباطًا مباشرًا.",
     },
     {
-        id: "commodities",
+        id: "def_commodities",
         en: "The cost of physical goods and supplies used in project implementation, such as contraceptives, medical supplies, educational materials, or other consumable items directly related to service delivery.",
         sp: "El costo de los bienes y suministros físicos usados en la ejecución del proyecto, como anticonceptivos, suministros médicos, materiales educativos y otros artículos de consumo que se relacionan directamente con la prestación del servicio.",
         fr: "Coût des produits physiques et des fournitures utilisés dans la mise en œuvre du projet (p. ex. contraceptifs, fournitures médicales, matériel éducatif) ou d'autres consommables directement liés à la prestation de services.",
@@ -828,28 +864,28 @@ const translation_mapping_ar_glossary = [
         ar: "عبارة عن صف موجز في أعلى قسم الميزانية مقابل المبالغ الفعلية لتجميع الأرقام المالية الرئيسية تلقائيًا على مستوى المشاريع ومجالات التركيز بالكامل. وتقدم خلايا التحكم صورة عامة عن الجوانب المالية، ويقوم النظام بتجميعها وحسابها بناءً على البيانات التي تم إدخالها في الجداول التفصيلية أدناه.",
     },
     {
-        id: "total_budgeted_expenses_by_focus_areas",
+        id: "def_total_budgeted_expenses_by_focus_areas",
         en: "The sum of all budgeted amounts across all focus areas and all projects in the reporting year, as originally planned in the Annual Business Plan. This figure is carried forward from the business plan and serves as the baseline for variance analysis.",
         sp: "La suma de todas las cantidades presupuestadas en todas las áreas prioritarias y todos los proyectos del año del informe, según la planificación original del Plan de Negocio Anual. La cifra se deriva del plan de negocio y sirve de base de referencia para el análisis de variaciones.",
         fr: "Somme de tous les montants prévus initialement au budget dans le plan d'activité annuel, pour l'ensemble des volets d'intervention et des projets au cours de l'année de déclaration. Ce montant, reporté du plan d'activité, sert de référence pour l'analyse des écarts.",
         ar: "مجموع المبالغ المدرجة في الميزانية بالكامل على مستوى مجالات التركيز والمشاريع كلها في السنة المشمولة بالتقرير، حسب المخططات التنظيمية الأصلية المقررة في خطة الأعمال السنوية. وهذا الرقم يُتخذ من خطة الأعمال كأساس لتحليل الفارق.",
     },
     {
-        id: "total_actual_expenses_by_focus_areas",
+        id: "def_total_actual_expenses_by_focus_areas",
         en: "The sum of all actual expenditure recorded across all focus areas and all projects during the reporting year. This reflects real spending as opposed to planned spending.",
         sp: "La suma de todos los gastos reales registrados en todas las áreas prioritarias y todos los proyectos durante el año del informe. Refleja el gasto real, en vez del gasto planificado.",
         fr: "Somme de toutes les dépenses réelles enregistrées dans tous les volets d'intervention et tous les projets au cours de l'année de déclaration. Cela permet de comparer les dépenses réelles par rapport à celles prévues.",
         ar: "مجموع النفقات الفعلية المسجلة بالكامل على مستوى مجالات التركيز والمشاريع كلها في السنة المشمولة بالتقرير. وهذا يوضح وجوه الإنفاق الحقيقية مقابل وجوه الإنفاق المدرجة في الخطة.",
     },
     {
-        id: "control_cell_variance",
+        id: "def_control_cell_variance",
         en: "The difference between Total Budgeted Expenses and Total Actual Expenses, expressed in monetary value. A positive variance indicates underspending (budget exceeded actual spend); a negative variance indicates overspending. This field is automatically calculated by the system.",
         sp: "La diferencia entre los Gastos presupuestados totales y los Gastos reales totales, expresada en valor monetario. Una variación positiva indica que los gastos reales fueron inferiores a los presupuestados (el presupuesto superó al gasto real); una variación negativa indica que los gastos superaron al presupuesto. El sistema calcula automáticamente este campo.",
         fr: "Différence entre le total des dépenses budgétées et le total des dépenses réelles, exprimée en valeur monétaire. Un écart positif indique une sous-utilisation des crédits (budget supérieur aux dépenses réelles), et un écart négatif indique un dépassement des crédits. Ce champ est calculé automatiquement par le système.",
         ar: "يشير إلى الفرق بين إجمالي النفقات المدرجة في الميزانية وإجمالي النفقات الفعلية، ويُحدد بقيمة نقدية. وإذا كان هذا الفارق بالموجب، فإنه يدل على نقص الإنفاق (أي أن الميزانية تجاوزت الإنفاق الفعلي)؛ وإذا كان بالسالب، فيدل على زيادة الإنفاق. ويُحسب هذا الحقل بواسطة النظام تلقائيًا.",
     },
     {
-        id: "control_cell_total_spend",
+        id: "def_control_cell_total_spend",
         en: "The proportion of the total budget that has been spent, expressed as a percentage. Calculated as (Total Actual Expenses ÷ Total Budgeted Expenses) × 100. This provides a quick indicator of overall budget utilisation across all focus areas.",
         sp: "La parte del presupuesto total que se ha gastado, expresada en porcentaje. Se calcula así: (gastos reales totales ÷ gastos presupuestados totales) x 100. Esto ofrece un indicador rápido del uso del presupuesto general en todas las áreas prioritarias.",
         fr: "Proportion du budget total effectivement dépensé, exprimée en pourcentage. Ce ratio est calculé selon la formule (total des dépenses réelles ÷ total des dépenses budgétées) × 100. Il fournit un indicateur synthétique de l'utilisation globale du budget à travers l'ensemble des volets d'intervention.",
@@ -914,18 +950,32 @@ const translation_mapping_ar_glossary = [
         ar: "هي المبالغ التي تُنفق ضمن مجال معين من مجالات التركيز خلال السنة المشمولة بالتقرير. وتوضح النفقات المثبتة من واقع السجلات المالية للجهة التابعة.",
     },
     {
-        id: "variance",
+        id: "def_variance",
         en: "The monetary difference between the budgeted amount and the actual expenses for a specific focus area. Calculated as Budget minus Actual Expenses. A positive value indicates the focus area was underspent; a negative value indicates it was overspent.",
         sp: "La diferencia monetaria entre la cantidad presupuestada y los gastos reales en un área prioritaria específica. Se calcula del siguiente modo: Presupuesto menos Gastos reales. Un valor positivo indica que en el área prioritaria los gastos fueron inferiores al presupuesto; un valor negativo indica que los gastos fueron superiores al presupuesto.",
         fr: "Différence monétaire entre le montant budgété et les dépenses réelles pour un volet d'intervention spécifique. Ratio calculé selon la formule : budget moins dépenses réelles. Une valeur positive indique que le budget du volet d'intervention a été sous-utilisé, une valeur négative indique qu'il a été dépassé.",
         ar: "الفرق النقدي بين المبالغ المدرجة في الميزانية والنفقات الفعلية في مجال معين من مجالات التركيز. ويُحسب بطرح النفقات الفعلية من الميزانية. فإذا كانت قيمته بالموجب، دل على نقص الإنفاق في مجال التركيز المذكور؛ وإذا كانت بالسالب، دل على زيادة الإنفاق.",
     },
     {
-        id: "total_spend",
+        id: "def_total_spend",
         en: "The percentage of the budgeted amount that was actually spent within a specific focus area. Calculated as (Actual Expenses ÷ Budget) × 100. Helps identify focus areas with significantly high or low expenditure relative to plan.",
         sp: "El porcentaje de la cantidad presupuestada que se gastó realmente en un área prioritaria específica. Se calcula del siguiente modo: (Gastos reales ÷ Presupuesto) x 100. Ayuda a identificar las áreas prioritarias en las que hay gastos significativamente altos o bajos en relación con lo presupuestado.",
         fr: "Pourcentage du montant budgété qui a été réellement dépensé dans un volet d'intervention spécifique. Ratio calculé selon la formule : (Dépenses réelles ÷ Budget) × 100. Utile pour repérer les volets d'intervention dont les dépenses sont nettement élevées ou faibles par rapport au plan.",
         ar: "نسبة المبلغ المدرج في الميزانية الذي تم إنفاقه فعلياً ضمن مجال معين من مجالات التركيز. ويُحسب على النحو التالي: (النفقات الفعلية ÷ الميزانية) × 100. ويستخدم في تحديد مجالات التركيز التي زاد فيها الإنفاق أو انخفض بدرجة ملحوظة مقارنة بالمدرج في الخطة.",
+    },
+    {
+        id: "def_total_project_lifetime_value",
+        en: "The full monetary value of grant agreement with the donor, covering the entire project period. Expressed in USD.",
+        sp: "El valor monetario total del acuerdo de subvención con el donante, que abarca todo el período del proyecto. Expresado en dólares estadounidenses.",
+        fr: "Montant total de la convention de subvention conclue avec le donateur, couvrant l’ensemble de la durée du projet. Exprimé en dollars américains.",
+        ar: "القيمة النقدية الإجمالية لاتفاقية المنحة المبرمة مع الجهة المانحة، والتي تغطي كامل مدة المشروع. معبَّر عنها بالدولار الأمريكي."
+    },
+    {
+        id: "",
+        en: "One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.",
+        sp: "",
+        fr: "",
+        ar: ""
     },
     {
         id: "project_total",
@@ -1125,9 +1175,17 @@ const translation_mapping_ar_glossary = [
     },
     {
         id: "def_focus_area",
+        en: "One of the standardised programmatic categories under which project budgets and actual expenditures are reported. The same focus areas used in project setup are used here for consistency.",
         sp: "Una de las categorías programáticas estandarizadas bajo las cuales se reportan los presupuestos de los proyectos y los gastos reales. Para mantener la coherencia, aquí se utilizan las mismas áreas de enfoque que en la configuración del proyecto.",
         fr: "L’une des catégories programmatiques standardisées sous lesquelles sont déclarés les budgets des projets et les dépenses réelles. Les mêmes domaines prioritaires que ceux utilisés lors de la configuration du projet sont repris ici par souci de cohérence.",
         ar: "إحدى الفئات البرنامجية الموحدة التي يتم في إطارها الإبلاغ عن ميزانيات المشاريع والنفقات الفعلية. يتم استخدام مجالات التركيز نفسها المستخدمة في إعداد المشروع هنا من أجل الاتساق.",
+    },
+    {
+        id: "def_contexts_events",
+        en: "The strategic context covers country-level political, social, legal, and demographic factors that shaped the Affiliate's work, including the SRHR landscape, policy developments, and the presence of other actors. The results component presents the Affiliate's measurable achievements against the targets set in its Annual Business Plan, organised by IPPF Strategic Pillar, with particular emphasis on work with young people and marginalised populations.",
+        sp: "El contexto estratégico abarca los factores políticos, sociales, legales y demográficos a nivel nacional que han influido en el trabajo de la filial, incluyendo el panorama de la salud y los derechos sexuales y reproductivos (SRHR), la evolución de las políticas y la presencia de otros actores. El componente de resultados presenta los logros medibles de la filial en relación con las metas establecidas en su Plan de Negocios Anual, organizados según los pilares estratégicos de la IPPF, con especial énfasis en el trabajo con jóvenes y poblaciones marginadas.",
+        fr: "Le contexte stratégique englobe les facteurs politiques, sociaux, juridiques et démographiques au niveau national qui ont influencé le travail de l'affilié, notamment le contexte en matière de santé et de droits sexuels et reproductifs, l'évolution des politiques et la présence d'autres acteurs. La partie consacrée aux résultats présente les réalisations mesurables de l'affilié par rapport aux objectifs fixés dans son plan d'activité annuel, classées selon les axes stratégiques de l'IPPF, en mettant particulièrement l'accent sur le travail mené auprès des jeunes et des populations marginalisées.",
+        ar: "يشمل السياق الاستراتيجي العوامل السياسية والاجتماعية والقانونية والديموغرافية على المستوى القطري التي أثرت على عمل الفرع، بما في ذلك المشهد المتعلق بالصحة والحقوق الجنسية والإنجابية، وتطورات السياسات، ووجود الجهات الفاعلة الأخرى. ويقدم مكون النتائج الإنجازات القابلة للقياس التي حققها الفرع مقارنة بالأهداف المحددة في خطته السنوية للأنشطة، مصنفةً وفقًا للركائز الاستراتيجية للاتحاد الدولي لتنظيم الأسرة (IPPF)، مع التركيز بشكل خاص على العمل مع الشباب والفئات المهمشة."
     },
     {
         id: "def_budget_focus_area",
@@ -1135,6 +1193,13 @@ const translation_mapping_ar_glossary = [
         sp: "El presupuesto del proyecto desglosado por las 11 áreas de enfoque de la IPPF. Llene tantas como sean relevantes. El total debe coincidir con el total del proyecto en las otras secciones.",
         fr: "Le budget du projet ventilé selon les 11 domaines prioritaires de l’IPPF. Remplissez autant de champs que nécessaire. Le total doit correspondre au total du projet indiqué dans les autres sections.",
         ar: "ميزانية المشروع مقسمة حسب مجالات التركيز الـ 11 الخاصة بـ IPPF. قم بملء ما يناسب من هذه المجالات. يجب أن يتطابق الإجمالي مع إجمالي المشروع في الأقسام الأخرى.",
+    },
+    {
+        id: "def_year",
+        en: "The calendar year for which the business plan is being submiited. All projects and budgets data should correspond to the selected year, for e.g. 2027",
+        sp: "Describe la acción estratégica que llevarás a cabo para abordar los desafíos que has identificado en la sección anterior (Contexto del país). Describe el tipo de actividades que serán necesarias para lograr el cambio deseado. (Ten en cuenta también cómo estas se relacionan con tus resultados SMART a largo plazo que se indican a continuación).",
+        fr: "Décrivez l’action stratégique que vous entreprendrez pour relever les défis que vous avez identifiés dans la section ci-dessus (Contexte du pays). Décrivez le type d’activités qui seront nécessaires pour apporter le changement souhaité. (Veuillez également tenir compte de la manière dont celles-ci sont liées aux résultats SMART à long terme indiqués ci-dessous).",
+        ar: "صِف الإجراء الاستراتيجي الذي ستتخذه لمعالجة التحديات التي حددتها في القسم أعلاه (سياق البلد). يرجى وصف نوع الأنشطة التي ستكون مطلوبة لإحداث التغيير المنشود. (يرجى أيضًا مراعاة كيفية ارتباط هذه الأنشطة بالنتائج الذكية (SMART) طويلة الأجل المذكورة أدناه)."
     },
     {
         id: "def_project_total(focus area)",
@@ -1177,7 +1242,7 @@ const translation_mapping_ar_glossary = [
         ar: "تشير إلى التمويل الذي لم تربطه الجهة المانحة بغرض معين، مما يتيح للجهة التابعة إمكانية تخصيصه وفقًا لأولوياتها الاستراتيجية واحتياجاتها التشغيلية.",
     },
     {
-        id: "total_income",
+        id: "def_total_income",
         en: "The sum of all income received by the Affiliate across all income categories (Locally Generated, International Non-IPPF, and IPPF Income) during the reporting year, combining both Restricted and Unrestricted amounts.",
         sp: "La suma de todos los ingresos recibidos por la Entidad afiliada en todas las categorías de ingresos (Ingresos generados de forma local; Ingresos internacionales no procedentes de la IPPF; Ingresos procedentes de la IPPF) durante el año del informe, combinando tanto los fondos restringidos como los no restringidos.",
         fr: "Somme de toutes les recettes perçues par l'affilié dans toutes les catégories de recettes (Recettes générées localement, Recettes internationales (non-IPPF) et Recettes de l'IPPF) au cours de l'année de déclaration, combinant les montants Avec restrictions et Sans restrictions.",
@@ -1191,7 +1256,7 @@ const translation_mapping_ar_glossary = [
         ar: "إجمالي النفقات المثبتة من الجهة التابعة خلال السنة المشمولة بالتقرير، وذلك من واقع بيانات فئة الإنفاق المدرجة في القسم 5. ويمكن مقارنة الرقم الموضح هنا مع إجمالي الدخل المذكور مباشرة.",
     },
     {
-        id: "deficit_surplus",
+        id: "def_deficit_surplus",
         en: "The net financial position of the Affiliate for the reporting year, calculated as Total Income minus Total Actual Expenses. A positive figure indicates a surplus (income exceeded expenditure); a negative figure indicates a deficit (expenditure exceeded income). This field is system-calculated and highlighted for visibility.",
         sp: "La posición financiera neta de la Entidad afiliada para el año del informe. Se calcula al restar los Gastos reales totales a los Ingresos totales. Una cifra positiva indica un superávit (los ingresos fueron superiores a los gastos); una cifra negativa indica un déficit (los gastos fueron superiores a los ingresos). Este campo es calculado por el sistema y aparece destacado para aumentar su visibilidad.",
         fr: "La situation financière nette de la société affiliée pour l'année de déclaration, calculée selon la formule Total des recettes moins Total des dépenses réelles. Un chiffre positif indique un excédent (recettes supérieures aux dépenses), un chiffre négatif indique un déficit (dépenses supérieures aux recettes). Ce champ est calculé par le système et mis en surbrillance à des fins de visibilité.",
@@ -2005,11 +2070,11 @@ const translation_mapping_ar_glossary = [
     ar: "السؤال 1 — السياق القطري",
     },
     {
-        id: "q2_strategy",
-        en: "Ques 2. Strategic Actions",
-        sp: "2. : Acciones estratégicas",
-        fr: "Ques 2. Mesures stratégiques",
-        ar:'الإجراءات الاستراتيجية'
+    id: "q2_strategy",
+    en: "Q2 — Strategy",
+    sp: "Pregunta 2 — Estrategia",
+    fr: "Q2 — Stratégie",
+    ar: "السؤال 2 — الاستراتيجية",
     },
     {
     id: "q3_landscape_of_other_actors",
@@ -2339,10 +2404,10 @@ const translation_mapping_ar_glossary = [
     },
     {
     id: "def_q2_strategy",
-    en: "Describe the strategic measures you will adopt to address the challenges you have identified in the previous section (Country Context). Describe the types of activities that will be necessary to achieve the desired change. (Also consider how these relate to your long-term SMART results listed below.)",
-    sp: "Describe las medidas estratégicas que vas a adoptar para abordar los retos que has identificado en la sección anterior (Contexto del país). Describe el tipo de actividades que serán necesarias para lograr el cambio deseado. (Ten en cuenta también cómo se relacionan estas con tus resultados SMART a largo plazo que se enumeran a continuación).",
-    fr: "Décrivez les mesures stratégiques que vous comptez mettre en œuvre pour relever les défis que vous avez identifiés dans la section ci-dessus (Contexte national). Veuillez décrire le type d’activités qui seront nécessaires pour aboutir au changement souhaité. (Veuillez également indiquer en quoi celles-ci s’inscrivent dans le cadre de vos résultats SMART à long terme énumérés ci-dessous).",
-    ar: "صف الإجراءات الاستراتيجية التي ستتخذها لمواجهة التحديات التي حددتها في القسم أعلاه (السياق القطري). يرجى وصف نوع الأنشطة التي ستكون مطلوبة لإحداث التغيير المنشود. (يرجى أيضًا النظر في كيفية ارتباط هذه الأنشطة بنتائجك طويلة الأجل وفقًا لمعايير SMART المذكورة أدناه)."
+    en: "Describe the Affiliate's current high-level strategy or theory of change. Explain how it responds to the local needs and context described in Q1, outline its key components and activities, and describe how it will be operationalised. Show alignment with IPPF's strategic framework, identify specific target groups, and highlight any new approaches that differ from past business plans.",
+    sp: "Describa la estrategia general actual o la teoría del cambio de la filial. Explique cómo responde a las necesidades y al contexto locales descritos en la Pregunta 1, resuma sus componentes y actividades clave, y describa cómo se pondrá en práctica. Demuestre la alineación con el marco estratégico de la IPPF, identifique grupos objetivo específicos y destaque cualquier enfoque nuevo que difiera de los planes de negocios anteriores.",
+    fr: "Décrivez la stratégie générale actuelle ou la théorie du changement de l’affilié. Expliquez en quoi elle répond aux besoins et au contexte locaux décrits dans la question 1, présentez ses principaux éléments et activités, et décrivez comment elle sera mise en œuvre. Montrez l’alignement avec le cadre stratégique de l’IPPF, identifiez les groupes cibles spécifiques et mettez en avant toute nouvelle approche qui diffère des plans d’activité antérieurs.",
+    ar: "صف الاستراتيجية الحالية للفرع على مستوى عالٍ أو «نظرية التغيير» التي يتبناها. اشرح كيف تستجيب هذه الاستراتيجية للاحتياجات والسياق المحليين الموصوفين في السؤال 1، وحدد مكوناتها وأنشطتها الرئيسية، ووصف كيفية تنفيذها عمليًّا. أظهر التوافق مع الإطار الاستراتيجي للاتحاد الدولي لتنظيم الأسرة (IPPF)، وحدد الفئات المستهدفة المحددة، وسلط الضوء على أي نُهج جديدة تختلف عن خطط العمل السابقة.",
     },
     {
     id: "def_q3_landscape_of_other_actors",
