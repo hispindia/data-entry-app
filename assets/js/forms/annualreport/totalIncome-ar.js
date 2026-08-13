@@ -137,6 +137,11 @@ const categoryIncome = [
     ],
   },
 ];
+const tooltipKeyMap = {
+    'locally-generated': 'Actual Locally Generated Income',
+    'international-income': 'Actual International Income (Non-IPPF)',
+    'ippf-income': 'Actual IPPF Income'
+};
 
 async function fetchDataSet(year) {
   const values = {};
@@ -326,6 +331,23 @@ document.addEventListener("DOMContentLoaded", function () {
     $('.myContainer').show();
       // Localize content
       $('body').localize();
+      setTimeout(function() {
+      var tooltipKeyMap = [
+        // th headers
+        { selector: 'th[data-i18n="intro.restricted"]',           key: 'Restricted (Income)' },
+        { selector: 'th[data-i18n="intro.unrestricted"]',         key: 'Unrestricted (Income)' },
+        { selector: 'th[data-i18n="intro.total"]',                key: 'Total Contract Value' },
+        // td category headers
+        { selector: 'td[data-i18n="intro.locally-generated"]',    key: 'Actual Locally Generated Income' },
+        { selector: 'td[data-i18n="intro.international-income"]', key: 'Actual International Income (Non-IPPF)' },
+        { selector: 'td[data-i18n="intro.ippf-income"]',          key: 'Actual IPPF Income' }
+    ];
+      tooltipKeyMap.forEach(function(item) {
+        document.querySelectorAll(item.selector).forEach(function(el) {
+           el.setAttribute('data-tooltip-key', item.key);
+      });
+    });
+}, 150);
   }
 
   function displayContributor(dataValues, year) {
@@ -418,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     deficit = totalIncome-totalExpenses;
     totalsRow += `<tr>
-    <td colspan="3" align="right" data-i18n="intro.total_income_ar">Total Income</td>
+    <td colspan="3" align="right" data-i18n="intro.total_income_ar" data-tooltip-key="Total Income">Total Income</td>
     <td> <input type="text" 
     id='actual-income'
     value="${formatNumberInput(totalIncome)}" class="form-control input-budget currency" disabled></td>
@@ -430,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
     value="${formatNumberInput(totalExpenses)}" class="form-control input-budget currency" disabled></td>
   </tr>
   <tr>
-  <td colspan="3" align="right" data-i18n="intro.deficit">Deficit/Surplus: </td>
+  <td colspan="3" align="right" data-i18n="intro.deficit" data-tooltip-key="Deficit/Surplus">Deficit/Surplus: </td>
   <td> <input type="text" 
   id='deficit'
   style="background:${deficit >= 0 ? '#C1E1C1 !important':'#FAA0A0 !important'}" 
@@ -446,12 +468,13 @@ document.addEventListener("DOMContentLoaded", function () {
       <table class="table table-striped table-md mb-0 " width="100%">
       <tbody>`
       categoryIncome.forEach(category=> {
-        projectRows+= `<tr class="income-section-${category.format}"><td class="text-center income-category-header" colspan="4" data-i18n="intro.${category.format}">${category.name}</td></tr>
+        const categoryTooltipKey = tooltipKeyMap[category.format] || '';
+        projectRows+= `<tr class="income-section-${category.format}"><td class="text-center income-category-header" colspan="4" data-i18n="intro.${category.format}" data-tooltip-key="${categoryTooltipKey}">${category.name}</td></tr>
         <tr class="income-section-${category.format}">
         <th data-i18n="intro.incomeSubCategories">Income Sub-Categories </th>
         <th data-i18n="intro.restricted" class="text-center">Restricted</th>
         <th data-i18n="intro.unrestricted" class="text-center">Unrestricted</th>
-        <th data-i18n="intro.total" class="text-center">Total</th>
+        <th data-i18n="intro.total" class="text-center" data-tooltip-key="Total">Total</th>
         </tr>`
         category.options.forEach((option) => {
           var restrictedSelected = categoryIndex < 4 ? true : false;

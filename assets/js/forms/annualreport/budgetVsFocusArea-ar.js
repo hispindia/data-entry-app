@@ -421,10 +421,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           <thead>
                           <tr>
                             <th data-i18n="intro.focus_area">Focus Area</th>
-                            <th data-i18n="intro.budget">Budget</th>
-                            <th data-i18n="intro.actual_expense">Actual Expense</th>
-                            <th><span data-i18n="intro.variation">Variation </span> ($)</th>
-                            <th><span data-i18n="intro.total_spend">Total Spend </span> (%)</th>
+                            <th data-i18n="intro.budget" data-tooltip-key="Budget (Focus Area)">Budget</th>
+                            <th data-i18n="intro.actual_expense" data-tooltip-key="Actual Expenses (Focus Area)">Actual Expense</th>
+                            <th><span data-i18n="intro.variation" data-tooltip-key="Variance ($)">Variation </span> ($)</th>
+                            <th><span data-i18n="intro.total_spend" data-tooltip-key="Total Spend (%)">Total Spend </span> (%)</th>
                           </tr>
                           </thead>
                           <tbody>`;
@@ -528,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function () {
             focusAreaStatus[focusAreaVal.area] = true;
 
           projectRows += `<tr>
-          <td><span id="${newFocusAreaIndex[indexFA]}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+          <td><span id="${newFocusAreaIndex[indexFA]}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}" data-tooltip-key="${focusAreaVal.area}">${focusAreaVal.area}</span></td>
           <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -630,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
             focusAreaStatus[focusAreaVal.area] = true;
 
           projectRows += `<tr>
-          <td><span  id="${emptyFocusAreaIndex[indexFA]}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}">${focusAreaVal.area}</span></td>
+          <td><span  id="${emptyFocusAreaIndex[indexFA]}-area" data-i18n="intro.${focusAreaTranslation[focusAreaVal.area]}" data-tooltip-key="${focusAreaVal.area}">${focusAreaVal.area}</span></td>
           <td>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -887,7 +887,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let totalPercent = totalBudget && totalExpense/totalBudget && totalExpense/totalBudget!="Infinity" ? (totalExpense/totalBudget)*100:''
 
       rows += `<tr>
-          <td><span data-i18n="intro.${focusAreaTranslation[name]}">${name}</span></td>
+          <td><span data-i18n="intro.${focusAreaTranslation[name]}" data-tooltip-key="${name}">${name}</span></td>
           <td>
             <div class="input-group">
               <div class="input-group-prepend">

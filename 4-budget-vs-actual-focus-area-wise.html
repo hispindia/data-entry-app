@@ -269,10 +269,10 @@
                     <thead>
                       <tr>
                         <th data-i18n="intro.focus_area">Focus Area</th>
-                        <th data-i18n="intro.budget">Budget</th>
-                        <th data-i18n="intro.actual_expense">Actual Expense</th>
-                        <th><span data-i18n="intro.variation_focusarea">Variance ($)</span></th>
-                        <th><span data-i18n="intro.total_spend_focusarea">Total Spend (%)</span></th>
+                        <th data-i18n="intro.budget" data-tooltip-key="Budget (Focus Area)">Budget</th>
+                        <th data-i18n="intro.actual_expense" data-tooltip-key="Actual Expenses (Focus Area)">Actual Expense</th>
+                        <th data-tooltip-key="Variance ($)"><span data-i18n="intro.variation_focusarea">Variance ($)</span></th>
+                        <th data-tooltip-key="Total Spend (%)"><span data-i18n="intro.total_spend_focusarea">Total Spend (%)</span></th>
                       </tr>
                     </thead>
                     <tbody id="pivot-summary">
@@ -313,8 +313,9 @@
     }
 
 </script>
+    <script src="assets/js/tooltip_translation.js"></script>
     <script src="assets/js/glossary_translations.js"></script>
     <script src="assets/js/help-panel.js"></script>
 </body>
 
-</html>                                                                      
+</html>

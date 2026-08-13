@@ -178,6 +178,7 @@ const maxWords = 200;
 
       // Localize content
       $('body').localize();
+
   }
 
   function displayTotals(dataValues) {
@@ -323,8 +324,7 @@ const maxWords = 200;
         <div class="form-group col-md-12 textbox-wrap">
         <label for="${dataElements.projectExpenseCategory[index].variation}" ><span data-i18n="intro.variation_budget">
           Variation from total project budget</span>
-          <i class="fas fa-info-circle ml-1" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Difference in Budget provisioned for the project in the concerned year and the expenditure mentioned. Positive number indicates remaining budget and negative number indicates that the expenditure is more than the budget allocated for the project"></i>
-                        </label>
+          </label>
           <div>
           <div class="input-group">
             <div class="input-group-prepend">
