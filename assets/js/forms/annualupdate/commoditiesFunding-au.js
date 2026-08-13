@@ -59,6 +59,48 @@ import { showToast } from "../../utils.js";
       window.localStorage.setItem("annualYear", ev.target.value);
       fetchEvents();
     });
+        
+    $('.inventory, .invoice').on('change', async function() {
+        const dataElement = $(this).attr('id');
+        const elementValue = $(this).val();
+        
+        const className = $(this).hasClass('inventory') ? 'inventory' : 'invoice';
+
+        var disableElement = false;
+
+        $(`.${className}`).each(function() {
+            const id = $(this).attr('id');
+            const value =  $(this).val();
+
+            if (
+                value == "Other CMIS inventory module" ||
+                value == "LMIS / eLMIS" ||
+                value == "ERP system (e.g. SAP or similar)" ||
+                value == "Other"
+            ) {
+              disableElement = true;
+            }
+        });
+        if (className === 'inventory' && disableElement) {
+          $('#edMCiDifDaQ').prop('disabled', false);
+        } else {
+          $('#edMCiDifDaQ').prop('disabled', true);
+        }
+        if (className === 'invoice' && disableElement) {
+          $('#J4gT3zny2TG').prop('disabled', false);
+        } else {
+          $('#J4gT3zny2TG').prop('disabled', true);
+        }
+
+        await dataSet.post({
+          dataSetId: dataSetQuantity, 
+          co: "HllvX50cXC0", 
+          orgUnit: tei.orgUnit, 
+          period:  tei.year.value, 
+          dataElement,
+          value: elementValue,
+        });
+    });
 
  async function configurePage() {
     const user = await getUserConfig();
@@ -222,6 +264,31 @@ import { showToast } from "../../utils.js";
   // Function to populate program events data
   function populateProgramEvents(dataValues, dataValuesKD) {
     
+    //Shipment Details
+    $('.inventory, .invoice').each(function() {
+    const id = $(this).attr('id');
+    const value = dataValues[id] || '';
+
+    const className = $(this).hasClass('inventory')
+        ? 'inventory'
+        : 'invoice';
+
+    if (
+      value == "Other CMIS inventory module" ||
+      value == "LMIS / eLMIS" ||
+      value == "ERP system (e.g. SAP or similar)" ||
+      value == "Other"
+    ) {
+      if (className === 'inventory') {
+        $('#edMCiDifDaQ').prop('disabled', false);
+      } else if (className === 'invoice') {
+        $('#J4gT3zny2TG').prop('disabled', false);
+      }
+    }
+
+    $(this).val(value);
+});
+
     $('#push-button').empty();
     document.querySelectorAll('.textValue').forEach((textVal) => {
      if (dataValues[textVal.id]) {
