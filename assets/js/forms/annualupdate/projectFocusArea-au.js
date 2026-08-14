@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (newFocusAreaIndex[indexFA]) {
             var faValue = {};
             faValue = JSON.parse(dataValues[newFocusAreaIndex[indexFA]]) 
-            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}">${focusAreaOptions[indexFA].name}</td>
+            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]} data-tooltip-key="${focusAreaOptions[indexFA].name}"" data-tooltip-key="${focusAreaVal.area}">${focusAreaOptions[indexFA].name}</td>
                           <td>
                             <input 
                             type="text" 
@@ -539,7 +539,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         </td></tr>`
           } else {
             
-            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}">${focusAreaOptions[indexFA].name}</td>
+            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]} data-tooltip-key="${focusAreaOptions[indexFA].name}"">${focusAreaOptions[indexFA].name}</td>
                           <td>
                             <input 
                             type="text" 
@@ -583,7 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       </div>
                       <div class="form-row">
                         <div class="form-group col-md-12 textbox-wrap">
-                          <label for="${dataElements.projectFocusAreaNew[index].comment}"><span data-i18n="intro.comments">
+                          <label for="${dataElements.projectFocusAreaNew[index].comment}" data-tooltip-key="Comments (optional)"><span data-i18n="intro.comments">
                           Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
                           </label>
                           <textarea 
@@ -653,7 +653,7 @@ function buildPivotSummary() {
 
   focusAreaNames.forEach((name, index) => {
     tableRows += `<tr>
-    <td data-i18n="intro.${focusAreaTranslation[name]}">${name}</td>
+    <td data-i18n="intro.${focusAreaTranslation[name]}" data-tooltip-key="${name}">${name}</td>
     <td>
       <div class="input-group"><div class="input-group-prepend">
       <div class="input-group-text">$</div></div>

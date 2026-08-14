@@ -1007,31 +1007,11 @@ const tool_tip_glossary = [
     },
     {
     id: "def_estimated_likelihood",
-    en: `
-        <p>The Affiliate's assessment of how likely the project is to proceed as planned:</p>
-        <p><strong>Confirmed</strong> — Fully approved and funded; will proceed as planned.</p>
-        <p><strong>Likely</strong> — Expected to proceed but funding or approval not yet fully secured.</p>
-        <p><strong>Unlikely</strong> — May not proceed due to uncertainty around funding or other factors.</p>
-    `,
-    sp: `
-        <p>La evaluación de la filial sobre la probabilidad de que el proyecto se lleve a cabo según lo planeado:</p>
-        <p><strong>Confirmado</strong> — Totalmente aprobado y financiado; se llevará a cabo según lo planeado.</p>
-        <p><strong>Probable</strong> — Se espera que se lleve a cabo, pero la financiación o la aprobación aún no están totalmente aseguradas.</p>
-        <p><strong>Improbable</strong> — Es posible que no se lleve a cabo debido a la incertidumbre en torno a la financiación u otros factores.</p>
-    `,
-    fr: `
-        <p>Évaluation par l’affilié de la probabilité que le projet se déroule comme prévu :</p>
-        <p><strong>Confirmé</strong> — Entièrement approuvé et financé ; se déroulera comme prévu.</p>
-        <p><strong>Probable</strong> — Devrait se dérouler comme prévu, mais le financement ou l’approbation ne sont pas encore entièrement garantis.</p>
-        <p><strong>Peu probable</strong> — Risque de ne pas se dérouler comme prévu en raison d’incertitudes concernant le financement ou d’autres facteurs.</p>
-    `,
-    ar: `
-        <p>تقييم الفرع لمدى احتمالية تنفيذ المشروع كما هو مخطط له:</p>
-        <p><strong>مؤكد</strong> — تمت الموافقة عليه وتمويله بالكامل؛ سيتم تنفيذه كما هو مخطط له.</p>
-        <p><strong>محتمل</strong> — من المتوقع أن يتم تنفيذه ولكن التمويل أو الموافقة لم يتم تأمينهما بالكامل بعد.</p>
-        <p><strong>غير محتمل</strong> — قد لا يتم تنفيذه بسبب عدم اليقين بشأن التمويل أو عوامل أخرى.</p>
-    `,
-    },
+    en: "The Affiliate's assessment of how likely the project is to proceed as planned: Confirmed — Fully approved and funded; will proceed as planned. Likely — Expected to proceed but funding or approval not yet fully secured. Unlikely — May not proceed due to uncertainty around funding or other factors.",
+    sp: "La evaluación de la filial sobre la probabilidad de que el proyecto se lleve a cabo según lo planeado: Confirmado — Totalmente aprobado y financiado; se llevará a cabo según lo planeado. Probable — Se espera que se lleve a cabo, pero la financiación o la aprobación aún no están totalmente aseguradas. Improbable — Es posible que no se lleve a cabo debido a la incertidumbre en torno a la financiación u otros factores.",
+    fr: "Évaluation par l’affilié de la probabilité que le projet se déroule comme prévu : Confirmé — Entièrement approuvé et financé ; se déroulera comme prévu. Probable — Devrait se dérouler comme prévu, mais le financement ou l’approbation ne sont pas encore entièrement garantis. Peu probable — Risque de ne pas se dérouler comme prévu en raison d’incertitudes concernant le financement ou d’autres facteurs.",
+    ar: "تقييم الفرع لمدى احتمالية تنفيذ المشروع كما هو مخطط له: مؤكد — تمت الموافقة عليه وتمويله بالكامل؛ سيتم تنفيذه كما هو مخطط له. محتمل — من المتوقع أن يتم تنفيذه ولكن التمويل أو الموافقة لم يتم تأمينهما بالكامل بعد. غير محتمل — قد لا يتم تنفيذه بسبب عدم اليقين بشأن التمويل أو عوامل أخرى."
+},
     {
     id: "def_comments",
     en: "A free-text field (up to 200 words) for any additional context about the project budget, funding status, or assumptions made in the financial planning.",

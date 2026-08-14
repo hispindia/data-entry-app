@@ -423,8 +423,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             <th data-i18n="intro.focus_area">Focus Area</th>
                             <th data-i18n="intro.budget" data-tooltip-key="Budget (Focus Area)">Budget</th>
                             <th data-i18n="intro.actual_expense" data-tooltip-key="Actual Expenses (Focus Area)">Actual Expense</th>
-                            <th><span data-i18n="intro.variation" data-tooltip-key="Variance ($)">Variation </span> ($)</th>
-                            <th><span data-i18n="intro.total_spend" data-tooltip-key="Total Spend (%)">Total Spend </span> (%)</th>
+                            <th data-i18n="intro.variation" data-tooltip-key="Variance ($)">Variation ($)</th>
+                            <th data-i18n="intro.total_spend" data-tooltip-key="Total Spend (%)">Total Spend (%)</th>
                           </tr>
                           </thead>
                           <tbody>`;

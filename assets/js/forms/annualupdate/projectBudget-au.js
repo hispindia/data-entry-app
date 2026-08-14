@@ -269,10 +269,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <table class="table table-striped table-md mb-0 " width="100%">
               <thead>
                 <tr>
-                  <th data-i18n="intro.basic_project_budget">Basic Project Budget</th>
-                  <th data-i18n="intro.core_funding">IPPF Core Funding Allocated</th>
-                  <th data-i18n="intro.total_budget">Total Annual Budget</th>
-                  <th data-i18n="intro.estimated_likelihood" >Estimated Likelihood</th>
+                  <th data-i18n="intro.basic_project_budget" data-tooltip-key="Basic Project Budget">Basic Project Budget</th>
+                  <th data-i18n="intro.core_funding" data-tooltip-key="IPPF Core Funding Allocated">IPPF Core Funding Allocated</th>
+                  <th data-i18n="intro.total_budget" data-tooltip-key="Total Annual Budget">Total Annual Budget</th>
+                  <th data-i18n="intro.estimated_likelihood" data-tooltip-key="Estimated Likelihood">Estimated Likelihood</th>
                 </tr>
               </thead>
               <tbody>`
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <div class="form-row">
                   <div class="form-group col-md-12 textbox-wrap">
-                  <label for=""><span data-i18n="intro.comments">
+                  <label for="" data-tooltip-key="Comments (optional)"><span data-i18n="intro.comments">
                   Comments</span> (<small class="text-muted ml-1" data-i18n="intro.optional">optional</small>)
                   </label>
                     <textarea class="form-control-resize textlimit" ${tei.disabled ? 'disabled readonly': ''} data-count="${index}" id="${dataElements.projectBudget[index].comment}">${(dataValues[dataElements.projectBudget[index].comment] ? dataValues[dataElements.projectBudget[index].comment] : '')}</textarea>
