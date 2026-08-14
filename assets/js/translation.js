@@ -971,10 +971,10 @@ const translation_mapping = [
     // created by MN with sheet translation
     {
         id: "youth_leadership",
-        en: "Ques 5. SMART Outcomes",
-        sp: "5. Resultados SMART",
-        fr: "5. Résultats SMART",
-        ar: "5. نتائج واضحة وقابلة للقياس ويمكن تحقيقها ووثيقة الصلة ومحددة بوقت (SMART)"
+        en: "4. SMART Outcomes",
+        sp: "4. Resultados SMART",
+        fr: "4. Résultats SMART",
+        ar: "4. نتائج واضحة وقابلة للقياس ويمكن تحقيقها ووثيقة الصلة ومحددة بوقت (SMART)"
     },
     {
         id: "describe_youth_leadership_para1",
@@ -1021,10 +1021,10 @@ const translation_mapping = [
     },
     {
         id: "challenges",
-        en: "Challenges",
-        sp: "Desafíos",
-        fr: "Problèmes",
-        ar: 'التحديات'
+        en: "2. Challenges",
+        sp: "2. Desafíos",
+        fr: "2. Problèmes",
+        ar: "2. التحديات"
     },
     {
         id: "opportunities",
@@ -3826,10 +3826,10 @@ const translation_mapping = [
     },
     {
         id: "most_effective",
-        en: "4. Most effective strategies / approaches",
-        sp: "4. Estrategias / métodos más efectivos",
-        fr: "4. Stratégies / approches les plus efficaces",
-        ar: '4. الاستراتيجيات / النُهج الأكثر فعالية'
+        en: "3. Most effective strategies / approaches",
+        sp: "3. Estrategias / métodos más efectivos",
+        fr: "3. Stratégies / approches les plus efficaces",
+        ar: '3. الاستراتيجيات / النُهج الأكثر فعالية'
     },
     {
         id: "most_effective_info",
