@@ -9,8 +9,9 @@ var combinedCost = 0;
 var unrestrictedCost = 0;
 
 var freightCostT1 = 1;
-var freightCostT2 =  0.4;
-var freightCostT3 = 0.25;
+var freightCostT2 =  0.5;
+var freightCostT3 = 0.4;
+var freightCostT4 = 0.3;
 
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to each list item
@@ -397,8 +398,10 @@ function calculateFreightCost(cost) {
     }
     else if(cost > 1000 && cost <= 4999) {
       value = freightCostT2 * cost;
-    } else {
+    } else if(cost > 5000 && cost <= 9999) {
       value = freightCostT3 * cost;
+    }else {
+      value = freightCostT4 * cost;
     }
   }
   return value;
