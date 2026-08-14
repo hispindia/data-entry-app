@@ -913,10 +913,10 @@ const translation_mapping = [
     },
     {
         id: "des_curr_high_level",
-        en: "Describe your current high-level strategy or theory of change. How does it respond to your local needs and context described above? What are its key components and activities, and how will you operationalize it?",
-        sp: "Describa su actual estrategia de alto nivel o teoría del cambio. ¿De qué forma da respuesta a sus necesidades locales y al contexto que se describieron antes? ¿Cuáles son sus componentes y actividades principales, y cómo los pondrán en práctica?",
-        fr: "Décrivez votre stratégie de haut niveau ou votre théorie du changement actuelle. Dans quelle mesure répond-elle à vos besoins locaux et à votre contexte tels que décrits ci-dessus ? Quels en sont les principaux composants et les principales activités et comment allez-vous la mettre en pratique ?",
-        ar: "وضح نظريتكم في التغيير أو إستراتيجيتكم الحالية رفيعة المستوى. كيف تلبي هذه الاستراتيجية احتياجاتكم المحلية في ضوء السياق المذكور أعلاه؟ ما هي عناصرها وأنشطتها الرئيسية، وكيف تقومون بتفعيلها؟"
+        en: "Describe the strategic action that you will take to address the challenges that you have identified in the section above (Country Context). Please describe the type of activities that will be required to bring about the desired change. (Please also consider how these relate to your long-term SMART outcomes listed below).",
+        sp: "Describe las medidas estratégicas que vas a adoptar para abordar los retos que has identificado en la sección anterior (Contexto del país). Describe el tipo de actividades que serán necesarias para lograr el cambio deseado. (Ten en cuenta también cómo se relacionan estas con tus resultados SMART a largo plazo que se enumeran a continuación).",
+        fr: "Décrivez les mesures stratégiques que vous comptez mettre en œuvre pour relever les défis que vous avez identifiés dans la section ci-dessus (Contexte national). Veuillez décrire le type d’activités qui seront nécessaires pour aboutir au changement souhaité. (Veuillez également indiquer en quoi celles-ci s’inscrivent dans le cadre de vos résultats SMART à long terme énumérés ci-dessous).",
+        ar: 'صف الإجراءات الاستراتيجية التي ستتخذها لمواجهة التحديات التي حددتها في القسم أعلاه (السياق القطري). يرجى وصف نوع الأنشطة التي ستكون مطلوبة لإحداث التغيير المنشود. (يرجى أيضًا النظر في كيفية ارتباط هذه الأنشطة بنتائجك طويلة الأجل وفقًا لمعايير SMART المذكورة أدناه).'
     },
     {
         id: "outline_how_align_with_ippf",
@@ -1000,10 +1000,10 @@ const translation_mapping = [
     // created by MN 
     {
         id: "describe_youth_Leadership",
-        en: "Describe the process followed to ensure youth decided 5% of your core funding. Please list the projects that will be youth led and/or have youth involvement.",
-        sp: "Describa el proceso seguido para garantizar que la juventud decida sobre el 5 % del financiamiento básico. Enumere los proyectos que serán liderados por la juventud o en los que participarán.",
-        fr: "Décrivez la démarche que vous avez adoptée pour faire en sorte que les jeunes décident de 5 % de votre financement de base. Veuillez énumérer les projets qui seront dirigés par des jeunes et/ou auxquels des jeunes participeront.",
-        ar: "وضح الإجراءات التي تلتزمون بها لضمان حصول الشباب على 5٪ من تمويلكم الأساسي. نرجو إيضاح المشاريع التي سيقودها الشباب و/أو التي يشارك فيها الشباب."
+        en: "Describe the process followed to ensure youth decided 5% of your core funding.",
+        sp: "Describa el proceso seguido para garantizar que la juventud decida sobre el 5 % del financiamiento básico.",
+        fr: "Décrivez la démarche que vous avez adoptée pour faire en sorte que les jeunes décident de 5 % de votre financement de base.",
+        ar: "وضح الإجراءات التي تلتزمون بها لضمان حصول الشباب على 5٪ من تمويلكم الأساسي."
     },
     {
         id: "organisational_status",
@@ -3146,13 +3146,12 @@ const translation_mapping = [
         ar: "مدة المنحة"
     },
     {
-        id: "total_funding_donor",
-        en: "Total added funding from donor -",
-        sp: "Financiamiento total aportado por el donante -",
-        fr: "Montant total du financement supplémentaire apporté par le donateur -",
-        ar: "إجمالي التمويل الإضافي المقدم من الجهة المانحة -"
+    id: "total_funding_donor",
+    en: "Unlocked Funding",
+    sp: "Financiamiento desbloqueado",
+    fr: "Financement débloqué",
+    ar: "التمويل المفتوح"
     },
-
     {
         id: "add_new_donor",
         en: "Add New Donor",
@@ -3176,11 +3175,11 @@ const translation_mapping = [
     },
     //3.3 Value add of core funding
     {
-        id: "amount_unlocked",
-        en: "Amount Unlocked",
-        sp: "Cantidad bloqueada",
-        fr: "Montant bloqué",
-        ar: 'المبلغ مفتوح'
+    id: "amount_unlocked",
+    en: "Total Amount Unlocked",
+    sp: "Cantidad total desbloqueada",
+    fr: "Montant total débloqué",
+    ar: "إجمالي المبلغ المفتوح"
     },
     {
         id: "value_add_title",
