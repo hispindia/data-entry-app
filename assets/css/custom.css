@@ -430,11 +430,27 @@ a{cursor:pointer;}
 .card--border-left-primary {
     border-left: 4px solid hsl(var(--primary));
 }
-.info-card__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+.info-cards-grid.info-cards-grid--stacked {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 1.5rem !important;
+}
+
+.info-cards-grid.info-cards-grid--stacked > .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+}
+
+/* Notice Board - TOP */
+.info-cards-grid.info-cards-grid--stacked > .card:first-child {
+    order: 1 !important;
+}
+
+/* Now Active - BOTTOM */
+.info-cards-grid.info-cards-grid--stacked > .card:nth-child(2) {
+    order: 2 !important;
 }
 .info-card-header {
   display: flex;

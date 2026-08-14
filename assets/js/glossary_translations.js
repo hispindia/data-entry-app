@@ -2191,11 +2191,11 @@ const translation_mapping_ar_glossary = [
     // Section 2: Glossary definition translations (tid)
     // ─────────────────────────────────────────────
     {
-        id: "strategic_period_definition",
-        en: "The multi-year timeframe covered by the Affiliate's current strategic plan, defined by a start year and an end year.",
-        sp: "El plazo plurianual que abarca el plan estratégico actual de la filial, definido por un año de inicio y un año de finalización.",
-        fr: "La période pluriannuelle couverte par le plan stratégique actuel de l'affilié, définie par une année de début et une année de fin.",
-        ar: "الإطار الزمني متعدد السنوات الذي تغطيه الخطة الاستراتيجية الحالية للشركة التابعة، والمحدد بسنة بدء وسنة انتهاء."
+        id: "def_strategic_period",
+        en: "The years that your current strategy is active. Please indicate the date that it comes into effect, and the date it stops being active (when a new strategy takes effect).",
+        sp: "Los años durante los que estará vigente su estrategia actual. Indique, por favor, la fecha en la que comienza a surtir efecto y la fecha en la que deja de estar vigente (cuando entre en vigor una nueva estrategia).",
+        fr: "La durée de validité de votre stratégie actuelle. Veuillez indiquer la date à laquelle elle entre en vigueur et la date à laquelle elle cesse d’être en vigueur (lorsqu’une nouvelle stratégie prend effet).",
+        ar:"Ar: السنوات التي ستظل خلالها استراتيجيتك الحالية سارية المفعول. يرجى تحديد تاريخ بدء سريانها، وتاريخ انتهاء سريانها (عندما تدخل استراتيجية جديدة حيز التنفيذ)."
     },
     {
     id: "def_narrative_plan",
@@ -2248,10 +2248,10 @@ const translation_mapping_ar_glossary = [
     },
     {
     id: "def_branches",
-    en: "An indication of whether the Affiliate operates regional or local branch offices. If yes, the total number of branches is required.",
-    sp: "Una indicación de si la filial cuenta con sucursales regionales o locales. En caso afirmativo, se debe indicar el número total de sucursales.",
-    fr: "Indiquez si l'affilié dispose de succursales régionales ou locales. Si oui, veuillez préciser le nombre total de succursales.",
-    ar: "بيان ما إذا كان الشريك التابع يدير فروعًا إقليمية أو محلية. في حالة الإجابة بـ«نعم»، يُطلب ذكر العدد الإجمالي للفروع.",
+    en: "A 'branch' refers to an arm or subsidiary of our organisation that is located in different location than your main or central office (e.g. different neighbourhood, town, city or region).",
+    sp: "Una «sucursal» se refiere a una filial o sucursal de nuestra organización que se encuentra en un lugar distinto al de nuestra oficina principal o central (por ejemplo, en otro barrio, pueblo, ciudad o región).",
+    fr: "Une « succursale » désigne une antenne ou une filiale de notre organisation située dans un lieu différent de celui de votre siège social ou de votre bureau central (par exemple, dans un autre quartier, une autre ville ou une autre région).",
+    ar: "يشير مصطلح «فرع» إلى جناح أو فرع تابع لمنظمتنا يقع في مكان مختلف عن المكتب الرئيسي أو المركزي (مثل حي أو بلدة أو مدينة أو منطقة مختلفة).",
     },
     {
     id: "def_key_documents",

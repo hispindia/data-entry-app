@@ -66,7 +66,7 @@
     'Context Shifts and Operational Environment': { nid:'context_events', tid:'context_events' },
     'Results & Achievements': { nid:'results_achivements', tid:'results_and_achievements' },
     'Strategic Pillar': { nid_g:'name_strategic_pillar', tid:'def_strategic_pillar' },
-    'Strategic Period': { nid:'strategic_period', tid:'strategic_period_definition'},
+    'Strategic Period': { nid:'strategic_period', tid:'def_strategic_period'},
     'Total Number of Fixed Staff': { nid_g:'total_number_fixed_staff', tid:'def_total_number_fixes_staff'},
     'Total Number of Volunteers (excluding governance)': { nid_g:'total_number_volunteers', tid:'def_total_number_volunteers'},
     'Type of Organisation': { nid_g:'type_of_org', tid:'def_type_of_org'},
@@ -250,8 +250,8 @@
     'Actual Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
     'Add new project': { nid:'new_project', tid:'new_project' },
     'Address': { nid:'address_name', tid:'address_definition' },
-    'Advocacy Priority 1': { nid:'advocacy_priority_1', tid:'def_advocacy_priority_1' },
-    'Advocacy Priority 2': { nid:'advocacy_priority_2', tid:'def_advocacy_priority_2' },
+    'Advocacy priority 1 (choose most relevant)': { nid:'advocacy_priority_1', tid:'def_advocacy_priority_1' },
+    'Advocacy priority 2 (chose most relevant)': { nid:'advocacy_priority_2', tid:'def_advocacy_priority_2' },
     'Affiliate': { nid:'affiliate_term', tid:'affiliate' },
     'Affiliate Code': { nid:'organisation_code', tid:'affiliate_code' },
     'Annual Project Income': { nid:'annual_project_income_name_2.1', tid:'def_annual_project_income' },
@@ -281,7 +281,7 @@
     'Description of Project': { nid:'description_of_project_name_2.1', tid:'def_description_of_project' },
     'Direct Project Activities': { nid:'activities', tid:'def_direct_project_activities' },
     'Direct Project Activities': { nid:'direct_project_activities_2.4', tid:'def_direct_project_activities' },
-
+    'Director of M&E (or equivalent)': {nid: 'director_me', tid: 'def_director_me'},
     'Director of Finance': { nid:'director_finance', tid:'director_of_finance' },
     'Director of Finance (or equivalent)': { nid_g:'director_finance_equivalent', tid:'director_finance_equivalent_definition' },
     'Director of Programmes (or equivalent)': { nid:'director_programmes', tid:'director_programmes_definition' },
@@ -323,8 +323,8 @@
     'Local/National: Government': { nid:'local-government', tid:'local_national_government' },
     'Local/National: Non-Government': { nid:'local-nongovernment', tid:'local_national_non_government' },
     'Locally Generated Income': { nid:'locally-generated', tid:'locally_generated_income' },
-    'MA': { nid:'MA_Name', tid:'affiliate' },
-    'MA-ID': { nid:'organisation_code', tid:'affiliate_code' },
+    'Affiliate': { nid:'affiliate_name', tid:'affiliate' },
+    'Affiliate-ID': { nid:'affiliate_id', tid:'affiliate_code' },
     'Main Technical Assistance / Capacity': { nid_g:'main_technical_assistance_capacity', tid:'def_main_technical_assistance_capacity' },
     'Management Letter (Audit Report)': { nid:'key_management', tid:'management_letter_audit_report_definition' },
     'Marginalised Populations': { nid_g:'name_marginalised_populations', tid:'def_marginalised_populations' },
@@ -377,7 +377,7 @@
     'Serious Risk Identified': { nid:'serious_risk_identified', tid:'serious_risk_identified' },
     'Solidarity for Change:': { nid:'solidarity', tid:'def_solidarity_for_change' },
     'Start Date:': { nid:'start_date', tid:'def_start_date' },
-    'Strategic Period': { nid:'strategic_period', tid:'strategic_period_definition' },
+    'Strategic Period:': { nid:'strategic_period', tid:'def_strategic_period' },
     'Strategic Pillar': { nid_g:'name_strategic_pillar', tid:'def_strategic_pillar' },
     'Sustainability Challenges': { nid_g:'sustainability_challenges', tid:'def_sustainability_challenges' },
     'Technical Assistance': { nid_g:'technical_assistance', tid:'def_technical_assistance' },
@@ -406,7 +406,7 @@
     'Youth': { nid_g:'name_youth', tid:'def_youth' },
     'Year': { nid: 'year', tid: 'def_year'},
     'Youth Board Member': { nid:'youth_board_member', tid:'youth_board_member_definition' },
-    'Youth Group or Networks': { nid_g:'youth_group_or_networks', tid:'def_youth_group_or_networks' },
+    'Youth Group or Networks': { nid:'youth_group_or_networks', tid:'def_youth_group_or_networks' },
 };
 
   function _getCurrentLang() {
@@ -639,7 +639,7 @@ const GLOSSARY = [
     {name: 'Director of Finance (or equivalent)', def: "The senior staff member responsible for financial management, budgeting, reporting, and compliance within the Affiliate.", scopes: ['annual-business-plan'], sec:"sec1", tag: "contact information"},
 
     //annual business plan - org data
-    {name: "Strategic Period", def: "The multi-year timeframe covered by the Affiliate's current strategic plan, defined by a start year and an end year.", scopes: ['annual-business-plan'], sec: "sec1", tag: "organization data"},
+    {name: "Strategic Period", def: "The years that your current strategy is active. Please indicate the date that it comes into effect, and the date it stops being active (when a new strategy takes effect).", scopes: ['annual-business-plan'], sec: "sec1", tag: "organization data"},
     {name: "Total Number of Fixed Staff", def: "The total count of paid employees on a formal employment contract with the Affiliate at the time of reporting.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     {name: "Total Number of Volunteers (excluding governance)", def: "The total count of unpaid volunteers actively contributing to the Affiliate's work, excluding board and governance member", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},
     {name: "Type of Organisation", def: "The legal or structural classification of the Affiliate. Options include: Not-for-Profit NGO or Charity; Not-for-profit Membership Organisation or Network; Parastatal / State Joint Venture; For-profit Organisation; Community-based Organisation; Other.", scopes: ['annual-business-plan'],sec: "sec1", tag: "organization data"},

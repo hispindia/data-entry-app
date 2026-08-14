@@ -279,59 +279,17 @@
           </div>
         </section>
         <!-- ══════ End Timeline ══════ -->
-
-        <section class="info-cards-grid mt-4" style="grid-template-columns: repeat(2, 1fr);">
-        <!-- Now Active -->
-        <div class="card card--border-left-primary">
-          <div class="card-content">
-            <div class="info-card-header">
-              <svg class="icon icon--md"><use href="#icon-activity"/></svg>
-              <h3 class="info-card-title" data-i18n="intro.now_active">Now Active</h3>
-            </div>
-             <p style="font-size:0.875rem;font-weight:500;margin-bottom:1rem" data-i18n="intro.annual_business_plan_2027">Annual Business Plan 2027</p>
-            <div class="progress-item">
-              <div class="progress-item-header">
-                <span class="progress-item-label" data-i18n="intro.mas_commenced_2027">MAs Commenced</span>
-                <span class="progress-item-value" id="mas_commenced" style="color: red;"></span>
-              </div>
-              <div class="progress"><div class="progress-bar" style="width:0%"></div></div>
-            </div>
-            <div class="progress-item">
-              <div class="progress-item-header">
-                <span class="progress-item-label" data-i18n="intro.final_business_plan">Final Business Plan Submitted</span>
-                <span class="progress-item-value" id="finalized_business" style="color: red;"></span>
-              </div>
-              <div class="progress"><div class="progress-bar businessPlan-per" style="width:0%"></div>
-            </div>
-            </div>
-            <br/>
-            <br/>
-            <p style="font-size:0.875rem;font-weight:500;margin-bottom:1rem" data-i18n="intro.half_yearly_2026">Half-Yearly Report 2026</p>
-            <div class="progress-item">
-              <div class="progress-item-header">
-                <span class="progress-item-label" data-i18n="intro.mas_commenced_2026">MAs Commenced</span>
-                <span class="progress-item-value" id="mas_commenced" style="color: red;"></span>
-              </div>
-              <div class="progress"><div class="progress-bar" style="width:0%"></div></div>
-            </div>
-            <div class="progress-item">
-              <div class="progress-item-header">
-                <span class="progress-item-label" data-i18n="intro.finalized_reporting">Finalized Reporting</span>
-                <span class="progress-item-value" id="finalized_reporting" style="color: red;"></span>
-              </div>
-              <div class="progress"><div class="progress-bar reporting" style="width:0%"></div>
-            </div>
-            </div>
-          </div>
-        </div>
-
+      <section class="info-cards-grid info-cards-grid--stacked mt-4">
         <!-- Notice Board -->
         <div class="card">
           <div class="card-content">
             <div class="info-card-header">
-              <svg class="icon icon--md"><use href="#icon-bell"/></svg>
+              <svg class="icon icon--md">
+                <use href="#icon-bell"/>
+              </svg>
               <h3 class="info-card-title">Notice Board</h3>
             </div>
+
             <div class="space-y-3">
               <div class="notice-item notice-item--stacked">
                 <div class="notice-language-entry" data-lang="en">
@@ -352,15 +310,160 @@
                 </div>
               </div>
             </div>
-            <!-- FAQ now inside card-content -->
-            <!-- <a href="#" class="faq-link">
-              <svg class="icon"><use href="#icon-help-circle"/></svg> FAQs
-            </a> -->
           </div>
         </div>
-      </section>
+        <!-- Now Active -->
+        <div class="card card--border-left-primary">
 
+          <div class="card-content">
+
+            <div class="info-card-header">
+              <svg class="icon icon--md">
+                <use href="#icon-activity"/>
+              </svg>
+
+              <h3 class="info-card-title"
+                  data-i18n="intro.now_active">
+                Now Active
+              </h3>
+            </div>
+
+
+            <!-- Annual Business Plan 2027 -->
+            <p
+              style="font-size:0.875rem;font-weight:500;margin-bottom:1rem"
+              data-i18n="intro.annual_business_plan_2027">
+              Annual Business Plan 2027
+            </p>
+
+
+            <div class="progress-item">
+
+              <div class="progress-item-header">
+
+                <span
+                  class="progress-item-label"
+                  data-i18n="intro.mas_commenced_2027">
+                  MAs Commenced
+                </span>
+
+                <span
+                  class="progress-item-value"
+                  id="mas_commenced"
+                  style="color: red;">
+                </span>
+
+              </div>
+
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  style="width:0%">
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span
+                  class="progress-item-label"
+                  data-i18n="intro.final_business_plan">
+                  Final Business Plan Submitted
+                </span>
+
+                <span
+                  class="progress-item-value"
+                  id="finalized_business"
+                  style="color: red;">
+                </span>
+
+              </div>
+
+              <div class="progress">
+                <div
+                  class="progress-bar businessPlan-per"
+                  style="width:0%">
+                </div>
+              </div>
+
+            </div>
+
+
+            <br/>
+            <br/>
+
+
+            <!-- Half-Yearly Report 2026 -->
+            <p
+              style="font-size:0.875rem;font-weight:500;margin-bottom:1rem"
+              data-i18n="intro.half_yearly_2026">
+              Half-Yearly Report 2026
+            </p>
+
+
+            <div class="progress-item">
+
+              <div class="progress-item-header">
+
+                <span
+                  class="progress-item-label"
+                  data-i18n="intro.mas_commenced_2026">
+                  MAs Commenced
+                </span>
+
+                <span
+                  class="progress-item-value"
+                  id="mas_commenced"
+                  style="color: red;">
+                </span>
+
+              </div>
+
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  style="width:0%">
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="progress-item">
+
+              <div class="progress-item-header">
+
+                <span
+                  class="progress-item-label"
+                  data-i18n="intro.finalized_reporting">
+                  Finalized Reporting
+                </span>
+
+                <span
+                  class="progress-item-value"
+                  id="finalized_reporting"
+                  style="color: red;">
+                </span>
+
+              </div>
+
+              <div class="progress">
+                <div
+                  class="progress-bar reporting"
+                  style="width:0%">
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
       </section>
+      
+    </section>
     <div class="mt-5"></div>
     </div>
         

@@ -661,9 +661,9 @@ function calculateTotals(idx, expenseId) {
 
     var categoryNames = [
       { name: 'Personnel', i18n: 'intro.personnel' },
-      { name: 'Direct project activities', i18n: 'intro.activities' },
+      { name: 'Direct Project Activities', i18n: 'intro.activities' },
       { name: 'Commodities', i18n: 'intro.commodities' },
-      { name: 'Indirect/ support costs', i18n: 'intro.indirect' }
+      { name: 'Indirect/support costs', i18n: 'intro.indirect' }
     ];
 
     var rows = '';
@@ -691,7 +691,7 @@ function calculateTotals(idx, expenseId) {
 
 
       rows += `<tr>
-        <td class="pivot-focus-area-name"><strong data-i18n="${cat.i18n}">${cat.name}</strong></td>
+        <td class="pivot-focus-area-name"><strong data-i18n="${cat.i18n}" data-tooltip-key="${cat.tooltip}">${cat.name}</strong></td>
         <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
           <input type="text" value="${formatNumberInput(totalBudget)}" class="form-control currency" disabled readonly></div></td>
         <td><div class="input-group"><div class="input-group-prepend"><div class="input-group-text">$</div></div>
