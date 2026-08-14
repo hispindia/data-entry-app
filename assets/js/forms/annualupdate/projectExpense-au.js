@@ -249,10 +249,10 @@ const maxWords = 200;
           >
             <thead id="project-head">
               <tr>
-                <th data-tooltip-key="Personnel"><strong data-i18n="intro.personnel">Personnel</strong></th>
-                <th data-tooltip-key="Direct Project Activities"><strong data-i18n="intro.activities">Direct project activities</strong></th>
-                <th data-tooltip-key="Commodities"><strong data-i18n="intro.commodities">Commodities</strong></th>
-                <th data-tooltip-key="Indirect/support costs"><strong data-i18n="intro.indirect">Indirect/support costs</strong></th>
+                <th><strong data-tooltip-key="Personnel" data-i18n="intro.personnel">Personnel</strong></th>
+                <th><strong data-tooltip-key="Direct Project Activities" data-i18n="intro.activities">Direct project activities</strong></th>
+                <th><strong data-tooltip-key="Commodities" data-i18n="intro.commodities">Commodities</strong></th>
+                <th><strong data-tooltip-key="Indirect/support costs" data-i18n="intro.indirect">Indirect/support costs</strong></th>
               </tr>
             </thead>
             <tbody>
