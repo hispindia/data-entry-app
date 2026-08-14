@@ -235,7 +235,7 @@
     '3. Most Effective Strategies / Approaches': { nid:'most_effective', tid:'def_most_effective_strategies_approaches' },
     '5. Care: Digital Health Intervention and Selfcare': { nid:'focus_area_5', tid:'def_care_digital_health_intervention_and_selfcare' },
     '6. Advocacy': { nid:'focus_area_6', tid:'def_advocacy' },
-    '6. Learning': { nid:'learning', tid:'def_learning' },
+    '5. Learning': { nid:'learning', tid:'def_learning' },
     '7. CSE': { nid:'focus_area_7', tid:'def_cse_comprehensive_sexuality_education' },
     '8. CSE Online, including social media': { nid:'focus_area_8', tid:'def_cse_online_including_social_media' },
     '9. Partnerships and Movements: capacity-sharing, amplifying messages, and sub-granting': { nid:'name_partnerships_and_movements', tid:'def_partnerships_and_movements' },

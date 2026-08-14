@@ -3854,10 +3854,10 @@ const translation_mapping = [
     },
     {
         id: "learning",
-        en: "6. Learning",
-        sp: "6. Aprendizaje",
-        fr: "6. Apprentissage",
-        ar: '6. التعلم.'
+        en: "5. Learning",
+        sp: "5. Aprendizaje",
+        fr: "5. Apprentissage",
+        ar: '5. التعلم.'
     },
     {
         id: "learning_info",

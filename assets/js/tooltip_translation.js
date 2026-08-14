@@ -2627,10 +2627,10 @@ const tool_tip_glossary = [
     // Step 6
     {
         id: "instr_sec2_step6_label",
-        en: "Learning",
-        sp: "Aprendizaje",
-        fr: "Apprentissage",
-        ar: "التعلم",
+        en: "5. Learning",
+        sp: "5. Aprendizaje",
+        fr: "5. Apprentissage",
+        ar: "5. التعلم",
     },
     {
         id: "instr_sec2_step6_title",
