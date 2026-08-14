@@ -58,24 +58,24 @@ const translation_mapping = [
     },
      {
         id: "grant_amount",
-        en: "Formula-generated proposed grant amount (Year 1) (USD)",
-        sp: "Monto de la subvención generado por fórmula (Año 1) (USD)",
-        fr: "Montant de la subvention proposée tel qu’établi par la formule (Année 1) (USD)",
-        ar: 'المبلغ المقترح للمنحة حسب المعادلة التمويلية (السنة الأولى) (بالدولار الأمريكي)'
+        en: "Formula-generated proposed grant amount (USD)",
+        sp: "Monto de la subvención generado por fórmula  (USD)",
+        fr: "Montant de la subvention proposée tel qu’établi par la formule  (USD)",
+        ar: 'المبلغ المقترح للمنحة حسب المعادلة التمويلية (بالدولار الأمريكي)'
     },
     {
         id: "grant_amount_year2",
         en: "Formula-generated proposed grant amount (Year 2) (USD)",
         sp: "Monto de la subvención generado por fórmula (Año 2) (USD) (sólo 75% asegurado)",
         fr: "Montant de la subvention établi par la formule (Année 2) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة (السنة الثانية) (بالدولار الأمريكي)',
+        ar: 'المبلغ المقرر للمنحة حسب المعادلة  (بالدولار الأمريكي)',
     },
     {
         id: "grant_amount_year3",
-        en: "Provisional formula-generated grant amount (Year 3) (USD)",
-        sp: "Monto PROVISIONAL de la subvención generado por fórmula (Año 3) (USD) (sólo 75% asegurado)",
-        fr: "Montant de la subvention PROVISOIRE tel qu’établi par la formule (Année 3) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة المؤقتة (السنة الثالثة) (بالدولار الأمريكي)',
+        en: "Provisional formula-generated grant amount (USD)",
+        sp: "Monto PROVISIONAL de la subvención generado por fórmula (USD) (sólo 75% asegurado)",
+        fr: "Montant de la subvention PROVISOIRE tel qu’établi par la formule (USD)",
+        ar: 'المبلغ المقرر للمنحة حسب المعادلة المؤقتة (بالدولار الأمريكي)',
     },
     {
         id: "primary_contact_person",
@@ -3263,197 +3263,175 @@ const translation_mapping = [
         sp:`<p>Nota:</p>
         <ul class="list">
           <li>
-          Desplazarse hacia abajo y completar este formulario si están haciendo pedidos de productos a la IPPF con dinero de la subvención de la IPPF; de otro modo, puede dejarse en blanco.
+            Desplázate hacia abajo y llena este formulario si vas a solicitar productos de la IPPF utilizando tu subvención de la IPPF; de lo contrario, puedes dejarlo en blanco.
           </li>
           <li>
-          El valor de los productos que pidan abajo afectará a la cantidad de la 
-subvención de la IPPF que reciban en efectivo y la que reciban en forma 
-de productos (como se indica en la parte de abajo del formulario)
-</li>
+            El valor de los productos que solicites a continuación influirá en la proporción de tu subvención de la IPPF que recibirás en efectivo frente a la que recibirás en productos (como se muestra al final del formulario).
+          </li>
           <li>
-          Solo deben pedir productos cuya importación esté permitida en su país. 
-          Los fabricantes con los que tenemos contratos requerirán garantía de 
-          permiso de importación para los productos pedidos, en caso de que dichos
-          productos no estén registrados en su país.
+            Por favor, solicita únicamente productos que estés autorizado a importar a tu país. Nuestros fabricantes contratados le pedirán que confirme que obtendrá una exención de importación para los productos solicitados, en caso de que estos no estén registrados en su país.
            </li>
           <li>
-          Se deben leer las notas debajo del producto que desean pedir.
+          Revise las notas que aparecen debajo del producto que desea pedir.
             <ul>
               <li>
-              Los precios de los productos pueden estar sujetos a la 
-              Clasificación del Banco Mundial de su país. <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Hacer clic en este enlace para averiguar la clasificación de su país</a>.
+                Los precios de los productos pueden estar sujetos a la Clasificación del Banco Mundial de su país.
+                <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica"> Haga clic en este enlace para conocer el estatus de su país.</a>.
               </li>
               <li>
-              Es posible que los pedidos de productos estén sujetos a múltiplos obligatorios. El formulario de pedido solo permitirá introducir esas cantidades obligatorias</li>
+                Los productos pueden estar sujetos a cantidades mínimas de pedido obligatorias. El formulario de pedido solo le permitirá ingresar estas cantidades obligatorias.
+              </li>
+              <li>
+                El producto puede estar sujeto a una cantidad mínima de pedido. Solo si las cantidades combinadas de los pedidos de todos los socios de mercado (MA) alcanzan este umbral, podremos confirmar el suministro del producto que solicitas.
+              </li>
             </ul>
           </li>
           <li>
-          Los costos de transporte se añadirán a los costos totales cuando los 
-          envíos estén preparados. Para fines presupuestarios únicamente, el 
-          formulario funciona con las siguientes tarifas estándar estimadas:
+            Los costos de transporte se sumarán al costo total cuando los envíos estén listos. Solo para fines de presupuesto, el formulario utiliza las siguientes tarifas estándar estimadas:
           <ul>
             <li>
-            El 100% del valor del pedido de productos si su solicitud de productos tiene un valor de entre 0 USD y 1000 USD.
+                100 % del valor de tu pedido de productos básicos si tu solicitud tiene un valor entre $0 y $1,999.
             </li>
             <li>
-            El 40% del valor del pedido de productos si su solicitud de productos tiene un valor de entre 1000 USD y 5000 USD.
+                50 % del valor de su pedido de productos básicos si su solicitud de productos tiene un valor entre $2,000 y $4,999.
             </li>
             <li>
-            El 25% del valor del pedido de productos si su solicitud de productos tiene un valor superior a 5000 USD.
+                40 % del valor de su pedido de productos básicos si su solicitud de productos tiene un valor entre $5,000 y $9,999.
+            </li>
+            <li>
+                30 % del valor de su pedido de productos básicos si su solicitud de productos tiene un valor superior a $10,000.
             </li>
           </ul>
           </li>
           <li>
-          Este es un ejercicio presupuestario meramente indicativo; la  cuantificación de productos para 2026 se completará en octubre de 2025 según la iniciativa del equipo de cadena de suministro.
+            Este es solo un ejercicio presupuestario indicativo; la cuantificación de productos básicos para 2027 se finalizará en octubre de 2026, según la iniciativa del equipo de gestión de la cadena de suministro (SCM).
           </li>
           <li>
-          Si desean comprar productos a la IPPF financiados a través de otra 
-          subvención (p. ej., de un proyecto restringido), deben enviar un correo 
-          electrónico al equipo de cadena de suministro (hlynds@ippf.org y 
-          sheath@ippf.org).
+            Si deseas adquirir productos de la IPPF que estén financiados por una subvención diferente (por ejemplo, un proyecto restringido), envía un correo electrónico al equipo de la cadena de suministro (sheath@ippf.org).
           </li>
           <li>
-          Si desean comprar productos que no figuran abajo (p. ej., equipos 
-            médicos, consumibles médicos, medicamentos genéricos), deben enviar 
-            un correo electrónico al equipo de cadena de suministro (hlynds@ippf.org 
-            & sheath@ippf.org).
-            </li>
+            Si desea adquirir productos que no figuran en la lista a continuación (por ejemplo, equipo médico, consumibles médicos, medicamentos genéricos), envíe un correo electrónico al equipo de cadena de suministro (sheath@ippf.org).
+        </li>
         </ul>
     
-        <p class="mb-0">No podemos aceptar cancelaciones ni cambios en los pedidos tras su 
-        expedición.
-          <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-            aria-expanded="true" aria-controls="collapseExample"></i>
+        <p class="mb-0">
+            No podemos aceptar cancelaciones ni cambios en su solicitud una vez que su pedido haya sido finalizado y confirmado por el equipo de SCM.
         </p>`,
         fr: 
-        `  <p>Note:</p>
+        `  <p>Remarque:</p>
         <ul class="list">
           <li>
-          Faites défiler ce formulaire sous-visé et remplissez-le si vous commandez
-          des produits auprès de l’IPPF en utilisant votre subvention de l’IPPF ; 
-          sinon, il peut rester vide.
+            Faites défiler la page vers le bas et remplissez ce formulaire si vous commandez des produits auprès de l’IPPF en utilisant votre subvention IPPF ; sinon, vous pouvez le laisser vide
           </li>
           <li>
-          Le montant des produits que vous commandez ci-dessous aura des 
-          répercussions sur la part de la subvention de base que vous recevrez en 
-          espèces par rapport à celle reçue en produits (comme illustré au bas du 
-          formulaire).
+            La valeur des produits que vous commandez ci-dessous aura une incidence sur la répartition de votre subvention IPPF entre les versements en espèces et les produits (comme indiqué au bas du formulaire).
           </li>
           <li>
-          Toute demande de votre part doit porter uniquement sur des produits 
-          dont l’importation est autorisée dans votre pays. Nos fabricants sous 
-          contrat vous demanderont de confirmer que vous avez la certitude 
-          d’obtenir une exemption des droits d’importation pour les produits 
-          demandés, au cas où ceux-ci ne sont pas enregistrés dans votre pays.
+            Veuillez ne demander que des produits que vous êtes autorisé(e) à importer dans votre pays. Nos fabricants sous contrat vous demanderont de confirmer que vous êtes certain d’obtenir une dérogation d’importation pour les produits demandés, si ceux-ci ne sont pas enregistrés dans votre pays.
           </li>
           <li>
-          Veuillez consulter les notes ci-dessous concernant le produit que vous 
-          souhaitez commander.
+            Veuillez consulter les remarques figurant sous le produit que vous souhaitez commander.
             <ul>
               <li>
-              Les prix des produits peuvent être soumis au statut de votre 
-              pays en fonction de la classification de la Banque mondiale. 
-             
-              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica"> Cliquez sur ce lien pour connaître le statut de votre pays</a>.
+                Les prix des produits peuvent dépendre de la classification de la Banque mondiale attribuée à votre pays.
+                <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Cliquez sur ce lien pour connaître le statut de votre pays.</a>.
               </li>
               <li>
-              Les produits peuvent être soumis à des multiples de commande 
-              fixes. Seules ces quantités selon des multiples fixes peuvent être 
-              indiquées sur le formulaire.
+                Les produits peuvent être soumis à des quantités minimales de commande obligatoires. Le formulaire de commande ne vous permettra de saisir que ces quantités obligatoires.
+              </li>
+              <li>
+                Le produit peut être soumis à une quantité minimale de commande. Ce n’est que si les quantités commandées cumulées par l’ensemble des autorités contractantes (MA) atteignent ce seuil que nous pourrons confirmer la fourniture du produit que vous demandez.
               </li>
             </ul>
           </li>
           <li>
-          Les coûts de transport seront ajoutés aux coûts totaux lorsque les envois 
-          seront prêts. Uniquement à des fins d’établissement du budget, le 
-          formulaire fonctionne avec les taux standard estimés suivants :
+            Les frais de transport seront ajoutés au montant total lorsque les expéditions seront prêtes. À des fins de budgétisation uniquement, le formulaire utilise les taux standard estimés suivants :
           <ul>
             <li>
-            100 % de la valeur de votre commande de produits si le montant 
-            de votre demande de produit est compris entre 0 dollar et 1 
-            000 dollars
+                100 % de la valeur de votre commande de produits si la valeur de votre demande de produit est comprise entre 0 et 1 999 dollars.
             </li>
             <li>
-            40 % de la valeur de votre commande de produits si le montant de 
-            votre demande de produit est compris entre 1 000 dollars et 
-            5 000 dollars
+                50 % de la valeur de votre commande de produits de base si la valeur de votre demande de produit est comprise entre 2 000 $ et 4 999 $.
             </li>
             <li>
-            25 % de la valeur de votre commande de produits si le montant de 
-            votre demande de produit est supérieur ou égal à 5 000 dollars
+                40 % de la valeur de votre commande de produits de base si la valeur de votre demande de produit est comprise entre 5 000 $ et 9 999 $.
+            </li>
+            <li>
+                30 % de la valeur de votre commande de produits de base si la valeur de votre demande de produit est supérieure à 10 000 $.
             </li>
           </ul>
           </li>
           <li>
-          Il s’agit d’un exercice d’établissement du budget uniquement à titre 
-          indicatif. La quantification des produits pour 2026 sera finalisée en 
-          octobre 2025 à l’initiative de l’équipe de la chaîne d’approvisionnement.
+            Il s’agit uniquement d’un exercice budgétaire indicatif ; la quantification des produits de base pour 2027 sera finalisée en octobre 2026, à l’initiative de l’équipe de gestion de la chaîne d’approvisionnement (SCM).
           </li>
           <li>
-          Si vous souhaitez vous procurer des produits auprès de l’IPPF qui sont 
-          financés par une autre subvention (par ex. projet avec restrictions), 
-          veuillez envoyer un e-mail à l’équipe d’achat de produits (hlynds@ippf.org
-          et sheath@ippf.org)
+            Si vous souhaitez vous procurer auprès de l’IPPF des produits financés par une autre subvention (par exemple, un projet soumis à des restrictions), veuillez envoyer un e-mail à l’équipe de la chaîne d’approvisionnement (sheath@ippf.org).
           </li>
           <li>
-          Si vous souhaitez vous procurer des produits qui ne sont pas répertoriés ci-
-          dessous (par exemple du matériel médical, des consommables médicaux, 
-          des médicaments génériques), veuillez envoyer un e-mail à l’équipe d’achat
-          de produits (hlynds@ippf.org et sheath@ippf.org). </li>
+             Si vous souhaitez vous procurer des produits qui ne figurent pas dans la liste ci-dessous (par exemple, du matériel médical, des consommables médicaux, des médicaments génériques), veuillez envoyer un e-mail à l’équipe de la chaîne d’approvisionnement (sheath@ippf.org).
+          </li>
         </ul>
     
-        <p class="mb-0">Une fois la commande envoyée, il ne nous est plus possible d’en accepter 
-        l’annulation ou la modification.
-          <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-            aria-expanded="true" aria-controls="collapseExample"></i>
+        <p class="mb-0">
+            Nous ne pouvons accepter aucune annulation ni modification de votre demande une fois que votre commande a été finalisée et confirmée par l’équipe SCM.
         </p>`,
         ar:  `<p>ملحوظة:</p>
         <ul class="list">
           <li>
-          قم بالتمرير لأسفل وأكمل هذه الاستمارة إذا كنت تطلب سلعًا طبيةً من الاتحاد الدولي لتنظيم الأسرة مستخدمًا منحتكم من الاتحاد الدولي لتنظيم الأسرة؛ وإلا فاتركها فارغة
+         يرجى التمرير لأسفل وملء هذا النموذج إذا كنت تطلب سلعًا من الاتحاد الدولي لتنظيم الأسرة (IPPF) باستخدام منحة IPPF الخاصة بك؛ وإلا، فيمكن تركه فارغًا.
           </li>
           <li>
-          سوف تؤثر قيمة السلع الطبية التي تطلبها أدناه على مقدار منحتكم الذي تحصلون عليه نقدًا مقابل ما تحصلون عليه سلعًا طبيةً من الاتحاد (كما هو موضح أسفل الاستمارة). 
+         ستؤثر قيمة السلع التي تطلبها أدناه على المبلغ الذي ستحصل عليه من منحة IPPF نقدًا مقابل السلع (كما هو موضح في أسفل النموذج).
           </li>
           <li>
-          ونرجو أن يقتصر الطلب على السلع الطبية التي يُسمح لكم باستيرادها إلى بلادكم. وإذا كانت السلع غير مسجلة في بلادكم، فسوف تطلب منكم الشركات المصنعة المتعاقدة معنا تأكيد الحصول على إذن باستيراد السلع المطلوبة 
+         يرجى تقديم طلب فقط للسلع المسموح باستيرادها إلى بلدك. سيطلب منك المصنعون المتعاقدون معنا تأكيد ضمان الحصول على إعفاء استيراد للسلع المطلوبة، في حال لم تكن هذه السلع مسجلة في بلدك.
           </li>
           <li>
-          يرجى مراجعة الملاحظات أسفل المنتج المطلوب.
+         يرجى مراجعة الملاحظات الموجودة أسفل المنتج الذي ترغب في طلبه.
             <ul>
               <li>
-              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">يمكن أن تخضع أسعار المنتجات لتصنيف البنك الدولي لبلدكم. انقر على هذا الرابط لمعرفة حالة بلدكم. </a></li>
+              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">انقر على هذا الرابط لمعرفة حالة بلدك. </a>
+              </li>
               <li>
-              تتأثر المنتجات بمضاعفات بنود الطلب الإجبارية. تسمح لكم استمارة الطلب بإدخال هذه الكميات الإجبارية فقط.</li>
+             قد تخضع أسعار المنتجات لتصنيف البنك الدولي الخاص ببلدك
+              </li>
+              <li>
+              قد تخضع المنتجات لحد أدنى إلزامي لكميات الطلب. لن يسمح لك نموذج الطلب إلا بإدخال هذه الكميات الإلزامية.
+              </li>
+              <li>
+              قد يخضع المنتج لحد أدنى لكمية الطلب. لن نتمكن من تأكيد توريد المنتج الذي تطلبه إلا إذا استوفت الكميات الإجمالية للطلبات من جميع الوكلاء المعتمدين (MAs) هذا الحد الأدنى.
+              </li>
             </ul>
           </li>
           <li>
-          سوف تُضاف تكاليف النقل إلى إجمالي التكاليف عند تجهيز الشحنات. لأغراض الميزانية فقط، تخضع استمارة الطلب للمعدلات التقديرية الموحدة التالية:
+        ستُضاف تكاليف النقل إلى التكاليف الإجمالية عندما تكون الشحنات جاهزة. لأغراض الميزانية فقط، يستخدم النموذج المعدلات القياسية التقديرية التالية:
           <ul>
-            <li>%100 من قيمة طلب السلع الخاص بكم إذا كانت قيمة الطلب تتراوح بين 0 و1,000 دولار.
+            <li>
+            100% من قيمة طلب السلع الخاص بك إذا كانت قيمة طلب المنتج تتراوح بين 0 و1,999 دولارًا أمريكيًا.
             </li>
             <li>
-            40% من قيمة طلب السلع إذا كانت قيمة المنتجات المطلوبة تتراوح بين 1,000 دولار و 5,000 دولار
+            50% من قيمة طلب السلع الخاص بك إذا كانت قيمة طلب المنتج تتراوح بين 2,000 دولار و4,999 دولار.
             </li>
             <li>
-            25% من قيمة طلب السلع إذا كانت قيمة المنتجات المطلوبة أعلى من 5,000 دولار
+            40% من قيمة طلب السلع الخاص بك إذا كانت قيمة طلب المنتج تتراوح بين 5,000 دولار و9,999 دولار.
+            </li>
+            <li>
+            30% من قيمة طلب السلع الخاص بك إذا كانت قيمة طلب المنتج أعلى من 10,000 دولار.
             </li>
           </ul>
           </li>
           <li>
-          وهذا إجراء توضيحي فقط للاستعانة به في إعداد الميزانية، وفي أكتوبر 2025 سيتم الانتهاء من تحديد كمية السلع لعام 2026 حسب مبادرة فريق سلسلة التوريد.
+          هذه مجرد عملية تقديرية للميزانية، وسيتم الانتهاء من تحديد كميات السلع لعام 2027 في أكتوبر 2026 وفقًا لمبادرة فريق إدارة سلسلة التوريد (SCM).
           </li>
           <li>
-          وإذا كنت ترغب في شراء منتجات من اتحاد IPPF ممولة من منحة أخرى (على سبيل المثال، مشروع مقيد)، يرجى إرسال بريد إلكتروني إلى فريق سلسلة التوريد (hlynds@ippf.org و sheath@ippf.org).
+         إذا كنت ترغب في شراء منتجات من الاتحاد الدولي لتنظيم الأسرة (IPPF) ممولة من منحة مختلفة (مثل مشروع مقيد)، يرجى إرسال بريد إلكتروني إلى فريق سلسلة التوريد (sheath@ippf.org).
           </li>
           <li>
-          وإذا كنت ترغب في شراء منتجات غير مدرجة أدناه (على سبيل المثال، معدات طبية ومواد استهلاكية طبية وأدوية عامة)، أرسل بريدًا إلكترونيًا إلى فريق سلسلة التوريد (hlynds@ippf.org و sheath@ippf.org).
+         إذا كنت ترغب في شراء منتجات غير مدرجة أدناه (مثل المعدات الطبية، والمستهلكات الطبية، والأدوية الجنيسة)، يرجى إرسال بريد إلكتروني إلى فريق إدارة سلسلة التوريد (sheath@ippf.org).
           </li>
         </ul>
     
-        <p class="mb-0">لا يمكننا قبول إلغاءات أو تعديلات على طلبكم بعد إصدار الطلب.
-          <i class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-            aria-expanded="true" aria-controls="collapseExample"></i>
+        <p class="mb-0">لا يمكننا قبول أي إلغاءات أو تغييرات على طلبك بمجرد الانتهاء من إعداد طلبك وتأكيده من قبل فريق إدارة سلسلة التوريد (SCM).
         </p>`
     },
     

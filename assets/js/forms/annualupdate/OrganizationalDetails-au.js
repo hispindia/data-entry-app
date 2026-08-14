@@ -1,6 +1,7 @@
 import { dataSet } from "../../api/dataSet.js";
 import { createEvent, createEventOther, getEvents, getProgramStageEvents, getTEI, pushAttribute, pushDataElement, pushDataElementOther } from "../../api/func.js";
 import { dataElements, dataSetFunds, program, programStage, tei } from "../../constant.js";
+import { getGroupYears } from "../../utils.js";
 import { getUserConfig } from "../config.js";
 import { disableAll, enableAll, formatNumberInput, getYears } from "../func.js";
 
@@ -77,7 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchDataSet() {
     const values = {};
         
-    const years = getYears(tei.year.value, Number(tei.year.value)+2);
+    const years = getGroupYears(tei.year.start, tei.year.value);
+    years.forEach((year, index) => {
+      document.getElementById(`year-${index+1}`).innerHTML = year;
+    })
+    
     for(let year of years) {
     const dataValuesQuantity = await dataSet.getValues(dataSetFunds, tei.orgUnit, year);
       dataValuesQuantity.dataValues.forEach(dv => {

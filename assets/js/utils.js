@@ -10,3 +10,14 @@ export function showToast(message, type) {
     setTimeout(function() { toast.remove(); }, 300);
   }, 3000);
 }
+
+export function getGroupYears(minYear, selectedYear) {
+  const groupStart =
+    minYear + Math.floor((selectedYear - minYear) / 3) * 3;
+
+  return [
+    groupStart,
+    groupStart + 1,
+    groupStart + 2
+  ];
+}
