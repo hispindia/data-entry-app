@@ -81,15 +81,19 @@ import { showToast } from "../../utils.js";
               disableElement = true;
             }
         });
-        if (className === 'inventory' && disableElement) {
-          $('#edMCiDifDaQ').prop('disabled', false);
-        } else {
-          $('#edMCiDifDaQ').prop('disabled', true);
+        if (className === 'inventory') {
+          if(disableElement) {
+            $('#edMCiDifDaQ').prop('disabled', false);
+          } else {
+            $('#edMCiDifDaQ').prop('disabled', true);
+          }
         }
-        if (className === 'invoice' && disableElement) {
-          $('#J4gT3zny2TG').prop('disabled', false);
-        } else {
-          $('#J4gT3zny2TG').prop('disabled', true);
+        if (className === 'invoice') {
+          if(disableElement) {
+            $('#J4gT3zny2TG').prop('disabled', false);
+          } else {
+            $('#J4gT3zny2TG').prop('disabled', true);
+          }
         }
 
         await dataSet.post({
