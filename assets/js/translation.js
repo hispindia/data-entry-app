@@ -3220,7 +3220,7 @@ const translation_mapping = [
             Please review the notes below the product you want to order.
             <ul>
               <li>
-                Prices for products can be subject to your country’s World Bank Classification. <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Click on this link to find your country’s status</a>.
+                Prices for and availability of products can be subject to your country’s World Bank Classification. <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Click on this link to find your country’s status</a>.
               </li>
               <li>
                 Products can be subject to mandatory order multiples. The order form will only allow you to enter these mandatory quantities.
@@ -3274,7 +3274,7 @@ const translation_mapping = [
           Revise las notas que aparecen debajo del producto que desea pedir.
             <ul>
               <li>
-                Los precios de los productos pueden estar sujetos a la Clasificación del Banco Mundial de su país.
+                Los precios y la disponibilidad de los productos pueden estar sujetos a la clasificación del Banco Mundial de su país.
                 <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica"> Haga clic en este enlace para conocer el estatus de su país.</a>.
               </li>
               <li>
@@ -3332,7 +3332,7 @@ const translation_mapping = [
             Veuillez consulter les remarques figurant sous le produit que vous souhaitez commander.
             <ul>
               <li>
-                Les prix des produits peuvent dépendre de la classification de la Banque mondiale attribuée à votre pays.
+                Les prix et la disponibilité des produits peuvent dépendre de la classification de la Banque mondiale attribuée à votre pays.
                 <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">Cliquez sur ce lien pour connaître le statut de votre pays.</a>.
               </li>
               <li>
@@ -3389,7 +3389,7 @@ const translation_mapping = [
          يرجى مراجعة الملاحظات الموجودة أسفل المنتج الذي ترغب في طلبه.
             <ul>
               <li>
-              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">انقر على هذا الرابط لمعرفة حالة بلدك. </a>
+              <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">انقر على هذا الرابط لمعرفة حالة بلدك وتفاصيلها. </a>
               </li>
               <li>
              قد تخضع أسعار المنتجات لتصنيف البنك الدولي الخاص ببلدك
