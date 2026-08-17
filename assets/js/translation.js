@@ -3575,6 +3575,41 @@ const translation_mapping = [
         ar: "عيادة الشريك/نقطة تقديم الخدمة"
     },
     {
+        id: 'please_specify',
+        en: 'Please specify the system name below, if you have selected:',
+        sp: 'Por favor, especifica a continuación el nombre del sistema, si has seleccionado:',
+        fr: 'Veuillez indiquer ci-dessous le nom du système, si vous avez sélectionné :',
+        ar: 'يرجى تحديد اسم النظام أدناه إذا كنت قد اخترت:'
+    },
+   {
+        id: 'other_cmis',
+        en: 'Other CMIS',
+        sp: 'Otro CMIS',
+        fr: 'Autre CMIS',
+        ar: 'نظام CMIS آخر'
+    },
+    {
+        id: 'lmis_elmis',
+        en: 'LMIS / eLMIS',
+        sp: 'LMIS / eLMIS',
+        fr: 'LMIS / eLMIS',
+        ar: 'نظام LMIS / eLMIS'
+    },
+    {
+        id: 'erp_system',
+        en: 'ERP system',
+        sp: 'Sistema ERP',
+        fr: 'Système ERP',
+        ar: 'نظام تخطيط موارد المؤسسة (ERP)'
+    },
+    {
+        id: 'stock_inventory',
+        en: 'stock / inventory system or tool',
+        sp: 'Otro sistema o herramienta de control de existencias o inventario',
+        fr: 'Autre système ou outil de gestion des stocks',
+        ar: 'نظام أو أداة أخرى لإدارة المخزون'
+    },
+    {
         id: "select",
         en: "--Select--",
         sp: "--Seleccionar--",
