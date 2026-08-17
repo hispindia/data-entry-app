@@ -3505,6 +3505,146 @@ const translation_mapping = [
         ar: "سعر"
     },
     {
+        id: "stock_inventory_systems",
+        en: "SBP Portal: Stock, Inventory and Commodity Management Systems",
+        sp: "Portal SBP: Sistemas de gestión de existencias, inventario y productos básicos",
+        fr: "Portail SBP : Systèmes de gestion des stocks, des inventaires et des matières premières",
+        ar: "بوابة SBP: أنظمة إدارة المخزون والممتلكات والسلع"
+    },
+    {
+        id: "stock_inventory_systems_para1",
+        en: "This question asks about the systems or tools your organisation currently uses to manage commodities. This includes systems used for stock/inventory management, procurement, ordering, delivery tracking and invoicing.",
+        sp: "Esta pregunta se refiere a los sistemas o herramientas que su organización utiliza actualmente para gestionar los productos básicos. Esto incluye los sistemas utilizados para la gestión de existencias o inventario, las compras, los pedidos, el seguimiento de entregas y la facturación.",
+        fr: "Cette question porte sur les systèmes ou outils que votre organisation utilise actuellement pour gérer les produits de base. Cela inclut les systèmes utilisés pour la gestion des stocks, les achats, les commandes, le suivi des livraisons et la facturation.",
+        ar: "يتناول هذا السؤال الأنظمة أو الأدوات التي تستخدمها مؤسستكم حاليًا لإدارة المواد الاستهلاكية. ويشمل ذلك الأنظمة المستخدمة في إدارة المخزون، والمشتريات، وتقديم الطلبات، وتتبع التسليم، وإصدار الفواتير."
+    },
+    {
+        id: "stock_inventory_systems_para2",
+        en: "Affiliates use different systems depending on their context and there is no expected “right” answer, nor is this a stock audit or a systems ranking. This information will simply help IPPF understand current commodity systems, identify where stock visibility may be limited, and plan future stock systems support.",
+        sp: "Las filiales utilizan diferentes sistemas según su contexto y no hay una respuesta «correcta» esperada; tampoco se trata de una auditoría de existencias ni de una clasificación de sistemas. Esta información simplemente ayudará a la IPPF a comprender los sistemas actuales de gestión de productos básicos, identificar dónde la visibilidad de las existencias puede ser limitada y planificar el apoyo futuro a los sistemas de gestión de existencias.",
+        fr: "Les filiales utilisent différents systèmes en fonction de leur contexte ; il n’y a pas de « bonne » réponse attendue, et il ne s’agit ni d’un inventaire des stocks ni d’un classement des systèmes. Ces informations aideront simplement l’IPPF à comprendre les systèmes actuels de gestion des produits de base, à identifier les cas où la visibilité des stocks pourrait être limitée, et à planifier le soutien futur apporté aux systèmes de gestion des stocks.",
+        ar: "تستخدم المؤسسات التابعة أنظمة مختلفة وفقًا لظروفها الخاصة، ولا توجد إجابة «صحيحة» متوقعة، كما أن هذا الاستبيان ليس تدقيقًا للمخزون ولا تصنيفًا للأنظمة. ستساعد هذه المعلومات الاتحاد الدولي لتنظيم الأسرة (IPPF) ببساطة على فهم الأنظمة الحالية لإدارة المواد الاستهلاكية، وتحديد المجالات التي قد تكون فيها رؤية المخزون محدودة، والتخطيط لدعم أنظمة المخزون في المستقبل."
+    },
+    {
+        id: "stock_inventory_systems_para3",
+        en: "Please select the main system or tool used at each level: Affiliate head office, warehouse/store level where applicable, and clinic/service delivery point level.",
+        sp: "Selecciona el sistema o herramienta principal que se utiliza en cada nivel: sede central de la filial, nivel de almacén o tienda (cuando corresponda) y nivel de clínica o punto de prestación de servicios.",
+        fr: "Veuillez sélectionner le principal système ou outil utilisé à chaque niveau : siège de l’affilié, entrepôt/magasin (le cas échéant) et clinique/point de prestation de services.",
+        ar: "يرجى تحديد النظام أو الأداة الرئيسية المستخدمة في كل مستوى: المقر الرئيسي للمنظمة التابعة، ومستوى المستودع/المخزن حيثما ينطبق ذلك، ومستوى العيادة/نقطة تقديم الخدمة."
+    },
+    {
+        id: "stock_inventory_systems_para4",
+        en: "If more than one system is used, select the one used most regularly. If the level does not apply to your organisation, select “Not applicable”. If you select “Other system/tool”, please briefly specify what is used.",
+        sp: "Si se utiliza más de un sistema, selecciona el que se utilice con mayor frecuencia. Si el nivel no se aplica a tu organización, selecciona «No aplicable». Si seleccionas «Otro sistema o herramienta», especifica brevemente cuál se utiliza.",
+        fr: "Si plusieurs systèmes sont utilisés, sélectionnez celui qui est utilisé le plus régulièrement. Si le niveau ne s’applique pas à votre organisation, sélectionnez « Sans objet ». Si vous sélectionnez « Autre système/outil », veuillez préciser brièvement lequel est utilisé.",
+        ar: "في حالة استخدام أكثر من نظام واحد، يرجى تحديد النظام الذي يتم استخدامه بشكل أكثر انتظامًا. إذا كان المستوى لا ينطبق على منظمتكم، يرجى تحديد «لا ينطبق». إذا حددتم «نظام/أداة أخرى»، يرجى تحديد ما يتم استخدامه بإيجاز."
+    },
+    {
+        id: "stock_inventory_systems_tools",
+        en: "What system or tool does your organisation currently use for stock/inventory management and commodity procurement/logistics at each level?",
+        sp: "¿Qué sistema o herramienta utiliza actualmente su organización para la gestión de existencias e inventario, así como para la adquisición de productos básicos y la logística en cada nivel?",
+        fr: "Quel système ou outil votre organisation utilise-t-il actuellement pour la gestion des stocks et l'approvisionnement et la logistique des produits de base à chaque niveau ?",
+        ar: "ما هو النظام أو الأداة التي تستخدمها مؤسستكم حاليًا لإدارة المخزون والمشتريات والخدمات اللوجستية للسلع الأساسية على كل مستوى؟"
+    },
+    {
+        id: "function",
+        en: "Function",
+        sp: "Función",
+        fr: "Fonction",
+        ar: "الوظيفة"
+    },
+    {
+        id: "affiliate_head_offfice",
+        en: "Affiliate head office",
+        sp: "Oficina central de afiliados",
+        fr: "Siège social de la filiale",
+        ar: "المقر الرئيسي للشركة التابعة"
+    },
+    {
+        id: "affiliate_warehourse_store",
+        en: "Affiliate warehouse/store",
+        sp: "Almacén o tienda afiliada",
+        fr: "Entrepôt/magasin affilié",
+        ar: "مستودع/متجر تابع"
+    },
+    {
+        id: "affiliate_clinic_service",
+        en: "Affiliate’s clinic/service delivery point",
+        sp: "Clínica o centro de atención del afiliado",
+        fr: "Clinique ou point de prestation de services de l'organisme affilié",
+        ar: "عيادة الشريك/نقطة تقديم الخدمة"
+    },
+    {
+        id: "select",
+        en: "--Select--",
+        sp: "--Seleccionar--",
+        fr: "--Sélectionner--",
+        ar: "--اختر–"
+    },
+    {
+        id: "openemr_oemr",
+        en: "OpenEMR / OEMR inventory module",
+        sp: "Módulo de inventario de OpenEMR / OEMR",
+        fr: "Module de gestion des stocks OpenEMR / OEMR",
+        ar: "وحدة المخزون في OpenEMR / OEMR"
+    },
+    {
+        id: "not_applicable",
+        en: "Not applicable",
+        sp: "No aplicable",
+        fr: "Sans objet",
+        ar: "لا ينطبق"
+    },
+    {
+        id: "no_formal_stock_system",
+        en: "No formal stock system/tool currently in use",
+        sp: "No se utiliza actualmente ningún sistema o herramienta formal de inventario",
+        fr: "Aucun système ou outil officiel de gestion des stocks n'est actuellement utilisé",
+        ar: "لا يوجد نظام أو أداة رسمية لإدارة المخزون قيد الاستخدام حاليًا"
+    },
+    {
+        id: "ministry_health_national_stock_system",
+        en: "Ministry of Health / national stock system",
+        sp: "Ministerio de Salud / sistema nacional de inventario",
+        fr: "Ministère de la Santé / système national de gestion des stocks",
+        ar: "وزارة الصحة / نظام المخزون الوطني"
+    },
+    {
+        id: "paper_manual_stock",
+        en: "Paper/manual stock cards or registers",
+        sp: "Fichas o registros de inventario en papel o manuales",
+        fr: "Fiches ou registres de stock papier / manuels",
+        ar: "بطاقات أو سجلات المخزون الورقية/اليدوية"
+    },
+    {
+        id: "excel_based_stock",
+        en: "Excel-based stock tool",
+        sp: "Herramienta de inventario basada en Excel",
+        fr: "Outil de gestion des stocks sous Excel",
+        ar: "أداة إدارة المخزون القائمة على Excel"
+    },
+    {
+        id: "erp_system",
+        en: "ERP system (e.g. SAP or similar)",
+        sp: "Sistema ERP (por ejemplo, SAP o similar)",
+        fr: "Système ERP (par exemple SAP ou similaire)",
+        ar: "نظام تخطيط موارد المؤسسات (ERP) (مثل SAP أو ما شابه)"
+    },
+    {
+        id: "lmis_elmis",
+        en: "LMIS / eLMIS",
+        sp: "LMIS / eLMIS",
+        fr: "LMIS / eLMIS",
+        ar: "LMIS / eLMIS"
+    },
+    {
+        id: "other_cmis_inventory",
+        en: "Other CMIS inventory module",
+        sp: "Otro módulo de inventario CMIS",
+        fr: "Autre module de gestion des stocks CMIS",
+        ar: "وحدة مخزون CMIS أخرى"
+    },
+    {
         id: "order_quantity",
         en: "Order quantity request (per UoM)",
         sp: "Cantidad del pedido",
