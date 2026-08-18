@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tei.disabled) disableAll();
     else enableAll();
 
-    const years = getGroupYears(tei.year.value, Number(tei.year.value)+2);
+    const years = getGroupYears(tei.year.start, tei.year.value);
     years.map((year, index) => {
       const id = `${dataElements.formulaGenerated}-year${(index+1)}`;
       if(attributes[dataElements.formulaGenerated] && attributes[dataElements.formulaGenerated][year]) {
