@@ -458,7 +458,7 @@ import { showToast } from "../../utils.js";
       const btn = document.createElement("button");
       btn.innerHTML = `<span data-i18n="intro.complete_business_plan">Complete Business Plan </span> ${tei.year.value}`;
       btn.classList.add("btn", "btn-success", "p-2", "m-2");
-      if(tei.disabled) btn.setAttribute("disabled", "true");
+      // if(tei.disabled) btn.setAttribute("disabled", "true");
       btn.addEventListener("click", async(event) => {
       event.preventDefault(); 
       if(eventPD) await pushDataElementOther(dataElements.submitAnnualUpdate,true, program.auProjectDescription, programStage.auProjectDescription, eventPD);

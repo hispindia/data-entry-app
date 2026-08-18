@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (newFocusAreaIndex[indexFA]) {
             var faValue = {};
             faValue = JSON.parse(dataValues[newFocusAreaIndex[indexFA]]) 
-            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]} data-tooltip-key="${focusAreaOptions[indexFA].name}"" data-tooltip-key="${focusAreaVal.area}">${focusAreaOptions[indexFA].name}</td>
+            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}" data-tooltip-key="${focusAreaOptions[indexFA].name}">${focusAreaOptions[indexFA].name}</td>
                           <td>
                             <input 
                             type="text" 
@@ -539,7 +539,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         </td></tr>`
           } else {
             
-            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]} data-tooltip-key="${focusAreaOptions[indexFA].name}"">${focusAreaOptions[indexFA].name}</td>
+            projectRows += `<tr><td data-i18n="intro.${focusAreaTranslation[focusAreaOptions[indexFA].name]}" data-tooltip-key="${focusAreaOptions[indexFA].name}">${focusAreaOptions[indexFA].name}</td>
                           <td>
                             <input 
                             type="text" 
