@@ -1018,10 +1018,6 @@ ul.profile-tabs li.profile-tab.active {
   background-color: transparent !important;
 }
 
-.profile-tab-content {
-  min-height: 300px;
-}
-
 .profile-tab-panel {
   display: none;
 }

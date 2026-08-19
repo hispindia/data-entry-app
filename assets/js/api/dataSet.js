@@ -19,6 +19,15 @@ export const dataSet = {
       console.error("Error fetching user data:", error);
     }
   },
+  get: async (dataSetId, orgUnit, period) => {
+    const url = `dataValueSets.json?dataSet=${dataSetId}&orgUnit=${orgUnit}&period=${period}`;
+    try {
+      const response = await BaseApi({url, method:"GET"});
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  },
   post: async ({dataSetId, co, orgUnit, period, dataElement, value}) => {
     const dataValue = {
       co: co,

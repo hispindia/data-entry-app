@@ -91,6 +91,7 @@ export const tei = {
     disabled: false,
     dataElements:[],
     stageSection: [],
+    tabSection: [],
     mandatoryList: [],
     programRules: [],
     metadata: {},
@@ -98,6 +99,7 @@ export const tei = {
     values: {},
     acuityList: [],
     dataElementcode:[],
+    tabId: '',
 }
 
 export const PROGRAM_RULE_TYPES = {
@@ -112,6 +114,9 @@ export const PROGRAM_RULE_TYPES = {
 
 
 export const dataElements = {
+    dueDiligence: 'LFKBN8RDMCf',
+    bankingDetails: 'YJcj3q66q5B',
+
     affiliationStatus: 'qg4tyJoHEiS',
     uploadAccuity: 'R6nujxC6zLD',
 

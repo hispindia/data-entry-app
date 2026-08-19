@@ -1,4 +1,4 @@
-import { stageMapping, trackedEntityType } from "../constant.js";
+import { attributes, stageMapping, trackedEntityType } from "../constant.js";
 
 export const createPayload = {
     orgUnit: (parentOU, attributes, code) => {
@@ -80,6 +80,27 @@ export const createPayload = {
     
         return { trackedEntities: [trackedEntityInstance]} 
     },
+    attribute: ({tei, orgUnit, program}) => {
+        const attributes = [];
+        tei.attributes.forEach(attribute => {
+            if(tei.values[attribute]) {
+                attributes.push({
+                    attribute: attribute,
+                    value: tei.values[attribute],
+                })
+            }
+        })
+        return {
+            "trackedEntities": [
+                {
+                    trackedEntity: tei.affiliate.trackedEntity,
+                    orgUnit,
+                    trackedEntityType,
+                    attributes
+                }
+            ]
+        }
+    },
     event: ({tei, orgUnit, event, enrollment, program, programStage, status}) => {
         const date = new Date();
         const formattedDate = date.toISOString();
@@ -88,7 +109,7 @@ export const createPayload = {
         tei.dataElements.forEach(dataElement => {
             formattedDataElements.push({
                 dataElement: dataElement,
-                value: tei.values[dataElement] || ""
+                value: tei.values[dataElement] || null
             })
         })
         return {
@@ -96,7 +117,7 @@ export const createPayload = {
                 dataValues: formattedDataElements,
                 occurredAt: formattedDate,
                 enrollment,
-                event,
+                ...(event ? { event } : {}),
                 orgUnit,
                 program,
                 programStage,

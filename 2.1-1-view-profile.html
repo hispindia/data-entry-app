@@ -111,38 +111,21 @@
       </div>
       <!-- Main Content -->
       <div class="main-content">
-        <h4 class="mt-3" style="color: black;">UIN Generation <span id="country"></span></h4>
+        <h4 class="mt-3" style="color: black;">View & Update Profile <span id="country"></span></h4>
         <p class="text-muted small"></p>
         <section class="section">
           <!-- Tab Navigation -->
-          <ul class="profile-tabs" id="profileTabs">
-            <li class="profile-tab affilitate-tab active" data-tab="tab-affiliate">1. Affiliate Details</li>
-            <li class="profile-tab kyc" bank-tab data-tab="tab-bank">2. Acuity Bank Details (For TPOs)</li>
-            <li class="profile-tab tpo kyc" completion-tab data-tab="tab-completion">3. Core Completion Checklist</li>
-            <li class="profile-tab tpo kyc" affiliation-tab data-tab="tab-affiliation">4. Affiliation Status and Affiliation Type</li>
+          <ul class="profile-tabs">
+            <li id="affiliate-details" class="profile-tab">1. Affiliate Details</li>
+            <li id="bank-details" class="profile-tab kyc">2. Acuity Bank Details (For TPOs)</li>
+            <li id="core-completion" class="profile-tab tpo kyc">3. Core Completion Checklist</li>
+            <li id="affiliation-type" class="profile-tab tpo kyc">4. Affiliation Status and Affiliation Type</li>
           </ul>
 
           <!-- Tab Content Panels -->
           <div class="profile-tab-content">
-            <div id="tab-affiliate" class="profile-tab-panel active">
-              <div id="basicInformation" class="col-12"></div>
-              <div id="affiliateStage" class="col-12"></div>
-              <div class="col-12" id="disclaimerCheckforKyc"></div> 
-            </div>
-            <div id="tab-bank" class="profile-tab-panel" style="display:none;">
-              <div id="bankStage" class="col-12"></div>
-            </div>
-            <div id="tab-completion" class="profile-tab-panel" style="display:none;">
-              <div id="completionStage" class="col-12"></div>
-            </div>
-            <div id="tab-affiliation" class="profile-tab-panel" style="display:none;">
-              <div id="affiliationStage" class="col-12"></div>
-            </div>
           </div>
-
-          <!-- Buttons outside tabs -->
-          <form id="dueDiligence" style="display:none;"></form>
-          <div class="row mt-4" id="buttonContainer"></div>
+          <div class="profile-tab-buttons row mt-4"></div>
         </section>
       </div>
     </div>
@@ -160,7 +143,7 @@
   <!-- flatpickr -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Page Specific JS File -->
-  <script type="module" src="assets/js/forms/affiliate-information/profileView.js" defer></script>
+  <script type="module" src="assets/js/forms/affiliate-information/profileView-changes.js" defer></script>
   <!-- <script src="assets/js/saveDraft_projectFocusArea.js"></script> -->
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>

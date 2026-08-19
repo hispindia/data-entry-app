@@ -30,7 +30,7 @@ export const optionSetApi =  {
 
 export const programStageApi = {
   get: async (id) => {
-    const url = `programStages/${id}.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]],programStageSections[id,name,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]]`;
+    const url = `programStages/${id}.json?fields=id,name,programStageDataElements[compulsory,dataElement[id,name,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]],programStageSections[id,name,description,dataElements[id,formName,valueType,optionSetValue,optionSet[options[id,name,code]]]]`;
     try{
         const response = await BaseApi({url});
         return response.json();
@@ -42,7 +42,7 @@ export const programStageApi = {
 
 export const programsApi = {
   get: async (id) => {
-    const url = `programs/${id}.json?fields=id,name,programSections[name,trackedEntityAttributes[id,name,valueType,optionSet[options[name,code]],optionSetValue]],programTrackedEntityAttributes[displayInList,mandatory,trackedEntityAttribute[id,name]]`;
+    const url = `programs/${id}.json?fields=id,name,programSections[name,description,trackedEntityAttributes[id,name,valueType,optionSet[options[name,code]],optionSetValue]],programTrackedEntityAttributes[displayInList,mandatory,trackedEntityAttribute[id,name]]`;
     try{
         const response = await BaseApi({url});
         return response.json();

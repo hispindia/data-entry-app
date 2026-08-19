@@ -1,4 +1,4 @@
-import { PROGRAM_RULE_TYPES } from "../constant.js";
+import { attributes, dataElements, PROGRAM_RULE_TYPES } from "../constant.js";
 
 export const convert = {
     attributes: ({program, disabled = false}) => {
@@ -28,6 +28,7 @@ export const convert = {
                 attr['name'] = attr.name;
                 attr['hidden'] = false;
                 attr['disabled'] = disabled;
+                attr['compulsory'] = mandatory[attr.id];
                 attr['mandatory'] = mandatory[attr.id];
                 attr['displayInList'] = displayInList[attr.id];
                 if(attr.optionSetValue) {
@@ -41,6 +42,7 @@ export const convert = {
             })
             sections.push({
                 name: section.name,
+                description: section.description,
                 items: section.trackedEntityAttributes
             })
         })
@@ -80,6 +82,7 @@ export const convert = {
                 element['name'] = element.formName;
                 element['hidden'] = false;
                 element['disabled'] = disabled;
+                element['compulsory'] = mandatory[element.id];
                 element['mandatory'] = mandatory[element.id];
                 if(element.valueType == 'FILE_RESOURCE') fileType.push(element.id);
                 if(element.optionSetValue) {
@@ -93,6 +96,8 @@ export const convert = {
             })
             sections.push({
                 id: section.id,
+                programStage: programStage.id,
+                description: section.description,
                 name: section.name,
                 items: section.dataElements
             })
@@ -112,7 +117,14 @@ export const convert = {
       const values = {};
       tei.attributes.forEach(attr => values[attr.attribute] = attr.value);
       tei.enrollments.forEach(enroll => {
-        enroll.events.forEach(event => {
+        const events = enroll.events
+      .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))
+      .filter((event, index, self) =>
+        index === self.findIndex(e => e.programStage === event.programStage)
+      );
+
+        events.forEach(event => {
+          values[event.programStage] = event.event
           event.dataValues.forEach(dv => {
             if(fileType.has(dv.dataElement)) values[`${dv.dataElement}-event`] = event.event;
             values[dv.dataElement] = dv.value;
@@ -177,14 +189,21 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
 
       for(let data in metadata) {
         metadata[data].hidden = false;
-        metadata[data].mandatory = false;
+        metadata[data].mandatory = metadata[data].compulsory || false;
         metadata[data].error = '';
         metadata[data].warning = '';
         if(metadata[data].optionSet) {
           metadata[data].valueSet = metadata[data].optionSet.options;
         }
       }
-      mandatoryList.forEach(data => metadata[data].mandatory = true)
+      if(metadata[attributes.uinCode]) metadata[attributes.uinCode].disabled = true;
+
+      if(metadata[dataElements.countryIncomeStatus]) {
+        metadata[dataElements.countryIncomeStatus].disabled = true;
+      }
+      if(metadata[dataElements.oecdDACEligible]) {
+        metadata[dataElements.oecdDACEligible].disabled = true;
+      }
       //From Program rules
       //Dyanimcally used inside eval
        window.d2 = {
@@ -267,7 +286,7 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
             console.log('rule error', err)
           }
         })
-      
+      debugger;
 } ;
 
 export function fetchValueType({id, valueType, valueSet}, value, {href, file}, disabled) {
