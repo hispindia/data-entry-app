@@ -283,6 +283,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                   tei.values[input.id] = res.response.fileResource.id;
                   } else {
                       toast({status: 'ERROR', message: `File generation error`});
+                      tei.values[input.id] = null;
                   }
               } catch (error) {
                   toast({status: 'ERROR', message: `Error uploading file: ${error}`});
