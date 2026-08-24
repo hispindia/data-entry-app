@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", async function () {
               checkAffiliate[data.id] = true;
               continue;
             }
-            const riskNames = ['Arms Trafficking & WMD', 'Terrorism', 'Money Laundering', 'Drug Trafficking', 'Fraud', 'Wanted Individuals', 'Global Sanction List'];
-            const hasRisk = riskNames.some(name => data[data.id].includes(name));
+            const riskNames = ['Arms Trafficking & WMD', 'Terrorism', 'Money Laundering', 'Drug Trafficking', 'Fraud', 'Wanted Individuals', 'Global Sanction List', 'Associated Entity'];
+            const hasRisk = riskNames.some(name => data[data.id].includes(`.${name}`));
             if(hasRisk) {
               affiliate.status = "Failed";
               break;
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         toast({status:"INFO", message:"Acuity data is not available.", position: "center"});
         return;
       }
-      if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`;
+      if(affiliate[1]=="waiver")  window.open(`../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`,'_blank');
       else if(affiliate[1]=="dueDiligence") window.location.href = `./1.2-1-due-diligence.html?affiliate=${affiliate[0]}`;
 
       if (id == "sync-uin") {
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const button = e.target.closest('.row-btn');
       if(!button) return;
       const affiliate = button.dataset.affiliate.split("-");
-      if(affiliate[1]=="waiver")  window.location.href = `../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`;
+      if(affiliate[1]=="waiver")  window.open(`../../../dhis-web-reports/index.html#/standard-report/view/W7AMqIhCqY6?affiliate=${affiliate[0]}`, '_blank');
       else if(affiliate[1]=="form") window.location.href = `./1.2-1-waiver-form.html?affiliate=${affiliate[0]}`;
     })
 
