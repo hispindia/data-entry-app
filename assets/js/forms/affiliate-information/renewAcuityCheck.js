@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     const affilitateAttrList = resAffiliateList.trackedEntities.map(trackedEntity => {
       const attributes = {
-        id: trackedEntity.trackedEntity
+        id: trackedEntity.trackedEntity,
+        orgUnit: trackedEntity.orgUnit,
       };
       trackedEntity.attributes.forEach(attr => attributes[attr.attribute] = attr.value);
       if(resDataStore.includes(attributes.id)) attributes['store'] = true;
@@ -95,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         affiliateStatus[affiliate.id] = affiliate.status;
         affiliatePayload.push({
           trackedEntity: affiliate.id,
-          orgUnit: orgUnit.affiliateKYC,
+          orgUnit: affiliate.orgUnit,
           trackedEntityType: trackedEntityType,
           attributes: [{
             attribute: attributes.acuityCheck,
