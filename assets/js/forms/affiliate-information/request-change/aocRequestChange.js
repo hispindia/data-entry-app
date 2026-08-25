@@ -577,7 +577,6 @@ const STAGE_MAPPING = {
 
     if (stageId) {
       try {
-        debugger;
         const stageRes = await programStageApi.get(stageId);
         if (stageRes) {
           const stage = convert.stage({ programStage: stageRes });

@@ -41,6 +41,7 @@ export const convert = {
                 metadata[attr.id] = attr;
             })
             sections.push({
+                id: section.id,
                 name: section.name,
                 description: section.description,
                 items: section.trackedEntityAttributes
@@ -286,7 +287,6 @@ export const ruleCallback = (programRules, programMetadata, mandatoryList, metad
             console.log('rule error', err)
           }
         })
-      debugger;
 } ;
 
 export function fetchValueType({id, valueType, valueSet}, value, {href, file}, disabled) {

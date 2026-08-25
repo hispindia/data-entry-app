@@ -322,7 +322,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (errorEl) errorEl.innerHTML = '';
       ruleCallback(tei.programRules, tei.programStages, tei.mandatoryList, tei.metadata, tei.values);
       renderTabContent();
-      debugger;
     }
   });
 

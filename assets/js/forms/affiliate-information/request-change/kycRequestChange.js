@@ -402,7 +402,6 @@ const STAGE_MAPPING = {
     board.innerHTML = senior.innerHTML = bank.innerHTML = "";
     const addRow = (tbody, rolekey) => {
       const roleConfig = ROLE_DISPLAY_FIELDS[rolekey];
-      debugger;
       if (!roleConfig) return;
 
       const { label, fields } = roleConfig;

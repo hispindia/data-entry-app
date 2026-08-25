@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   });
+  showLoader("Loading Affiliate...")
 
   const userConfig = await getUserConfig();
   if (userConfig) {
@@ -58,11 +59,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
       next: {
         label: 'Next',
-        tabId: 'core-completion',
+        tabId: 'completion-checklist',
         value: userConfig.user.includes('tpo') ? false : true
       }
     },
-    'core-completion': {
+    'completion-checklist': {
       prev: {
         label: 'Back to 2. Acuity Bank Details (For TPOs)',
         tabId: 'bank-details',
@@ -74,14 +75,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
       next: {
         label: 'Next',
-        tabId: 'affiliation-type',
+        tabId: 'affiliation-status',
         value: true
       }
     },
-    'affiliation-type': {
+    'affiliation-status': {
       prev: {
         label: 'Back to 3. Core Completion Checklist',
-        tabId: 'core-completion',
+        tabId: 'completion-checklist',
         value: true,
       },
       saveAsDraft: {
@@ -130,7 +131,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   $('.profile-tab-buttons').on('click', 'button', async function () {
     const buttonId = $(this).attr('id');
-    debugger;
     const checkMandatory = () => {
       if (tei.mandatoryList) {
         let empty = false;
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const enrollment = tei.affiliate.enrollments.find(e => e.program === programs.UINControlMaster);
         if (!orgUnitId || !enrollment) return;
 
-        if (tei.tabId == 'core-completion' || tei.tabId == 'affiliation-type') {
+        if (tei.tabId == 'completion-checklist' || tei.tabId == 'affiliation-status') {
           showLoader();
           const eventPayload = createPayload.event({
             tei, 
@@ -324,6 +324,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   const programMetadata = await programsApi.get(programs.UINControlMaster);
+  tei.tabDetails = await dataApi.dataStore('uinApp/uinViewTab');
 
   const resUINControlStage = await programStageApi.get(programStage.UINControlMaster);
   const resCompletionCheckList = await programStageApi.get(programStage.completionCheckList);
@@ -392,7 +393,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (tei.values[dataElements.disclaimer] === "true" && tei.tabId=='affiliate-details')  tei.disabled = true;
   else tei.disabled = false;
             
-    tei.tabSection = tei.stageSection.filter(section => section.description == tei.tabId);
+    tei.tabSection = tei.stageSection.filter(section => tei.tabDetails[section.id] == tei.tabId);
     tei.metadata = Object.fromEntries(
       tei.tabSection.flatMap(section => section.items).map(item => [item.id, item])
     );
@@ -419,7 +420,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         })
       })
     }
-    else if(tei.tabId == 'core-completion')  {
+    else if(tei.tabId == 'completion-checklist')  {
       tei.dataElements = tei.stageSection
       .filter(section => section.programStage == programStage.completionCheckList)
       .flatMap(section => section.items)
@@ -499,6 +500,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         </div>`;
     }
     document.querySelector('.profile-tab-buttons').innerHTML = buttonHtml;
+    hideLoader();
   }
 
   function renderSections(sections, forceDisabled = false) {
