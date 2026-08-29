@@ -100,6 +100,7 @@ export const tei = {
     acuityList: [],
     dataElementcode:[],
     tabId: '',
+    tabDetails: {},
 }
 
 export const PROGRAM_RULE_TYPES = {

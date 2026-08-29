@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             window.location.replace('../../../dhis-web-commons/security/login.action');
         } else {
             const resValue = await response.json();
-            console.log(resValue);
             if(resValue?.status == 'ERROR') toast({ status: 'ERROR', message: resValue.message, position: 'center' })
         }
     });    

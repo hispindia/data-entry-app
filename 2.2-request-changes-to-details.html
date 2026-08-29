@@ -2,37 +2,207 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Request Changes to Details</title>
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="assets/css/app.min.css">
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <!-- Custom style CSS -->
-    <link rel="stylesheet" href="assets/css/select2.min.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
-    <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
-    <!-- toast -->
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Request Changes to Details</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/css/app.min.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="assets/css/select2.min.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel='shortcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
+  <!-- toast -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
-   <!-- flatpickr --> 
+  <!-- flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
     .flatpickr-day.nextMonthDay,
     .flatpickr-day.prevMonthDay {
       visibility: hidden;
     }
+    .modal {
+      background: #FFFFFF;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 8px;
+      max-width: 900px;
+      max-height: none;
+      height: auto;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      margin: auto;
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: rgba(68, 114, 196, 0.1);
+    }
+
+    .modal-close {
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 20px;
+      color: #E93300;
+      transition: background-color 0.2s;
+    }
+
+    .modal-close:hover {
+      background-color: #e5e7eb;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      max-height: 60vh;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .tab-btn {
+      padding: 12px 16px;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: #111827;
+    }
+
+    .tab-btn.active {
+      color: #4472c4;
+      border-bottom-color: #4472c4;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .info-item label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .info-item p {
+      font-size: 14px;
+      font-weight: 500;
+      color: #111827;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      color: #4472c4;
+      transition: background-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      background-color: rgba(68, 114, 196, 0.1);
+    }
+
+    .btn-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+
+    .btn-add-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+      margin-top: -4px;
+    }
+
+    .btn-add {
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .btn-add.visible {
+      display: inline-flex;
+    }
+
+    .table-bordered {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .table-sm th,
+    .table-sm td {
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    .table-sm th {
+      background-color: rgba(68, 114, 196, 0.15);
+      font-weight: 600;
+      color: #374151;
+    }
   </style>
 
 </head>
 
 <body>
-    <div class="loader"></div>
-    <div id="app">
-        <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
-            <nav class="navbar navbar-expand-lg main-navbar">
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
         <div class="form-inline">
           <ul class="navbar-nav mr-3">
             <li>
@@ -56,135 +226,178 @@
             </div>
           </li>
 
-           <li>
-                <a class="d-flex align-items-center ml-1 logout-btn"
-                href="../../../dhis-web-commons/security/login.action">
-                <i aria-hidden="true"></i>
-                <div>LOG OUT</div>
-                </a>
-            </li>
+          <li>
+            <a class="d-flex align-items-center ml-1 logout-btn" href="../../../dhis-web-commons/security/login.action">
+              <i aria-hidden="true"></i>
+              <div>LOG OUT</div>
+            </a>
+          </li>
         </ul>
       </nav>
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
-              <div class="sidebar-brand">
-                <a href="#"><img alt="image" src="assets/images/ippf.svg" width="300" height="200" class="header-logo"/></a>
-              </div>
-              <ul class="sidebar-menu" style="display: none;">
-                      <li id="dashboard" class="nav-item kyc" data-target="dashboard.html">
-                        <a class="nav-link" href="#"><span data-i18n="intro.dashboard">Dashboard</span></a>
-                      </li>
-                      <li>
-                            <a class="nav-link has-dropdown" href="#">
-                                <span class="pr-2" data-i18n="intro.">1. Affiliate Registration</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                              <li class="nav-item" data-target="1.1-new-registration.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.1 New Registration & Search</span></a></li>
-                              <li class="nav-item kyc waiver" data-target="1.1-1-acuity-check-list.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.1-1 Acuity Check List</span></a></li>
-                              <li class="nav-item kyc" data-target="1.2-eligibility-check-and-manage-waivers.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.2 Eligibility Check & Manage Waivers</span></a></li>
-                              <li class="nav-item aoc tpo kyc waiver" data-target="1.3-generate-and-manage-uins.html"><a class="nav-link" href="#"><span data-i18n="intro.">1.3 Generate & Manage UINs</span></a></li>
-                            </ul>
-                      </li>
-                      <li class="active">
-                              <a class="nav-link has-dropdown" href="#">
-                                <span class="pr-3" data-i18n="intro.annual_report">2. Affiliate Information Updates</span>
-                              </a>    
-                            <ul class="dropdown-menu">
-                              <li><a class="nav-link active" data-target="2.1-view-and-update-profile.html"><span data-i18n="intro.">2.1 View & Update Profile</span></a></li>
-                              <li class="active"><a class="nav-link" data-target="2.2-request-changes-to-details.html"><span data-i18n="intro.">2.2 Request Changes to Details</span></a></li>
-                              <li><a class="nav-link kyc tpo aoc" data-target="2.3-approve-change-requests.html"><span data-i18n="intro.">2.3 Approve Change Requests</span></a></li>
-                              <li><a class="nav-link kyc tpo aoc" data-target="2.4-renew-eligibility-check.html"><span data-i18n="intro.">2.4 Renew Eligibility Check</span></a></li>
-                              <li><a class="nav-link kyc aoc tpo" data-target="2.5-renew-acuity-check.html"><span data-i18n="intro.">2.5 Renew Acuity Check</span></a></li>
-                            </ul>
-                      </li>
-                      <li class="kyc waiver">
-                            <a class="nav-link has-dropdown" href="#">
-                            <span data-i18n="intro.">3. Standard Reports</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                              <li data-target="3.1-standard-report-1.html"><a class="nav-link" href="#"><span>3.1 UIN - IPPF Partnership Register</span></a></li>
-                              <li data-target="3.2-standard-report-2.html"><a class="nav-link" href="#"><span>3.2 IPPF UIN Master </span></a></li>
-                              <li data-target="3.3-standard-report-3.html"><a class="nav-link" href="#"><span>3.3 UIN Affiliate Document Availability Checklist</span></a></li>
-                              <li data-target="3.4-standard-report-4.html"><a class="nav-link" href="#"><span>3.4 UIN Bank Master</span></a></li>
-                            </ul>
-                      </li>
-                      <li data-target="change-password.html"><a class="nav-link" href="#"><span>Change Password</span></a></li>
+          <div class="sidebar-brand">
+            <a href="#"><img alt="image" src="assets/images/ippf.svg" width="300" height="200"
+                class="header-logo" /></a>
+          </div>
+          <ul class="sidebar-menu" style="display: none;">
+            <li id="dashboard" class="nav-item kyc" data-target="dashboard.html">
+              <a class="nav-link" href="#"><span data-i18n="intro.dashboard">Dashboard</span></a>
+            </li>
+            <li>
+              <a class="nav-link has-dropdown" href="#">
+                <span class="pr-2" data-i18n="intro.">1. Affiliate Registration</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="nav-item" data-target="1.1-new-registration.html"><a class="nav-link" href="#"><span
+                      data-i18n="intro.">1.1 New Registration & Search</span></a></li>
+                <li class="nav-item kyc waiver" data-target="1.1-1-acuity-check-list.html"><a class="nav-link"
+                    href="#"><span data-i18n="intro.">1.1-1 Acuity Check List</span></a></li>
+                <li class="nav-item kyc" data-target="1.2-eligibility-check-and-manage-waivers.html"><a class="nav-link"
+                    href="#"><span data-i18n="intro.">1.2 Eligibility Check & Manage Waivers</span></a></li>
+                <li class="nav-item aoc tpo kyc waiver" data-target="1.3-generate-and-manage-uins.html"><a
+                    class="nav-link" href="#"><span data-i18n="intro.">1.3 Generate & Manage UINs</span></a></li>
               </ul>
+            </li>
+            <li class="active">
+              <a class="nav-link has-dropdown" href="#">
+                <span class="pr-3" data-i18n="intro.annual_report">2. Affiliate Information Updates</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link active" data-target="2.1-view-and-update-profile.html"><span
+                      data-i18n="intro.">2.1 View & Update Profile</span></a></li>
+                <li class="active"><a class="nav-link" data-target="2.2-request-changes-to-details.html"><span
+                      data-i18n="intro.">2.2 Request Changes to Details</span></a></li>
+                <li><a class="nav-link kyc tpo aoc" data-target="2.3-approve-change-requests.html"><span
+                      data-i18n="intro.">2.3 Approve Change Requests</span></a></li>
+                <li><a class="nav-link kyc tpo aoc" data-target="2.4-renew-eligibility-check.html"><span
+                      data-i18n="intro.">2.4 Renew Eligibility Check</span></a></li>
+                <li><a class="nav-link kyc aoc tpo" data-target="2.5-renew-acuity-check.html"><span
+                      data-i18n="intro.">2.5 Renew Acuity Check</span></a></li>
+              </ul>
+            </li>
+            <li class="kyc waiver">
+              <a class="nav-link has-dropdown" href="#">
+                <span data-i18n="intro.">3. Standard Reports</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li data-target="3.1-standard-report-1.html"><a class="nav-link" href="#"><span>3.1 UIN - IPPF
+                      Partnership Register</span></a></li>
+                <li data-target="3.2-standard-report-2.html"><a class="nav-link" href="#"><span>3.2 IPPF UIN Master
+                    </span></a></li>
+                <li data-target="3.3-standard-report-3.html"><a class="nav-link" href="#"><span>3.3 UIN Affiliate
+                      Document Availability Checklist</span></a></li>
+                <li data-target="3.4-standard-report-4.html"><a class="nav-link" href="#"><span>3.4 UIN Bank
+                      Master</span></a></li>
+              </ul>
+            </li>
+            <li data-target="change-password.html"><a class="nav-link" href="#"><span>Change Password</span></a></li>
+          </ul>
         </aside>
       </div>
-        <!-- Main Content -->
-        <div class="main-content">
-              <div id="mainHeading">
-                <h4 class="mt-3" style="color: black;">2.2  Request Changes to Details</h4>
-                <p>Search and request changes to affiliate details</p>
+      <!-- Main Content -->
+      <div class="main-content">
+
+        <div class="card" id="viewAndUpdate" style="border-radius: 0.5rem; background-color: white;">
+          <div class="card-body">
+            <h5 class="card-title font-weight-bold">Search</h5>
+            <form>
+              <div class="form-group">
+                <label>UIN</label>
+                <input id="uin" type="text" class="form-control" placeholder="Enter UIN">
               </div>
-                <div class="col-12">
-                    <div class="card" id="requestChange" style="border-radius: 0.5rem; background-color: white;">
-                        <div class="card-body">  
-                            <h5 class="card-title font-weight-bold">Search</h5>
-                            <form>
-                                <div class="form-group">
-                                    <label>UIN</label>
-                                    <input id="uin" type="text" class="form-control" placeholder="Enter UIN">
-                                </div>
-                                <div class="form-group">
-                                    <label for="regName">Name</label>
-                                    <input type="text" class="form-control" id="regName" placeholder="Enter entity name">
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="Region">Region  <span class="text-danger">*</span></label>
-                                        <select id="Region" class="form-control">
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="Countries">Country <span class="text-danger">*</span></label>
-                                        <select id="Countries" class="form-control">
-                                        </select>
-                                    </div>
-                                </div>
-            
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-lg btn-block" id="searchButton" style="background-color: #030303; color: white;">Search</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>       
-                    <div id="searchResults" style="display: none;" class="card shadow col-12 mt-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-                            <h6 class="m-0 font-weight-bold" style="color: #4472c4;">Search Results</h6>
-                            
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover mb-0"
-                            style="border-bottom: 1px solid #e3e6f0; width: 100%;">
-                            <thead>
-                                <tr id="thead-affiliate" style="background-color: #f7f7f9; color: #6c757d; font-size: 0.85rem; border-bottom: 1px solid #e3e6f0;">
-                                </tr>
-                            </thead>
-                            <tbody id="tbody-affiliate"></tbody>
-                            </table>
-                        </div>
-                        <div class="card-footer bg-white border-top d-flex justify-content-end" id="submit-acuity">
-                            <button type="button" class="btn btn-sm" style="background-color: #E93300; color: white;" id="submitAcuityBtn">Submit Acuity</button>
-                        </div>
-                    </div>
+              <div class="form-group">
+                <label for="regName">Name</label>
+                <input type="text" class="form-control" id="regName" placeholder="Enter entity name">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="Region">Region <span class="text-danger">*</span></label>
+                  <select id="Region" class="form-control">
+                  </select>
                 </div>
+                <div class="form-group col-md-6">
+                  <label for="Countries">Country <span class="text-danger">*</span></label>
+                  <select id="Countries" class="form-control">
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <button type="button" class="btn btn-lg btn-block" id="searchButton"
+                  style="background-color: #030303; color: white;">Search</button>
+              </div>
+            </form>
+          </div>
         </div>
+        <div id="searchResults" style="display: none;" class="card shadow col-12 mt-2">
+          <table class="table table-striped table-hover mb-0" style="border-bottom: 1px solid #e3e6f0; width: 100%;">
+            <thead>
+              <tr id="thead-affiliate"
+                style="background-color: #f7f7f9; color: #6c757d; font-size: 0.85rem; border-bottom: 1px solid #e3e6f0;">
+              </tr>
+            </thead>
+            <tbody id="tbody-affiliate"></tbody>
+            <tbody id="tfoot-affiliate"></tbody>
+          </table>
         </div>
+        <div class="modal" id="profile-modal" style="display: none;">
+          <div class="modal-header">
+            <div>
+              <h3 id="affiliateModalTitle" style="margin:0; font-size:16px;">Affiliate Details</h3>
+              <p id="affiliateModalSub" style="margin:0; font-size:13px; color:#6b7280;">UIN - placeholder</p>
+            </div>
+            <button class="modal-close" aria-label="Close">✖</button>
+          </div>
+          <div class="modal-body">
+            <ul class="profile-tabs">
+              <li id="affiliate-details" class="profile-tab">Affiliate Info</li>
+              <li id="board-member" class="profile-tab">Board Members</li>
+              <li id="senior-member" class="profile-tab">Senior Management</li>
+              <li id="bank-member" class="profile-tab">Bank Account</li>
+            </ul>
+
+            <div>
+              <table class="table table-sm table-bordered profile-content">
+                <thead id="thead"></thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn modal-close" style="background-color: #E93300; color: #ffff;">Close</button>
+          </div>
+        </div>
+        <div class="modal" id="section-modal" style="display: none;">
+          <div class="modal-header">
+            <div>
+              <h3 style="margin:0; font-size:16px;">Request Change</h3>
+            </div>
+            <button class="modal-close" aria-label="Close">✖</button>
+          </div>
+          <div class="modal-body request-change-content">
+          </div>
+          <div class="modal-footer">
+            <button class="modal-close btn bg-transparent border rounded-xl">Cancel</button>
+            <button class="btn request-change-button" style="background-color: #E93300; color: #ffff;">Request
+              Change</button>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <!-- General JS Scripts -->
     <script src="assets/js/app.min.js"></script>
-    
+
     <!--Translation-->
     <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="assets/js/translation.js"></script>
-    
+
     <!-- Page Specific JS File -->
-     <!-- toast notification -->
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="module" src="assets/js/forms/affiliate-information/request-change/index.js"></script>
@@ -195,135 +408,6 @@
     <script src="assets/js/select2.full.min.js"></script>
     <script src="assets/js/forms-advanced-forms.js"></script>
     <script src="assets/js/custom.js"></script>
-    <script>
-        //Panel toggle
-        function changePanel(id) {
-            $(`#${id}`).collapse('toggle');
-        }
-    </script>
-    <script>
-        document.getElementById('searchButton').addEventListener('click', function() {
-            document.getElementById('searchResults').style.display = 'block';
-        });
-    </script>
-      <!-- Affiliate Detail Modal (static UI) -->
-      <style>
-        .modal { background: #FFFFFF; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 8px; max-width: 900px; max-height: none; height: auto; overflow: visible; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); margin: auto; }
-        .modal-header { padding: 16px 24px; border-bottom: 1px solid #e5e7eb; display:flex; align-items:center; justify-content:space-between; background-color: rgba(68,114,196,0.1); }
-        .modal-close {border: none; cursor: pointer; padding: 8px; border-radius: 6px; font-size: 20px; color: #E93300; transition: background-color 0.2s; }
-        .modal-close:hover { background-color: #e5e7eb; }
-        .modal-body { padding: 24px; overflow-y: auto; flex: 1; max-height: 60vh; }
-        .modal-footer { padding: 16px 24px; border-top: 1px solid #e5e7eb; display:flex; justify-content:flex-end; gap:12px; }
-        .tabs { display:flex; gap:12px; margin-bottom:20px; border-bottom: 1px solid #e5e7eb; }
-        .tab-btn { padding:12px 16px; border-radius: 0; background:transparent; border:none; border-bottom: 2px solid transparent; cursor:pointer; font-size:14px; font-weight:500; color:#6b7280; transition: all 0.2s; }
-        .tab-btn:hover { color: #111827; }
-        .tab-btn.active { color: #4472c4; border-bottom-color: #4472c4; }
-        .tab-panel { display:none; }
-        .tab-panel.active { display:block; }
-        .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
-        .info-item label { display:block; font-size:12px; font-weight:500; color:#6b7280; margin-bottom:6px; }
-        .info-item p { font-size:14px; font-weight:500; color:#111827; margin:0; }
-        .actions { display:flex; gap:10px; align-items:center; }
-        .btn-icon { background: transparent; border: none; cursor:pointer; padding:8px; border-radius:6px; color:#4472c4; transition: background-color 0.2s; display: inline-flex; align-items: center; justify-content: center; }
-        .btn-icon:hover { background-color: rgba(68,114,196,0.1); }
-        .btn-icon svg { width: 18px; height: 18px; stroke-width: 2; }
-        .btn-add-section { display:flex; justify-content:flex-end; margin-bottom:16px; margin-top:-4px; }
-        .btn-add { padding:8px 12px; font-size:14px; border-radius:6px; display: none; }
-        .btn-add.visible { display: inline-flex; }
-        .table-bordered { border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; margin-bottom:20px; }
-        .table-sm th, .table-sm td { padding:12px 16px; font-size:13px; }
-        .table-sm th { background-color: rgba(68,114,196,0.15); font-weight:600; color: #374151; }
-      </style>
-
-      <div class="modal-overlay" id="affiliateModal" aria-hidden="true">
-        <div class="modal">
-          <div class="modal-header">
-            <div>
-              <h3 id="affiliateModalTitle" style="margin:0; font-size:16px;">Affiliate Details</h3>
-              <p id="affiliateModalSub" style="margin:0; font-size:13px; color:#6b7280;">UIN - placeholder</p>
-            </div>
-            <button class="modal-close" id="affiliateModalClose" aria-label="Close">✖</button>
-          </div>
-          <div class="modal-body">
-            <div class="tabs" role="tablist">
-              <button class="tab-btn active" data-tab="info">Affiliate Info</button>
-              <button class="tab-btn" data-tab="board">Board Members</button>
-              <button class="tab-btn" data-tab="senior">Senior Management</button>
-              <button class="tab-btn" data-tab="bank">Bank Account</button>
-            </div>
-
-            <div class="tab-panel active" id="tab-info">
-              <div class="info-grid">
-                <div class="info-item"><label>Affiliate Name</label><p id="aff-name"></p></div>
-                <div class="info-item"><label>UIN</label><p id="aff-uin"></p></div>
-                <div class="info-item"><label>Country</label><p id="aff-country"></p></div>
-                <div class="info-item"><label>Region</label><p id="aff-region"></p></div>
-              </div>
-            </div>
-
-            <div class="tab-panel" id="tab-board">
-              <div class="table-bordered">
-                <table class="table table-sm">
-                  <thead id="thead-board">
-                    <tr><th>Designation</th><th>Name</th><th>Email</th><th>Phone</th><th>Nationality</th><th>DOB</th><th>ID Number</th><th>Actions</th></tr>
-                  </thead>
-                  <tbody id="tbody-board">
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="tab-panel" id="tab-senior">
-              <div class="table-bordered">
-                <table class="table table-sm">
-                  <thead>
-                    <tr><th>Designation</th><th>Name</th><th>Email</th><th>Phone</th><th>Nationality</th><th>DOB</th><th>ID Number</th><th>Actions</th></tr>
-                  </thead>
-                  <tbody id="tbody-senior">
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="tab-panel" id="tab-bank">
-              <div class="table-bordered">
-                <table class="table table-sm">
-                  <thead>
-                    <tr><th>Bank Name</th><th>Address</th><th>Telephone</th><th>Account No.</th><th>Currency</th><th>SWIFT</th><th>IBAN</th><th>Actions</th></tr>
-                  </thead>
-                  <tbody id="tbody-bank">
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn" style="background-color: #E93300; color: #ffff; " id="affiliateModalCloseFooter">Close</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Approve Modal -->
-      <div class="modal-overlay" id="approveModal" style="display: none;">
-        <div class="modal" style="max-width: 500px;">
-          <div class="modal-header">
-            <div>
-              <h3 class="modal-header-title" style="margin:0; font-size:16px;">Approve Request</h3>
-            </div>
-            <button class="modal-close" onclick="closeApproveModal()">✖</button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label class="form-label">Comments (Optional)</label>
-              <textarea class="form-control" rows="3" placeholder="Optional comments..."></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeApproveModal()">Cancel</button>
-            <button class="btn btn-green" style="background-color: #065F46; color: white;" onclick="closeApproveModal()">Confirm Approval</button>
-          </div>
-        </div>
-      </div>
 </body>
 
 </html>
