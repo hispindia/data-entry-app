@@ -3819,6 +3819,13 @@ const translation_mapping = [
     ar: "تقديم خطة العمل"
     },
     {
+        id: "submit_business_plan",
+        en: "Submit Business Plan",
+        es: "Presentar plan de negocio",
+        fr: "Soumettre le plan d’affaires",
+        ar: "تقديم خطة العمل"
+    },
+    {
         id: "reopen_business_plan",
         en: "Reopen Business Plan",
         sp: "Reabrir el plan de negocios",
