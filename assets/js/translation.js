@@ -62,13 +62,12 @@ const translation_mapping = [
         sp: "Monto de la subvención generado por fórmula  (USD)",
         fr: "Montant de la subvention proposée tel qu’établi par la formule  (USD)",
         ar: 'المبلغ المقترح للمنحة حسب المعادلة التمويلية (بالدولار الأمريكي)'
-    },
-    {
+    },{
         id: "grant_amount_year2",
-        en: "Formula-generated proposed grant amount (Year 2) (USD)",
-        sp: "Monto de la subvención generado por fórmula (Año 2) (USD) (sólo 75% asegurado)",
-        fr: "Montant de la subvention établi par la formule (Année 2) (USD)",
-        ar: 'المبلغ المقرر للمنحة حسب المعادلة  (بالدولار الأمريكي)',
+        en: "Formula-generated proposed grant amount (USD)",
+        sp: "Monto de la subvención generado por fórmula (USD) (sólo 75% asegurado)",
+        fr: "Montant de la subvention établi par la formule (USD)",
+        ar: "المبلغ المقرر للمنحة حسب المعادلة (بالدولار الأمريكي)",
     },
     {
         id: "grant_amount_year3",
@@ -900,8 +899,8 @@ const translation_mapping = [
     {
         id: "smart_outcomes_achieved",
         en: "Achievements To Date",
-        fr: "Logros hasta la fecha",
-        sp: "Réalisations à ce jour",
+        fr: "Réalisations à ce jour",
+        sp: "Logros hasta la fecha",
         ar: "الإنجازات المحققة حتى الآن"
     },
     {
@@ -1682,10 +1681,10 @@ const translation_mapping = [
     },
     {
         id: "date_september_18",
-        en: "September 18",
-        sp: "18 de septiembre",
-        fr: "18 septembre",
-        ar: "18 سبتمبر"
+        en: "September 21",
+        sp: "21 de septiembre",
+        fr: "21 septembre",
+        ar: "21 سبتمبر"
     },
     {
         id: "date_october_16",

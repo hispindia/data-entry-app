@@ -22,7 +22,7 @@ export const tei = {
     start: 2023,
     end: new Date().getFullYear() + 1,
     value: "",
-    selectedAnnual: new Date().getFullYear() + 1,
+    selectedAnnual: 2027,
     selectReporting: 2026,
   },
 };
