@@ -148,8 +148,8 @@
                                 <li><a style="display:none" class="nav-link aoc-users core-users" data-target="6.1-ippf-bpr-secretariat-export-annual-report-sr.html"><span>6.1 IPPF BPR Secretariat Export - Annual Report</span></a></li>
                                 <li><a style="display:none" class="nav-link aoc-users core-users" data-target="kofax-export-sr.html"><span>7. Kofax Export</span></a></li>
                                 <li><a style="display:none" class="nav-link aoc-users core-users" data-target="nirwana-export-sr.html"><span>8. MA Dashboard Business Plan Report</span></a></li>
-                                <li class="active"><a style="display:none" class="nav-link aoc-users core-users" data-target="9-ma-dashboard-annual-report-export.html"><span>9. MA dashbaord Annual Report Export</span></a></li>
-                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="annual-report-sr.html"><span>10. Annual Report_2024_2025</span></a></li>
+                                <li><a style="display:none" class="nav-link aoc-users core-users" data-target="9-ma-dashboard-annual-report-export.html"><span>9. MA dashbaord Annual Report Export</span></a></li>
+                                <li class="active"><a class="nav-link aoc-users core-users" data-target="annual-report-sr.html"><span>10. Annual Report_2024_2025</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -159,82 +159,18 @@
       <div class="main-content">
         <section class="section">
           <div class="section-body">
-            <div class="top-detail-form mt-2">
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for=""  data-i18n="intro.reporting_year" >Reporting Year</label>
-                  <select class="form-control mt-1" id="year-update">
-                    <option value="2024">2024</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="" data-i18n="intro.reporting_periodicity">Reporting Periodicity</label>
-                  <select class="form-control mt-1" id="reporting-periodicity">
-                    <option value="Annual Reporting" >Annual Reporting</option>
-                    <option value="Semi-Annual Reporting" selected>Semi-Annual Reporting</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Error here
-                  </div>
-                </div>
-              </div>
-            </div>
             <div class="form-wizard mt-3">
               <div class="myContainer">
-                <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex flex-column justify-content-between mb-2">
                   <h6 class="title-main mb-2">
-                    <span data-i18n="intro.export">Standard Report</span>
+                    <span data-i18n="intro.export">Annual Report 2024-2025</span>
                     <i class="fas fa-info-circle" data-toggle="collapse" data-target="#collapseExample1"
                       aria-expanded="false" aria-controls="collapseExample"></i>
                   </h6>
-                </div>
-                <div class="info-boxwrap collapse" id="collapseExample1" data-i18n="[html]intro.export_info">
-                  <p class="mb-1">Shows list of all the projects with the values <i
-                      class="far fa-arrow-alt-circle-up ml-1" data-toggle="collapse" data-target="#collapseExample1"
-                      aria-expanded="true" aria-controls="collapseExample"></i></p>
-                </div>
-                <div class="cont-wrapper mt-2">
                   <div>
-                    <div id="loader" style="width:80%;float:left;"></div>
-                    <a id="dlink" style="display:none;"></a>
-                    <button class="btn btn-success float-right m-3"
-                      onclick="downloadTablesAsExcel(['Membership Details', 'Institutional Data', 'Budget vs Actuals by Focus Area', 'Budget vs Actuals by Expense Category', 'Total Income'], '9. MA dashbaord Annual Report Export')">Export
-                      as Excel</button>
+  <iframe title="Annual Report_2024_2025" width="100%" style="height:80vh" src="https://app.powerbi.com/view?r=eyJrIjoiZDliMzZjYWItN2ZhYi00ZDAzLTk0NWQtNmFhN2UxMjAxN2FlIiwidCI6IjU2YWY5NTMyLTUwMWEtNDA0Yy05OTVkLTgwNjMzYTM1YzBhYyIsImMiOjN9" frameborder="0" allowFullScreen="true"></iframe>
+                
                   </div>
-                  <div style="clear:both"></div>
-                  <form>
-                    <div class="cont-wrap-inner overflow-auto" id="project-export" style="clear: both;">
-
-                      <table class="table table-bordered" id="table-od">
-                        <thead id="th-project-membership"></thead>
-                        <tbody id="tb-project-membership"></tbody>
-                      </table>
-
-                      <table class="table table-bordered" id="table-od">
-                        <thead id="th-project-institutional"></thead>
-                        <tbody id="tb-project-institutional"></tbody>
-                      </table>
-
-                      <table class="table table-bordered" id="table-od">
-                        <thead id="th-project-focusarea"></thead>
-                        <tbody id="tb-project-focusarea"></tbody>
-                      </table>
-
-                      <table class="table table-bordered" id="table-eb">
-                        <thead id="th-project-expBudget"></thead>
-                        <tbody id="tb-project-expBudget"></tbody>
-                      </table>
-
-                      <table class="table table-bordered" id="table-ti">
-                        <thead id="th-project-totalIncome"></thead>
-                        <tbody id="tb-project-totalIncome"></tbody>
-                      </table>
-
-                    </div>
-                  </form>
                 </div>
               </div>
             </div>
@@ -253,7 +189,7 @@
   <script src="assets/js/translation.js"></script>
 
   <!-- Page Specific JS File -->
-  <script type="module" src="assets/js/forms/standardreport/ma-dashboard-annual-report-sr.js"></script>
+  <script type="module" src="assets/js/forms/standardreport/annual-report-sr.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->
