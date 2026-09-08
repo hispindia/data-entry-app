@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   showLoader("Loading Affiliate...")
 
   const userConfig = await getUserConfig();
+  tei.programStage = programStage.UINControlMaster;
+  
   if (userConfig) {
     userConfig.user.forEach(user => {
       $(`.${user}`).each(function () {
@@ -233,7 +235,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             tei.dataElements = tei.stageSection
-              .filter(section => section.programStage == programStage.UINControlMaster)
+              .filter(section => section.programStage == tei.programStage)
               .flatMap(section => section.items)
               .map(item => item .id);
 
@@ -241,9 +243,9 @@ document.addEventListener("DOMContentLoaded", async function () {
               tei, 
               orgUnit: orgUnitId,
               program: programs.UINControlMaster,
-              programStage: programStage.UINControlMaster,
+              programStage: tei.programStage,
               enrollment: enrollment.enrollment,
-              event:tei.values[programStage.UINControlMaster]
+              event:tei.values[tei.programStage]
             })
             await dataApi.update(eventPayload1);
 
@@ -301,9 +303,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             tei, 
             orgUnit: orgUnitId,
             program: programs.UINControlMaster,
-            programStage: programStage.UINControlMaster,
+            programStage: tei.programStage,
             enrollment: enrollment.enrollment,
-            event:tei.values[programStage.UINControlMaster]
+            event:tei.values[tei.programStage]
           })
           await dataApi.update(attributePayload);
           await dataApi.update(eventPayload);
@@ -325,8 +327,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const programMetadata = await programsApi.get(programs.UINControlMaster);
   tei.tabDetails = await dataApi.dataStore('uinApp/uinViewTab');
-
-  const resUINControlStage = await programStageApi.get(programStage.UINControlMaster);
+  const resUINControlStage = await programStageApi.get(tei.programStage);
   const resCompletionCheckList = await programStageApi.get(programStage.completionCheckList);
 
   const resRules = await programsApi.rules(programs.UINControlMaster);
@@ -400,7 +401,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     if(tei.tabId == 'affiliate-details') {
       tei.dataElements = tei.stageSection
-      .filter(section => section.programStage == programStage.UINControlMaster)
+      .filter(section => section.programStage == tei.programStage)
       .flatMap(section => section.items)
       .map(item => item .id);
       tei.dataElements.push(dataElements.disclaimer);
@@ -500,6 +501,30 @@ document.addEventListener("DOMContentLoaded", async function () {
         </div>`;
     }
     document.querySelector('.profile-tab-buttons').innerHTML = buttonHtml;
+
+    // attachLegalNameBlurListener();
+    flatpickr(".flatpickr-date-input", { 
+        dateFormat: "Y-m-d", 
+        disable: [
+            function(date) { 
+               return  (date.getFullYear() < 1924) ||  (date > new Date());
+            }
+        ] 
+    });
+
+    if (!document.getElementById('flatpickr-custom-style')) {
+        const style = document.createElement('style');
+        style.id = 'flatpickr-custom-style';
+        style.innerHTML = `
+            .flatpickr-current-month .numInputWrapper span.arrowUp,
+            .flatpickr-current-month .numInputWrapper span.arrowDown {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
     hideLoader();
   }
 
